@@ -82,7 +82,7 @@
                     var i = $(this).closest(".box-row").attr("index");
                     champion.roles[i].name = $(`#roles-${i} input[name=name]`).val();
                     champion.roles[i].playRate = $(`#roles-${i} input[name=playRate]`).val();
-                    roles_recreate();
+                    roles_recreate ();
                 });
             }
             function roles_add()
@@ -122,7 +122,7 @@
                     $(`#abilities-${i}`).append(textInput('castingMethod', champion.abilities[i].castingMethod));
                     $(`#abilities-${i}`).append(textInput('targetingMethod', champion.abilities[i].targetingMethod));
                     $(`#abilities-${i}`).append(textInput('allowedTargets', champion.abilities[i].allowedTargets));
-                    $(`#abilities-${i}`).append(`<hr><div class="btn btn-sm btn-danger">Remove</div>`);
+                    $(`#abilities-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="abilities_remove(${i})">Remove</div>`);
                 }
                 $("#abilities input").change(function ()
                 {
