@@ -1,6 +1,6 @@
 
 import { AdminRouter } from "./admin_router";
-import { API_URL, API_FILE_UPLOAD } from "../constants";
+import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
 import { S_IFREG } from "constants";
 export default class ChampionsPanelRouter extends AdminRouter
 {
@@ -67,7 +67,7 @@ export default class ChampionsPanelRouter extends AdminRouter
             res.send(this.renderTemplate('champ-single.html', {
                 admin: req.session.admin,
                 _id: req.params._id,
-                fileUploadURL: API_FILE_UPLOAD
+                fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });
 

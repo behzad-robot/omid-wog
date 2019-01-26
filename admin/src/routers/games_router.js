@@ -1,6 +1,6 @@
 
 import { AdminRouter } from "./admin_router";
-import { API_URL, API_FILE_UPLOAD } from "../constants";
+import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
 export default class GamesPanelRouter extends AdminRouter
 {
     constructor(AdminModules)
@@ -19,7 +19,7 @@ export default class GamesPanelRouter extends AdminRouter
             res.send(this.renderTemplate('game-single.html', {
                 admin: req.session.admin,
                 _id : req.params._id,
-                fileUploadURL: API_FILE_UPLOAD
+                fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });
     }

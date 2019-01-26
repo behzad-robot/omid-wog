@@ -84,7 +84,7 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
     $(parent).append(
         `<div class='form-row' style="background-color:#eee;border:1px solid #aaa;padding:5px;border-radius:5px;" name='image-field-${name}' fuid="${fuid}">`
         + `<b>${name}:</b>`
-        + `<img src="${value}" name="preview-${name}" width="100px"/>&nbsp;<small>Image is not saved till you press Save.</small>`
+        + `<img src="${value}" name="preview-${name}" width="100px"/>&nbsp;<small name="preview-label-${name}">${value}</small><br><small>Image is not saved as object field till you press Save.</small>`
         + otherSizes
         + `<input type="hidden" name="${name}" value="${value}"/>`
         + `</div>`
@@ -92,9 +92,10 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
     fileUploadTool(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams, (result) =>
     {
         console.log(result);
-        var value = result.url;
+        var value = result.path;
         $(`${parent} input[name=${name}`).val(value).trigger('change');
         $(`${parent} img[name=preview-${name}]`).attr('src', value);
+        $(`${parent} [name=preview-label-${name}]`).html(value);
         for (var i = 0; i < sizes.length; i++)
         {
             var size = sizes[i];

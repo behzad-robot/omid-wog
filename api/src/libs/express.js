@@ -38,7 +38,20 @@ export default class MyExpressApp
         }));
         //serve static files:
         if (settings.serveFiles != undefined)
-            this.expressApp.use(express.static(settings.serveFiles));
+        {
+            if(typeof settings.serveFiles == 'string')
+                this.expressApp.use(express.static(settings.serveFiles));
+            else
+            {
+                for(var i = 0 ; i < settings.serveFiles.length;i++)
+                {
+                    if(typeof settings.serveFiles[i] == 'string')
+                        this.expressApp.use(express.static(settings.serveFiles[i]));
+                    else
+                        this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
+                }
+            }
+        }
         //helper for file uploads:
         const fileUpload = require('express-fileupload');
         this.expressApp.use(fileUpload());

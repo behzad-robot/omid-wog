@@ -2,6 +2,9 @@ import APIRouter from "./api_router";
 import { IS_LOCALHOST, API_TOKEN, ADMIN_TOKEN } from "../constants";
 const fs = require('fs');
 const path = require('path');
+/*
+    DEPRECATED!!!!!!!!!!!!!!!!!!!!!!!!
+*/
 export class FileUploaderRouter extends APIRouter
 {
     constructor()

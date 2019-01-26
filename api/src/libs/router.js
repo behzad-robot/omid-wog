@@ -90,7 +90,7 @@ export default class Router
                         {
                             console.log('file uploaded ' + filePath);
                             if (sizes == undefined || sizes.length == 0)
-                                resolve({ path: filePath.replace('../storage/','/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
+                                resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
                             else
                             {
                                 for (var i = 0; i < sizes.length; i++)
@@ -110,7 +110,7 @@ export default class Router
                                 }
                                 setTimeout(() =>
                                 {
-                                    resolve({ path: filePath.replace('../storage/','/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
+                                    resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
                                 }, 200 * sizes.length);
                             }
                         }

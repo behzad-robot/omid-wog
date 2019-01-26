@@ -18,7 +18,8 @@ export class AdminRouter extends Router
         {
             if (!req.session.isAdmin || req.session.adminToken == undefined)
             {
-                this.accessDenied(res);
+                // this.accessDenied(res);
+                res.redirect('/admin/login/?msg=AccessDenied');
                 return;
             }
             next();

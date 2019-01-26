@@ -101,7 +101,7 @@
                 for (var i = 0; i < champion.abilities.length; i++) {
                     $("#abilities").append(`<div class="box-row" id="abilities-${i}" index="${i}"></div>`);
                     const i2 = i;
-                    imageInput(`#abilities-${i}`, 'icon', champion.abilities[i].icon, FILE_UPLOAD_URL);
+                    imageInput(`#abilities-${i}`, 'icon', champion.abilities[i].icon, FILE_UPLOAD_URL,[{ width: 64, height: 64 }]);
                     console.log(`#abilities-${i}`);
                     $(`#abilities-${i}`).append(textInput('title', champion.abilities[i].title));
                     $(`#abilities-${i}`).append(textInput('btn', champion.abilities[i].btn));

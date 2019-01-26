@@ -86,7 +86,7 @@ express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, 
 //posts & news:
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 //file upload:
-express.expressApp.use('/api/', new FileUploaderRouter().router);
+// express.expressApp.use('/api/', new FileUploaderRouter().router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()

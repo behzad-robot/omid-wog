@@ -1,0 +1,127 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>File Uploader</h2>
+        <p>This page is kind of a mess :D Expect bugs or dont use it!</p>
+        <!-- <form id="file-form" action="{{fileUploadURL}}" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <b>file:</b><input name="my-file" class="form-control m" type="file" data-url="{{{fileUploadURL}}}"
+                    multiple />
+            </div>
+            <div class="form-row">
+                <b>directory:</b><input name="my-dir" class="form-control m" type="text" value="/" />
+            </div>
+            <input type="hidden" name="api-token" value="ftsb" />
+            <input type="hidden" name="admin-token" value="hamunhamishegi" />
+        </form> -->
+        <div id="file-container"></div>
+        <div class="form-row">
+            <b>directory:</b><input name="my-dir" class="form-control m" type="text" value="?" />
+        </div>
+        <hr />
+        <div class="btn btn-md btn-info" onclick="loadFiles('')">Back To Root</div>
+        <div style="background-color:#f0f1f2;border:1px solid #eee;padding:5px;">
+            <div class="row" id="list"></div>
+        </div>
+        <script>
+            $(() =>
+            {
+
+                loadFiles('');
+            });
+            function loadFiles(dir)
+            {
+                $("#list").html("Loading...");
+                $("[name=my-dir]").val(dir);
+                $("#file-container").html("");
+                fileUploadTool('#file-container', 'my-file', encodeURI('{{{fileUploadURL}}}/?my-dir=' + dir), (result) =>
+                {
+                    console.log(result);
+                    loadFiles($("input[name=my-dir]").val());
+                });
+                fetch('/admin/file-load?folder=' + dir,
+                    {
+                        method: 'GET',
+                    })
+                    .then((response) => (response.json()))
+                    .then((items) =>
+                    {
+                        $("#list").html("");
+                        if(items.length == 0)
+                            $("#list").append('<div class="col-md-12 text-center"><h3>No Files!</h3></div>');
+                        //folders:
+                        for (var i = 0; i < items.length; i++)
+                        {
+                            if (items[i].indexOf('.') == -1)
+                            {
+                                var folder = items[i].replace('/storage/', '');
+                                $("#list").append(
+                                    `<div class="col-md-4 text-center">`
+                                    + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;cursor:hand;" onclick="loadFiles('${folder}')">`
+                                    + `<img src="/images/folder-icon.png" style="max-width:100%;max-height:200px;"/><br>`
+                                    + `<small>${folder}</small>`
+                                    + `</div>`
+                                    + `</div>`
+                                );
+                            }
+                        }
+                        //files:
+                        for (var i = 0; i < items.length; i++)
+                        {
+                            if (items[i].indexOf('.') != -1)
+                            {
+                                var file = items[i];
+                                var isImage = file.indexOf('.png') != -1 || file.indexOf('.jpg') != -1 || file.indexOf('.jpeg') != -1 || file.indexOf('.gif') != -1;
+                                var isVideo = file.indexOf('.mp4') != -1;
+                                var img = isImage ? file : '/images/file-icon.png';
+                                if(isVideo)
+                                    img = '/images/video-icon.png';
+                                $("#list").append(
+                                    `<div class="col-md-4 text-center">`
+                                    + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;">`
+                                    + `<img src="${img}" style="max-width:100%;max-height:200px;"/><br>`
+                                    + `<small><a href="${file}">${file}</a></small>`
+                                    + `<div><div class="btn btn-xs btn-danger" style="position:absolute;top:10px;left:20px" onclick="deleteFile('${file}')">Remove file</div></div>`
+                                    + `</div>`
+                                    + `</div>`
+                                );
+                            }
+                        }
+
+
+                    });
+            }
+            function deleteFile(file)
+            {
+                $("#list").html("<h3>Deleting...</h3>");
+                fetch('/admin/file-delete',
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ file: file })
+                    })
+                    .then((response) => (response.text()))
+                    .then((result) =>
+                    {
+                        if (result == "success")
+                            loadFiles($("input[name=my-dir]").val());
+                        else
+                            alert(result);
+                    });
+            }
+        </script>
+
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

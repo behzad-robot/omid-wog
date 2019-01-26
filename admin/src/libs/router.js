@@ -1,9 +1,11 @@
 import express from "express";
 import moment from 'moment';
-import { API_TOKEN } from "../constants";
+import { API_TOKEN, ADMIN_URL, API_URL } from "../constants";
 const fileSystem = require('fs');
 const path = require('path');
 const mustache = require('mustache');
+const Jimp = require('jimp');
+
 export default class Router
 {
     constructor()
@@ -64,8 +66,67 @@ export default class Router
         }
     }
     //file functions:
-    handleFile(app, req, res, name, folder = '', sizes = [])
+    handleFile(req, res, name, folder = '', sizes = [])
     {
+        if (folder != '' && folder.indexOf('/') == -1)
+            folder += '/';
+        return new Promise((resolve, reject) =>
+        {
+            try
+            {
+                // console.log('req.files='+JSON.stringify(req.files));
+                if (req.files && req.files[name])
+                {
+                    let f = req.files[name];
+                    const fileName = (f.name.substring(0, f.name.lastIndexOf('.')) + '-' + new Date().getTime().toString()).replace(' ', '');
+                    const fileFormat = f.name.substring(f.name.lastIndexOf('.'), f.name.length);
+                    const filePath = '../storage/' + folder + fileName + fileFormat;
+                    console.log(filePath);
+                    f.mv(filePath, (err) =>
+                    {
+                        if (err)
+                            reject(err);
+                        else
+                        {
+                            console.log('file uploaded ' + filePath);
+                            if (sizes == undefined || sizes.length == 0)
+                                resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
+                            else
+                            {
+                                for (var i = 0; i < sizes.length; i++)
+                                {
+                                    if (sizes[i].width == -1)
+                                        sizes[i].width = Jimp.AUTO;
+                                    if (sizes[i].height == -1)
+                                        sizes[i].height = Jimp.AUTO;
+                                    const i2 = i;
+                                    Jimp.read(filePath, (err, img) =>
+                                    {
+                                        img
+                                            .resize(sizes[i2].width, sizes[i2].height)
+                                            .quality(60)
+                                            .write('../storage/' + folder + fileName + '-resize-' + sizes[i2].width + 'x' + sizes[i2].height + fileFormat)
+                                    });
+                                }
+                                setTimeout(() =>
+                                {
+                                    resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
+                                }, 200 * sizes.length);
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    resolve(undefined);
+                }
+            }
+            catch (err)
+            {
+                console.log(err);
+                reject(err);
+            }
+        });
         // return new Promise((resolve, reject) =>
         // {
         //     try

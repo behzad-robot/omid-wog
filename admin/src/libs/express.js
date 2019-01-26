@@ -1,10 +1,12 @@
+import { GetMongoDBURL } from '../constants';
+
 const express = require('express');
 const session = require('express-session');
 export default class MyExpressApp
 {
     constructor(settings = {
         hasSessionEngine: true,
-        mongoUrl: 'mongodb://localhost:27017/dummy-sessions',
+        mongoUrl: GetMongoDBURL(),
         serveFiles: 'public',
     })
     {
@@ -36,7 +38,20 @@ export default class MyExpressApp
         }));
         //serve static files:
         if (settings.serveFiles != undefined)
-            this.expressApp.use(express.static(settings.serveFiles));
+        {
+            if(typeof settings.serveFiles == 'string')
+                this.expressApp.use(express.static(settings.serveFiles));
+            else
+            {
+                for(var i = 0 ; i < settings.serveFiles.length;i++)
+                {
+                    if(typeof settings.serveFiles[i] == 'string')
+                        this.expressApp.use(express.static(settings.serveFiles[i]));
+                    else
+                        this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
+                }
+            }
+        }
         //helper for file uploads:
         const fileUpload = require('express-fileupload');
         this.expressApp.use(fileUpload());

@@ -2,11 +2,11 @@ import MyExpressApp from "./libs/express";
 import { log } from "./libs/log";
 import AdminSocketRouter from './routers/admin_socket';
 import { APICollection, APIProxy } from "./utils/api-helper";
-import AdminAnalyticsRouter from "./routers/admin_analytics";
+// import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 import AdminGeneralRouter from "./routers/general_router";
 import AdminPanelRouter from "./routers/panel_router";
-import { ADMIN_URL , ADMIN_TOKEN,API_TOKEN, API_BASE_URL } from "./constants";
+import { ADMIN_URL , ADMIN_TOKEN,API_TOKEN, API_BASE_URL, GetMongoDBURL } from "./constants";
 import PostsPanelRouter from "./routers/posts_router";
 import GamesPanelRouter from "./routers/games_router";
 import ChampionsPanelRouter from "./routers/champions_router";
@@ -25,7 +25,14 @@ const AdminModules = {
     proxyAPI : proxyAPI,
 }
 //express:
-const express = new MyExpressApp();
+const express = new MyExpressApp({
+    hasSessionEngine: true,
+    mongoUrl: GetMongoDBURL(),
+    serveFiles: ['public',{
+        prefix : '/storage',
+        path : '../storage',
+    }],
+});
 express.expressApp.all('*', (req, res, next) =>
 {
     res.header("Access-Control-Allow-Origin", "*");
