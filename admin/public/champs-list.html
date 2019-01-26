@@ -1,0 +1,43 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Champions:</h2>
+        <a href="/admin/champions/new" class="btn btn-md btn-info">+New Champion</a>
+        <hr />
+        <div id="list">
+
+        </div>
+        <script>
+            findObjects('champions', (champions) =>
+            {
+                console.log((champions));
+                for (var i = 0; i < champions.length; i++)
+                {
+                    var champ = champions[i];
+                    $("#list").append(
+                        `<div class="row box-row">`
+                        + `<div class="col-md-2 text-center" style="overflow:hidden;"><small>${champ._id}</small></div>`
+                        + `<div class="col-md-2 text-center"><img src="${champ.icon}" width="64px"/></div>`
+                        + `<div class="col-md-2 text-center"><b>${champ.name}</b></div>`
+                        + `<div class="col-md-2 text-center"><b>slug: </b>${champ.slug}</div>`
+                        + `<div class="col-md-2 text-center"><small><b>updatedAt:</b>${champ.updatedAt}</small></div>`
+                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/champions/${champ._id}">Edit</a></div>`
+                        + `</div>`
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

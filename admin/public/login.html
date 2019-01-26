@@ -1,0 +1,17 @@
+<html>
+    <head>
+        {{{head}}}
+    </head>
+    <body>
+        {{{actionbar}}}
+        <div class="container">
+            <h2>Admin Login</h2>
+            <form action="/admin/check-login" method="post">
+                <div class="form-row"><b>email: </b><input type="text" class="form-control m" name="email"/></div>
+                <div class="form-row"><b>password: </b><input type="password" class="form-control m" name="password"/></div>
+                <input class="btn btn-md btn-success" type="submit" value="Login"/>
+            </form>
+        </div>
+        {{{footer}}}
+    </body>
+</html>

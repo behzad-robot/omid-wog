@@ -1,0 +1,31 @@
+{ 
+    "_id" : ObjectId("5c471e163a62851fe5826d87"), 
+    "name" : "league of trash", 
+    "token" : "lol", 
+    "slug" : "leage-of-trash", 
+    "description" : "String", 
+    "icon" : "https://vignette.wikia.nocookie.net/leagueoflegends/images/c/cf/Miss_Fortune_OriginalCentered.jpg/revision/latest/scale-to-width-down/1215?cb=20180414203432", 
+    "cover" : "https://vignette.wikia.nocookie.net/leagueoflegends/images/c/cf/Miss_Fortune_OriginalCentered.jpg/revision/latest/scale-to-width-down/1215?cb=20180414203432", 
+    "category" : "String", 
+    "ageRange" : "String", 
+    "images" : [
+
+    ], 
+    "media" : [
+
+    ], 
+    "items" : [
+
+    ], 
+    "summonerSpells" : [
+
+    ], 
+    "runes" : [
+
+    ], 
+    "patchNotes" : [
+
+    ], 
+    "createdAt" : "String", 
+    "updatedAt" : "String"
+}

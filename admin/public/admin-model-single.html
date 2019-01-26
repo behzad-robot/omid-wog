@@ -1,0 +1,71 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h1>{{apiSlug}}:</h1>
+        <form id="doc">
+    </div>
+    <script>
+        const apiSlug = '{{apiSlug}}';
+        const _id = '{{_id}}';
+        console.log('{{{fields}}}');
+        const fields = JSON.parse('{{{fields}}}');
+        console.log(fields);
+        getObject(apiSlug, _id, (doc) =>
+        {
+            const docCopy = Object.assign({},doc);
+            $("#doc").append(JSON.stringify(doc));
+            $("#doc").append(textInput('_id', doc._id, true));
+            $("#doc").append(textInput('createdAt', doc.createdAt, true));
+            $("#doc").append(textInput('updatedAt', doc.updatedAt, true));
+            delete (docCopy._id);
+            delete (docCopy.createdAt);
+            delete (docCopy.updatedAt);
+            delete (docCopy.__v);
+            //custom defined fields:
+            for (var i = 0; i < fields.length; i++)
+            {
+                delete (docCopy[fields[i].name]);
+                if (fields[i].name == '_id' || fields[i].name == '__v' || fields[i].name == 'createdAt' || fields[i].name == 'updatedAt')
+                    continue;
+                console.log(fields[i]);
+                if (fields[i].type == 'String')
+                {
+                    if (fields[i].multiline)
+                        $("#doc").append(bodyInput(fields[i].name, doc[fields[i].name]));
+                    else
+                        $("#doc").append(textInput(fields[i].name, doc[fields[i].name]));
+                }
+                //TODO: add other data types!
+
+                
+            }
+            var extraKeys = Object.keys(docCopy);
+            console.log(JSON.stringify(docCopy));
+            if (extraKeys.length != 0)
+            {
+                $("#doc").append('<h4>Extra Fields:</h4>');
+                for (var i = 0; i < extraKeys.length; i++)
+                {
+                    if (typeof doc[extraKeys[i]] == 'string')
+                    {
+                        if (fields[i].multiline)
+                            $("#doc").append(bodyInput(extraKeys[i], doc[extraKeys[i]]));
+                        else
+                            $("#doc").append(textInput(extraKeys[i], doc[extraKeys[i]]));
+                    }
+                    //TODO: add other data types!
+                }
+            }
+        });
+    </script>
+    </div>
+    {{footer}}
+</body>
+
+</html>

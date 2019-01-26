@@ -1,0 +1,41 @@
+<html>
+    <head>
+        {{{head}}}
+        <style>
+            
+        </style>
+    </head>
+    <body>
+        {{{actionbar}}}
+        <div class="container">
+            <h2>Posts:</h2>
+            <a href="/admin/posts/new" class="btn btn-md btn-info">+New Post</a>
+            <hr />
+            <div id="list">
+
+            </div>
+            <script>
+                findObjects('posts',(posts)=>{
+                    console.log((posts));
+                    for(var i = 0 ; i < posts.length;i++)
+                    {
+                        var post = posts[i];
+                        var tagsStr = '';
+                        for(var j = 0 ; j < post.tags.length;j++)
+                            tagsStr += post.tags[j]+',';
+                        $("#list").append(
+                            `<div class="box-row">`
+                                +`<h4>${post.title}</h4>`
+                                +`<p>${post.intro}</p><hr/>`
+                                +`<p><b>tags:</b>${tagsStr}</p>`
+                                +`<small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small><hr />`
+                                +`<div class="text-right"><a class="btn btn-md btn-info" href="/admin/posts/${post._id}">Edit</a></div>`
+                            +`</div>`
+                        );
+                    }
+                });
+            </script>
+        </div>
+        {{{footer}}}
+    </body>
+</html>

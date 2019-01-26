@@ -1,0 +1,29 @@
+{ 
+    "_id" : ObjectId("5c4721333a62851fe5827097"), 
+    "createdAt" : "String", 
+    "updatedAt" : "String", 
+    "gameId" : "5c471e163a62851fe5826d87", 
+    "name" : "Miss Fortune", 
+    "slug" : "mf", 
+    "icon" : "https://www.mobafire.com/images/avatars/miss-fortune-gun-goddess.png", 
+    "icon_gif" : "https://www.mobafire.com/images/avatars/miss-fortune-gun-goddess.png", 
+    "cover" : "https://cdn.vox-cdn.com/thumbor/fU28IGId2cJA9Q-ysfC2oOR7GQU=/0x0:1920x1133/1200x800/filters:focal(807x414:1113x720)/cdn.vox-cdn.com/uploads/chorus_image/image/51528629/jason-chan-captain-fortune.0.jpg", 
+    "description" : "its all about that ace!", 
+    "images" : [
+
+    ], 
+    "lore" : "String", 
+    "loreUrl" : "http://google.com", 
+    "roles" : [
+
+    ], 
+    "abilities" : [
+
+    ], 
+    "stats" : [
+
+    ], 
+    "talents" : [
+
+    ]
+}

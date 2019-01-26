@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Games:</h2>
+        <a href="/admin/posts/new" class="btn btn-md btn-info">+New Game</a>
+        <hr />
+        <div id="list">
+
+        </div>
+        <script>
+            findObjects('games', (games) =>
+            {
+                console.log((games));
+                for (var i = 0; i < games.length; i++)
+                {
+                    var game = games[i];
+                    $("#list").append(
+                        `<div class="box-row">`
+                        + `<h4>${game.name}</h4>`
+                        + `<p><b>token: </b>${game.token}<br/>${game.description}</p><hr/>`
+                        + `<p><b>items count: </b>${game.items.length}</p>`
+                        + `<small><b>createdAt: </b>${game.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${game.updatedAt}</small><hr />`
+                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/games/${game._id}">Edit</a></div>`
+                        + `</div>`
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

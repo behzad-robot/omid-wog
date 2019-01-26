@@ -1,0 +1,15 @@
+{ 
+    "_id" : ObjectId("5c44981eebf418357f6be1d2"), 
+    "title" : "%_%", 
+    "intro" : "introh", 
+    "body" : "String blah blah", 
+    "slug" : "String", 
+    "thumbnail" : "https://vignette.wikia.nocookie.net/leagueoflegends/images/c/cf/Miss_Fortune_OriginalCentered.jpg/revision/latest/scale-to-width-down/1215?cb=20180414203432", 
+    "adminId" : "adminIDDD", 
+    "gameId" : "random game", 
+    "tags" : [
+
+    ], 
+    "createdAt" : "String", 
+    "updatedAt" : "String"
+}

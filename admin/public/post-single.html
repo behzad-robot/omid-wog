@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Post {{{_id}}}:</h2>
+        <hr />
+        <div id="single">
+        </div>
+        <script>
+            getObject('posts', `{{{_id}}}`, (post) =>
+            {
+                console.log(post);
+                $("#single").append(idInput('_id',post._id));
+                $("#single").append(idInput('adminId',post.adminId));
+                $("#single").append(idInput('createdAt',post.createdAt));
+                $("#single").append(idInput('updatedAt',post.updatedAt));
+                $("#single").append(textInput('title',post.title));
+                $("#single").append(textInput('slug',post.slug));
+                $("#single").append(textInput('gameId',post.gameId));
+                imageInput('#single','thumbnail',post.thumbnail,`{{{fileUploadURL}}}`)
+                $("#single").append(bodyInput('intro',post.intro));
+                $("#single").append(bodyInput('body',post.body));
+                $("#single").append(jsonInput('tags',post.tags));
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

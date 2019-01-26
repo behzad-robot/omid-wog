@@ -1,0 +1,518 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .board {
+            border-bottom: 1px solid #eee;
+        }
+
+        .cell {
+            display: inline-block;
+            min-height: 30px;
+            border-right: 1px solid #01579B;
+            border-bottom: 1px solid #01579B;
+            vertical-align: top;
+            text-align: center;
+        }
+
+        .cell:hover {
+            background-color: #546E7A;
+            cursor: hand;
+        }
+
+        .cell-row {
+            display: inline-block;
+            min-height: 30px;
+            vertical-align: top;
+            text-align: center;
+            padding-top: 6px;
+            border-right: 1px solid #01579B;
+        }
+
+        .cell-col {
+            display: inline-block;
+            vertical-align: top;
+            text-align: center;
+            padding-top: 15px;
+            padding-bottom: 0;
+            border-bottom: 1px solid #01579B;
+        }
+
+        .cell.shot {
+            color: rgb(226, 28, 28);
+            font-size: 30px;
+        }
+
+        .cell.ship {
+            background-color: #aaa7a7;
+        }
+
+        .cell.ship-wreck {
+            background-color: #ef5350;
+        }
+
+        .cell.sure-empty {
+            background-color: #CFD8DC;
+            font-size: 30px;
+        }
+
+        .board-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: rgba(40, 40, 40, 0.6);
+            color: white;
+            font-size: 30px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        #log {
+            overflow: hidden;
+            width: 100%;
+            height: auto;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h1>Game {{_id}}</h1>
+        <h5>turn: <span name="turn">??</span></h5>
+        <h5>winner: <span name="winner">??</span></h5>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div id="b0" class="board"></div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <div id="b1" class="board"></div>
+            </div>
+        </div>
+        <div style="margin: 20px 0;">
+            <h1>Socket Tools:</h1>
+            <div class="btn btn-sm btn-primary" onclick="data_loginAsTrash()">login as trash</div>
+            <div class="btn btn-sm btn-primary" onclick="data_loginAsGarbage()">login as garbage</div>
+            <div class="btn btn-sm btn-primary" onclick="data_loadGameFromAPI()">api load game!</div>
+            <div class="btn btn-sm btn-primary" onclick="setupSocket()">init socket</div>
+            <div class="btn btn-sm btn-secondary" onclick="data_joinGame()">join-game</div>
+            <!-- <div class="btn btn-sm btn-secondary" onclick="data_playerJoin()">player-join</div> -->
+            <div class="btn btn-sm btn-secondary" onclick="data_shoot()">shoot</div>
+            <br /><br />
+            <div class="btn btn-sm btn-secondary" onclick="data_joinQueue()">join-queue</div>
+            <div class="btn btn-sm btn-secondary" onclick="data_leaveQueue()">leave-queue</div>
+            <div class="btn btn-sm btn-warning" onclick="data_board1()">board1</div>
+            <div class="btn btn-sm btn-warning" onclick="data_board2()">board2</div>
+
+            <div class="form-row">
+                <b>username:</b><span name="username">??</span><br />
+                <b>userId:</b><input type="text" name="userId" class="form-control m" />
+                <b>userToken:</b><input type="text" name="userToken" class="form-control m" />
+            </div>
+            <div class="form-row">
+                <b>gameId:</b><input type="text" name="gameId" value="{{_id}}" class="form-control m" />
+            </div>
+            <div class="form-row">
+                <b>eventName:</b><input type="text" name="eventName" class="form-control m" />
+            </div>
+            <div class="form-row"><b>_data:</b><textarea type="text" name="_data" class="form-control m"></textarea></div>
+            <div class="btn btn-md btn-success" onclick="sendPressed()">Send</div>
+        </div>
+        <div class="row">
+            <h3>Logs:&nbsp;&nbsp;<div class="btn btn-sm btn-warning" onclick="clearLogs()">Clear Logs</div>
+            </h3>
+            <div id="log">
+
+            </div>
+        </div>
+        <script>
+            function data_joinQueue()
+            {
+                $("[name=eventName]").val("join-queue");
+                $("[name=_data]").val(JSON.stringify({
+                    userId: $("[name=userId]").val(),
+                    username: user.username,
+                    score: 0,
+                    board: {
+                        owner: $("[name=userId]").val(),
+                        ships: [],
+                        shotBlocks: [],
+                    }
+                }));
+            }
+            function data_leaveQueue()
+            {
+                $("[name=eventName]").val("leave-queue");
+                $("[name=_data]").val(JSON.stringify({
+                    userId: $("[name=userId]").val(),
+                }));
+            }
+            function data_board1()
+            {
+                data_setBoard([
+                    { owner: user._id, size: 3, location: { x: 0, y: 0 }, direction: { x: 1, y: 0 } },
+                    { owner: user._id, size: 3, location: { x: 0, y: 2 }, direction: { x: 0, y: 1 } },
+                ]);
+            }
+            function data_board2()
+            {
+                data_setBoard([
+                    { owner: user._id, size: 2, location: { x: 0, y: 0 }, direction: { x: 1, y: 0 } },
+                    { owner: user._id, size: 4, location: { x: 5, y: 3 }, direction: { x: 0, y: 1 } },
+                ]);
+            }
+            function data_setBoard(ships)
+            {
+                var eventName = $("[name=eventName]").val();
+                if (eventName != 'join-queue')
+                {
+                    alert('Only works for join-queue!');
+                    return;
+                }
+                var data = JSON.parse($("[name=_data]").val());
+                data.board.ships = ships;
+                $("[name=_data]").val(JSON.stringify(data));
+                //updateBoard($("#b0"), data.board);
+            }
+            function data_joinGame()
+            {
+                $("[name=eventName]").val("join-game");
+                $("[name=_data]").val(JSON.stringify({
+                    gameId: $("[name=gameId]").val(),
+                }));
+            }
+            // function data_playerJoin()
+            // {
+            //     $("[name=eventName]").val("player-join");
+            //     $("[name=_data]").val(JSON.stringify({
+            //         gameId: $("[name=gameId]").val(),
+            //     }));
+            // }
+            function data_shoot(x = 0, y = 0)
+            {
+                $("[name=eventName]").val("game-action");
+                $("[name=_data]").val(JSON.stringify({
+                    gameId: $("[name=gameId]").val(),
+                    userId: $("[name=userId]").val(),
+                    action: 'shoot',
+                    location: {
+                        x: x,
+                        y: y,
+                    },
+                }));
+            }
+            function data_loginAsTrash()
+            {
+                doLoginAPI('?command=login-trash');
+            }
+            function data_loginAsGarbage()
+            {
+                doLoginAPI('?command=login-garbage');
+            }
+            function doLoginAPI(params)
+            {
+                fetch('/api/game/' + params, {}).then((res) => res.json()).then((json) =>
+                {
+                    console.log(json);
+                    user = json;
+                    $("[name=userToken]").val(json.token);
+                    $("[name=userId]").val(json._id);
+                    $("[name=gameId]").val(json.gameId);
+                    $("[name=username]").html(json.username);
+
+                });
+            }
+            function data_loadGameFromAPI()
+            {
+                const _id = $("[name=gameId]").val();
+                fetch('/api/game/?command=load-game&_id=' + _id, {}).then((res) => res.json()).then((g) =>
+                {
+                    game = g;
+                    console.log(game);
+                    if (game.error)
+                    {
+                        alert(game.error);
+                        return;
+                    }
+                    log('Loaded Game From API:<br>' + JSON.stringify(game));
+                    updateBoards(game);
+
+                });
+                // getObject('games', _id, (g) =>
+                // {
+                //     game = g;
+                //     console.log(game);
+                //     if (game.error)
+                //     {
+                //         alert(game.error);
+                //         return;
+                //     }
+                //     log('Loaded Game From API:<br>' + JSON.stringify(game));
+                //     updateBoards(game);
+                // });
+            }
+        </script>
+        <script>
+            const GREEN = '#4CAF50';
+            var ws = null;
+            var game = null;
+            var user = null;
+            $(document).ready(() =>
+            {
+                createBoard($("#b0"));
+                createBoard($("#b1"));
+                //auto setup:
+                //autoSetup();
+            });
+            function autoSetup()
+            {
+                data_loginAsTrash();
+                setTimeout(() =>
+                {
+                    data_loadGameFromAPI();
+                    setTimeout(() =>
+                    {
+                        setupSocket();
+                    }, 500);
+                }, 500);
+            }
+            function setupSocket()
+            {
+                ws = new WebSocket('{{{ws_url}}}');
+                ws.onopen = () =>
+                {
+                    log('socket connected!');
+                    ws.send("handshake");
+                    ping();
+                };
+                ws.onclose = () =>
+                {
+                    log('disconnected!');
+                    setTimeout(() =>
+                    {
+                        setupSocket();
+                    }, 500);
+                };
+                ws.onmessage = (evt) =>
+                {
+                    //log("recieved:"+evt.data);
+                    if (evt.data == "pong")
+                        ping();
+                    else if (evt.data == "handshake-answer")
+                    {
+                        log("handshake-answer");
+                    }
+                    else
+                    {
+                        log("recieved => " + evt.data);
+                        if (evt.data.toString().indexOf('{') != -1)
+                        {
+                            var msg = JSON.parse(evt.data);
+                            if (msg.error != undefined && msg.error != null)
+                            {
+                                log(msg.error, "red");
+                                return;
+                            }
+                            onMessage(msg.eventName, msg._data);
+                        }
+                    }
+                }
+            }
+            function ping()
+            {
+                ws.send("ping");
+                //log("send:ping");
+            }
+            function onMessage(eventName, data)
+            {
+                if (eventName == 'join-game')
+                {
+                    log('Got Join-Game! Updating Boards!', GREEN);
+                    game = data;
+                    updateBoards(data);
+                }
+                else if (eventName == 'player-join' || eventName == 'player-leave')
+                {
+                    log(`Got ${eventName}! Updating Boards!`, GREEN);
+                    game = data.game;
+                    updateBoards(game);
+                }
+                else if (eventName == 'game-action')
+                {
+                    log('Got game-action! Updating Boards!', GREEN);
+                    game = data.game;
+                    updateBoards(game);
+                }
+                else if (eventName == 'join-queue-success' || eventName == 'leave-queue')
+                {
+                    log(eventName + ' =>' + data.username, GREEN);
+                }
+                else if (eventName == 'match-found')
+                {
+                    game = data;
+                    $("[name=gameId]").val(game._id);
+                    log('match-found! => ' + game._id, GREEN);
+                    updateBoards(game);
+                }
+            }
+            function sendMessage(eventName, data)
+            {
+                var str = JSON.stringify({
+                    userToken: $("[name=userToken]").val(),
+                    apiToken: 'forthehorde',
+                    adminToken: 'hamunhamishegi',
+                    eventName: eventName,
+                    _data: data,
+                });
+                ws.send(str);
+                log("send => " + str);
+            }
+            function sendPressed()
+            {
+                console.log(($("[name=_data]").val()));
+                sendMessage($("[name=eventName]").val(), JSON.parse($("[name=_data]").val()));
+            }
+            function clearLogs()
+            {
+                $("#log").html("");
+                log("Cleared Logs", "#EF6C00");
+            }
+            function log(str, color = "black")
+            {
+                console.log(str);
+                if (typeof str != 'string')
+                    str = JSON.stringify(str);
+                $("#log").prepend(`<div style="border-bottom:1px solid #eee;padding-bottom:5px;color:${color}"><b>${new Date(Date.now()).toLocaleString()}</b><br/>${str}</div>`);
+            }
+            function updateBoards(game)
+            {
+                updateBoard("#b0", game.boards[0]);
+                updateBoard("#b1", game.boards[1]);
+                $("[name=turn]").html(game.turn + '&nbsp;&nbsp;' + (game.turn == user._id ? `<span style="color:green">Your turn</span>` : `<span style="color:red">Opponent turn</span>`));
+                $("[name=winner]").html(game.winner);
+            }
+            function createBoard(board)
+            {
+                $(board).html('');
+                var cellSize = Number.parseInt($(board).width() / 11);
+                $(board).append(`<div class="cell-col" style="height:${cellSize}px;width:${cellSize}px">-</div>`);
+                for (var l = 'A'.charCodeAt(0); l < 'A'.charCodeAt(0) + 10; l++)
+                {
+                    console.log(String.fromCharCode(l));
+                    $(board).append(`<div class="cell-col" style="height:${cellSize}px;width:${cellSize}px">${String.fromCharCode(l)}</div>`);
+                }
+                for (var y = 0; y < 10; y++)
+                {
+                    $(board).append(`<div class="cell-row" style="height:${cellSize}px;width:${cellSize}px">${y + 1}</div>`);
+                    for (var x = 0; x < 10; x++)
+                    {
+                        $(board).append(`<div class="cell" style="height:${cellSize}px;width:${cellSize}px" x="${x}" y="${y}"></div>`);
+                    }
+                }
+                $(board).append(`<hr/>Owner: <span name="owner">??</span><br>`);
+                $(board).append(`isConnected: <span name="isConnected">??</span>`);
+                $(board).append(`<div class="board-overlay" style="width:${cellSize * 11}px;height:${cellSize * 11}px;">This Player's Turn!Shoot Other Board</div>`)
+                $(".cell").click(function (el)
+                {
+                    console.log($(this).attr('x'));
+                    data_shoot($(this).attr('x'), $(this).attr('y'));
+                });
+            }
+            function updateBoard(element, board)
+            {
+                createBoard(element);
+                //draw shot blocks:
+                for (var i = 0; i < board.shotBlocks.length; i++)
+                {
+                    var shot = board.shotBlocks[i];
+                    $(element).find(`.cell[x=${shot.x}][y=${shot.y}]`).attr('class', 'cell shot');
+                    $(element).find(`.cell[x=${shot.x}][y=${shot.y}]`).html('X');
+                }
+                //draw ships:
+                for (var i = 0; i < board.ships.length; i++)
+                {
+                    var ship = board.ships[i];
+                    var isAlive = isShipAlive(board, ship);
+                    for (var j = 0; j < ship.size; j++)
+                    {
+                        console.log("gotta update for ship=>" + JSON.stringify(ship));
+                        var x = ship.location.x + j * ship.direction.x;
+                        var y = ship.location.y + j * ship.direction.y;
+                        $(element).find(`.cell[x=${x}][y=${y}]`).attr('class', ' cell ' + (isAlive ? ' ship ' : ' ship-wreck ') + (isShotAt(board, x, y) ? 'shot' : ''));
+                        //if dead => draw garaunteed empty blocks:
+                        if (!isAlive)
+                        {
+                            markSureEmpty(element, board, x + 1, y);
+                            markSureEmpty(element, board, x - 1, y);
+                            markSureEmpty(element, board, x, y + 1);
+                            markSureEmpty(element, board, x, y - 1);
+                            markSureEmpty(element, board, x + 1, y - 1);
+                            markSureEmpty(element, board, x - 1, y - 1);
+                            markSureEmpty(element, board, x + 1, y + 1);
+                            markSureEmpty(element, board, x - 1, y + 1);
+                        }
+                    }
+                }
+                //update owner:
+                $(element).find('[name=owner]').html(board.owner);
+                $(element).find('[name=isConnected]').html(getPlayer(board.owner).isConnected.toString());
+                if (game.turn == board.owner)
+                    $(element).find('.board-overlay').show();
+                else
+                    $(element).find('.board-overlay').hide();
+            }
+            function markSureEmpty(element, board, x, y)
+            {
+                if (isEmptyBlock(board, x, y))
+                    $(element).find(`.cell[x=${x}][y=${y}]`).attr('class', 'cell sure-empty ' + (isShotAt(board, x, y) ? 'shot' : ''));
+            }
+            //board helper functions:
+            function isEmptyBlock(board, x, y)
+            {
+                for (var i = 0; i < board.ships.length; i++)
+                {
+                    var ship = board.ships[i];
+                    for (var j = 0; j < ship.size; j++)
+                    {
+                        var Bx = ship.location.x + j * ship.direction.x;
+                        var By = ship.location.y + j * ship.direction.y;
+                        if (Bx == x && By == y)
+                            return false;
+                    }
+                }
+                return true;
+                //return !isShotAt(board, x, y);
+            }
+            function isShipAlive(board, ship)
+            {
+                for (var j = 0; j < ship.size; j++)
+                {
+                    var x = ship.location.x + j * ship.direction.x;
+                    var y = ship.location.y + j * ship.direction.y;
+                    if (!isShotAt(board, x, y))
+                        return true;
+                }
+                return false;
+            }
+            function isShotAt(board, x, y)
+            {
+                for (var i = 0; i < board.shotBlocks.length; i++)
+                    if (board.shotBlocks[i].x == x && board.shotBlocks[i].y == y)
+                        return true;
+                return false;
+            }
+            function getPlayer(userId)
+            {
+                for (var i = 0; i < game.players.length; i++)
+                    if (game.players[i].userId == userId)
+                        return game.players[i];
+                return undefined;
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .item-row {
+            display: block;
+            padding: 10px 5px;
+            background-color: #eee;
+            border-bottom: 1px solid #aaa;
+        }
+        .item-col{
+            display:inline-block;
+            width:250px;
+            font-size:13px;
+            text-align: center;
+            overflow: hidden;
+        }
+        .item-col.sm{
+            width:150px;
+        }
+        .item-col.xs{
+            width:50px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h1>Analytics Events:</h1>
+        <div id="items">
+
+        </div>
+        <script>
+            $(document).ready(() =>
+            {
+                apiCall('/api/analytics/', (results) =>
+                {
+                    console.log(results);
+                    for (var i = 0; i < results.length; i++)
+                    {
+                        var info = results[i];
+                        $("#items").append(
+                            `<div class="item-row">` +
+                            `<div class="item-col xs"><span>${info.eventType}</span></div>`+
+                            `<div class="item-col"><span>${info.eventName}</span></div>`+
+                            `<div class="item-col sm"><b>total:</b> <span>${info.events.length}</span></div>`+
+                            `<div class="item-col sm" style="color:#8BC34A"><b>success:</b> <span>${getEventSuccess(info)}</span></div>`+
+                            `<div class="item-col sm" style="color:#a00"><b>failed:</b> <span>${info.events.length-getEventSuccess(info)}</span></div>`+
+                            `<div class="item-col"><span>${info.events[info.events.length-1].createdAt}</span></div>`+
+                            `</div>`
+                        );
+                    }
+                });
+
+            });
+            function getEventSuccess(info)
+            {
+                var successCount = 0;
+                for(var i = 0 ; i < info.events.length;i++)
+                    if(info.events[i].code == 200 ||  info.events[i].code == 210 || info.events[i].code == 220)
+                        successCount++;
+                return successCount;
+            }
+        </script>
+    </div>
+    {{footer}}
+</body>
+
+</html>

@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>File Uploader</h2>
+        <p>This page is kind of a mess :D Expect bugs or dont use it!</p>
+        <form id="file-form" action="{{fileUploadURL}}" method="post" enctype="multipart/form-data">
+            <div class="form-row">
+                <b>file:</b><input name="my-file" class="form-control m" type="file" data-url="{{{fileUploadURL}}}"
+                    multiple />
+            </div>
+            <div class="form-row">
+                <b>directory:</b><input name="my-dir" class="form-control m" type="text" value="/" />
+            </div>
+            <input type="hidden" name="api-token" value="ftsb" />
+            <input type="hidden" name="admin-token" value="hamunhamishegi" />
+        </form>
+        <script>
+            $(() =>
+            {
+                fileUploadTool('#file-form', 'my-file-2', encodeURI('{{{fileUploadURL}}}/?sizes=256,128&my-dir=champions'), (result) =>
+                {
+                    console.log(result);
+                });
+            });
+           
+        </script>
+        <hr />
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Game {{{_id}}}:</h2>
+        <hr />
+        <div id="single">
+        </div>
+        <script>
+            getObject('games', `{{{_id}}}`, (game) =>
+            {
+                console.log(game);
+                $("#single").append(idInput('_id',game._id));
+                $("#single").append(idInput('createdAt',game.createdAt));
+                $("#single").append(idInput('updatedAt',game.updatedAt));
+                $("#single").append(textInput('name',game.name));
+                $("#single").append(textInput('token',game.token));
+                $("#single").append(textInput('slug',game.slug));
+                $("#single").append(textInput('category',game.category));
+                $("#single").append(textInput('ageRange',game.ageRange));
+                $("#single").append(textInput('ageRange',game.ageRange));
+                $("#single").append(bodyInput('description',game.description));
+                imageInput('#single','icon',game.icon,`{{{fileUploadURL}}}`)
+                imageInput('#single','cover',game.cover,`{{{fileUploadURL}}}`)
+                $("#single").append(jsonInput('images',game.images));
+                $("#single").append(jsonInput('media',game.media));
+                $("#single").append(jsonInput('items',game.items));
+                $("#single").append(jsonInput('summonerSpells',game.summonerSpells));
+                $("#single").append(jsonInput('runes',game.runes));
+                $("#single").append(jsonInput('patchNotes',game.patchNotes));
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>
