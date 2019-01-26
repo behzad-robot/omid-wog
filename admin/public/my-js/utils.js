@@ -66,6 +66,7 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
     fuid++;
     var otherSizes = '<br>';
     var sizesParams = '';
+    // console.log(parent);
     for (var i = 0; i < sizes.length; i++)
     {
         var size = sizes[i];

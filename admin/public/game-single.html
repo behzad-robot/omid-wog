@@ -12,31 +12,312 @@
     <div class="container">
         <h2>Game {{{_id}}}:</h2>
         <hr />
-        <div id="single">
+        <div id="single"></div>
+        <div id="extra"></div>
+        <div id="item-child-pick-screen" style="position: fixed;width:100vw;height:100vh;top:0;left:0;z-index:500;background-color:rgba(0,0,0,0.8);color:white;">
+            <div class="container">
+                <h1>Choose An Item:</h1>
+                <div class="btn btn-md btn-primary" onclick="item_child_pick_screen_toggle(false,-1)">Back</div>
+                <span name="item-id" style="display:none">??</span>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="box-row" name="items">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <script>
-            getObject('games', `{{{_id}}}`, (game) =>
-            {
+            //item pick screen script:
+            $("#item-child-pick-screen").hide();
+            function item_child_pick_screen_toggle(show, itemId) {
+                $("#item-child-pick-screen").toggle();
+                $("#item-child-pick-screen [name=item-id]").html(itemId);
+            }
+            function item_child_pick_screen_select(childId) {
+                var itemId = $("#item-child-pick-screen [name=item-id]").html();
+                var item = get_item(itemId);
+                item.children.push(childId);
+                scroll_to("#item-child-" + itemId + '-' + childId);
+                item_child_pick_screen_toggle(false, itemId);
+                items_recreate();
+            }
+        </script>
+        <script>
+            let game = null;
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`
+            getObject('games', `{{{_id}}}`, (g) => {
+                game = g;
                 console.log(game);
-                $("#single").append(idInput('_id',game._id));
-                $("#single").append(idInput('createdAt',game.createdAt));
-                $("#single").append(idInput('updatedAt',game.updatedAt));
-                $("#single").append(textInput('name',game.name));
-                $("#single").append(textInput('token',game.token));
-                $("#single").append(textInput('slug',game.slug));
-                $("#single").append(textInput('category',game.category));
-                $("#single").append(textInput('ageRange',game.ageRange));
-                $("#single").append(textInput('ageRange',game.ageRange));
-                $("#single").append(bodyInput('description',game.description));
-                imageInput('#single','icon',game.icon,`{{{fileUploadURL}}}`)
-                imageInput('#single','cover',game.cover,`{{{fileUploadURL}}}`)
-                $("#single").append(jsonInput('images',game.images));
-                $("#single").append(jsonInput('media',game.media));
-                $("#single").append(jsonInput('items',game.items));
-                $("#single").append(jsonInput('summonerSpells',game.summonerSpells));
-                $("#single").append(jsonInput('runes',game.runes));
-                $("#single").append(jsonInput('patchNotes',game.patchNotes));
+                $("#single").append(idInput('_id', game._id));
+                $("#single").append(idInput('createdAt', game.createdAt));
+                $("#single").append(idInput('updatedAt', game.updatedAt));
+                $("#single").append(textInput('name', game.name));
+                $("#single").append(textInput('token', game.token));
+                $("#single").append(textInput('slug', game.slug));
+                $("#single").append(textInput('category', game.category));
+                $("#single").append(textInput('ageRange', game.ageRange));
+                $("#single").append(bodyInput('description', game.description));
+                imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL)
+                imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL)
+                $("#single").append(jsonInput('images', game.images));
+                $("#single").append(jsonInput('media', game.media));
+                $("#single").append(jsonInput('items', game.items));
+                $("#single").append(jsonInput('summonerSpells', game.summonerSpells));
+                $("#single").append(jsonInput('runes', game.runes));
+                $("#single").append(jsonInput('patchNotes', game.patchNotes));
+                //extras:
+                $("#extra").append(`<div id="items"></div>`);
+                items_recreate();
+                $("#extra").append(`<div id="summonerSpells"></div>`);
+                summonerSpells_recreate();
             });
+            function scroll_to(el) {
+                $('html, body').animate({
+                    scrollTop: parseInt($(el).offset().top)
+                }, 2000);
+            }
+            function get_item(id) {
+                for (var i = 0; i < game.items.length; i++)
+                    if (game.items[i]._id == id)
+                        return game.items[i];
+                return undefined;
+            }
+            function items_recreate() {
+                $("[name=items]").val(JSON.stringify(game.items));
+                $("#items").html('<h4>Items:</h4><div class="btn btn-md btn-secondary" onclick="items_add()">+Add Item</div><div class="row"></div>');
+                $("#item-child-pick-screen [name=items]").html("");
+                for (var i = 0; i < game.items.length; i++) {
+                    var item = game.items[i];
+                    $("#items .row").append(
+                        `<div class="col-md-12">`
+                        + `<div id="items-${item._id}" index="${item._id}" class="box-row">`
+                        + idInput('_id', item._id)
+                        + textInput('name', item.name)
+                        + textInput('slug', item.slug)
+                        + textInput('category', item.category)
+                        + textInput('price', item.price)
+                        + textInput('coolDown', item.coolDown)
+                        + textInput('manaCost', item.manaCost)
+                        + boolInput('hasRecipe', item.hasRecipe)
+                        + bodyInput('lore', item.lore)
+                        + bodyInput('description', item.description)
+                        + jsonInput('children', item.children)
+                        + `</div>`
+                        + `</div>`
+                    );
+                    imageInput(`#items-${item._id}`, 'icon', item.icon, FILE_UPLOAD_URL);
+                    $(`#items-${item._id}`).append('<hr>');
+                    var childrenStr = '';
+                    for (var j = 0; j < item.children.length; j++) {
+                        var child = get_item(item.children[j]);
+                        if (child == undefined)
+                            continue;
+                        childrenStr += (
+                            `<div class="alert alert-success" id="item-child-${item._id + '-' + child._id}">`
+                            + `${child._id} : ${child.name}`
+                            + `<div style="float:right">`
+                            + `<div class="btn btn-xs btn-info" onclick="items_child_swap(${item._id},${j},-1)">Up</div>`
+                            + `<div class="btn btn-xs btn-info" onclick="items_child_swap(${item._id},${j},1)">Down</div>`
+                            + `<div class="btn btn-xs btn-danger" onclick="items_child_remove(${item._id},${j})">Remove</div>`
+                            + `</div>`
+                            + `</div>`
+                        );
+                    }
+                    $(`#items-${item._id}`).append(childrenStr + `<div class="btn btn-md btn-secondary" onclick="item_child_pick_screen_toggle(true,${item._id})">+Add Child</div>` + '<hr>');
+                    $(`#items-${item._id}`).append(`<div class="btn btn-sm btn-danger" onclick="items_remove(${item._id})">Remove</div>`);
+                    //also append to item pick screen:
+                    $("#item-child-pick-screen [name=items]").append(
+                        `<div class="selectable" onclick="item_child_pick_screen_select(${item._id})">`
+                        + `<img src="${item.icon}" width="64px">`
+                        + `<b>${item.name}</b>`
+                        + `</div>`
+                    );
+                }
+                $("#items *").change(function () {
+                    var id = $(this).closest(".box-row").attr("index");
+                    for (var i = 0; i < game.items.length; i++) {
+                        if (game.items[i]._id == id) {
+                            game.items[i] = {
+                                _id: $(`#items-${id} [name=_id]`).val(),
+                                name: $(`#items-${id} [name=name]`).val(),
+                                slug: $(`#items-${id} [name=slug]`).val(),
+                                category: $(`#items-${id} [name=category]`).val(),
+                                price: $(`#items-${id} [name=price]`).val(),
+                                coolDown: $(`#items-${id} [name=coolDown]`).val(),
+                                manaCost: $(`#items-${id} [name=manaCost]`).val(),
+                                hasRecipe: $(`#items-${id} [name=hasRecipe]`).is(':checked'),
+                                lore: $(`#items-${id} [name=lore]`).val(),
+                                description: $(`#items-${id} [name=description]`).val(),
+                                children: JSON.parse($(`#items-${id} [name=children]`).val()),
+                            };
+                            break;
+                        }
+                    }
+                    items_recreate();
+                });
+            }
+            function items_add() {
+                var maxId = -1;
+                for (var i = 0; i < game.items.length; i++)
+                    if (game.items[i]._id < maxId)
+                        maxId = game.items[i]._id;
+                maxId++;
+                game.items.push({
+                    _id: maxId,
+                    name: "",
+                    slug: "",
+                    category: "",
+                    price: "",
+                    coolDown: "",
+                    manaCost: "",
+                    hasRecipe: "",
+                    lore: "",
+                    description: "",
+                });
+                items_recreate();
+            }
+            function items_remove(id) {
+                for (var i = 0; i < game.items.length; i++) {
+                    if (game.items[i]._id == id) {
+                        game.items.splice(i, 1);
+                        break;
+                    }
+                }
+                items_recreate();
+            }
+            function items_child_swap(id, index, dir) {
+                var item = get_item(id);
+                if ((index == 0 && dir == -1) || (index == item.children.length - 1 && dir == 1)) {
+                    alert('Invalid Action');
+                    return;
+                }
+                var temp = item.children[index];
+                item.children[index] = item.children[index + dir];
+                item.children[index + dir] = temp;
+                items_recreate();
+            }
+            function items_child_remove(id, index) {
+                var item = get_item(id);
+                item.children.splice(index, 1);
+                items_recreate();
+            }
+            //summonerSpells:
+            function summonerSpells_recreate() {
+                $("[name=summonerSpells]").val(JSON.stringify(game.summonerSpells));
+                $("#summonerSpells").html('<h4>Summoner Spells:</h4><div class="btn btn-md btn-secondary" onclick="summonerSpells_add()">+Add SummonerSpell</div><div class="row"></div>');
+                for (var i = 0; i < game.summonerSpells.length; i++) {
+                    var spell = game.summonerSpells[i];
+                    $("#summonerSpells .row").append(
+                        `<div class="col-md-12">`
+                        + `<div id="summonerSpells-${i}" index="${i}" class="box-row">`
+                        + textInput('name', spell.name)
+                        + numberInput('level', spell.level)
+                        + numberInput('range', spell.range)
+                        + textInput('coolDown', spell.coolDown)
+                        + bodyInput('description', spell.description)
+                        + `</div>`
+                        + `</div>`
+                    );
+                    imageInput(`#summonerSpells-${i}`, 'icon', spell.icon, FILE_UPLOAD_URL);
+                    $(`#summonerSpells-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="summonerSpells_remove(${i})">Remove</div>`);
+                }
+                $("#summonerSpells input").change(function () {
+                    summonerSpells_update(this);
+                });
+                $("#summonerSpells [name=description]").on('froalaEditor.blur', function (e, editor) {
+                    summonerSpells_update(this);
+                });
+            }
+            function summonerSpells_update(elm) {
+                var type = $(elm).attr('type');
+                if (type == 'file')
+                    return;
+                var i = $(elm).closest(".box-row").attr("index");
+                game.summonerSpells[i] = {
+                    icon: $(`#summonerSpells-${i} [name=icon]`).val(),
+                    name: $(`#summonerSpells-${i} [name=name]`).val(),
+                    level: $(`#summonerSpells-${i} [name=level]`).val(),
+                    range: $(`#summonerSpells-${i} [name=range]`).val(),
+                    coolDown: $(`#summonerSpells-${i} [name=coolDown]`).val(),
+                    description: $(`#summonerSpells-${i} [name=description]`).val(),
+                };
+                summonerSpells_recreate();
+            }
+            function summonerSpells_add() {
+                game.summonerSpells.push({
+                    icon: "?",
+                    name: "",
+                    level: 1,
+                    range: 0,
+                    coolDown: "0 minutes",
+                    description: "",
+                });
+                summonerSpells_recreate();
+            }
+            function summonerSpells_remove(i) {
+                game.summonerSpells.splice(i, 1);
+                summonerSpells_recreate();
+            }
+            function runes_recreate() {
+                $("[name=runes]").val(JSON.stringify(champion.runes));
+                $("#runes").html('<h4>Runes:</h4><div class="btn btn-md btn-secondary" onclick="runes_add()">+Add Rune</div><div class="row"></div>');
+                for (var i = 0; i < champion.runes.length; i++) {
+                    var r = champion.runes[i];
+                    $("#runes .row").append(
+                        `<div class="col-md-4">`
+                            `<div id="runes-${i}" index="${i}">`
+                        + textInput('tree', r.tree)
+                        + textInput('name', r.name)
+                        + numberInput('depth', r.depth)
+                        + textInput('bonus', r.bonus)
+                        + bodyInput('description', r.description)
+                        + `</div>`
+                        + `</div>`
+                    );
+                    imageInput(`#runes-${i}`, 'icon', r.icon, FILE_UPLOAD_URL);
+                    $(`#runes-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="runes_remove(${i})">Remove</div>`);
+                }
+                $("#runes input").change(function () {
+                    runes_update(this);
+                });
+                $("#runes [name=description]").on('froalaEditor.blur', function (e, editor) {
+                    runes_update(this);
+                });
+            }
+            function runes_update(elm) {
+                var type = $(elm).attr('type');
+                if (type == 'file')
+                    return;
+                var i = $(elm).closest(".box-row").attr("index");
+                game.summonerSpells[i] = {
+                    icon: $(`#runes-${i} [name=icon]`).val(),
+                    tree : $(`#runes-${i} [name=tree]`).val(),
+                    name: $(`#runes-${i} [name=name]`).val(),
+                    level: $(`#runes-${i} [name=depth]`).val(),
+                    range: $(`#runes-${i} [name=bonus]`).val(),
+                    description: $(`#runes-${i} [name=description]`).val(),
+                };
+                runes_recreate();
+            }
+            function runes_add(){
+                game.runes.add({
+                    icon : "?",
+                    tree : "",
+                    name : "",
+                    depth : 0,
+                    bonus : "",
+                    description : ""
+                });
+                runes_recreate();
+            }
+            function runes_remove(i) {
+                game.runes.splice(i,1);
+                runes_recreate();
+            }
+            
         </script>
     </div>
     {{{footer}}}
