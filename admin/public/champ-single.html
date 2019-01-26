@@ -19,7 +19,8 @@
         <script>
             var champion = undefined;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
-            getObject('champions', `{{{_id}}}`, (c) => {
+            getObject('champions', `{{{_id}}}`, (c) =>
+            {
                 champion = c;
                 console.log(champion);
                 $("#single").append(idInput('_id', champion._id));
@@ -54,16 +55,21 @@
                 stats_recreate();
                 $("#extra").append(`<div id="talents"></div>`);
                 talents_recreate();
+                $("#extra").append(`<div id="media"></div>`);
+                media_recreate();
             });
-            function scroll_to(el) {
+            function scroll_to(el)
+            {
                 $('html, body').animate({
                     scrollTop: parseInt($(el).offset().top)
                 }, 2000);
             }
-            function roles_recreate() {
+            function roles_recreate()
+            {
                 $("[name=roles]").val(JSON.stringify(champion.roles));
                 $("#roles").html('<h4>Roles:</h4><div class="btn btn-md btn-secondary" onclick="roles_add()">+Add Role</div><div class="row"></div>');
-                for (var i = 0; i < champion.roles.length; i++) {
+                for (var i = 0; i < champion.roles.length; i++)
+                {
                     $("#roles .row").append(
                         `<div class="col-md-6">`
                         + `<div id="roles-${i}" index="${i}" class="box-row">`
@@ -74,14 +80,16 @@
                         + `</div>`
                     );
                 }
-                $("#roles input").change(function () {
+                $("#roles input").change(function ()
+                {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.roles[i].name = $(`#roles-${i} input[name=name]`).val();
                     champion.roles[i].playRate = $(`#roles-${i} input[name=playRate]`).val();
                     roles_recreate();
                 });
             };
-            function roles_add() {
+            function roles_add()
+            {
                 champion.roles.push({
                     name: "",
                     playRate: 0,
@@ -89,19 +97,22 @@
                 roles_recreate();
                 scroll_to("#roles-" + (champion.roles.length - 1));
             }
-            function roles_remove(i) {
+            function roles_remove(i)
+            {
                 champion.roles.splice(i, 1);
                 roles_recreate();
             }
             //abilities:
-            function abilities_recreate() {
+            function abilities_recreate()
+            {
                 console.log('abilities_recreate');
                 $("[name=abilities]").val(JSON.stringify(champion.abilities));
                 $("#abilities").html('<h4>Abilities:</h4><div class="btn btn-md btn-secondary" onclick="abilities_add()">+Add Ability</div>');
-                for (var i = 0; i < champion.abilities.length; i++) {
+                for (var i = 0; i < champion.abilities.length; i++)
+                {
                     $("#abilities").append(`<div class="box-row" id="abilities-${i}" index="${i}"></div>`);
                     const i2 = i;
-                    imageInput(`#abilities-${i}`, 'icon', champion.abilities[i].icon, FILE_UPLOAD_URL,[{ width: 64, height: 64 }]);
+                    imageInput(`#abilities-${i}`, 'icon', champion.abilities[i].icon, FILE_UPLOAD_URL, [{ width: 64, height: 64 }]);
                     console.log(`#abilities-${i}`);
                     $(`#abilities-${i}`).append(textInput('title', champion.abilities[i].title));
                     $(`#abilities-${i}`).append(textInput('btn', champion.abilities[i].btn));
@@ -116,14 +127,17 @@
                     $(`#abilities-${i}`).append(textInput('allowedTargets', champion.abilities[i].allowedTargets));
                     $(`#abilities-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="abilities_remove(${i})">Remove</div>`);
                 }
-                $("#abilities input").change(function () {
+                $("#abilities input").change(function ()
+                {
                     abilities_update(this);
                 });
-                $("#abilities [name=description]").on('froalaEditor.blur', function (e, editor) {
+                $("#abilities [name=description]").on('froalaEditor.blur', function (e, editor)
+                {
                     abilities_update(this);
                 });
             }
-            function abilities_update(elm) {
+            function abilities_update(elm)
+            {
                 var type = $(elm).attr('type');
                 if (type == 'file')
                     return;
@@ -145,7 +159,8 @@
                 };
                 abilities_recreate();
             }
-            function abilities_add() {
+            function abilities_add()
+            {
                 champion.abilities.push({
                     icon: "",
                     title: "",
@@ -162,15 +177,18 @@
                 });
                 abilities_recreate();
             }
-            function abilities_remove(i) {
+            function abilities_remove(i)
+            {
                 champion.abilities.splice(i, 1);
                 abilities_recreate();
             }
             //stats:
-            function stats_recreate() {
+            function stats_recreate()
+            {
                 $("[name=stats]").val(JSON.stringify(champion.stats));
                 $("#stats").html('<h4>Stats:</h4><div class="btn btn-md btn-secondary" onclick="stats_add()">+Add Stat</div><div class="row"></div>');
-                for (var i = 0; i < champion.stats.length; i++) {
+                for (var i = 0; i < champion.stats.length; i++)
+                {
                     $("#stats .row").append(
                         `<div class="col-md-4">`
                         + `<div id="stats-${i}" index="${i}" class="box-row">`
@@ -181,7 +199,8 @@
                         + `</div>`
                     );
                 }
-                $("#stats input").change(function () {
+                $("#stats input").change(function ()
+                {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.stats[i] = {
                         name: $(`#stats-${i} input[name=name]`).val(),
@@ -190,7 +209,8 @@
                     stats_recreate();
                 });
             }
-            function stats_add() {
+            function stats_add()
+            {
                 champion.stats.push({
                     name: "",
                     value: "",
@@ -198,15 +218,18 @@
                 stats_recreate();
                 scroll_to("#stats-" + (champion.stats.length - 1));
             }
-            function stats_remove(i) {
+            function stats_remove(i)
+            {
                 champion.stats.splice(i, 1);
                 stats_recreate();
             }
             //talents:
-            function talents_recreate() {
+            function talents_recreate()
+            {
                 $("[name=talents]").val(JSON.stringify(champion.talents));
                 $("#talents").html('<h4>Talents:</h4><div class="btn btn-md btn-secondary" onclick="talents_add()">+Add Talent</div><div class="row"></div>');
-                for (var i = 0; i < champion.talents.length; i++) {
+                for (var i = 0; i < champion.talents.length; i++)
+                {
                     $("#talents .row").append(
                         `<div class="col-md-4">`
                         + `<div id="talents-${i}" index="${i}" class="box-row">`
@@ -218,7 +241,8 @@
                         + `</div>`
                     );
                 }
-                $("#talents input").change(function () {
+                $("#talents input").change(function ()
+                {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.talents[i] = {
                         level: $(`#talents-${i} input[name=level]`).val(),
@@ -228,7 +252,8 @@
                     talents_recreate();
                 });
             }
-            function talents_add() {
+            function talents_add()
+            {
                 champion.talents.push({
                     level: 0,
                     a: "",
@@ -237,11 +262,56 @@
                 talents_recreate();
                 scroll_to("#talents-" + (champion.talents.length - 1));
             }
-            function talents_remove(i) {
+            function talents_remove(i)
+            {
                 champion.talents.splice(i, 1);
                 talents_recreate();
             }
-            
+            function media_recreate()
+            {
+                $("[name=media]").val(JSON.stringify(champion.media));
+                $("#media").html('<h4>Media:</h4><div class="btn btn-md btn-secondary" onclick="media_add()">+Add Media</div><div class="row"></div>');
+                for(var i = 0 ; i < champion.media.length;i++)
+                {
+                    var item = champion.media[i];
+                    var file = item.url;
+                    var isImage = file.indexOf('.png') != -1 || file.indexOf('.jpg') != -1 || file.indexOf('.jpeg') != -1 || file.indexOf('.gif') != -1;
+                    var isVideo = file.indexOf('.mp4') != -1;
+                    var img = isImage ? file : '/images/file-icon.png';
+                    if(isVideo)
+                        img = '/images/video-icon.png';
+                    $("#media .row").append(
+                        `<div class="col-md-4 text-center">`
+                        + `<div id="media-${i}" index="${i}" class="box-row">`
+                        + `<img src="${img}" style="max-width:100%;max-height:200px;"/><br>`
+                        + textInput('type', item.type)
+                        + textInput('url', item.url)
+                        + `<div class="btn btn-sm btn-danger" onclick="media_remove(${i})">Remove</div>`
+                        + `</div>`
+                        + `</div>`
+                    );
+                }  
+                $("#media input").change(function ()
+                {
+                    var i = $(this).closest(".box-row").attr("index");
+                    champion.media[i] = {
+                        type: $(`#media-${i} input[name=type]`).val(),
+                        url: $(`#media-${i} input[name=url]`).val(),
+                    }
+                    media_recreate();
+                });              
+            }
+            function media_add(){
+                champion.media.push({
+                    type : "",
+                    url  :"",
+                });
+                media_recreate();
+            }
+            function media_remove(i){
+                champion.media.splice(i,1);
+                media_recreate();
+            }
         </script>
     </div>
     {{{footer}}}
