@@ -1,3 +1,8 @@
+.btn-xs{
+    font-size:10px;
+    padding:2px;
+    margin:2px 2px;
+}
 .form-row{
     display:block;
     margin:10px 0px;
@@ -95,4 +100,8 @@ header{
     border-bottom: 1px solid #aaa;
     padding:5px 10px;
     margin-bottom: 5px;
+}
+.box-row .selectable:hover{
+    background-color: #ccc;
+    cursor: move;
 }

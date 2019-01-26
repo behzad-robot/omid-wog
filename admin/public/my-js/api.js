@@ -12,8 +12,8 @@ const apiCall = (url, next) =>
             method : 'GET',
             mode : "cors",
             headers: {
-                // 'api-token': 'forthehorde',
-                // "admin-token":"hamunhamishegi",
+                'api-token': 'ftsb',
+                "admin-token":"hamunhamishegi",
             }
         })
         .then((response) => (response.json()))
