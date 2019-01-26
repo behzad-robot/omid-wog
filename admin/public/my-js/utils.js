@@ -43,11 +43,11 @@ const hiddenInput = (name, value, readonly = false) =>
 const bodyInput = (name, value, readonly = false) =>
 {
     readonly = readonly ? "readonly" : "";
-    // setTimeout(function ()
-    // {
-    //     $(`textarea[name=${name}`).froalaEditor({ toolbarInline: false, height: 300 });
-    // }, 300);
-    return `<div class='form-row'><b>${name}:</b><textarea editor="false" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+    setTimeout(function ()
+    {
+        $(`textarea[name=${name}`).froalaEditor({ toolbarInline: false, height: 300 });
+    }, 300);
+    return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 const jsonInput = (name, value, readonly = false) =>
 {
