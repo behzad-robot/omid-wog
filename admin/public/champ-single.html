@@ -21,6 +21,8 @@
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
             getObject('champions', `{{{_id}}}`, (c) =>
             {
+                if(c.icon_tall == undefined)
+                    c.icon_tall = '?';
                 champion = c;
                 console.log(champion);
                 $("#single").append(idInput('_id', champion._id));
@@ -34,7 +36,8 @@
                 $("#single").append(textInput('attackType', champion.attackType));
                 $("#single").append(textInput('primaryAttr', champion.primaryAttr));
                 //image fields:
-                imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: 128 }, { width: 256, height: 256 }]);
+                imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
+                imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
                 imageInput('#single', 'icon_gif', champion.icon_gif, FILE_UPLOAD_URL);
                 imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
                 imageInput('#single', 'cover2', champion.cover2, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);

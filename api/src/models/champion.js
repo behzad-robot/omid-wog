@@ -6,6 +6,7 @@ export const ChampionSchema = new mongoose.Schema({
     name: String,
     slug: {type:String,default:''},
     icon: {type:String,default:'?'},
+    icon_tall: {type:String,default:'?'},
     icon_gif: {type:String,default:'?'},
     cover: {type:String,default:'?'},
     cover2: {type:String,default:'?'},
