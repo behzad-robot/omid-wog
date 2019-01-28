@@ -10,7 +10,7 @@
 <body>
     {{{actionbar}}}
     <div class="container">
-        <h2>Game {{{_id}}}:</h2>
+        <h2>Game {{{_id}}}:<a href="/admin/games/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a></h2>
         <hr />
         <form id="single" action="/admin/games/{{{_id}}}/edit" method="POST"></form>
         <div id="extra"></div>
