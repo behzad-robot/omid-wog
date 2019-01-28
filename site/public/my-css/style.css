@@ -1,0 +1,107 @@
+.btn-xs{
+    font-size:10px;
+    padding:2px;
+    margin:2px 2px;
+}
+.form-row{
+    display:block;
+    margin:10px 0px;
+}
+.form-control.m{
+    display:inline-block;
+    width:300px;
+    max-width: 100%;
+}
+textarea.form-control.m{
+    display:inline-block;
+    vertical-align:middle;
+    width:400px;
+    height: 150px;
+}
+
+.form-row b{
+    display:inline-block;
+    width:100px;
+    overflow-wrap: break-word;
+}
+.small-link{
+    font-size:12px;
+}
+.media-item-box{
+    margin-bottom: 10px;
+    background-color:#eee;
+    padding:10px;
+}
+.media-item-box .thumbnail{
+    display:block;
+    height:200px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+.game-media-item{
+    background-color: #eee;
+    margin-bottom:10px;
+    padding:10px;
+}
+/*.media-item-box:hover{
+    background-size:contain;
+}*/
+header{
+    display:block;
+    width:100%;
+    padding:10px 20px;
+    background-color:#eee;
+}
+
+.editor-form {
+    background-color: #eee;
+    padding: 10px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.sub-row {
+    width: 100%;
+    padding: 20px 10px;
+    background-color: #eee;
+    border-bottom: 1px solid #aaa;
+    overflow: hidden;
+}
+
+.sub-row * {
+    display: inline-block;
+    margin: 0 10px;
+}
+.sub-row tiny{
+    font-size: 10px;
+}
+
+.sub-box {
+    width: 100%;
+    padding: 20px 10px;
+    background-color: #eee;
+    border-bottom: 1px solid #aaa;
+    overflow: hidden;
+}
+
+.sub-box * {
+    width: 100%;
+    display: block;
+    text-align: center;
+    align-content: center;
+}
+.btn-purple {
+    background-color: #673AB7;
+    color:white;
+}
+.box-row{
+    background-color:#eee;
+    border-bottom: 1px solid #aaa;
+    padding:5px 10px;
+    margin-bottom: 5px;
+}
+.box-row .selectable:hover{
+    background-color: #ccc;
+    cursor: move;
+}
