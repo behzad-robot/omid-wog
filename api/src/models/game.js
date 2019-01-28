@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 
 export const GameSchema = new mongoose.Schema({
     name: String,
-    token: String,
-    slug: String,
-    description: String,
-    icon : String,
-    cover : String,
-    category : String,
-    ageRange : String,
+    token: {type:String,default:''},
+    slug: {type:String,default:''},
+    description: {type:String,default:''},
+    icon : {type:String,default:'?'},
+    cover : {type:String,default:'?'},
+    category : {type:String,default:'?'},
+    ageRange : {type:String,default:''},
     images : Array,
     media: Array,//{type , url}
     items: Array,
