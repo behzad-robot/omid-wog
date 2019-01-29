@@ -47,11 +47,14 @@ export default class GamesPanelRouter extends AdminRouter
                 res.send({ error: "Missing _id", code: 500 });
                 return;
             }
+            console.log(req.body);
             req.body.images = JSON.parse(req.body.images);
             req.body.media = JSON.parse(req.body.media);
             req.body.items = JSON.parse(req.body.items);
-            req.body.summonerSpells = JSON.parse(req.body.summonerSpells);
-            req.body.runes = JSON.parse(req.body.runes);
+            if(req.body.summonerSpells && req.body.summonerSpells != '')
+                req.body.summonerSpells = JSON.parse(req.body.summonerSpells);
+            if(req.body.runes && req.body.runes != '')
+                req.body.runes = JSON.parse(req.body.runes);
             req.body.patchNotes = JSON.parse(req.body.patchNotes);
             const _id = req.body._id;
             delete (req.body._id);

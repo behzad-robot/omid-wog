@@ -42,10 +42,10 @@
                 var itemId = $("#item-child-pick-screen [name=item-id]").html();
                 var item = get_item(itemId);
                 item.children.push(childId);
-                scroll_to("#item-child-" + itemId + '-' + childId);
-                item_child_pick_screen_toggle(false, itemId);
                 items_recreate();
                 items_toggleExpand(itemId);
+                scroll_to("#item-child-" + itemId + '-' + childId);
+                item_child_pick_screen_toggle(false, itemId);
             }
         </script>
         <script>
@@ -54,6 +54,10 @@
             getObject('games', `{{{_id}}}`, (g) =>
             {
                 game = g;
+                if(g.runes == undefined)
+                    g.runes = [];
+                if(g.summonerSpells == undefined)
+                    g.summonerSpells = [];
                 console.log(game);
                 $("#single").append(idInput('_id', game._id));
                 $("#single").append(idInput('createdAt', game.createdAt));
@@ -101,6 +105,8 @@
                 for (var i = 0; i < game.items.length; i++)
                 {
                     var item = game.items[i];
+                    if(item.shop == undefined)
+                        item.shop = "";
                     $("#items .row").append(
                         `<div class="col-md-12">`
                         + `<div  class="box-row item-container" index="${item._id}">`
@@ -119,7 +125,7 @@
                         + textInput('coolDown', item.coolDown)
                         + textInput('manaCost', item.manaCost)
                         + boolInput('hasRecipe', item.hasRecipe)
-                        + bodyInput('lore', item.lore)
+                        + textInput('shop', item.shop)
                         + bodyInput('description', item.description)
                         + jsonInput('children', item.children)
                         + `</div>`

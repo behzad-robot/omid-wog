@@ -12,6 +12,20 @@ export const GameSchema = new mongoose.Schema({
     images : Array,
     media: Array,//{type , url}
     items: Array,
+    /*
+        {
+            icon : string
+            name : string
+            slug : string,
+            category : string
+            price : string,
+            coolDown : string
+            manaCost : string
+            shop : string
+            description : string,
+            children : [],
+        }
+     */
     //league only:
     summonerSpells:Array, // { name , icon , description , level , range , coolDown}
     runes:Array, // {tree , name , icon , description , depth , bonus}
