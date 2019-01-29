@@ -56,6 +56,7 @@
                         $("#games").change(function(){
                             $("#champs").html("");
                             var gameId  = $("#games").val();
+                            alert(gameId);
                             for(var i = 0 ; i< champs.length;i++)
                             {
                                 console.log(champs[i].gameId+','+champs[i].name);
