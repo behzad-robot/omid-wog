@@ -17,6 +17,7 @@ import AdminsAuthRouter from './routers/admins_auth_router';
 import { Post } from './models/post';
 import { FileUploaderRouter } from './routers/file_uploader_router';
 import { Champion } from './models/champion';
+import { ChampionBuild } from './models/champBuild';
 
 
 
@@ -81,8 +82,9 @@ express.expressApp.use('/api/users/', new UsersAuthRouter(User).router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
 //games:
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);
-//champions:
+//champions , champBuilds:
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
 //posts & news:
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 //file upload:

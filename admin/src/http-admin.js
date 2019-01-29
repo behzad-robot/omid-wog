@@ -10,6 +10,7 @@ import { ADMIN_URL , ADMIN_TOKEN,API_TOKEN, API_BASE_URL, GetMongoDBURL } from "
 import PostsPanelRouter from "./routers/posts_router";
 import GamesPanelRouter from "./routers/games_router";
 import ChampionsPanelRouter from "./routers/champions_router";
+import ChampionBuildsPanelRouter from "./routers/champBuilds_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -66,6 +67,7 @@ express.expressApp.use('/admin', new AdminPanelRouter(Admin).router)
 express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/games', new GamesPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules).router)
+express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 
 //listen:

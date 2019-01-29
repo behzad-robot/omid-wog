@@ -1,0 +1,171 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .item-dialog-row {
+            border-bottom: 1px solid #aaa;
+            padding: 5px;
+            cursor: hand;
+            color: black;
+        }
+
+        .item-dialog-row:hover {
+            background-color: #aaa;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Build {{{_id}}}:<a href="/admin/builds/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a></h2>
+        <hr />
+        <form id="single" action="/admin/builds/{{{_id}}}/edit" method="POST"></form>
+        <div id="extra"></div>
+        <div id="item-pick-screen" style="position: fixed;width:100vw;height:100vh;top:0;left:0;z-index:500;background-color:rgba(0,0,0,0.8);color:white;">
+            <div class="container">
+                <h1>Choose An Item:</h1>
+                <div class="btn btn-md btn-primary" onclick="item_screen_toggle(false,-1)">Back</div>
+                <span name="row-index" style="display:none">??</span>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-8">
+                        <div class="box-row" name="items">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let build = null;
+            let game = null;
+            let champion = null;
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
+            $("#single").html("Loading...")
+            getObject('builds', `{{{_id}}}`, (b) =>
+            {
+                build = b;
+                console.log(build);
+                //also load related game:
+                getObject('games', build.gameId, (g) =>
+                {
+                    game = g;
+                    //fill items screen:
+                    for (var i = 0; i < game.items.length; i++)
+                    {
+                        $("#item-pick-screen [name=items]").append(
+                            `<div onclick="item_screen_pick(${game.items[i]._id})" class="item-dialog-row">`
+                            + `<img src="${game.items[i].icon}" width="64px" height="64px"/>`
+                            + `&nbsp;&nbsp;<b>${game.items[i].name}</b>`
+                            + `</div>`
+                        );
+                    }
+                    getObject('champions', build.champId, (c) =>
+                    {
+                        champion = c;
+                        $("#single").html("");
+                        $("#single").append(idInput('_id', build._id));
+                        $("#single").append(idInput('createdAt', build.createdAt));
+                        $("#single").append(idInput('updatedAt', build.updatedAt));
+                        $("#single").append(idInput('userId', build.userId));
+                        $("#single").append(idInput('gameId', build.gameId, { after: game.name }));
+                        $("#single").append(idInput('champId', build.champId, { after: champion.name }));
+                        $("#single").append(textInput('title', build.title));
+                        $("#single").append(textInput('slug', build.slug));
+
+                        $("#single").append(textInput('patch', build.patch));
+                        $("#single").append(bodyInput('description', build.description));
+                        $("#single").append(jsonInput('itemRows', build.itemRows));
+                        $("#single").append(submitBtn());
+                        $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                        //extras:
+                        $("#extra").append(`<div id="itemRows"></div>`);
+                        itemRows_recreate();
+                    });
+                });
+            });
+            function scroll_to(el)
+            {
+                $('html, body').animate({
+                    scrollTop: parseInt($(el).offset().top)
+                }, 2000);
+            }
+            function get_item(_id)
+            {
+                for (var i = 0; i < game.items.length; i++)
+                    if (game.items[i]._id == _id)
+                        return game.items[i];
+                return undefined;
+            }
+            function itemRows_recreate()
+            {
+                $("[name=itemRows]").val(JSON.stringify(build.itemRows));
+                $("#itemRows").html('<h4>ItemRows:</h4><div class="btn btn-md btn-secondary" onclick="itemRows_add()">+Add ItemRow</div><div class="row box-row"></div>');
+                for (var i = 0; i < build.itemRows.length; i++)
+                {
+                    var row = build.itemRows[i];
+                    var itemsStr = `<h4>Items:&nbsp;&nbsp;<div class="btn btn-sm btn-secondary" onclick="item_screen_toggle(true,${i})">+Add Item</div></h4>`;
+                    for (var j = 0; j < row.items.length; j++)
+                    {
+                        var item = get_item(row.items[j]);
+                        itemsStr += `<div style="display:inline-block;background-color:#fefefe;border:1px solid #aaa;padding:5px;margin:5px;" class="text-center"><img src="${item.icon}" width="64px" height="64px"/><br/>${item.name}<br><div class="btn btn-xs btn-danger" onclick="itemRows_remove_item(${i},${j})">Remove</div></div>`
+                    }
+                    $("#itemRows .row").append(
+                        `<div class="col-md-6">`
+                        + `<div id="itemRow-${i}" index="${i}">`
+                        + textInput('title', row.title)
+                        + textInput('notes', row.notes)
+                        + jsonInput('items', row.items)
+                        + '<hr>'
+                        + itemsStr
+                        + '<hr>'
+                        + `<div class="btn btn-sm btn-danger" onclick="itemRows_remove(${i})">Remove</div>`
+                        + `</div>`
+                        + `</div>`
+                    );
+                }
+            }
+            function itemRows_add()
+            {
+                build.itemRows.push({
+                    title: "",
+                    notes: "",
+                    items: [],
+                });
+                itemRows_recreate();
+            }
+            function itemRows_remove(i)
+            {
+                build.itemRows.splice(i, 1);
+                itemRows_recreate();
+            }
+            function itemRows_remove_item(i,j)
+            {
+                build.itemRows[i].items.splice(j,1);
+                itemRows_recreate();
+            }
+            function item_screen_toggle( show, rowIndex)
+            {
+                if (show)
+                    $("#item-pick-screen").show();
+                else
+                    $("#item-pick-screen").hide();
+                $("#item-pick-screen [name=row-index]").html(rowIndex);
+            }
+            function item_screen_pick(id)
+            {
+                var rowIndex = $("#item-pick-screen [name=row-index]").html();
+                if (rowIndex == '??')
+                    return;
+                build.itemRows[rowIndex].items.push(id);
+                itemRows_recreate();
+                $("#item-pick-screen").hide();
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>
