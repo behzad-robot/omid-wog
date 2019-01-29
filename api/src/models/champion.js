@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { API_BASE_URL } from '../../../admin/src/constants';
 
 export const ChampionSchema = new mongoose.Schema({
-    gameId: String,
+    gameId: {type:String,default:''},
     name: String,
     slug: {type:String,default:''},
     icon: {type:String,default:'?'},

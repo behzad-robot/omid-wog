@@ -12,9 +12,12 @@ export default class ChampionBuildsPanelRouter extends AdminRouter {
                 admin: req.session.admin
             }));
         });
-        this.router.get('/new', (req, res) => {
+        this.router.post('/new', (req, res) => {
             AdminModules.Build.insert({
                 name: 'New Build',
+                gameId : req.body.gameId,
+                champId : req.body.champId,
+                userId : req.body.userId ? req.body.userId : '?',
             }).then((result) => {
                 if (result._id)
                     res.redirect('/admin/builds/' + result._id + '/');
