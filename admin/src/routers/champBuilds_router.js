@@ -14,7 +14,7 @@ export default class ChampionBuildsPanelRouter extends AdminRouter {
         });
         this.router.post('/new', (req, res) => {
             AdminModules.Build.insert({
-                name: 'New Build',
+                title: 'New Build',
                 gameId : req.body.gameId,
                 champId : req.body.champId,
                 userId : req.body.userId ? req.body.userId : '?',

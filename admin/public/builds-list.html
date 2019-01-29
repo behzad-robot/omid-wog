@@ -11,15 +11,16 @@
     {{{actionbar}}}
     <div class="container">
         <h2>Builds:</h2>
+        <span id="loading">Loading..</span>
         <form action="/admin/builds/new" method="post" id="new-build">
             <div class="form-row">
                 <b>champId:</b>
-                <select name="games" id="champs" class="form-control m">
+                <select name="champId" id="champs" class="form-control m">
                 </select>
             </div>
             <div class="form-row">
                 <b>gameId:</b>
-                <select name="games" id="games" class="form-control m"></select>
+                <select name="gameId" id="games" class="form-control m"></select>
             </div>
             <input type="submit" class="btn btn-md btn-info" value="+New Champ Build" />
         </form>
@@ -28,6 +29,8 @@
         </div>
         <script>
             let champs = [];
+            $("#new-build").hide();
+            $("#loading").show();
             findObjects('builds', (builds) => {
                 console.log((builds));
                 for (var i = 0; i < builds.length; i++) {
@@ -53,19 +56,20 @@
                     findObjects('champions', (cs) => {
                         champs = cs;
                         console.log(champs);
-                        $("#games").change(function(){
+                        $("#new-build").show();
+                        $("#loading").hide();
+                        $("#games").change(function () {
                             $("#champs").html("");
-                            var gameId  = $("#games").val();
+                            var gameId = $("#games").val();
                             alert(gameId);
-                            for(var i = 0 ; i< champs.length;i++)
-                            {
-                                console.log(champs[i].gameId+','+champs[i].name);
-                                if(champs[i].gameId == gameId)
+                            for (var i = 0; i < champs.length; i++) {
+                                console.log(champs[i].gameId + ',' + champs[i].name);
+                                if (champs[i].gameId == gameId)
                                     $("#champs").append(`<option value="${champs[i]._id}">${champs[i].name}</option>`)
                             }
                         });
                     });
-                    
+
                 });
             });
         </script>
