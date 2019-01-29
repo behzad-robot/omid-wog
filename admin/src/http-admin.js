@@ -16,6 +16,7 @@ const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AnalyticsEvent = new APICollection('analytics');
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
@@ -23,6 +24,7 @@ const AdminModules = {
     Game : Game,
     Champion  : Champion,
     Admin  : Admin,
+    Build : ChampBuild,
     proxyAPI : proxyAPI,
 }
 //express:

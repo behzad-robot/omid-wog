@@ -32,13 +32,11 @@
         <script>
             //item pick screen script:
             $("#item-child-pick-screen").hide();
-            function item_child_pick_screen_toggle(show, itemId)
-            {
+            function item_child_pick_screen_toggle(show, itemId) {
                 $("#item-child-pick-screen").toggle();
                 $("#item-child-pick-screen [name=item-id]").html(itemId);
             }
-            function item_child_pick_screen_select(childId)
-            {
+            function item_child_pick_screen_select(childId) {
                 var itemId = $("#item-child-pick-screen [name=item-id]").html();
                 var item = get_item(itemId);
                 item.children.push(childId);
@@ -51,12 +49,11 @@
         <script>
             let game = null;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`
-            getObject('games', `{{{_id}}}`, (g) =>
-            {
+            getObject('games', `{{{_id}}}`, (g) => {
                 game = g;
-                if(g.runes == undefined)
+                if (g.runes == undefined)
                     g.runes = [];
-                if(g.summonerSpells == undefined)
+                if (g.summonerSpells == undefined)
                     g.summonerSpells = [];
                 console.log(game);
                 $("#single").append(idInput('_id', game._id));
@@ -84,28 +81,24 @@
                 $("#extra").append(`<div id="summonerSpells"></div>`);
                 summonerSpells_recreate();
             });
-            function scroll_to(el)
-            {
+            function scroll_to(el) {
                 $('html, body').animate({
                     scrollTop: parseInt($(el).offset().top)
                 }, 2000);
             }
-            function get_item(id)
-            {
+            function get_item(id) {
                 for (var i = 0; i < game.items.length; i++)
                     if (game.items[i]._id == id)
                         return game.items[i];
                 return undefined;
             }
-            function items_recreate()
-            {
+            function items_recreate() {
                 $("[name=items]").val(JSON.stringify(game.items));
                 $("#items").html('<h4>Items:</h4><div class="btn btn-md btn-secondary" onclick="items_add()">+Add Item</div><div class="row"></div>');
                 $("#item-child-pick-screen [name=items]").html("");
-                for (var i = 0; i < game.items.length; i++)
-                {
+                for (var i = 0; i < game.items.length; i++) {
                     var item = game.items[i];
-                    if(item.shop == undefined)
+                    if (item.shop == undefined)
                         item.shop = "";
                     $("#items .row").append(
                         `<div class="col-md-12">`
@@ -135,8 +128,7 @@
                     imageInput(`#items-${item._id}`, 'icon', item.icon, FILE_UPLOAD_URL);
                     $(`#items-${item._id}`).append('<hr>');
                     var childrenStr = '';
-                    for (var j = 0; j < item.children.length; j++)
-                    {
+                    for (var j = 0; j < item.children.length; j++) {
                         var child = get_item(item.children[j]);
                         if (child == undefined)
                             continue;
@@ -162,46 +154,49 @@
                     );
                     $(`#items-${item._id}`).hide();
                 }
-                $("#items .row input,textarea").change(function ()
-                {
-                    var id = $(this).closest(".item-container").attr("index");
-                    if(id == undefined)
-                        return;
-                    console.log('item edit started => '+id);
-                    for (var i = 0; i < game.items.length; i++)
-                    {
-                        if (game.items[i]._id == id)
-                        {
-                            game.items[i] = {
-                                _id: $(`#items-${id} [name=_id]`).val(),
-                                icon :$(`#items-${id} [name=icon]`).val(),
-                                name: $(`#items-${id} [name=name]`).val(),
-                                slug: $(`#items-${id} [name=slug]`).val(),
-                                category: $(`#items-${id} [name=category]`).val(),
-                                price: $(`#items-${id} [name=price]`).val(),
-                                coolDown: $(`#items-${id} [name=coolDown]`).val(),
-                                manaCost: $(`#items-${id} [name=manaCost]`).val(),
-                                hasRecipe: $(`#items-${id} [name=hasRecipe]`).is(':checked'),
-                                lore: $(`#items-${id} [name=lore]`).val(),
-                                description: $(`#items-${id} [name=description]`).val(),
-                                children: JSON.parse($(`#items-${id} [name=children]`).val()),
-                            };
-                            //instead of recreating we update the current item + JSON:
-                            $("[name=items]").val(JSON.stringify(game.items));
-                            $(`#items-preview-${id} [name=name]`).html(game.items[i].name);
-                            $(`#items-preview-${id} [name=icon]`).attr('src',game.items[i].icon);
-                            console.log('item edit done => '+id);
-                            break;
-                        }
-                    }
+                $("#items [name=description]").on('froalaEditor.blur', function (e, editor) {
+                    items_update(this);
+                });
+                $("#items .row input").change(function () {
+                    items_update(this);
                 });
             }
-            function items_toggleExpand(id)
-            {
+            function items_update(elm) {
+                var id = $(elm).closest(".item-container").attr("index");
+                if (id == undefined)
+                    return;
+                console.log('item edit started => ' + id);
+                for (var i = 0; i < game.items.length; i++) {
+                    if (game.items[i]._id == id) {
+                        game.items[i] = {
+                            _id: $(`#items-${id} [name=_id]`).val(),
+                            icon: $(`#items-${id} [name=icon]`).val(),
+                            name: $(`#items-${id} [name=name]`).val(),
+                            slug: $(`#items-${id} [name=slug]`).val(),
+                            category: $(`#items-${id} [name=category]`).val(),
+                            price: $(`#items-${id} [name=price]`).val(),
+                            coolDown: $(`#items-${id} [name=coolDown]`).val(),
+                            manaCost: $(`#items-${id} [name=manaCost]`).val(),
+                            hasRecipe: $(`#items-${id} [name=hasRecipe]`).is(':checked'),
+                            lore: $(`#items-${id} [name=lore]`).val(),
+                            description: $(`#items-${id} [name=description]`).val(),
+                            shop: $(`#items-${id} [name=shop]`).val(),
+                            children: JSON.parse($(`#items-${id} [name=children]`).val()),
+                        };
+                        console.log(game.items[i]);
+                        //instead of recreating we update the current item + JSON:
+                        $("[name=items]").val(JSON.stringify(game.items));
+                        $(`#items-preview-${id} [name=name]`).html(game.items[i].name);
+                        $(`#items-preview-${id} [name=icon]`).attr('src', game.items[i].icon);
+                        console.log('item edit done => ' + id);
+                        break;
+                    }
+                }
+            }
+            function items_toggleExpand(id) {
                 $(`#items-${id}`).toggle();
             }
-            function items_add()
-            {
+            function items_add() {
                 var maxId = -1;
                 for (var i = 0; i < game.items.length; i++)
                     if (game.items[i]._id > maxId)
@@ -209,7 +204,7 @@
                 maxId++;
                 game.items.push({
                     _id: maxId,
-                    name: "item "+maxId,
+                    name: "item " + maxId,
                     slug: "",
                     category: "",
                     price: "",
@@ -218,27 +213,22 @@
                     hasRecipe: "",
                     lore: "",
                     description: "",
-                    children : [],
+                    children: [],
                 });
                 items_recreate();
             }
-            function items_remove(id)
-            {
-                for (var i = 0; i < game.items.length; i++)
-                {
-                    if (game.items[i]._id == id)
-                    {
+            function items_remove(id) {
+                for (var i = 0; i < game.items.length; i++) {
+                    if (game.items[i]._id == id) {
                         game.items.splice(i, 1);
                         break;
                     }
                 }
                 items_recreate();
             }
-            function items_child_swap(id, index, dir)
-            {
+            function items_child_swap(id, index, dir) {
                 var item = get_item(id);
-                if ((index == 0 && dir == -1) || (index == item.children.length - 1 && dir == 1))
-                {
+                if ((index == 0 && dir == -1) || (index == item.children.length - 1 && dir == 1)) {
                     alert('Invalid Action');
                     return;
                 }
@@ -248,20 +238,17 @@
                 items_recreate();
                 items_toggleExpand(item._id);
             }
-            function items_child_remove(id, index)
-            {
+            function items_child_remove(id, index) {
                 var item = get_item(id);
                 item.children.splice(index, 1);
                 items_recreate();
                 items_toggleExpand(item._id);
             }
             //summonerSpells:
-            function summonerSpells_recreate()
-            {
+            function summonerSpells_recreate() {
                 $("[name=summonerSpells]").val(JSON.stringify(game.summonerSpells));
                 $("#summonerSpells").html('<h4>Summoner Spells:</h4><div class="btn btn-md btn-secondary" onclick="summonerSpells_add()">+Add SummonerSpell</div><div class="row"></div>');
-                for (var i = 0; i < game.summonerSpells.length; i++)
-                {
+                for (var i = 0; i < game.summonerSpells.length; i++) {
                     var spell = game.summonerSpells[i];
                     $("#summonerSpells .row").append(
                         `<div class="col-md-12">`
@@ -277,17 +264,14 @@
                     imageInput(`#summonerSpells-${i}`, 'icon', spell.icon, FILE_UPLOAD_URL);
                     $(`#summonerSpells-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="summonerSpells_remove(${i})">Remove</div>`);
                 }
-                $("#summonerSpells input").change(function ()
-                {
+                $("#summonerSpells input").change(function () {
                     summonerSpells_update(this);
                 });
-                $("#summonerSpells [name=description]").on('froalaEditor.blur', function (e, editor)
-                {
+                $("#summonerSpells [name=description]").on('froalaEditor.blur', function (e, editor) {
                     summonerSpells_update(this);
                 });
             }
-            function summonerSpells_update(elm)
-            {
+            function summonerSpells_update(elm) {
                 var type = $(elm).attr('type');
                 if (type == 'file')
                     return;
@@ -302,8 +286,7 @@
                 };
                 summonerSpells_recreate();
             }
-            function summonerSpells_add()
-            {
+            function summonerSpells_add() {
                 game.summonerSpells.push({
                     icon: "?",
                     name: "",
@@ -314,17 +297,14 @@
                 });
                 summonerSpells_recreate();
             }
-            function summonerSpells_remove(i)
-            {
+            function summonerSpells_remove(i) {
                 game.summonerSpells.splice(i, 1);
                 summonerSpells_recreate();
             }
-            function runes_recreate()
-            {
+            function runes_recreate() {
                 $("[name=runes]").val(JSON.stringify(champion.runes));
                 $("#runes").html('<h4>Runes:</h4><div class="btn btn-md btn-secondary" onclick="runes_add()">+Add Rune</div><div class="row"></div>');
-                for (var i = 0; i < champion.runes.length; i++)
-                {
+                for (var i = 0; i < champion.runes.length; i++) {
                     var r = champion.runes[i];
                     $("#runes .row").append(
                         `<div class="col-md-4">`
@@ -340,17 +320,14 @@
                     imageInput(`#runes-${i}`, 'icon', r.icon, FILE_UPLOAD_URL);
                     $(`#runes-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="runes_remove(${i})">Remove</div>`);
                 }
-                $("#runes input").change(function ()
-                {
+                $("#runes input").change(function () {
                     runes_update(this);
                 });
-                $("#runes [name=description]").on('froalaEditor.blur', function (e, editor)
-                {
+                $("#runes [name=description]").on('froalaEditor.blur', function (e, editor) {
                     runes_update(this);
                 });
             }
-            function runes_update(elm)
-            {
+            function runes_update(elm) {
                 var type = $(elm).attr('type');
                 if (type == 'file')
                     return;
@@ -365,8 +342,7 @@
                 };
                 runes_recreate();
             }
-            function runes_add()
-            {
+            function runes_add() {
                 game.runes.add({
                     icon: "?",
                     tree: "",
@@ -377,8 +353,7 @@
                 });
                 runes_recreate();
             }
-            function runes_remove(i)
-            {
+            function runes_remove(i) {
                 game.runes.splice(i, 1);
                 runes_recreate();
             }
