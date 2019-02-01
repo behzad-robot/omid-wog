@@ -1,25 +1,13 @@
 <html>
 
 <head>
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0" />
-    <link rel="Stylesheet" href="css/bootstrap.css" />
-    <link rel="Stylesheet" href="my-css/style.css" />
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/jquery.form.min.js"></script>
-    <script src="js/jquery.ui.widget.js"></script>
+    
     <style>
-        navbar {
-            display: block;
-            width: 100%;
-            border-radius: 3px 3px 0 0;
-            background-color: #1d1d1d;
-            background-image: radial-gradient(ellipse farthest-corner at center 0px, #31a2a6 -150%, #333240 45%, #333240 85%);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, .2);
-            border: 1px solid #000;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            position: relative;
-        }
+
+        
+        
+
+       
 
         .login-container {
             height: 85px;
@@ -41,27 +29,579 @@
             box-shadow: 0 0 10px rgba(255, 136, 0, 0.5), inset 0 0 1px 1px #ff8800;
             border: 1px solid rgba(255, 136, 0, 0.5);
         }
-        
+
+        .btn.btn-auth {
+            color: white !important;
+            padding: 9px 12px 12px 47px !important;
+            border: 1px solid #000;
+            font-weight: 800;
+            background: #1a1b1f;
+            height: 36px;
+            line-height: 18px;
+            position: relative;
+        }
+
+        .btn.btn-auth::before {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
+            background: #1a1b1f;
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .btn.btn-auth span {
+            z-index: 1;
+            position: relative;
+            color: #ff8800;
+        }
+
+        .btn.btn-auth .fas {
+            -webkit-box-shadow: 0 0 10px rgba(255, 136, 0, 0.5), inset 0 0 1px 1px #ff8800;
+            -moz-box-shadow: 0 0 10px rgba(255, 136, 0, 0.5), inset 0 0 1px 1px #ff8800;
+            box-shadow: 0 0 10px rgba(255, 136, 0, 0.5), inset 0 0 1px 1px #ff8800;
+            border: 1px solid rgba(255, 136, 0, 0.5);
+            background-image: radial-gradient(ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%);
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 11px 12px !important;
+            font-size: 15px;
+            color: #eee;
+            height: 34px;
+        }
+
+        .btn.btn-auth.btn.btn-auth.btn-signup {
+            margin-right: 15px;
+        }
+
+        .btn.btn-auth.btn-signup .fas {
+            background-image: initial;
+            border: none;
+            background-image: radial-gradient(ellipse farthest-corner at center 0px, #303030 -150%, #303030 45%, #202020 85%);
+            box-shadow: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+        }
+
+        linkbar {
+            display: block;
+            width: 100%;
+            padding: 0;
+            -webkit-border-radius: 0;
+            -moz-border-radius: 0;
+            border-radius: 0;
+            border: 0;
+            border-top-color: rgb(59, 58, 74);
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-right-color: initial;
+            border-right-style: initial;
+            border-right-width: 0px;
+            border-bottom-color: rgb(59, 58, 74);
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-left-color: initial;
+            border-left-style: initial;
+            border-left-width: 0px;
+            border-image-source: initial;
+            border-image-slice: initial;
+            border-image-width: initial;
+            border-image-outset: initial;
+            border-image-repeat: initial;
+            border-bottom: solid 1px #3B3A4A;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+            border-bottom-color: rgb(59, 58, 74);
+            background: #2a2a34;
+            background-image: initial;
+            background-position-x: initial;
+            background-position-y: initial;
+            background-size: initial;
+            /* background-repeat-x: initial; */
+            /* background-repeat-y: initial; */
+            background-attachment: initial;
+            background-origin: initial;
+            background-clip: initial;
+            background-color: rgb(42, 42, 52);
+            text-align: center;
+            border-top: solid 1px #3B3A4A;
+            border-top-width: 1px;
+            border-top-style: solid;
+            border-top-color: rgb(59, 58, 74);
+            box-shadow: none;
+            height: 43px;
+        }
+
+        .link-bar-btn {
+            font-weight: bold;
+            display: inline-block;
+            color: white !important;
+            padding: 10px 20px;
+            border-left: solid 1px #3B3A4A;
+            text-align: center;
+            font-size: 14px;
+            height: 43px;
+        }
+        .link-bar-btn:hover{
+            background-color: #1f1e24;
+            cursor: pointer;
+        }
+
+        .link-bar-btn .fas {
+            color: #ff8800;
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        .btn-yellow{
+            transition: all .35s ease-in-out;
+            -moz-transition: all .35s ease-in-out;
+            -webkit-transition: all .35s ease-in-out;
+            -o-transition: all .35s ease-in-out;
+            color: #FFF;
+            text-transform: uppercase;
+            font-weight: 900;
+            display: inline-block;
+            margin-top: 5px;
+            position: relative;
+            border-radius: 3px;
+            z-index: 1;
+            border: 1px solid #000;
+            overflow: hidden;
+            cursor: pointer;
+            text-shadow: 0px 1px 3px rgba(0,0,0,0.5);
+            background-color: #ff8800!important;
+            -webkit-box-shadow: 0 1px 2px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+    -moz-box-shadow: 0 1px 2px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+    box-shadow: 0 1px 2px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+    background-image: radial-gradient(ellipse farthest-corner at center 0px,#ffc400 -150%,#ffc400 45%, #ff8800 85%);
+        }
+        .btn-yellow:hover{
+            background-color: #f0c08a!important;
+            background-image: radial-gradient(ellipse farthest-corner at center 0px,#ffcb20 -150%,#ffcb20 45%, #fe9b2b 85%);
+            -webkit-box-shadow: 0 3px 4px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+    -moz-box-shadow: 0 3px 4px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+            box-shadow:0 3px 4px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
+            border: 1px solid white;
+        }
+
+
+        #videoSection {
+  position: relative;
+  background-color: black;
+  height: 45vh;
+  /* min-height: 25rem; */
+  width: 100%;
+  overflow: hidden;
+}
+
+#videoSection video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: 0;
+  -ms-transform: translateX(-50%) translateY(-50%);
+  -moz-transform: translateX(-50%) translateY(-50%);
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+#videoSection .container {
+  position: relative;
+  z-index: 2;
+}
+
+#videoSection .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  opacity: 0.6;
+  z-index: 1;
+}
+
+@media (pointer: coarse) and (hover: none) {
+  #videoSection {
+    background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+  }
+  #videoSection video {
+    display: none;
+  }
+}
+    </style>
+    <style>
+        .bg-section{
+            background:url('images/tpbg.jpg') top center no-repeat #141416;
+            border: 1px solid #000;
+            border-top: 0;
+            min-height: 200px;
+            color: white;
+        }
+        .bg-section h3{
+            font-weight:bold;
+        }
+        .bg-section .bg-section-img{
+            border:2px solid #ff8800;
+            border-radius: 50%;
+            height:74px;
+            width:74px;
+            color: #ff8800;
+            font-size:36px;
+            text-align: center;
+            margin : 0 auto;
+            margin-bottom: 20px;
+            padding-top:15px;
+            
+        }
+        .gradient-section
+        {
+            background: linear-gradient(to bottom ,#5F9DA0 -20%,#2a2a34 5%,#141416 70%) no-repeat;
+            -webkit-box-shadow: 0px 0px 0px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .15);
+            -moz-box-shadow: 0px 0px 0px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .15);
+            box-shadow: 0px 0px 0px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .15);
+            border: 1px solid #000;
+            min-height:50px;
+        }
+    </style>
+    <style>
+        .parralax-fixed-height{
+        /* Create the parallax scrolling effect */
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        }
+        .shadow-text{
+            text-shadow: 0px 1px 5px rgba(0,0,0,0.6);
+        }
+        .no-padding{
+            padding:0 !important;
+        }
+        .no-margin{
+            margin: 0 !important;
+        }
+        .overlay{
+            position:absolute;
+            height:100%;
+            width:100%;
+            z-index: 0;
+            background-color:rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+        }
+        .mobile-only{
+            display:initial;
+        }
+        /* Large devices (desktops, 992px and up)*/
+        @media (min-width: 992px) {
+            .mobile-only{display:none;}
+         }
+
+    </style>
+    <style>
+        .widget-box{
+
+        }
+        .widget-box .title-wrapper{
+            background-image: radial-gradient(ellipse farthest-corner at center 0px,#31a2a6 -150%,#333240 45%,#333240 85%);
+            -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
+            -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
+            padding:10px 16px;
+        }
+        .widget-box .title-wrapper h3{
+            color:white;
+            font-size:18px;
+            font-weight:bold;
+            margin:0;
+        }
+        .widget-box .content-wrapper{
+            
+        }
+        .widget-box .content-wrapper .img-col{
+            display:inline-block;
+            margin:0;
+            padding:0;
+            width:33%;
+            float:right;
+        }
+        /* Large devices (desktops, 992px and up)*/
+        @media (min-width: 992px) {
+            .widget-box .content-wrapper .img-col{width:25%;}
+         }
     </style>
 </head>
 
 <body>
+    <!-- top section -->
     <navbar>
         <div class="container">
             <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-4 text-center">
-                    <img src="images/wog-logo.png" width="48%" />
+                <div class="col-md-4 col-2"></div>
+                <div class="col-md-4 col-8 text-center">
+                    <img src="images/wog-logo.png" width="47%" />
                 </div>
             </div>
         </div>
-        <div class="login-container ">
-            <a rel="nofollow" class="login-btn"><i class="fas fa-lock"></i> <span>Sign in</span></a>
+        <div class="login-container">
+            <a class="btn btn-md btn-auth">
+                <i class="fas fa-lock"></i>
+                <span>ورود</span>
+            </a>
+            <a class="btn btn-md btn-auth btn-signup">
+                <i class="fas fa-edit"></i>
+                <span>ثبت نام</span>
+            </a>
         </div>
     </navbar>
-    <div class="container">
+    <linkbar>
+        <div class="container">
+            <div class="row">
+                <div class="col-2"></div>
 
-    </div>
+                <div class="col link-bar-btn text-center">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                </div>
+                <div class="col link-bar-btn text-center">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                </div>
+                <div class="col link-bar-btn text-center">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                </div>
+                <div class="col link-bar-btn text-center">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                </div>
+                <div class="col link-bar-btn text-center">
+                    <a>
+                        <i class="fas fa-home"></i>
+                        <span>خانه</span>
+                    </a>
+                </div>
+
+                <div class="col-2"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </linkbar>
+    <!-- END top section -->
+    <section id="videoSection" style="position:relative;">
+        <div class="overlay"></div>
+
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <source src="assets/wow-bfa.mp4" type="video/mp4">
+        </video>
+        <div class="container" style="padding-top:50px;">
+            <div class="d-flex">
+                <div class="text-white shadow-text">
+                    <h1 style="font-size:46px;">سایت <span style="color:#ff8800 !important;font-weight: bold;">آبیاری</span></h1>
+                    <p style="font-size:20px;">یک سایتی دارم که در جریان هستید دیگه.</p>
+                    <div class="btn btn-lg btn-yellow">بله در جریانم</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-section">
+        <div class="container" style="padding-top:65px;padding-bottom:65px;">
+            <div class="row">
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="parralax-fixed-height" style="min-height:150px;background-image:url('images/bflanding.jpg');padding-top:35px;overflow:hidden">
+        <div class="container">
+            
+            <div class="row">
+                <div class="col-md-8 text-shadow">
+                    <h2 style="text-shadow: 0px 1px 5px rgba(0,0,0,0.6); text-transform: none; color: #eee; margin-top: 10px; margin-bottom: 0px;font-weight: bold;">مسابقات
+                        جذاب و اسیر کننده! <span style="color: #fea801;">اطلاعات بیشتر؟</span></h2>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn btn-lg btn-yellow float-left" style="margin-bottom:5px;">بله در جریانم</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="background-image:url('images/cprofile.jpg');background-position: center;background-size:cover;min-height:400px;color:white;padding-top:50px;overflow:hidden;position:relative;">
+        <div class="overlay mobile-only"></div>
+        <div class="container" style="z-index:2">
+            <div class="col-md-6 col-11" style="overflow:hidden;">
+                <h1>برنامه موبایل زیبا</h1>
+                <div style="margin: 10px 0px 10px 0px; border-bottom: 3px solid #fea801; width:60px;"></div>
+                <p>
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                    برنامه موبایل ساخته شده توسط یک فرانت اند ایران.
+                </p>
+                <div class="btn btn-lg btn-yellow float-right" style="margin-bottom:20px;">بله در جریانم</div>
+            </div>
+        </div>
+    </section>
+    <section class="parralax-fixed-height text-center" style="min-height:60vh;background-image:url('images/jaina.jpg');padding-top:15px;position:relative;border:1px solid #141414;">
+        <div class="overlay"></div>
+        <img src="images/lpt-1.png" width="50%" style="position:relative;z-index:1;" />
+    </section>
+    <section class="bg-section">
+        <div class="container">
+            <div class="row" style="margin-bottom:1vh;">
+                <div class="col-md-2 col-12"></div>
+                <div class="col-md-8 col-12">
+                    <img src="images/mobile-tablet.png" width="100%" />
+                </div>
+                <div class="col-md-2 col-12"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <ul>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and manage&nbsp;teams</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual Composer</span></li>
+                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                        <ul>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and manage&nbsp;teams</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual Composer</span></li>
+                            <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                            <ul>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and manage&nbsp;teams</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual Composer</span></li>
+                                <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-3">
+                                <ul>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and manage&nbsp;teams</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual Composer</span></li>
+                                    <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
+                                </ul>
+                            </div>
+            </div>
+        </div>
+    </section>
+    <section class="gradient-section">
+        <div class="container" style="padding:20px 0;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget-box">
+                        <div class="title-wrapper">
+                            <h3>گالری</h3>
+                        </div>
+                        <div class="content-wrapper">
+                               <a class="img-col" href="#">
+                                    <img src="images/s1.jpg" width="100%"/>
+                               </a>
+                               <a class="img-col" href="#">
+                                    <img src="images/s2.jpg" width="100%"/>
+                               </a>
+                               <a class="img-col" href="#">
+                                    <img src="images/s3.jpg" width="100%"/>
+                               </a>
+                               <a class="img-col" href="#">
+                                    <img src="images/s4.png" width="100%"/>
+                               </a>
+                               <a class="img-col" href="#">
+                                    <img src="images/s5.jpg" width="100%"/>
+                               </a>
+                                <!-- <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
+                                    <img src="images/s1.jpg" width="100%"/>
+                                </a>
+                                <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
+                                    <img src="images/s2.jpg" width="100%"/>
+                                </a>
+                                <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
+                                    <img src="images/s3.jpg" width="100%"/>
+                                </a>
+                                <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
+                                    <img src="images/s4.png" width="100%"/>
+                                </a>
+                                <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
+                                    <img src="images/s5.jpg" width="100%"/>
+                                </a> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </body>
 
 </html>

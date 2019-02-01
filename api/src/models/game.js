@@ -29,7 +29,7 @@ export const GameSchema = new mongoose.Schema({
     //league only:
     summonerSpells:Array, // { name , icon , description , level , range , coolDown}
     runes:Array, // {tree , name , icon , description , depth , bonus}
-    patchNotes:Array, // {title : string , html : string}
+    patchNotes:Array, // {title : string , body : string}
     
     createdAt:String,
     updatedAt:String,

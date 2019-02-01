@@ -1,107 +1,26 @@
-.btn-xs{
-    font-size:10px;
-    padding:2px;
-    margin:2px 2px;
+/*
+    Shared between all pages Styles : head,footer, navbar , etc..
+*/
+body {
+    direction: rtl;
+    text-align: right;
+    font-family: iransans !important;
+    background-color:#141416;
 }
-.form-row{
-    display:block;
-    margin:10px 0px;
+h1,h2,h3,h4,h5{
+    font-family: iransans !important;
+    font-weight: initial;
 }
-.form-control.m{
-    display:inline-block;
-    width:300px;
-    max-width: 100%;
-}
-textarea.form-control.m{
-    display:inline-block;
-    vertical-align:middle;
-    width:400px;
-    height: 150px;
-}
-
-.form-row b{
-    display:inline-block;
-    width:100px;
-    overflow-wrap: break-word;
-}
-.small-link{
-    font-size:12px;
-}
-.media-item-box{
-    margin-bottom: 10px;
-    background-color:#eee;
-    padding:10px;
-}
-.media-item-box .thumbnail{
-    display:block;
-    height:200px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-bottom: 10px;
-}
-.game-media-item{
-    background-color: #eee;
-    margin-bottom:10px;
-    padding:10px;
-}
-/*.media-item-box:hover{
-    background-size:contain;
-}*/
-header{
-    display:block;
-    width:100%;
-    padding:10px 20px;
-    background-color:#eee;
-}
-
-.editor-form {
-    background-color: #eee;
-    padding: 10px;
-    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-}
-
-.sub-row {
-    width: 100%;
-    padding: 20px 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #aaa;
-    overflow: hidden;
-}
-
-.sub-row * {
-    display: inline-block;
-    margin: 0 10px;
-}
-.sub-row tiny{
-    font-size: 10px;
-}
-
-.sub-box {
-    width: 100%;
-    padding: 20px 10px;
-    background-color: #eee;
-    border-bottom: 1px solid #aaa;
-    overflow: hidden;
-}
-
-.sub-box * {
-    width: 100%;
+section{display:block;width:100%;}
+navbar {
     display: block;
-    text-align: center;
-    align-content: center;
-}
-.btn-purple {
-    background-color: #673AB7;
-    color:white;
-}
-.box-row{
-    background-color:#eee;
-    border-bottom: 1px solid #aaa;
-    padding:5px 10px;
-    margin-bottom: 5px;
-}
-.box-row .selectable:hover{
-    background-color: #ccc;
-    cursor: move;
+    width: 100%;
+    border-radius: 3px 3px 0 0;
+    background-color: #1d1d1d;
+    background-image: radial-gradient(ellipse farthest-corner at center 0px, #31a2a6 -150%, #333240 45%, #333240 85%);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .2);
+    border: 1px solid #000;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: relative;
 }
