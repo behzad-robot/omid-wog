@@ -104,6 +104,44 @@ navbar {
     -moz-box-shadow: none;
 }
 
+.login-box{
+    position: fixed;
+    top : 130px;
+    right: 50px;
+    z-index:1000;
+}
+.login-box .tail{
+    position: absolute;
+    top:-15px;
+    right:4px;
+}
+.login-box-widget{
+    background-color: #1d1d1d;
+    border: 1px solid #000;
+    background-image: radial-gradient(ellipse farthest-corner at center 0px,#31a2a6 -150%,#333240 45%,#333240 85%);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
+    padding:10px 10px;
+    overflow: hidden;
+    min-width:350px;
+    display:inline-block;
+}
+.login-box-widget h4{
+    margin:0;
+    font-size:14px;
+    color:#eee;
+    float:right;
+}
+.login-box-widget .fas{
+    float:left;
+    color:white;
+}
+.login-box-widget .form-control.dark{
+    margin-bottom:10px;
+}
+.login-box-widget .btn-yellow{
+    width:100%;
+}
+
 linkbar {
     display: block;
     width: 100%;

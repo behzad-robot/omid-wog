@@ -9,16 +9,33 @@
             </div>
         </div>
         <div class="login-container">
-            <a class="btn btn-md btn-auth">
+            <div class="btn btn-md btn-auth" onclick="toggleLoginBox()">
                 <i class="fas fa-lock"></i>
                 <span>ورود</span>
-            </a>
+            </div>
             <a class="btn btn-md btn-auth btn-signup">
                 <i class="fas fa-edit"></i>
                 <span>ثبت نام</span>
             </a>
         </div>
+        <div class="login-box" style="display:none">
+            <img src="/images/tip2.png" class="tail" />
+            <div class="login-box-widget">
+                <div style="margin-bottom:10px;overflow:hidden;">
+                    <h4>ورود به سایت:</h4>
+                    <i class="fas fa-times-circle" onclick="toggleLoginBox()"></i>
+                </div>
+                <input type="text" class="form-control dark" placeholder="نام کاربری"/>
+                <input type="text" class="form-control dark" placeholder="رمز عبور"/>
+                <input type="submit" class="btn btn-yellow" value="ورود"/>
+            </div>
+        </div>
     </navbar>
+    <script>
+        function toggleLoginBox(){
+            $(".login-box").fadeToggle();
+        }
+    </script>
     <linkbar>
         <div class="container">
             <div class="row">
