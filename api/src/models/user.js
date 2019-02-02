@@ -3,20 +3,20 @@ import { JesEncoder } from '../utils/jes-encoder';
 import { API_ENCODE_KEY } from '../constants';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 export const UserSchema = new mongoose.Schema({
-    token: String,
-    username: String,
-    password: String,
-    email: String,
-    phoneNumber: String,
-    firstName : String,
-    lastName : String,
-    sex : String,
+    token: {type:String,default:''},
+    username: {type:String,default:''},
+    password: {type:String,default:''},
+    email: {type:String,default:''},
+    phoneNumber: {type:String,default:''},
+    firstName : {type:String,default:''},
+    lastName : {type:String,default:''},
+    sex : {type:String,default:''},
 
     followingGames : Array,
 
-    createdAt: String,
-    updatedAt: String,
-    lastLogin: String,
+    createdAt: {type:String,default:'?'},
+    updatedAt: {type:String,default:'?'},
+    lastLogin: {type:String,default:'?'},
 });
 export const User = mongoose.model('User', UserSchema);
 User.Helpers = {
