@@ -42,18 +42,15 @@ express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) =>
 {
-    if(!req.session.isAdmin || req.session.adminToken == undefined || req.method != 'GET')
-    {
-        res.send({error:"Access Denied",code:400});
-        return;
-    }
     // res.send('SHINE');    
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    fullUrl = fullUrl.replace(":6565",":8585");
-    console.log(fullUrl);
+    fullUrl = fullUrl.replace("/api",":8585/api");
+    
     proxyAPI.apiCall(req.method,fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
     {
         res.send(result);
+    }).catch((err)=>{
+        res.send(err.toString());
     });
 });
 //routers:

@@ -1,0 +1,25 @@
+<html>
+    <head>
+        {{{head}}}
+    </head>
+    <body>
+        {{{navbar}}}
+        <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:150px;position: relative">
+            <div class="wog-overlay"></div>
+            <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
+                <h1 class="shadow-text" style="color:white;">Champ Name</h1>
+            </div>
+        </section>
+        <section class="section-bg">
+            
+        </section>
+        <script>
+            getGames('',(games)=>{
+                console.log(games);
+                console.log(games[0].getItem(0));
+                console.log(games[1].getItem(0));
+            });
+        </script>
+        {{{footer}}}
+    </body>
+</html>

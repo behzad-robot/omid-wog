@@ -17,7 +17,6 @@ export default class SiteRouter extends Router
     }
     renderTemplate(req,res,fileName, data)
     {
-        console.log('renderTEmplate');
         if (!fileName.includes("public/"))
             fileName = "public/" + fileName;
         try
@@ -26,7 +25,6 @@ export default class SiteRouter extends Router
             data.head = fileSystem.readFileSync(path.resolve('public/head.html'));
             data.navbar = fileSystem.readFileSync(path.resolve('public/navbar.html'));
             data.footer = fileSystem.readFileSync(path.resolve('public/footer.html'));
-            console.log(data);
             // return mustache.render(view_str, data);
             res.send(mustache.render(view_str, data));
         } catch (err)
