@@ -13,5 +13,8 @@ export default class SiteGeneralRouter extends SiteRouter
         this.router.get('/ali',(req,res)=>{
             this.renderTemplate(req,res,'ali.html',{});
         });
+        this.router.get('/post',(req,res)=>{
+            this.renderTemplate(req,res,'post-single.html',{});
+        });
     }
 }
