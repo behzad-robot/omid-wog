@@ -25,7 +25,7 @@ export default class UsersAuthRouter extends APIRouter {
                     return;
                 }
                 if (result == null) {
-                    this.handleError(req, res, "User not found!");
+                    this.handleError(req, res, "User not found!",404);
                     return;
                 }
                 result.token = this.encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
