@@ -42,7 +42,7 @@ export default class UsersAuthRouter extends APIRouter {
         });
         this.router.post('/signup', (req, res) => {
             if (req.body.username == undefined || req.body.password == undefined
-                || req.body.email == undefined || req.body.phoneNumber == undefined
+                 || req.body.phoneNumber == undefined
                 || req.body.firstName == undefined || req.body.lastName == undefined
                 || req.body.sex == undefined) {
                 this.handleError("Parameters Missing!");
@@ -51,7 +51,7 @@ export default class UsersAuthRouter extends APIRouter {
             const data = {
                 username: req.body.username,
                 password: req.body.password,
-                email: req.body.email,
+                email: req.body.email ? req.body.email  : "",
                 phoneNumber: req.body.phoneNumber,
                 firstName: req.body.firstName,
                 lastName: req.body.lastName,
