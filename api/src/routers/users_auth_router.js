@@ -79,7 +79,7 @@ export default class UsersAuthRouter extends APIRouter {
                         error = "User with this email already exists.";
                     else if (result.phoneNumber == data.phoneNumber)
                         error = "User with this phoneNumber already exists.";
-                    this.handleError(req, res, err);
+                    this.handleError(req, res, error);
                     return;
                 }
                 var doc = new User(data);
