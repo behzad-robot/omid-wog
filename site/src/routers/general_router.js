@@ -19,5 +19,8 @@ export default class SiteGeneralRouter extends SiteRouter
         this.router.get('/kiri',(req,res)=>{
             this.renderTemplate(req,res,'slider-kiri.html',{});
         });
+        this.router.get('/game',(req,res)=>{
+            this.renderTemplate(req,res,'game-single.html',{});
+        });
     }
 }

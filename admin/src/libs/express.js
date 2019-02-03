@@ -32,9 +32,12 @@ export default class MyExpressApp
         }
         //body parse:
         const bodyParser = require('body-parser');
-        this.expressApp.use(bodyParser.json());       // to support JSON-encoded bodies
+        this.expressApp.use(bodyParser.json({
+            limit : '50mb'
+        }));       // to support JSON-encoded bodies
         this.expressApp.use(bodyParser.urlencoded({     // to support URL-encoded bodies
-            extended: true
+            extended: true,
+            limit : '50mb'
         }));
         //serve static files:
         if (settings.serveFiles != undefined)

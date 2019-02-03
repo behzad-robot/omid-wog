@@ -1,0 +1,142 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .champ-list-title {
+            background-color: #ff8800 !important;
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset 0 0 1px 1px #ff8800;
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset 0 0 1px 1px #ff8800;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset 0 0 1px 1px #ff8800;
+            background-image: radial-gradient(ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%);
+            display: inline-block;
+            padding: 5px 10px;
+            /* border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px; */
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .champ-list-title h2 {
+            font-size: 24px;
+            margin: 0;
+
+        }
+
+        .champ-box {
+            color: white !important;
+            border: 1px solid #000;
+            background: #1a1b1f;
+            position: relative;
+            display: inline-block;
+            width: 10%;
+            margin: 2px 2px;
+            float: right;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .champ-box:hover {
+            box-shadow: 0 0 15px rgba(255, 136, 0, 0.8);
+            background: #2a2b2f;
+        }
+
+        .champ-box::before {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            border-radius: 5px;
+        }
+
+        .champ-box .icon {
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+        }
+
+        .champ-box .zoom {
+            transition: transform 0.2s;
+            transform: scale(0);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .champ-box:hover{
+            z-index: 1000;
+        }
+        .champ-box:hover .zoom {
+            transform: scale(2);
+            z-index: 9999;
+            border-radius: 5px;
+            border:1px solid #000;
+            box-shadow: 1px 2px 10px #000;
+        }
+
+        .champ-box .content {
+            position: relative;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .champ-box .content h4 {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:250px;position: relative">
+        <div class="wog-overlay"></div>
+        <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
+            <h1 class="shadow-text" style="color:white;">Game Name</h1>
+        </div>
+    </section>
+    <section class="bg-section" style="padding-top:20px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="champ-list-title">
+                        <h2>قهرمان ها</h2>
+                    </div>
+                    <div id="champs-row">
+                    </div>
+                    <script>
+                        $(document).ready(() => {
+                            // var champBox = $("#champs-row").html();
+                            for (var i = 0; i < 27; i++) {
+                                // $("#champs-row").append(champBox);
+                                $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
+                            }
+                            // $(".champ-box").hover(function(){
+                            //     $(this).css('z-index','1000');
+                            // });
+                            // $(".champ-box").mouseout(function(){
+                            //     $(this).css('z-index',0);
+                            // });
+                        });
+                    </script>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        getGames('', (games) => {
+            console.log(games);
+            console.log(games[0].getItem(0));
+            console.log(games[1].getItem(0));
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>
