@@ -3,16 +3,32 @@
 <head>
     {{{head}}}
     <style>
-       
+       .container {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
     </style>
 </head>
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:150px;position: relative">
+    <section class="parralax-fixed-height">
         <div class="wog-overlay"></div>
         <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
-            <h1 class="shadow-text" style="color:white;">Champ Name</h1>
+         <div class="container">
+             
+             <img src="/images/bflanding.jpg" alt="bf pic" style="width:100%"> 
+             <div class="centered">
+                 <h1>battle field overview</h1>
+                </div>
+         </div>
         </div>
     </section>
   
