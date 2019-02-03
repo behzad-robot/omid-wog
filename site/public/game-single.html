@@ -10,6 +10,7 @@
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0), inset 0 0 1px 1px #ff8800;
             background-image: radial-gradient(ellipse farthest-corner at center 0px, #ffc400 -150%, #ffc400 45%, #ff8800 85%);
             display: inline-block;
+            width: auto;
             padding: 5px 10px;
             /* border-top-left-radius: 5px;
             border-bottom-left-radius: 5px; */
@@ -18,7 +19,7 @@
         }
 
         .champ-list-title h2 {
-            font-size: 24px;
+            font-size: 28px;
             margin: 0;
 
         }
@@ -66,14 +67,16 @@
             top: 0;
             left: 0;
         }
-        .champ-box:hover{
+
+        .champ-box:hover {
             z-index: 1000;
         }
+
         .champ-box:hover .zoom {
             transform: scale(2);
             z-index: 9999;
             border-radius: 5px;
-            border:1px solid #000;
+            border: 1px solid #000;
             box-shadow: 1px 2px 10px #000;
         }
 
@@ -87,6 +90,45 @@
             font-size: 14px;
             margin: 5px 0;
         }
+        .champ-box.item-box{
+            width: 8%;
+        }
+        .champ-box.item-box .content h4{
+            font-size: 12px;
+        }
+        .build-box{
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding:0px;
+            overflow: hidden;
+            
+        }
+        .build-box .icon-wrapper{
+            width:20%;display:inline-block;float:right;
+            padding:5px;
+        }
+        .build-box .icon-wrapper img{
+            border-radius: 2px;
+        }
+        .build-box .content-wrapper{
+            width:80%;display:inline-block;float:right;
+            padding: 5px;
+        }
+        .build-box .content-wrapper h4{
+            font-size: 18px;
+        }
+        .build-box .content-wrapper .username{
+            font-size: 12px;
+            color:#ff8800;
+        }
+        .build-box .content-wrapper .item-wrapper{
+            margin-top:5px;
+        }
+        .build-box .content-wrapper .item-wrapper .item{
+            width:24px;
+        }
     </style>
 </head>
 
@@ -95,7 +137,7 @@
     <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:250px;position: relative">
         <div class="wog-overlay"></div>
         <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
-            <h1 class="shadow-text" style="color:white;">Game Name</h1>
+            <h1 class="shadow-text" style="color:white;font-size:54px;">Game Name</h1>
         </div>
     </section>
     <section class="bg-section" style="padding-top:20px;">
@@ -105,8 +147,16 @@
                     <div class="champ-list-title">
                         <h2>قهرمان ها</h2>
                     </div>
-                    <div id="champs-row">
+                    <div id="champs-row" style="overflow:hidden;padding-bottom:40px;">
                     </div>
+                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
+                    <hr />
+                    <div class="champ-list-title">
+                        <h2>آیتم ها</h2>
+                    </div>
+                    <div id="items-row" style="overflow:hidden;margin-bottom:10px;">
+                    </div>
+                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
                     <script>
                         $(document).ready(() => {
                             // var champBox = $("#champs-row").html();
@@ -114,17 +164,27 @@
                                 // $("#champs-row").append(champBox);
                                 $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
                             }
-                            // $(".champ-box").hover(function(){
-                            //     $(this).css('z-index','1000');
-                            // });
-                            // $(".champ-box").mouseout(function(){
-                            //     $(this).css('z-index',0);
-                            // });
+                            for (var i = 0; i < 27; i++) {
+                                // $("#champs-row").append(champBox);
+                                $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
+                            }
                         });
                     </script>
                 </div>
                 <div class="col-md-4">
-
+                    <h3>تازه های آموزش ها:</h3>
+                    <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%"/>
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <b class="username">laku22</b>
+                            <div class="item-wrapper">
+                                <img src="/images/s5.jpg" class="item"/>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
