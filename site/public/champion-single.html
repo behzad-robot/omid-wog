@@ -71,8 +71,62 @@
             padding-top: 12px;
             border-radius: 50%;
         }
-        hr{
-            border-top-color:#3a3a3a;
+        .build-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding: 0px;
+            overflow: hidden;
+
+        }
+
+        .build-box .icon-wrapper {
+            width: 128px;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .icon-wrapper img {
+            border-radius: 2px;
+        }
+
+        .build-box .content-wrapper {
+            max-width: 70%;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .content-wrapper h4 {
+            font-size: 18px;
+        }
+
+        .build-box .content-wrapper .username {
+            font-size: 12px;
+            color: #ff8800;
+        }
+
+        .build-box .content-wrapper .item-wrapper {
+            margin-top: 5px;
+        }
+
+        .build-box .content-wrapper .item-wrapper .item {
+            width: 48px;
+        }
+        .build-box .vote-wrapper{
+            float:left;
+            padding:5px;
+        }
+        .build-box .vote-wrapper span{
+            display:block;
+            font-size:12px;
+            margin:5px 0;
+            color:#f0f1f2;
+        }
+        hr {
+            border-top-color: #3a3a3a;
         }
     </style>
 </head>
@@ -208,10 +262,53 @@
                     <!-- gallery -->
                     <div>
                         <h2 style="margin:10px 0">گالری</h2>
-                        <div style="width:100%;overflow-x:scroll;overflow-y:hidden;">
+                        <div style="width:100%;height:300px;overflow-x:scroll;overflow-y:hidden;">
+                            <div style="width:300px;float:right">
+                                <img src="images/bflanding.jpg" height="100%" />
+                            </div>
+                            <div style="width:300px;float:right">
+                                <img src="images/bflanding.jpg" height="100%" />
+                            </div>
+                            <div style="width:300px;float:right">
+                                <img src="images/bflanding.jpg" height="100%" />
+                            </div>
+                            <div style="width:300px;float:right">
+                                <img src="images/bflanding.jpg" height="100%" />
+                            </div>
+                            <div style="width:300px;float:right">
+                                <img src="images/bflanding.jpg" height="100%" />
+                            </div>
                         </div>
                     </div>
                     <!-- end gallery -->
+                    <h3 style="margin:5px 0;">تازه های آموزش ها:</h3>
+                    <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%">
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
+                            <small>نوشته شده در: 12 مهر 1397</small>
+                            <div style="margin:5px 0">
+                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
+                            </div>
+                            <!-- <div class="item-wrapper">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                                <img src="/images/s5.jpg" class="item">
+                            </div> -->
+                        </div>
+                        <div class="vote-wrapper">
+                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
+                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

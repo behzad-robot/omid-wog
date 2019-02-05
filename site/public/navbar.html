@@ -8,7 +8,7 @@
             </div>
         </div>
     </div>
-    <div class="login-container">
+    <div class="login-container no-mobile">
         <div class="btn btn-md btn-auth" onclick="toggleLoginBox()">
             <i class="fas fa-lock"></i>
             <span>ورود</span>
@@ -18,26 +18,54 @@
             <span>ثبت نام</span>
         </a>
     </div>
-    <div class="login-box" style="display:none">
-        <img src="/images/tip2.png" class="tail" />
-        <div class="login-box-widget">
-            <div style="margin-bottom:10px;overflow:hidden;">
-                <h4>ورود به سایت:</h4>
-                <i class="fas fa-times-circle" onclick="toggleLoginBox()"></i>
-            </div>
-            <input type="text" class="form-control dark" placeholder="نام کاربری" />
-            <input type="text" class="form-control dark" placeholder="رمز عبور" />
-            <input type="submit" class="btn btn-yellow" value="ورود" />
-        </div>
+    <div class="btn btn-md btn-black mobile-menu-btn mobile-only" onclick="openMobileMenu()">
+        <span><i class="fas fa-bars"></i></span>
     </div>
 </navbar>
+<div class="login-box" style="display:none">
+    <img src="/images/tip2.png" class="tail" />
+    <div class="login-box-widget">
+        <div style="margin-bottom:10px;overflow:hidden;">
+            <h4>ورود به سایت:</h4>
+            <i class="fas fa-times-circle" onclick="toggleLoginBox()"></i>
+        </div>
+        <input type="text" class="form-control dark" placeholder="نام کاربری" />
+        <input type="text" class="form-control dark" placeholder="رمز عبور" />
+        <input type="submit" class="btn btn-yellow" value="ورود" />
+    </div>
+</div>
+<div class="mobile-menu-container mobile-only text-white">
+    <div class="close-menu" onclick="closeMobileMenu()">
+        <i class="fas fa-arrow-right text-white"></i>
+        منو
+    </div>
+    <div style="padding:15px">
+        <a class="btn btn-yellow" href="#"><span>ورود</span></a>
+        <a class="btn btn-black" href="#"><span>ثبت نام</span></a>
+    </div>
+    <div style="margin-top:10px;">
+        <a class="mobile-menu-link"><i class="fas fa-home"></i>خانه</a>
+        <a class="mobile-menu-link"><i class="fas fa-gamepad"></i>بازی ها</a>
+        <a class="mobile-menu-link"><i class="fas fa-bullhorn"></i>اخبار</a>
+        <a class="mobile-menu-link"><i class="fas fa-shopping-cart"></i>فروشگاه</a>
+        <a class="mobile-menu-link"><i class="fas fa-envelope"></i>تماس با ما</a>
+    </div>
+</div>
 <script>
     function toggleLoginBox()
     {
         $(".login-box").fadeToggle();
     }
+    function openMobileMenu()
+    {
+        $('.mobile-menu-container').animate({right:'0'},1000);
+    }
+    function closeMobileMenu()
+    {
+        $('.mobile-menu-container').animate({right:'-60vw'},1000);
+    }
 </script>
-<linkbar>
+<linkbar class="no-mobile">
 
     <div class="container">
         <div class="margin:0 auto;">
@@ -122,28 +150,28 @@
                             <a href="#" class="dropdown-cat-link news-link " cat="lol">Cat?<i class="fas fa-chevron-left"></i></a>
                         </div>
                         <div class="col-9">
-                           <div class="row" style="padding-top:5px;">
+                            <div class="row" style="padding-top:5px;">
                                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <img src="/images/jaina.jpg" width="100%" />
                                     <h4 style="margin-top:5px;">عنوان خبر </h4>
                                 </a>
                                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <img src="/images/jaina.jpg" width="100%" />
                                     <h4 style="margin-top:5px;">عنوان خبر </h4>
                                 </a>
                                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <img src="/images/jaina.jpg" width="100%" />
                                     <h4 style="margin-top:5px;">عنوان خبر </h4>
                                 </a>
                                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <img src="/images/jaina.jpg" width="100%" />
                                     <h4 style="margin-top:5px;">عنوان خبر </h4>
                                 </a>
                                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <img src="/images/jaina.jpg" width="100%" />
                                     <h4 style="margin-top:5px;">عنوان خبر </h4>
                                 </a>
-                           </div>
+                            </div>
                         </div>
                     </div>
                 </div>
