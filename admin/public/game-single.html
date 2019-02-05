@@ -50,11 +50,14 @@
             let game = null;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`
             getObject('games', `{{{_id}}}`, (g) => {
-                game = g;
+                
                 if (g.runes == undefined)
                     g.runes = [];
                 if (g.summonerSpells == undefined)
                     g.summonerSpells = [];
+                if(g.coverTall == undefined)
+                    g.coverTall = '?';
+                game = g;
                 console.log(game);
                 $("#single").append(idInput('_id', game._id));
                 $("#single").append(idInput('createdAt', game.createdAt));
@@ -67,6 +70,7 @@
                 $("#single").append(bodyInput('description', game.description));
                 imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL)
                 imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL)
+                imageInput('#single', 'coverTall', game.coverTall, FILE_UPLOAD_URL)
                 $("#single").append(jsonInput('images', game.images));
                 $("#single").append(jsonInput('media', game.media));
                 $("#single").append(jsonInput('items', game.items));

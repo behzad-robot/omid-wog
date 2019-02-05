@@ -7,6 +7,7 @@ export default class SiteRouter extends Router
     constructor(modules)
     {
         super();
+        this.modules = modules;
         //bind functions:
         this.requireLogin = this.requireLogin.bind(this);
         this.renderTemplate = this.renderTemplate.bind(this);
@@ -22,11 +23,18 @@ export default class SiteRouter extends Router
         try
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
-            data.head = fileSystem.readFileSync(path.resolve('public/head.html'));
-            data.navbar = fileSystem.readFileSync(path.resolve('public/navbar.html'));
-            data.footer = fileSystem.readFileSync(path.resolve('public/footer.html'));
-            // return mustache.render(view_str, data);
-            res.send(mustache.render(view_str, data));
+            //cache related things:
+            this.modules.Cache.allGames.getData((err,games)=>{
+                if(err)
+                {
+                    res.send("Error="+err.toString());
+                    return;
+                }
+                data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(),data);
+                data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(),data);
+                data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(),data);
+                res.send(mustache.render(view_str, data));
+            });            
         } catch (err)
         {
             res.send("render file failed =>" + err);

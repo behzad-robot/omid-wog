@@ -7,22 +7,46 @@ export default class SiteGeneralRouter extends SiteRouter
         this.router.get('/',(req,res)=>{
             this.renderTemplate(req,res,'wog-home.html',{});
         });
-        this.router.get('/champ',(req,res)=>{
-            this.renderTemplate(req,res,'champion-single.html',{});
+        this.router.get('/shop',(req,res)=>{
+            this.renderTemplate(req,res,'coming-soon.html',{});
         });
-        this.router.get('/ali',(req,res)=>{
-            this.renderTemplate(req,res,'ali.html',{});
+        this.router.get('/games',(req,res)=>{
+            res.send("PAGE NOT READY!");
         });
-        this.router.get('/post',(req,res)=>{
-            this.renderTemplate(req,res,'post-single.html',{});
+        this.router.get('/posts',(req,res)=>{
+            this.renderTemplate(req,res,'posts-archive.html',{});
         });
-        this.router.get('/kiri',(req,res)=>{
-            this.renderTemplate(req,res,'slider-kiri.html',{});
+        this.router.get('/contact-us',(req,res)=>{
+            this.renderTemplate(req,res,'contact-us.html',{});
         });
-        this.router.get('/game',(req,res)=>{
-            this.renderTemplate(req,res,'game-single.html',{});
+        this.router.post('/contact-us-submit',(req,res)=>{
+            if(req.body.email == undefined || req.body.email.replace(' ','') == '')
+            {
+                res.status(500).send({error:"Email field cant be empty!"});
+            }
+            else if(req.body.subject == undefined || req.body.subject.replace(' ','') == '')
+            {
+                res.status(500).send({error:"Subject field cant be empty!"});
+            }
+            else if(req.body.body == undefined || req.body.body.replace(' ','') == '')
+            {
+                res.status(500).send({error:"Body field cant be empty!"});
+            }
+            else
+            {
+                modules.ContactUsForm.insert({
+                    name : req.body.name ? req.body.name : '',
+                    email : req.body.email,
+                    subject : req.body.subject,
+                    body : req.body.body,
+                }).then((result)=>{
+                    res.status(200).send(result);
+                }).catch((err)=>{
+                    res.status(500).send({error: err.toString()});
+                });;
+            }
         });
-        this.router.get('/:fileName',(req,res)=>{
+        this.router.get('/html/:fileName',(req,res)=>{
             this.renderTemplate(req,res,req.params.fileName+'.html',{});
         });
     }

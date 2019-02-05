@@ -71,7 +71,7 @@ export class APICollection
                 q += "&" + keys[i] + "=" + query[keys[i]];
             }
         }
-        console.log(q);
+        // console.log(q);
         return fetch(API_URL + this.slug + '/' + q, {
             headers: this.headers,
         }).then(res => res.json());

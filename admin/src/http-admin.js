@@ -59,7 +59,7 @@ express.expressApp.all('/api/*', (req, res) =>
     // res.send('SHINE');    
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     fullUrl = fullUrl.replace(":6565",":8585");
-    console.log(fullUrl);
+    console.log(req.method+' => '+fullUrl);
     proxyAPI.apiCall(req.method,fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
     {
         res.send(result);

@@ -7,6 +7,7 @@ export const GameSchema = new mongoose.Schema({
     description: {type:String,default:''},
     icon : {type:String,default:'?'},
     cover : {type:String,default:'?'},
+    coverTall : {type:String,default:'?'},
     category : {type:String,default:'?'},
     ageRange : {type:String,default:''},
     images : Array,

@@ -1,6 +1,7 @@
 
 import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
+import { updateCache } from "../utils/cache";
 export default class GamesPanelRouter extends AdminRouter
 {
     constructor(AdminModules)
@@ -9,6 +10,14 @@ export default class GamesPanelRouter extends AdminRouter
         const Admin = AdminModules.Admin;
         const Game = AdminModules.Game;
         this.requireAdmin();
+        this.router.use((req,res,next)=>{
+            // console.log(req.url);
+            if(req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
+            {
+                updateCache('all-games');
+            }
+            next();
+        });
         this.router.get('/', (req, res) =>
         {
             res.send(this.renderTemplate('games-list.html', {
@@ -47,7 +56,7 @@ export default class GamesPanelRouter extends AdminRouter
                 res.send({ error: "Missing _id", code: 500 });
                 return;
             }
-            console.log(req.body);
+            // console.log(req.body);
             req.body.images = JSON.parse(req.body.images);
             req.body.media = JSON.parse(req.body.media);
             req.body.items = JSON.parse(req.body.items);

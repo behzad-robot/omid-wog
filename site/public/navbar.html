@@ -9,6 +9,9 @@
         </div>
     </div>
     <div class="login-container no-mobile">
+        {{#currentUser}}
+        {{/currentUser}}
+        {{^currentUser}}
         <div class="btn btn-md btn-auth" onclick="toggleLoginBox()">
             <i class="fas fa-lock"></i>
             <span>ورود</span>
@@ -17,6 +20,7 @@
             <i class="fas fa-edit"></i>
             <span>ثبت نام</span>
         </a>
+        {{/currentUser}}
     </div>
     <div class="btn btn-md btn-black mobile-menu-btn mobile-only" onclick="openMobileMenu()">
         <span><i class="fas fa-bars"></i></span>
@@ -40,15 +44,19 @@
         منو
     </div>
     <div style="padding:15px">
+        {{#currentUser}}
+        {{/currentUser}}
+        {{^currentUser}}
         <a class="btn btn-yellow" href="#"><span>ورود</span></a>
         <a class="btn btn-black" href="#"><span>ثبت نام</span></a>
+        {{/currentUser}}
     </div>
     <div style="margin-top:10px;">
-        <a class="mobile-menu-link"><i class="fas fa-home"></i>خانه</a>
-        <a class="mobile-menu-link"><i class="fas fa-gamepad"></i>بازی ها</a>
-        <a class="mobile-menu-link"><i class="fas fa-bullhorn"></i>اخبار</a>
-        <a class="mobile-menu-link"><i class="fas fa-shopping-cart"></i>فروشگاه</a>
-        <a class="mobile-menu-link"><i class="fas fa-envelope"></i>تماس با ما</a>
+        <a class="mobile-menu-link" href="/"><i class="fas fa-home"></i>خانه</a>
+        <a class="mobile-menu-link" href="#"><i class="fas fa-gamepad"></i>بازی ها</a>
+        <a class="mobile-menu-link" href="/posts"><i class="fas fa-bullhorn"></i>اخبار</a>
+        <a class="mobile-menu-link" href="/shop"><i class="fas fa-shopping-cart"></i>فروشگاه</a>
+        <a class="mobile-menu-link" href="/contact-us"><i class="fas fa-envelope"></i>تماس با ما</a>
     </div>
 </div>
 <script>
@@ -72,29 +80,26 @@
             <!-- <div class="col-2"></div> -->
 
             <div class="link-bar-btn text-center">
-                <a>
+                <a href="/">
                     <i class="fas fa-home"></i>
                     <span>خانه</span>
                 </a>
             </div>
             <div class="link-bar-btn text-center">
-                <a>
+                <a href="/games">
                     <i class="fas fa-gamepad"></i>
                     <span>بازی ها</span>
                     <i class="fas fa-chevron-down"></i>
                 </a>
                 <div class="link-bar-dropdown-container text-right" style="right:-85px;">
                     <div class="row">
-                        <div class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
-                            <a href="#" class="dropdown-cat-link game-link " game="dota2">Dota 2<i class="fas fa-chevron-left"></i></a>
-                            <a href="#" class="dropdown-cat-link game-link " game="lol">League Of Legends<i class="fas fa-chevron-left"></i></a>
-                            <a href="#" class="dropdown-cat-link game-link " game="dota2">Dota 2<i class="fas fa-chevron-left"></i></a>
-                            <a href="#" class="dropdown-cat-link game-link " game="lol">League?<i class="fas fa-chevron-left"></i></a>
+                        <div id="dropdownGamesList" class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
+                                <!-- <a href="#" class="dropdown-cat-link game-link " game="{{token}}">{{name}}<i class="fas fa-chevron-left"></i></a> -->
                         </div>
                         <div class="col-9">
                             <div class="row">
                                 <div class="col-4">
-                                    <img src="/images/ori.jpg" width="100%" style="margin-top:5px;" />
+                                    <img name="current-game-coverTall" src="/images/ori.jpg" width="100%" style="margin-top:5px;" />
                                 </div>
                                 <div class="col-6" style="padding-top:5px;">
                                     <h4 name="current-game-title">Dota 2</h4>
@@ -110,12 +115,17 @@
                     {
                         var currentGameLink = undefined;
                         var games = [];
-                        getGames('', (gs) =>
+                        getGames('?cache=allGames', (gs) =>
                         {
                             games = gs;
-                            $(".dropdown-cat-link game-link ").mouseenter(function ()
+                            for(var i = 0 ; i < games.length;i++)
                             {
-                                $(".dropdown-cat-link game-link ").removeClass('selected');
+                                var g = games[i];
+                                $("#dropdownGamesList").append(`<a href="#" class="dropdown-cat-link game-link " game="${g.token}">${g.name}<i class="fas fa-chevron-left"></i></a>`)
+                            }
+                            $(".dropdown-cat-link.game-link").mouseenter(function ()
+                            {
+                                $(".dropdown-cat-link.game-link").removeClass('selected');
                                 $(this).addClass('selected');
                                 var token = $(this).attr('game');
                                 console.log(token);
@@ -126,17 +136,17 @@
                                         var game = games[i];
                                         $(".link-bar-dropdown-container [name=current-game-title]").html(game.name);
                                         $(".link-bar-dropdown-container [name=current-game-description]").html(game.description);
+                                        $(".link-bar-dropdown-container [name=current-game-coverTall]").attr('src',game.coverTall);
                                         break;
                                     }
                                 }
                             });
                         });
-
                     });
                 </script>
             </div>
             <div class="link-bar-btn text-center">
-                <a>
+                <a href="/posts">
                     <i class="fas fa-bullhorn"></i>
                     <span>اخبار</span>
                     <i class="fas fa-chevron-down"></i>
@@ -180,13 +190,13 @@
                 </script>
             </div>
             <div class="link-bar-btn text-center">
-                <a>
+                <a href="/shop">
                     <i class="fas fa-shopping-cart"></i>
                     <span>فروشگاه</span>
                 </a>
             </div>
             <div class="link-bar-btn text-center">
-                <a>
+                <a href="/contact-us">
                     <i class="fas fa-envelope"></i>
                     <span>تماس با ما</span>
                 </a>

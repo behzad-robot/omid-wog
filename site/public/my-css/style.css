@@ -259,6 +259,10 @@ linkbar {
     position:relative;
     
 }
+.link-bar-btn  a{
+    color:white !important;
+    text-decoration:none !important;
+}
 .link-bar-btn .fas {
     color: #ff8800;
     margin-left: 5px;
