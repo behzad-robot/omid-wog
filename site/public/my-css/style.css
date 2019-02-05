@@ -107,7 +107,7 @@ navbar {
 .login-box{
     position: absolute;
     top : 130px;
-    /* right: 50px; */
+    right: 50px;
     z-index:1000;
 }
 /*Mobile Devices*/
