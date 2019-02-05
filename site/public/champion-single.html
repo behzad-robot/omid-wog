@@ -1,25 +1,230 @@
 <html>
-    <head>
-        {{{head}}}
-    </head>
-    <body>
-        {{{navbar}}}
-        <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:150px;position: relative">
-            <div class="wog-overlay"></div>
-            <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
-                <h1 class="shadow-text" style="color:white;">Champ Name</h1>
+
+<head>
+    {{{head}}}
+    <style>
+        .info-box {
+            background-color: #212129;
+            border: 1px solid #000;
+        }
+
+        .widget-box-row:nth-child(even) {
+            background: linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%);
+            border-top: 1px solid RGBA(0, 0, 0, 0.47);
+            border-bottom: 1px solid RGBA(0, 0, 0, 0.48);
+        }
+
+        .widget-box-row {
+            padding: 8px;
+            background: #212129;
+            font-size: 12px;
+        }
+
+        .widget-box-row strong {
+            color: #ffc400 !important;
+        }
+
+        .ability-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding: 0px;
+            overflow: hidden;
+        }
+
+        .talent-row {
+            display: block;
+            margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .talent-row .talent-box {
+            width: 48%;
+            float: left;
+            direction: ltr;
+            text-align: center;
+            padding: 15px 0;
+            border: 1px solid #000;
+            background: linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .talent-row .divider {
+            width: 4%;
+            float: left;
+        }
+
+        .talent-row .talent-level {
+            position: absolute;
+            top: 2px;
+            left: 47%;
+            right: auto;
+            background: radial-gradient(ellipse farthest-corner at center 0px, #31a2a6 -150%, #4b495f 45%, #4b495f 85%);
+            ;
+            border: 1px solid #000;
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: text-top;
+            padding-top: 12px;
+            border-radius: 50%;
+        }
+        hr{
+            border-top-color:#3a3a3a;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:150px;position: relative">
+        <div class="wog-overlay"></div>
+        <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
+            <h1 class="shadow-text" style="color:white;">Champ Name</h1>
+        </div>
+    </section>
+    <section class="bg-section" style="padding:10px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="widget-box" style="margin-bottom:10px;">
+                        <div class="title-wrapper">
+                            <h3>Pudge</h3>
+                        </div>
+                        <div class="content-wrapper" style="overflow:hidden;">
+                            <img src="/images/pudge.png" width="100%" />
+                            <div class="widget-box-row"><strong>نام :</strong>&nbsp;&nbsp;<span>Pudge</span></div>
+                            <div class="widget-box-row"><strong>معروف به :</strong>&nbsp;&nbsp;<span>Butcher</span></div>
+                            <div class="widget-box-row"><strong>گروه :</strong>&nbsp;&nbsp;<span>Horde</span></div>
+                            <div class="widget-box-row"><strong>نوع حمله :</strong>&nbsp;&nbsp;<span>Melee</span></div>
+                            <div class="widget-box-row"><strong>Roles :</strong><br><span>DISABLER , ROAMER , DURABLE</span></div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="title-wrapper">
+                            <h3>Pudge's Stats</h3>
+                        </div>
+                        <div class="content-wrapper" style="overflow:hidden;">
+                            <div class="widget-box-row"><strong style="display:inline-block">Strength :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Agility :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Intelligence :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Health :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Mana :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Damage :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Armor :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                            <div class="widget-box-row"><strong style="display:inline-block">Movement :</strong>&nbsp;&nbsp;<span
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
+                                    at 25 (25 + 3.5/level)</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <!-- abilities -->
+                    <h2 style="margin:10px 0">قابلیت ها</h2>
+                    <div class="row">
+                        <div class="col-md-6 col-12">
+                            <div class="info-box" style="overflow:hidden;padding:5px;">
+                                <div style="display:inline-block;float:right">
+                                    <img src="/images/s4.png" width="72px" />
+                                </div>
+                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
+                                    <h3 style="font-size:14px;">Meat Hook</h3>
+                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
+                                        hook will snag the first unit it...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;background:linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%)">
+                                <div style="display:inline-block;float:right">
+                                    <img src="/images/s4.png" width="72px" />
+                                </div>
+                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
+                                    <h3 style="font-size:14px;">Meat Hook</h3>
+                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
+                                        hook will snag the first unit it...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;background:linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%)">
+                                <div style="display:inline-block;float:right">
+                                    <img src="/images/s4.png" width="72px" />
+                                </div>
+                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
+                                    <h3 style="font-size:14px;">Meat Hook</h3>
+                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
+                                        hook will snag the first unit it...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12">
+                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;">
+                                <div style="display:inline-block;float:right">
+                                    <img src="/images/s4.png" width="72px" />
+                                </div>
+                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
+                                    <h3 style="font-size:14px;">Meat Hook</h3>
+                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
+                                        hook will snag the first unit it...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- talents -->
+                    <h2 style="margin:10px 0">توانمندی ها (Talents)</h2>
+                    <div class="talent-row">
+                        <div class="talent-box">-5s Fate's Edict Cooldown</div>
+                        <div class="divider">&nbsp;</div>
+                        <div class="talent-box">-5s Fate's Edict Cooldown</div>
+                        <div class="talent-level">25</div>
+                    </div>
+                    <hr />
+                    <!-- lore -->
+                    <h2 style="margin:10px 0">داستان (Lore)</h2>
+                    <p>Oracle is my main hero and has been since 2016. I've put a lot of hours into trying different
+                        builds and strategies with him and there's two particular builds that prove highly effective
+                        95% of the time: the Mobile Artillery build and the Priest build.</p>
+                    <a href="#" class="btn btn-sm btn-black">
+                        <span>مشاهده داستان کامل</span>
+                    </a>
+                    <!-- end lore-->
+                    <!-- gallery -->
+                    <div>
+                        <h2 style="margin:10px 0">گالری</h2>
+                        <div style="width:100%;overflow-x:scroll;overflow-y:hidden;">
+                        </div>
+                    </div>
+                    <!-- end gallery -->
+                </div>
             </div>
-        </section>
-        <section class="section-bg">
-            
-        </section>
-        <script>
-            getGames('',(games)=>{
-                console.log(games);
-                console.log(games[0].getItem(0));
-                console.log(games[1].getItem(0));
-            });
-        </script>
-        {{{footer}}}
-    </body>
+        </div>
+    </section>
+    <script>
+        getGames('', (games) =>
+        {
+            console.log(games);
+            console.log(games[0].getItem(0));
+            console.log(games[1].getItem(0));
+        });
+    </script>
+    {{{footer}}}
+</body>
+
 </html>

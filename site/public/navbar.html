@@ -1,80 +1,172 @@
- <!-- top section -->
-    <navbar>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4 col-2"></div>
-                <div class="col-md-4 col-8 text-center">
-                    <img src="/images/wog-logo.png" width="47%" />
-                </div>
+<!-- top section -->
+<navbar>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-2"></div>
+            <div class="col-md-4 col-8 text-center">
+                <img src="/images/wog-logo.png" width="47%" />
             </div>
         </div>
-        <div class="login-container">
-            <div class="btn btn-md btn-auth" onclick="toggleLoginBox()">
-                <i class="fas fa-lock"></i>
-                <span>ورود</span>
-            </div>
-            <a class="btn btn-md btn-auth btn-signup">
-                <i class="fas fa-edit"></i>
-                <span>ثبت نام</span>
-            </a>
+    </div>
+    <div class="login-container">
+        <div class="btn btn-md btn-auth" onclick="toggleLoginBox()">
+            <i class="fas fa-lock"></i>
+            <span>ورود</span>
         </div>
-        <div class="login-box" style="display:none">
-            <img src="/images/tip2.png" class="tail" />
-            <div class="login-box-widget">
-                <div style="margin-bottom:10px;overflow:hidden;">
-                    <h4>ورود به سایت:</h4>
-                    <i class="fas fa-times-circle" onclick="toggleLoginBox()"></i>
-                </div>
-                <input type="text" class="form-control dark" placeholder="نام کاربری"/>
-                <input type="text" class="form-control dark" placeholder="رمز عبور"/>
-                <input type="submit" class="btn btn-yellow" value="ورود"/>
+        <a class="btn btn-md btn-auth btn-signup">
+            <i class="fas fa-edit"></i>
+            <span>ثبت نام</span>
+        </a>
+    </div>
+    <div class="login-box" style="display:none">
+        <img src="/images/tip2.png" class="tail" />
+        <div class="login-box-widget">
+            <div style="margin-bottom:10px;overflow:hidden;">
+                <h4>ورود به سایت:</h4>
+                <i class="fas fa-times-circle" onclick="toggleLoginBox()"></i>
             </div>
+            <input type="text" class="form-control dark" placeholder="نام کاربری" />
+            <input type="text" class="form-control dark" placeholder="رمز عبور" />
+            <input type="submit" class="btn btn-yellow" value="ورود" />
         </div>
-    </navbar>
-    <script>
-        function toggleLoginBox(){
-            $(".login-box").fadeToggle();
-        }
-    </script>
-    <linkbar>
-        <div class="container">
-            <div class="row">
-                <div class="col-2"></div>
+    </div>
+</navbar>
+<script>
+    function toggleLoginBox()
+    {
+        $(".login-box").fadeToggle();
+    }
+</script>
+<linkbar>
 
-                <div class="col link-bar-btn text-center">
-                    <a>
-                        <i class="fas fa-home"></i>
-                        <span>خانه</span>
-                    </a>
-                </div>
-                <div class="col link-bar-btn text-center">
-                    <a>
-                        <i class="fas fa-home"></i>
-                        <span>خانه</span>
-                    </a>
-                </div>
-                <div class="col link-bar-btn text-center">
-                    <a>
-                        <i class="fas fa-home"></i>
-                        <span>خانه</span>
-                    </a>
-                </div>
-                <div class="col link-bar-btn text-center">
-                    <a>
-                        <i class="fas fa-home"></i>
-                        <span>خانه</span>
-                    </a>
-                </div>
-                <div class="col link-bar-btn text-center">
-                    <a>
-                        <i class="fas fa-home"></i>
-                        <span>خانه</span>
-                    </a>
-                </div>
+    <div class="container">
+        <div class="margin:0 auto;">
+            <!-- <div class="col-2"></div> -->
 
-                <div class="col-2"></div>
+            <div class="link-bar-btn text-center">
+                <a>
+                    <i class="fas fa-home"></i>
+                    <span>خانه</span>
+                </a>
             </div>
-            <div class="clear"></div>
+            <div class="link-bar-btn text-center">
+                <a>
+                    <i class="fas fa-gamepad"></i>
+                    <span>بازی ها</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="link-bar-dropdown-container text-right" style="right:-85px;">
+                    <div class="row">
+                        <div class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
+                            <a href="#" class="dropdown-cat-link game-link " game="dota2">Dota 2<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link game-link " game="lol">League Of Legends<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link game-link " game="dota2">Dota 2<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link game-link " game="lol">League?<i class="fas fa-chevron-left"></i></a>
+                        </div>
+                        <div class="col-9">
+                            <div class="row">
+                                <div class="col-4">
+                                    <img src="/images/ori.jpg" width="100%" style="margin-top:5px;" />
+                                </div>
+                                <div class="col-6" style="padding-top:5px;">
+                                    <h4 name="current-game-title">Dota 2</h4>
+                                    <p name="current-game-description">Dota yak bazi rideman free to play. Varzeshkari
+                                        kharaki hast ke nagu.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(document).ready(() =>
+                    {
+                        var currentGameLink = undefined;
+                        var games = [];
+                        getGames('', (gs) =>
+                        {
+                            games = gs;
+                            $(".dropdown-cat-link game-link ").mouseenter(function ()
+                            {
+                                $(".dropdown-cat-link game-link ").removeClass('selected');
+                                $(this).addClass('selected');
+                                var token = $(this).attr('game');
+                                console.log(token);
+                                for (var i = 0; i < games.length; i++)
+                                {
+                                    if (games[i].token == token)
+                                    {
+                                        var game = games[i];
+                                        $(".link-bar-dropdown-container [name=current-game-title]").html(game.name);
+                                        $(".link-bar-dropdown-container [name=current-game-description]").html(game.description);
+                                        break;
+                                    }
+                                }
+                            });
+                        });
+
+                    });
+                </script>
+            </div>
+            <div class="link-bar-btn text-center">
+                <a>
+                    <i class="fas fa-bullhorn"></i>
+                    <span>اخبار</span>
+                    <i class="fas fa-chevron-down"></i>
+                </a>
+                <div class="link-bar-dropdown-container text-right" style="right:-85px;">
+                    <div class="row">
+                        <div class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
+                            <a href="#" class="dropdown-cat-link news-link " cat="dota2">Cat 1<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link news-link " cat="lol">Cat 2<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link news-link " cat="dota2">Cat 3<i class="fas fa-chevron-left"></i></a>
+                            <a href="#" class="dropdown-cat-link news-link " cat="lol">Cat?<i class="fas fa-chevron-left"></i></a>
+                        </div>
+                        <div class="col-9">
+                           <div class="row" style="padding-top:5px;">
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <h4 style="margin-top:5px;">عنوان خبر </h4>
+                                </a>
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <h4 style="margin-top:5px;">عنوان خبر </h4>
+                                </a>
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <h4 style="margin-top:5px;">عنوان خبر </h4>
+                                </a>
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <h4 style="margin-top:5px;">عنوان خبر </h4>
+                                </a>
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                                    <img src="/images/jaina.jpg" width="100%"/>
+                                    <h4 style="margin-top:5px;">عنوان خبر </h4>
+                                </a>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    /* LATER COME FILL THIS PART */
+                </script>
+            </div>
+            <div class="link-bar-btn text-center">
+                <a>
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>فروشگاه</span>
+                </a>
+            </div>
+            <div class="link-bar-btn text-center">
+                <a>
+                    <i class="fas fa-envelope"></i>
+                    <span>تماس با ما</span>
+                </a>
+            </div>
+
+            // <div class="col-2"></div>
         </div>
-    </linkbar>
-    <!-- END top section -->
+        <div class="clear"></div>
+    </div>
+</linkbar>
+<!-- END top section -->
