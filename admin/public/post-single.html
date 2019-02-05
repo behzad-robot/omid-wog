@@ -10,11 +10,14 @@
 <body>
     {{{actionbar}}}
     <div class="container">
-        <h2>Post {{{_id}}}:</h2>
+        <h2>
+            Post {{{_id}}}:
+            <a href="/admin/posts/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a>
+        </h2>
         <hr />
-        <div id="single">
-        </div>
+        <form id="single" action="/admin/posts/{{{_id}}}/edit" method="POST"></form>
         <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
             getObject('posts', `{{{_id}}}`, (post) =>
             {
                 console.log(post);
@@ -25,10 +28,13 @@
                 $("#single").append(textInput('title',post.title));
                 $("#single").append(textInput('slug',post.slug));
                 $("#single").append(textInput('gameId',post.gameId));
-                imageInput('#single','thumbnail',post.thumbnail,`{{{fileUploadURL}}}`)
-                $("#single").append(bodyInput('intro',post.intro));
+                imageInput('#single','thumbnail',post.thumbnail,FILE_UPLOAD_URL)
+                //imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
+                $("#single").append(bodyInput('intro',post.intro,{uploadUrl : FILE_UPLOAD_URL}));
                 $("#single").append(bodyInput('body',post.body));
                 $("#single").append(jsonInput('tags',post.tags));
+                $("#single").append(submitBtn());
+                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
             });
         </script>
     </div>

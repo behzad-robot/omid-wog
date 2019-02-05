@@ -40,12 +40,44 @@ const hiddenInput = (name, value, readonly = false) =>
     readonly = readonly ? "readonly" : "";
     return `<input type='hidden' class='form-control m' name='${name}' value='${value}' ${readonly}/>`;
 };
-const bodyInput = (name, value, readonly = false) =>
+const bodyInput = (name, value, settings = {}) =>
 {
-    readonly = readonly ? "readonly" : "";
+    readonly = settings.readonly ? "readonly" : "";
     setTimeout(function ()
     {
-        $(`textarea[name=${name}`).froalaEditor({ toolbarInline: false, height: 300 });
+        $(`textarea[name=${name}`).froalaEditor({
+            // toolbarButtons: ['inlineClass'],
+            // toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+            // toolbarButtonsXS: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+            // toolbarButtonsMD: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+            // toolbarButtonsSM: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+            toolbarInline: false, height: 300,
+            // ===========  images: ===== 
+            imageUploadParam: 'my-file',
+            imageUploadURL: settings.uploadUrl ? settings.uploadUrl : 'http://31.184.135.51:6565/admin/file-upload',
+            // imageUploadParams: { 'my-dir': settings['my-dir'] },
+            imageUploadMethod: 'POST',
+            imageMaxSize: 12 * 1024 * 1024,  // Set max image size to 12MB.
+            // Allow to upload PNG and JPG.
+            imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'webp'],
+            // ==== inline styles === 
+            // Define new inline classes.
+            inlineClasses: {
+                'wog-lol-ap' : 'LOL AP',
+                'wog-lol-ad' : 'LOL AD',
+                'wog-lol-armor' : 'LOL Armor',
+                'wog-lol-maxhp' : 'LOL Max HP',
+            }
+
+        }).on('froalaEditor.image.uploaded', function (e, editor, response)
+        {
+            // Image was uploaded to the server.
+            // alert('upload success');
+        }).on('froalaEditor.image.error', function (e, editor, error, response)
+        {
+            alert('upload rid code=' + error.code);
+        });
+        // alert(settings.uploadUrl);
     }, 300);
     return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };

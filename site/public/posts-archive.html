@@ -1,0 +1,294 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .title-wrapper.side-boxes {
+            color: white;
+        }
+
+        .context-links {
+            color: orange;
+        }
+
+        .context-links:hover {
+            color: orange;
+            text-decoration: none;
+        }
+
+        .main-box-text {
+            color: rgb(206, 206, 206)
+        }
+
+        .main-box-authors {
+            color: white;
+            font-size: 12px;
+        }
+
+        .main-box-authors:hover {
+            color: rgb(200, 200, 200);
+            text-decoration: none;
+        }
+
+        .main-box-date {
+            color: white;
+            font-size: 12px;
+        }
+
+        .post-side-box {
+            padding: 0;
+            background-image: linear-gradient(to bottom, #48485b 0%, #333240 100%);
+            position: relative;
+            font-size: 14px;
+            border: 1px solid #4a4a4a;
+            /* font-weight: bold; */
+        }
+
+        .post-side-box::before {
+
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+
+        }
+
+        .post-side-box img {
+            /* border-bottom:1px solid #000; */
+            position: relative;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1)
+        }
+
+        .post-side-box a {
+            color: white !important;
+            text-decoration: none !important;
+            position: relative;
+
+        }
+
+        .post-side-box p {
+            padding: 5px 10px;
+        }
+
+        .bot-sec-links {
+            color: rgb(206, 206, 206)
+        }
+
+        .bot-sec-links:hover {
+            color: rgb(200, 200, 200);
+            text-decoration: none;
+        }
+
+        .triangle-up {
+            width: 0;
+            height: 0;
+            border-left: 36px solid transparent;
+            border-right: 0px solid transparent;
+            border-bottom: 37px solid #ee2d58;
+            position: absolute;
+            display: inline-block;
+            top: 0px;
+            left: -36px;
+        }
+
+        .rectangle {
+            position: relative;
+            display: inline-block;
+            background-color: #ee2d58;
+            color: #fff !important;
+            padding: 8px 17px 0;
+            font-size: 1em;
+            margin-bottom: 7px;
+            height: 37px;
+        }
+
+        @media (max-width: 576px) {
+            .no-mobile {
+                display: none;
+            }
+        }
+
+        .footer-post-box {
+            margin-bottom: 10px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        .footer-post-box .thumbnail {
+            width: 30%;
+            float: right;
+        }
+
+        .footer-post-box .content {
+            width: 60%;
+            display: inline-block;
+            
+        }
+        .footer-post-box a{
+            color : white !important;
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+
+
+<body>
+    {{{navbar}}}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="widget-box post-side-box" style="margin-top:10px">
+
+                        <a href="#">
+                            <img src="/images/s5.jpg" alt="" style="width:100%">
+                            <p>بررسی بازی Resident Evil 2 Remake</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="widget-box" style="margin-top:10px">
+                        <div class="title-wrapper">
+                            <div class="row">
+                                <div class="col-md-3 col-6">
+                                    <a href="#">
+                                        <img src="/images/s2.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="col-md-9 col-6">
+                                    <div style="display:inline-block">
+                                        <a class="context-links" href="#">مایکروسافت باندل Anthem کنسول ایکس باکس وان
+                                            اس را معرفی کرد</a>
+                                        <br>
+                                        <a class="main-box-authors" href="#">
+                                            <i class="fas fa-user"></i>&nbsp;
+                                            ممد
+                                        </a>
+                                        <span style="color:darkgray;display: inline-block">|</span>
+                                        <p class="main-box-date" style="display: inline-block">1397/10/10</p>
+                                        <p class="main-box-text no-mobile">یک طراح ماد، بخش‌هایی از بازی Resident Evil
+                                            2 Remake
+                                            را با دوربین‌های ثابت
+                                            به‌سبک نسخه‌ی کلاسیک این مجموعه بازسازی کرده که نتیجه‌ی کار هیجان‌انگیز به
+                                            نظر می‌رسد.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box" style="margin-top:10px">
+                        <div class="title-wrapper">
+                            <div class="row">
+                                <div class="col-md-3 col-6">
+                                    <a href="#">
+                                        <img src="/images/s1.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="col-md-9 col-6" style="display: inline-block">
+                                    <div style="display:inline-block">
+                                        <a class="context-links" href="#">سازنده مجموعه بازی Metro هرگز بازار پی سی را
+                                            رها نخواهد کرد</a>
+                                        <br>
+                                        <a class="main-box-authors" href="#">
+                                            <i class="fas fa-user"></i>&nbsp;
+                                            جعفر
+                                        </a>
+                                        <span style="color:darkgray;display: inline-block">|</span>
+                                        <p class="main-box-date" style="display: inline-block">1397/10/10</p>
+                                        <p class="main-box-text">مسئولین استودیو 4A Games صحبت‌های قبلی در مورد عدم
+                                            پشتیبانی از بازار کامپیوتر در صورت فروش پایین Metro Exodus را تکذیب کردند.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="widget-box post-side-box" style="margin-top:10px">
+
+                        <a href="#">
+                            <img src="/images/s4.png" alt="" style="width:100%">
+                            <p>بررسی jaina</p>
+                        </a>
+                    </div>
+                    <div class="widget-box post-side-box" style="margin-top:10px">
+
+                        <a href="#">
+                            <img src="/images/s3.jpg" alt="" style="width:100%">
+                            <p>بررسی فلان دستگاه</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section style="background-color: rgb(37, 37, 37);margin-top:10px;padding:20px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <h5 style="color:white;">اخبار داغ</h5>
+                    <div class="footer-post-box">
+                        <div class="thumbnail">
+                            <img src="/images/s1.jpg" alt="" style="width:90%">
+                        </div>
+                        <div class="title">
+                            <a href="#">txt txt txt txt</a>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- 2nd part-->
+                <div class="col-md-3">
+                    <h5 style="color:white;">اخبار داغ</h5>
+                    <div class="row footer-post-box">
+                        <div class="col-md-5 text-center">
+                            <img src="/images/s1.jpg" alt="" style="width:90%">
+                        </div>
+                        <div class="col-md-7">
+                            <a href="#" class="bot-sec-links">txt txt txt txt</a>
+                        </div>
+                    </div>
+                    <div class="row footer-post-box">
+                        <div class="col-md-5 text-center">
+                            <img src="/images/s1.jpg" alt="" style="width:90%">
+                        </div>
+                        <div class="col-md-7">
+                            <a href="#" class="bot-sec-links">txt txt txt txt</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- 3rd part-->
+                <div class="col-md-3">
+                    <h5 style="color:white;">شاخه‌های برتر</h5>
+                    <ul style="list-style-type:disc;">
+                        <li style="margin-top:10px">
+                            <a href="#" class="bot-sec-links">بررسی بازی</a>
+                        </li>
+                        <li style="margin-top:10px">
+                            <a href="#" class="bot-sec-links">معرفی بازی</a>
+                        </li>
+                        <li style="margin-top:10px">
+                            <a href="#" class="bot-sec-links">blah blah</a>
+                        </li style="margin-top:10px">
+                    </ul>
+                </div>
+                <!-- 4th part -->
+                <div class="col-md-3">
+                    <h5 style="color:white;">Touuuuurnoment</h5>
+                    <img src="/images/jaina.jpg" width="100%" />
+                </div>
+            </div>
+
+        </div>
+
+
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

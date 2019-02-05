@@ -22,5 +22,8 @@ export default class SiteGeneralRouter extends SiteRouter
         this.router.get('/game',(req,res)=>{
             this.renderTemplate(req,res,'game-single.html',{});
         });
+        this.router.get('/:fileName',(req,res)=>{
+            this.renderTemplate(req,res,req.params.fileName+'.html',{});
+        });
     }
 }

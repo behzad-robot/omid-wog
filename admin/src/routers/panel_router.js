@@ -65,6 +65,7 @@ export default class AdminPanelRouter extends AdminRouter
             {
                 if (result)
                 {
+                    result.link = result.path;
                     res.send(result);
                     // if (req.query.redirect == undefined)
                     //     res.send(result);

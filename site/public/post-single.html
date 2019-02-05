@@ -3,35 +3,230 @@
 <head>
     {{{head}}}
     <style>
-       .container {
-  position: relative;
-  text-align: center;
-  color: white;
-}
-.centered {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+        .widget-box.author.detail {
+            font-style: initial;
+            display: block;
+            font-size: 11px;
+            border: 1px solid #242833;
+            margin: 4px;
+            padding: 2px;
+        }
+
+        .widget-box.author.detail:hover {
+            color: #79848f;
+            font-style: initial;
+            text-decoration: none;
+            background-color: rgb(51, 51, 51);
+            transition: all .5s ease-in-out;
+        }
+
+        .author-link {
+            color: gray;
+            display: block;
+            font-size: 11px;
+            font-style: initial;
+            text-decoration: none;
+        }
+
+        .author-link:hover {
+            color: #79848f;
+            text-decoration: none;
+        }
+
+        .description {
+            color: whitesmoke;
+        }
+        .context-links{
+            text-decoration: none;
+            color: red
+        }
+        .context-links:hover{
+            text-decoration: none;
+            color:#9fa9b3
+        }
+        .comment-picture{
+            border: 1px solid #242833;  
+            margin: 4px;
+            padding: 2px;
+            border-radius: 50px;
+            width: 72px;
+        }
+        .commenters-link{
+            text-decoration: none;
+            color: red
+        }
+        .commenters-link:hover{
+            text-decoration: none;
+            color:#9fa9b3
+        }
+        .comment-wrapper{
+            display: inline-block;
+        }
+        .line-between-comments{
+            width: 100%; 
+            color: grey; 
+            background-color: grey
+            }
+        .user-comment{
+        color:whitesmoke;
+        margin-left:100px;
+        margin-right:100px
+        }
+        .title-wrapper.didgah{
+            margin-top: 0px;
+
+        }
+        .title-wrapper.didgah:hover{
+            border-color: goldenrod
+        }
     </style>
+
 </head>
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height">
-        <div class="wog-overlay"></div>
-        <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
-         <div class="container">
-             
-             <img src="/images/bflanding.jpg" alt="bf pic" style="width:100%"> 
-             <div class="centered">
-                 <h1>battle field overview</h1>
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="widget-box author detail">
+                        <div class="title-wrapper">
+                            <h5 style="color:white">author name</h5>
+                            <h6 style="color:grey">battle field overview</h6>
+                            <p style="color:grey">کنسول های:
+                                <a class="author-link" href="#">PS4</a>
+                                <a class="author-link" href="#">XBOX</a>
+                            </p>
+                            <p>tags:
+                                <a class="author-link" href="#">shooter</a>
+                            </p>
+                            <img src="images/s1.jpg" width="100%" />
+                            <a class="author-link" href="#">see his profile</a>
+                        </div>
+                    </div>
                 </div>
-         </div>
-        </div>
+                <div class="col-md-8">
+                    <img src="/images/bflanding.jpg" alt="bf pic" style="width:100%;margin-top:10px">
+                    <p class="description">Resident Evil 2 Remake یعنی بازگشت دوباره پدر سبک ترس با اصالت نسخه‌های
+                        کلاسیک و ظاهری کاملا
+                        مدرن و
+                        امروزی و این، بهترین اتفاق ممکن برای مجموعه <a class="context-links" href="#">some mwr links</a>
+                        است. همراه بررسی
+                        بازی باشید.
+                        Resident Evil صرفا فقط یک مجموعه بازی قدیمی و موفق نیست؛ رزیدنت ایول آن‌قدر اثری تاثیرگذار و
+                        مهم در
+                        صنعت بازی‌های ویدیویی است که خیلی‌ها این مخلوق شینجی میکامی را که تاثیر غیر قابل انکاری روی
+                        چندین
+                        نسل از بازی‌های ویدیویی داشته، پدر سبک ترس می‌دانند. اما مجموعه‌ای که خودش مسبب خلق شدن خیلی از
+                        آثار فراموش‌نشدنی این سبک بوده، همیشه هم در اوج نبودند و پس از نسخه‌های اصلی و اولیه، کپکام آن
+                        را
+                        وارد مسیر‌هایی کرده که شاید بدبین‌ترین طرفداران این مجموعه هم فکرش را نمی‌کردند که روزی، چنین
+                        افتضاحاتی ساخته شوند؛ منظورم نسخه‌هایی مثل Resident Evil: Operation Raccoon City یا Umbrella
+                        Corps
+                        هستند که با هر منطقی هم که حساب کنیم، ساخته شدن‌شان کوچک‌ترین توجیحی نداشته و ندارد. در کنار
+                        این‌ها
+                        البته آثار متوسط و موفق زیادی هم ساخته شده‌اند ولی هنوز که هنوزه، وقتی صحبت از روز‌های اوج
+                        رزیدنت
+                        ایول می‌شود، ذهن خیلی از طرفداران قدیمی این مجموعه به‌سراغ چهار نسخه اصلی اولیه می‌رود که قطعا،
+                        بهترین روز‌های این سری را رقم زده‌اند.
+
+                        پس چه چیزی بهتر از اینکه بگوییم حال بازسازی یکی از بهترین نسخه‌های این مجموعه (بخوانید بهترین
+                        نسخه
+                        مجموعه) در قالب Resident Evil 2 Remake منتشر شده و خبر بهتر اینکه این نسخه، دقیقا همان چیزی است
+                        که
+                        باید باشد؛ همان‌قدر ترسناک، همان‌قدر خاطره‌انگیز و از همه مهم‌تر، مدرن و در عین حال وفادار به
+                        اصل.
+                        اما پیش از اینکه به‌سراغ بررسی کامل‌تری از بازی برویم، پیشنهاد می‌کنم بررسی ویدیویی بازی را
+                        تماشا
+                        کنید:</p>
+                </div>
+                <div class="col-md-2">
+                    <h3 style="color: whitesmoke;margin-top: 10px"> Related Games</h3>
+                    <div class="widget-box">
+                        <div class="title-wrapper">
+                            <h3 style="color:white">PUBG</h3>
+                            <p style="color:grey">کنسول های:
+                                <a class="author-link" href="#">PS4</a>
+                                <a class="author-link" href="#">XBOX</a>
+                            </p>
+                            <img src="images/jaina.jpg" width="100%" />
+                            <a class="author-link" href="#">see his profile</a>
+                        </div>
+                    </div>
+                    <div class="widget-box" style="margin-top:10px">
+                        <div class="title-wrapper">
+                            <h3 style="color:white">Rainbow Six Siege</h3>
+                            <p style="color:grey">کنسول های:
+                                <a class="author-link" href="#">PS4</a>
+                                <a class="author-link" href="#">XBOX</a>
+                                <a class="author-link" href="#">PC</a>
+                            </p>
+                            <img src="images/S2.jpg" width="100%" />
+                            <a class="author-link" href="#">see his profile</a>
+                        </div>
+                    </div>
+                </div>
     </section>
-  
+    <section>
+           
+        <div class="container" ;>
+            <h2 style="color:#79848f"> متن دیدگاه</h2>
+            <textarea class="form-control dark" style="width:50%;height:200px;" placeholder="دیدگاه خود را وارد کنید"></textarea>
+            <p style="color:#79848f">characters remaining:10000</p>
+            <button type="button" class="btn btn-yellow">ارسال دیدگاه</button>
+            
+            <div class="widget-box author detail" style="margin-bottom: 15px">
+                    <div class="title-wrapper">
+                            <div class="title-wrapper didgah">
+                            <h2 style="color:goldenrod;margin-top: 10px">دیدگاه ها</h2>
+                            </div>
+            <div>
+                <div>
+                   
+                    <div class="comment-wrapper">
+                        <img class="comment-picture" src="/images/s5.jpg">
+                        <a class="commenters-link" href="#">mr.folani</a>
+                        <span style="color:darkgray">|</span>
+                        <p style="display: inline-block; color: darkgrey">folan time</p>
+                        <span style="color:darkgray">|</span>
+                        <a style="display: inline-block;color:goldenrod;" href="#">replies</a>
+                        <p class="user-comment">this is fine</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="line-between-comments">
+            
+            <div>
+                <div>
+                    <div class="comment-wrapper">
+                        <img class="comment-picture" src="/images/s4.png">
+                        <a class="commenters-link" href="#">mr.bamani</a>
+                        <span style="color:darkgray">|</span>
+                        <p style="display: inline-block; color: darkgrey">folan time</p>
+                        <span style="color:darkgray">|</span>
+                        <a style="display: inline-block;color:goldenrod;text-decoration: none;" href="#">replies</a>
+                        <p class="user-comment">this game is cool</p>
+                    </div>
+                </div>
+            </div>
+            <hr class="line-between-comments">
+            <div>
+                    <div>
+                        <div class="comment-wrapper">
+                            <img class="comment-picture" src="/images/s4.png">
+                            <a class="commenters-link" href="#">mr.baghali</a>
+                            <span style="color:darkgray">|</span>
+                            <p style="display: inline-block; color: darkgrey">folan time</p>
+                            <span style="color:darkgray">|</span>
+                            <a style="display: inline-block;color:goldenrod;text-decoration: none;" href="#">replies</a>
+                            <p class="user-comment">this game is peace of s**t</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+</div>
+    </section>
     <script>
         getGames('', (games) => {
             console.log(games);

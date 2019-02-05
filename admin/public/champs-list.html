@@ -13,16 +13,36 @@
         <h2>Champions:</h2>
         <a href="/admin/champions/new" class="btn btn-md btn-info">+New Champion</a>
         <hr />
+        <div id="games">
+            <div class="btn btn-md btn-dark" onclick="recreate_champions(undefined)">All</div>&nbsp;
+        </div>
+        <hr />
         <div id="list">
 
         </div>
         <script>
-            findObjects('champions', (champions) =>
+            var champions = [];
+            var games = [];
+            findObjects('champions', (cs) =>
             {
+                champions = cs;
                 console.log((champions));
+                findObjects('games', (gs) =>
+                {
+                    games = gs;
+                    for(var i = 0 ; i < games.length;i++)
+                        $("#games").append(`<div href="#" class="btn btn-md btn-dark" onclick="recreate_champions('${games[i]._id}')">${games[i].name}</div>&nbsp;&nbsp;`);
+                    recreate_champions(undefined);
+                });
+            });
+            function recreate_champions(gameId)
+            {
+                $("#list").html('');
                 for (var i = 0; i < champions.length; i++)
                 {
                     var champ = champions[i];
+                    if(!(gameId == undefined || champ.gameId == gameId))
+                        continue;
                     $("#list").append(
                         `<div class="row box-row">`
                         + `<div class="col-md-2 text-center" style="overflow:hidden;"><small>${champ._id}</small></div>`
@@ -34,7 +54,7 @@
                         + `</div>`
                     );
                 }
-            });
+            }
         </script>
     </div>
     {{{footer}}}

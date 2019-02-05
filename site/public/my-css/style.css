@@ -345,7 +345,7 @@ Common Helpers:
     min-height:50px;
 }
 .widget-box{
-
+    position:relative;
 }
 .widget-box .title-wrapper{
     background-image: radial-gradient(ellipse farthest-corner at center 0px,#31a2a6 -150%,#333240 45%,#333240 85%);
@@ -353,6 +353,8 @@ Common Helpers:
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
     padding:10px 16px;
+    z-index:1;
+    box-shadow: 0px 2px 3px black;
 }
 .widget-box .title-wrapper h3{
     color:white;
@@ -364,6 +366,11 @@ Common Helpers:
     -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
     -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
     box-shadow: 0 1px 3px rgba(0, 0, 0, .3), inset 0 1px 1px rgba(255, 255, 255, .2);
+}
+.widget-box .content-wrapper.text-content{
+    background: #212129;
+    border: 1px solid black;
+    padding:30px;
 }
 .widget-box .content-wrapper .img-col{
     /* display:inline-block; */
@@ -401,14 +408,14 @@ Common Helpers:
     top: 0;
     left: 0;
 }
-.overlay.trans-9{background-color:rgba(0,0,0,0.9);}
-.overlay.trans-8{background-color:rgba(0,0,0,0.8);}
-.overlay.trans-7{background-color:rgba(0,0,0,0.7);}
-.overlay.trans-6{background-color:rgba(0,0,0,0.6);}
-.overlay.trans-4{background-color:rgba(0,0,0,0.4);}
-.overlay.trans-3{background-color:rgba(0,0,0,0.3);}
-.overlay.trans-2{background-color:rgba(0,0,0,0.2);}
-.overlay.trans-1{background-color:rgba(0,0,0,0.1);}
+.wog-overlay.trans-9{background-color:rgba(0,0,0,0.9);}
+.wog-overlay.trans-8{background-color:rgba(0,0,0,0.8);}
+.wog-overlay.trans-7{background-color:rgba(0,0,0,0.7);}
+.wog-overlay.trans-6{background-color:rgba(0,0,0,0.6);}
+.wog-overlay.trans-4{background-color:rgba(0,0,0,0.4);}
+.wog-overlay.trans-3{background-color:rgba(0,0,0,0.3);}
+.wog-overlay.trans-2{background-color:rgba(0,0,0,0.2);}
+.wog-overlay.trans-1{background-color:rgba(0,0,0,0.1);}
 .mobile-only{
     display:initial;
 }

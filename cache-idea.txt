@@ -1,0 +1,8 @@
+CacheReader
+{
+    name : "", //check file ./storage/caches/name.json
+    validWith : int , //checks with content of name.json
+    _data : "",
+    actualDataLoader : function
+}
+CacheUpadate : function(name) //fills name.json with DateTime.now
