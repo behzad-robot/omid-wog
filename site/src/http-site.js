@@ -4,6 +4,7 @@ import { APICollection, APIProxy } from "./utils/api-helper";
 import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL } from "./constants";
 import SiteGeneralRouter from "./routers/general_router";
 import { CacheReader } from "./utils/cache";
+import SiteAuthRouter from "./routers/auth_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -91,6 +92,7 @@ express.expressApp.all('/api/*', (req, res) =>
 });
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router)
+express.expressApp.use('/', new SiteAuthRouter(SiteModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
 const PORT = 80;

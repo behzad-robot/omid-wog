@@ -30,6 +30,7 @@ export default class SiteRouter extends Router
                     res.send("Error="+err.toString());
                     return;
                 }
+                data.currentUser = req.session.currentUser;
                 data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(),data);
                 data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(),data);
                 data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(),data);
