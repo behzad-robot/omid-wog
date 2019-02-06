@@ -158,7 +158,10 @@
                     );
                     $(`#items-${item._id}`).hide();
                 }
-                $("#items [name=description]").on('froalaEditor.blur', function (e, editor) {
+                // $("#items [name=description]").on('froalaEditor.blur', function (e, editor) {
+                //     items_update(this);
+                // });
+                $("#items [name=description]").on('change', function () {
                     items_update(this);
                 });
                 $("#items .row input").change(function () {

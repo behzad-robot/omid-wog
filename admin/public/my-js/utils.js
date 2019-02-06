@@ -1,26 +1,21 @@
 //form functions
-const idInput = (name, value, extraInfo = {}) =>
-{
+const idInput = (name, value, extraInfo = {}) => {
     var after = extraInfo.after ? '&nbsp;&nbsp;&nbsp;' + extraInfo.after : '';
     return `<div class='form-row'><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
 };
-const textInput = (name, value, readonly = false) =>
-{
+const textInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<div class='form-row'><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
-const numberInput = (name, value, readonly = false) =>
-{
+const numberInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<div class='form-row'><b>${name}:</b><input type='number' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
-const boolInput = (name, value, readonly = false) =>
-{
+const boolInput = (name, value, readonly = false) => {
     var label = name;
-    if (typeof name != 'string')
-    {
+    if (typeof name != 'string') {
         label = name.label;
         name = name.name;
     }
@@ -28,69 +23,73 @@ const boolInput = (name, value, readonly = false) =>
     value = value ? "checked" : "";
     return `<div class='form-row'><b>${label}:</b><input type='checkbox' class='form-control m' name='${name}' ${value} ${readonly}/></div>`;
 }
-const passwordInput = (name, value, readonly = false) =>
-{
+const passwordInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<div class='form-row'><b>${name}:</b><input type='password' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
-const hiddenInput = (name, value, readonly = false) =>
-{
+const hiddenInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<input type='hidden' class='form-control m' name='${name}' value='${value}' ${readonly}/>`;
 };
-const bodyInput = (name, value, settings = {}) =>
-{
-    readonly = settings.readonly ? "readonly" : "";
-    setTimeout(function ()
-    {
-        $(`textarea[name=${name}`).froalaEditor({
-            // toolbarButtons: ['inlineClass'],
-            // toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
-            // toolbarButtonsXS: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
-            // toolbarButtonsMD: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
-            // toolbarButtonsSM: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
-            toolbarInline: false, height: 300,
-            // ===========  images: ===== 
-            imageUploadParam: 'my-file',
-            imageUploadURL: settings.uploadUrl ? settings.uploadUrl : 'http://31.184.135.51:6565/admin/file-upload',
-            // imageUploadParams: { 'my-dir': settings['my-dir'] },
-            imageUploadMethod: 'POST',
-            imageMaxSize: 12 * 1024 * 1024,  // Set max image size to 12MB.
-            // Allow to upload PNG and JPG.
-            imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'webp'],
-            // ==== inline styles === 
-            // Define new inline classes.
-            inlineClasses: {
-                'wog-lol-ap' : 'LOL AP',
-                'wog-lol-ad' : 'LOL AD',
-                'wog-lol-armor' : 'LOL Armor',
-                'wog-lol-maxhp' : 'LOL Max HP',
-            }
+const bodyInput = (name, value, settings = {}) => {
+    // readonly = settings.readonly ? "readonly" : "";
+    // setTimeout(function ()
+    // {
+    //     $(`textarea[name=${name}`).froalaEditor({
+    //         // toolbarButtons: ['inlineClass'],
+    //         // toolbarButtons: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+    //         // toolbarButtonsXS: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+    //         // toolbarButtonsMD: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+    //         // toolbarButtonsSM: ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', '|', 'fontFamily', 'fontSize', 'color', 'inlineStyle', 'inlineClass', 'clearFormatting', '|', 'emoticons', 'fontAwesome', 'specialCharacters', '-', 'paragraphFormat', 'lineHeight', 'paragraphStyle', 'align', 'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '|', 'insertLink', 'insertImage', 'insertVideo', 'insertFile', 'insertTable', '-', 'insertHR', 'selectAll', 'getPDF', 'print', 'help', 'html', 'fullscreen', '|', 'undo', 'redo'],
+    //         toolbarInline: false, height: 300,
+    //         // ===========  images: ===== 
+    //         imageUploadParam: 'my-file',
+    //         imageUploadURL: settings.uploadUrl ? settings.uploadUrl : 'http://31.184.135.51:6565/admin/file-upload',
+    //         // imageUploadParams: { 'my-dir': settings['my-dir'] },
+    //         imageUploadMethod: 'POST',
+    //         imageMaxSize: 12 * 1024 * 1024,  // Set max image size to 12MB.
+    //         // Allow to upload PNG and JPG.
+    //         imageAllowedTypes: ['jpeg', 'jpg', 'png', 'gif', 'webp'],
+    //         // ==== inline styles === 
+    //         // Define new inline classes.
+    //         inlineClasses: {
+    //             'wog-lol-ap' : 'LOL AP',
+    //             'wog-lol-ad' : 'LOL AD',
+    //             'wog-lol-armor' : 'LOL Armor',
+    //             'wog-lol-maxhp' : 'LOL Max HP',
+    //         }
 
-        }).on('froalaEditor.image.uploaded', function (e, editor, response)
-        {
-            // Image was uploaded to the server.
-            // alert('upload success');
-        }).on('froalaEditor.image.error', function (e, editor, error, response)
-        {
-            alert('upload rid code=' + error.code);
-        });
-        // alert(settings.uploadUrl);
+    //     }).on('froalaEditor.image.uploaded', function (e, editor, response)
+    //     {
+    //         // Image was uploaded to the server.
+    //         // alert('upload success');
+    //     }).on('froalaEditor.image.error', function (e, editor, error, response)
+    //     {
+    //         alert('upload rid code=' + error.code);
+    //     });
+    //     // alert(settings.uploadUrl);
+    // }, 300);
+    // return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+
+    setTimeout(() => {
+        var config = {};
+        config.stylesSet = 'my_styles';
+        // CKEDITOR.replace(name, config);
+        $(`[name=${name}]`).ckeditor(config);
     }, 300);
-    return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+    readonly = settings.readonly ? "readonly" : "";
+    return `<div class='form-row'><b>${name}:</b><textarea editor="true" id='${name}' class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
-const jsonInput = (name, value, readonly = false) =>
-{
+const jsonInput = (name, value, readonly = false) => {
     readonly = readonly ? "readonly" : "";
     if (typeof value != 'string')
         value = JSON.stringify(value);
     return `<div class='form-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 var fuid = 0;
-const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploaded = undefined) =>
-{
+const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploaded = undefined) => {
     // let img = (value != null && value != '')
     //     ? `<img src='${value}' width='64px' />` + `<a class='small-link' href='${value}'>${value}</a>`
     //     : '';
@@ -99,8 +98,7 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
     var otherSizes = '<br>';
     var sizesParams = '';
     // console.log(parent);
-    for (var i = 0; i < sizes.length; i++)
-    {
+    for (var i = 0; i < sizes.length; i++) {
         var size = sizes[i];
         let fileName = value.substring(0, value.indexOf('.'));
         let fileFormat = value.substring(value.indexOf('.'), value.length);
@@ -121,15 +119,13 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
         + `<input type="hidden" name="${name}" value="${value}"/>`
         + `</div>`
     );
-    fileUploadTool(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams, (result) =>
-    {
+    fileUploadTool(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams, (result) => {
         console.log(result);
         var value = result.path;
         $(`${parent} input[name=${name}`).val(value).trigger('change');
         $(`${parent} img[name=preview-${name}]`).attr('src', value);
         $(`${parent} [name=preview-label-${name}]`).html(value);
-        for (var i = 0; i < sizes.length; i++)
-        {
+        for (var i = 0; i < sizes.length; i++) {
             var size = sizes[i];
             let fileName = value.substring(0, value.indexOf('.'));
             let fileFormat = value.substring(value.indexOf('.'), value.length);
@@ -140,31 +136,25 @@ const imageInput = (parent, name, value, fileUploadURL, sizes = [], onImageUploa
             onImageUploaded(result);
     });
 }
-const fileInput = (name, value) =>
-{
+const fileInput = (name, value) => {
     let img = (value != null && value != '')
         ? `<a class='small-link' href='${value}'>${value}</a>`
         : '';
     return `<div class='form-row'><b>${name}:</b><input type='file' class='form-control m' name='${name}'/>&nbsp;&nbsp;` + img + `</div>`;
 }
 // values:{value:string,title:string}
-const dropDown = (name, values, value = '') =>
-{
+const dropDown = (name, values, value = '') => {
     let str = `<div class='form-row'><b>${name}:</b><select class='form-control m' name='${name}'>`;
     str = str + `<option value=''></option>`;
-    if (typeof values[0] == 'string')
-    {
-        for (var i = 0; i < values.length; i++)
-        {
+    if (typeof values[0] == 'string') {
+        for (var i = 0; i < values.length; i++) {
             let selected = value == values[i] ? 'selected' : '';
             str = str + `<option value='${values[i]}' ${selected}>${values[i]}</option>`;
         }
     }
-    else
-    {
+    else {
         //TODO
-        for (var i = 0; i < values.length; i++)
-        {
+        for (var i = 0; i < values.length; i++) {
             let selected = value == values[i].value ? 'selected' : '';
             str = str + `<option value='${values[i].value}' ${selected}>${values[i].title}</option>`;
         }
@@ -175,44 +165,36 @@ const dropDown = (name, values, value = '') =>
 
 
 
-const submitBtn = (text = 'Save') =>
-{
+const submitBtn = (text = 'Save') => {
     return `<input type="submit" class="btn btn-lg btn-success" value="${text}" />`;
 }
-const initEditors = () =>
-{
+const initEditors = () => {
     //$('textarea[input=name').froalaEditor({toolbarInline: false})
 }
-const mediaItemBox = (media, onClick = '') =>
-{
+const mediaItemBox = (media, onClick = '') => {
     return `<div class='col-md-3'><div class='media-item-box' path='${media.path}'>` +
         `<a href='${media.url}' class='thumbnail' style='background-image:url("${media.url}")'></a>` +
         `<div onclick='${onClick}("${media.path}")' class='btn btn-md btn-warning'>Remove</div>` +
         `</div></div>`;
 }
 //media functions:
-const loadMedia = (url, next) =>
-{
-    if (url.indexOf('http') == -1)
-    {
+const loadMedia = (url, next) => {
+    if (url.indexOf('http') == -1) {
         $.get({
             url: API.media(url),
-            success: function (data)
-            {
+            success: function (data) {
                 //console.log(data);
                 let result = JSON.parse(data);
                 next(result);
             }
         });
     }
-    else
-    {
+    else {
         next({ url: url });
     }
 };
 //file uploader
-const fileUploadTool = (parent, name, fileUploadURL, onUploaded) =>
-{
+const fileUploadTool = (parent, name, fileUploadURL, onUploaded) => {
     console.log('fileUploadTool=>' + parent);
     $(parent).append(
         `<div class="form-row" name="${name}-container">`
@@ -224,13 +206,11 @@ const fileUploadTool = (parent, name, fileUploadURL, onUploaded) =>
     $(`${parent} .form-row[name=${name}-container] input[name=my-file]`).fileupload(
         {
             dataType: 'json',
-            progressall: function (e, data)
-            {
+            progressall: function (e, data) {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html(`Uploading ${progress}% ...`);
             },
-            done: function (e, data)
-            {
+            done: function (e, data) {
                 console.log(data);
                 console.log(e);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html("Uploaded: " + data.result.url);
