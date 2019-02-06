@@ -5,6 +5,7 @@ import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL } from "./constants";
 import SiteGeneralRouter from "./routers/general_router";
 import { CacheReader } from "./utils/cache";
 import SiteAuthRouter from "./routers/auth_router";
+import SiteGamesRouter from "./routers/games_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -14,15 +15,44 @@ const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADM
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-
+function isEmptyString(str){
+    return str == undefined || str == "undefined" || str == '' || str.replace(' ','') == '' || str == '?';
+}
+const ICON_404 = '/images/404-image.png';
+Champion.fixOne = (champ) => {
+    champ.icon = !isEmptyString(champ.icon) ? champ.icon : ICON_404;
+    if(isEmptyString(champ.icon_gif))
+        champ.icon_gif = champ.icon;
+    return champ;
+};
+Champion.fixAll = (champions) => {
+    for (var i = 0; i < champions.length; i++) {
+        champions[i] = Champion.fixOne(champions[i]);
+    }
+    return champions;
+};
+Game.fixOne = (game) => {
+    for(var i = 0 ; i < game.items.length;i++)
+    {
+        if(game.items[i].name == 'NECRONOMICON 2')
+            console.log('ICON=>'+game.items[i].icon+'=>'+isEmptyString(game.items[i].icon));
+        if(isEmptyString(game.items[i].icon))
+            game.items[i].icon = ICON_404;
+    }
+    return game;
+};
+Game.fixAll = (games) => {
+    for(var i= 0 ; i < games.length;i++)
+        games[i] = Game.fixOne(games[i]);
+    return games;
+}
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const allGamesCache = new CacheReader('all-games', (cb) =>
-{
-    Game.find().then((games)=>{
-        cb(undefined,games);
-    }).catch((err)=>{
-        cb(err,undefined);
+const allGamesCache = new CacheReader('all-games', (cb) => {
+    Game.find().then((games) => {
+        cb(undefined, games);
+    }).catch((err) => {
+        cb(err, undefined);
     });
 });
 const SiteModules = {
@@ -31,10 +61,10 @@ const SiteModules = {
     Champion: Champion,
     Admin: Admin,
     Build: ChampBuild,
-    ContactUsForm : ContactUsForm,
+    ContactUsForm: ContactUsForm,
     proxyAPI: proxyAPI,
     Cache: {
-        allGames : allGamesCache,
+        allGames: allGamesCache,
     }
 }
 //express:
@@ -46,8 +76,7 @@ const express = new MyExpressApp({
         path: '../storage',
     }],
 });
-express.expressApp.all('*', (req, res, next) =>
-{
+express.expressApp.all('*', (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -57,21 +86,16 @@ express.expressApp.all('*', (req, res, next) =>
 //add general middlewares here:
 express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
-express.expressApp.all('/api/*', (req, res) =>
-{
+express.expressApp.all('/api/*', (req, res) => {
     // res.send('SHINE');    
-    if(req.method != 'GET')
-    {
+    if (req.method != 'GET') {
         res.send('access denied!');
         return;
     }
-    if(req.query.cache)
-    {
-        console.log('asking for a cache huh?');
-        if(req.query.cache == 'allGames')
-        {
-            SiteModules.Cache.allGames.getData((err,data)=>{
-                if(err)
+    if (req.query.cache) {
+        if (req.query.cache == 'allGames') {
+            SiteModules.Cache.allGames.getData((err, data) => {
+                if (err)
                     res.send(err.toString());
                 else
                     res.send(data);
@@ -79,24 +103,27 @@ express.expressApp.all('/api/*', (req, res) =>
         }
         return;
     }
+    // if(req.url == 'twitch')
+    // {
+    //     res.send("Hello Twitch Mate You are doing this all wrong!")
+    //     return;
+    // }
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    fullUrl = fullUrl.replace('?cache='+req.query.cache,'');
+    fullUrl = fullUrl.replace('?cache=' + req.query.cache, '');
     fullUrl = fullUrl.replace("/api", ":8585/api");
-    proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
-    {
+    proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) => {
         res.send(result);
-    }).catch((err) =>
-    {
+    }).catch((err) => {
         res.send(err.toString());
     });
 });
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router)
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router)
+express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
 const PORT = 80;
-express.http.listen(PORT, function ()
-{
+express.http.listen(PORT, function () {
     log.success('http server listening on port ' + PORT);
 });

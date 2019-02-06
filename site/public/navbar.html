@@ -130,7 +130,7 @@
                             for (var i = 0; i < games.length; i++)
                             {
                                 var g = games[i];
-                                $("#dropdownGamesList").append(`<a href="#" class="dropdown-cat-link game-link " game="${g.token}">${g.name}<i class="fas fa-chevron-left"></i></a>`)
+                                $("#dropdownGamesList").append(`<a href="/games/${g.slug}" class="dropdown-cat-link game-link " game="${g.token}">${g.name}<i class="fas fa-chevron-left"></i></a>`)
                             }
                             $(".dropdown-cat-link.game-link").mouseenter(function ()
                             {
@@ -160,7 +160,7 @@
                     <span>اخبار</span>
                     <i class="fas fa-chevron-down"></i>
                 </a>
-                <div class="link-bar-dropdown-container text-right" style="right:-85px;">
+                <div class="link-bar-dropdown-container text-right" style="right:-185px;">
                     <div class="row">
                         <div class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
                             <a href="#" class="dropdown-cat-link news-link " cat="dota2">Cat 1<i class="fas fa-chevron-left"></i></a>

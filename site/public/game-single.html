@@ -35,11 +35,17 @@
             float: right;
             border-radius: 5px;
             cursor: pointer;
+            text-decoration: none !important;
         }
 
         .champ-box:hover {
             box-shadow: 0 0 15px rgba(255, 136, 0, 0.8);
             background: #2a2b2f;
+        }
+
+        .dota2 .champ-box {
+            width: 15%;
+            /* margin: 2px 2px; */
         }
 
         .champ-box::before {
@@ -89,14 +95,59 @@
         .champ-box .content h4 {
             font-size: 14px;
             margin: 5px 0;
+            height: 30px;
+            text-overflow: clip;
+        }
+
+        @media (max-width: 576px) {
+            .dota2 .champ-box {
+                width: 23%;
+                margin: 2px;
+                float: right;
+                height: 85px;
+                margin-bottom: 5px;
+                overflow: hidden;
+
+            }
+
+            .dota2 .champ-box .zoom {
+                display: none;
+            }
         }
 
         .champ-box.item-box {
             width: 8%;
+            height: 96px;
         }
 
         .champ-box.item-box .content h4 {
-            font-size: 12px;
+            font-size: 10px;
+            display: block;
+            height: 30px;
+            text-overflow: clip;
+        }
+
+        .dota2 .champ-box.item-box {
+            width: 10%;
+            overflow: hidden;
+
+        }
+
+        .dota2 .champ-box.item-box .content h4 {
+            font: 8px;
+            text-overflow: clip;
+        }
+
+        @media (max-width: 576px) {
+            .dota2 .champ-box.item-box {
+                width: 18%;
+                margin: 2px;
+                float: right;
+                height: 85px;
+                margin-bottom: 5px;
+                overflow: hidden;
+
+            }
         }
 
         .build-box {
@@ -129,6 +180,7 @@
 
         .build-box .content-wrapper h4 {
             font-size: 18px;
+            margin-bottom: 2px;
         }
 
         .build-box .content-wrapper .username {
@@ -141,7 +193,21 @@
         }
 
         .build-box .content-wrapper .item-wrapper .item {
-            width: 24px;
+            width: 26px;
+            /* border:1px solid #eee; */
+            margin: 0 2px;
+        }
+
+        .build-box .vote-wrapper {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+        }
+
+        .build-box .vote-wrapper span {
+            display: block;
+            font-size: 10px;
+            margin: 2px 0;
         }
 
         .stream-box {
@@ -177,37 +243,171 @@
                     <div class="champ-list-title">
                         <h2>قهرمان ها</h2>
                     </div>
-                    <div id="champs-row" style="overflow:hidden;padding-bottom:40px;">
+                    <div id="champs-row" class="{{game.token}}" style="overflow:hidden;padding-bottom:10px;">
+                        <!-- <div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div> -->
+                        <div name="loading" class="text-center" style="margin:10px 0;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                        <!-- {{#champions}}
+                        <div class="champ-box text-center">
+                            <div class="content"><img class="icon" src="{{icon}}" width="100%" /><img src="{{icon_gif}}"
+                                    class="zoom" width="100%" />
+                                <a href="/champions/{{slug}}">
+                                    <h4 class="text-white text-english">{{name}}</h4>
+                                </a>
+                            </div>
+                        </div>
+                        {{/champions}} -->
                     </div>
-                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
+                    <div class="btn btn-md btn-black" id="champions-load-more-btn" onclick="champions_show_all()"><span>مشاهده
+                            همه</span></div>
                     <hr />
                     <div class="champ-list-title">
                         <h2>آیتم ها</h2>
                     </div>
-                    <div id="items-row" style="overflow:hidden;margin-bottom:10px;">
+                    <div id="items-row" class="{{game.token}}" style="overflow:hidden;margin-bottom:10px;">
+                        <div name="loading" class="text-center" style="margin:10px 0;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                        <!--<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>{{name}}</h4></div></div> -->
+                        <!-- {{#game.items}}
+                        <div class="champ-box item-box text-english text-center" itemId="{{_id}}">
+                            <div class="content"><img class="icon" src="{{icon}}" width="100%" />
+                                <h4 class="text-english">{{name}}</h4>
+                            </div>
+                        </div>
+                        {{/game.items}} -->
                     </div>
-                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
+                    <div class="btn btn-md btn-black" id="items-load-more-btn" onclick="champions_show_all()"><span>مشاهده
+                            همه</span></div>
                     <script>
+                        let champions = [];
+                        let builds = [];
+                        let game = undefined;
+                        let streamers = [];
                         $(document).ready(() => {
+                            getGame('{{game._id}}', (g) => {
+                                game = g;
+                                items_create();
+                                getChampions('?gameId=' + `{{game._id}}`, (cs) => {
+                                    champions = cs;
+                                    //draw champions:
+                                    champions_create();
+                                    //load builds:
+                                    getBuilds('?gameId=' + `{{game._id}}`, game, champions, (bs) => {
+                                        builds = bs;
+                                        builds_create();
+                                    });
+                                    //twitch streamers:
+                                    getTwitchStreamersFor(33214, (ss) => {
+                                        streamers = ss;
+                                        streamers_create();
+                                    });
+                                });
+                            });
                             // var champBox = $("#champs-row").html();
-                            for (var i = 0; i < 27; i++) {
-                                // $("#champs-row").append(champBox);
-                                $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
-                            }
-                            for (var i = 0; i < 27; i++) {
-                                // $("#champs-row").append(champBox);
-                                $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
-                            }
+                            // for (var i = 0; i < 27; i++) {
+                            //     // $("#champs-row").append(champBox);
+                            //     $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
+                            // }
+                            // for (var i = 0; i < 27; i++) {
+                            //     // $("#champs-row").append(champBox);
+                            //     $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
+                            // }
                         });
+                        function champions_create() {
+                            for (var i = 0; i < champions.length; i++) {
+                                var c = champions[i];
+                                $("#champs-row").append(
+                                    `<a href="/champions/${c.slug}" class="champ-box champ text-center" index="${i}">`
+                                    + `<div class="content"><img class="icon" src="${c.icon}" width="100%" /><img src="${c.icon_gif}" class="zoom" width="100%" />`
+                                    + `<h4 class="text-white text-english">${c.name}</h4>`
+                                    + `</div>`
+                                    + `</a>`
+                                );
+                                if (i >= 28)
+                                    $(`.champ-box[index=${i}]`).hide();
+                            }
+                            $("#champs-row [name=loading]").hide();
+                        }
+                        function champions_show_all() {
+                            $(`.champ-box.champ`).show();
+                            $("#champions-load-more-btn").hide();
+                        }
+                        function items_create() {
+                            for (var i = 0; i < game.items.length; i++) {
+                                const item = game.items[i];
+                                $("#items-row").append(
+                                    `<div class="champ-box item-box  text-english text-center" itemId="${item._id}">`
+                                    + `<div class="content"><img class="icon" src="${item.icon}" width="100%" />`
+                                    + `<h4 class="text-english">${item.name}</h4>`
+                                    + `</div>`
+                                    + `</div>`
+                                );
+                                if (i >= 28)
+                                    $(`.item-box[itemId=${item._id}]`).hide();
+                            }
+                            $("#items-row [name=loading]").hide();
+                        }
+                        function items_show_all() {
+                            $(`.item-box`).show();
+                            $("#items-load-more-btn").hide();
+                        }
+                        function builds_create() {
+                            for (var i = 0; i < builds.length; i++) {
+                                if (builds[i].itemRows.length == 0)
+                                    continue;
+                                var b = builds[i];
+                                var items_str = ``;
+                                var row = b.itemRows[b.itemRows.length >= 2 ? 1 : 0];
+                                console.log(row);
+                                for (var j = 0; j < row.items.length; j++) {
+                                    var it = row._items[j];
+                                    items_str += `<img src="${it.icon}" class="item" />`;
+                                }
+                                $("#builds-row").append(
+                                    `<div class="card build-box">`
+                                    + `<div class="icon-wrapper"><img src="${b._champ.icon_tall}" width="100%" /></div>`
+                                    + `<div class="content-wrapper">`
+                                    + `<h4>${b.title}</h4><b class="username">توسط <span userId="${b.userId}" label="username">??</span></b><div class="item-wrapper">${items_str}</div>`
+                                    + `</div>`
+                                    + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
+                                    + `</div>`
+                                );
+                                const userId = b.userId;
+                                getUser(userId, (user) => {
+                                    var thing = $(`[userId=${userId}]`);
+                                    var label = $(thing).attr('label');
+                                    $(thing).html(user[label]);
+                                });
+                            }
+                            $("#builds-row [name=loading]").hide();
+                        }
+                        function streamers_create()
+                        {
+                            for(var i = 0 ; i < streamers.length;i++)
+                            {
+                                $("#streamers-row").append()
+                            }
+                        }
+
                     </script>
                 </div>
                 <div class="col-md-4">
-                    <h3>تازه های آموزش ها:</h3>
-                    <div class="card build-box">
+                    <h3>تازه های آموزش ها:<div class="btn btn-xs btn-green float-left" style="margin-top:5px;"><span>مشاهده
+                                همه</span></div>
+                    </h3>
+                    <div id="builds-row">
+                        <div name="loading" class="text-center" style="margin:10px 0;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                    </div>
+                    <!-- <div class="card build-box">
                         <div class="icon-wrapper">
                             <img src="/images/s4.png" width="100%" />
                         </div>
                         <div class="content-wrapper">
+                            
                             <h4>عنوان آموزش</h4>
                             <b class="username">laku22</b>
                             <div class="item-wrapper">
@@ -220,65 +420,13 @@
                                 <img src="/images/s5.jpg" class="item" />
                             </div>
                         </div>
-                    </div>
-                    <div class="card build-box">
-                        <div class="icon-wrapper">
-                            <img src="/images/s4.png" width="100%" />
+                    </div> -->
+                    <h3 style="margin-top:10px;font-size:22px;">استریم جماعت:</h3>
+                    <div id="streamers-row" class="row">
+                        <div name="loading" class="text-center" style="margin:10px 0;">
+                            <img src="/images/loading.gif" width="72px" />
                         </div>
-                        <div class="content-wrapper">
-                            <h4>عنوان آموزش</h4>
-                            <b class="username">laku22</b>
-                            <div class="item-wrapper">
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card build-box">
-                        <div class="icon-wrapper">
-                            <img src="/images/s4.png" width="100%" />
-                        </div>
-                        <div class="content-wrapper">
-                            <h4>عنوان آموزش</h4>
-                            <b class="username">laku22</b>
-                            <div class="item-wrapper">
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card build-box">
-                        <div class="icon-wrapper">
-                            <img src="/images/s4.png" width="100%" />
-                        </div>
-                        <div class="content-wrapper">
-                            <h4>عنوان آموزش</h4>
-                            <b class="username">laku22</b>
-                            <div class="item-wrapper">
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
-                    <h3>استریم جماعت:</h3>
-                    <div id="stream-rows" class="row">
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <div class="stream-box">
                                 <img src="/images/sample-stream.jpg" width="100%" />
                                 <span>عنوان کذایی</span>
@@ -289,9 +437,9 @@
                                 <img src="/images/sample-stream.jpg" width="100%" />
                                 <span>عنوان کذایی</span>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
-                    <div class="btn btn-sm btn-secondary">مشاهده همه</div>
+                    <!-- <div class="btn btn-sm btn-secondary">مشاهده همه</div> -->
                     <div class="widget-box" style="margin-top:10px;">
                         <div class="title-wrapper">
                             <h3>گالری</h3>
@@ -318,13 +466,6 @@
             </div>
         </div>
     </section>
-    <script>
-        getGames('', (games) => {
-            console.log(games);
-            console.log(games[0].getItem(0));
-            console.log(games[1].getItem(0));
-        });
-    </script>
     {{{footer}}}
 </body>
 
