@@ -33,6 +33,7 @@ const hiddenInput = (name, value, readonly = false) => {
     readonly = readonly ? "readonly" : "";
     return `<input type='hidden' class='form-control m' name='${name}' value='${value}' ${readonly}/>`;
 };
+let bId = 0;
 const bodyInput = (name, value, settings = {}) => {
     // readonly = settings.readonly ? "readonly" : "";
     // setTimeout(function ()
@@ -72,15 +73,17 @@ const bodyInput = (name, value, settings = {}) => {
     //     // alert(settings.uploadUrl);
     // }, 300);
     // return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
-
+    bId++;
+    const b = bId;
     setTimeout(() => {
         var config = {};
         config.stylesSet = 'my_styles';
         // CKEDITOR.replace(name, config);
-        $(`[name=${name}]`).ckeditor(config);
+        $(`#bodyinput-${b}`).ckeditor(function(){
+        },config);
     }, 300);
     readonly = settings.readonly ? "readonly" : "";
-    return `<div class='form-row'><b>${name}:</b><textarea editor="true" id='${name}' class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+    return `<div class='form-row'><b>${name}:</b><textarea editor="true" id='bodyinput-${b}' class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 const jsonInput = (name, value, readonly = false) => {
     readonly = readonly ? "readonly" : "";
