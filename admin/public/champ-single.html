@@ -149,7 +149,7 @@
                         $(`#abilities-${i} .form-row[label=aghanimUpgrade]`).hide();
                     }
                 }
-                $("#abilities input,abilities textarea").change(function () {
+                $("#abilities input,#abilities textarea").change(function () {
                     abilities_update(this);
                 });
                 $("#abilities [name=description]").on('froalaEditor.blur', function (e, editor) {
