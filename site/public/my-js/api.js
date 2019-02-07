@@ -74,7 +74,7 @@ const _fixChamp = (champ) => {
     if (isEmptyString(champ.icon))
         champ.icon = ICON_404;
     if (isEmptyString(champ.icon_gif))
-        champ.icon_gif = champ.icon;
+        champ.icon_gif = champ.icon_tall;
     return champ;
 };
 const getChampions = (params, next) => {

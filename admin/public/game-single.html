@@ -48,17 +48,19 @@
         </script>
         <script>
             let game = null;
-            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`;
+            let  MY_DIR = ``;
             getObject('games', `{{{_id}}}`, (g) => {
-                
+
                 if (g.runes == undefined)
                     g.runes = [];
                 if (g.summonerSpells == undefined)
                     g.summonerSpells = [];
-                if(g.coverTall == undefined)
+                if (g.coverTall == undefined)
                     g.coverTall = '?';
                 game = g;
                 console.log(game);
+                MY_DIR = `games/${game.token}`;
                 $("#single").append(idInput('_id', game._id));
                 $("#single").append(idInput('createdAt', game.createdAt));
                 $("#single").append(idInput('updatedAt', game.updatedAt));
@@ -68,9 +70,9 @@
                 $("#single").append(textInput('category', game.category));
                 $("#single").append(textInput('ageRange', game.ageRange));
                 $("#single").append(bodyInput('description', game.description));
-                imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL)
-                imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL)
-                imageInput('#single', 'coverTall', game.coverTall, FILE_UPLOAD_URL)
+                imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL,MY_DIR);
+                imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL,MY_DIR);
+                imageInput('#single', 'coverTall', game.coverTall, FILE_UPLOAD_URL,MY_DIR);
                 $("#single").append(jsonInput('images', game.images));
                 $("#single").append(jsonInput('media', game.media));
                 $("#single").append(jsonInput('items', game.items));
@@ -84,6 +86,8 @@
                 items_recreate();
                 $("#extra").append(`<div id="summonerSpells"></div>`);
                 summonerSpells_recreate();
+                $("#extra").append(`<div id="runes"></div>`);
+                runes_recreate();
             });
             function scroll_to(el) {
                 $('html, body').animate({
@@ -129,7 +133,7 @@
                         + `</div>`
                         + `</div>`
                     );
-                    imageInput(`#items-${item._id}`, 'icon', item.icon, FILE_UPLOAD_URL);
+                    imageInput(`#items-${item._id}`, 'icon', item.icon, FILE_UPLOAD_URL,MY_DIR);
                     $(`#items-${item._id}`).append('<hr>');
                     var childrenStr = '';
                     for (var j = 0; j < item.children.length; j++) {
@@ -268,7 +272,7 @@
                         + `</div>`
                         + `</div>`
                     );
-                    imageInput(`#summonerSpells-${i}`, 'icon', spell.icon, FILE_UPLOAD_URL);
+                    imageInput(`#summonerSpells-${i}`, 'icon', spell.icon, FILE_UPLOAD_URL,MY_DIR);
                     $(`#summonerSpells-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="summonerSpells_remove(${i})">Remove</div>`);
                 }
                 $("#summonerSpells input").change(function () {
@@ -309,48 +313,56 @@
                 summonerSpells_recreate();
             }
             function runes_recreate() {
-                $("[name=runes]").val(JSON.stringify(champion.runes));
-                $("#runes").html('<h4>Runes:</h4><div class="btn btn-md btn-secondary" onclick="runes_add()">+Add Rune</div><div class="row"></div>');
-                for (var i = 0; i < champion.runes.length; i++) {
-                    var r = champion.runes[i];
+                $("[name=runes]").val(JSON.stringify(game.runes));
+                $("#runes").html('<h4>Runes:</h4><div class="btn btn-md btn-secondary" onclick="runes_add()">+Add Rune</div><div id="runes" class="row"></div>');
+                for (var i = 0; i < game.runes.length; i++) {
+                    var r = game.runes[i];
                     $("#runes .row").append(
-                        `<div class="col-md-4">`
-                            `<div id="runes-${i}" index="${i}">`
+                        `<div class="col-md-6 box-row" id="runes-${r._id}" runeId="${r._id}">`
+                        + idInput('_id', r._id)
                         + textInput('tree', r.tree)
                         + textInput('name', r.name)
                         + numberInput('depth', r.depth)
                         + textInput('bonus', r.bonus)
-                        + bodyInput('description', r.description)
-                        + `</div>`
+                        + textInput('description', r.description)
                         + `</div>`
                     );
-                    imageInput(`#runes-${i}`, 'icon', r.icon, FILE_UPLOAD_URL);
-                    $(`#runes-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="runes_remove(${i})">Remove</div>`);
+                    imageInput(`#runes-${r._id}`, 'icon', r.icon, FILE_UPLOAD_URL,MY_DIR);
                 }
-                $("#runes input").change(function () {
-                    runes_update(this);
-                });
-                $("#runes [name=description]").on('froalaEditor.blur', function (e, editor) {
+                $("#runes input,#runes textarea").change(function () {
                     runes_update(this);
                 });
             }
             function runes_update(elm) {
-                var type = $(elm).attr('type');
-                if (type == 'file')
-                    return;
-                var i = $(elm).closest(".box-row").attr("index");
-                game.summonerSpells[i] = {
-                    icon: $(`#runes-${i} [name=icon]`).val(),
-                    tree: $(`#runes-${i} [name=tree]`).val(),
-                    name: $(`#runes-${i} [name=name]`).val(),
-                    level: $(`#runes-${i} [name=depth]`).val(),
-                    range: $(`#runes-${i} [name=bonus]`).val(),
-                    description: $(`#runes-${i} [name=description]`).val(),
-                };
-                runes_recreate();
+                var _id = $(elm).closest(".box-row").attr("runeId");
+                // alert(_id);
+                for (var i = 0; i < game.runes.length; i++) {
+                    if (game.runes[i]._id == _id) {
+                        // alert("found!");
+                        game.runes[i] = {
+                            _id: $(`#runes-${_id} [name=_id]`).val(),
+                            icon: $(`#runes-${_id} [name=icon]`).val(),
+                            tree: $(`#runes-${_id} [name=tree]`).val(),
+                            name: $(`#runes-${_id} [name=name]`).val(),
+                            depth: $(`#runes-${_id} [name=depth]`).val(),
+                            bonus: $(`#runes-${_id} [name=bonus]`).val(),
+                            description: $(`#runes-${_id} [name=description]`).val(),
+                        };
+                        // alert(JSON.stringify(game.runes[i]));
+                        $("[name=runes]").val(JSON.stringify(game.runes));
+                        break;
+                    }
+                }
             }
             function runes_add() {
-                game.runes.add({
+                var maxId = -1;
+                for (var i = 0; i < game.runes.length; i++) {
+                    if (game.runes[i]._id > maxId)
+                        maxId = game.runes[i]._id;
+                }
+                maxId++;
+                game.runes.push({
+                    _id: maxId,
                     icon: "?",
                     tree: "",
                     name: "",

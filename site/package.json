@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "site": "nodemon -I src/http-site.js --exec babel-node --presets es2015,stage-2",
+    "fixer": "nodemon -I src/fix-dota.js --exec babel-node --presets es2015,stage-2",
     "build": "babel src -d dist --presets es2015,stage-2",
     "serve": "node dist/http-site.js",
     "deploy": "npm run build && pm2 start dist/http-admin.js --name \"battleship-admin\""

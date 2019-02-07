@@ -8,7 +8,7 @@
     {{{actionbar}}}
     <div class="container">
         <h2>File Uploader</h2>
-        <p>This page is kind of a mess :D Expect bugs or dont use it!</p>
+        <p>The Awesome File Explorer</p>
         <!-- <form id="file-form" action="{{fileUploadURL}}" method="post" enctype="multipart/form-data">
             <div class="form-row">
                 <b>file:</b><input name="my-file" class="form-control m" type="file" data-url="{{{fileUploadURL}}}"
@@ -40,7 +40,7 @@
                 $("#list").html("Loading...");
                 $("[name=my-dir]").val(dir);
                 $("#file-container").html("");
-                fileUploadTool('#file-container', 'my-file', encodeURI('{{{fileUploadURL}}}/?my-dir=' + dir), (result) =>
+                fileUploadTool2('#file-container', 'my-file', encodeURI('{{{fileUploadURL}}}'),dir, (result) =>
                 {
                     console.log(result);
                     loadFiles($("input[name=my-dir]").val());

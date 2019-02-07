@@ -4,67 +4,65 @@ import { IS_LOCALHOST, API_URL, ADMIN_URL, API_BASE_URL, ADMIN_TOKEN, ADMIN_FILE
 import { API_TOKEN } from "../../../api/src/constants";
 const multiparty = require("multiparty");
 const fs = require('fs');
-export default class AdminPanelRouter extends AdminRouter
-{
-    constructor(AdminModel)
-    {
+export default class AdminPanelRouter extends AdminRouter {
+    constructor(AdminModel) {
         super();
         const Admin = AdminModel;
         this.requireAdmin();
-        this.router.get('/', (req, res) =>
-        {
+        this.router.get('/', (req, res) => {
             res.send(this.renderTemplate('panel.html', {
                 admin: req.session.admin
             }));
         });
-        this.router.get('/file-explorer', (req, res) =>
-        {
+        this.router.get('/file-explorer', (req, res) => {
             res.send(this.renderTemplate('file-explorer.html', {
                 admin: req.session.admin,
                 fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });
-        this.router.get('/file-load', (req, res) =>
-        {
-            fs.readdir('../storage/' + (req.query.folder ? req.query.folder : ''), (err, items) =>
-            {
+        this.router.get('/file-load', (req, res) => {
+            fs.readdir('../storage/' + (req.query.folder ? req.query.folder : ''), (err, items) => {
                 for (var i = 0; i < items.length; i++)
                     items[i] = '/storage/' + (req.query.folder ? req.query.folder + '/' : '') + items[i];
                 res.send(items);
             });
         });
-        this.router.post('/file-upload', (req, res) =>
-        {
+        this.router.all('/file-upload', (req, res) => {
             var sizes = [];
-            if (req.query.sizes)
-            {
+            if (req.query.sizes) {
                 var strs = req.query.sizes.split(',');
 
-                for (var i = 0; i < strs.length; i++)
-                {
-                    if (strs[i].indexOf('x') != -1)
-                    {
+                for (var i = 0; i < strs.length; i++) {
+                    if (strs[i].indexOf('x') != -1) {
                         var parts = strs[i].split('x');
                         sizes.push({
                             width: parseInt(parts[0]),
                             height: parseInt(parts[1]),
                         });
                     }
-                    else
-                    {
+                    else {
                         var s = parseInt(strs[i]);
                         sizes.push({ width: s, height: s });
                     }
                 }
             }
-            if (req.query['my-dir'] == undefined)
-                req.query['my-dir'] = '';
+            var myDir = '';
+            if (req.method == 'GET') {
+                if (req.query['my-dir'] == undefined)
+                    req.query['my-dir'] = '';
+                myDir = req.query['my-dir'];
+            }
+            else if (req.method == 'POST') {
+                if (req.body['my-dir'] == undefined)
+                    req.body['my-dir'] = '';
+                myDir = req.body['my-dir'];
+            }
+            if(!myDir.endsWith('/'))
+                myDir += '/';
             console.log('resizes=' + JSON.stringify(sizes));
             console.log('my-dir=' + req.query['my-dir']);
-            this.handleFile(req, res, 'my-file', req.query['my-dir'], sizes).then((result) =>
-            {
-                if (result)
-                {
+            this.handleFile(req, res, 'my-file', myDir, sizes).then((result) => {
+                if (result) {
                     result.link = result.path;
                     res.send(result);
                     // if (req.query.redirect == undefined)
@@ -76,17 +74,14 @@ export default class AdminPanelRouter extends AdminRouter
                 }
                 else
                     this.handleError(req, res, "nothing to upload!", 500);
-            }).catch((err) =>
-            {
+            }).catch((err) => {
                 this.handleError(req, res, err.toString(), 500);
             });
         });
-        this.router.post('/file-delete', (req, res) =>
-        {
+        this.router.post('/file-delete', (req, res) => {
             if (req.body.file.indexOf('/storage/') != -1)
                 req.body.file = req.body.file.replace('/storage/', '../storage/');
-            fs.unlink(req.body.file, (err) =>
-            {
+            fs.unlink(req.body.file, (err) => {
                 if (err)
                     res.send(err);
                 else

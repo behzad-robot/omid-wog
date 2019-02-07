@@ -35,6 +35,7 @@ export class AdminRouter extends Router
             data.head = fileSystem.readFileSync(path.resolve('public/head.html'));
             data.actionbar = fileSystem.readFileSync(path.resolve('public/nav-bar.html'));
             data.footer = fileSystem.readFileSync(path.resolve('public/footer.html'));
+            data.file_screen = mustache.render(fileSystem.readFileSync(path.resolve('public/file-explorer-screen.html')).toString(),data);
             return mustache.render(view_str, data);
         } catch (err)
         {
