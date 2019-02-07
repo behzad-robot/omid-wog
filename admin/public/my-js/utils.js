@@ -1,17 +1,27 @@
 //form functions
 const idInput = (name, value, extraInfo = {}) => {
     var after = extraInfo.after ? '&nbsp;&nbsp;&nbsp;' + extraInfo.after : '';
-    return `<div class='form-row'><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
+    return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
 };
-const textInput = (name, value, readonly = false) => {
+const textInput = (name, value, settings = false) => {
     //return ":|";
-    readonly = readonly ? "readonly" : "";
-    return `<div class='form-row'><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
+    if(typeof settings == 'boolean')
+    {
+        var v = settings;
+        settings = {};
+        settings.readonly = v;
+    }
+    else
+        settings.readonly = settings.readonly ? settings.readonly : false;
+    var after = settings.after ? settings.after : '';
+    var readonly = readonly ? "readonly" : "";
+    console.log(settings);
+    return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/>${after}</div>`;
 };
 const numberInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
-    return `<div class='form-row'><b>${name}:</b><input type='number' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
+    return `<div class='form-row' label="${name}"><b>${name}:</b><input type='number' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
 const boolInput = (name, value, readonly = false) => {
     var label = name;
@@ -21,12 +31,12 @@ const boolInput = (name, value, readonly = false) => {
     }
     readonly = readonly ? 1 : 0;
     value = value ? "checked" : "";
-    return `<div class='form-row'><b>${label}:</b><input type='checkbox' class='form-control m' name='${name}' ${value} ${readonly}/></div>`;
+    return `<div class='form-row' label="${name}"><b>${label}:</b><input type='checkbox' class='form-control m' name='${name}' ${value} ${readonly}/></div>`;
 }
 const passwordInput = (name, value, readonly = false) => {
     //return ":|";
     readonly = readonly ? "readonly" : "";
-    return `<div class='form-row'><b>${name}:</b><input type='password' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
+    return `<div class='form-row' label="${name}"><b>${name}:</b><input type='password' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
 const hiddenInput = (name, value, readonly = false) => {
     //return ":|";

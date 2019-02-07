@@ -17,63 +17,75 @@
         <hr />
         <div id="extra"></div>
         <script>
+            var game = undefined;
             var champion = undefined;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
-            getObject('champions', `{{{_id}}}`, (c) =>
-            {
-                if(c.icon_tall == undefined)
+
+            getObject('champions', `{{{_id}}}`, (c) => {
+                if (c.icon_tall == undefined)
                     c.icon_tall = '?';
+                if(c.nickname == undefined)
+                    c.nickname = '';
+                for(var i = 0 ; i < c.abilities.length;i++)
+                {
+                    c.abilities[i].range =  c.abilities[i].range ? c.abilities[i].range : '';
+                    c.abilities[i].coolDown =  c.abilities[i].coolDown ? c.abilities[i].coolDown : '';
+                    c.abilities[i].cost =  c.abilities[i].cost ? c.abilities[i].cost : '';
+                }
                 champion = c;
                 console.log(champion);
-                $("#single").append(idInput('_id', champion._id));
-                $("#single").append(idInput('createdAt', champion.createdAt));
-                $("#single").append(idInput('updatedAt', champion.updatedAt));
-                $("#single").append(textInput('gameId', champion.gameId));
-                $("#single").append(textInput('name', champion.name));
-                $("#single").append(textInput('slug', champion.slug));
-                $("#single").append(bodyInput('lore', champion.lore));
-                $("#single").append(textInput('loreUrl', champion.loreUrl));
-                $("#single").append(bodyInput('description', champion.description));
-                $("#single").append(textInput('attackType', champion.attackType));
-                $("#single").append(textInput('primaryAttr', champion.primaryAttr));
-                //image fields:
-                imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
-                imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
-                imageInput('#single', 'icon_gif', champion.icon_gif, FILE_UPLOAD_URL);
-                imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
-                imageInput('#single', 'cover2', champion.cover2, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
-                //complicated shit:
-                $("#single").append(jsonInput('media', champion.media));
-                $("#single").append(jsonInput('abilities', champion.abilities));
-                $("#single").append(jsonInput('roles', champion.roles));
-                $("#single").append(jsonInput('stats', champion.stats));
-                $("#single").append(jsonInput('talents', champion.talents));
-                $("#single").append(submitBtn());
-                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
-                //extras:
-                $("#extra").append(`<div id="roles"></div>`);
-                roles_recreate();
-                $("#extra").append(`<div id="abilities"></div>`);
-                abilities_recreate();
-                $("#extra").append(`<div id="stats"></div>`);
-                stats_recreate();
-                $("#extra").append(`<div id="talents"></div>`);
-                talents_recreate();
-                $("#extra").append(`<div id="media"></div>`);
-                media_recreate();
+                getObject('games', champion.gameId, (g) => {
+                    game = g;
+                    //create fields:
+                    $("#single").append(idInput('_id', champion._id));
+                    $("#single").append(idInput('createdAt', champion.createdAt));
+                    $("#single").append(idInput('updatedAt', champion.updatedAt));
+                    $("#single").append(textInput('gameId', champion.gameId,{readonly:false,after:game.name}));
+                    $("#single").append(textInput('name', champion.name));
+                    $("#single").append(textInput('nickname', champion.nickname));
+                    $("#single").append(textInput('slug', champion.slug));
+                    $("#single").append(bodyInput('lore', champion.lore));
+                    $("#single").append(textInput('loreUrl', champion.loreUrl));
+                    $("#single").append(bodyInput('description', champion.description));
+                    $("#single").append(textInput('attackType', champion.attackType));
+                    $("#single").append(textInput('primaryAttr', champion.primaryAttr));
+                    //image fields:
+                    imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
+                    imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
+                    imageInput('#single', 'icon_gif', champion.icon_gif, FILE_UPLOAD_URL);
+                    imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
+                    imageInput('#single', 'cover2', champion.cover2, FILE_UPLOAD_URL, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
+                    //complicated shit:
+                    $("#single").append(jsonInput('media', champion.media));
+                    $("#single").append(jsonInput('abilities', champion.abilities));
+                    $("#single").append(jsonInput('roles', champion.roles));
+                    $("#single").append(jsonInput('stats', champion.stats));
+                    $("#single").append(jsonInput('talents', champion.talents));
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    //extras:
+                    $("#extra").append(`<div id="roles"></div>`);
+                    roles_recreate();
+                    $("#extra").append(`<div id="abilities"></div>`);
+                    abilities_recreate();
+                    $("#extra").append(`<div id="stats"></div>`);
+                    stats_recreate();
+                    $("#extra").append(`<div id="talents"></div>`);
+                    talents_recreate();
+                    $("#extra").append(`<div id="media"></div>`);
+                    media_recreate();
+                });
+
             });
-            function scroll_to(el)
-            {
+            function scroll_to(el) {
                 $('html, body').animate({
                     scrollTop: parseInt($(el).offset().top)
                 }, 2000);
             }
-            function roles_recreate()
-            {
+            function roles_recreate() {
                 $("[name=roles]").val(JSON.stringify(champion.roles));
                 $("#roles").html('<h4>Roles:</h4><div class="btn btn-md btn-secondary" onclick="roles_add()">+Add Role</div><div class="row"></div>');
-                for (var i = 0; i < champion.roles.length; i++)
-                {
+                for (var i = 0; i < champion.roles.length; i++) {
                     $("#roles .row").append(
                         `<div class="col-md-6">`
                         + `<div id="roles-${i}" index="${i}" class="box-row">`
@@ -84,16 +96,14 @@
                         + `</div>`
                     );
                 }
-                $("#roles input").change(function ()
-                {
+                $("#roles input,#roles textarea").change(function () {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.roles[i].name = $(`#roles-${i} input[name=name]`).val();
                     champion.roles[i].playRate = $(`#roles-${i} input[name=playRate]`).val();
                     roles_recreate();
                 });
             };
-            function roles_add()
-            {
+            function roles_add() {
                 champion.roles.push({
                     name: "",
                     playRate: 0,
@@ -101,19 +111,16 @@
                 roles_recreate();
                 scroll_to("#roles-" + (champion.roles.length - 1));
             }
-            function roles_remove(i)
-            {
+            function roles_remove(i) {
                 champion.roles.splice(i, 1);
                 roles_recreate();
             }
             //abilities:
-            function abilities_recreate()
-            {
+            function abilities_recreate() {
                 console.log('abilities_recreate');
                 $("[name=abilities]").val(JSON.stringify(champion.abilities));
                 $("#abilities").html('<h4>Abilities:</h4><div class="btn btn-md btn-secondary" onclick="abilities_add()">+Add Ability</div>');
-                for (var i = 0; i < champion.abilities.length; i++)
-                {
+                for (var i = 0; i < champion.abilities.length; i++) {
                     $("#abilities").append(`<div class="box-row" id="abilities-${i}" index="${i}"></div>`);
                     const i2 = i;
                     imageInput(`#abilities-${i}`, 'icon', champion.abilities[i].icon, FILE_UPLOAD_URL, [{ width: 64, height: 64 }]);
@@ -129,19 +136,27 @@
                     $(`#abilities-${i}`).append(textInput('castingMethod', champion.abilities[i].castingMethod));
                     $(`#abilities-${i}`).append(textInput('targetingMethod', champion.abilities[i].targetingMethod));
                     $(`#abilities-${i}`).append(textInput('allowedTargets', champion.abilities[i].allowedTargets));
+                    //league of legends added fields:
+                    $(`#abilities-${i}`).append(textInput('range', champion.abilities[i].range,{after:"Enter -1 for <big>∞</big>"}));
+                    $(`#abilities-${i}`).append(textInput('cost', champion.abilities[i].cost));
+                    $(`#abilities-${i}`).append(textInput('coolDown', champion.abilities[i].coolDown));
+                    //delete btn:
                     $(`#abilities-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="abilities_remove(${i})">Remove</div>`);
+                    //hide dota2 only fields:
+                    if(game.token != 'dota2')
+                    {
+                        $(`#abilities-${i} .form-row[label=psi]`).hide();
+                        $(`#abilities-${i} .form-row[label=aghanimUpgrade]`).hide();
+                    }
                 }
-                $("#abilities input").change(function ()
-                {
+                $("#abilities input,abilities textarea").change(function () {
                     abilities_update(this);
                 });
-                $("#abilities [name=description]").on('froalaEditor.blur', function (e, editor)
-                {
+                $("#abilities [name=description]").on('froalaEditor.blur', function (e, editor) {
                     abilities_update(this);
                 });
             }
-            function abilities_update(elm)
-            {
+            function abilities_update(elm) {
                 var type = $(elm).attr('type');
                 if (type == 'file')
                     return;
@@ -160,11 +175,15 @@
                     castingMethod: $(`#abilities-${i} [name=castingMethod]`).val(),
                     targetingMethod: $(`#abilities-${i} [name=targetingMethod]`).val(),
                     allowedTargets: $(`#abilities-${i} [name=allowedTargets]`).val(),
+                    //fields added with league of legends:
+                    cost: $(`#abilities-${i} [name=cost]`).val(),
+                    range: $(`#abilities-${i} [name=range]`).val(),
+                    coolDown: $(`#abilities-${i} [name=coolDown]`).val(),
+
                 };
                 abilities_recreate();
             }
-            function abilities_add()
-            {
+            function abilities_add() {
                 champion.abilities.push({
                     icon: "",
                     title: "",
@@ -178,21 +197,21 @@
                     castingMethod: "",
                     targetingMethod: "",
                     allowedTargets: "",
+                    cost : '',
+                    range : '',
+                    coolDown  : '',
                 });
                 abilities_recreate();
             }
-            function abilities_remove(i)
-            {
+            function abilities_remove(i) {
                 champion.abilities.splice(i, 1);
                 abilities_recreate();
             }
             //stats:
-            function stats_recreate()
-            {
+            function stats_recreate() {
                 $("[name=stats]").val(JSON.stringify(champion.stats));
                 $("#stats").html('<h4>Stats:</h4><div class="btn btn-md btn-secondary" onclick="stats_add()">+Add Stat</div><div class="row"></div>');
-                for (var i = 0; i < champion.stats.length; i++)
-                {
+                for (var i = 0; i < champion.stats.length; i++) {
                     $("#stats .row").append(
                         `<div class="col-md-4">`
                         + `<div id="stats-${i}" index="${i}" class="box-row">`
@@ -203,8 +222,7 @@
                         + `</div>`
                     );
                 }
-                $("#stats input").change(function ()
-                {
+                $("#stats input").change(function () {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.stats[i] = {
                         name: $(`#stats-${i} input[name=name]`).val(),
@@ -213,8 +231,7 @@
                     stats_recreate();
                 });
             }
-            function stats_add()
-            {
+            function stats_add() {
                 champion.stats.push({
                     name: "",
                     value: "",
@@ -222,18 +239,15 @@
                 stats_recreate();
                 scroll_to("#stats-" + (champion.stats.length - 1));
             }
-            function stats_remove(i)
-            {
+            function stats_remove(i) {
                 champion.stats.splice(i, 1);
                 stats_recreate();
             }
             //talents:
-            function talents_recreate()
-            {
+            function talents_recreate() {
                 $("[name=talents]").val(JSON.stringify(champion.talents));
                 $("#talents").html('<h4>Talents:</h4><div class="btn btn-md btn-secondary" onclick="talents_add()">+Add Talent</div><div class="row"></div>');
-                for (var i = 0; i < champion.talents.length; i++)
-                {
+                for (var i = 0; i < champion.talents.length; i++) {
                     $("#talents .row").append(
                         `<div class="col-md-4">`
                         + `<div id="talents-${i}" index="${i}" class="box-row">`
@@ -245,8 +259,7 @@
                         + `</div>`
                     );
                 }
-                $("#talents input").change(function ()
-                {
+                $("#talents input").change(function () {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.talents[i] = {
                         level: $(`#talents-${i} input[name=level]`).val(),
@@ -256,8 +269,7 @@
                     talents_recreate();
                 });
             }
-            function talents_add()
-            {
+            function talents_add() {
                 champion.talents.push({
                     level: 0,
                     a: "",
@@ -266,23 +278,27 @@
                 talents_recreate();
                 scroll_to("#talents-" + (champion.talents.length - 1));
             }
-            function talents_remove(i)
-            {
+            function talents_remove(i) {
                 champion.talents.splice(i, 1);
                 talents_recreate();
             }
-            function media_recreate()
-            {
-                $("[name=media]").val(JSON.stringify(champion.media));
-                $("#media").html('<h4>Media:</h4><div class="btn btn-md btn-secondary" onclick="media_add()">+Add Media</div><div class="row"></div>');
+            function media_recreate() {
                 for(var i = 0 ; i < champion.media.length;i++)
                 {
+                    if(champion.media[i].title == undefined)
+                        champion.media[i].title = '';
+                    if(champion.media[i].body == undefined)
+                        champion.media[i].body = '';
+                }
+                $("[name=media]").val(JSON.stringify(champion.media));
+                $("#media").html('<h4>Media:</h4><div class="btn btn-md btn-secondary" onclick="media_add()">+Add Media</div><div class="row"></div>');
+                for (var i = 0; i < champion.media.length; i++) {
                     var item = champion.media[i];
                     var file = item.url;
                     var isImage = file.indexOf('.png') != -1 || file.indexOf('.jpg') != -1 || file.indexOf('.jpeg') != -1 || file.indexOf('.gif') != -1;
                     var isVideo = file.indexOf('.mp4') != -1;
                     var img = isImage ? file : '/images/file-icon.png';
-                    if(isVideo)
+                    if (isVideo)
                         img = '/images/video-icon.png';
                     $("#media .row").append(
                         `<div class="col-md-4 text-center">`
@@ -290,30 +306,33 @@
                         + `<img src="${img}" style="max-width:100%;max-height:200px;"/><br>`
                         + textInput('type', item.type)
                         + textInput('url', item.url)
+                        + textInput('title', item.title)
+                        + textInput('body', item.body)
                         + `<div class="btn btn-sm btn-danger" onclick="media_remove(${i})">Remove</div>`
                         + `</div>`
                         + `</div>`
                     );
-                }  
-                $("#media input").change(function ()
-                {
+                }
+                $("#media input").change(function () {
                     var i = $(this).closest(".box-row").attr("index");
                     champion.media[i] = {
                         type: $(`#media-${i} input[name=type]`).val(),
                         url: $(`#media-${i} input[name=url]`).val(),
                     }
                     media_recreate();
-                });              
+                });
             }
-            function media_add(){
+            function media_add() {
                 champion.media.push({
-                    type : "",
-                    url  :"",
+                    type: "",
+                    url: "",
+                    title : "",
+                    body :"",
                 });
                 media_recreate();
             }
-            function media_remove(i){
-                champion.media.splice(i,1);
+            function media_remove(i) {
+                champion.media.splice(i, 1);
                 media_recreate();
             }
         </script>
