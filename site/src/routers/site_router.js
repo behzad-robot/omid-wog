@@ -11,6 +11,7 @@ export default class SiteRouter extends Router
         //bind functions:
         this.requireLogin = this.requireLogin.bind(this);
         this.renderTemplate = this.renderTemplate.bind(this);
+        this.show404 = this.show404.bind(this);
     }
     requireLogin()
     {
@@ -40,5 +41,8 @@ export default class SiteRouter extends Router
         {
             res.send("render file failed =>" + err);
         }
+    }
+    show404(req,res){
+        this.accessDenied.renderTemplate(req,res,"404.html");
     }
 }

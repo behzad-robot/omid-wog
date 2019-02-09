@@ -1,0 +1,137 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .build-tabs {
+            padding: 8px;
+            width: 170px;
+        }
+
+        .tab {
+            border: 1px solid #202024;
+            color: #d2d2d2;
+            padding: 3px;
+            display: block;
+            width: 130px;
+            margin-bottom: 3px;
+        }
+
+        .pic {
+            width: 40px;
+            height: 40ox;
+        }
+
+        .side-biold-links:hover {
+            text-decoration: none;
+        }
+
+        .build-title {
+            color: white;
+            font-size: 36px;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, .75);
+            float: left;
+            padding: 10px;
+        }
+
+        .hero-name {
+            color: white;
+            font-size: 36px;
+            line-height: 1;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, .75);
+            float: left;
+            position: relative;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="widget-box" style="width:100%;margin-top:60px;margin-bottom: 20px">
+                        <div class="title-wrapper"></div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="widget-box" style="width:100%;margin-top:60px;margin-bottom: 20px">
+                        <div class="title-wrapper">
+                            <div class="container" style="background-image:url('/images/jaina.jpg');height: 800px; width: 100%; border: 1px solid black;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="widget-box build-tabs">
+                                            <div class="title-wrapper">
+                                                <h6 style="color:grey">OTHER BUILDS</h6>
+                                                <a href="#" class="side-biold-links">
+                                                    <div class="tab">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <img class="pic" src="/images/s6.png">
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div>hybrid</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="side-biold-links">
+                                                    <div class="tab">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <img class="pic" src="/images/s6.png">
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div>troll</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a href="#" class="side-biold-links">
+                                                    <div class="tab">
+                                                        <div class="row">
+                                                            <div class="col-md-4">
+                                                                <img class="pic" src="/images/s6.png">
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div>hard troll</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                            <h2 class="build-title">MWR BUILD</h2>
+                                            <br>
+                                            <h3 class="hero-name">
+                                                DotA2 hero:
+                                                <a href="#">invoker</a>
+                                            </h3>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h3 style="float: left;font-size: 22px;text-shadow: 2px 2px 4px rgba(0,0,0,.75);">PURCHASE ORDER</h3>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        getGames('', (games) => {
+            console.log(games);
+            console.log(games[0].getItem(0));
+            console.log(games[1].getItem(0));
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

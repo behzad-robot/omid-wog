@@ -10,12 +10,6 @@ export default class SiteGeneralRouter extends SiteRouter
         this.router.get('/shop',(req,res)=>{
             this.renderTemplate(req,res,'coming-soon.html',{});
         });
-        this.router.get('/games',(req,res)=>{
-            res.send("PAGE NOT READY!");
-        });
-        this.router.get('/posts',(req,res)=>{
-            this.renderTemplate(req,res,'posts-archive.html',{});
-        });
         this.router.get('/contact-us',(req,res)=>{
             this.renderTemplate(req,res,'contact-us.html',{});
         });

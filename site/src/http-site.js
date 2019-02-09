@@ -6,11 +6,13 @@ import SiteGeneralRouter from "./routers/general_router";
 import { CacheReader } from "./utils/cache";
 import SiteAuthRouter from "./routers/auth_router";
 import SiteGamesRouter from "./routers/games_router";
+import SitePostsRouter from "./routers/posts_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -46,6 +48,17 @@ Game.fixAll = (games) => {
         games[i] = Game.fixOne(games[i]);
     return games;
 }
+Post.fixOne = (p)=>{
+    if(isEmptyString(p.media))
+        p.media = ICON_404;
+    p.siteUrl = '/posts/'+p.slug;
+    return p;
+};
+Post.fixAll = (ps)=>{
+    for(var i = 0 ; i < ps.length;i++)
+        ps[i] = Post.fixOne(ps[i]);
+    return ps;
+};
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) => {
@@ -61,6 +74,7 @@ const SiteModules = {
     Champion: Champion,
     Admin: Admin,
     Build: ChampBuild,
+    Post : Post,
     ContactUsForm: ContactUsForm,
     proxyAPI: proxyAPI,
     Cache: {
@@ -121,6 +135,7 @@ express.expressApp.all('/api/*', (req, res) => {
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router)
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router)
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router)
+express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
 const PORT = 80;

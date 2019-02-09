@@ -26,6 +26,7 @@
     "express-subdomain": "^1.0.5",
     "form-data": "^2.3.3",
     "http-proxy": "^1.17.0",
+    "jalaali-js": "^1.1.0",
     "jimp": "^0.6.0",
     "jsonwebtoken": "^8.3.0",
     "moment": "^2.22.2",

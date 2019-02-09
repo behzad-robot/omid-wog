@@ -11,6 +11,9 @@ export const UserSchema = new mongoose.Schema({
     firstName : {type:String,default:''},
     lastName : {type:String,default:''},
     sex : {type:String,default:''},
+    city : {type:String,default:''},
+    age : {type:Number,default:-1},
+
 
     followingGames : Array,
 

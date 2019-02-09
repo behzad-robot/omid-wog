@@ -17,7 +17,9 @@
         }
 
         .main-box-text {
-            color: rgb(206, 206, 206)
+            color: rgb(206, 206, 206) !important;
+            font-size: 13px;
+            margin-top: 5px;
         }
 
         .main-box-authors {
@@ -127,11 +129,27 @@
         .footer-post-box .content {
             width: 60%;
             display: inline-block;
-            
+
         }
-        .footer-post-box a{
-            color : white !important;
+
+        .footer-post-box a {
+            color: white !important;
             text-decoration: none !important;
+        }
+
+        .triangle {
+            text-align: right;
+            padding-right: 5px;
+            width: 75px;
+            height: 0;
+            border-left: 28px solid transparent;
+            border-right: 0px solid transparent;
+            border-bottom: 27px solid orange;
+            display: inline-block;
+            top: 239px;
+            left: 850px;
+            margin-top: 5px;
+            margin-left: -65px;
         }
     </style>
 </head>
@@ -143,45 +161,48 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
+                    <div class="triangle" style="margin-bottom:0px">
+                        <h3 style="margin-top:5px;font-size:14px;">عنوان</h3>
+                    </div>
+                    {{#rightPosts}}
                     <div class="widget-box post-side-box" style="margin-top:10px">
-
                         <a href="#">
-                            <img src="/images/s5.jpg" alt="" style="width:100%">
-                            <p>بررسی بازی Resident Evil 2 Remake</p>
+                            <img src="{{thumbnail}}" alt="" style="width:100%">
+                            <p>{{title}}</p>
                         </a>
                     </div>
+                    {{/rightPosts}}
                 </div>
                 <div class="col-md-8">
+                    {{#posts}}
                     <div class="widget-box" style="margin-top:10px">
                         <div class="title-wrapper">
                             <div class="row">
                                 <div class="col-md-3 col-6">
-                                    <a href="#">
-                                        <img src="/images/s2.jpg" alt="">
+                                    <a href="{{siteUrl}}">
+                                        <img src="{{thumbnail_150x150}}" alt="">
                                     </a>
                                 </div>
                                 <div class="col-md-9 col-6">
                                     <div style="display:inline-block">
-                                        <a class="context-links" href="#">مایکروسافت باندل Anthem کنسول ایکس باکس وان
-                                            اس را معرفی کرد</a>
+                                        <a class="context-links" href="{{siteUrl}}">{{{title}}}</a>
                                         <br>
                                         <a class="main-box-authors" href="#">
                                             <i class="fas fa-user"></i>&nbsp;
-                                            ممد
+                                            مدیر سایت&nbsp;&nbsp;
+                                            <i class="fas fa-calendar"></i>&nbsp;
+                                            {{{createdAt_persian}}}
                                         </a>
-                                        <span style="color:darkgray;display: inline-block">|</span>
-                                        <p class="main-box-date" style="display: inline-block">1397/10/10</p>
-                                        <p class="main-box-text no-mobile">یک طراح ماد، بخش‌هایی از بازی Resident Evil
-                                            2 Remake
-                                            را با دوربین‌های ثابت
-                                            به‌سبک نسخه‌ی کلاسیک این مجموعه بازسازی کرده که نتیجه‌ی کار هیجان‌انگیز به
-                                            نظر می‌رسد.</p>
+                                        <div class="main-box-text no-mobile">
+                                            {{{intro}}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="widget-box" style="margin-top:10px">
+                    {{/posts}}
+                    <!-- <div class="widget-box" style="margin-top:10px">
                         <div class="title-wrapper">
                             <div class="row">
                                 <div class="col-md-3 col-6">
@@ -206,10 +227,21 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="col-md-2">
+                    <div class="triangle" style="margin-bottom:0px">
+                        <h3 style="margin-top:5px;font-size:14px;">عنوان</h3>
+                    </div>
+                    {{#leftPosts}}
                     <div class="widget-box post-side-box" style="margin-top:10px">
+                        <a href="#">
+                            <img src="{{thumbnail}}" alt="" style="width:100%">
+                            <p>{{title}}</p>
+                        </a>
+                    </div>
+                    {{/leftPosts}}
+                    <!-- <div class="widget-box post-side-box" style="margin-top:10px">
 
                         <a href="#">
                             <img src="/images/s4.png" alt="" style="width:100%">
@@ -222,7 +254,7 @@
                             <img src="/images/s3.jpg" alt="" style="width:100%">
                             <p>بررسی فلان دستگاه</p>
                         </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
