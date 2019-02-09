@@ -11,6 +11,7 @@ import PostsPanelRouter from "./routers/posts_router";
 import GamesPanelRouter from "./routers/games_router";
 import ChampionsPanelRouter from "./routers/champions_router";
 import ChampionBuildsPanelRouter from "./routers/champBuilds_router";
+import MediaPanelRouter from "./routers/media_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -18,7 +19,7 @@ const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const AnalyticsEvent = new APICollection('analytics');
+const Media = new APICollection('media',{ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
     User : User,
@@ -27,6 +28,7 @@ const AdminModules = {
     Champion  : Champion,
     Admin  : Admin,
     Build : ChampBuild,
+    Media : Media,
     proxyAPI : proxyAPI,
 }
 //express:
@@ -68,6 +70,7 @@ express.expressApp.all('/api/*', (req, res) =>
 //routers:
 express.expressApp.use('/', new AdminGeneralRouter(Admin).router)
 express.expressApp.use('/admin', new AdminPanelRouter(Admin).router)
+express.expressApp.use('/admin/media', new MediaPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/games', new GamesPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules).router)

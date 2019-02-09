@@ -1,0 +1,66 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>
+            Media {{{_id}}}:
+            <a href="/admin/media/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a>
+        </h2>
+        <hr />
+        <form id="single" action="/admin/media/{{{_id}}}/edit" method="POST"></form>
+        <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}`
+            var champions = [], games = [];
+            findObjects('games', (gs) => {
+                games = gs;
+                findObjects('champions', (cs) => {
+                    champions = cs;
+                    getObject('media', `{{{_id}}}`, (media) => {
+                        console.log(media);
+                        $("#single").append(idInput('_id', media._id));
+                        $("#single").append(idInput('createdAt', media.createdAt));
+                        $("#single").append(idInput('updatedAt', media.updatedAt));
+                        $("#single").append(getGamesDropDown('gameId',media.gameId));
+                        $("#single").append(getChampsDropDown('champId',media.champId));
+                        $("#single").append(filePickTool(undefined,'url', media.url));
+                        
+                        $("#single").append(textInput('title', media.title));
+                        $("#single").append(textInput('slug', media.slug));
+                        $("#single").append(bodyInput('body', media.body, { uploadUrl: FILE_UPLOAD_URL }));
+                        $("#single").append(jsonInput('tags', media.tags));
+                        $("#single").append(submitBtn());
+                        $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    });
+                });
+            });
+            function getGamesDropDown(name,val){
+                var str =`<div class="form-row"><b>${name}</b><select class="form-control m" name="${name}">`;
+                str += '<option></option>';
+                for(var i = 0 ; i < games.length;i++)
+                    str += `<option value="${games[i]._id}" ${games[i]._id == val ? "selected" : ""}>${games[i].name}</option>`;
+                str += `</select></div>`;
+                return str;
+            }
+            function getChampsDropDown(name,val){
+                var str =`<div class="form-row"><b>${name}</b><select class="form-control m" name="${name}">`;
+                str += '<option></option>';
+                for(var i = 0 ; i < champions.length;i++)
+                    str += `<option value="${champions[i]._id}" ${champions[i]._id == val ? "selected" : ""}>${champions[i].name}</option>`;
+                str += `</select></div>`;
+                return str;
+            }
+
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

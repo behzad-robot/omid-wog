@@ -14,7 +14,7 @@
         <a href="/admin/media/new" class="btn btn-md btn-info">+New Media</a>
         <hr />
         <div id="games">
-            <div class="btn btn-md btn-dark" onclick="recreate_media(undefined)">All</div>&nbsp;
+            <div class="btn btn-md btn-primary" onclick="recreate_media(undefined)">All</div>&nbsp;
         </div>
         <hr />
         <div id="list">
@@ -26,40 +26,45 @@
             var champions = [];
             findObjects('games', (gs) => {
                 games = gs;
-                findObjects('champions', (cs) => {
-                    champions = cs;
-                    findObjects('media', (ms) => {
+                findObjects('media', (ms) => {
                         media = ms;
                         recreate_media(undefined);
                     });
-                });
             });
             function recreate_media(gameId,champId) {
                 $("#list").html('');
                 for (var i = 0; i < media.length; i++) {
                     var m = media[i];
+                    console.log(m);
                     if (!(gameId == undefined || m.gameId == gameId))
                         continue;
                     if(!(champId == undefined || m.champId == champId))
                         continue;
                     var previewStr = '';
-                    if(m.url.contains(".png") || m.url.contains(".jpg") || m.url.contains(".jpeg") || m.url.contains(".gif"))
-                        previewStr += `<div class="col-md-2 text-center"><img src="${m.url}" width="128px"/></div>`;
+                    if(m.url.indexOf(".png") != -1 || m.url.indexOf(".jpg") != -1 || m.url.indexOf(".jpeg") != -1 || m.url.indexOf(".gif") != -1)
+                        previewStr += `<img src="${m.url}" width="128px"/>`;
                     else
-                        previewStr += `<div class="col-md-2 text-center"><img src="/images/file-icon.png" width="128px"/></div>`;
+                        previewStr += `<img src="/images/file-icon.png" width="128px"/>`;
                     $("#list").append(
-                        `<div class="row box-row">`
-                        + `<div class="col-md-2 text-center" style="overflow:hidden;"><small>${m._id}</small></div>`
-                        + previewStr
-                        + `<div class="col-md-2 text-center"><b>${m.title}</b></div>`
-                        + `<div class="col-md-2 text-center"><b>slug: </b>${m.slug}</div>`
-                        + `<div class="col-md-2 text-center"><b>type: </b>${m.type}</div>`
-                        + `<div class="col-md-2 text-center"><b>tags: </b>${JSON.stringify(m.tags)}</div>`
-                        + `<div class="col-md-2 text-center"><small><b>updatedAt:</b>${champ.updatedAt}</small></div>`
+                        `<div class="col-md-6">`
+                        +`<div class="box-row">`
+                        +`<div class="text-center">${previewStr}</div>`
+                        + `<b>${m.title}</b>`
+                        + `<div><b>${m._id}</b><br><b>slug: </b>${m.slug} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; type:${m.type}</div>`
+                        + `<div><b>tags: </b>${JSON.stringify(m.tags)}</div>`
+                        + `<div><small><b>champId:</b>${m.champId}</small>&nbsp;&nbsp;&nbsp;<b>gameId:</b>${getGame(m.gameId).name}</small></div>`
+                        + `<div><small><b>updatedAt:</b>${m.updatedAt}</small></div>`
                         + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/media/${m._id}">Edit</a></div>`
+                        + `</div>`
                         + `</div>`
                     );
                 }
+            }
+            function getGame(gameId){
+                for(var i = 0 ; i < games.length;i++)
+                    if(games[i]._id == gameId)
+                        return games[i];
+                return {name : "?????"};
             }
         </script>
     </div>

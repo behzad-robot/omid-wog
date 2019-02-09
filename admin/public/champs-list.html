@@ -14,7 +14,7 @@
         <a href="/admin/champions/new" class="btn btn-md btn-info">+New Champion</a>
         <hr />
         <div id="games">
-            <div class="btn btn-md btn-dark" onclick="recreate_champions(undefined)">All</div>&nbsp;
+            <div class="btn btn-md btn-primary" onclick="recreate_champions(undefined)">All</div>&nbsp;
         </div>
         <hr />
         <div id="list">
@@ -31,7 +31,7 @@
                 {
                     games = gs;
                     for(var i = 0 ; i < games.length;i++)
-                        $("#games").append(`<div href="#" class="btn btn-md btn-dark" onclick="recreate_champions('${games[i]._id}')">${games[i].name}</div>&nbsp;&nbsp;`);
+                        $("#games").append(`<div href="#" class="btn btn-md btn-primary" onclick="recreate_champions('${games[i]._id}')">${games[i].name}</div>&nbsp;&nbsp;`);
                     recreate_champions(undefined);
                 });
             });

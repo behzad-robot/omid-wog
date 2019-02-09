@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-export const Media = new mongoose.Schema({
+export const MediaSchema= new mongoose.Schema({
 
     gameId: {type:String,default:'?'},
     champId: {type:String,default:'?'},
@@ -14,8 +14,8 @@ export const Media = new mongoose.Schema({
     createdAt:String,
     updatedAt:String,
 });
-export const Game = mongoose.model('Game', GameSchema);
-Game.Helpers = {
+export const Media = mongoose.model('Media',MediaSchema);
+Media.Helpers = {
     public: (doc) =>
     {
         return doc;
