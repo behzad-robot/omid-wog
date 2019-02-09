@@ -56,7 +56,7 @@
                     imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL,MY_DIR, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
                     imageInput('#single', 'cover2', champion.cover2, FILE_UPLOAD_URL,MY_DIR, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
                     //complicated shit:
-                    $("#single").append(jsonInput('media', champion.media));
+                    // $("#single").append(jsonInput('media', champion.media));
                     $("#single").append(jsonInput('abilities', champion.abilities));
                     $("#single").append(jsonInput('roles', champion.roles));
                     $("#single").append(jsonInput('stats', champion.stats));
@@ -72,8 +72,8 @@
                     stats_recreate();
                     $("#extra").append(`<div id="talents"></div>`);
                     talents_recreate();
-                    $("#extra").append(`<div id="media"></div>`);
-                    media_recreate();
+                    // $("#extra").append(`<div id="media"></div>`);
+                    // media_recreate();
                 });
 
             });
