@@ -135,8 +135,9 @@ getTwitchStreamersFor = (gameId,next,settings={})=>{
             }
         })
         .then((response) => (response.json()))
-        .then((arr) => {
-            console.log(arr);
+        .then((js) => {
+            console.log(js);
+            var arr = js.data;
             var streamers = [];
             for(var i = 0 ; i < arr.length;i++)
             {
@@ -144,12 +145,14 @@ getTwitchStreamersFor = (gameId,next,settings={})=>{
                     id : arr[i].id,
                     userId : arr[i].user_id,
                     username : arr[i].user_name,
+                    url : "https://twitch.tv/"+arr[i].user_name,
                     title : arr[i].title,
-                    thumbnail :  arr[i].thumbnail.replace('{width}',640).replace('{height}',480),
+                    thumbnail :  arr[i].thumbnail_url.replace('{width}',640).replace('{height}',360),
                     viewerCount : arr[i].viewer_count,
 
                 });
             }
+            console.log(streamers);
             next(streamers);
         });
 };

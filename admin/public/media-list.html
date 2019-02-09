@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Champions:</h2>
+        <a href="/admin/media/new" class="btn btn-md btn-info">+New Media</a>
+        <hr />
+        <div id="games">
+            <div class="btn btn-md btn-dark" onclick="recreate_media(undefined)">All</div>&nbsp;
+        </div>
+        <hr />
+        <div id="list">
+            <h3>Loading...</h3>
+        </div>
+        <script>
+            var games = [];
+            var media = [];
+            var champions = [];
+            findObjects('games', (gs) => {
+                games = gs;
+                findObjects('champions', (cs) => {
+                    champions = cs;
+                    findObjects('media', (ms) => {
+                        media = ms;
+                        recreate_media(undefined);
+                    });
+                });
+            });
+            function recreate_media(gameId,champId) {
+                $("#list").html('');
+                for (var i = 0; i < media.length; i++) {
+                    var m = media[i];
+                    if (!(gameId == undefined || m.gameId == gameId))
+                        continue;
+                    if(!(champId == undefined || m.champId == champId))
+                        continue;
+                    var previewStr = '';
+                    if(m.url.contains(".png") || m.url.contains(".jpg") || m.url.contains(".jpeg") || m.url.contains(".gif"))
+                        previewStr += `<div class="col-md-2 text-center"><img src="${m.url}" width="128px"/></div>`;
+                    else
+                        previewStr += `<div class="col-md-2 text-center"><img src="/images/file-icon.png" width="128px"/></div>`;
+                    $("#list").append(
+                        `<div class="row box-row">`
+                        + `<div class="col-md-2 text-center" style="overflow:hidden;"><small>${m._id}</small></div>`
+                        + previewStr
+                        + `<div class="col-md-2 text-center"><b>${m.title}</b></div>`
+                        + `<div class="col-md-2 text-center"><b>slug: </b>${m.slug}</div>`
+                        + `<div class="col-md-2 text-center"><b>type: </b>${m.type}</div>`
+                        + `<div class="col-md-2 text-center"><b>tags: </b>${JSON.stringify(m.tags)}</div>`
+                        + `<div class="col-md-2 text-center"><small><b>updatedAt:</b>${champ.updatedAt}</small></div>`
+                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/media/${m._id}">Edit</a></div>`
+                        + `</div>`
+                    );
+                }
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

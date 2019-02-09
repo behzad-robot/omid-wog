@@ -19,6 +19,7 @@ import { FileUploaderRouter } from './routers/file_uploader_router';
 import { Champion } from './models/champion';
 import { ChampionBuild } from './models/champBuild';
 import { ContactUsForm } from './models/contactUsForm';
+import { Media } from './models/media';
 
 
 
@@ -86,8 +87,9 @@ express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTok
 //champions , champBuilds:
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
-//posts & news:
+//posts & news & media:
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
 //file upload:

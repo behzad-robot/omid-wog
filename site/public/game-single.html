@@ -36,6 +36,7 @@
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none !important;
+            height:170px;
         }
 
         .champ-box:hover {
@@ -104,7 +105,7 @@
                 width: 23%;
                 margin: 2px;
                 float: right;
-                height: 85px;
+                height: 160px;
                 margin-bottom: 5px;
                 overflow: hidden;
 
@@ -212,6 +213,7 @@
 
         .stream-box {
             display: block;
+            width:100%;
             border: 1px solid #111;
             border-bottom: 1px solid #2e2e2e;
             background: #1e1e1e;
@@ -219,8 +221,12 @@
             overflow: hidden;
             font-size: 12px;
             margin-bottom: 5px;
+            text-decoration:none !important;
         }
-
+        .stream-box:hover{
+            background: #2e2e2e;
+            border: 1px solid #ffc400;
+        }
         .stream-box span {
             display: block;
             padding: 5px 10px;
@@ -278,7 +284,7 @@
                         </div>
                         {{/game.items}} -->
                     </div>
-                    <div class="btn btn-md btn-black" id="items-load-more-btn" onclick="champions_show_all()"><span>مشاهده
+                    <div class="btn btn-md btn-black" id="items-load-more-btn" onclick="items_show_all()"><span>مشاهده
                             همه</span></div>
                     <script>
                         let champions = [];
@@ -385,10 +391,14 @@
                         }
                         function streamers_create()
                         {
-                            for(var i = 0 ; i < streamers.length;i++)
+                            console.log("streamers loaded "+streamers.length);
+                            for(var i = 0 ; i < streamers.length && i < 3 ;i++)
                             {
-                                $("#streamers-row").append();
+                                var s = streamers[i];
+                                console.log(s);
+                                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
                             }
+                            $("#streamers-row [name=loading]").hide();
                         }
 
                     </script>
@@ -398,7 +408,7 @@
                                 همه</span></div>
                     </h3>
                     <div id="builds-row">
-                        <div name="loading" class="text-center" style="margin:10px 0;">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
                     </div>
@@ -423,7 +433,7 @@
                     </div> -->
                     <h3 style="margin-top:10px;font-size:22px;">استریم جماعت:</h3>
                     <div id="streamers-row" class="row">
-                        <div name="loading" class="text-center" style="margin:10px 0;">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
                         <!-- <div class="col-md-12">
