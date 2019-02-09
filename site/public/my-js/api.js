@@ -124,6 +124,13 @@ const getUser = (_id, next) => {
         next(user);
     });
 };
+//media:
+const _fixMedia = (m)=>{
+    if(isEmptyString(m))
+        m.url = ICON_404;
+    return m;
+};
+// const getMedia(params,)
 //streamers:
 getTwitchStreamersFor = (gameId,next,settings={})=>{
     fetch('https://api.twitch.tv/helix/streams?game_id='+gameId,

@@ -58,7 +58,7 @@ export default class GamesPanelRouter extends AdminRouter
             }
             // console.log(req.body);
             req.body.images = JSON.parse(req.body.images);
-            req.body.media = JSON.parse(req.body.media);
+            // req.body.media = JSON.parse(req.body.media);
             req.body.items = JSON.parse(req.body.items);
             if(req.body.summonerSpells && req.body.summonerSpells != '')
                 req.body.summonerSpells = JSON.parse(req.body.summonerSpells);
