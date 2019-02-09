@@ -30,6 +30,7 @@
                         $("#single").append(idInput('updatedAt', media.updatedAt));
                         $("#single").append(getGamesDropDown('gameId',media.gameId));
                         $("#single").append(getChampsDropDown('champId',media.champId));
+                        $("#single").append(filePickTool(undefined,'thumbnail', media.thumbnail));
                         $("#single").append(filePickTool(undefined,'url', media.url));
                         
                         $("#single").append(textInput('title', media.title));

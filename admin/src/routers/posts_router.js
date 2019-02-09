@@ -1,6 +1,8 @@
 
 import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
+const fs = require('fs');
+const path = require('path');
 export default class PostsPanelRouter extends AdminRouter
 {
     constructor(AdminModules)
@@ -53,6 +55,13 @@ export default class PostsPanelRouter extends AdminRouter
             {
                 res.send({ error: "Missing _id", code: 500 });
                 return;
+            }
+            if(req.body.slug != '')
+            {
+                const folderPath = path.resolve('../storage/posts/'+req.body._id)+"/";
+                if(!fs.existsSync(folderPath)){
+                    fs.mkdirSync(folderPath);
+                }
             }
             console.log(req.body);
             req.body.tags = JSON.parse(req.body.tags);

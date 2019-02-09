@@ -126,11 +126,36 @@ const getUser = (_id, next) => {
 };
 //media:
 const _fixMedia = (m)=>{
-    if(isEmptyString(m))
+    if(isEmptyString(m.url))
         m.url = ICON_404;
+    if(isEmptyString(m.thumbnail))
+        m.thumbnail = ICON_404;
+    m.siteUrl = '/media/'+m.slug;
     return m;
 };
-// const getMedia(params,)
+const getMedia = (params,next)=>{
+    findObjects('media',params,(ms)=>{
+        console.log("got some media!");
+        for(var i = 0 ; i < ms.length;i++)
+            ms[i] = _fixMedia(ms[i]);
+        next(ms);
+    });
+}
+//posts:
+const _fixPost = (p) => {
+    if(isEmptyString(p.media))
+        p.media = ICON_404;
+    p.siteUrl = '/posts/'+p.slug;
+    return p;
+};
+const getPosts = (params,next)=>{
+    findObjects('posts',params,(posts)=>{
+        for(var i = 0 ; i < posts.length;i++)
+            posts[i] = _fixPost(posts[i]);
+        next(posts);
+    });
+};
+
 //streamers:
 getTwitchStreamersFor = (gameId,next,settings={})=>{
     fetch('https://api.twitch.tv/helix/streams?game_id='+gameId,

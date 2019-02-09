@@ -36,7 +36,7 @@
             border-radius: 5px;
             cursor: pointer;
             text-decoration: none !important;
-            height:170px;
+            height: 170px;
         }
 
         .champ-box:hover {
@@ -213,7 +213,7 @@
 
         .stream-box {
             display: block;
-            width:100%;
+            width: 100%;
             border: 1px solid #111;
             border-bottom: 1px solid #2e2e2e;
             background: #1e1e1e;
@@ -221,12 +221,14 @@
             overflow: hidden;
             font-size: 12px;
             margin-bottom: 5px;
-            text-decoration:none !important;
+            text-decoration: none !important;
         }
-        .stream-box:hover{
+
+        .stream-box:hover {
             background: #2e2e2e;
             border: 1px solid #ffc400;
         }
+
         .stream-box span {
             display: block;
             padding: 5px 10px;
@@ -309,6 +311,17 @@
                                         streamers = ss;
                                         streamers_create();
                                     });
+                                    console.log("plz load media!");
+                                    //media:
+                                    getMedia('?gameId=' + game._id, (media) => {
+                                        var container = $("#game-gallery-box");
+                                        console.log(media);
+                                        for (var i = 0; i < media.length; i++) {
+                                            var m = media[i];
+                                            $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
+                                        }
+                                        $("#game-gallery-box [name=loading]").hide();
+                                    });
                                 });
                             });
                             // var champBox = $("#champs-row").html();
@@ -389,11 +402,9 @@
                             }
                             $("#builds-row [name=loading]").hide();
                         }
-                        function streamers_create()
-                        {
-                            console.log("streamers loaded "+streamers.length);
-                            for(var i = 0 ; i < streamers.length && i < 3 ;i++)
-                            {
+                        function streamers_create() {
+                            console.log("streamers loaded " + streamers.length);
+                            for (var i = 0; i < streamers.length && i < 3; i++) {
                                 var s = streamers[i];
                                 console.log(s);
                                 $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
@@ -442,36 +453,24 @@
                                 <span>عنوان کذایی</span>
                             </div>
                         </div>
-                        <div class="col-md-12">
-                            <div class="stream-box">
-                                <img src="/images/sample-stream.jpg" width="100%" />
-                                <span>عنوان کذایی</span>
-                            </div>
-                        </div> -->
+                        -->
                     </div>
                     <!-- <div class="btn btn-sm btn-secondary">مشاهده همه</div> -->
+                    <!-- Game Gallery -->
                     <div class="widget-box" style="margin-top:10px;">
                         <div class="title-wrapper">
                             <h3>گالری</h3>
                         </div>
-                        <div class="content-wrapper">
-                            <a class="img-col" href="#">
+                        <div class="content-wrapper" id="game-gallery-box">
+                            <!-- <a class="img-col" href="#">
                                 <img src="/images/s1.jpg" width="100%">
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="/images/s2.jpg" width="100%">
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="/images/s3.jpg" width="100%">
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="/images/s4.png" width="100%">
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="/images/s5.jpg" width="100%">
-                            </a>
+                            </a> -->
+                            <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                                <img src="/images/loading.gif" width="72px" />
+                            </div>
                         </div>
                     </div>
+                    <!-- END Game Gallery -->
                 </div>
             </div>
         </div>

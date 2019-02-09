@@ -28,7 +28,7 @@
                 $("#single").append(textInput('title',post.title));
                 $("#single").append(textInput('slug',post.slug));
                 $("#single").append(textInput('gameId',post.gameId));
-                imageInput('#single','thumbnail',post.thumbnail,FILE_UPLOAD_URL)
+                imageInput('#single','thumbnail',post.thumbnail,FILE_UPLOAD_URL,`posts/${post._id}`);
                 //imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
                 $("#single").append(bodyInput('intro',post.intro,{uploadUrl : FILE_UPLOAD_URL}));
                 $("#single").append(bodyInput('body',post.body));
