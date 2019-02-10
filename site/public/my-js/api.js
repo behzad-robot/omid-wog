@@ -94,10 +94,29 @@ const getChampion = (_id, next) => {
         next(_fixChamp(c));
     });
 }
+//builds:
+const _fixBuild = (b, game, champion) => {
+    b._champ = champion;
+    //set _items:
+    for (var j = 0; j < b.itemRows.length; j++) {
+        var row = b.itemRows[j];
+        row._items = [];
+        for (var k = 0; k < row.items.length; k++) {
+            row._items.push(game.getItem(row.items[k]));
+        }
+    }
+    b.siteUrl = '/builds/' + b._id;
+    return b;
+};
+const getBuild = (_id, game, champion, next) => {
+    getObject('builds',_id,(build)=>{
+        next(_fixBuild(build,game,champion));
+    });
+};
 const getBuilds = (params, game, champions, next) => {
     findObjects('builds', params, (builds) => {
         for (var i = 0; i < builds.length; i++) {
-            const b = builds[i];
+            let b = builds[i];
             //set _champ:
             for (var j = 0; j < champions.length; j++) {
                 if (b.champId == champions[j]._id) {
@@ -105,15 +124,7 @@ const getBuilds = (params, game, champions, next) => {
                     break;
                 }
             }
-            //set _items:
-            for (var j = 0; j < b.itemRows.length; j++) {
-                var row = b.itemRows[j];
-                row._items = [];
-                for (var k = 0; k < row.items.length; k++) {
-                    row._items.push(game.getItem(row.items[k]));
-                }
-            }
-            b.siteUrl = '/builds/'+b._id;
+            b = _fixBuild(b,game,b._champ);
             console.log(b);
         }
         next(builds);
@@ -145,8 +156,10 @@ const _fixMedia = (m) => {
 const getMedia = (params, next) => {
     findObjects('media', params, (ms) => {
         console.log("got some media!");
-        for (var i = 0; i < ms.length; i++)
+        for (var i = 0; i < ms.length; i++) {
             ms[i] = _fixMedia(ms[i]);
+            ms[i].siteUrl = '/media/' + ms[i]._id;
+        }
         next(ms);
     });
 }

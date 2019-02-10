@@ -17,7 +17,7 @@ export default class SiteRouter extends Router
     {
 
     }
-    renderTemplate(req,res,fileName, data)
+    renderTemplate(req,res,fileName, data={})
     {
         if (!fileName.includes("public/"))
             fileName = "public/" + fileName;
@@ -31,7 +31,7 @@ export default class SiteRouter extends Router
                     res.send("Error="+err.toString());
                     return;
                 }
-                data.currentUser = req.session.currentUser;
+                data.currentUser = req.session ? req.session.currentUser : undefined;
                 data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(),data);
                 data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(),data);
                 data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(),data);

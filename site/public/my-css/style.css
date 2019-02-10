@@ -624,7 +624,7 @@ Common Helpers:
     .mobile-only{display:none;}
 }
 .no-mobile{
-    
+    display:initial;   
 }
 @media (max-width: 576px){
     .no-mobile{display:none;}

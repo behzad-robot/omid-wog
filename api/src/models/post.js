@@ -45,7 +45,7 @@ PostSchema.virtual('thumbnail_150x150').get(function () {
     const width = 150, height = 150;
     if (thumbnail.indexOf("/storage") == -1)
         return thumbnail;
-    var filePath = thumbnail;
+    var filePath = this.thumbnail;
     let fileName = filePath.substring(0, filePath.indexOf('.'));
     let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
     console.log(fileName);

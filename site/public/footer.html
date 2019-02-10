@@ -79,7 +79,7 @@
             console.log(media);
             for (var i = 0; i < media.length; i++) {
                 var m = media[i];
-                $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
+                $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
             }
         });
         $("#footer-gallery-box [name=loading]").hide();

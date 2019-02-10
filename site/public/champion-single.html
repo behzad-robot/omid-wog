@@ -27,12 +27,7 @@
         }
 
         .ability-box {
-            display: block;
-            border: 1px solid #111;
-            border-bottom: 1px solid #2e2e2e;
-            background: #0f0f0f;
-            padding: 0px;
-            overflow: hidden;
+            height: 100px;
         }
 
         .talent-row {
@@ -80,6 +75,7 @@
 
         .build-box {
             display: block;
+            width: 100%;
             border: 1px solid #111;
             border-bottom: 1px solid #2e2e2e;
             background: #0f0f0f;
@@ -160,7 +156,7 @@
             padding: 5px 10px;
             color: #fefefe;
             /* background-color: #1e1e1e; */
-            background : radial-gradient(ellipse farthest-corner at center 0px,#31a2a6 -150%,#333240 45%,#333240 85%);
+            background: radial-gradient(ellipse farthest-corner at center 0px, #31a2a6 -150%, #333240 45%, #333240 85%);
             font-weight: normal;
             font-size: 12px;
             border-radius: 8px;
@@ -177,12 +173,15 @@
             visibility: visible;
             opacity: 1;
         }
-        .myToolTip .top .text-english p{
+
+        .myToolTip .top .text-english p {
             direction: ltr;
             text-align: left;
         }
-        .myToolTip .top .text-english b,.myToolTip .top .text-english strong{
-            color:#ffc400 !important;
+
+        .myToolTip .top .text-english b,
+        .myToolTip .top .text-english strong {
+            color: #ffc400 !important;
         }
 
         .myToolTip .top i {
@@ -264,7 +263,7 @@
                     <div class="row">
                         {{#champion.abilities}}
                         <div class="col-md-6 col-12">
-                            <div class="info-box myToolTip" style="padding:5px;margin-bottom:5px;">
+                            <div class="info-box ability-box myToolTip" style="padding:5px;margin-bottom:5px;">
                                 <div class="top">
                                     <h3>{{title}}</h3>
                                     <div class="text-persian">{{{descriptionPersian}}}</div>
@@ -277,7 +276,7 @@
                                     </div>
                                     <div style="float:right;padding-right:10px;max-width:70%">
                                         <h3 style="font-size:14px;">{{title}}</h3>
-                                        <p style="font-size:12px;">{{{descriptionPersian}}}</p>
+                                        <div style="font-size:12px;text-overflow: ellipsis;">{{{descriptionPersian}}}</div>
                                     </div>
                                 </div>
                             </div>
@@ -300,34 +299,25 @@
                     <div class="text-english" style="direction:ltr;text-align: left">
                         {{{champion.lore}}}
                     </div>
-                    <a href="{{champion.loreUrl}}" class="btn btn-sm btn-black">
+                    <a href="{{champion.loreUrl}}" id="loreUrlBtn" class="btn btn-sm btn-black">
                         <span>مشاهده داستان کامل</span>
                     </a>
                     <!-- end lore-->
                     <!-- gallery -->
                     <div>
                         <h2 style="margin:10px 0">گالری</h2>
-                        <div style="width:100%;height:300px;overflow-x:scroll;overflow-y:hidden;">
-                            <div style="width:300px;float:right">
+                        <div style="width:100%;" id="gallery-box">
+                            <!-- <a href="#" style="width:300px;float:right">
                                 <img src="images/bflanding.jpg" height="100%" />
-                            </div>
-                            <div style="width:300px;float:right">
-                                <img src="images/bflanding.jpg" height="100%" />
-                            </div>
-                            <div style="width:300px;float:right">
-                                <img src="images/bflanding.jpg" height="100%" />
-                            </div>
-                            <div style="width:300px;float:right">
-                                <img src="images/bflanding.jpg" height="100%" />
-                            </div>
-                            <div style="width:300px;float:right">
-                                <img src="images/bflanding.jpg" height="100%" />
+                            </a> -->
+                            <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                                <img src="/images/loading.gif" width="72px" />
                             </div>
                         </div>
                     </div>
                     <!-- end gallery -->
                     <h3 style="margin:10px 0;">تازه های آموزش ها:</h3>
-                    <div id="builds-box">
+                    <div id="builds-box" class="row">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
@@ -339,33 +329,56 @@
     <script>
         let champion = null;
         let game = null;
-        getChampion(`{{champion._id}}`, (c) => {
-            champion = c;
-            getGame(champion.gameId, (g) => {
-                game = g;
-                getBuilds('?champId=' + champion._id, game, [champion], (builds) => {
-                    console.log(`This champ has ${builds.length} builds!`);
-                    console.log(builds);
-                    for (var i = 0; i < builds.length; i++) {
-                        var b = builds[i];
-                        $("#builds-box").append(
-                            `<a class="card build-box" href="${b.siteUrl}">`
-                            + `<div class="icon-wrapper"><img src="${champion.icon}" width="100%"></div>`
-                            + `<div class="content-wrapper"><h4>${b.title}</h4><small>توسط:&nbsp;<b class="username"><span userId="${b.userId}" label="username">??</span></b></small><br><small>نوشته شده در: <span class="text-english go-ltr">${b.createdAt}</span></small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">${b.patch}</span></div></div>`
-                            + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
-                            + `</a>`
-                        );
-                        const userId = b.userId;
-                        getUser(userId, (user) => {
-                            var thing = $(`[userId=${userId}]`);
-                            var label = $(thing).attr('label');
-                            $(thing).html(user[label]);
-                        });
-                    }
-                    $("#builds-box [name=loading]").hide();
+        $(document).ready(() => {
+            $("#loreUrlBtn").hide();
+            getChampion(`{{champion._id}}`, (c) => {
+                champion = c;
+                getGame(champion.gameId, (g) => {
+                    game = g;
+                    if (game.token != 'dota2')
+                        $("#loreUrlBtn").show();
+                    //builds:
+                    getBuilds('?champId=' + champion._id, game, [champion], (builds) => {
+                        console.log(`This champ has ${builds.length} builds!`);
+                        console.log(builds);
+                        if(builds.length == 0)
+                        {
+                            $("#builds-box").html("هیچ آموزشی برای این قهرمان وارد نشده!");
+                            return;
+                        }
+                        for (var i = 0; i < builds.length; i++) {
+                            var b = builds[i];
+                            $("#builds-box").append(
+                                `<a class="card build-box" href="${b.siteUrl}">`
+                                + `<div class="icon-wrapper"><img src="${champion.icon_tall}" width="100%"></div>`
+                                + `<div class="content-wrapper"><h4>${b.title}</h4><small>توسط:&nbsp;<b class="username"><span userId="${b.userId}" label="username">??</span></b></small><br><small>نوشته شده در: <span class="text-english go-ltr">${b.createdAt}</span></small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">${b.patch}</span></div></div>`
+                                + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;<i class="fas fa-thumbs-down"></i>&nbsp;&nbsp;${b.upVotes.length + b.downVotes.length} رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;${b.views} بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;${b.comments.length} نظر</span></div>`
+                                + `</a>`
+                            );
+                            const userId = b.userId;
+                            getUser(userId, (user) => {
+                                var thing = $(`[userId=${userId}]`);
+                                var label = $(thing).attr('label');
+                                $(thing).html(user[label]);
+                            });
+                        }
+                        $("#builds-box [name=loading]").hide();
+                    });
+                    //media:
+                    getMedia('?champId=' + champion._id, (media) => {
+                        console.log(media);
+                        if (media.length == 0) {
+                            $("#gallery-box").html('<h5>هیچ موردی برای این قهرمان وارد نشده!</h5>')
+                        }
+                        for (var i = 0; i < media.length; i++) {
+                            m = media[i];
+                            $("#gallery-box").append(`<div class="col-md-3"><a href="${m.siteUrl}"><img src="${m.url}" width="100%" /></a></div>`);
+                        }
+                        $("#gallery-box [name=loading]").hide();
+                    });
                 });
-            });
 
+            });
         });
     </script>
     {{{footer}}}
