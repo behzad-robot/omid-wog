@@ -582,6 +582,10 @@ Common Helpers:
 .text-english{
     font-family: 'Roboto' ,sans-serif !important;
 }
+.go-ltr{
+    direction: ltr;
+    text-align: left;
+}
 .no-padding{
     padding:0 !important;
 }
@@ -631,4 +635,12 @@ Common Helpers:
     border: 1px solid #111;
     background: #0f0f0f;
     padding:0px;
+}
+
+.wog-statsbox{
+	display:inline-block;
+	padding:5px 5px;
+	/* color : #1e1e1e; */
+	margin:0 2px;
+	/* background-color:#1e1e1e; */
 }

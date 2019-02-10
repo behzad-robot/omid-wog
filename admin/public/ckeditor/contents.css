@@ -13,6 +13,13 @@
 .wog-lol-maxhp {
 	color: red;
 }
+.wog-statsbox{
+	display:inline-block;
+	padding:5px 10px;
+	color : white;
+	margin:0 5px;
+	background-color:#1e1e1e;
+}
 /*
 Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license

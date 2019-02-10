@@ -113,6 +113,7 @@ const getBuilds = (params, game, champions, next) => {
                     row._items.push(game.getItem(row.items[k]));
                 }
             }
+            b.siteUrl = '/builds/'+b._id;
             console.log(b);
         }
         next(builds);

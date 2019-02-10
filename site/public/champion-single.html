@@ -85,7 +85,13 @@
             background: #0f0f0f;
             padding: 0px;
             overflow: hidden;
+            color: white !important;
+            text-decoration: none !important;
+        }
 
+        .build-box:hover {
+            background: #3e3e3e;
+            /* border:1px solid #ff8800; */
         }
 
         .build-box .icon-wrapper {
@@ -138,6 +144,67 @@
         hr {
             border-top-color: #3a3a3a;
         }
+
+        /* myToolTips */
+        .myToolTip {
+            /* display: inline-block; */
+            position: relative;
+        }
+
+        .myToolTip .top {
+            min-width: 40vw;
+            word-break: keep-all;
+            top: -10px;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            padding: 5px 10px;
+            color: #fefefe;
+            /* background-color: #1e1e1e; */
+            background : radial-gradient(ellipse farthest-corner at center 0px,#31a2a6 -150%,#333240 45%,#333240 85%);
+            font-weight: normal;
+            font-size: 12px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 99999999;
+            box-sizing: border-box;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.8s;
+        }
+
+        .myToolTip:hover .top {
+            visibility: visible;
+            opacity: 1;
+        }
+        .myToolTip .top .text-english p{
+            direction: ltr;
+            text-align: left;
+        }
+        .myToolTip .top .text-english b,.myToolTip .top .text-english strong{
+            color:#ffc400 !important;
+        }
+
+        .myToolTip .top i {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -12px;
+            width: 24px;
+            height: 12px;
+            overflow: hidden;
+        }
+
+        .myToolTip .top i::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            background-color: #EEEEEE;
+            box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+        }
     </style>
 </head>
 
@@ -168,7 +235,7 @@
                     </div>
                     <div class="widget-box">
                         <div class="title-wrapper">
-                            <h3>Pudge's Stats</h3>
+                            <h3>{{champion.name}}'s Stats</h3>
                         </div>
                         <div class="content-wrapper" style="overflow:hidden;">
                             <div class="widget-box-row"><strong style="display:inline-block">Strength :</strong>&nbsp;&nbsp;<span
@@ -197,13 +264,21 @@
                     <div class="row">
                         {{#champion.abilities}}
                         <div class="col-md-6 col-12">
-                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom:5px;">
-                                <div style="float:right">
-                                    <img src="{{icon}}" width="72px" />
+                            <div class="info-box myToolTip" style="padding:5px;margin-bottom:5px;">
+                                <div class="top">
+                                    <h3>{{title}}</h3>
+                                    <div class="text-persian">{{{descriptionPersian}}}</div>
+                                    <div class="text-english">{{{description}}}</div>
                                 </div>
-                                <div style="float:right;padding-right:10px;max-width:70%">
-                                    <h3 style="font-size:14px;">{{title}}</h3>
-                                    <p style="font-size:12px;">{{{descriptionPersian}}}</p>
+                                <i></i>
+                                <div style="overflow:hidden">
+                                    <div style="float:right">
+                                        <img src="{{icon}}" width="72px" />
+                                    </div>
+                                    <div style="float:right;padding-right:10px;max-width:70%">
+                                        <h3 style="font-size:14px;">{{title}}</h3>
+                                        <p style="font-size:12px;">{{{descriptionPersian}}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -251,7 +326,7 @@
                         </div>
                     </div>
                     <!-- end gallery -->
-                    <h3 style="margin:5px 0;">تازه های آموزش ها:</h3>
+                    <h3 style="margin:10px 0;">تازه های آموزش ها:</h3>
                     <div id="builds-box">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
@@ -274,13 +349,20 @@
                     for (var i = 0; i < builds.length; i++) {
                         var b = builds[i];
                         $("#builds-box").append(
-                           `<div class="card build-box">`
-                                +`<div class="icon-wrapper"><img src="${champion.icon}" width="100%"></div>`
-                                +`<div class="content-wrapper"><h4>${b.title}</h4><small>توسط:&nbsp;<b class="username">${b.userId}</b></small><br><small>نوشته شده در: ${b.createdAt}</small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">${b.patch}</span></div></div>`
-                                +`<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
-                                +`</div>`
+                            `<a class="card build-box" href="${b.siteUrl}">`
+                            + `<div class="icon-wrapper"><img src="${champion.icon}" width="100%"></div>`
+                            + `<div class="content-wrapper"><h4>${b.title}</h4><small>توسط:&nbsp;<b class="username"><span userId="${b.userId}" label="username">??</span></b></small><br><small>نوشته شده در: <span class="text-english go-ltr">${b.createdAt}</span></small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">${b.patch}</span></div></div>`
+                            + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
+                            + `</a>`
                         );
+                        const userId = b.userId;
+                        getUser(userId, (user) => {
+                            var thing = $(`[userId=${userId}]`);
+                            var label = $(thing).attr('label');
+                            $(thing).html(user[label]);
+                        });
                     }
+                    $("#builds-box [name=loading]").hide();
                 });
             });
 
