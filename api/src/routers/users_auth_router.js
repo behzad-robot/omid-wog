@@ -45,9 +45,10 @@ export default class UsersAuthRouter extends APIRouter {
                  || req.body.phoneNumber == undefined
                 || req.body.firstName == undefined || req.body.lastName == undefined
                 || req.body.sex == undefined) {
-                this.handleError("Parameters Missing!");
+                this.handleError(req,res,"Parameters Missing!");
                 return;
             }
+            console.log("parameters are fine");
             const data = {
                 username: req.body.username,
                 password: req.body.password,

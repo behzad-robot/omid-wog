@@ -190,8 +190,8 @@
                                         </div>
                                         <div class="col-md-9">
                                             <select name="sex" class="form-control dark" style="width:100%;height:37px;margin-top: 10px">
-                                                <option value="مذکر">مذکر</option>
-                                                <option value="مونث">مونث</option>
+                                                <option value="Male">مذکر</option>
+                                                <option value="Female">مونث</option>
                                             </select>
                                         </div>
                                     </div>
@@ -212,9 +212,10 @@
             console.log(games[0].getItem(0));
             console.log(games[1].getItem(0));
         });
-        $(document).ready2(function () {
-            $("#signupForm").ajaxForm({
-                beforeSubmit: (formData, jqForm, options) => {
+
+        $(document).ready(function () {
+            $("#signupForm").submit(function(){
+                
                     var name = $("#signupForm [name=firstname]").val();
                     var lastname = $("#signupForm [name=lastname]").val();
                     var phone = $("#signupForm [name=phone]").val();
@@ -250,14 +251,6 @@
                         return false;
                     }
                     return true;
-                },
-                success: (text, code, xhr, form) => {
-                    alert(`ثبت نام شما موفقیت آمیز بود.`);
-                    $("#signupForm").clearForm();
-                },
-                error: (xhr, text, err) => {
-                    alert('خطا از سمت سرور');
-                },
             });
         });
     </script>

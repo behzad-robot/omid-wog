@@ -103,9 +103,13 @@ export default class SiteAuthRouter extends SiteRouter {
                 email: req.body.email ? req.body.email : '',
                 city: req.body.city ? req.body.city : '',
                 age: req.body.age ? req.body.age : '',
+                sex: req.body.sex ? req.body.sex : '',
             };
-            siteModules.User.apiCall('/signup', 'POST', data).then((user) => {
-                if (typeof user == 'string')
+            console.log("lets do api call!");
+            siteModules.User.apiCall('signup', 'POST', data).then((user) => {
+                console.log(":D yay this is fine!");
+                console.log(user);
+                if(typeof user == 'string')
                     user = JSON.parse(user);
                 if (user.error == undefined) {
                     req.session.currentUser = user;
@@ -115,11 +119,11 @@ export default class SiteAuthRouter extends SiteRouter {
                     });
                 }
                 else
-                    res.redirect('/signup/?msg=' +user.error);
+                    res.redirect('/signup/?msg=' + user.error);
             }).catch((err) => {
-                if (typeof err == 'string')
-                    err = JSON.parse(err);
-                res.redirect('/signup/?msg=' + err.error);
+                console.log("this IS DEAD!");
+                console.log("err="+err);
+                res.redirect('/signup/?msg=' + err.toString());
             });
         });
         this.router.get('/forget-password', (req, res) => {

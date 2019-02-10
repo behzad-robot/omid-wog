@@ -7,6 +7,7 @@ const API = {
 const apiCall = (url, next) =>
 {
     console.log(url);
+    console.log(url+'=>'+Date.now());
     fetch(url,
         {
             method : 'GET',
@@ -20,6 +21,7 @@ const apiCall = (url, next) =>
         .then((json) =>
         {            
             next(json);
+            console.log(url+'=>'+Date.now());
         });
 }
 const findObjects = (name, next) =>

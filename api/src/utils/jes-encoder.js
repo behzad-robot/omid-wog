@@ -12,6 +12,8 @@ export class JesEncoder
     }
     encode(payload, header = {})
     {
+        var t= Date.now();
+        console.log('helloo=>'+Date.now());
         header.alg = "jes";
         header.typ = "JWT";
         var jwtStr = encodeJWT(header, payload, this.key);
@@ -27,6 +29,8 @@ export class JesEncoder
             // else
             encodedStr += String.fromCharCode(jwtStr.charCodeAt(i) + 1);
         }
+        console.log('helloo=>'+Date.now());
+        console.log(Date.now()-t);
         return encodedStr;
     }
     decode(str)
