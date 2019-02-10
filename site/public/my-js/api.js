@@ -75,6 +75,11 @@ const _fixChamp = (champ) => {
         champ.icon = ICON_404;
     if (isEmptyString(champ.icon_gif))
         champ.icon_gif = champ.icon_tall;
+    champ.siteUrl = '/champions/' + champ.slug;
+    champ.roles_str = '';
+    for (var i = 0; i < champ.roles.length; i++)
+        champ.roles_str += champ.roles[i].name + ' , ';
+    champ.roles_str = champ.roles_str.substring(0, champ.roles_str.length - 1);
     return champ;
 };
 const getChampions = (params, next) => {
@@ -82,6 +87,11 @@ const getChampions = (params, next) => {
         for (var i = 0; i < champions.length; i++)
             champions[i] = _fixChamp(champions[i]);
         next(champions);
+    });
+}
+const getChampion = (_id, next) => {
+    getObject('champions', _id, (c) => {
+        next(_fixChamp(c));
     });
 }
 const getBuilds = (params, game, champions, next) => {
@@ -111,59 +121,57 @@ const getBuilds = (params, game, champions, next) => {
 const loadedUsers = [];
 //users:
 const getUser = (_id, next) => {
-    for(var i = 0 ; i < loadedUsers.length;i++)
-    {
-        if(loadedUsers[i]._id == _id)
-        {
+    for (var i = 0; i < loadedUsers.length; i++) {
+        if (loadedUsers[i]._id == _id) {
             next(loadedUsers[i]);
             return;
         }
     }
-    getObject('users',_id,(user)=>{
+    getObject('users', _id, (user) => {
         loadedUsers.push(user);
         next(user);
     });
 };
 //media:
-const _fixMedia = (m)=>{
-    if(isEmptyString(m.url))
+const _fixMedia = (m) => {
+    if (isEmptyString(m.url))
         m.url = ICON_404;
-    if(isEmptyString(m.thumbnail))
+    if (isEmptyString(m.thumbnail))
         m.thumbnail = ICON_404;
-    m.siteUrl = '/media/'+m.slug;
+    m.siteUrl = '/media/' + m.slug;
     return m;
 };
-const getMedia = (params,next)=>{
-    findObjects('media',params,(ms)=>{
+const getMedia = (params, next) => {
+    findObjects('media', params, (ms) => {
         console.log("got some media!");
-        for(var i = 0 ; i < ms.length;i++)
+        for (var i = 0; i < ms.length; i++)
             ms[i] = _fixMedia(ms[i]);
         next(ms);
     });
 }
 //posts:
 const _fixPost = (p) => {
-    if(isEmptyString(p.media))
+    if (isEmptyString(p.media))
         p.media = ICON_404;
-    p.siteUrl = '/posts/'+p.slug;
+    p.siteUrl = '/posts/' + p.slug;
     return p;
 };
-const getPosts = (params,next)=>{
-    findObjects('posts',params,(posts)=>{
-        for(var i = 0 ; i < posts.length;i++)
+const getPosts = (params, next) => {
+    findObjects('posts', params, (posts) => {
+        for (var i = 0; i < posts.length; i++)
             posts[i] = _fixPost(posts[i]);
         next(posts);
     });
 };
 
 //streamers:
-getTwitchStreamersFor = (gameId,next,settings={})=>{
-    fetch('https://api.twitch.tv/helix/streams?game_id='+gameId,
+getTwitchStreamersFor = (gameId, next, settings = {}) => {
+    fetch('https://api.twitch.tv/helix/streams?game_id=' + gameId,
         {
             method: 'GET',
             mode: "cors",
             headers: {
-                'Client-ID' : '3j5qf1r09286hluj7rv4abqkbqosk3'
+                'Client-ID': '3j5qf1r09286hluj7rv4abqkbqosk3'
             }
         })
         .then((response) => (response.json()))
@@ -171,16 +179,15 @@ getTwitchStreamersFor = (gameId,next,settings={})=>{
             console.log(js);
             var arr = js.data;
             var streamers = [];
-            for(var i = 0 ; i < arr.length;i++)
-            {
+            for (var i = 0; i < arr.length; i++) {
                 streamers.push({
-                    id : arr[i].id,
-                    userId : arr[i].user_id,
-                    username : arr[i].user_name,
-                    url : "https://twitch.tv/"+arr[i].user_name,
-                    title : arr[i].title,
-                    thumbnail :  arr[i].thumbnail_url.replace('{width}',640).replace('{height}',360),
-                    viewerCount : arr[i].viewer_count,
+                    id: arr[i].id,
+                    userId: arr[i].user_id,
+                    username: arr[i].user_name,
+                    url: "https://twitch.tv/" + arr[i].user_name,
+                    title: arr[i].title,
+                    thumbnail: arr[i].thumbnail_url.replace('{width}', 640).replace('{height}', 360),
+                    viewerCount: arr[i].viewer_count,
 
                 });
             }

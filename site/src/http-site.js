@@ -7,6 +7,7 @@ import { CacheReader } from "./utils/cache";
 import SiteAuthRouter from "./routers/auth_router";
 import SiteGamesRouter from "./routers/games_router";
 import SitePostsRouter from "./routers/posts_router";
+import SiteChampionsRouter from "./routers/champs_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -17,14 +18,20 @@ const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADM
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-function isEmptyString(str){
-    return str == undefined || str == "undefined" || str == '' || str.replace(' ','') == '' || str == '?';
+function isEmptyString(str) {
+    return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
 }
 const ICON_404 = '/images/404-image.png';
 Champion.fixOne = (champ) => {
-    champ.icon = !isEmptyString(champ.icon) ? champ.icon : ICON_404;
-    if(isEmptyString(champ.icon_gif))
-        champ.icon_gif = champ.icon;
+    if (isEmptyString(champ.icon))
+        champ.icon = ICON_404;
+    if (isEmptyString(champ.icon_gif))
+        champ.icon_gif = champ.icon_tall;
+    champ.siteUrl = '/champions/' + champ.slug;
+    champ.roles_str = '';
+    for (var i = 0; i < champ.roles.length; i++)
+        champ.roles_str += champ.roles[i].name + ' , ';
+    champ.roles_str = champ.roles_str.substring(0, champ.roles_str.length - 1);
     return champ;
 };
 Champion.fixAll = (champions) => {
@@ -34,28 +41,27 @@ Champion.fixAll = (champions) => {
     return champions;
 };
 Game.fixOne = (game) => {
-    for(var i = 0 ; i < game.items.length;i++)
-    {
-        if(game.items[i].name == 'NECRONOMICON 2')
-            console.log('ICON=>'+game.items[i].icon+'=>'+isEmptyString(game.items[i].icon));
-        if(isEmptyString(game.items[i].icon))
+    for (var i = 0; i < game.items.length; i++) {
+        if (game.items[i].name == 'NECRONOMICON 2')
+            console.log('ICON=>' + game.items[i].icon + '=>' + isEmptyString(game.items[i].icon));
+        if (isEmptyString(game.items[i].icon))
             game.items[i].icon = ICON_404;
     }
     return game;
 };
 Game.fixAll = (games) => {
-    for(var i= 0 ; i < games.length;i++)
+    for (var i = 0; i < games.length; i++)
         games[i] = Game.fixOne(games[i]);
     return games;
 }
-Post.fixOne = (p)=>{
-    if(isEmptyString(p.media))
+Post.fixOne = (p) => {
+    if (isEmptyString(p.media))
         p.media = ICON_404;
-    p.siteUrl = '/posts/'+p.slug;
+    p.siteUrl = '/posts/' + p.slug;
     return p;
 };
-Post.fixAll = (ps)=>{
-    for(var i = 0 ; i < ps.length;i++)
+Post.fixAll = (ps) => {
+    for (var i = 0; i < ps.length; i++)
         ps[i] = Post.fixOne(ps[i]);
     return ps;
 };
@@ -74,7 +80,7 @@ const SiteModules = {
     Champion: Champion,
     Admin: Admin,
     Build: ChampBuild,
-    Post : Post,
+    Post: Post,
     ContactUsForm: ContactUsForm,
     proxyAPI: proxyAPI,
     Cache: {
@@ -132,10 +138,12 @@ express.expressApp.all('/api/*', (req, res) => {
     });
 });
 //routers:
-express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router)
-express.expressApp.use('/', new SiteAuthRouter(SiteModules).router)
-express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router)
-express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router)
+express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
+express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
+express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
+express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
 const PORT = 80;

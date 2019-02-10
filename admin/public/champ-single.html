@@ -26,6 +26,11 @@
                     c.icon_tall = '?';
                 if (c.nickname == undefined)
                     c.nickname = '';
+                for(var i = 0 ; i < c.abilities.length;i++)
+                {
+                    if(c.abilities[i].descriptionPersian == undefined)
+                        c.abilities[i].descriptionPersian = '';
+                }
                 for (var i = 0; i < c.abilities.length; i++) {
                     c.abilities[i].range = c.abilities[i].range ? c.abilities[i].range : '';
                     c.abilities[i].coolDown = c.abilities[i].coolDown ? c.abilities[i].coolDown : '';
@@ -129,6 +134,7 @@
                     $(`#abilities-${i}`).append(textInput('btn', champion.abilities[i].btn));
                     $(`#abilities-${i}`).append(textInput('video', champion.abilities[i].video));
                     $(`#abilities-${i}`).append(bodyInput('description', champion.abilities[i].description));
+                    $(`#abilities-${i}`).append(bodyInput('descriptionPersian', champion.abilities[i].descriptionPersian));
                     $(`#abilities-${i}`).append(boolInput('primary', champion.abilities[i].primary));
                     $(`#abilities-${i}`).append(boolInput('aghanimUpgrade', champion.abilities[i].aghanimUpgrade));
                     $(`#abilities-${i}`).append(boolInput('psi', champion.abilities[i].psi));
@@ -167,6 +173,7 @@
                     btn: $(`#abilities-${i} [name=btn]`).val(),
                     video: $(`#abilities-${i} [name=video]`).val(),
                     description: $(`#abilities-${i} [name=description]`).val(),
+                    descriptionPersian: $(`#abilities-${i} [name=descriptionPersian]`).val(),
                     primary: $(`#abilities-${i} [name=primary]`).is(':checked'),
                     psi: $(`#abilities-${i} [name=psi]`).is(':checked'),
                     aghanimUpgrade: $(`#abilities-${i} [name=aghanimUpgrade]`).is(':checked'),

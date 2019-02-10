@@ -18,6 +18,8 @@
             padding: 8px;
             background: #212129;
             font-size: 12px;
+            overflow: hidden;
+            word-wrap: break-word;
         }
 
         .widget-box-row strong {
@@ -50,6 +52,10 @@
             background: linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%);
         }
 
+        .talent-row .talent-box.reverseBG {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(41, 40, 53) 100%);
+        }
+
         .talent-row .divider {
             width: 4%;
             float: left;
@@ -71,6 +77,7 @@
             padding-top: 12px;
             border-radius: 50%;
         }
+
         .build-box {
             display: block;
             border: 1px solid #111;
@@ -115,16 +122,19 @@
         .build-box .content-wrapper .item-wrapper .item {
             width: 48px;
         }
-        .build-box .vote-wrapper{
-            float:left;
-            padding:5px;
+
+        .build-box .vote-wrapper {
+            float: left;
+            padding: 5px;
         }
-        .build-box .vote-wrapper span{
-            display:block;
-            font-size:12px;
-            margin:5px 0;
-            color:#f0f1f2;
+
+        .build-box .vote-wrapper span {
+            display: block;
+            font-size: 12px;
+            margin: 5px 0;
+            color: #f0f1f2;
         }
+
         hr {
             border-top-color: #3a3a3a;
         }
@@ -133,10 +143,10 @@
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height" style="background-image:url('/images/jaina.jpg');height:150px;position: relative">
+    <section class="parralax-fixed-height" style="background-image:url('{{champion.cover}}');height:150px;position: relative">
         <div class="wog-overlay"></div>
         <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
-            <h1 class="shadow-text" style="color:white;">Champ Name</h1>
+            <h1 class="shadow-text" style="color:white;">{{champion.name}}</h1>
         </div>
     </section>
     <section class="bg-section" style="padding:10px 0">
@@ -145,15 +155,15 @@
                 <div class="col-md-3">
                     <div class="widget-box" style="margin-bottom:10px;">
                         <div class="title-wrapper">
-                            <h3>Pudge</h3>
+                            <h3>{{champion.name}}</h3>
                         </div>
                         <div class="content-wrapper" style="overflow:hidden;">
-                            <img src="/images/pudge.png" width="100%" />
-                            <div class="widget-box-row"><strong>نام :</strong>&nbsp;&nbsp;<span>Pudge</span></div>
-                            <div class="widget-box-row"><strong>معروف به :</strong>&nbsp;&nbsp;<span>Butcher</span></div>
-                            <div class="widget-box-row"><strong>گروه :</strong>&nbsp;&nbsp;<span>Horde</span></div>
-                            <div class="widget-box-row"><strong>نوع حمله :</strong>&nbsp;&nbsp;<span>Melee</span></div>
-                            <div class="widget-box-row"><strong>Roles :</strong><br><span>DISABLER , ROAMER , DURABLE</span></div>
+                            <img src="{{champion.icon}}" width="100%" />
+                            <div class="widget-box-row"><strong>نام :</strong>&nbsp;&nbsp;<span>{{champion.name}}</span></div>
+                            <div class="widget-box-row"><strong>معروف به :</strong>&nbsp;&nbsp;<span>{{champion.nickname}}</span></div>
+                            <div class="widget-box-row"><strong>گروه :</strong>&nbsp;&nbsp;<span>{{champion.faction}}</span></div>
+                            <div class="widget-box-row"><strong>نوع حمله :</strong>&nbsp;&nbsp;<span>{{champion.attackType}}</span></div>
+                            <div class="widget-box-row"><strong>Roles :</strong><br><span>{{champion.roles_str}}</span></div>
                         </div>
                     </div>
                     <div class="widget-box">
@@ -162,26 +172,19 @@
                         </div>
                         <div class="content-wrapper" style="overflow:hidden;">
                             <div class="widget-box-row"><strong style="display:inline-block">Strength :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Strength}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Agility :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Agility}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Intelligence :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Intelligence}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Health :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Health}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Mana :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Mana}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Damage :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Damage}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Armor :</strong>&nbsp;&nbsp;<span
-                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
-                                    at 25 (25 + 3.5/level)</span></div>
+                                    style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">{{champion._stats.Movement}}</span></div>
                             <div class="widget-box-row"><strong style="display:inline-block">Movement :</strong>&nbsp;&nbsp;<span
                                     style="display:inline-block;direction: ltr;text-align: left;font-family: Tahoma;">112.5
                                     at 25 (25 + 3.5/level)</span></div>
@@ -192,70 +195,37 @@
                     <!-- abilities -->
                     <h2 style="margin:10px 0">قابلیت ها</h2>
                     <div class="row">
+                        {{#champion.abilities}}
                         <div class="col-md-6 col-12">
-                            <div class="info-box" style="overflow:hidden;padding:5px;">
-                                <div style="display:inline-block;float:right">
-                                    <img src="/images/s4.png" width="72px" />
+                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom:5px;">
+                                <div style="float:right">
+                                    <img src="{{icon}}" width="72px" />
                                 </div>
-                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
-                                    <h3 style="font-size:14px;">Meat Hook</h3>
-                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
-                                        hook will snag the first unit it...</p>
+                                <div style="float:right;padding-right:10px;max-width:70%">
+                                    <h3 style="font-size:14px;">{{title}}</h3>
+                                    <p style="font-size:12px;">{{{descriptionPersian}}}</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;background:linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%)">
-                                <div style="display:inline-block;float:right">
-                                    <img src="/images/s4.png" width="72px" />
-                                </div>
-                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
-                                    <h3 style="font-size:14px;">Meat Hook</h3>
-                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
-                                        hook will snag the first unit it...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;background:linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%)">
-                                <div style="display:inline-block;float:right">
-                                    <img src="/images/s4.png" width="72px" />
-                                </div>
-                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
-                                    <h3 style="font-size:14px;">Meat Hook</h3>
-                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
-                                        hook will snag the first unit it...</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <div class="info-box" style="overflow:hidden;padding:5px;margin-bottom: 5px;">
-                                <div style="display:inline-block;float:right">
-                                    <img src="/images/s4.png" width="72px" />
-                                </div>
-                                <div style="display:inline-block;float:right;padding-right:10px;max-width:70%">
-                                    <h3 style="font-size:14px;">Meat Hook</h3>
-                                    <p style="font-size:12px;">Launches a bloody hook toward a unit or location. The
-                                        hook will snag the first unit it...</p>
-                                </div>
-                            </div>
-                        </div>
+                        {{/champion.abilities}}
                     </div>
                     <!-- talents -->
                     <h2 style="margin:10px 0">توانمندی ها (Talents)</h2>
+                    {{#champion.talents}}
                     <div class="talent-row">
-                        <div class="talent-box">-5s Fate's Edict Cooldown</div>
+                        <div class="talent-box">{{a}}</div>
                         <div class="divider">&nbsp;</div>
-                        <div class="talent-box">-5s Fate's Edict Cooldown</div>
-                        <div class="talent-level">25</div>
+                        <div class="talent-box reverseBG">{{b}}</div>
+                        <div class="talent-level">{{level}}</div>
                     </div>
+                    {{/champion.talents}}
                     <hr />
                     <!-- lore -->
                     <h2 style="margin:10px 0">داستان (Lore)</h2>
-                    <p>Oracle is my main hero and has been since 2016. I've put a lot of hours into trying different
-                        builds and strategies with him and there's two particular builds that prove highly effective
-                        95% of the time: the Mobile Artillery build and the Priest build.</p>
-                    <a href="#" class="btn btn-sm btn-black">
+                    <div class="text-english" style="direction:ltr;text-align: left">
+                        {{{champion.lore}}}
+                    </div>
+                    <a href="{{champion.loreUrl}}" class="btn btn-sm btn-black">
                         <span>مشاهده داستان کامل</span>
                     </a>
                     <!-- end lore-->
@@ -282,31 +252,9 @@
                     </div>
                     <!-- end gallery -->
                     <h3 style="margin:5px 0;">تازه های آموزش ها:</h3>
-                    <div class="card build-box">
-                        <div class="icon-wrapper">
-                            <img src="/images/s4.png" width="100%">
-                        </div>
-                        <div class="content-wrapper">
-                            <h4>عنوان آموزش</h4>
-                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
-                            <small>نوشته شده در: 12 مهر 1397</small>
-                            <div style="margin:5px 0">
-                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
-                            </div>
-                            <!-- <div class="item-wrapper">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                                <img src="/images/s5.jpg" class="item">
-                            </div> -->
-                        </div>
-                        <div class="vote-wrapper">
-                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
-                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
-                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                    <div id="builds-box">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
                         </div>
                     </div>
                 </div>
@@ -314,11 +262,28 @@
         </div>
     </section>
     <script>
-        getGames('', (games) =>
-        {
-            console.log(games);
-            console.log(games[0].getItem(0));
-            console.log(games[1].getItem(0));
+        let champion = null;
+        let game = null;
+        getChampion(`{{champion._id}}`, (c) => {
+            champion = c;
+            getGame(champion.gameId, (g) => {
+                game = g;
+                getBuilds('?champId=' + champion._id, game, [champion], (builds) => {
+                    console.log(`This champ has ${builds.length} builds!`);
+                    console.log(builds);
+                    for (var i = 0; i < builds.length; i++) {
+                        var b = builds[i];
+                        $("#builds-box").append(
+                           `<div class="card build-box">`
+                                +`<div class="icon-wrapper"><img src="${champion.icon}" width="100%"></div>`
+                                +`<div class="content-wrapper"><h4>${b.title}</h4><small>توسط:&nbsp;<b class="username">${b.userId}</b></small><br><small>نوشته شده در: ${b.createdAt}</small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">${b.patch}</span></div></div>`
+                                +`<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
+                                +`</div>`
+                        );
+                    }
+                });
+            });
+
         });
     </script>
     {{{footer}}}

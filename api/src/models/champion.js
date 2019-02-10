@@ -4,6 +4,7 @@ import { API_BASE_URL } from '../../../admin/src/constants';
 export const ChampionSchema = new mongoose.Schema({
     gameId: {type:String,default:''},
     name: String,
+    nickname : {type:String,default:''},
     slug: {type:String,default:''},
     icon: {type:String,default:'?'},
     icon_tall: {type:String,default:'?'},
@@ -12,6 +13,7 @@ export const ChampionSchema = new mongoose.Schema({
     cover2: {type:String,default:'?'},
     videoSpotlight: {type:String,default:'?'},
     description: {type:String,default:''},
+    descriptionPersian: {type:String,default:''},
     media: Array,
 
     lore: {type:String,default:'?'},
@@ -83,6 +85,17 @@ ChampionSchema.virtual('icon_256x256').get(function ()
     let fileFormat = icon.substring(icon.indexOf('.'), icon.length);
     let icon_128x128 = fileName + '-resize-256x256' + fileFormat;
     return icon_128x128.indexOf("http") != -1 ? icon_128x128 : (API_BASE_URL + icon_128x128);
+});
+ChampionSchema.virtual('_stats').get(function ()
+{
+    let stats = this.stats;
+    let result = {};
+    for(var i = 0 ; i < stats.length;i++)
+    {
+        var s = stats[i];
+        result[s.name] = s.value;
+    }
+    return result;
 });
 
 

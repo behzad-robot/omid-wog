@@ -43,6 +43,11 @@ export default class SiteRouter extends Router
         }
     }
     show404(req,res){
-        this.accessDenied.renderTemplate(req,res,"404.html");
+        this.renderTemplate(req,res,"404.html");
+    }
+    show500(req,res,err){
+        this.renderTemplate(req,res,"404.html",{
+            error : err
+        });
     }
 }

@@ -9,7 +9,7 @@ export default class SiteGamesRouter extends SiteRouter {
         this.router.get('/:slug', (req, res) => {
             siteModules.Game.find({ slug: req.params.slug }).then((games) => {
                 if (games.length == 0)
-                    res.send("Game Not found!");
+                    this.show404(req,res);
                 else {
                     let game = games[0];
                     game = siteModules.Game.fixOne(game);
@@ -22,6 +22,23 @@ export default class SiteGamesRouter extends SiteRouter {
             });
 
 
+        });
+        this.router.get('/:champSlug',(req,res)=>{
+            siteModules.Champion.find({slug : req.params.champSlug}).then((champions)=>{
+                if( champions.length == 0 )
+                    this.show404(req,res);
+                else
+                {
+                    let champion = champions[0];
+                    champion = siteModules.Champion.fixOne(champion);
+                    this.renderTemplate(req,res,'champion-single',{
+                        champion : champion,
+                        gameSlug : req.params.gameSlug,
+                    });
+                }
+            }).catch((err)=>{
+                this.show500(req,res,err.toString());
+            });
         });
     }
 }
