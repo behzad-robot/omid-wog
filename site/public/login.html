@@ -114,18 +114,6 @@
         </section>
     </form>
     <script>
-        getGames('', (games) => {
-            console.log(games);
-            console.log(games[0].getItem(0));
-            console.log(games[1].getItem(0));
-        });
-    </script>
-    <script>
-            getGames('', (games) => {
-                console.log(games);
-                console.log(games[0].getItem(0));
-                console.log(games[1].getItem(0));
-            });
             $(document).ready(function () {
                 $("#signupForm").ajaxForm({
                     beforeSubmit: (formData, jqForm, options) => {

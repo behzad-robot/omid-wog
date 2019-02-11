@@ -12,6 +12,7 @@ export const ChampionBuildSchema = new mongoose.Schema({
     description: {type:String,default:''},
     itemRows : [], // {title : string , notes: string , items : [] }
     talents : [] , // {level : int , pick : string (a/b)}
+    abilities : [],
     //views,votes,comments:
     views : Number,
     upVotes :Array,

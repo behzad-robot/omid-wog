@@ -1,0 +1,141 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .build-title {
+            font-size: 64px;
+            margin-bottom: 0px;
+        }
+
+        .build-subtitle {
+            color: white;
+            font-size: 22px;
+        }
+
+        .build-subtitle [name=champion] {
+            color: #ff8800;
+            font-weight: bold;
+        }
+
+        .item-row {
+            background: #1a1b1f;
+            position: relative;
+            color: white;
+            transition: all .35s ease-in-out;
+            -webkit-transition: all .35s ease-in-out;
+        }
+
+        .item-row::before {
+            transition: all .35s ease-in-out;
+            -webkit-transition: all .35s ease-in-out;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
+            background: #1a1b1f;
+            content: "";
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            border-radius: 5px;
+        }
+
+        .item-row .item-row-content {
+            position: relative;
+            z-index: 1;
+            color: white;
+            padding:5px;
+        }
+
+        .item-row-title {
+            font-size: 16px;
+            color: #c0c0c0;
+        }
+
+        .item-row-items {}
+
+        .item-row-items .one-item {
+            display: inline-block;
+            width: 72px;
+            border: 1px solid #0a0a0a;
+            box-shadow: 1px 2px 1px black;
+        }
+
+        .item-row-items .seprator {
+            color: white;
+            font-size: 20px;
+            position: relative;
+            top: 5px;
+            margin: 1px 0;
+        }
+        .item-row .item-row-notes{
+            font-size:11px;
+            position:absolute;
+            top:10px;
+            left:10px;
+
+        }
+    </style>
+</head>
+
+
+<body>
+    {{{navbar}}}
+    <section class="parralax-fixed-height"
+        style="background-image:url('/images/dota-wallpaper.jpg');height:300px;padding-top:95px;position: relative;"
+        id="build-cover">
+        <div class="wog-overlay trans-3"></div>
+        <div style="position:relative;" class="text-center">
+            <h1 class="text-white text-shadow build-title" name="title">Loading...</h1>
+            <h3 class="build-subtitle text-shadow"><span name="game"></span> - <span name="champion"></span></h3>
+        </div>
+    </section>
+    <section style="padding-bottom:20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 style="margin:10px 0;color:white;font-size: 34px;">آیتم ها:</h3>
+                    <div id="itemRows">
+                        <div class="item-row">
+                            <div class="item-row-content">
+                                <h5 class="item-row-title">Early Game</h5>
+                                <div class="item-row-items">
+                                    <img src="/images/s8.png" class="one-item" />
+                                    <i class="fas fa-angle-double-left seprator"></i>
+                                    <img src="/images/s8.png" class="one-item" />
+                                </div>
+                                <div class="item-row-notes">
+                                    <i class="fas fa-book"></i>
+                                    یادداشت ها</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-md-4">
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let build = undefined, game = undefined, champion = undefined;
+        $(document).ready(function () {
+            getBuild(`{{_id}}`, undefined, undefined, (b) => {
+                build = b;
+                game = b._game;
+                champion = b._champion;
+                console.log(build);
+                $("#build-cover [name=title]").html(build.title);
+                $("#build-cover [name=game]").html(game.name);
+                $("#build-cover [name=champion]").html(champion.name);
+
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

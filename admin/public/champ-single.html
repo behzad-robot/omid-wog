@@ -132,7 +132,8 @@
                     console.log(`#abilities-${i}`);
                     $(`#abilities-${i}`).append(textInput('title', champion.abilities[i].title));
                     $(`#abilities-${i}`).append(textInput('btn', champion.abilities[i].btn));
-                    $(`#abilities-${i}`).append(textInput('video', champion.abilities[i].video));
+                    // $(`#abilities-${i}`).append(textInput('video', champion.abilities[i].video));
+                    $(`#abilities-${i}`).append(filePickTool(undefined,'video',champion.abilities[i].video));
                     $(`#abilities-${i}`).append(bodyInput('description', champion.abilities[i].description));
                     $(`#abilities-${i}`).append(bodyInput('descriptionPersian', champion.abilities[i].descriptionPersian));
                     $(`#abilities-${i}`).append(boolInput('primary', champion.abilities[i].primary));

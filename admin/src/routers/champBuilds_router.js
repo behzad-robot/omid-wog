@@ -41,6 +41,7 @@ export default class ChampionBuildsPanelRouter extends AdminRouter {
             }
             req.body.itemRows = JSON.parse(req.body.itemRows);
             req.body.talents = JSON.parse(req.body.talents);
+            req.body.abilities = req.body.abilities.split(',');
             const _id = req.body._id;
             delete (req.body._id);
             AdminModules.Build.edit(_id, req.body).then((result) => {

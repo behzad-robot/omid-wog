@@ -8,6 +8,7 @@ import SiteAuthRouter from "./routers/auth_router";
 import SiteGamesRouter from "./routers/games_router";
 import SitePostsRouter from "./routers/posts_router";
 import SiteChampionsRouter from "./routers/champs_router";
+import SiteBuildsRouter from "./routers/builds_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -54,6 +55,9 @@ Game.fixAll = (games) => {
         games[i] = Game.fixOne(games[i]);
     return games;
 }
+ChampBuild.fixOne = (build) =>{
+    
+};
 Post.fixOne = (p) => {
     if (isEmptyString(p.media))
         p.media = ICON_404;
@@ -143,6 +147,7 @@ express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:

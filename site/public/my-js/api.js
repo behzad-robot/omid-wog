@@ -109,8 +109,21 @@ const _fixBuild = (b, game, champion) => {
     return b;
 };
 const getBuild = (_id, game, champion, next) => {
-    getObject('builds',_id,(build)=>{
-        next(_fixBuild(build,game,champion));
+    getObject('builds',_id,(b)=>{
+        if(game != undefined)
+            next(_fixBuild(b,game,champion));
+        else
+        {
+            getGame(b.gameId,(g)=>{
+                game = g;
+                b._game  = game;
+                getChampion(b.champId,(c)=>{
+                    champion = c;
+                    b._champion = champion;
+                    next(_fixBuild(b,game,champion));
+                });
+            });
+        }
     });
 };
 const getBuilds = (params, game, champions, next) => {

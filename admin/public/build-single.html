@@ -19,11 +19,13 @@
 <body>
     {{{actionbar}}}
     <div class="container">
-        <h2>Build {{{_id}}}:<a href="/admin/builds/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a></h2>
+        <h2>Build {{{_id}}}:<a href="/admin/builds/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a></h2>
         <hr />
         <form id="single" action="/admin/builds/{{{_id}}}/edit" method="POST"></form>
         <div id="extra"></div>
-        <div id="item-pick-screen" style="position: fixed;width:100vw;height:100vh;top:0;left:0;z-index:500;background-color:rgba(0,0,0,0.8);color:white;">
+        <div id="item-pick-screen"
+            style="position: fixed;width:100vw;height:100vh;top:0;left:0;z-index:500;background-color:rgba(0,0,0,0.8);color:white;">
             <div class="container">
                 <h1>Choose An Item:</h1>
                 <div class="btn btn-md btn-primary" onclick="item_screen_toggle(false,-1)">Back</div>
@@ -39,12 +41,16 @@
             </div>
         </div>
         <script>
+            String.prototype.replaceAll = function (search, replacement) {
+                var target = this;
+                return target.split(search).join(replacement);
+            };
             let build = null;
             let game = null;
             let champion = null;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
             $("#single").html("Loading...")
-            item_screen_toggle(false,-1);
+            item_screen_toggle(false, -1);
             getObject('builds', `{{{_id}}}`, (b) => {
                 build = b;
                 console.log(build);
@@ -76,6 +82,7 @@
                         $("#single").append(bodyInput('description', build.description));
                         $("#single").append(jsonInput('itemRows', build.itemRows));
                         $("#single").append(jsonInput('talents', build.talents));
+                        $("#single").append(textInput('abilities', JSON.stringify(build.abilities).replaceAll('\"', '').replaceAll("[", "").replaceAll("]", "")));
                         $("#single").append(submitBtn());
                         $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                         //extras:
@@ -167,22 +174,22 @@
                 $("#item-pick-screen").hide();
             }
             function talents_recreate() {
-                if(champion.talents == undefined || champion.talents.length == 0)  
+                if (champion.talents == undefined || champion.talents.length == 0)
                     return;
                 $("[name=talents]").val(JSON.stringify(build.talents));
                 $("#talents").html('<h4>Talents:</h4><div class="btn btn-md btn-secondary" onclick="talents_add()">+Add Talent</div><div class="row"></div>');
                 for (var i = 0; i < build.talents.length; i++) {
                     $("#talents .row").append(
                         `<div class="col-md-4">`
-                            + `<div class="box-row talent-box" id="talent-${i}" index="${i}">`
-                                +numberInput('level',build.talents[i].level)
-                                +talents_pick_dropdown(build.talents[i].level,build.talents[i].pick)
-                                +`<div class="btn btn-md btn-danger" onclick="talents_remove(${i})">Remove</div>`
-                            + `</div>`
+                        + `<div class="box-row talent-box" id="talent-${i}" index="${i}">`
+                        + numberInput('level', build.talents[i].level)
+                        + talents_pick_dropdown(build.talents[i].level, build.talents[i].pick)
+                        + `<div class="btn btn-md btn-danger" onclick="talents_remove(${i})">Remove</div>`
+                        + `</div>`
                         + `</div>`
                     );
                 }
-                $("#talents input,select").change(function(){
+                $("#talents input,select").change(function () {
                     var index = $(this).closest(".talent-box").attr("index");
                     build.talents[index] = {
                         level: $(`#talent-${index} [name=level]`).val(),
@@ -198,16 +205,14 @@
                 });
                 talents_recreate();
             }
-            function talents_remove(i){
-                build.talents.splice(i,1);
+            function talents_remove(i) {
+                build.talents.splice(i, 1);
                 talents_recreate();
             }
-            function talents_pick_dropdown(level,pick){
-                var a = "a",b="b";
-                for(var i = 0 ; i < champion.talents.length;i++)
-                {
-                    if(champion.talents[i].level == level)
-                    {
+            function talents_pick_dropdown(level, pick) {
+                var a = "a", b = "b";
+                for (var i = 0; i < champion.talents.length; i++) {
+                    if (champion.talents[i].level == level) {
                         a = champion.talents[i].a;
                         b = champion.talents[i].b;
                         break;
@@ -215,10 +220,10 @@
                 }
                 return (
                     `<select name="pick" class="form-control">`
-                        +`<option></option>`
-                        +`<option value="a" `+(pick =='a' ? 'selected' : '')+`>a : ${a}</option>` 
-                        +`<option value="b" `+(pick =='b' ? 'selected' : '')+`>b : ${b}</option>` 
-                    +`</select>`
+                    + `<option></option>`
+                    + `<option value="a" ` + (pick == 'a' ? 'selected' : '') + `>a : ${a}</option>`
+                    + `<option value="b" ` + (pick == 'b' ? 'selected' : '') + `>b : ${b}</option>`
+                    + `</select>`
                 );
             }
         </script>
