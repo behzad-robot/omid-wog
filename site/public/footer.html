@@ -73,25 +73,27 @@
 </section>
 <script>
     $(document).ready(() => {
-        //media:
-        getMedia('?limit=12', (media) => {
-            var container = $("#footer-gallery-box");
-            console.log(media);
-            for (var i = 0; i < media.length; i++) {
-                var m = media[i];
-                $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
-            }
-        });
-        $("#footer-gallery-box [name=loading]").hide();
-        //posts
-        getPosts('?limit=3', (posts) => {
-            var container = $("#footer-news-box");
-            console.log(posts);
-            for (var i = 0; i < posts.length; i++) {
-                var p = posts[i];
-                $(container).append(`<a class="hot-news-container text-center" style="background-image:url('${p.thumbnail}')" href="${p.siteUrl}"><div class="wog-overlay trans-6"></div><div class="content text-shadow"><small><i class="fas fa-calendar"></i>&nbsp;21 آبان 1397</small><h2>${p.title}</h2></div></a>`);
-            }
-        });
+        setTimeout(() => {
+            //media:
+            getMedia('?limit=12', (media) => {
+                var container = $("#footer-gallery-box");
+                console.log(media);
+                for (var i = 0; i < media.length; i++) {
+                    var m = media[i];
+                    $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
+                }
+            });
+            $("#footer-gallery-box [name=loading]").hide();
+            //posts
+            getPosts('?limit=3', (posts) => {
+                var container = $("#footer-news-box");
+                console.log(posts);
+                for (var i = 0; i < posts.length; i++) {
+                    var p = posts[i];
+                    $(container).append(`<a class="hot-news-container text-center" style="background-image:url('${p.thumbnail}')" href="${p.siteUrl}"><div class="wog-overlay trans-6"></div><div class="content text-shadow"><small><i class="fas fa-calendar"></i>&nbsp;21 آبان 1397</small><h2>${p.title}</h2></div></a>`);
+                }
+            });
+        }, 300);
     });
 </script>
 <footer>

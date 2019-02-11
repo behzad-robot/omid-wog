@@ -24,6 +24,7 @@
             color: white;
             transition: all .35s ease-in-out;
             -webkit-transition: all .35s ease-in-out;
+            margin-bottom: 10px;
         }
 
         .item-row::before {
@@ -46,7 +47,7 @@
             position: relative;
             z-index: 1;
             color: white;
-            padding:5px;
+            padding: 5px;
         }
 
         .item-row-title {
@@ -70,12 +71,105 @@
             top: 5px;
             margin: 1px 0;
         }
-        .item-row .item-row-notes{
-            font-size:11px;
-            position:absolute;
-            top:10px;
-            left:10px;
 
+        .item-row .item-row-notes {
+            font-size: 11px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+
+        }
+
+        .ab-row {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .ab-row .ab-title {
+            font-size: 16px;
+            color: #a0a0a0;
+        }
+
+        .ab-row .ab-icon {
+            display: inline-block;
+            margin-left: 9px;
+        }
+
+        .ab-row .ab-level {
+            display: inline-block;
+            background: #1e2e3e;
+            color: white;
+            width: 24px;
+            height: 34px;
+            font-size: 12px;
+            text-align: center;
+            vertical-align: middle;
+            padding-top: 6px;
+            margin-left: 4px;
+            margin-bottom: 5px;
+        }
+
+        .ab-row .ab-level span {
+            display: none;
+        }
+
+        .ab-row .ab-level.selected {
+            background-color: #ff8800;
+        }
+
+        .ab-row .ab-level.selected span {
+            display: inline;
+        }
+
+        .talent-row {
+            display: block;
+            margin-bottom: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .talent-row .talent-box {
+            width: 48%;
+            float: left;
+            direction: ltr;
+            text-align: center;
+            padding: 15px 0;
+            border: 1px solid #000;
+            background: linear-gradient(to right, rgb(41, 40, 53) 0%, rgba(255, 255, 255, 0) 100%);
+        }
+
+        .talent-row .talent-box.reverseBG {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgb(41, 40, 53) 100%);
+        }
+
+        .talent-row .talent-box.reverseBG.selected,
+        .talent-row .talent-box.selected {
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.5) 0%, rgba(255, 136, 0, 1) 100%);
+
+        }
+
+        .talent-row .divider {
+            width: 4%;
+            float: left;
+        }
+
+        .talent-row .talent-level {
+            position: absolute;
+            top: 2px;
+            left: 47%;
+            right: auto;
+            background: radial-gradient(ellipse farthest-corner at center 0px, #31a2a6 -150%, #4b495f 45%, #4b495f 85%);
+            ;
+            border: 1px solid #000;
+            color: white;
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            vertical-align: text-top;
+            padding-top: 12px;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -98,24 +192,52 @@
                 <div class="col-md-8">
                     <h3 style="margin:10px 0;color:white;font-size: 34px;">آیتم ها:</h3>
                     <div id="itemRows">
-                        <div class="item-row">
-                            <div class="item-row-content">
-                                <h5 class="item-row-title">Early Game</h5>
-                                <div class="item-row-items">
-                                    <img src="/images/s8.png" class="one-item" />
-                                    <i class="fas fa-angle-double-left seprator"></i>
-                                    <img src="/images/s8.png" class="one-item" />
-                                </div>
-                                <div class="item-row-notes">
-                                    <i class="fas fa-book"></i>
-                                    یادداشت ها</div>
-                            </div>
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
                         </div>
-
                     </div>
+                    <h3 style="margin:10px 0;color:white;font-size: 34px;">قابلیت ها(Abilities):</h3>
+                    <div id="abilities"></div>
+                    <h3 style="margin:10px 0;color:white;font-size: 34px;">Talents:</h3>
+                    <div id="talents"></div>
+                    <hr style="border-top-color:#eee;" />
+                    <div id="author-info" class="text-white" style="font-size:14px;">
+                        <i class="fas fa-user"></i>&nbsp;
+                        نوشته شده توسط <span label="username" userId="" name="author">???</span>
+                        &nbsp;
+                        <i class="fas fa-calendar"></i>&nbsp;
+                        در تاریخ:<span name="createdAt">???</span>
+                    </div>
+                    <h3 style="margin:10px 0;color:white;font-size: 34px;">توضیحات:</h3>
+                    <div id="build-description text-white"></div>
+                    <hr style="border-top-color:#eee;" />
+                    <h3 style="margin:10px 0;color:white;font-size: 34px;">نظرات :</h3>
+                    <form>
+                        <h4 style="color:#79848f"> متن دیدگاه</h4>
+                        <textarea class="form-control dark" style="width:50%;height:150px;" placeholder="دیدگاه خود را وارد کنید"></textarea>
+                        <input type="submit" value="ارسال نظر" class="btn btn-md btn-yellow"/>
+                    </form>
+                    <div id="comments"></div>
                 </div>
                 <div class="col-md-4">
-
+                    <div class="widget-box" id="sideBox" style="margin-top:10px;">
+                        <div class="title-wrapper">
+                            <h3 name="champion">???</h3>
+                        </div>
+                        <div class="content-wrapper text-center" style="padding:10px 0">
+                                <img src="/images/loading.gif" width="50%" name="champion-icon"/>
+                            </div>
+                        <div class="content-wrapper text-content text-white">
+                            <i class="fas fa-user"></i>&nbsp;نوشته شده توسط <span label="username" userId=""
+                                name="author"> ???</span><br>
+                            <i class="fas fa-calendar"></i>&nbsp;در تاریخ:<span name="createdAt"> ???</span><br>
+                            <i class="fas fa-comments"></i>&nbsp;نظرات:<span name="comments"> ???</span>
+                            <hr />
+                            <h5>رای ها:</h5>
+                            <div class="btn btn-black"><span><i class="fas fa-thumbs-up"></i>&nbsp;<b name="voteUp">???</b></span></div>
+                            <div class="btn btn-black"><span><i class="fas fa-thumbs-down"></i>&nbsp;<b name="voteDown">???</b></span></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -128,11 +250,82 @@
                 game = b._game;
                 champion = b._champion;
                 console.log(build);
+                //top cover section:
+                $("#build-cover").css('background', `url('${champion.cover}')`)
                 $("#build-cover [name=title]").html(build.title);
                 $("#build-cover [name=game]").html(game.name);
                 $("#build-cover [name=champion]").html(champion.name);
+                //item rows:
+                for (var i = 0; i < build.itemRows.length; i++) {
+                    var row = build.itemRows[i];
+                    console.log(row);
+                    var items_str = '';
+                    for (var j = 0; j < row._items.length - 1; j++) {
+                        // var item = game.getItem(row.items[j]);
+                        var item = row._items[j];
+                        items_str += `<div class="one-item"><img src="${item.icon}" width="100%" /></div><i class="fas fa-angle-double-left seprator"></i>`;
+                    }
+                    var item = row._items[row._items.length - 1];
+                    items_str += `<div class="one-item"><img src="${item.icon}" width="100%" /></div>`;
+                    $("#itemRows").append(
+                        `<div class="item-row">`
+                        + `<div class="item-row-content">`
+                        + `<h5 class="item-row-title">${row.title}</h5>`
+                        + `<div class="item-row-items">${items_str}</div>`
+                        + `<div class="item-row-notes" data-toggle="tooltip" data-placement="top" title="${row.notes}"><i class="fas fa-book"></i>&nbsp;یادداشت ها</div>`
+                        + `</div>`
+                        + `</div>`
+                    );
+                }
+                $("#itemRows [name=loading]").hide();
+                //abilities:
+                for (var i = 0; i < champion.abilities.length; i++) {
+                    var c = champion.abilities[i];
+                    if (c.btn != 'q' && c.btn != 'w' && c.btn != 'e' && c.btn != 'r')
+                        continue;
 
+                    var levels_str = '';
+                    for (var j = 0; j < 24; j++) {
+                        levels_str += `<div class="ab-level ${(build.abilities[j] == c.btn ? 'selected' : '')}"><span>${j + 1}</span></div>`;
+                    }
+                    $("#abilities").append(
+                        `<div class="ab-row">
+                            <h3 class="ab-title">${c.title}</h3>
+                            <div class="ab-icon"><img src="${c.icon}" width="28px"/></div>
+                            ${levels_str}
+                        </div>`
+                    );
+                }
+                //talents:
+                for (var i = 0; i < build.talents.length; i++) {
+                    var t = build.talents[i];
+                    var talent = champion.talents[i];
+                    $("#talents").append(`
+                        <div class="talent-row text-white">
+                            <div class="talent-box ${(t.pick == 'a' ? 'selected' : '')}">${talent.a}</div>
+                            <div class="divider">&nbsp;</div>
+                            <div class="talent-box reverseBG ${(t.pick == 'b' ? 'selected' : '')}">${talent.b}</div>
+                            <div class="talent-level">${talent.level}</div>
+                        </div>
+                    `);
+                }
+                //description:
+                $("#build-description").html(build.description);
+                //sideBox:
+                $("#sideBox [name=champion]").html(champion.name);
+                $("#sideBox [name=champion-icon]").attr('src',champion.icon_tall);
+                $("#sideBox [name=champion-icon]").attr('width','50%');
+                // $("#sideBox [name=author]").html(champion.name);
+                $("#sideBox [name=createdAt]").html(build.createdAt);
             });
+        });
+    </script>
+    <script>
+        // $(document).ready(function () {
+        //     $('[data-toggle="tooltip"]').tooltip();
+        // });
+        $(document).ready(function () {
+            $("body").tooltip({ selector: '[data-toggle=tooltip]' });
         });
     </script>
     {{{footer}}}
