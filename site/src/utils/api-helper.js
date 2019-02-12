@@ -47,10 +47,13 @@ export class APICollection
     }
     getOne(_id)
     {
+        console.log(API_URL + this.slug + '/' + _id + '/');
         return fetch(API_URL + this.slug + '/' + _id + '/', {
             headers: this.headers,
         }).then(res => res.json()).then((obj) =>
         {
+            console.log(" :| => "+obj);
+            console.log(obj);
             return new Promise((resolve, reject) =>
             {
                 if (obj.error != undefined && obj.code != undefined)

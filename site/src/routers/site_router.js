@@ -12,10 +12,32 @@ export default class SiteRouter extends Router
         this.requireLogin = this.requireLogin.bind(this);
         this.renderTemplate = this.renderTemplate.bind(this);
         this.show404 = this.show404.bind(this);
+        this.show500 = this.show500.bind(this);
     }
     requireLogin()
     {
-
+        this.router.use((req, res, next) =>
+        {
+            if (!this.isLoggedIn(req))
+            {``
+                // this.accessDenied(res);
+                res.redirect('/login/?msg=AccessDenied');
+                return;
+            }
+            next();
+        });
+    }
+    isLoggedIn(req)
+    {
+        // console.log(req.session);
+        return req.session.currentUser != undefined && req.session.currentUser._id != undefined;
+    }
+    checkLogin(req,res)
+    {
+        var login = this.isLoggedIn(req);
+        if(!login)
+            res.redirect('/login/?msg=AccessDenied');
+        return login;
     }
     renderTemplate(req,res,fileName, data={})
     {
