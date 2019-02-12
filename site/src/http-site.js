@@ -69,6 +69,11 @@ Post.fixAll = (ps) => {
         ps[i] = Post.fixOne(ps[i]);
     return ps;
 };
+User.checkToken = (token)=>{
+    return new Promise((resolve,reject)=>{
+        User.apiCall('/check-token','POST',{token : token}).then(resolve).catch(reject);
+    });
+};
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) => {

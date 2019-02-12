@@ -158,12 +158,15 @@
             background: #0f0f0f;
             padding: 0px;
             overflow: hidden;
-
+            color : white !important;
+            text-decoration: none !important;
+        }
+        .build-box:hover{
+            background: #1e1e1e;
         }
 
         .build-box .icon-wrapper {
             width: 20%;
-            display: inline-block;
             float: right;
             padding: 5px;
         }
@@ -385,13 +388,13 @@
                                     items_str += `<img src="${it.icon}" class="item" />`;
                                 }
                                 $("#builds-row").append(
-                                    `<div class="card build-box">`
+                                    `<a class="card build-box" href="${b.siteUrl}">`
                                     + `<div class="icon-wrapper"><img src="${b._champ.icon_tall}" width="100%" /></div>`
                                     + `<div class="content-wrapper">`
                                     + `<h4>${b.title}</h4><b class="username">توسط <span userId="${b.userId}" label="username">??</span></b><div class="item-wrapper">${items_str}</div>`
                                     + `</div>`
                                     + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
-                                    + `</div>`
+                                    + `</a>`
                                 );
                                 const userId = b.userId;
                                 getUser(userId, (user) => {
@@ -415,8 +418,8 @@
                     </script>
                 </div>
                 <div class="col-md-4">
-                    <h3>تازه های آموزش ها:<div class="btn btn-xs btn-green float-left" style="margin-top:5px;"><span>مشاهده
-                                همه</span></div>
+                    <h3>تازه های آموزش ها:<a href="/builds/?gameId={{{game._id}}}" class="btn btn-xs btn-green float-left" style="margin-top:5px;"><span>مشاهده
+                                همه</span></a>
                     </h3>
                     <div id="builds-row">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">

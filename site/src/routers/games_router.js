@@ -4,7 +4,7 @@ export default class SiteGamesRouter extends SiteRouter {
     constructor(siteModules) {
         super(siteModules);
         this.router.get('/', (req, res) => {
-            res.send("This page is not implemented yet");
+            this.renderTemplate(req,res,'games-archive.html');
         });
         this.router.get('/:slug', (req, res) => {
             siteModules.Game.find({ slug: req.params.slug }).then((games) => {

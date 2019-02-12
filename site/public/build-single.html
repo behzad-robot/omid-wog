@@ -180,6 +180,7 @@
             width:60%;
             border-radius: 5px;
             padding:5px 10px;
+            margin-bottom: 5px;
         }
 
         .comment-box .user-profile {
@@ -207,8 +208,7 @@
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height"
-        style="background-image:url('/images/dota-wallpaper.jpg');height:300px;padding-top:95px;position: relative;"
+    <section class="parralax-fixed-height" style="background-image:url('/images/dota-wallpaper.jpg');height:300px;padding-top:95px;position: relative;"
         id="build-cover">
         <div class="wog-overlay trans-3"></div>
         <div style="position:relative;" class="text-center">
@@ -243,10 +243,9 @@
                     <hr style="border-top-color:#eee;" />
                     <h3 style="margin:10px 0;color:white;font-size: 34px;">نظرات :</h3>
                     {{#currentUser}}
-                    <form action="/builds/{{_id}}/new-comment" method="POST">
+                    <form id="newCommentForm" method="POST">
                         <h4 style="color:#79848f"> متن دیدگاه</h4>
-                        <textarea class="form-control dark" style="width:50%;height:150px;"
-                            placeholder="دیدگاه خود را وارد کنید"></textarea>
+                        <textarea name="body" class="form-control dark" style="width:50%;height:150px;" placeholder="دیدگاه خود را وارد کنید"></textarea>
                         <input type="submit" value="ارسال نظر" class="btn btn-md btn-yellow" />
                     </form>
                     {{/currentUser}}
@@ -271,17 +270,17 @@
                             <img src="/images/loading.gif" width="50%" name="champion-icon" />
                         </div>
                         <div class="content-wrapper text-content text-white">
-                            <i class="fas fa-user"></i>&nbsp;نوشته شده توسط <span label="username" userId=""
-                                name="author"> ???</span><br>
+                            <i class="fas fa-user"></i>&nbsp;نوشته شده توسط <span label="username" userId="" name="author">
+                                ???</span><br>
                             <i class="fas fa-calendar"></i>&nbsp;در تاریخ:<span name="createdAt"> ???</span><br>
                             <i class="fas fa-comments"></i>&nbsp;نظرات:<span name="comments"> ???</span>
                             <hr />
                             <h5>رای ها:</h5>
-                            <div class="btn btn-green"><span><i class="fas fa-thumbs-up"></i>&nbsp;<b
+                            <div class="btn btn-green" id="voteUp-btn" onclick="submit_vote(1)"><span><i class="fas fa-thumbs-up"></i>&nbsp;<b
                                         name="voteUp">???</b></span></div>
-                            <div class="btn btn-red"><span><i class="fas fa-thumbs-down"></i>&nbsp;<b
+                            <div class="btn btn-red" id="voteDown-btn" onclick="submit_vote(-1)"><span><i class="fas fa-thumbs-down"></i>&nbsp;<b
                                         name="voteDown">???</b></span></div><br>
-                            <div style="margin-top:5px;"><small>شما رای مثبت به این مورد داده اید.</small></div>
+                            <div style="margin-top:5px;"><small name="voteStatus">شما رای مثبت به این مورد داده اید.</small></div>
                         </div>
                     </div>
                 </div>
@@ -291,11 +290,18 @@
     <script>
         let build = undefined, game = undefined, champion = undefined;
         $(document).ready(function () {
+            if ($("#newCommentForm"))
+                $("#newCommentForm").hide();
             getBuild(`{{_id}}`, undefined, undefined, (b) => {
                 build = b;
                 game = b._game;
                 champion = b._champion;
                 console.log(build);
+                //form:
+                if ($("#newCommentForm")) {
+                    $("#newCommentForm").show();
+                    $("#newCommentForm").attr('action', `/builds/${b._id}/new-comment`)
+                }
                 //top cover section:
                 $("#build-cover").css('background', `url('${champion.cover}')`)
                 $("#build-cover [name=title]").html(build.title);
@@ -368,6 +374,8 @@
                     $("#sideBox [name=author]").html(user[label]);
                 });
                 $("#sideBox [name=createdAt]").html(build.createdAt);
+                $("#sideBox [name=comments]").html(build.comments.length);
+                update_votes();
                 //comments:
                 var commentsUsers_str = '?_ids=';
                 for (var i = 0; i < build.comments.length; i++)
@@ -404,6 +412,63 @@
 
             });
         });
+        const userToken = `{{currentUser.token}}`;
+        let voteLoading = false;
+        function update_votes() {
+            $("#sideBox [name=voteUp]").html(build.upVotes.length);
+            $("#sideBox [name=voteDown]").html(build.downVotes.length);
+            $("#voteDown-btn").attr("class", "btn btn-black");
+            $("#voteUp-btn").attr("class", "btn btn-black");
+            var voteStatus = 0;
+            for (var i = 0; i < build.upVotes.length; i++) {
+                if (build.upVotes[i] == `{{currentUser._id}}`) 
+                {
+                    $("#voteUp-btn").attr("class", "btn btn-green");
+                    voteStatus = 1;
+                    break;
+                }
+            }
+            for (var i = 0; i < build.downVotes.length; i++) {
+                if (build.downVotes[i] == `{{currentUser._id}}`) 
+                {
+                    $("#voteDown-btn").attr("class", "btn btn-red");
+                    voteStatus = -1;
+                    break;
+                }
+            }
+            if (voteStatus == 0)
+                $("#sideBox [name=voteStatus]").hide()
+            else if (voteStatus == 1)
+                $("#sideBox [name=voteStatus]").html("شما رای مثبت به این مورد داده اید.");
+            else if (voteStatus == -1)
+                $("#sideBox [name=voteStatus]").html("شما رای منفی به این مورد داده اید.");
+        }
+        function submit_vote(val) {
+            if (voteLoading)
+                return;
+            if(userToken == '')
+            {
+                alert('باید ابتدا وارد سایت شوید.');
+                return;
+            }
+            voteLoading = true;
+            $("#sideBox [name=voteStatus]").html("در حال بارگذاری...");
+
+            fetch(`/builds/{{buildId}}/vote`, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ vote: val, token: `{{{currentUser.token}}}` })
+            }).then((response) => response.json())
+                .then((result) => {
+                    alert(JSON.stringify(result));
+                    voteLoading = false;
+                    build = result.build;
+                    update_votes();
+                });
+        }
     </script>
     <script>
         // $(document).ready(function () {

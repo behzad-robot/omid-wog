@@ -52,6 +52,10 @@ const _fixGame = (game) => {
                 return g.items[j];
         return undefined;
     }
+    if(isEmptyString(g.cover))
+        g.cover = ICON_404;
+    if(isEmptyString(g.icon))
+        g.icon = ICON_404;
     return g;
 }
 const getGame = (_id, next) => {

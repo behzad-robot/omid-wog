@@ -50,7 +50,7 @@ User.Helpers = {
     },
     isValidToken: (token, callBack) =>
     {
-        //console.log('isValidToken=>' + token);
+        console.log('isValidToken=>' + token);
         User.findOne({ token: token }).exec((err, user) =>
         {
             if (err || user == null)
@@ -62,8 +62,9 @@ User.Helpers = {
                 });
                 return;
             }
+            console.log(token);
             var decoded = encoder.decode(token);
-            //console.log(decoded);
+            console.log(decoded);
             if (Date.now() > decoded.payload.expiresIn)
             {
                 callBack({

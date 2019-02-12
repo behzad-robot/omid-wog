@@ -9,22 +9,24 @@
             background-color: rgba(0, 0, 0, 0.3);
             width: 40vw;
             position: absolute;
-            top: 10px;
+            top: 30px;
             right: 10vw;
             text-shadow: 2px 2px 4px #000000;
             border: 4px outset;
             border-color: rgba(0, 0, 0, .1);
             padding: 10px;
-            box-shadow: 1px 2px 200px #3f3f3f;
+            box-shadow: 1px 2px 20px #3f3f3f;
             font-size: 20px;
             text-decoration: none
         }
-        .images-texts.go-left{
+
+        .images-texts.go-left {
             right: initial;
             left: 10vw;
         }
-        .images-texts.go-mid{
-            right:30vw;
+
+        .images-texts.go-mid {
+            right: 30vw;
         }
 
         .images-texts:hover {
@@ -58,33 +60,34 @@
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height"
-        style="position:relative;background-image:url('/images/bflanding.jpg');width:100%;height: 600px">
-        <div class="images-texts">
-            <a class="in-box-links" href="#">
-                <h1 class="in-box-headers">
-                    <h1 class="in-box-headers">بررسی بازی بتلفیلد</h1>
-                    <p class="in-box-links"> خیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی
-                        خوبهخیلییییییی
-                        خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی
-                        خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبهخیلییییییی خوبه خیلییییییی خوبه</p>
-            </a>
-        </div>
-    </section>
-    <section class="parralax-fixed-height"
-        style="position:relative;background-image:url('/images/jaina.jpg');width: 100%;height: 600px">
-        <div class="images-texts go-left">
-            <a class="in-box-links" href="#">
-                <h1 class="in-box-headers">بررسی بازی فورتنایت</h1>
-                <p class="in-box-links"> خیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی
-                    انه خیلی انهخیلی انه خیلی
-                    انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه
-                    خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی انهخیلی انه خیلی
-                    انهخیلی
-                    انه خیلی انه خیلی انه خیلی انه</p>
-            </a>
-        </div>
-    </section>
+    <div id="games-box">
+    </div>
+    <div id="loading-box" class="text-center" style="height:80vh;padding-top:5vh;">
+        <img src="/images/loading.gif" style="width:50vmin"/>
+    </div>
+    <script>
+        $(document).ready(() => {
+            getGames('?cache=allGames', (games) => {
+                for (var i = 0; i < games.length; i++) {
+                    var g = games[i];
+                    $("#games-box").append(
+                    `
+                    <section class="parralax-fixed-height" style="position:relative;background-image:url('${g.cover}');width:100%;height: 600px">
+                        <div class="images-texts">
+                            <a class="in-box-links" href="#">
+                                <img src="${g.icon}" style="width:64px;display: inline-block" />
+                                <h1 class="in-box-headers text-white text-shadow text-english" style="display:inline-block;position: relative;top:8px;margin-right:5px;">${g.name}</h1>
+                                <p class="in-box-links">${g.description}</p>
+                            </a>
+                        </div>
+                    </section>
+                    `
+                    );
+                    $("#loading-box").hide();
+                }
+            });
+        });
+    </script>
     {{{footer}}}
 </body>
 

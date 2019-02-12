@@ -1,0 +1,226 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .build-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding: 0px;
+            overflow: hidden;
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        .build-box:hover {
+            background-color: #1e1e1e;
+        }
+
+
+        .build-box .icon-wrapper {
+            width: 128px;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .icon-wrapper img {
+            border-radius: 2px;
+        }
+
+        .build-box .content-wrapper {
+            max-width: 70%;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .content-wrapper h4 {
+            font-size: 18px;
+        }
+
+        .build-box .content-wrapper .username {
+            font-size: 12px;
+            color: #ff8800;
+        }
+
+        .build-box .content-wrapper .item-wrapper {
+            margin-top: 5px;
+        }
+
+        .build-box .content-wrapper .item-wrapper .item {
+            width: 48px;
+        }
+
+        .build-box .vote-wrapper {
+            float: left;
+            padding: 5px;
+        }
+
+        .build-box .vote-wrapper span {
+            display: block;
+            font-size: 12px;
+            margin: 5px 0;
+            color: #f0f1f2;
+        }
+
+        hr {
+            border-top-color: #3a3a3a;
+        }
+
+        .stream-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #1e1e1e;
+            padding: 0px;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .stream-box span {
+            display: block;
+            padding: 5px 10px;
+        }
+
+        .banner-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #1e1e1e;
+            padding: 0px;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section class="bg-section" style="padding-top: 10px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <h3 style="margin:15px 0;font-size: 36px;" id="builds-title">آرشیو آموزش ها:</h3>
+                    <div id="builds"></div>
+                    <div id="builds-loading">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="row">
+                        <h3 style="margin-right:18px">بنر فواره ای</h3>
+                        <div class="col-md-12">
+                            <div class="banner-box">
+                                <img src="/images/ori.jpg" width="100%">
+
+                            </div>
+                        </div>
+                    </div>
+                    <h3>استریم ها:</h3>
+                    <div id="streamers-row" class="row">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let game = undefined, champions = undefined, builds = [], streamers = [];
+        let params = '';
+        const query = JSON.parse(`{{{query}}}`);
+        $(document).ready(() => {
+            show_loading();
+            if (query.gameId) {
+                console.log('this is a game case!');
+                params = '?gameId=' + query.gameId;
+                getGame(query.gameId, (g) => {
+                    game = g;
+                    console.log(game);
+                    getChampions(params, (cs) => {
+                        champions = cs;
+                        console.log(champions);
+                        getBuilds(params, game, champions, (bs) => {
+                            builds = bs;
+                            create_builds(builds);
+                        });
+                    });
+                });
+            }
+            else if (query.champId) {
+                params = '?champId=' + query.champId;
+                getChampion(query.champId, (c) => {
+                    champions = [c];
+                    getGame(c.gameId, (g) => {
+                        game = g;
+                        getBuilds(params, game, champions, (bs) => {
+                            builds = bs;
+                            create_builds(bs);
+                        });
+                    });
+                });
+            }
+            //twitch streamers:
+            getTwitchStreamersFor(33214, (ss) => {
+                streamers = ss;
+                streamers_create();
+            });
+
+        });
+        function streamers_create() {
+            console.log("streamers loaded " + streamers.length);
+            for (var i = 0; i < streamers.length && i < 3; i++) {
+                var s = streamers[i];
+                console.log(s);
+                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
+            }
+            $("#streamers-row [name=loading]").hide();
+        }
+        function show_loading() { $("#builds-loading").show(); }
+        function hide_loading() { $("#builds-loading").hide(); }
+        function create_builds(bs) {
+            for (var i = 0; i < bs.length; i++) {
+                var b = bs[i];
+                console.log(b);
+                $("#builds").append(`
+                <a class="card build-box" href="${b.siteUrl}">
+                    <div class="icon-wrapper">
+                        <img src="${b._champ.icon_tall}" width="100%">
+                    </div>
+                    <div class="content-wrapper">
+                        <h4>${b.title}</h4>
+                        <small>توسط:&nbsp;<b class="username" userId="${b.userId}" label="username">${b.userId}</b></small><br>
+                        <small>نوشته شده در: <span style="direction:ltr">${b.createdAt}</span></small>
+                        <div style="margin:5px 0">
+                            <span class="badge badge-sm badge-warning">${b.patch}</span>
+                        </div>
+                    </div>
+                    <div class="vote-wrapper">
+                        <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;${b.upVotes.length + b.downVotes.length} رای</span>
+                        <span><i class="fas fa-eye"></i>&nbsp;&nbsp;${b.views} بازدید</span>
+                        <span><i class="fas fa-comment"></i>&nbsp;&nbsp;${b.comments.length} نظر</span>
+                    </div>
+                </a>
+            `);
+                const userId = b.userId;
+                getUser(b.userId, (user) => {
+                    var label = $(`[userId=${user._id}]`).attr('label');
+                    $(`[userId=${user._id}]`).html(user[label]);
+                });
+            }
+            hide_loading();
+        }
+    </script>
+    {{{footer}}}
+</body>
+
+</html>
