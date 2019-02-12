@@ -9,7 +9,7 @@ export const PostCategorySchema = new mongoose.Schema({
     createdAt: {type:String,default:'?'},
     updatedAt: {type:String,default:'?'},
 });
-export const PostCategory = mongoose.model('PostCategory', UserSchema);
+export const PostCategory = mongoose.model('PostCategory', PostCategorySchema);
 PostCategory.Helpers = {
     public: (doc) =>
     {

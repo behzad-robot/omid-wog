@@ -20,6 +20,7 @@ import { Champion } from './models/champion';
 import { ChampionBuild } from './models/champBuild';
 import { ContactUsForm } from './models/contactUsForm';
 import { Media } from './models/media';
+import { PostCategory } from './models/postCat';
 
 
 
@@ -89,6 +90,7 @@ express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, 
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
 //posts & news & media:
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/posts-categories/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);

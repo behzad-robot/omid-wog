@@ -2,6 +2,8 @@
 import { ADMIN_TOKEN, API_TOKEN } from "../constants";
 import APIRouter from "./api_router";
 
+const ObjectId = require('mongoose').Types.ObjectId;
+
 
 /*
     If your model has default properties defined in models/model-example.js it works with this API generator :)
@@ -52,11 +54,27 @@ export class PublicMongooseAPIRouter extends APIRouter {
         delete (req.query.sort);
         if (req.query._ids != undefined) {
             var options = req.query._ids.split(',');
-            req.query = { '$or': [] };
-            for (var i = 0; i < options.length; i++) {
-                req.query['$or'].push({_id : options[i]});
-            }
+            this.model
+                .where('_id')
+                .in(options)
+                .limit(limit)
+                .skip(offset)
+                .sort(sort)
+                // .lean()
+                .exec((err, results) => {
+                    if (err) {
+                        this.handleError(req, res, err);
+                        return;
+                    }
+                    if (req.header('admin-token') != ADMIN_TOKEN) {
+                        for (var i = 0; i < results.length; i++)
+                            results[i] = this.model.Helpers.public(results[i]);
+                    }
+                    this.sendResponse(req, res, results);
+                });
+            return;
         }
+
         this.model
             .find(req.query)
             .limit(limit)

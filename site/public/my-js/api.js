@@ -145,6 +145,11 @@ const getBuilds = (params, game, champions, next) => {
 };
 const loadedUsers = [];
 //users:
+const _fixUser = (u) =>{
+    if(isEmptyString(u.profileImage))
+        u.profileImage = ICON_404;
+    return u;
+}
 const getUser = (_id, next) => {
     for (var i = 0; i < loadedUsers.length; i++) {
         if (loadedUsers[i]._id == _id) {
@@ -153,8 +158,18 @@ const getUser = (_id, next) => {
         }
     }
     getObject('users', _id, (user) => {
-        loadedUsers.push(user);
+        loadedUsers.push(_fixUser(user));
         next(user);
+    });
+};
+const getUsers = (params , next) => {
+    findObjects('users',params,(users)=>{
+        for(var i = 0 ; i < users.length;i++)
+        {
+            users[i] = _fixUser(users[i]);
+            loadedUsers.push(users[i]);
+        }
+        next(users);
     });
 };
 //media:

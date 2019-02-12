@@ -15,6 +15,7 @@ import MediaPanelRouter from "./routers/media_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const PostCategory = new APICollection('posts-categories', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -25,6 +26,7 @@ const AdminModules = {
     User : User,
     Game : Game,
     Post : Post,
+    PostCategory : PostCategory,
     Champion  : Champion,
     Admin  : Admin,
     Build : ChampBuild,

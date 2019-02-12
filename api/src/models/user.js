@@ -6,6 +6,7 @@ export const UserSchema = new mongoose.Schema({
     token: {type:String,default:''},
     username: {type:String,default:''},
     password: {type:String,default:''},
+    profileImage :{type:String,default:''},
     email: {type:String,default:''},
     phoneNumber: {type:String,default:''},
     firstName : {type:String,default:''},

@@ -12,6 +12,7 @@ export const PostSchema = new mongoose.Schema({
     adminId: String,
     gameId: String,
     tags: Array,
+    categories : Array,
 
     createdAt: String,
     updatedAt: String,
