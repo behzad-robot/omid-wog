@@ -68,8 +68,10 @@ export default class SiteRouter extends Router
         this.renderTemplate(req,res,"404.html");
     }
     show500(req,res,err){
-        this.renderTemplate(req,res,"404.html",{
-            error : err
-        });
+        console.log("ERROR 500 => "+req.originalUrl+" => "+err);
+        res.send(err);
+        // this.renderTemplate(req,res,"404.html",{
+        //     error : err
+        // });
     }
 }

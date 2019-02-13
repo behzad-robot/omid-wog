@@ -9,6 +9,7 @@ import SiteGamesRouter from "./routers/games_router";
 import SitePostsRouter from "./routers/posts_router";
 import SiteChampionsRouter from "./routers/champs_router";
 import SiteBuildsRouter from "./routers/builds_router";
+import SiteUsersRouter from "./routers/users_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -55,8 +56,8 @@ Game.fixAll = (games) => {
         games[i] = Game.fixOne(games[i]);
     return games;
 }
-ChampBuild.fixOne = (build) =>{
-    
+ChampBuild.fixOne = (build) => {
+
 };
 Post.fixOne = (p) => {
     if (isEmptyString(p.media))
@@ -69,11 +70,28 @@ Post.fixAll = (ps) => {
         ps[i] = Post.fixOne(ps[i]);
     return ps;
 };
-User.checkToken = (token)=>{
-    return new Promise((resolve,reject)=>{
-        User.apiCall('/check-token','POST',{token : token}).then(resolve).catch(reject);
+User.checkToken = (token) => {
+    return new Promise((resolve, reject) => {
+        User.apiCall('/check-token', 'POST', { token: token }).then(resolve).catch(reject);
     });
 };
+User.fixOne = (user) => {
+    if (isEmptyString(user.profileImage))
+        user.profileImage = ICON_404;
+    if (isEmptyString(user.cover))
+        user.cover = ICON_404;
+    if (isEmptyString(user.aboutMe))
+        user.aboutMe = 'وارد نشده.';
+    return user;
+};
+User.public = (doc) => {
+    doc = User.fixOne(doc);
+    delete (doc.token);
+    delete (doc.password);
+    delete (doc.email);
+    delete (doc.phoneNumber);
+    return doc;
+}
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) => {
@@ -149,8 +167,10 @@ express.expressApp.all('/api/*', (req, res) => {
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
+express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
