@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>
+            Post {{{_id}}}:
+            <a href="/admin/posts-cats/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a>
+        </h2>
+        <hr />
+        <form id="single" action="/admin/posts-cats/{{{_id}}}/edit" method="POST"></form>
+        <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
+            getObject('posts', `{{{_id}}}`, (cat) =>
+            {
+                console.log(post);
+                $("#single").append(idInput('_id',cat._id));
+                $("#single").append(idInput('createdAt',cat.createdAt));
+                $("#single").append(idInput('updatedAt',cat.updatedAt));
+                $("#single").append(textInput('name',cat.title));
+                $("#single").append(textInput('slug',cat.slug));                
+                $("#single").append(submitBtn());
+                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

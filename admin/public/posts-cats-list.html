@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Post Categories:</h2>
+        <a href="/admin/posts-cats/new" class="btn btn-md btn-info">+New Post Category</a>
+        <hr />
+        <div id="list"></div>
+        <script>
+            findObjects('posts-cats', (cats) =>
+            {
+                console.log((cats));
+                for (var i = 0; i < cats.length; i++)
+                {
+                    var cat = cats[i];
+                    $("#list").append(
+                        `<div class="box-row">`
+                        + `<h4>${cat.name}</h4>`
+                        + `<p><b>slug:</b>${cat.slug}</p><hr/>`
+                        + `<p><b>post count:</b>${cat.posts.length}</p><hr/>`
+                        + `<small><b>createdAt: </b>${cat.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${cat.updatedAt}</small><hr />`
+                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/posts-cats/${cat._id}">Edit</a></div>`
+                        + `</div>`
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -17,9 +17,11 @@
         <hr />
         <form id="single" action="/admin/posts/{{{_id}}}/edit" method="POST"></form>
         <script>
+            let post = undefined , cats = [];
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
-            getObject('posts', `{{{_id}}}`, (post) =>
+            getObject('posts', `{{{_id}}}`, (p) =>
             {
+                post = p;
                 console.log(post);
                 $("#single").append(idInput('_id',post._id));
                 $("#single").append(idInput('adminId',post.adminId));
@@ -33,9 +35,48 @@
                 $("#single").append(bodyInput('intro',post.intro,{uploadUrl : FILE_UPLOAD_URL}));
                 $("#single").append(bodyInput('body',post.body));
                 $("#single").append(jsonInput('tags',post.tags));
+                $("#single").append(jsonInput('categories',post.categories));
                 $("#single").append(submitBtn());
                 $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                $("#single").append(`<div id="cats"></div>`);
+                findObjects('posts-cats',(cs)=>{
+                    cats = cs;
+                    recreate_cats();
+                });
             });
+            function recreate_cats(){
+                $("#cats").html("<h3>Categories:</h3>");
+                $("[name=categories]").val(JSON.stringify(post.categories));
+                for(var i = 0 ; i <cats.length;i++)
+                {
+                    var c = cats[i];
+                    $("#cats").append(`<div class="form-row"><input name="${c._id}" type="checkbox" ${(has_cat(c._id) ? 'checked' : '')}/><b>${c.name}</b></div>`);
+                }
+                $("#cats [type=checkbox]").change(function(){
+                    var checked = this.checked;
+                    var catId =$(this).attr('name');
+                    var has = false;
+                    for(var i = 0 ; i < post.categories.length;i++)
+                    {
+                        if(post.categories[i] == catId)
+                        {
+                            if(!checked)
+                                post.categories.splice(i,1);
+                            has = true;
+                            break;
+                        }
+                    }
+                    if(!has)
+                        post.categories.push(catId);
+                    recreate_cats();
+                });
+            }
+            function has_cat(cId){
+                for(var i = 0 ; i < post.categories.length;i++)
+                    if(post.categories[i] == cId)
+                        return true;
+                return false;
+            }
         </script>
     </div>
     {{{footer}}}
