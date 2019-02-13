@@ -342,7 +342,14 @@
                                 var c = champions[i];
                                 $("#champs-row").append(
                                     `<a href="${c.siteUrl}" class="champ-box champ text-center" index="${i}">`
-                                    + `<div class="content"><img class="icon" src="${c.icon_tall}" width="100%" /><img src="${c.icon_gif}" class="zoom" width="100%" />`
+                                    + `<div class="content">
+                                        <img class="icon" src="${c.icon_tall}" width="100%" />
+                                        <img src="${c.icon_gif}" class="zoom" width="100%" />
+                                        <video width="183" height="247"  class="zoom">
+                                            <source src="${c.icon_gif}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        `
                                     + `<h4 class="text-white text-english">${c.name}</h4>`
                                     + `</div>`
                                     + `</a>`

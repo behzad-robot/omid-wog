@@ -38,6 +38,7 @@ export class PublicMongooseAPIRouter extends APIRouter {
             sort => ?sort=fieldName Or ?sort=-fieldName
         */
         this.router.get('/', this.find);
+        this.router.post('/',(req,res)=>{ this.find(req,res,'POST')});
         this.router.get('/:_id/', this.getOne);
         this.router.post('/new', this.insert);
         this.router.post('/:_id/edit', this.editOne);
@@ -45,7 +46,11 @@ export class PublicMongooseAPIRouter extends APIRouter {
 
     }
     //route functions (can be overriden in child classes)
-    find(req, res) {
+    find(req, res,method='GET') {
+        if(req.method == 'POST')
+        {
+            req.query = Object.assign(req.query,req.body);
+        }
         var limit = req.query.limit ? Number.parseInt(req.query.limit) : 200;
         var offset = req.query.offset ? Number.parseInt(req.query.offset) : 0;
         var sort = req.query.sort ? req.query.sort : '';

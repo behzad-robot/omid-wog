@@ -117,10 +117,10 @@ express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) => {
     // res.send('SHINE');    
-    if (req.method != 'GET') {
-        res.send('access denied!');
-        return;
-    }
+    // if (req.method != 'GET') {
+    //     res.send('access denied!');
+    //     return;
+    // }
     if (req.query.cache) {
         if (req.query.cache == 'allGames') {
             SiteModules.Cache.allGames.getData((err, data) => {

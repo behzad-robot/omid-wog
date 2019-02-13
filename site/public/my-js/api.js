@@ -28,7 +28,26 @@ const getObject = (name, _id, next) => {
     console.log(`getObject ${name} from ` + API.modelListUrl(name));
     apiCall(API.modelSingleUrl(name, _id), next);
 }
-
+const findObjectsPost = (name, body, next) => {
+    console.log(`findObjectsPost  ${name} from API.modelListUrl(name)`);
+    fetch(API.modelListUrl(name),
+        {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                'api-token': 'ftsb',
+                "admin-token": "hamunhamishegi",
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body)
+        })
+        .then((response) => (response.json()))
+        .then((json) => {
+            console.log(json);
+            next(json);
+        });
+};
 
 
 
@@ -52,9 +71,9 @@ const _fixGame = (game) => {
                 return g.items[j];
         return undefined;
     }
-    if(isEmptyString(g.cover))
+    if (isEmptyString(g.cover))
         g.cover = ICON_404;
-    if(isEmptyString(g.icon))
+    if (isEmptyString(g.icon))
         g.icon = ICON_404;
     return g;
 }
@@ -113,18 +132,17 @@ const _fixBuild = (b, game, champion) => {
     return b;
 };
 const getBuild = (_id, game, champion, next) => {
-    getObject('builds',_id,(b)=>{
-        if(game != undefined)
-            next(_fixBuild(b,game,champion));
-        else
-        {
-            getGame(b.gameId,(g)=>{
+    getObject('builds', _id, (b) => {
+        if (game != undefined)
+            next(_fixBuild(b, game, champion));
+        else {
+            getGame(b.gameId, (g) => {
                 game = g;
-                b._game  = game;
-                getChampion(b.champId,(c)=>{
+                b._game = game;
+                getChampion(b.champId, (c) => {
                     champion = c;
                     b._champion = champion;
-                    next(_fixBuild(b,game,champion));
+                    next(_fixBuild(b, game, champion));
                 });
             });
         }
@@ -141,7 +159,7 @@ const getBuilds = (params, game, champions, next) => {
                     break;
                 }
             }
-            b = _fixBuild(b,game,b._champ);
+            b = _fixBuild(b, game, b._champ);
             console.log(b);
         }
         next(builds);
@@ -149,8 +167,8 @@ const getBuilds = (params, game, champions, next) => {
 };
 const loadedUsers = [];
 //users:
-const _fixUser = (u) =>{
-    if(isEmptyString(u.profileImage))
+const _fixUser = (u) => {
+    if (isEmptyString(u.profileImage))
         u.profileImage = ICON_404;
     return u;
 }
@@ -166,10 +184,9 @@ const getUser = (_id, next) => {
         next(user);
     });
 };
-const getUsers = (params , next) => {
-    findObjects('users',params,(users)=>{
-        for(var i = 0 ; i < users.length;i++)
-        {
+const getUsers = (params, next) => {
+    findObjects('users', params, (users) => {
+        for (var i = 0; i < users.length; i++) {
             users[i] = _fixUser(users[i]);
             loadedUsers.push(users[i]);
         }
