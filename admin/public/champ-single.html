@@ -43,6 +43,7 @@
                     MY_DIR = `games/${g.token}/champions`;
                     //create fields:
                     $("#single").append(idInput('_id', champion._id));
+                    $("#single").append(draftInput(champion._draft));
                     $("#single").append(idInput('createdAt', champion.createdAt));
                     $("#single").append(idInput('updatedAt', champion.updatedAt));
                     $("#single").append(textInput('gameId', champion.gameId, { readonly: false, after: game.name }));

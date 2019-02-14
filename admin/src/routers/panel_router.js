@@ -6,10 +6,6 @@ const multiparty = require("multiparty");
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
-function isEmptyString(str)
-{
-    return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
-}
 export default class AdminPanelRouter extends AdminRouter
 {
     constructor(adminModules)

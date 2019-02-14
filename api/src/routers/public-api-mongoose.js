@@ -138,7 +138,7 @@ export class PublicMongooseAPIRouter extends APIRouter {
         const _id = req.params._id;
         this.model.findByIdAndUpdate(_id, req.body, { new: true }, (err, result) => {
             if (err) {
-                this.handleError(err);
+                this.handleError(req,res,err);
                 return;
             }
             else

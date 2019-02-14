@@ -62,6 +62,7 @@
                 console.log(game);
                 MY_DIR = `games/${game.token}`;
                 $("#single").append(idInput('_id', game._id));
+                $("#single").append(draftInput(game._draft));
                 $("#single").append(idInput('createdAt', game.createdAt));
                 $("#single").append(idInput('updatedAt', game.updatedAt));
                 $("#single").append(textInput('name', game.name));

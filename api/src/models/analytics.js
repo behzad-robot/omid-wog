@@ -74,6 +74,6 @@ AnalyticsEvent.Helpers = {
             });
         }
         return results;
-    }
-
+    },
+    hasDraft : () => false ,
 }

@@ -52,7 +52,7 @@ export default class PostsPanelRouter extends AdminRouter {
                     fs.mkdirSync(folderPath);
                 }
             }
-            console.log(req.body);
+            req.body._draft = req.body._draft == 'on' ? true : false;
             req.body.tags = JSON.parse(req.body.tags);
             req.body.categories = JSON.parse(req.body.categories);
             const _id = req.body._id;

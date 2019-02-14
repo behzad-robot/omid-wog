@@ -16,6 +16,7 @@ export const MediaSchema = new mongoose.Schema({
     tags: Array,
     createdAt: String,
     updatedAt: String,
+    _draft : Boolean,
 }, {
         toObject: {
             virtuals: true
@@ -56,6 +57,7 @@ MediaSchema.virtual('thumbnail_url').get(function () {
 
 export const Media = mongoose.model('Media', MediaSchema);
 Media.Helpers = {
+    hasDraft : () => true ,
     public: (doc) => {
         doc = doc.toObject();
         return doc;

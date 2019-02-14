@@ -14,6 +14,7 @@ export const AdminSchema = new mongoose.Schema({
 });
 export const Admin = mongoose.model('Admin', AdminSchema);
 Admin.Helpers = {
+    hasDraft : () => false ,
     public: (doc) =>
     {
         delete (doc.token);

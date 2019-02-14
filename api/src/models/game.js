@@ -34,9 +34,12 @@ export const GameSchema = new mongoose.Schema({
     
     createdAt:String,
     updatedAt:String,
+    _draft : Boolean,
+    
 });
 export const Game = mongoose.model('Game', GameSchema);
 Game.Helpers = {
+    hasDraft : () => true ,
     public: (doc) =>
     {
         return doc;

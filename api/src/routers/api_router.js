@@ -26,6 +26,8 @@ export default class APIRouter extends Router
     }
     handleError(req, res, err, code = 500)
     {
+        if(err == undefined)
+            err = 'undefined';
         err = err.toString();
         res.status(code).send({ code: code, error: (err != null && err != "" ? err : "Null"), _data: null });
         //this.sendResponse(req, res, { error: (err != null && err != "" ? err : "Null"), code: code }, code);

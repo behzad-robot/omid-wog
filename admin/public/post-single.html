@@ -24,6 +24,7 @@
                 post = p;
                 console.log(post);
                 $("#single").append(idInput('_id',post._id));
+                $("#single").append(draftInput(post._draft));
                 $("#single").append(idInput('adminId',post.adminId));
                 $("#single").append(idInput('createdAt',post.createdAt));
                 $("#single").append(idInput('updatedAt',post.updatedAt));

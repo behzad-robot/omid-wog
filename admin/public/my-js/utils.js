@@ -3,6 +3,18 @@ const idInput = (name, value, extraInfo = {}) => {
     var after = extraInfo.after ? '&nbsp;&nbsp;&nbsp;' + extraInfo.after : '';
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
 };
+const draftInput = ( value , settings = { name: '_draft',extraInfo: {} }) => {
+    if (value == undefined)
+        value = false;
+    return (
+        `
+            <div class="form-row">
+                <b>${settings.name}</b>
+                <input type="checkbox" ${value === true ? 'checked' : ''}  name="${settings.name}"/>
+            </div>
+        `
+    );
+};
 const textInput = (name, value, settings = false) => {
     //return ":|";
     if (typeof settings == 'boolean') {
@@ -101,13 +113,12 @@ const jsonInput = (name, value, readonly = false) => {
     return `<div class='form-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 var fuid = 0;
-const imageInput = (parent, name, value, fileUploadURL,myDir, sizes = [], onImageUploaded = undefined) => {
+const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onImageUploaded = undefined) => {
     // let img = (value != null && value != '')
     //     ? `<img src='${value}' width='64px' />` + `<a class='small-link' href='${value}'>${value}</a>`
     //     : '';
     // return `<div class='form-row'><b>${name}:</b><input type='file' class='form-control m' name='${name}'/>&nbsp;&nbsp;` + img + `</div>`;
-    if(myDir == undefined || (typeof myDir != 'string'))
-    {
+    if (myDir == undefined || (typeof myDir != 'string')) {
         console.log("PARAMETER MISSING!!!!!!!!!!!!! =>" + name);
         return;
     }
@@ -137,7 +148,7 @@ const imageInput = (parent, name, value, fileUploadURL,myDir, sizes = [], onImag
         + `</div>`
     );
     //(parent, name, fileUploadURL, myDir, onUploaded)
-    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams,myDir, (result) => {
+    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams, myDir, (result) => {
         console.log(result);
         var value = result.path;
         $(`${parent} input[name=${name}`).val(value).trigger('change');
@@ -266,14 +277,14 @@ const fileUploadTool2 = (parent, name, fileUploadURL, myDir, onUploaded) => {
     );
 }
 let filePickId = 0;
-const filePickTool = (parent, name,value, onDone) => {
+const filePickTool = (parent, name, value, onDone) => {
     filePickId++;
     var str = `<div class="form-row" name="${name}-container">`
         + `<b>${name}</b>`
         + `<input id="filePick-${filePickId}" type="text" name="${name}" value="${value}" class="form-control m" style="width:250px">`
         + `<div class="btn btn-xs btn-secondary" onclick="show_file_screen('#filePick-${filePickId}')">Pick File</div>`
         + `</div>`;
-    if(parent != undefined)
+    if (parent != undefined)
         $(parent).append(str);
     else
         return str;

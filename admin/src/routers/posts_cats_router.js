@@ -49,6 +49,7 @@ export default class PostsCatsPanelRouter extends AdminRouter
                 res.send({ error: "Missing _id", code: 500 });
                 return;
             }
+            req.body._draft = req.body._draft == 'on' ? true : false;
             const _id = req.body._id;
             delete (req.body._id);
             PostCategory.edit(_id, req.body).then((result) =>

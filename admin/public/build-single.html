@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-md-2"></div>
                     <div class="col-md-8">
-                        <div class="box-row" name="items">
+                        <div class="box-row" name="items" style="height:80vh;overflow:scroll;">
 
                         </div>
                     </div>
@@ -70,6 +70,7 @@
                         champion = c;
                         $("#single").html("");
                         $("#single").append(idInput('_id', build._id));
+                        $("#single").append(draftInput(build._draft));
                         $("#single").append(idInput('createdAt', build.createdAt));
                         $("#single").append(idInput('updatedAt', build.updatedAt));
                         $("#single").append(idInput('userId', build.userId));

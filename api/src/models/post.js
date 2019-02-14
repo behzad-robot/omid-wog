@@ -16,6 +16,7 @@ export const PostSchema = new mongoose.Schema({
 
     createdAt: String,
     updatedAt: String,
+    _draft : Boolean,
 }, {
         toObject: {
             virtuals: true
@@ -74,6 +75,7 @@ PostSchema.virtual('thumbnail_150x150').get(function () {
 });
 export const Post = mongoose.model('Post', PostSchema);
 Post.Helpers = {
+    hasDraft : () => true ,
     public: (doc) => {
         return doc;
     },

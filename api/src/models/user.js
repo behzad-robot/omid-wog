@@ -20,12 +20,15 @@ export const UserSchema = new mongoose.Schema({
 
     followingGames : Array,
 
+    _draft : Boolean,
     createdAt: {type:String,default:'?'},
     updatedAt: {type:String,default:'?'},
     lastLogin: {type:String,default:'?'},
+    
 });
 export const User = mongoose.model('User', UserSchema);
 User.Helpers = {
+    hasDraft : () => true ,
     public: (doc) =>
     {
         delete (doc.token);

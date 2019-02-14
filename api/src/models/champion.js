@@ -21,7 +21,7 @@ export const ChampionSchema = new mongoose.Schema({
 
     createdAt: String,
     updatedAt: String,
-
+    _draft : {type : Boolean , default : false},
     //lol,dota:
     roles: Array, //{name , playRate}
     /*
@@ -101,6 +101,7 @@ ChampionSchema.virtual('_stats').get(function ()
 
 export const Champion = mongoose.model('Champion', ChampionSchema);
 Champion.Helpers = {
+    hasDraft : () => true ,
     public: (doc) =>
     {
         return doc;

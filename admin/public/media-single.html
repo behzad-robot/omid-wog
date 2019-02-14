@@ -26,6 +26,7 @@
                     getObject('media', `{{{_id}}}`, (media) => {
                         console.log(media);
                         $("#single").append(idInput('_id', media._id));
+                        $("#single").append(draftInput(media._draft));
                         $("#single").append(idInput('createdAt', media.createdAt));
                         $("#single").append(idInput('updatedAt', media.updatedAt));
                         $("#single").append(getGamesDropDown('gameId',media.gameId));

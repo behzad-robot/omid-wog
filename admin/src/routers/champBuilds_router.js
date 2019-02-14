@@ -39,6 +39,7 @@ export default class ChampionBuildsPanelRouter extends AdminRouter {
                 res.send({ error: "Missing _id", code: 500 });
                 return;
             }
+            req.body._draft = req.body._draft == 'on' ? true : false;
             req.body.itemRows = JSON.parse(req.body.itemRows);
             req.body.talents = JSON.parse(req.body.talents);
             req.body.abilities = req.body.abilities.split(',');

@@ -47,6 +47,8 @@ export default class ChampionsPanelRouter extends AdminRouter
                 res.send({ error: "Missing _id", code: 500 });
                 return;
             }
+            console.log(req.body);
+            req.body._draft = req.body._draft == 'on' ? true : false;
             // req.body.media = JSON.parse(req.body.media);
             req.body.abilities = JSON.parse(req.body.abilities);
             req.body.roles = JSON.parse(req.body.roles);

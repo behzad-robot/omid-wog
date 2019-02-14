@@ -20,9 +20,11 @@ export const ChampionBuildSchema = new mongoose.Schema({
     comments : Array,
     createdAt:String,
     updatedAt:String,
+    _draft : Boolean,
 });
 export const ChampionBuild = mongoose.model('Build', ChampionBuildSchema);
 ChampionBuild.Helpers = {
+    hasDraft : () => true ,
     public: (doc) =>
     {
         return doc;

@@ -62,6 +62,7 @@ export default class MediaPanelRouter extends AdminRouter
                 return;
             }
             // console.log(req.body);
+            req.body._draft = req.body._draft == 'on' ? true : false;
             req.body.tags = JSON.parse(req.body.tags);
             const _id = req.body._id;
             delete (req.body._id);
