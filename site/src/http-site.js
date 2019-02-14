@@ -10,6 +10,7 @@ import SitePostsRouter from "./routers/posts_router";
 import SiteChampionsRouter from "./routers/champs_router";
 import SiteBuildsRouter from "./routers/builds_router";
 import SiteUsersRouter from "./routers/users_router";
+import { isEmptyString } from "./utils/utils";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
@@ -20,11 +21,10 @@ const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADM
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-function isEmptyString(str) {
-    return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
-}
+
 const ICON_404 = '/images/404-image.png';
-Champion.fixOne = (champ) => {
+Champion.fixOne = (champ) =>
+{
     if (isEmptyString(champ.icon))
         champ.icon = ICON_404;
     if (isEmptyString(champ.icon_gif))
@@ -36,14 +36,18 @@ Champion.fixOne = (champ) => {
     champ.roles_str = champ.roles_str.substring(0, champ.roles_str.length - 1);
     return champ;
 };
-Champion.fixAll = (champions) => {
-    for (var i = 0; i < champions.length; i++) {
+Champion.fixAll = (champions) =>
+{
+    for (var i = 0; i < champions.length; i++)
+    {
         champions[i] = Champion.fixOne(champions[i]);
     }
     return champions;
 };
-Game.fixOne = (game) => {
-    for (var i = 0; i < game.items.length; i++) {
+Game.fixOne = (game) =>
+{
+    for (var i = 0; i < game.items.length; i++)
+    {
         if (game.items[i].name == 'NECRONOMICON 2')
             console.log('ICON=>' + game.items[i].icon + '=>' + isEmptyString(game.items[i].icon));
         if (isEmptyString(game.items[i].icon))
@@ -51,40 +55,48 @@ Game.fixOne = (game) => {
     }
     return game;
 };
-Game.fixAll = (games) => {
+Game.fixAll = (games) =>
+{
     for (var i = 0; i < games.length; i++)
         games[i] = Game.fixOne(games[i]);
     return games;
 }
-ChampBuild.fixOne = (build) => {
+ChampBuild.fixOne = (build) =>
+{
 
 };
-Post.fixOne = (p) => {
+Post.fixOne = (p) =>
+{
     if (isEmptyString(p.media))
         p.media = ICON_404;
     p.siteUrl = '/posts/' + p.slug;
     return p;
 };
-Post.fixAll = (ps) => {
+Post.fixAll = (ps) =>
+{
     for (var i = 0; i < ps.length; i++)
         ps[i] = Post.fixOne(ps[i]);
     return ps;
 };
-User.checkToken = (token) => {
-    return new Promise((resolve, reject) => {
+User.checkToken = (token) =>
+{
+    return new Promise((resolve, reject) =>
+    {
         User.apiCall('/check-token', 'POST', { token: token }).then(resolve).catch(reject);
     });
 };
-User.fixOne = (user) => {
+User.fixOne = (user) =>
+{
     if (isEmptyString(user.profileImage))
-        user.profileImage = ICON_404;
+        user.profileImage = '/images/user-profile-default.png';
     if (isEmptyString(user.cover))
-        user.cover = ICON_404;
+        user.cover = '/images/poro-pool.jpg';
     if (isEmptyString(user.aboutMe))
         user.aboutMe = 'وارد نشده.';
     return user;
 };
-User.public = (doc) => {
+User.public = (doc) =>
+{
     doc = User.fixOne(doc);
     delete (doc.token);
     delete (doc.password);
@@ -94,10 +106,13 @@ User.public = (doc) => {
 }
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const allGamesCache = new CacheReader('all-games', (cb) => {
-    Game.find().then((games) => {
+const allGamesCache = new CacheReader('all-games', (cb) =>
+{
+    Game.find().then((games) =>
+    {
         cb(undefined, games);
-    }).catch((err) => {
+    }).catch((err) =>
+    {
         cb(err, undefined);
     });
 });
@@ -123,7 +138,8 @@ const express = new MyExpressApp({
         path: '../storage',
     }],
 });
-express.expressApp.all('*', (req, res, next) => {
+express.expressApp.all('*', (req, res, next) =>
+{
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
@@ -133,15 +149,19 @@ express.expressApp.all('*', (req, res, next) => {
 //add general middlewares here:
 express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
-express.expressApp.all('/api/*', (req, res) => {
+express.expressApp.all('/api/*', (req, res) =>
+{
     // res.send('SHINE');    
     // if (req.method != 'GET') {
     //     res.send('access denied!');
     //     return;
     // }
-    if (req.query.cache) {
-        if (req.query.cache == 'allGames') {
-            SiteModules.Cache.allGames.getData((err, data) => {
+    if (req.query.cache)
+    {
+        if (req.query.cache == 'allGames')
+        {
+            SiteModules.Cache.allGames.getData((err, data) =>
+            {
                 if (err)
                     res.send(err.toString());
                 else
@@ -158,9 +178,11 @@ express.expressApp.all('/api/*', (req, res) => {
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
     fullUrl = fullUrl.replace('?cache=' + req.query.cache, '');
     fullUrl = fullUrl.replace("/api", ":8585/api");
-    proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) => {
+    proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
+    {
         res.send(result);
-    }).catch((err) => {
+    }).catch((err) =>
+    {
         res.send(err.toString());
     });
 });
@@ -177,6 +199,7 @@ express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
 const PORT = 80;
-express.http.listen(PORT, function () {
+express.http.listen(PORT, function ()
+{
     log.success('http server listening on port ' + PORT);
 });

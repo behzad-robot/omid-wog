@@ -169,7 +169,9 @@ const loadedUsers = [];
 //users:
 const _fixUser = (u) => {
     if (isEmptyString(u.profileImage))
-        u.profileImage = ICON_404;
+        u.profileImage = '/images/user-profile-default.png';
+    if(isEmptyString(u.cover))
+        u.cover = '/images/poro-pool.jpg';
     return u;
 }
 const getUser = (_id, next) => {

@@ -72,7 +72,7 @@ express.expressApp.all('/api/*', (req, res) =>
 });
 //routers:
 express.expressApp.use('/', new AdminGeneralRouter(Admin).router)
-express.expressApp.use('/admin', new AdminPanelRouter(Admin).router)
+express.expressApp.use('/admin', new AdminPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/media', new MediaPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/posts-cats', new PostsCatsPanelRouter(AdminModules).router)

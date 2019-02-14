@@ -43,33 +43,34 @@ PostSchema.virtual('createdAt_persian').get(function () {
 });
 PostSchema.virtual('thumbnail_150x150').get(function () {
     var thumbnail = this.thumbnail;
-    const width = 150, height = 150;
-    if (thumbnail.indexOf("/storage") == -1)
-        return thumbnail;
-    var filePath = this.thumbnail;
-    let fileName = filePath.substring(0, filePath.indexOf('.'));
-    let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
-    console.log(fileName);
-    console.log(filePath);
-    let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
-    if (!fs.existsSync(".."+file_resize)) 
-    {
-        Jimp.read(".."+filePath, (err, img) => {
-            if(err)
-            {
-                console.log(err);
-                return;
-            }
-            img
-                .resize(width, height)
-                .quality(60)
-                .write(".."+fileName + '-resize-' + width + 'x' + height + fileFormat)
-            console.log("file created!");
-        });
-        return file_resize;
-    }
-    else
-        return file_resize;
+    return thumbnail;
+//     const width = 150, height = 150;
+//     if (thumbnail.indexOf("/storage") == -1)
+//         return thumbnail;
+//     var filePath = this.thumbnail;
+//     let fileName = filePath.substring(0, filePath.indexOf('.'));
+//     let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
+//     console.log(fileName);
+//     console.log(filePath);
+//     let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
+//     if (!fs.existsSync(".."+file_resize)) 
+//     {
+//         Jimp.read(".."+filePath, (err, img) => {
+//             if(err)
+//             {
+//                 console.log(err);
+//                 return;
+//             }
+//             img
+//                 .resize(width, height)
+//                 .quality(60)
+//                 .write(".."+fileName + '-resize-' + width + 'x' + height + fileFormat)
+//             console.log("file created!");
+//         });
+//         return file_resize;
+//     }
+//     else
+//         return file_resize;
 });
 export const Post = mongoose.model('Post', PostSchema);
 Post.Helpers = {

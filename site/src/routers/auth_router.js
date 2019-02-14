@@ -46,7 +46,7 @@ export default class SiteAuthRouter extends SiteRouter {
                     req.session.currentUser = user;
                     req.session.currentUserToken = user.token;
                     req.session.save(() => {
-                        res.redirect('/');
+                        res.redirect(`/users/${user.username}`);
                     });
                 }
                 else {

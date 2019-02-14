@@ -1,4 +1,4 @@
-<section class="gradient-section" style="padding:20px 0;">
+<section class="gradient-section lazy" style="padding:20px 0;" id="above-footer-section" data-loader="loadData">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
@@ -7,39 +7,9 @@
                         <h3>اخبار داغ:</h3>
                     </div>
                     <div class="content-wrapper text-white text-center" id="footer-news-box">
-                        <!-- <a class="hot-news-container text-center" style="background-image:url('/images/jaina.jpg')"
-                            href="#" id="footer-news-box">
-                            <div class="wog-overlay trans-6"></div>
-                            <div class="content text-shadow">
-                                <small>
-                                    <i class="fas fa-calendar"></i>&nbsp;
-                                    21 آبان 1397
-                                </small>
-                                <h2>خبر داغ شرکت بلیزارد راحت شد</h2>
-                            </div>
-                        </a> -->
-                        <!-- <a class="hot-news-container text-center" style="background-image:url('/images/bflanding.jpg')"
-                            href="#">
-                            <div class="wog-overlay trans-6"></div>
-                            <div class="content text-shadow">
-                                <small>
-                                    <i class="fas fa-calendar"></i>&nbsp;
-                                    21 آبان 1397
-                                </small>
-                                <h2>خبر داغ شرکت بلیزارد راحت شد</h2>
-                            </div>
-                        </a>
-                        <a class="hot-news-container text-center" style="background-image:url('/images/cprofile.jpg')"
-                            href="#">
-                            <div class="wog-overlay trans-6"></div>
-                            <div class="content text-shadow">
-                                <small>
-                                    <i class="fas fa-calendar"></i>&nbsp;
-                                    21 آبان 1397
-                                </small>
-                                <h2>خبر داغ شرکت بلیزارد راحت شد</h2>
-                            </div>
-                        </a> -->
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -63,8 +33,8 @@
                     <div class="title-wrapper">
                         <h3>تورنومنت ها:</h3>
                     </div>
-                    <div class="content-wrapper text-content text-white text-center">
-                        <h4>Coming soon image come here</h4>
+                    <div class="content-wrapper text-white text-center">
+                        <img src="/images/coming-soon-square.jpg" width="100%"/>
                     </div>
                 </div>
             </div>
@@ -72,28 +42,46 @@
     </div>
 </section>
 <script>
-    $(document).ready(() => {
-        setTimeout(() => {
-            //media:
-            getMedia('?limit=12', (media) => {
-                var container = $("#footer-gallery-box");
-                console.log(media);
-                for (var i = 0; i < media.length; i++) {
-                    var m = media[i];
-                    $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
-                }
-            });
-            $("#footer-gallery-box [name=loading]").hide();
-            //posts
-            getPosts('?limit=3', (posts) => {
-                var container = $("#footer-news-box");
-                console.log(posts);
-                for (var i = 0; i < posts.length; i++) {
-                    var p = posts[i];
-                    $(container).append(`<a class="hot-news-container text-center" style="background-image:url('${p.thumbnail}')" href="${p.siteUrl}"><div class="wog-overlay trans-6"></div><div class="content text-shadow"><small><i class="fas fa-calendar"></i>&nbsp;21 آبان 1397</small><h2>${p.title}</h2></div></a>`);
-                }
-            });
-        }, 300);
+    $(function ()
+    {
+        $("#above-footer-section").Lazy({
+            scrollDirection: 'vertical',
+            effect: 'fadeIn',
+            delay: 1000,
+            beforeLoad: function (element)
+            {
+                console.log("beforeLoad");
+            },
+            loadData: function (element)
+            {
+                console.log("loadData called!");
+                //media:
+                getMedia('?limit=12', (media) =>
+                {
+                    var container = $("#footer-gallery-box");
+                    console.log(media);
+                    for (var i = 0; i < media.length; i++)
+                    {
+                        var m = media[i];
+                        $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
+                    }
+                    $("#footer-gallery-box [name=loading]").hide();
+                });
+                //posts
+                getPosts('?limit=3', (posts) =>
+                {
+                    var container = $("#footer-news-box");
+                    console.log(posts);
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        var p = posts[i];
+                        $(container).append(`<a class="hot-news-container text-center" style="background-image:url('${p.thumbnail}')" href="${p.siteUrl}"><div class="wog-overlay trans-6"></div><div class="content text-shadow"><small><i class="fas fa-calendar"></i>&nbsp;21 آبان 1397</small><h2>${p.title}</h2></div></a>`);
+                    }
+                    $("#footer-news-box [name=loading]").hide();
+                });
+            }
+        });
+
     });
 </script>
 <footer>
@@ -106,7 +94,8 @@
     </div>
 </footer>
 <script>
-    $(".back-to-top").click(function () {
+    $(".back-to-top").click(function ()
+    {
         $("html,body").animate({ scrollTop: 0 }, "slow");
         return false;
     });
