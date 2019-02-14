@@ -6,7 +6,7 @@
         .images-texts {
             text-align: right;
             color: rgb(206, 206, 206);
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.6);
             width: 40vw;
             position: absolute;
             top: 30px;
@@ -73,11 +73,13 @@
                     $("#games-box").append(
                     `
                     <section class="parralax-fixed-height" style="position:relative;background-image:url('${g.cover}');width:100%;height: 600px">
+                        <div class="wog-overlay trans-1"></div>
                         <div class="images-texts">
                             <a class="in-box-links" href="#">
                                 <img src="${g.icon}" style="width:64px;display: inline-block" />
                                 <h1 class="in-box-headers text-white text-shadow text-english" style="display:inline-block;position: relative;top:8px;margin-right:5px;">${g.name}</h1>
-                                <p class="in-box-links">${g.description}</p>
+                                <div class="in-box-links" style="font-size:13px;margin-top:5px;">${g.description}</div>
+                                <a href="${g.siteUrl}" class="btn btn-md btn-yellow" style="margin-top:-10px">اطلاعات بیشتر</a>
                             </a>
                         </div>
                     </section>

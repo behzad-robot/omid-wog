@@ -79,7 +79,8 @@ export class PublicMongooseAPIRouter extends APIRouter {
                 });
             return;
         }
-
+        if(this.model.Helpers.hasDraft())
+            req.query._draft = false;
         this.model
             .find(req.query)
             .limit(limit)

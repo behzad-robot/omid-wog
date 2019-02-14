@@ -75,6 +75,7 @@ const _fixGame = (game) => {
         g.cover = ICON_404;
     if (isEmptyString(g.icon))
         g.icon = ICON_404;
+    g.siteUrl = '/games/'+g.slug;
     return g;
 }
 const getGame = (_id, next) => {

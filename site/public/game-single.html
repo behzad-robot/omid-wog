@@ -71,8 +71,17 @@
             transition: transform 0.2s;
             transform: scale(0);
             position: absolute;
-            top: 0;
-            left: 0;
+            top: -54px;
+            left: -30px;
+        }
+
+        .champ-box .zoom.topRow {
+            top: 0px;
+        }
+
+        .champ-box .zoom.firstCol {
+            top: 0px;
+            left: -75px;
         }
 
         .champ-box:hover {
@@ -80,7 +89,7 @@
         }
 
         .champ-box:hover .zoom {
-            transform: scale(2);
+            transform: scale(1);
             z-index: 9999;
             border-radius: 5px;
             border: 1px solid #000;
@@ -158,10 +167,11 @@
             background: #0f0f0f;
             padding: 0px;
             overflow: hidden;
-            color : white !important;
+            color: white !important;
             text-decoration: none !important;
         }
-        .build-box:hover{
+
+        .build-box:hover {
             background: #1e1e1e;
         }
 
@@ -183,7 +193,7 @@
         }
 
         .build-box .content-wrapper h4 {
-            font-size: 18px;
+            font-size: 13px;
             margin-bottom: 2px;
         }
 
@@ -236,12 +246,22 @@
             display: block;
             padding: 5px 10px;
         }
+
+        .items-tooltip-box {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 999999;
+            background-color: #eeee;
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
-    <section class="parralax-fixed-height" style="background-image:url('{{game.cover}}');height:250px;position: relative">
+    <section class="parralax-fixed-height"
+        style="background-image:url('{{game.cover}}');height:250px;position: relative">
         <div class="wog-overlay"></div>
         <div class="container text-center" style="z-index:1;position: relative;padding-top:35px">
             <h1 class="shadow-text" style="color:white;font-size:54px;">{{game.name}}</h1>
@@ -255,22 +275,12 @@
                         <h2>قهرمان ها</h2>
                     </div>
                     <div id="champs-row" class="{{game.token}}" style="overflow:hidden;padding-bottom:10px;">
-                        <!-- <div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div> -->
                         <div name="loading" class="text-center" style="margin:10px 0;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
-                        <!-- {{#champions}}
-                        <div class="champ-box text-center">
-                            <div class="content"><img class="icon" src="{{icon}}" width="100%" /><img src="{{icon_gif}}"
-                                    class="zoom" width="100%" />
-                                <a href="/champions/{{slug}}">
-                                    <h4 class="text-white text-english">{{name}}</h4>
-                                </a>
-                            </div>
-                        </div>
-                        {{/champions}} -->
                     </div>
-                    <div class="btn btn-md btn-black" id="champions-load-more-btn" onclick="champions_show_all()"><span>مشاهده
+                    <div class="btn btn-md btn-black" id="champions-load-more-btn" onclick="champions_show_all()">
+                        <span>مشاهده
                             همه</span></div>
                     <hr />
                     <div class="champ-list-title">
@@ -280,152 +290,13 @@
                         <div name="loading" class="text-center" style="margin:10px 0;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
-                        <!--<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>{{name}}</h4></div></div> -->
-                        <!-- {{#game.items}}
-                        <div class="champ-box item-box text-english text-center" itemId="{{_id}}">
-                            <div class="content"><img class="icon" src="{{icon}}" width="100%" />
-                                <h4 class="text-english">{{name}}</h4>
-                            </div>
-                        </div>
-                        {{/game.items}} -->
                     </div>
                     <div class="btn btn-md btn-black" id="items-load-more-btn" onclick="items_show_all()"><span>مشاهده
                             همه</span></div>
-                    <script>
-                        let champions = [];
-                        let builds = [];
-                        let game = undefined;
-                        let streamers = [];
-                        $(document).ready(() => {
-                            getGame('{{game._id}}', (g) => {
-                                game = g;
-                                items_create();
-                                getChampions('?gameId=' + `{{game._id}}`, (cs) => {
-                                    champions = cs;
-                                    //draw champions:
-                                    champions_create();
-                                    //load builds:
-                                    getBuilds('?gameId=' + `{{game._id}}`, game, champions, (bs) => {
-                                        builds = bs;
-                                        builds_create();
-                                    });
-                                    //twitch streamers:
-                                    getTwitchStreamersFor(33214, (ss) => {
-                                        streamers = ss;
-                                        streamers_create();
-                                    });
-                                    console.log("plz load media!");
-                                    //media:
-                                    getMedia('?gameId=' + game._id, (media) => {
-                                        var container = $("#game-gallery-box");
-                                        console.log(media);
-                                        for (var i = 0; i < media.length; i++) {
-                                            var m = media[i];
-                                            $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
-                                        }
-                                        $("#game-gallery-box [name=loading]").hide();
-                                    });
-                                });
-                            });
-                            // var champBox = $("#champs-row").html();
-                            // for (var i = 0; i < 27; i++) {
-                            //     // $("#champs-row").append(champBox);
-                            //     $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
-                            // }
-                            // for (var i = 0; i < 27; i++) {
-                            //     // $("#champs-row").append(champBox);
-                            //     $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
-                            // }
-                        });
-                        function champions_create() {
-                            for (var i = 0; i < champions.length; i++) {
-                                var c = champions[i];
-                                $("#champs-row").append(
-                                    `<a href="${c.siteUrl}" class="champ-box champ text-center" index="${i}">`
-                                    + `<div class="content">
-                                        <img class="icon" src="${c.icon_tall}" width="100%" />
-                                        <img src="${c.icon_gif}" class="zoom" width="100%" />
-                                        <video width="183" height="247"  class="zoom">
-                                            <source src="${c.icon_gif}" type="video/mp4">
-                                            Your browser does not support the video tag.
-                                        </video>
-                                        `
-                                    + `<h4 class="text-white text-english">${c.name}</h4>`
-                                    + `</div>`
-                                    + `</a>`
-                                );
-                                if (i >= 28)
-                                    $(`.champ-box[index=${i}]`).hide();
-                            }
-                            $("#champs-row [name=loading]").hide();
-                        }
-                        function champions_show_all() {
-                            $(`.champ-box.champ`).show();
-                            $("#champions-load-more-btn").hide();
-                        }
-                        function items_create() {
-                            for (var i = 0; i < game.items.length; i++) {
-                                const item = game.items[i];
-                                $("#items-row").append(
-                                    `<div class="champ-box item-box  text-english text-center" itemId="${item._id}">`
-                                    + `<div class="content"><img class="icon" src="${item.icon}" width="100%" />`
-                                    + `<h4 class="text-english">${item.name}</h4>`
-                                    + `</div>`
-                                    + `</div>`
-                                );
-                                if (i >= 28)
-                                    $(`.item-box[itemId=${item._id}]`).hide();
-                            }
-                            $("#items-row [name=loading]").hide();
-                        }
-                        function items_show_all() {
-                            $(`.item-box`).show();
-                            $("#items-load-more-btn").hide();
-                        }
-                        function builds_create() {
-                            for (var i = 0; i < builds.length; i++) {
-                                if (builds[i].itemRows.length == 0)
-                                    continue;
-                                var b = builds[i];
-                                var items_str = ``;
-                                var row = b.itemRows[b.itemRows.length >= 2 ? 1 : 0];
-                                console.log(row);
-                                for (var j = 0; j < row.items.length; j++) {
-                                    var it = row._items[j];
-                                    items_str += `<img src="${it.icon}" class="item" />`;
-                                }
-                                $("#builds-row").append(
-                                    `<a class="card build-box" href="${b.siteUrl}">`
-                                    + `<div class="icon-wrapper"><img src="${b._champ.icon_tall}" width="100%" /></div>`
-                                    + `<div class="content-wrapper">`
-                                    + `<h4>${b.title}</h4><b class="username">توسط <span userId="${b.userId}" label="username">??</span></b><div class="item-wrapper">${items_str}</div>`
-                                    + `</div>`
-                                    + `<div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>`
-                                    + `</a>`
-                                );
-                                const userId = b.userId;
-                                getUser(userId, (user) => {
-                                    var thing = $(`[userId=${userId}]`);
-                                    var label = $(thing).attr('label');
-                                    $(thing).html(user[label]);
-                                });
-                            }
-                            $("#builds-row [name=loading]").hide();
-                        }
-                        function streamers_create() {
-                            console.log("streamers loaded " + streamers.length);
-                            for (var i = 0; i < streamers.length && i < 3; i++) {
-                                var s = streamers[i];
-                                console.log(s);
-                                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
-                            }
-                            $("#streamers-row [name=loading]").hide();
-                        }
-
-                    </script>
                 </div>
                 <div class="col-md-4">
-                    <h3>تازه های آموزش ها:<a href="/builds/?gameId={{{game._id}}}" class="btn btn-xs btn-green float-left" style="margin-top:5px;"><span>مشاهده
+                    <h3>تازه های آموزش ها:<a href="/builds/?gameId={{{game._id}}}"
+                            class="btn btn-xs btn-green float-left" style="margin-top:5px;"><span>مشاهده
                                 همه</span></a>
                     </h3>
                     <div id="builds-row">
@@ -433,48 +304,18 @@
                             <img src="/images/loading.gif" width="72px" />
                         </div>
                     </div>
-                    <!-- <div class="card build-box">
-                        <div class="icon-wrapper">
-                            <img src="/images/s4.png" width="100%" />
-                        </div>
-                        <div class="content-wrapper">
-                            
-                            <h4>عنوان آموزش</h4>
-                            <b class="username">laku22</b>
-                            <div class="item-wrapper">
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                                <img src="/images/s5.jpg" class="item" />
-                            </div>
-                        </div>
-                    </div> -->
                     <h3 style="margin-top:10px;font-size:22px;">استریم جماعت:</h3>
                     <div id="streamers-row" class="row">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
-                        <!-- <div class="col-md-12">
-                            <div class="stream-box">
-                                <img src="/images/sample-stream.jpg" width="100%" />
-                                <span>عنوان کذایی</span>
-                            </div>
-                        </div>
-                        -->
                     </div>
-                    <!-- <div class="btn btn-sm btn-secondary">مشاهده همه</div> -->
                     <!-- Game Gallery -->
                     <div class="widget-box" style="margin-top:10px;">
                         <div class="title-wrapper">
                             <h3>گالری</h3>
                         </div>
                         <div class="content-wrapper" id="game-gallery-box">
-                            <!-- <a class="img-col" href="#">
-                                <img src="/images/s1.jpg" width="100%">
-                            </a> -->
                             <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                                 <img src="/images/loading.gif" width="72px" />
                             </div>
@@ -485,6 +326,166 @@
             </div>
         </div>
     </section>
+    <div class="items-tooltip-box tooltipster" data-tooltip-content="#tooltip_content">
+        <h3>^_^</h3>
+    </div>
+    <div class="tooltip_templates">
+        <span id="tooltip_content">
+            <img src="/images/jaina.jpg" width="128px" /> <strong>This is the content of my tooltip!</strong>
+        </span>
+    </div>
+    <script>
+        let champions = [];
+        let builds = [];
+        let game = undefined;
+        let streamers = [];
+        let fixmeTop = -1;
+        $(document).ready(() => {
+            $('.tooltipster').tooltipster();
+
+            getGame('{{game._id}}', (g) => {
+                game = g;
+                items_create();
+                getChampions('?gameId=' + `{{game._id}}`, (cs) => {
+                    champions = cs;
+                    //draw champions:
+                    champions_create();
+                    //load builds:
+                    getBuilds('?gameId=' + `{{game._id}}`, game, champions, (bs) => {
+                        builds = bs;
+                        builds_create();
+                    });
+                    //twitch streamers:
+                    getTwitchStreamersFor(33214, (ss) => {
+                        streamers = ss;
+                        streamers_create();
+                    });
+                    console.log("plz load media!");
+                    //media:
+                    getMedia('?gameId=' + game._id, (media) => {
+                        var container = $("#game-gallery-box");
+                        console.log(media);
+                        for (var i = 0; i < media.length; i++) {
+                            var m = media[i];
+                            $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
+                        }
+                        $("#game-gallery-box [name=loading]").hide();
+                    });
+                });
+            });
+            // var champBox = $("#champs-row").html();
+            // for (var i = 0; i < 27; i++) {
+            //     // $("#champs-row").append(champBox);
+            //     $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
+            // }
+            // for (var i = 0; i < 27; i++) {
+            //     // $("#champs-row").append(champBox);
+            //     $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
+            // }
+        });
+        function champions_create() {
+            for (var i = 0; i < champions.length; i++) {
+                var c = champions[i];
+                var extraClasses = '';
+                if (i == 0)
+                    extraClasses = 'firstCol';
+                else if (i <= 5)
+                    extraClasses = 'topRow';
+                else if (i % 6 == 0)
+                    extraClasses = 'firstCol';
+                $("#champs-row").append(
+                    `<a href="${c.siteUrl}" class="champ-box champ text-center" index="${i}">`
+                    + `<div class="content">
+                        <img class="icon" src="${c.icon_tall}" width="100%" />
+                        <video  playsinline autoplay muted loop class="zoom ${extraClasses}" poster="${c.icon_tall}">
+                            <source src="http://worldofgamers.ir:6565${c.icon_gif}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        `
+                    + `<h4 class="text-white text-english">${c.name}</h4>`
+                    + `</div>`
+                    + `</a>`
+                );
+                if (i >= 28)
+                    $(`.champ-box[index=${i}]`).hide();
+            }
+            $("#champs-row [name=loading]").hide();
+        }
+        function champions_show_all() {
+            $(`.champ-box.champ`).show();
+            $("#champions-load-more-btn").hide();
+        }
+        function items_create() {
+            for (var i = 0; i < game.items.length; i++) {
+                const item = game.items[i];
+                var itemExtraInfo = '';
+                if (item.coolDown != '')
+                    itemExtraInfo += '<b>Cool Down:</b><span style="">${item.coolDown}</span>';
+                if (item.manCost != '')
+                    itemExtraInfo += '<b>Mana Cost:</b><span style="">${item.manaCost}</span>';
+                if (item.psi != '' && item.psi != undefined)
+                    itemExtraInfo += '<b>Pierce Spell Immunity:</b><span style="">${item.psi}</span>';
+                $("#items-row").append(
+                    `<div class="champ-box item-box  text-english text-center" itemId="${item._id}">
+                        <div class="content">
+                            <img class="icon" src="${item.icon}" width="100%" />
+                            <h4 class="text-english">${item.name}</h4>
+                        </div>
+                    </div>`
+                );
+                if (i >= 28)
+                    $(`.item-box[itemId=${item._id}]`).hide();
+            }
+            $("#items-row [name=loading]").hide();
+            $(".item-box").mouseenter(function () {
+
+            });
+        }
+        function items_show_all() {
+            $(`.item-box`).show();
+            $("#items-load-more-btn").hide();
+        }
+        function builds_create() {
+            for (var i = 0; i < builds.length; i++) {
+                if (builds[i].itemRows.length == 0)
+                    continue;
+                var b = builds[i];
+                var items_str = ``;
+                var row = b.itemRows[b.itemRows.length >= 2 ? 1 : 0];
+                console.log(row);
+                for (var j = 0; j < row.items.length; j++) {
+                    var it = row._items[j];
+                    items_str += `<img src="${it.icon}" class="item" />`;
+                }
+                $("#builds-row").append(
+                    `<a class="card build-box" href="${b.siteUrl}">
+                        <div class="icon-wrapper"><img src="${b._champ.icon_tall}" width="100%" /></div>
+                        <div class="content-wrapper">
+                        <h4>${b.title}</h4><b class="username">توسط <span userId="${b.userId}" label="username">??</span></b><div class="item-wrapper">${items_str}</div>
+                        </div>
+                        <div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>
+                    </a>`
+                );
+                const userId = b.userId;
+                getUser(userId, (user) => {
+                    var thing = $(`[userId=${userId}]`);
+                    var label = $(thing).attr('label');
+                    $(thing).html(user[label]);
+                });
+            }
+            $("#builds-row [name=loading]").hide();
+        }
+        function streamers_create() {
+            console.log("streamers loaded " + streamers.length);
+            for (var i = 0; i < streamers.length && i < 3; i++) {
+                var s = streamers[i];
+                console.log(s);
+                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
+            }
+            $("#streamers-row [name=loading]").hide();
+        }
+
+    </script>
     {{{footer}}}
 </body>
 
