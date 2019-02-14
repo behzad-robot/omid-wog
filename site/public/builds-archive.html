@@ -114,15 +114,15 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <div class="row">
-                        <!-- <h3 style="margin-right:18px">بنر فواره ای</h3> -->
+                    <!-- <div class="row">
+                        <h3 style="margin-right:18px">بنر فواره ای</h3>
                         <div class="col-md-12">
                             <div class="banner-box">
                                 <img src="/images/ori.jpg" width="100%">
 
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <h3>استریم ها:</h3>
                     <div id="streamers-row" class="row">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
@@ -170,7 +170,8 @@
                 });
             }
             //twitch streamers:
-            getTwitchStreamersFor(33214, (ss) => {
+            let gameId = 29595;
+            getTwitchStreamersFor(gameId, (ss) => {
                 streamers = ss;
                 streamers_create();
             });

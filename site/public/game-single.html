@@ -304,7 +304,7 @@
                             <img src="/images/loading.gif" width="72px" />
                         </div>
                     </div>
-                    <h3 style="margin-top:10px;font-size:22px;">استریم جماعت:</h3>
+                    <h3 style="margin-top:10px;font-size:22px;">استریم های فعال:</h3>
                     <div id="streamers-row" class="row">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
@@ -326,14 +326,15 @@
             </div>
         </div>
     </section>
-    <div class="items-tooltip-box tooltipster" data-tooltip-content="#tooltip_content">
+    <!-- <div class="items-tooltip-box tooltipster" data-tooltip-content="#tooltip_content">
         <h3>^_^</h3>
     </div>
     <div class="tooltip_templates">
         <span id="tooltip_content">
             <img src="/images/jaina.jpg" width="128px" /> <strong>This is the content of my tooltip!</strong>
         </span>
-    </div>
+    </div> -->
+    <div id="tooltips-container"></div>
     <script>
         let champions = [];
         let builds = [];
@@ -354,23 +355,30 @@
                     getBuilds('?gameId=' + `{{game._id}}`, game, champions, (bs) => {
                         builds = bs;
                         builds_create();
-                    });
-                    //twitch streamers:
-                    getTwitchStreamersFor(33214, (ss) => {
-                        streamers = ss;
-                        streamers_create();
-                    });
-                    console.log("plz load media!");
-                    //media:
-                    getMedia('?gameId=' + game._id, (media) => {
-                        var container = $("#game-gallery-box");
-                        console.log(media);
-                        for (var i = 0; i < media.length; i++) {
-                            var m = media[i];
-                            $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
-                        }
-                        $("#game-gallery-box [name=loading]").hide();
-                    });
+                        //twitch streamers: TODO: convert to twitchGameId field in games!
+                        let gameId = 29595;
+                        if(game.token == 'dota2')
+                            gameId = 29595;
+                        else if(game.token =='mortal')
+                            gameId = 460521;
+                        else
+                            gameId = 478467; // vg
+                        getTwitchStreamersFor(gameId, (ss) => {
+                            streamers = ss;
+                            streamers_create();
+                        });
+                        console.log("plz load media!");
+                        //media:
+                        getMedia('?gameId=' + game._id, (media) => {
+                            var container = $("#game-gallery-box");
+                            console.log(media);
+                            for (var i = 0; i < media.length; i++) {
+                                var m = media[i];
+                                $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
+                            }
+                            $("#game-gallery-box [name=loading]").hide();
+                        });
+                    });                                       
                 });
             });
             // var champBox = $("#champs-row").html();
@@ -426,17 +434,37 @@
                 if (item.psi != '' && item.psi != undefined)
                     itemExtraInfo += '<b>Pierce Spell Immunity:</b><span style="">${item.psi}</span>';
                 $("#items-row").append(
-                    `<div class="champ-box item-box  text-english text-center" itemId="${item._id}">
+                    `<div class="champ-box item-box  text-english text-center tooltipster" itemId="${item._id}" data-tooltip-content="#tooltip_item_${item._id}">
                         <div class="content">
                             <img class="icon" src="${item.icon}" width="100%" />
                             <h4 class="text-english">${item.name}</h4>
                         </div>
-                    </div>`
+                    </div>
+                    `
                 );
+                var recipe = item.hasRecipe ? '<b style="color:#03A9F4">Requires Recipe</b>' : '';
+                var coolDown = item.coolDown != '' && item.coolDown != ' ' ? ('<b style="color:#ffc400;">Cool Down: </b>'+item.coolDown+' seconds') : '';
+                var manaCost = item.manaCost != '' && item.manaCost != ' ' ? ('<b style="color:#ffc400;">Mana Cost: </b>'+item.manaCost) : '';
+
+                $("#tooltips-container").append(`<div class="tooltip_templates">
+                        <span id="tooltip_item_${item._id}">
+                            <img src="${item.icon}" width="64px" /> 
+                            <strong>${item.name}</strong>
+                            <div class="text-english" style="direction:ltr;text-align:left">
+                                <div><b style="color:#ffc400;">Category: </b><span style="text-transform:capitalize">${item.category}</span></div>
+                                <div><b style="color:#ffc400;">Price: </b><span style="text-transform:capitalize">${item.price}</span></div>
+                                <div>${recipe}</div>
+                                <div>${coolDown}</div>
+                                <div class="text-english">${item.description}</div>
+                                
+                            </div>
+                        </span>
+                    </div>`);
                 if (i >= 28)
                     $(`.item-box[itemId=${item._id}]`).hide();
             }
             $("#items-row [name=loading]").hide();
+            $('.tooltipster').tooltipster();
             $(".item-box").mouseenter(function () {
 
             });

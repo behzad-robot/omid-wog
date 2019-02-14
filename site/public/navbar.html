@@ -189,7 +189,7 @@
                 }
             });
         });
-        findObjects('posts-cats', '', (cs) => {
+        findObjects('posts-cats', '?cache=allPostsCats', (cs) => {
             console.log(cs);
             console.log($("#navbar-cats").html());
             for (var i = 0; i < cs.length; i++) {

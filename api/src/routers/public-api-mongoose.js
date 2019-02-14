@@ -10,10 +10,12 @@ const ObjectId = require('mongoose').Types.ObjectId;
     A public api shows public fields of objects in find , getOne by default
     If provdided an (header admin-token = ADMIN_TOKEN ) it will show all fields!
 */
-export class PublicMongooseAPIRouter extends APIRouter {
+export class PublicMongooseAPIRouter extends APIRouter
+{
     constructor(model, settings = {
         apiTokenRequired: false,
-    }) {
+    })
+    {
         super();
         //data:
         this.model = model;
@@ -38,7 +40,7 @@ export class PublicMongooseAPIRouter extends APIRouter {
             sort => ?sort=fieldName Or ?sort=-fieldName
         */
         this.router.get('/', this.find);
-        this.router.post('/',(req,res)=>{ this.find(req,res,'POST')});
+        this.router.post('/', (req, res) => { this.find(req, res, 'POST') });
         this.router.get('/:_id/', this.getOne);
         this.router.post('/new', this.insert);
         this.router.post('/:_id/edit', this.editOne);
@@ -46,18 +48,24 @@ export class PublicMongooseAPIRouter extends APIRouter {
 
     }
     //route functions (can be overriden in child classes)
-    find(req, res,method='GET') {
-        if(req.method == 'POST')
+    find(req, res, method = 'GET')
+    {
+        if (req.method == 'POST')
         {
-            req.query = Object.assign(req.query,req.body);
+            req.query = Object.assign(req.query, req.body);
         }
+        if (req.query._draft == undefined)
+            req.query._draft =  { $ne: true };
+        else if (req.query._draft == 'all')
+            delete (req.query._draft);
         var limit = req.query.limit ? Number.parseInt(req.query.limit) : 200;
         var offset = req.query.offset ? Number.parseInt(req.query.offset) : 0;
         var sort = req.query.sort ? req.query.sort : '';
         delete (req.query.limit);
         delete (req.query.offset);
         delete (req.query.sort);
-        if (req.query._ids != undefined) {
+        if (req.query._ids != undefined)
+        {
             var options = req.query._ids.split(',');
             this.model
                 .where('_id')
@@ -66,12 +74,15 @@ export class PublicMongooseAPIRouter extends APIRouter {
                 .skip(offset)
                 .sort(sort)
                 // .lean()
-                .exec((err, results) => {
-                    if (err) {
+                .exec((err, results) =>
+                {
+                    if (err)
+                    {
                         this.handleError(req, res, err);
                         return;
                     }
-                    if (req.header('admin-token') != ADMIN_TOKEN) {
+                    if (req.header('admin-token') != ADMIN_TOKEN)
+                    {
                         for (var i = 0; i < results.length; i++)
                             results[i] = this.model.Helpers.public(results[i]);
                     }
@@ -79,35 +90,42 @@ export class PublicMongooseAPIRouter extends APIRouter {
                 });
             return;
         }
-        
+
         this.model
             .find(req.query)
             .limit(limit)
             .skip(offset)
             .sort(sort)
             // .lean()
-            .exec((err, results) => {
-                if (err) {
+            .exec((err, results) =>
+            {
+                if (err)
+                {
                     this.handleError(req, res, err);
                     return;
                 }
-                if (req.header('admin-token') != ADMIN_TOKEN) {
+                if (req.header('admin-token') != ADMIN_TOKEN)
+                {
                     for (var i = 0; i < results.length; i++)
                         results[i] = this.model.Helpers.public(results[i]);
                 }
                 this.sendResponse(req, res, results);
             });
     }
-    getOne(req, res) {
+    getOne(req, res)
+    {
         this.model
             .findOne({ _id: req.params._id })
             // .lean()
-            .exec((err, result) => {
-                if (result == null || result == {}) {
+            .exec((err, result) =>
+            {
+                if (result == null || result == {})
+                {
                     this.handleError(req, res, "Object not found!", 404);
                     return;
                 }
-                if (err) {
+                if (err)
+                {
                     this.handleError(req, res, err);
                     return;
                 }
@@ -115,7 +133,8 @@ export class PublicMongooseAPIRouter extends APIRouter {
                 //res.send((result));
             });
     }
-    insert(req, res) {
+    insert(req, res)
+    {
         console.log(req.body);
         const model = this.model;
         delete (req.body._id);
@@ -124,29 +143,36 @@ export class PublicMongooseAPIRouter extends APIRouter {
         req.body.createdAt = this.now();
         req.body.updatedAt = "";
         var doc = new model(req.body);
-        doc.save().then(() => {
+        doc.save().then(() =>
+        {
             this.sendResponse(req, res, doc);
-        }).catch((err) => {
+        }).catch((err) =>
+        {
             this.handleError(req, res, err);
         });
     }
-    editOne(req, res) {
+    editOne(req, res)
+    {
         delete (req.body._id);
         delete (req.body.createdAt);
         delete (req.body.updatedAt);
         req.body.updatedAt = this.now();
         const _id = req.params._id;
-        this.model.findByIdAndUpdate(_id, req.body, { new: true }, (err, result) => {
-            if (err) {
-                this.handleError(req,res,err);
+        this.model.findByIdAndUpdate(_id, req.body, { new: true }, (err, result) =>
+        {
+            if (err)
+            {
+                this.handleError(req, res, err);
                 return;
             }
             else
                 this.sendResponse(req, res, result);
         });
     }
-    deleteOne(req, res) {
-        this.model.deleteOne({ _id: req.params._id }, (err) => {
+    deleteOne(req, res)
+    {
+        this.model.deleteOne({ _id: req.params._id }, (err) =>
+        {
             res.send({ message: "DELETED " + req.params._id, error: err });
         });
     }

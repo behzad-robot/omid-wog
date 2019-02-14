@@ -2,6 +2,7 @@
 import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
 import { S_IFREG } from "constants";
+import { updateCache } from "../utils/cache";
 export default class ChampionsPanelRouter extends AdminRouter
 {
     constructor(AdminModules)
@@ -9,6 +10,16 @@ export default class ChampionsPanelRouter extends AdminRouter
         super();
         const Admin = AdminModules.Admin;
         this.requireAdmin();
+        this.router.use((req, res, next) =>
+        {
+            // console.log(req.url);
+            if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
+            {
+                console.log('update cache for allDota2Champions');
+                updateCache('allDota2Champions');
+            }
+            next();
+        });
         this.router.get('/', (req, res) =>
         {
             res.send(this.renderTemplate('champs-list.html', {
@@ -34,7 +45,7 @@ export default class ChampionsPanelRouter extends AdminRouter
         {
             AdminModules.Champion.delete(req.params._id).then((result) =>
             {
-                res.send('<p>Item Delete Result</p>'+JSON.stringify(result)+'<br><br><a href="/admin/champions/">Back to Champs</a>');
+                res.send('<p>Item Delete Result</p>' + JSON.stringify(result) + '<br><br><a href="/admin/champions/">Back to Champs</a>');
             }).catch((err) =>
             {
                 res.send(err);

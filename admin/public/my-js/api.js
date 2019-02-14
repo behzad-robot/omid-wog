@@ -8,7 +8,7 @@ const apiCall = (url, next) =>
 {
     console.log(url);
     console.log(url+'=>'+Date.now());
-    fetch(url,
+    fetch(url+'?_draft=all',
         {
             method : 'GET',
             mode : "cors",

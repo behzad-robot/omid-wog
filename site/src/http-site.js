@@ -17,6 +17,7 @@ import { isEmptyString } from "./utils/utils";
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const PostCat = new APICollection('posts-cats', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -116,6 +117,26 @@ const allGamesCache = new CacheReader('all-games', (cb) =>
         cb(err, undefined);
     });
 });
+const allPostsCatsCache = new CacheReader('allPostsCats', (cb) =>
+{
+    PostCat.find().then((cats) =>
+    {
+        cb(undefined, cats);
+    }).catch((err) =>
+    {
+        cb(err, undefined);
+    });
+});
+const allDota2Champions = new CacheReader('allDota2Champions', (cb) =>
+{
+    Champion.find({gameId : '5c483dc1c966fb21f9ae800c'}).then((data) =>
+    {
+        cb(undefined, data);
+    }).catch((err) =>
+    {
+        cb(err, undefined);
+    });
+});
 const SiteModules = {
     User: User,
     Game: Game,
@@ -123,10 +144,13 @@ const SiteModules = {
     Admin: Admin,
     Build: ChampBuild,
     Post: Post,
+    PostCat: PostCat,
     ContactUsForm: ContactUsForm,
     proxyAPI: proxyAPI,
     Cache: {
         allGames: allGamesCache,
+        allPostsCatsCache: allPostsCatsCache,
+        allDota2Champions : allDota2Champions,
     }
 }
 //express:
@@ -147,7 +171,7 @@ express.expressApp.all('*', (req, res, next) =>
     next();
 });
 //add general middlewares here:
-express.expressApp.disable('etag'); //fully disable cache!
+// express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) =>
 {
@@ -167,9 +191,34 @@ express.expressApp.all('/api/*', (req, res) =>
                 else
                     res.send(data);
             });
+            return;
         }
+        // if (req.query.cache == 'allPostsCats')
+        // {
+        //     console.log(`using cache for ${req.query.cache}`);
+        //     SiteModules.Cache.allPostsCatsCache.getData((err, data) =>
+        //     {
+        //         if (err)
+        //             res.send(err.toString());
+        //         else
+        //             res.send(data);
+        //     });
+        // }
+        
+    }
+    if(req.url.indexOf('/champions') != -1 && req.query.gameId == '5c483dc1c966fb21f9ae800c')
+    {
+        console.log(`using cache for allDota2Champions`);
+        SiteModules.Cache.allDota2Champions.getData((err, data) =>
+            {
+                if (err)
+                    res.send(err.toString());
+                else
+                    res.send(data);
+            });
         return;
     }
+    console.log('API CALL => ' + req.url);
     // if(req.url == 'twitch')
     // {
     //     res.send("Hello Twitch Mate You are doing this all wrong!")

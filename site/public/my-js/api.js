@@ -168,7 +168,8 @@ const getBuilds = (params, game, champions, next) => {
         next(builds);
     });
 };
-const loadedUsers = [];
+let loadedUsers = [];
+let askedUsers = {};
 //users:
 const _fixUser = (u) => {
     if (isEmptyString(u.profileImage))
@@ -178,15 +179,34 @@ const _fixUser = (u) => {
     return u;
 }
 const getUser = (_id, next) => {
+    //step 1:check loaded users:
     for (var i = 0; i < loadedUsers.length; i++) {
         if (loadedUsers[i]._id == _id) {
             next(loadedUsers[i]);
             return;
         }
     }
+    //step 2:check askedUsers : 
+    if(askedUsers[_id] == undefined)
+    {
+        console.log(`getUser ${_id}`);
+        askedUsers[_id] = { callbacks : [next] };
+    }
+    else
+    {
+        console.log(`duplicate getUser ${_id}`);
+        askedUsers[_id].callbacks.push(next);
+        return;
+    }
     getObject('users', _id, (user) => {
         loadedUsers.push(_fixUser(user));
-        next(user);
+        console.log(user);
+        var a = askedUsers[user._id];
+        for(var i = 0 ; i < a.callbacks.length; i++)
+        {
+            var cb = a.callbacks[i];
+            cb(user);
+        }
     });
 };
 const getUsers = (params, next) => {
@@ -204,7 +224,8 @@ const _fixMedia = (m) => {
         m.url = ICON_404;
     if (isEmptyString(m.thumbnail))
         m.thumbnail = ICON_404;
-    m.siteUrl = '/media/' + m.slug;
+    // m.siteUrl = '/media/' + m.slug;
+    m.siteUrl = '#';
     return m;
 };
 const getMedia = (params, next) => {
