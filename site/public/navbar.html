@@ -194,7 +194,7 @@
             console.log($("#navbar-cats").html());
             for (var i = 0; i < cs.length; i++) {
                 var cat = cs[i];
-                $("#navbar-cats").append(`<a href="/posts/?cat=${cat.slug}" class="dropdown-cat-link news-link " cat="${cat._id}">${cat.name}<i class="fas fa-chevron-left"></i></a>`);
+                $("#navbar-cats").append(`<a href="#" class="dropdown-cat-link news-link " cat="${cat._id}">${cat.name}<i class="fas fa-chevron-left"></i></a>`);
             }
             posts_loading = true;
             $("#navbar-posts-loading").show();
@@ -238,8 +238,8 @@
             $("#navbar-posts").append(
                 `
                 <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
-                    <img src="${p.thumbnail}" width="100%" />
-                    <h4 style="margin-top:5px;">${p.title}</h4>
+                    <img src="${p.thumbnail_640x480}" width="80%" />
+                    <h4 style="margin-top:5px;font-size:16px;font-weight:bold;">${p.title}</h4>
                 </a>
             `
             );

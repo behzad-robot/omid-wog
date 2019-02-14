@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-4 col-12">
                     <div class="row">
-                        <h3 style="margin-right:18px">بنر فواره ای</h3>
+                        <!-- <h3 style="margin-right:18px">بنر فواره ای</h3> -->
                         <div class="col-md-12">
                             <div class="banner-box">
                                 <img src="/images/ori.jpg" width="100%">
@@ -191,6 +191,8 @@
             for (var i = 0; i < bs.length; i++) {
                 var b = bs[i];
                 console.log(b);
+                if(b._champ == undefined)
+                    continue;
                 $("#builds").append(`
                 <a class="card build-box" href="${b.siteUrl}">
                     <div class="icon-wrapper">
@@ -201,7 +203,7 @@
                         <small>توسط:&nbsp;<b class="username" userId="${b.userId}" label="username">${b.userId}</b></small><br>
                         <small>نوشته شده در: <span style="direction:ltr">${b.createdAt}</span></small>
                         <div style="margin:5px 0">
-                            <span class="badge badge-sm badge-warning">${b.patch}</span>
+                            <span class="badge badge-sm badge-warning text-english">${b.patch}</span>
                         </div>
                     </div>
                     <div class="vote-wrapper">

@@ -160,15 +160,15 @@ export default class AdminPanelRouter extends AdminRouter
                     for (var i = 0; i < posts.length; i++)
                     {
                         var m = posts[i];
-                        const thumbPath = path.resolve(".." + m.thumbnail_150x150);
-                        const orgPath = path.resolve(".." + m.thumbnail_150x150);
+                        let thumbPath = path.resolve(".." + m.thumbnail_150x150);
+                        const orgPath = path.resolve(".." + m.thumbnail);
                         _log('================================');
                         _log(`checking => ${m.thumbnail_150x150} => ${m._id}`);
                         if (!fs.existsSync(thumbPath))
                         {
                             _log(`thumbnail_150x150 not found => ${m.thumbnail_150x150}`);
                             if (!fs.existsSync(orgPath))
-                                _log(`ERROR thumbnail not found => ${m.thumbnail_150x150}`);
+                                _log(`ERROR thumbnail not found => ${m.thumbnail}`);
                             else
                             {
                                 _log(`creating file ${thumbPath}`);
@@ -181,7 +181,32 @@ export default class AdminPanelRouter extends AdminRouter
                                         return;
                                     }
                                     img
-                                        .cover(150, 150, Jimp.VERTICAL_ALIGN_MIDDLE)
+                                        .cover(150, 150)
+                                        .quality(60)
+                                        .write(thumbPath);
+                                    _log(`file created => ${thumbPath}`);
+                                });
+                            }
+                        }
+                        thumbPath = path.resolve(".." + m.thumbnail_640x480);
+                        if (!fs.existsSync(thumbPath))
+                        {
+                            _log(`thumbnail_640x480 not found => ${m.thumbnail_640x480}`);
+                            if (!fs.existsSync(orgPath))
+                                _log(`ERROR thumbnail not found => ${m.thumbnail}`);
+                            else
+                            {
+                                _log(`creating file ${thumbPath}`);
+                                filesCreated++;
+                                Jimp.read(orgPath, (err, img) =>
+                                {
+                                    if (err)
+                                    {
+                                        _log(err);
+                                        return;
+                                    }
+                                    img
+                                        .cover(640, 480)
                                         .quality(60)
                                         .write(thumbPath);
                                     _log(`file created => ${thumbPath}`);

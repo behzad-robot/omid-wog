@@ -73,7 +73,7 @@
                         $("#single").append(idInput('updatedAt', build.updatedAt));
                         $("#single").append(idInput('userId', build.userId));
                         $("#single").append(idInput('gameId', build.gameId, { after: game.name }));
-                        $("#single").append(idInput('champId', build.champId, { after: champion.name }));
+                        $("#single").append(textInput('champId', build.champId, { after: champion.name }));
                         $("#single").append(textInput('title', build.title));
                         $("#single").append(textInput('slug', build.slug));
 

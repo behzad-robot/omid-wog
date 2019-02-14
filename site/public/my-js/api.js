@@ -129,6 +129,8 @@ const _fixBuild = (b, game, champion) => {
             row._items.push(game.getItem(row.items[k]));
         }
     }
+    if(b.views == undefined || b.views < 10)
+        b.views = 10;
     b.siteUrl = '/builds/' + b._id;
     return b;
 };
