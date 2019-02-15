@@ -12,61 +12,444 @@
             overflow: hidden;
         }
 
-    #videoSection video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    z-index: 0;
-    -ms-transform: translateX(-50%) translateY(-50%);
-    -moz-transform: translateX(-50%) translateY(-50%);
-    -webkit-transform: translateX(-50%) translateY(-50%);
-    transform: translateX(-50%) translateY(-50%);
-    }
-
-    #videoSection .container {
-    position: relative;
-    z-index: 2;
-    }
-
-    #videoSection .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: black;
-    opacity: 0.6;
-    z-index: 1;
-    }
-
-    @media (pointer: coarse) and (hover: none) 
-    {
-        #videoSection 
-        {
-            background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+        #videoSection video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
         }
-        #videoSection video 
-        {
-        display: none;
+
+        #videoSection .container {
+            position: relative;
+            z-index: 2;
         }
-    }
+
+        #videoSection .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        @media (pointer: coarse) and (hover: none) {
+            #videoSection {
+                background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+            }
+
+            #videoSection video {
+                display: none;
+            }
+        }
     </style>
     <style>
         /* Champion-single*/
-        .champ-single-header-section{
-            background-image:url('/images/jaina.jpg');
-            background-size:cover;
-            height:300px;
+        .champ-single-header-section {
+            background-image: url('/images/jaina.jpg');
+            background-size: cover;
+            height: 300px;
+        }
+    </style>
+    <style>
+        .build-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding: 0px;
+            overflow: hidden;
+            color: white !important;
+            text-decoration: none !important;
+        }
+        .build-box:hover {
+            background-color: #1e1e1e;
+        }
+
+        .build-box .icon-wrapper {
+            width: 128px;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .icon-wrapper img {
+            border-radius: 2px;
+        }
+
+        .build-box .content-wrapper {
+            max-width: 70%;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .content-wrapper h4 {
+            font-size: 18px;
+        }
+
+        .build-box .content-wrapper .username {
+            font-size: 12px;
+            color: #ff8800;
+        }
+
+        .build-box .content-wrapper .item-wrapper {
+            margin-top: 5px;
+        }
+
+        .build-box .content-wrapper .item-wrapper .item {
+            width: 48px;
+        }
+
+        .build-box .vote-wrapper {
+            float: left;
+            padding: 5px;
+        }
+        
+        .build-box .vote-wrapper span {
+            display: block;
+            font-size: 12px;
+            margin: 5px 0;
+            color: #f0f1f2;
+        }
+
+        .banner-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #1e1e1e;
+            padding: 0px;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    </style>
+    <style>
+        .slide-image {
+            background-size: cover;
+            height: 700px;
+        }
+    </style>
+    <style>
+        @media (max-width: 576px) {
+            .slide-image {
+                width: 100%;
+                height: 400px
+            }
         }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
+    <section class="parralax-fixed-height"
+        style="height:340px;background-image:url('/images/TV-portraite-70X120.jpg');padding-top:75px;position: relative;">
+        <div class="wog-overlay trans-4"></div>
+        <div style="position: relative" class="text-center">
+            <h1 class="text-white text-shadow text-center" style="font-size:72px;">واج</h1>
+            <h2 class="text-shadow text-white">شبکه‌ی اجتماعی گیمرها</h2>
+        </div>
+    </section>
+    <section class="bg-section">
+        <div class="container" style="padding-top:65px;padding-bottom:65px;">
+            <div class="row">
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <img src="/images/social_media.png" alt="tournament" style="width:100%;margin-top: -18px">
+
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <img src="/images/content.png" alt="tournament" style="width:100%;margin-top: -16px">
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <img src="/images/streamer.png" alt="tournament" style="width:100%;margin-top: -10px">
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="bg-section-img">
+                        <img src="/images/tournament.png" alt="tournament" style="width:100%;margin-top: -10px">
+                    </div>
+                    <h3>^_^</h3>
+                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
+                        possibilities!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="bd-example">
+            <div id="carouselExampleCaptions" class="carousel slide " data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleCaptions" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleCaptions" data-slide-to="3"></li>
+
+                </ol>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="slide-image" style="background-image:url('/images/pubg.jpg');"></div>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3 style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">PUBG</h3>
+                            <p style="text-shadow: 2px 2px 8px rgb(44, 44, 44);"> به زودی وارد سایت خواهد شد</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="slide-image" style="background-image:url('/images/LOL.jpg');"></div>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3 style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">League Of Legends</h3>
+                            <p style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">به زودی وارد سایت خواهد شد</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="slide-image" style="background-image:url('/images/CoverDota.jpg');"></div>
+                        <div class="carousel-caption d-none d-md-block">
+                            <h3 style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">DotA2</h3>
+                            <p style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">برای آموزش بیشتر کلیک کنید</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                            <div class="slide-image" style="background-image:url('/images/mortalKombat.jpg');"></div>
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3 style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">Mortal Combat</h3>
+                                <p style="text-shadow: 2px 2px 8px rgb(44, 44, 44);">به زودی وارد سایت خواهد شد</p>
+                            </div>
+                        </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleCaptions" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </section>
+    <section class="parralax-fixed-height"
+        style="min-height:150px;background-image:url('images/bflanding.jpg');padding-top:35px;overflow:hidden">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 text-shadow">
+                    <h2
+                        style="text-shadow: 0px 1px 5px rgba(0,0,0,0.6); text-transform: none; color: #eee; margin-top: 10px; margin-bottom: 0px;font-weight: bold;">
+                        مسابقات
+                        جذاب و اسیر کننده! <span style="color: #fea801;">اطلاعات بیشتر؟</span></h2>
+                </div>
+                <div class="col-md-4">
+                    <div class="btn btn-lg btn-yellow float-left" style="margin-bottom:5px;">بله در جریانم</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-section" style="padding-top: 10px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <h3 style="margin:5px 0;">تازه های آموزش ها:</h3>
+                    <!-- <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%">
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
+                            <small>نوشته شده در: 12 مهر 1397</small>
+                            <div style="margin:5px 0">
+                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
+                            </div>
+                        </div>
+                        <div class="vote-wrapper">
+                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
+                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                        </div>
+                    </div>
+                    <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%">
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
+                            <small>نوشته شده در: 12 مهر 1397</small>
+                            <div style="margin:5px 0">
+                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
+                            </div>
+                        </div>
+                        <div class="vote-wrapper">
+                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
+                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                        </div>
+                    </div>
+                    <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%">
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
+                            <small>نوشته شده در: 12 مهر 1397</small>
+                            <div style="margin:5px 0">
+                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
+                            </div>
+                        </div>
+                        <div class="vote-wrapper">
+                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
+                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                        </div>
+                    </div>
+                    <div class="card build-box">
+                        <div class="icon-wrapper">
+                            <img src="/images/s4.png" width="100%">
+                        </div>
+                        <div class="content-wrapper">
+                            <h4>عنوان آموزش</h4>
+                            <small>توسط:&nbsp;<b class="username">laku22</b></small><br>
+                            <small>نوشته شده در: 12 مهر 1397</small>
+                            <div style="margin:5px 0">
+                                <span class="badge badge-sm badge-warning">Patch 7.2</span>
+                            </div>
+                        </div>
+                        <div class="vote-wrapper">
+                            <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                            <span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span>
+                            <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                        </div>
+                    </div> -->
+                    <div id="builds">
+                        <a class="card build-box" href="/builds/5c50685e67060c12189e9828">
+                            <div class="icon-wrapper">
+                                <img src="/storage/games/dota2/champions/alchemist_portrait-1548605229373.jpg" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>Alchemist Mid</h4>
+                                <small>توسط:&nbsp;<b class="username" userid="5c55c2fe4ecb411ebc334cb2" label="username">admin</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">2019-01-29 06:21:10</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">Patch 7.21</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;1 رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;10 بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                            </div>
+                        </a>
+                    
+                        <a class="card build-box" href="/builds/5c656f902eeb8c58d444adb9">
+                            <div class="icon-wrapper">
+                                <img src="/storage/games/dota2/champions/alchemist_portrait-1548605229373.jpg" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>Alchemist Fast Fighting Build</h4>
+                                <small>توسط:&nbsp;<b class="username" userid="5c55c2fe4ecb411ebc334cb2" label="username">admin</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">دوشنبه 25 بهمن 08:39:28</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">Patch 7.21</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;10 بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                            </div>
+                        </a>
+                    
+                        <a class="card build-box" href="/builds/5c65710b2eeb8c58d444adbc">
+                            <div class="icon-wrapper">
+                                <img src="/storage/games/dota2/champions/zuus_portrait-1548600762152.jpg" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>Zeus Mid</h4>
+                                <small>توسط:&nbsp;<b class="username" userid="5c55c2fe4ecb411ebc334cb2" label="username">admin</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">دوشنبه 25 بهمن 08:45:47</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">Patch 7.21</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;10 بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                            </div>
+                        </a>
+                    
+                        <a class="card build-box" href="/builds/5c65767f2eeb8c58d444adc0">
+                            <div class="icon-wrapper">
+                                <img src="/storage/games/dota2/champions/wraith_king_portrait-1548607013973.jpg" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>Wraith King King Of Rats</h4>
+                                <small>توسط:&nbsp;<b class="username" userid="5c55c2fe4ecb411ebc334cb2" label="username">admin</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">دوشنبه 25 بهمن 09:09:03</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">Patch 7.21</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;10 بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                            </div>
+                        </a>
+                    
+                        <!-- <a class="card build-box" href="/builds/5c657aed2eeb8c58d444adc3">
+                            <div class="icon-wrapper">
+                                <img src="/storage/games/dota2/champions/abaddon_portrait-1548609155379.jpg" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>Abaddon offlane</h4>
+                                <small>توسط:&nbsp;<b class="username" userid="5c55c2fe4ecb411ebc334cb2" label="username">admin</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">دوشنبه 25 بهمن 09:27:57</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">Patch 7.21</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;10 بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span>
+                            </div>
+                        </a> -->
+                    </div>
+                </div>
+                <div class="col-md-4 col-12" style="background-image:url('/images/dota2-tournament-cover.jpg');height: 70%;margin-top: 5px;;background-size:cover;background-position: center;">
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="parralax-fixed-height text-center"
+        style="min-height:60vh;background-image:url('images/abcd.jpg');padding-top:15px;position:relative;border:1px solid #141414;">
+        <div class="wog-overlay"></div>
+        <img src="images/lpt-1.png" width="50%" style="position:relative;z-index:1;">
+    </section>
     <section id="videoSection" style="position:relative;">
         <div class="overlay"></div>
 
@@ -76,66 +459,17 @@
         <div class="container" style="padding-top:50px;">
             <div class="d-flex">
                 <div class="text-white shadow-text">
-                    <h1 style="font-size:46px;">سایت <span style="color:#ff8800 !important;font-weight: bold;">آبیاری</span></h1>
-                    <p style="font-size:20px;">یک سایتی دارم که در جریان هستید دیگه.</p>
-                    <div class="btn btn-lg btn-yellow">بله در جریانم</div>
+                    <h1 style="font-size:46px;">حمایت از گیمرهای <span
+                            style="color:#ff8800 !important;font-weight: bold;">ایرانی</span></h1>
+                    <p style="font-size:20px;">بازی یک شغل است، آینده منتطر شما است</p>
                 </div>
             </div>
         </div>
     </section>
-    <section class="bg-section">
-        <div class="container" style="padding-top:65px;padding-bottom:65px;">
-            <div class="row">
-                <div class="col-md-3 col-6 text-center">
-                    <div class="bg-section-img">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>^_^</h3>
-                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
-                        possibilities!</p>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div class="bg-section-img">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>^_^</h3>
-                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
-                        possibilities!</p>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div class="bg-section-img">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>^_^</h3>
-                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
-                        possibilities!</p>
-                </div>
-                <div class="col-md-3 col-6 text-center">
-                    <div class="bg-section-img">
-                        <i class="fas fa-home"></i>
-                    </div>
-                    <h3>^_^</h3>
-                    <p>Create awesome websites for your team, full customizable theme that gives you unlimited
-                        possibilities!</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="parralax-fixed-height" style="min-height:150px;background-image:url('images/bflanding.jpg');padding-top:35px;overflow:hidden">
-        <div class="container">
 
-            <div class="row">
-                <div class="col-md-8 text-shadow">
-                    <h2 style="text-shadow: 0px 1px 5px rgba(0,0,0,0.6); text-transform: none; color: #eee; margin-top: 10px; margin-bottom: 0px;font-weight: bold;">مسابقات
-                        جذاب و اسیر کننده! <span style="color: #fea801;">اطلاعات بیشتر؟</span></h2>
-                </div>
-                <div class="col-md-4">
-                    <div class="btn btn-lg btn-yellow float-left" style="margin-bottom:5px;">بله در جریانم</div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section style="background-image:url('images/cprofile.jpg');background-position: center;background-size:cover;min-height:400px;color:white;padding-top:50px;overflow:hidden;position:relative;">
+
+    <section
+        style="background-image:url('images/cprofile.jpg');background-position: center;background-size:cover;min-height:400px;color:white;padding-top:50px;overflow:hidden;position:relative;">
         <div class="overlay mobile-only"></div>
         <div class="container" style="z-index:2">
             <div class="col-md-6 col-11" style="overflow:hidden;">
@@ -156,146 +490,6 @@
             </div>
         </div>
     </section>
-    <section class="parralax-fixed-height text-center" style="min-height:60vh;background-image:url('images/jaina.jpg');padding-top:15px;position:relative;border:1px solid #141414;">
-        <div class="wog-overlay"></div>
-        <img src="images/lpt-1.png" width="50%" style="position:relative;z-index:1;" />
-    </section>
-    <section class="bg-section">
-        <div class="container">
-            <div class="row" style="margin-bottom:1vh;">
-                <div class="col-md-2 col-12"></div>
-                <div class="col-md-8 col-12">
-                    <img src="images/mobile-tablet.png" width="100%" />
-                </div>
-                <div class="col-md-2 col-12"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <ul>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and
-                                manage&nbsp;teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual
-                                Composer</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <ul>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and
-                                manage&nbsp;teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual
-                                Composer</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <ul>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and
-                                manage&nbsp;teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual
-                                Composer</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
-                    </ul>
-                </div>
-                <div class="col-md-3">
-                    <ul>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Tournament system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">team war system</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Users can create and
-                                manage&nbsp;teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Predefined page layout for teams</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Full buddypress support!</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">Page builder powered by Visual
-                                Composer</span></li>
-                        <li style="margin-bottom: 10px;"><span style="color: #79848f;">WooCommerce support</span></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="gradient-section">
-        <div class="container" style="padding:20px 0;">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="widget-box">
-                        <div class="title-wrapper">
-                            <h3>گالری</h3>
-                        </div>
-                        <div class="content-wrapper">
-                            <a class="img-col" href="#">
-                                <img src="images/s1.jpg" width="100%" />
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="images/s2.jpg" width="100%" />
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="images/s3.jpg" width="100%" />
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="images/s4.png" width="100%" />
-                            </a>
-                            <a class="img-col" href="#">
-                                <img src="images/s5.jpg" width="100%" />
-                            </a>
-                            <!-- <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
-                                            <img src="images/s1.jpg" width="100%"/>
-                                        </a>
-                                        <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
-                                            <img src="images/s2.jpg" width="100%"/>
-                                        </a>
-                                        <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
-                                            <img src="images/s3.jpg" width="100%"/>
-                                        </a>
-                                        <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
-                                            <img src="images/s4.png" width="100%"/>
-                                        </a>
-                                        <a class="no-padding no-margin" style="display:inline-block;margin:0;padding:0;width:25%;float:left">
-                                            <img src="images/s5.jpg" width="100%"/>
-                                        </a> -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- champ single part -->
-    <section class="bg-section" style="padding:25px 0">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h3>Latest Builds</h3>
-                </div>
-                <div class="col-md-8">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">عنوان زیبا</h5>
-                            <div class="card-text">
-                                <p>متن حتی زیبا تر</p>
-                                <a href="#" class="btn btn-md btn-green">دکمه زیبا</a>
-                                <a href="#" class="btn btn-md btn-red">دکمه زیبا</a>
-                                <input type="text" class="form-control" style="margin-top:15px"/>
-                                <input type="text" class="form-control dark" placeholder="Name" style="margin-top:15px"/>
-                                <img src="images/loading.gif" width="64px"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- END champ single part -->
     {{{footer}}}
 </body>
 
