@@ -1,7 +1,7 @@
 import MyExpressApp from "./libs/express";
 import { log } from "./libs/log";
 import { APICollection, APIProxy } from "./utils/api-helper";
-import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL } from "./constants";
+import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL, SERVER_FILES_URL } from "./constants";
 import SiteGeneralRouter from "./routers/general_router";
 import { CacheReader } from "./utils/cache";
 import SiteAuthRouter from "./routers/auth_router";
@@ -129,7 +129,7 @@ const allPostsCatsCache = new CacheReader('allPostsCats', (cb) =>
 });
 const allDota2Champions = new CacheReader('allDota2Champions', (cb) =>
 {
-    Champion.find({gameId : '5c483dc1c966fb21f9ae800c'}).then((data) =>
+    Champion.find({ gameId: '5c483dc1c966fb21f9ae800c' }).then((data) =>
     {
         cb(undefined, data);
     }).catch((err) =>
@@ -150,17 +150,17 @@ const SiteModules = {
     Cache: {
         allGames: allGamesCache,
         allPostsCatsCache: allPostsCatsCache,
-        allDota2Champions : allDota2Champions,
+        allDota2Champions: allDota2Champions,
     }
 }
 //express:
 const express = new MyExpressApp({
     hasSessionEngine: true,
     mongoUrl: GetMongoDBURL(),
-    serveFiles: ['public', {
+    serveFiles: ['public', /*{
         prefix: '/storage',
         path: '../storage',
-    }],
+    }*/],
 });
 express.expressApp.all('*', (req, res, next) =>
 {
@@ -204,18 +204,18 @@ express.expressApp.all('/api/*', (req, res) =>
         //             res.send(data);
         //     });
         // }
-        
+
     }
-    if(req.url.indexOf('/champions') != -1 && req.query.gameId == '5c483dc1c966fb21f9ae800c')
+    if (req.url.indexOf('/champions') != -1 && req.query.gameId == '5c483dc1c966fb21f9ae800c')
     {
         console.log(`using cache for allDota2Champions`);
         SiteModules.Cache.allDota2Champions.getData((err, data) =>
-            {
-                if (err)
-                    res.send(err.toString());
-                else
-                    res.send(data);
-            });
+        {
+            if (err)
+                res.send(err.toString());
+            else
+                res.send(data);
+        });
         return;
     }
     console.log('API CALL => ' + req.url);
@@ -234,6 +234,15 @@ express.expressApp.all('/api/*', (req, res) =>
     {
         res.send(err.toString());
     });
+});
+express.expressApp.all('/storage/*', (req, res) =>
+{
+    console.log(req.url);
+    console.log(SERVER_FILES_URL+req.url);
+    res.writeHead(302, {
+        Location: SERVER_FILES_URL+req.url
+    });
+    res.end();
 });
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);

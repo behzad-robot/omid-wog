@@ -8,7 +8,7 @@ export const API_BASE_URL = "http://localhost:8585/";
 export const ADMIN_FILE_UPLOAD = IS_LOCALHOST () ? "http://localhost:6565/admin/file-upload" : "http://31.184.135.51:6565/admin/file-upload";
 export const ADMIN_TOKEN = "hamunhamishegi";
 export const ADMIN_URL = "http://localhost:6565/";
-
+export const SERVER_FILES_URL = IS_LOCALHOST() ? "http://localhost:8081" : "http://worldofgamers.ir:8080";
 
 
 export function IS_LOCALHOST()

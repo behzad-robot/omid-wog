@@ -38,6 +38,9 @@
             text-decoration: none !important;
             height: 170px;
         }
+        .champ-box.champ.vg{
+            height:100px;
+        }
 
         .champ-box:hover {
             box-shadow: 0 0 15px rgba(255, 136, 0, 0.8);
@@ -48,6 +51,7 @@
             width: 15%;
             /* margin: 2px 2px; */
         }
+        
 
         .champ-box::before {
             box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
@@ -108,6 +112,7 @@
             height: 30px;
             text-overflow: clip;
         }
+        
 
         @media (max-width: 576px) {
             .dota2 .champ-box {
@@ -372,6 +377,11 @@
                         getMedia('?gameId=' + game._id, (media) => {
                             var container = $("#game-gallery-box");
                             console.log(media);
+                            if(media.length == 0){
+                                $("#game-gallery-box").append(`موردی برای این بازی ثبت نشده.`);
+                                $("#game-gallery-box [name=loading]").hide();
+                                return;
+                            }
                             for (var i = 0; i < media.length; i++) {
                                 var m = media[i];
                                 $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
@@ -401,14 +411,18 @@
                     extraClasses = 'topRow';
                 else if (i % 6 == 0)
                     extraClasses = 'firstCol';
-                $("#champs-row").append(
-                    `<a href="${c.siteUrl}" class="champ-box champ text-center" index="${i}">`
-                    + `<div class="content">
-                        <img class="icon" src="${c.icon_tall}" width="100%" />
-                        <video  playsinline autoplay muted loop class="zoom ${extraClasses}" poster="${c.icon_tall}">
-                            <source src="http://worldofgamers.ir:6565${c.icon_gif}" type="video/mp4">
+                let zoomIn = '';
+                if(game.token == 'dota2'){
+                    zoomIn = `<video  playsinline autoplay muted loop class="zoom ${extraClasses}" poster="${c.icon_tall}">
+                            <source src="${c.icon_gif}" type="video/mp4">
                             Your browser does not support the video tag.
-                        </video>
+                        </video>`;
+                }
+                $("#champs-row").append(
+                    `<a href="${c.siteUrl}" class="champ-box champ ${game.token} text-center" index="${i}">`
+                    + `<div class="content">
+                        <img class="icon" src="${game.token == 'dota2' ? c.icon_tall : c.icon}" width="100%" />
+                        ${zoomIn}
                         `
                     + `<h4 class="text-white text-english">${c.name}</h4>`
                     + `</div>`
@@ -427,7 +441,7 @@
             for (var i = 0; i < game.items.length; i++) {
                 const item = game.items[i];
                 var itemExtraInfo = '';
-                if (item.coolDown != '')
+                if (item.coolDown != '' && item.coolDown != 0)
                     itemExtraInfo += '<b>Cool Down:</b><span style="">${item.coolDown}</span>';
                 if (item.manCost != '')
                     itemExtraInfo += '<b>Mana Cost:</b><span style="">${item.manaCost}</span>';
@@ -474,6 +488,9 @@
             $("#items-load-more-btn").hide();
         }
         function builds_create() {
+            if(builds.length == 0){
+                $("#builds-row").html("آموزشی برای این بازی ثبت نشده است.");
+            }
             for (var i = 0; i < builds.length; i++) {
                 if (builds[i].itemRows.length == 0)
                     continue;

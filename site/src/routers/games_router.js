@@ -7,10 +7,16 @@ export default class SiteGamesRouter extends SiteRouter {
             this.renderTemplate(req,res,'games-archive.html');
         });
         this.router.get('/:slug', (req, res) => {
+            // console.log(':|');
+            if(req.params.slug == 'mortal-combat'){
+                this.renderTemplate(req,res,'coming-soon.html',{});
+                return;
+            }
             siteModules.Game.find({ slug: req.params.slug }).then((games) => {
                 if (games.length == 0)
                     this.show404(req,res);
                 else {
+                    // console.log("ok found!");
                     let game = games[0];
                     game = siteModules.Game.fixOne(game);
                     this.renderTemplate(req, res, 'game-single.html', {
