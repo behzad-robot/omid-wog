@@ -30,6 +30,9 @@ Champion.fixOne = (champ) =>
         champ.icon = ICON_404;
     if (isEmptyString(champ.icon_gif))
         champ.icon_gif = champ.icon_tall;
+    console.log('persian=>'+champ.descriptionPersian+'=>'+isEmptyString(champ.descriptionPersian));
+    if(isEmptyString(champ.descriptionPersian.replace(' ','').replace('<br>','').replace('\n','')))
+        champ.descriptionPersian = 'وارد نشده';
     champ.siteUrl = '/champions/' + champ.slug;
     champ.roles_str = '';
     for (var i = 0; i < champ.roles.length; i++)
@@ -157,10 +160,12 @@ const SiteModules = {
 const express = new MyExpressApp({
     hasSessionEngine: true,
     mongoUrl: GetMongoDBURL(),
-    serveFiles: ['public', /*{
+    serveFiles: ['public', 
+    {
         prefix: '/storage',
         path: '../storage',
-    }*/],
+    }
+    ],
 });
 express.expressApp.all('*', (req, res, next) =>
 {
@@ -235,15 +240,15 @@ express.expressApp.all('/api/*', (req, res) =>
         res.send(err.toString());
     });
 });
-express.expressApp.all('/storage/*', (req, res) =>
-{
-    console.log(req.url);
-    console.log(SERVER_FILES_URL+req.url);
-    res.writeHead(302, {
-        Location: SERVER_FILES_URL+req.url
-    });
-    res.end();
-});
+// express.expressApp.all('/storage/*', (req, res) =>
+// {
+//     console.log(req.url);
+//     console.log(SERVER_FILES_URL+req.url);
+//     res.writeHead(302, {
+//         Location: SERVER_FILES_URL+req.url
+//     });
+//     res.end();
+// });
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);

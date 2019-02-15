@@ -69,13 +69,16 @@
     </div>
 </div>
 <script>
-    function toggleLoginBox() {
+    function toggleLoginBox()
+    {
         $(".login-box").fadeToggle();
     }
-    function openMobileMenu() {
+    function openMobileMenu()
+    {
         $('.mobile-menu-container').animate({ right: '0' }, 1000);
     }
-    function closeMobileMenu() {
+    function closeMobileMenu()
+    {
         $('.mobile-menu-container').animate({ right: '-60vw' }, 1000);
     }
 </script>
@@ -99,13 +102,29 @@
                 </a>
                 <div class="link-bar-dropdown-container text-right" style="right:-85px;">
                     <div class="row">
-                        <div id="dropdownGamesList" class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
+                        <div id="dropdownGamesList" class="col-3"
+                            style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;">
                             <!-- <a href="#" class="dropdown-cat-link game-link " game="{{token}}">{{name}}<i class="fas fa-chevron-left"></i></a> -->
+                            {{#allGames}}
+                            <a href="/games/{{slug}}" class="dropdown-cat-link game-link " game="{{token}}">{{name}}<i
+                                    class="fas fa-chevron-left"></i></a>
+                            <div style="display:none" class="hidden-game-data" game="{{token}}">
+                                <div class="col-4">
+                                    <img name="current-game-coverTall" src="{{coverTall}}" width="100%"
+                                        style="margin-top:5px;" />
+                                </div>
+                                <div class="col-6" style="padding-top:5px;">
+                                    <h4 name="current-game-title">{{name}}</h4>
+                                    <p name="current-game-description">{{description}}</p>
+                                </div>
+                            </div>
+                            {{/allGames}}
                         </div>
                         <div class="col-9">
-                            <div class="row">
+                            <div class="row" id="navbar-current-game">
                                 <div class="col-4">
-                                    <img name="current-game-coverTall" src="/images/ori.jpg" width="100%" style="margin-top:5px;" />
+                                    <img name="current-game-coverTall" src="/images/ori.jpg" width="100%"
+                                        style="margin-top:5px;" />
                                 </div>
                                 <div class="col-6" style="padding-top:5px;">
                                     <h4 name="current-game-title">Dota 2</h4>
@@ -125,7 +144,8 @@
                 </a>
                 <div class="link-bar-dropdown-container text-right" style="right:-185px;">
                     <div class="row">
-                        <div class="col-3" style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;"
+                        <div class="col-3"
+                            style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;"
                             id="navbar-cats">
                             <!-- <a href="#" class="dropdown-cat-link news-link " cat="dota2">Cat 1<i class="fas fa-chevron-left"></i></a> -->
 
@@ -165,34 +185,50 @@
     var currentGameLink = undefined;
     var games = [];
     var cats = [], posts = {}, posts_loading = false;
-    $(document).ready(() => {
+    $(document).ready(() =>
+    {
 
-        getGames('?cache=allGames', (gs) => {
-            games = gs;
-            for (var i = 0; i < games.length; i++) {
-                var g = games[i];
-                $("#dropdownGamesList").append(`<a href="/games/${g.slug}" class="dropdown-cat-link game-link " game="${g.token}">${g.name}<i class="fas fa-chevron-left"></i></a>`)
-            }
-            $(".dropdown-cat-link.game-link").mouseenter(function () {
-                $(".dropdown-cat-link.game-link").removeClass('selected');
-                $(this).addClass('selected');
-                var token = $(this).attr('game');
-                console.log(token);
-                for (var i = 0; i < games.length; i++) {
-                    if (games[i].token == token) {
-                        var game = games[i];
-                        $(".link-bar-dropdown-container [name=current-game-title]").html(game.name);
-                        $(".link-bar-dropdown-container [name=current-game-description]").html(game.description);
-                        $(".link-bar-dropdown-container [name=current-game-coverTall]").attr('src', game.coverTall);
-                        break;
-                    }
-                }
-            });
+        // getGames('?cache=allGames', (gs) =>
+        // {
+        //     games = gs;
+        //     for (var i = 0; i < games.length; i++)
+        //     {
+        //         var g = games[i];
+        //         $("#dropdownGamesList").append(`<a href="/games/${g.slug}" class="dropdown-cat-link game-link " game="${g.token}">${g.name}<i class="fas fa-chevron-left"></i></a>`)
+        //     }
+        //     $(".dropdown-cat-link.game-link").mouseenter(function ()
+        //     {
+        //         $(".dropdown-cat-link.game-link").removeClass('selected');
+        //         $(this).addClass('selected');
+        //         var token = $(this).attr('game');
+        //         console.log(token);
+        //         for (var i = 0; i < games.length; i++)
+        //         {
+        //             if (games[i].token == token)
+        //             {
+        //                 var game = games[i];
+        //                 $(".link-bar-dropdown-container [name=current-game-title]").html(game.name);
+        //                 $(".link-bar-dropdown-container [name=current-game-description]").html(game.description);
+        //                 $(".link-bar-dropdown-container [name=current-game-coverTall]").attr('src', game.coverTall);
+        //                 break;
+        //             }
+        //         }
+        //     });
+        // });
+        $(".dropdown-cat-link.game-link").mouseenter(function ()
+        {
+            $(".dropdown-cat-link.game-link").removeClass('selected');
+            $(this).addClass('selected');
+            var token = $(this).attr('game');
+            var html = $(`.hidden-game-data[game=${token}]`).html();
+            $("#navbar-current-game").html(html);
         });
-        findObjects('posts-cats', '?cache=allPostsCats', (cs) => {
+        findObjects('posts-cats', '?cache=allPostsCats', (cs) =>
+        {
             console.log(cs);
             console.log($("#navbar-cats").html());
-            for (var i = 0; i < cs.length; i++) {
+            for (var i = 0; i < cs.length; i++)
+            {
                 var cat = cs[i];
                 $("#navbar-cats").append(`<a href="#" class="dropdown-cat-link news-link " cat="${cat._id}">${cat.name}<i class="fas fa-chevron-left"></i></a>`);
             }
@@ -200,25 +236,29 @@
             $("#navbar-posts-loading").show();
             findObjectsPost('posts', {
                 'categories': cs[0],
-            }, (ps) => {
-                posts_loading = false;
-                posts[cat] = ps;
-                show_posts(ps);
-            });
-            $("#navbar-cats .dropdown-cat-link").mouseenter(function () {
+            }, (ps) =>
+                {
+                    posts_loading = false;
+                    posts[cat] = ps;
+                    show_posts(ps);
+                });
+            $("#navbar-cats .dropdown-cat-link").mouseenter(function ()
+            {
                 const cat = $(this).attr("cat");
-                if (posts[cat] == undefined) {
+                if (posts[cat] == undefined)
+                {
                     if (posts_loading)
                         return;
                     $("#navbar-posts-loading").show();
                     posts_loading = true;
                     findObjectsPost('posts', {
                         'categories': cat,
-                    }, (ps) => {
-                        posts_loading = false;
-                        posts[cat] = ps;
-                        show_posts(ps);
-                    });
+                    }, (ps) =>
+                        {
+                            posts_loading = false;
+                            posts[cat] = ps;
+                            show_posts(ps);
+                        });
                     // getPosts('', (ps) => {
                     //     posts_loading = false;
                     //     posts[cat] = ps;
@@ -230,10 +270,12 @@
             });
         });
     });
-    function show_posts(ps) {
+    function show_posts(ps)
+    {
         $("#navbar-posts-loading").hide();
         $("#navbar-posts").html("");
-        for (var i = 0; i < ps.length; i++) {
+        for (var i = 0; i < ps.length; i++)
+        {
             let p = ps[i];
             $("#navbar-posts").append(
                 `

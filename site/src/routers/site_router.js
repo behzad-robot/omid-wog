@@ -53,6 +53,8 @@ export default class SiteRouter extends Router
                     res.send("Error="+err.toString());
                     return;
                 }
+                console.log('all games count=>'+games.length);
+                data.allGames = games;
                 data.currentUser = req.session ? req.session.currentUser : undefined;
                 data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(),data);
                 data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(),data);
