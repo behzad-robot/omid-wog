@@ -3,7 +3,16 @@
 <head>
     {{{head}}}
     <style>
-
+        .status-circle {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            border-radius: 50%;
+            background-color: #aaa;
+            position: relative;
+            top: 3px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 
@@ -12,71 +21,161 @@
     <div class="container">
         <h2>
             Post {{{_id}}}:
-            <a href="/admin/posts/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a>
+            <div style="float:right;margin-top:5px;">
+                <a href="http://worldofgamers.ir/posts/_id/{{{_id}}}" class="btn btn-md btn-warning">Preview</a>
+                &nbsp;&nbsp;
+                <a href="/admin/posts/{{{_id}}}/delete/" class="btn btn-md btn-danger">Delete</a>
+            </div>
         </h2>
         <hr />
         <form id="single" action="/admin/posts/{{{_id}}}/edit" method="POST"></form>
+        <hr />
+        <div class="row" id="seo-row">
+            <div class="col-md-8">
+                <div class="box-row" id="seo">
+                    <h3>SEO:</h3>
+                    <small>Meta Title is Auto-Generated from title.</small><br>
+                    <small>Meta Slug is Auto-Generated from slug.</small><br>
+                    <small>Twitter,OpenGraph info are also auto-generated.</small><br>
+                    <div class="form-row">
+                        <b>Meta Description:</b>
+                        <textarea class="form-control m" name="metaDescription"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <b>Focus Keyword:</b>
+                        <input type="text" class="form-control m" name="focusKeyword" />
+                    </div>
+                    <div class="form-row">
+                        <b>keywords:</b>
+                        <input type="text" class="form-control m" name="keywords" />
+                        <small>keywords should start with focusKeyword!</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="box-row">
+                    <h3>SEO Analyze:</h3>
+                    <small>Press Save to Update Analyze.</small>
+                    <div><span class="status-circle"></span>OutBound Links</div>
+                    <div><span class="status-circle"></span>InBound Links</div>
+                    <div><span class="status-circle"></span>Contains Headings</div>
+                    <div><span class="status-circle"></span>Contains Images</div>
+                    <div><span class="status-circle"></span>KeyPhrase Density : 0%</div>
+                    <div><span class="status-circle"></span>KeyPhrase Introduction</div>
+                    <div><span class="status-circle"></span>KeyPhrase In Title</div>
+                    <div><span class="status-circle"></span>KeyPhrase In Slug</div>
+                    <div><span class="status-circle"></span>Images Have Alt Text</div>
+                </div>
+            </div>
+        </div>
         <script>
-            let post = undefined , cats = [];
+            let post = undefined, cats = [];
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
-            getObject('posts', `{{{_id}}}`, (p) =>
+            $(document).ready(() =>
             {
-                post = p;
-                console.log(post);
-                $("#single").append(idInput('_id',post._id));
-                $("#single").append(draftInput(post._draft));
-                $("#single").append(idInput('adminId',post.adminId));
-                $("#single").append(idInput('createdAt',post.createdAt));
-                $("#single").append(idInput('updatedAt',post.updatedAt));
-                $("#single").append(textInput('title',post.title));
-                $("#single").append(textInput('slug',post.slug));
-                $("#single").append(textInput('gameId',post.gameId));
-                imageInput('#single','thumbnail',post.thumbnail,FILE_UPLOAD_URL,`posts/${post._id}`);
-                //imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
-                $("#single").append(bodyInput('intro',post.intro,{uploadUrl : FILE_UPLOAD_URL}));
-                $("#single").append(bodyInput('body',post.body));
-                $("#single").append(jsonInput('tags',post.tags));
-                $("#single").append(jsonInput('categories',post.categories));
-                $("#single").append(submitBtn());
-                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
-                $("#single").append(`<div id="cats"></div>`);
-                findObjects('posts-cats',(cs)=>{
-                    cats = cs;
-                    recreate_cats();
+                getObject('posts', `{{{_id}}}`, (p) =>
+                {
+                    post = p;
+                    if (post.authorId == undefined)
+                        post.authorId = post.adminId;
+                    console.log(post);
+                    $("#single").append(idInput('_id', post._id));
+                    $("#single").append(draftInput(post._draft));
+                    $("#single").append(idInput('authorId', post.authorId, { after: '<span id="authorName">???</span>' }));
+                    $("#single").append(idInput('createdAt', post.createdAt));
+                    $("#single").append(idInput('updatedAt', post.updatedAt));
+                    $("#single").append(textInput('title', post.title));
+                    $("#single").append(textInput('slug', post.slug));
+                    $("#single").append(textInput('gameId', post.gameId));
+                    imageInput('#single', 'thumbnail', post.thumbnail, FILE_UPLOAD_URL, `posts/${post._id}`);
+                    //imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, [{ width: 128, height: -1 }]);
+                    $("#single").append(bodyInput('intro', post.intro, { uploadUrl: FILE_UPLOAD_URL }));
+                    $("#single").append(bodyInput('body', post.body));
+                    $("#single").append(jsonInput('tags', post.tags));
+                    $("#single").append(jsonInput('categories', post.categories));
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    $("#single").append(`<div id="cats"></div>`);
+                    findObjects('posts-cats', (cs) =>
+                    {
+                        cats = cs;
+                        recreate_cats();
+                    });
+                    $("#single").append(`<div id="tags"></div>`);
+                    recreate_tags();
+                    //also load author name:
+                    if (!isEmptyString(post.authorId))
+                    {
+                        getObject('users', post.authorId, (user) =>
+                        {
+                            $("#authorName").html(user.username);
+                        });
+                    }
+                    $(".json-row").hide();
+
                 });
             });
-            function recreate_cats(){
+            function recreate_cats()
+            {
                 $("#cats").html("<h3>Categories:</h3>");
                 $("[name=categories]").val(JSON.stringify(post.categories));
-                for(var i = 0 ; i <cats.length;i++)
+                for (var i = 0; i < cats.length; i++)
                 {
                     var c = cats[i];
                     $("#cats").append(`<div class="form-row"><input name="${c._id}" type="checkbox" ${(has_cat(c._id) ? 'checked' : '')}/><b>${c.name}</b></div>`);
                 }
-                $("#cats [type=checkbox]").change(function(){
+                $("#cats [type=checkbox]").change(function ()
+                {
                     var checked = this.checked;
-                    var catId =$(this).attr('name');
+                    var catId = $(this).attr('name');
                     var has = false;
-                    for(var i = 0 ; i < post.categories.length;i++)
+                    for (var i = 0; i < post.categories.length; i++)
                     {
-                        if(post.categories[i] == catId)
+                        if (post.categories[i] == catId)
                         {
-                            if(!checked)
-                                post.categories.splice(i,1);
+                            if (!checked)
+                                post.categories.splice(i, 1);
                             has = true;
                             break;
                         }
                     }
-                    if(!has)
+                    if (!has)
                         post.categories.push(catId);
                     recreate_cats();
                 });
             }
-            function has_cat(cId){
-                for(var i = 0 ; i < post.categories.length;i++)
-                    if(post.categories[i] == cId)
+            function has_cat(cId)
+            {
+                for (var i = 0; i < post.categories.length; i++)
+                    if (post.categories[i] == cId)
                         return true;
                 return false;
+            }
+            function recreate_tags()
+            {
+                $("#tags").html("<h3>Tags:</h3><p>DONT Use # in your tags.</p>");
+                $("#tags").append(textInput('new-tag', ''));
+                $("#tags").append(`<div class="btn btn-md btn-info" onclick="add_tag()" style="margin-bottom:5px">Add Tag</div><br>`);
+                $("[name=tags]").val(JSON.stringify(post.tags));
+                if (post.tags.length == 0)
+                {
+                    $("#tags").append(`<div><b>No Tags!!!</b></div>`);
+                }
+                for (var i = 0; i < post.tags.length; i++)
+                {
+                    $("#tags").append(`<div class="btn btn-md btn-dark" onclick="remove_tag(${i})"><span class="fas fa-trash"></span>&nbsp;${post.tags[i]}</div>&nbsp;`);
+                }
+            }
+            function remove_tag(i)
+            {
+                post.tags.splice(i, 1);
+                recreate_cats();
+            }
+            function add_tag()
+            {
+                var t = $("[name=new-tag]").val();
+                post.tags.push(t);
+                recreate_tags();
             }
         </script>
     </div>

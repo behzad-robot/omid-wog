@@ -1,26 +1,73 @@
 <html>
-    <head>
-        {{{head}}}
-    </head>
-    <body>
-        {{{actionbar}}}
-        <div class="container">
-            <h2>Admin Panel</h2>
-            <form action="/admin/check-login" method="post">
+
+<head>
+    {{{head}}}
+    <title>Admin Panel</title>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Admin Panel</h2>
+        <div class="row">
+            <div class="col-md-6">
                 <div><b>_id: </b><span>{{{admin._id}}}</span></div>
                 <div><b>username: </b><span>{{{admin.username}}}</span></div>
                 <div><b>email: </b><span>{{{admin.email}}}</span></div>
-                <div><b>password: </b><span>{{{admin.password}}}</span></div>
-                <hr />
-                <a class="btn btn-md btn-default" href="/admin/update-images-cache">Update Images Cache</a> <br />
-                <a class="btn btn-md btn-default" href="/admin/file-explorer">File Explorer</a> <br />
-                <a class="btn btn-md btn-secondary" href="/admin/posts">Posts</a>
-                <a class="btn btn-md btn-secondary" href="/admin/posts-cats">Posts Categories</a>
-                <a class="btn btn-md btn-primary" href="/admin/games">Games</a>
-                <a class="btn btn-md btn-warning" href="/admin/champions">Champions</a>
-                <a class="btn btn-md btn-dark" href="/admin/media">Media</a>
-            </form>
+                <div><b>password: </b><span style="display:none" id="password">{{{admin.password}}}</span>&nbsp;&nbsp;
+                    <div class="btn btn-xs btn-info" onclick="show_pass()">Toggle Password</div>
+                </div>
+                <div><b>phoneNumber: </b><span>{{{admin.phoneNumber}}}</span></div>
+                <div><b>createdAt: </b>
+                    <span>{{{admin.createdAt}}}</span>
+                </div>
+                <div><b>updatedAt: </b>
+                    <span>{{{admin.updatedAt}}}</span>
+                </div>
+                <div><b>lastLogin: </b>
+                    <span>{{{admin.lastLogin}}}</span>
+                </div>
+                <div><b>isAdmin: </b>
+                    <span>{{{admin.accessLevel.isAdmin}}}</span>
+                </div>
+                <div><b>Permission Count: </b>
+                    <span>{{{admin.accessLevel.permissions.length}}}</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div><b>aboutMe: </b>
+                    <p>{{{admin.aboutMe}}}</p>
+                </div>
+                <div><b>firstName: </b><span>{{{admin.firstName}}}</span></div>
+                <div><b>lastName: </b><span>{{{admin.lastName}}}</span></div>
+                <div><b>gender: </b><span>{{{admin.sex}}}</span></div>
+            </div>
         </div>
-        {{{footer}}}
-    </body>
+
+
+
+
+        <hr />
+        <h3>General:</h3>
+        <a class="btn btn-md btn-default" href="/admin/update-images-cache">Update Images Cache (Be careful while using this)</a> <br />
+        <a class="btn btn-md btn-default" href="/admin/file-explorer">File Explorer</a> <br />
+        <h3>News And Posts:</h3>
+        <a class="btn btn-md btn-secondary" href="/admin/posts">Posts</a>
+        <a class="btn btn-md btn-secondary" href="/admin/posts-cats">Posts Categories</a>
+        <a class="btn btn-md btn-purple" href="/admin/comments">Comments</a>
+        <h3>Game Pedia:</h3>
+        <a class="btn btn-md btn-primary" href="/admin/games">Games</a>
+        <a class="btn btn-md btn-warning" href="/admin/champions">Champions</a>
+        <a class="btn btn-md btn-dark" href="/admin/media">Media</a>
+        <a class="btn btn-md btn-purple" href="/admin/comments">Comments</a>
+        <script>
+            function show_pass()
+            {
+                $("#password").toggle();
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
 </html>

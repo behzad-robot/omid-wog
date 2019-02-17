@@ -120,7 +120,7 @@ export class PublicMongooseAPIRouter extends APIRouter
                     if(this.model.Helpers.hasDraft() && !allDraft){
                         // console.log("checking draft!");
                         for(var i = 0 ; i < results.length;i++){
-                            console.log(results[i]._draft);
+                            // console.log(results[i]._draft);
                             if(results[i]._draft)
                                 results.splice(i,1);
                         }

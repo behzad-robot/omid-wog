@@ -1,8 +1,5 @@
 
 import { AdminRouter } from "./admin_router";
-import { IS_LOCALHOST, API_URL, ADMIN_URL, API_BASE_URL, ADMIN_TOKEN, ADMIN_FILE_UPLOAD } from "../constants";
-import { API_TOKEN } from "../../../api/src/constants";
-const multiparty = require("multiparty");
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');

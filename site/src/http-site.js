@@ -11,43 +11,21 @@ import SiteChampionsRouter from "./routers/champs_router";
 import SiteBuildsRouter from "./routers/builds_router";
 import SiteUsersRouter from "./routers/users_router";
 import { isEmptyString } from "./utils/utils";
+import { Champion } from "./utilsApi/champion";
+import { User } from "./utilsApi/user";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
-const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const PostCat = new APICollection('posts-cats', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-
 const ICON_404 = '/images/404-image.png';
-Champion.fixOne = (champ) =>
-{
-    if (isEmptyString(champ.icon))
-        champ.icon = ICON_404;
-    if (isEmptyString(champ.icon_gif))
-        champ.icon_gif = champ.icon_tall;
-    console.log('persian=>'+champ.descriptionPersian+'=>'+isEmptyString(champ.descriptionPersian));
-    if(isEmptyString(champ.descriptionPersian.replace(' ','').replace('<br>','').replace('\n','')))
-        champ.descriptionPersian = 'وارد نشده';
-    champ.siteUrl = '/champions/' + champ.slug;
-    champ.roles_str = '';
-    for (var i = 0; i < champ.roles.length; i++)
-        champ.roles_str += champ.roles[i].name + ' , ';
-    champ.roles_str = champ.roles_str.substring(0, champ.roles_str.length - 1);
-    return champ;
-};
-Champion.fixAll = (champions) =>
-{
-    for (var i = 0; i < champions.length; i++)
-    {
-        champions[i] = Champion.fixOne(champions[i]);
-    }
-    return champions;
-};
+
+
+
 Game.fixOne = (game) =>
 {
     for (var i = 0; i < game.items.length; i++)
@@ -82,32 +60,7 @@ Post.fixAll = (ps) =>
         ps[i] = Post.fixOne(ps[i]);
     return ps;
 };
-User.checkToken = (token) =>
-{
-    return new Promise((resolve, reject) =>
-    {
-        User.apiCall('/check-token', 'POST', { token: token }).then(resolve).catch(reject);
-    });
-};
-User.fixOne = (user) =>
-{
-    if (isEmptyString(user.profileImage))
-        user.profileImage = '/images/user-profile-default.png';
-    if (isEmptyString(user.cover))
-        user.cover = '/images/poro-pool.jpg';
-    if (isEmptyString(user.aboutMe))
-        user.aboutMe = 'وارد نشده.';
-    return user;
-};
-User.public = (doc) =>
-{
-    doc = User.fixOne(doc);
-    delete (doc.token);
-    delete (doc.password);
-    delete (doc.email);
-    delete (doc.phoneNumber);
-    return doc;
-}
+
 //modules:
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) =>
@@ -152,7 +105,7 @@ const SiteModules = {
     proxyAPI: proxyAPI,
     Cache: {
         allGames: allGamesCache,
-        allPostsCatsCache: allPostsCatsCache,
+        allPostsCats: allPostsCatsCache,
         allDota2Champions: allDota2Champions,
     }
 }
@@ -160,11 +113,11 @@ const SiteModules = {
 const express = new MyExpressApp({
     hasSessionEngine: true,
     mongoUrl: GetMongoDBURL(),
-    serveFiles: ['public', 
-    {
-        prefix: '/storage',
-        path: '../storage',
-    }
+    serveFiles: ['public',
+        {
+            prefix: '/storage',
+            path: '../storage',
+        }
     ],
 });
 express.expressApp.all('*', (req, res, next) =>
@@ -176,7 +129,7 @@ express.expressApp.all('*', (req, res, next) =>
     next();
 });
 //add general middlewares here:
-// express.expressApp.disable('etag'); //fully disable cache!
+express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) =>
 {

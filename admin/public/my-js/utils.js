@@ -97,7 +97,10 @@ const bodyInput = (name, value, settings = {}) => {
     bId++;
     const b = bId;
     setTimeout(() => {
-        var config = {};
+        var config = {
+            font_names : `Roboto`,
+            extraPlugins : 'behzad'
+        };
         config.stylesSet = 'my_styles';
         // CKEDITOR.replace(name, config);
         $(`#bodyinput-${b}`).ckeditor(function () {
@@ -110,7 +113,7 @@ const jsonInput = (name, value, readonly = false) => {
     readonly = readonly ? "readonly" : "";
     if (typeof value != 'string')
         value = JSON.stringify(value);
-    return `<div class='form-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+    return `<div class='form-row json-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 var fuid = 0;
 const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onImageUploaded = undefined) => {
@@ -123,44 +126,44 @@ const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onIma
         return;
     }
     fuid++;
-    var otherSizes = '<br>';
-    var sizesParams = '';
-    // console.log(parent);
-    for (var i = 0; i < sizes.length; i++) {
-        var size = sizes[i];
-        let fileName = value.substring(0, value.indexOf('.'));
-        let fileFormat = value.substring(value.indexOf('.'), value.length);
-        console.log(fileName);
-        console.log(fileFormat);
-        let icon_sized = fileName + `-resize-${size.width}x${size.height}` + fileFormat;
-        let url = icon_sized;
-        otherSizes += `<div style="display:inline-block;padding:2px;" class="text-center"><img src="${url}" width="64px" name="preview-${name}-${size.width}-${size.height}"/><br><span style="font-size:10px">${size.width}x${size.height}</span></div>`;
-        if (i == 0)
-            sizesParams = (fileUploadURL.indexOf("?") == -1 ? "?" : "&") + 'sizes=';
-        sizesParams += size.width + 'x' + size.height + (i != sizes.length - 1 ? ',' : '');
-    }
+    // var otherSizes = '<br>';
+    // var sizesParams = '';
+    // // console.log(parent);
+    // for (var i = 0; i < sizes.length; i++) {
+    //     var size = sizes[i];
+    //     let fileName = value.substring(0, value.indexOf('.'));
+    //     let fileFormat = value.substring(value.indexOf('.'), value.length);
+    //     console.log(fileName);
+    //     console.log(fileFormat);
+    //     let icon_sized = fileName + `-resize-${size.width}x${size.height}` + fileFormat;
+    //     let url = icon_sized;
+    //     otherSizes += `<div style="display:inline-block;padding:2px;" class="text-center"><img src="${url}" width="64px" name="preview-${name}-${size.width}-${size.height}"/><br><span style="font-size:10px">${size.width}x${size.height}</span></div>`;
+    //     if (i == 0)
+    //         sizesParams = (fileUploadURL.indexOf("?") == -1 ? "?" : "&") + 'sizes=';
+    //     sizesParams += size.width + 'x' + size.height + (i != sizes.length - 1 ? ',' : '');
+    // }
     $(parent).append(
         `<div class='form-row' style="background-color:#eee;border:1px solid #aaa;padding:5px;border-radius:5px;" name='image-field-${name}' fuid="${fuid}">`
         + `<b>${name}:</b>`
         + `<img src="${value}" name="preview-${name}" width="100px"/>&nbsp;<small name="preview-label-${name}">${value}</small><br><small>Image is not saved as object field till you press Save.</small>`
-        + otherSizes
+        // + otherSizes
         + `<input type="hidden" name="${name}" value="${value}"/>`
         + `</div>`
     );
     //(parent, name, fileUploadURL, myDir, onUploaded)
-    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL + sizesParams, myDir, (result) => {
+    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL, myDir, (result) => {
         console.log(result);
         var value = result.path;
         $(`${parent} input[name=${name}`).val(value).trigger('change');
         $(`${parent} img[name=preview-${name}]`).attr('src', value);
         $(`${parent} [name=preview-label-${name}]`).html(value);
-        for (var i = 0; i < sizes.length; i++) {
-            var size = sizes[i];
-            let fileName = value.substring(0, value.indexOf('.'));
-            let fileFormat = value.substring(value.indexOf('.'), value.length);
-            let icon_sized = fileName + `-resize-${size.width}x${size.height}` + fileFormat;
-            $(`${parent} img[name=preview-${name}-${size.width}-${size.height}]`).attr('src', icon_sized);
-        }
+        // for (var i = 0; i < sizes.length; i++) {
+        //     var size = sizes[i];
+        //     let fileName = value.substring(0, value.indexOf('.'));
+        //     let fileFormat = value.substring(value.indexOf('.'), value.length);
+        //     let icon_sized = fileName + `-resize-${size.width}x${size.height}` + fileFormat;
+        //     $(`${parent} img[name=preview-${name}-${size.width}-${size.height}]`).attr('src', icon_sized);
+        // }
         if (onImageUploaded != null)
             onImageUploaded(result);
     });

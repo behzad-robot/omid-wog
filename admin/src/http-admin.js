@@ -13,6 +13,7 @@ import ChampionsPanelRouter from "./routers/champions_router";
 import ChampionBuildsPanelRouter from "./routers/champBuilds_router";
 import MediaPanelRouter from "./routers/media_router";
 import PostsCatsPanelRouter from "./routers/posts_cats_router";
+import CommentsPanelRouter from "./routers/comments_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -21,6 +22,7 @@ const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN
 const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const Comment = new APICollection('comments', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Media = new APICollection('media',{ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
@@ -32,6 +34,7 @@ const AdminModules = {
     Admin  : Admin,
     Build : ChampBuild,
     Media : Media,
+    Comment : Comment,
     proxyAPI : proxyAPI,
 }
 //express:
@@ -71,7 +74,7 @@ express.expressApp.all('/api/*', (req, res) =>
     });
 });
 //routers:
-express.expressApp.use('/', new AdminGeneralRouter(Admin).router)
+express.expressApp.use('/', new AdminGeneralRouter(AdminModules).router)
 express.expressApp.use('/admin', new AdminPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/media', new MediaPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router)
@@ -79,6 +82,7 @@ express.expressApp.use('/admin/posts-cats', new PostsCatsPanelRouter(AdminModule
 express.expressApp.use('/admin/games', new GamesPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router)
+express.expressApp.use('/admin/comments', new CommentsPanelRouter(AdminModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 
 //listen:

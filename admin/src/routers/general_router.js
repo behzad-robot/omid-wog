@@ -4,10 +4,10 @@ import { IS_LOCALHOST } from "../constants";
 
 export default class AdminGeneralRouter extends AdminRouter
 {
-    constructor(AdminModel)
+    constructor(adminModules)
     {
         super();
-        const Admin = AdminModel;
+        const User = adminModules.User;
         this.router.get('/', (req, res) =>
         {
             res.send(this.renderTemplate('welcome.html'));
@@ -19,29 +19,37 @@ export default class AdminGeneralRouter extends AdminRouter
         });
         this.router.post('/admin/check-login', (req, res) =>
         {
-            Admin.apiCall('login/', 'POST',
+            var data = {
+                password: req.body.password,
+            };
+            if (req.body.email.indexOf('@') != -1)
+                data.email = req.body.email;
+            else
+                data.username = req.body.email;
+            User.apiCall('login/', 'POST', data).then((user) =>
+            {
+                user = JSON.parse(user);
+                if (user.accessLevel == undefined || !user.accessLevel.isAdmin)
                 {
-                    email: req.body.email,
-                    password: req.body.password,
-                }).then((user) =>
+                    res.send({error:"Access To Admin Panel Denied",code : 400 , user : user});
+                    return;
+                }
+                if (user._id)
                 {
-                    user = JSON.parse(user);
-                    if (user._id)
+                    req.session.isAdmin = true;
+                    req.session.adminToken = user.token;
+                    req.session.admin = user;
+                    req.session.save(() =>
                     {
-                        req.session.isAdmin = true;
-                        req.session.adminToken = user.token;
-                        req.session.admin = user;
-                        req.session.save(() =>
-                        {
-                            res.redirect('/admin/');
-                        });
-                    }
-                    else
-                        res.send(user);
-                }).catch((err) =>
-                {
-                    res.send({ error: err.toString(), code: 500 });
-                });
+                        res.redirect('/admin/');
+                    });
+                }
+                else
+                    res.send(user);
+            }).catch((err) =>
+            {
+                res.send({ error: err.toString(), code: 500 });
+            });
         });
     }
 }

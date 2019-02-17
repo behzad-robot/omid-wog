@@ -1,42 +1,108 @@
 <html>
-    <head>
-        {{{head}}}
-        <style>
-            
-        </style>
-    </head>
-    <body>
-        {{{actionbar}}}
-        <div class="container">
-            <h2>Posts:</h2>
-            <a href="/admin/posts/new" class="btn btn-md btn-info">+New Post</a>
-            <hr />
-            <div id="list">
 
-            </div>
-            <script>
-                findObjects('posts',(posts)=>{
-                    console.log((posts));
-                    for(var i = 0 ; i < posts.length;i++)
+<head>
+    {{{head}}}
+    <title>Admin Posts List</title>
+    <style>
+        #contentContainer {
+            direction: rtl;
+            text-align: right;
+            font-family: Tahoma;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container" id="contentContainer">
+        <h2>اخبار و پست ها:</h2>
+        <a href="/admin/posts/new" class="btn btn-md btn-info">+مطلب جدید</a>
+        <hr />
+        <div id="list"></div>
+        <script>
+            let posts = [], cats = [];
+            $(document).ready(() =>
+            {
+                $("#list").html("<h3>در حال بارگذاری...</h3>");
+                findObjects('posts', (ps) =>
+                {
+                    posts = ps;
+                    console.log(posts);
+                    $("#list").html("<h3>بارگذاری دسته بندی ها...</h3>");
+                    findObjects('posts-cats', (cs) =>
                     {
-                        var post = posts[i];
-                        var tagsStr = '';
-                        for(var j = 0 ; j < post.tags.length;j++)
-                            tagsStr += post.tags[j]+',';
-                        $("#list").append(
-                            `<div class="box-row">`
-                                +`<h4>${post.title}</h4>`
-                                +`<p>${post.intro}</p><hr/>`
-                                +`<p><b>tags:</b>${tagsStr}</p>`
-                                +`<p><b>cat count:</b> ${post.categories.length}</p>`
-                                +`<small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small><hr />`
-                                +`<div class="text-right"><a class="btn btn-md btn-info" href="/admin/posts/${post._id}">Edit</a></div>`
-                            +`</div>`
-                        );
-                    }
+                        cats = cs;
+                        for (var i = 0; i < posts.length; i++)
+                        {
+                            posts[i]._cats = [];
+                            for (var j = 0; j < posts[i].categories.length; j++)
+                            {
+                                var cat = get_cat(posts[i].categories[j]);
+                                if (cat != undefined)
+                                    posts[i]._cats.push(cat);
+                                else
+                                    posts[i]._cats.push({ name: "Missing CAT!!" });
+                            }
+                        }
+                        //now lets draw posts:
+                        create_posts();
+                    });
+
                 });
-            </script>
-        </div>
-        {{{footer}}}
-    </body>
+            });
+            function create_posts()
+            {
+                $("#list").html("");
+                for (var i = 0; i < posts.length; i++)
+                {
+                    var post = posts[i];
+                    var tagsStr = '';
+                    for (var j = 0; j < post.tags.length; j++)
+                        tagsStr += `<div class="btn btn-md btn-dark">${post.tags[j]}</div>&nbsp;`;
+                    var catsStr = '';
+                    for (var j = 0; j < post._cats.length; j++)
+                        catsStr += `<div class="btn btn-md btn-light">${post._cats[j].name}</div>&nbsp;`;
+                    var alertStr = '';
+                    if(post.categories.length == 0)
+                        alertStr += 'هیچ دسته بندی ثبت نشده.<br>';
+                    if(post.tags.length == 0)
+                        alertStr += 'هیچ تگی ثبت نشده.<br>';
+                    if(!hasArabicLetter(post.title))
+                        alertStr += 'عنوان شامل کلمه فارسی نیست.<br>';
+                    if(post.intro.length >= 2000)
+                        alertStr += 'متن پیش نمایش  طولانی می باشد.<br>';
+                    $("#list").append(
+                        `<div class="box-row">
+                                <div style="display:inline-block;width: 25%;vertical-align: top;">
+                                    <img src="${post.thumbnail}" width="100%"/>
+                                </div>
+                                <div style="display:inline-block;width:70%;">
+                                    <h4>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h4>
+                                    <p>${post.intro}</p><hr/>
+                                </div>
+                                <p><b>تگ ها:</b>${tagsStr}</p>
+                                <p><b>دسته بندی ها:</b> ${catsStr}</p>
+                                <small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small><hr />
+                                ${alertStr != '' ? `<div class="alert alert-warning">${alertStr}</div>` : ''}
+                                <div class="text-right">
+                                    <a class="btn btn-md btn-info" href="/admin/posts/${post._id}">ویرایش پست</a>
+                                    <a class="btn btn-md btn-warning" href="http://worldofgamers.ir/posts/_id/${post._id}">پیش نمایش پست</a>
+                                </div>
+                            </div>`
+                    );
+                }
+            }
+
+            function get_cat(catId)
+            {
+                for (var i = 0; i < cats.length; i++)
+                    if (cats[i]._id == catId)
+                        return cats[i];
+                return undefined;
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
 </html>

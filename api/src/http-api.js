@@ -21,6 +21,7 @@ import { ChampionBuild } from './models/champBuild';
 import { ContactUsForm } from './models/contactUsForm';
 import { Media } from './models/media';
 import { PostCategory } from './models/postCat';
+import { Comment } from './models/comment';
 
 
 
@@ -78,8 +79,8 @@ express.expressApp.get('/', (req, res) =>
 express.expressApp.use('/api/', new AppInfoRouter().router);
 express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsEvent, { apiTokenRequired: true }).router);
 //admins:
-express.expressApp.use('/api/admins/', new PublicMongooseAPIRouter(Admin, { apiTokenRequired: true }).router);
-express.expressApp.use('/api/admins/', new AdminsAuthRouter(Admin).router);
+// express.expressApp.use('/api/admins/', new PublicMongooseAPIRouter(Admin, { apiTokenRequired: true }).router);
+// express.expressApp.use('/api/admins/', new AdminsAuthRouter(Admin).router);
 //users:
 express.expressApp.use('/api/users/', new UsersAuthRouter(User).router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
@@ -94,6 +95,8 @@ express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCateg
 express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
+//comments:
+express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 //file upload:
 // express.expressApp.use('/api/', new FileUploaderRouter().router);
 //listen:

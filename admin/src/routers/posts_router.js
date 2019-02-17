@@ -16,7 +16,7 @@ export default class PostsPanelRouter extends AdminRouter {
         });
         this.router.get('/new', (req, res) => {
             Post.insert({
-                adminId: req.session.admin._id,
+                authorId : req.session.admin._id,
                 gameId: "?",
                 title: 'New Post',
                 slug: 'new-post',

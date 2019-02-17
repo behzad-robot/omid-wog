@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Comments Panel</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Comments:</h2>
+        <hr />
+        <div id="list" class="row">
+            <h4 class="text-center" id="loading">Loading...</h4>
+        </div>
+        <script>
+            $(document).ready(() =>
+            {
+                findObjects('comments', (comments) =>
+                {
+                    console.log((comments));
+                    for (var i = 0; i < comments.length; i++)
+                    {
+                        var comment = comments[i];
+                        $("#list").append(
+                            `
+                            <div class="col-md-4" commentId="${comment._id}">
+                                ${draw_comment(comment)}
+                            </div>
+                            `
+                        );
+                    }
+                    $("#loading").hide();
+                });
+            });
+            function draw_comment(comment)
+            {
+                return (`
+                <div class="box-row" style="overflow:hidden">
+                    <div>${comment.body}</div>
+                    <div><b>objectId:</b><span>${comment.objectId}</span></div>
+                    <div><b>objectType:</b><span>${comment.objectType}</span></div>
+                    <hr />
+                    <div><b>_id:</b><span>${comment._id}</span></div>
+                    <div><b>createdAt:</b><small>${comment.createdAt}</small></div>
+                    <div><b>updatedAt:</b><small>${comment.updatedAt}</small></div>
+                    <div><b>_draft:</b> <small>${comment._draft}</small></div>
+                    <hr />
+                    <div href="#" id="${comment._id}-btn" onclick="toggle_confirm(${!comment._draft},'${comment._id}')" class="btn btn-xs ${comment._draft ? 'btn-success' : 'btn-warning'}">${comment._draft ? 'Confirm' : 'Unconfirm'}</div>
+                    <a href="/admin/comments/${comment._id}/" class="btn btn-xs btn-info">Edit</a>
+                    <a href="/admin/comments/${comment._id}/delete" class="btn btn-xs btn-danger float-right">Delete</a>
+                </div>`);
+            }
+            var loading = false;
+            function toggle_confirm(_draft, _id)
+            {
+                if (loading)
+                {
+                    alert("Another Request in Progress..");
+                    return;
+                }
+                loading = true;
+                $(`#${_id}-btn`).removeClass('btn-success');
+                $(`#${_id}-btn`).removeClass('btn-warning');
+                $(`#${_id}-btn`).addClass('btn-dark');
+                $(`#${_id}-btn`).html("Loading...");
+                fetch(`/admin/comments/${_id}/toggle-draft/?_draft=` + _draft, {})
+                .then(response => response.json())
+                .then((result) =>
+                {
+                    if(result.success)
+                    {
+                        loading = false;
+                        $(`[commentId=${_id}]`).html(draw_comment(result.comment));
+                    }
+                    else
+                        alert(result.error);
+                });
+            }
+
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

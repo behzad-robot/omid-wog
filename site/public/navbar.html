@@ -223,52 +223,52 @@
             var html = $(`.hidden-game-data[game=${token}]`).html();
             $("#navbar-current-game").html(html);
         });
-        findObjects('posts-cats', '?cache=allPostsCats', (cs) =>
-        {
-            console.log(cs);
-            console.log($("#navbar-cats").html());
-            for (var i = 0; i < cs.length; i++)
-            {
-                var cat = cs[i];
-                $("#navbar-cats").append(`<a href="#" class="dropdown-cat-link news-link " cat="${cat._id}">${cat.name}<i class="fas fa-chevron-left"></i></a>`);
-            }
-            posts_loading = true;
-            $("#navbar-posts-loading").show();
-            findObjectsPost('posts', {
-                'categories': cs[0],
-            }, (ps) =>
-                {
-                    posts_loading = false;
-                    posts[cat] = ps;
-                    show_posts(ps);
-                });
-            $("#navbar-cats .dropdown-cat-link").mouseenter(function ()
-            {
-                const cat = $(this).attr("cat");
-                if (posts[cat] == undefined)
-                {
-                    if (posts_loading)
-                        return;
-                    $("#navbar-posts-loading").show();
-                    posts_loading = true;
-                    findObjectsPost('posts', {
-                        'categories': cat,
-                    }, (ps) =>
-                        {
-                            posts_loading = false;
-                            posts[cat] = ps;
-                            show_posts(ps);
-                        });
-                    // getPosts('', (ps) => {
-                    //     posts_loading = false;
-                    //     posts[cat] = ps;
-                    //     show_posts(ps);
-                    // });
-                }
-                else
-                    show_posts(posts[cat]);
-            });
-        });
+        // findObjects('posts-cats', '?cache=allPostsCats', (cs) =>
+        // {
+        //     console.log(cs);
+        //     console.log($("#navbar-cats").html());
+        //     for (var i = 0; i < cs.length; i++)
+        //     {
+        //         var cat = cs[i];
+        //         $("#navbar-cats").append(`<a href="#" class="dropdown-cat-link news-link " cat="${cat._id}">${cat.name}<i class="fas fa-chevron-left"></i></a>`);
+        //     }
+        //     posts_loading = true;
+        //     $("#navbar-posts-loading").show();
+        //     findObjectsPost('posts', {
+        //         'categories': cs[0],
+        //     }, (ps) =>
+        //         {
+        //             posts_loading = false;
+        //             posts[cat] = ps;
+        //             show_posts(ps);
+        //         });
+        //     $("#navbar-cats .dropdown-cat-link").mouseenter(function ()
+        //     {
+        //         const cat = $(this).attr("cat");
+        //         if (posts[cat] == undefined)
+        //         {
+        //             if (posts_loading)
+        //                 return;
+        //             $("#navbar-posts-loading").show();
+        //             posts_loading = true;
+        //             findObjectsPost('posts', {
+        //                 'categories': cat,
+        //             }, (ps) =>
+        //                 {
+        //                     posts_loading = false;
+        //                     posts[cat] = ps;
+        //                     show_posts(ps);
+        //                 });
+        //             // getPosts('', (ps) => {
+        //             //     posts_loading = false;
+        //             //     posts[cat] = ps;
+        //             //     show_posts(ps);
+        //             // });
+        //         }
+        //         else
+        //             show_posts(posts[cat]);
+        //     });
+        // });
     });
     function show_posts(ps)
     {
@@ -279,7 +279,7 @@
             let p = ps[i];
             $("#navbar-posts").append(
                 `
-                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
+                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;" href="/posts/${p.slug}">
                     <img src="${p.thumbnail_640x480}" width="80%" />
                     <h4 style="margin-top:5px;font-size:16px;font-weight:bold;">${p.title}</h4>
                 </a>

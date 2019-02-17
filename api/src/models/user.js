@@ -24,13 +24,14 @@ export const UserSchema = new mongoose.Schema({
     createdAt: {type:String,default:'?'},
     updatedAt: {type:String,default:'?'},
     lastLogin: {type:String,default:'?'},
-    
+    accessLevel : {type:Object,default:{isAdmin : false , permissions : [] }},
 });
 export const User = mongoose.model('User', UserSchema);
 User.Helpers = {
     hasDraft : () => true ,
     public: (doc) =>
     {
+        delete(doc.accessLevel);
         delete (doc.token);
         delete (doc.password);
         delete (doc.email);

@@ -9,7 +9,7 @@ export const PostSchema = new mongoose.Schema({
     body: String,
     slug: String,
     thumbnail: String,
-    adminId: String,
+    authorId: {type:String,default:''},
     gameId: String,
     tags: Array,
     categories: Array,
