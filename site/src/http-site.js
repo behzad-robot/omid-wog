@@ -11,62 +11,90 @@ import SiteChampionsRouter from "./routers/champs_router";
 import SiteBuildsRouter from "./routers/builds_router";
 import SiteUsersRouter from "./routers/users_router";
 import { isEmptyString } from "./utils/utils";
-import { Champion } from "./utilsApi/champion";
+
+
+import { APISocket } from "./utils/api-socket";
+//models:
+import { Game } from "./utilsApi/game";
 import { User } from "./utilsApi/user";
+import { Champion } from "./utilsApi/champion";
+import SiteContactRouter from "./routers/contact_router";
+import { Post } from "./utilsApi/post";
+import { PostCat } from "./utilsApi/postCat";
+import { ChampBuild } from "./utilsApi/build";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //db:
-const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const PostCat = new APICollection('posts-cats', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+// const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ICON_404 = '/images/404-image.png';
-
-
-
-Game.fixOne = (game) =>
-{
-    for (var i = 0; i < game.items.length; i++)
-    {
-        if (game.items[i].name == 'NECRONOMICON 2')
-            console.log('ICON=>' + game.items[i].icon + '=>' + isEmptyString(game.items[i].icon));
-        if (isEmptyString(game.items[i].icon))
-            game.items[i].icon = ICON_404;
-    }
-    return game;
-};
-Game.fixAll = (games) =>
-{
-    for (var i = 0; i < games.length; i++)
-        games[i] = Game.fixOne(games[i]);
-    return games;
+//api socket
+const apiSocket = new APISocket();
+//express:
+const express = new MyExpressApp({
+    hasSessionEngine: true,
+    mongoUrl: GetMongoDBURL(),
+    serveFiles: ['public',
+        {
+            prefix: '/storage',
+            path: '../storage',
+        }
+    ],
+});
+const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const SiteModules = {
+    User: new User(apiSocket),
+    Game: new Game(apiSocket),
+    Champion: new Champion(apiSocket),
+    Build: new ChampBuild(apiSocket),
+    Post: new Post(apiSocket),
+    PostCat: new PostCat(apiSocket),
+    ContactUsForm: ContactUsForm,
+    proxyAPI: proxyAPI,
 }
-ChampBuild.fixOne = (build) =>
-{
 
-};
-Post.fixOne = (p) =>
-{
-    if (isEmptyString(p.media))
-        p.media = ICON_404;
-    p.siteUrl = '/posts/' + p.slug;
-    return p;
-};
-Post.fixAll = (ps) =>
-{
-    for (var i = 0; i < ps.length; i++)
-        ps[i] = Post.fixOne(ps[i]);
-    return ps;
-};
+// Game.fixOne = (game) =>
+// {
+//     for (var i = 0; i < game.items.length; i++)
+//     {
+//         if (game.items[i].name == 'NECRONOMICON 2')
+//             console.log('ICON=>' + game.items[i].icon + '=>' + isEmptyString(game.items[i].icon));
+//         if (isEmptyString(game.items[i].icon))
+//             game.items[i].icon = ICON_404;
+//     }
+//     return game;
+// };
+// Game.fixAll = (games) =>
+// {
+//     for (var i = 0; i < games.length; i++)
+//         games[i] = Game.fixOne(games[i]);
+//     return games;
+// }
+// ChampBuild.fixOne = (build) =>
+// {
+
+// };
+// Post.fixOne = (p) =>
+// {
+//     if (isEmptyString(p.media))
+//         p.media = ICON_404;
+//     p.siteUrl = '/posts/' + p.slug;
+//     return p;
+// };
+// Post.fixAll = (ps) =>
+// {
+//     for (var i = 0; i < ps.length; i++)
+//         ps[i] = Post.fixOne(ps[i]);
+//     return ps;
+// };
 
 //modules:
+
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) =>
 {
-    Game.find().then((games) =>
+    SiteModules.Game.find().then((games) =>
     {
+        console.log("find result is out!");
         cb(undefined, games);
     }).catch((err) =>
     {
@@ -93,33 +121,13 @@ const allDota2Champions = new CacheReader('allDota2Champions', (cb) =>
         cb(err, undefined);
     });
 });
-const SiteModules = {
-    User: User,
-    Game: Game,
-    Champion: Champion,
-    Admin: Admin,
-    Build: ChampBuild,
-    Post: Post,
-    PostCat: PostCat,
-    ContactUsForm: ContactUsForm,
-    proxyAPI: proxyAPI,
-    Cache: {
-        allGames: allGamesCache,
-        allPostsCats: allPostsCatsCache,
-        allDota2Champions: allDota2Champions,
-    }
+SiteModules.Cache = {
+    allGames: allGamesCache,
+    allPostsCats: allPostsCatsCache,
+    allDota2Champions: allDota2Champions,
 }
-//express:
-const express = new MyExpressApp({
-    hasSessionEngine: true,
-    mongoUrl: GetMongoDBURL(),
-    serveFiles: ['public',
-        {
-            prefix: '/storage',
-            path: '../storage',
-        }
-    ],
-});
+
+
 express.expressApp.all('*', (req, res, next) =>
 {
     res.header("Access-Control-Allow-Origin", "*");
@@ -204,18 +212,23 @@ express.expressApp.all('/api/*', (req, res) =>
 // });
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
-express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
-express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
-express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
-express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
-express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
-express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
-express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
+express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
+// express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+// express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
+// express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
+// express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
+// express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+// express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+// express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
-//listen:
-const PORT = 80;
-express.http.listen(PORT, function ()
+apiSocket.connect(() =>
 {
-    log.success('http server listening on port ' + PORT);
+    log.success("api socket connected.");
+    //listen:
+    const PORT = 80;
+    express.http.listen(PORT, function ()
+    {
+        log.success('http server listening on port ' + PORT);
+    });
 });

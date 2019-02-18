@@ -96,7 +96,7 @@ export class EasySocket
                 }
                 else if (message.type === 'binary')
                 {
-                    console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
+                    // console.log('Received Binary Message of ' + message.binaryData.length + ' bytes');
                     //connection.sendBytes(message.binaryData);
                 }
             });
@@ -203,7 +203,7 @@ export class EasySocket
                 }
             }
         }
-        console.log('CLEAN ROOMS=>' + JSON.stringify(this.rooms));
+        // console.log('CLEAN ROOMS=>' + JSON.stringify(this.rooms));
     }
 
 }

@@ -19,7 +19,7 @@ export default class SiteRouter extends Router
         this.router.use((req, res, next) =>
         {
             if (!this.isLoggedIn(req))
-            {``
+            {
                 // this.accessDenied(res);
                 res.redirect('/login/?msg=AccessDenied');
                 return;
@@ -32,46 +32,50 @@ export default class SiteRouter extends Router
         // console.log(req.session);
         return req.session.currentUser != undefined && req.session.currentUser._id != undefined;
     }
-    checkLogin(req,res)
+    checkLogin(req, res)
     {
         var login = this.isLoggedIn(req);
-        if(!login)
+        if (!login)
             res.redirect('/login/?msg=AccessDenied');
         return login;
     }
-    renderTemplate(req,res,fileName, data={})
+    renderTemplate(req, res, fileName, data = {})
     {
         if (!fileName.includes("public/"))
             fileName = "public/" + fileName;
         try
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
+            console.log("load all games from cache");
             //cache related things:
-            this.modules.Cache.allGames.getData((err,games)=>{
-                if(err)
+            this.modules.Cache.allGames.getData((err, games) =>
+            {
+                if (err)
                 {
-                    res.send("Error="+err.toString());
+                    res.send("Error=" + err.toString());
                     return;
                 }
-                console.log('all games count=>'+games.length);
+                console.log('all games count=>' + games.length);
                 data.allGames = games;
                 data.currentUser = req.session ? req.session.currentUser : undefined;
-                data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(),data);
-                data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(),data);
-                data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(),data);
+                data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
+                data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+                data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), data);
                 console.log("parts readY!");
                 res.send(mustache.render(view_str, data));
-            });            
+            });
         } catch (err)
         {
             res.send("render file failed =>" + err);
         }
     }
-    show404(req,res){
-        this.renderTemplate(req,res,"404.html");
+    show404(req, res)
+    {
+        this.renderTemplate(req, res, "404.html");
     }
-    show500(req,res,err){
-        console.log("ERROR 500 => "+req.originalUrl+" => "+err);
+    show500(req, res, err)
+    {
+        console.log("ERROR 500 => " + req.originalUrl + " => " + err);
         res.send(err);
         // this.renderTemplate(req,res,"404.html",{
         //     error : err

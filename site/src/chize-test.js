@@ -1,16 +1,19 @@
 import BehzadTimer from "./libs/behzad_timer";
-import { API_TOKEN, ADMIN_TOKEN } from "./constants";
-import fetch from 'node-fetch';
+import { APISocket } from "./utils/api-socket";
+const request = require('request');
+var WebSocketClient = require('websocket').client;
+
 var t = new BehzadTimer();
-t.tick('Request Go!');
-fetch('http://localhost:8585/api/users/H', {
-    headers: {
-        'api-token': API_TOKEN,
-        'admin-token': ADMIN_TOKEN,
-    }
-})
-    .then(response => response.json())
-    .then((data) => {
-        console.log(data);
-        t.tick('request done!');
+// shine();
+// die();
+
+var apiSocket = new APISocket();
+t.tick("init!");
+apiSocket.connect(() =>
+{
+    t.tick("request!");
+    apiSocket.apiCall('users', 'find', {}, (response) =>
+    {
+        t.tick("got response!");
     });
+});

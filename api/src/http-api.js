@@ -22,13 +22,15 @@ import { ContactUsForm } from './models/contactUsForm';
 import { Media } from './models/media';
 import { PostCategory } from './models/postCat';
 import { Comment } from './models/comment';
+import { EasySocket } from './libs/easy-socket';
+import { PublicMongooseWSRouter } from './sockets/public-ws-mongoose';
 
 
 
 const express = new MyExpressApp({
-    hasSessionEngine : false,
+    hasSessionEngine: false,
     mongoUrl: GetMongoDBURL(),
-    serveFiles : '../storage'
+    serveFiles: '../storage'
 });
 express.expressApp.all('*', (req, res, next) =>
 {
@@ -97,11 +99,43 @@ express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTo
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
 //comments:
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
-//file upload:
-// express.expressApp.use('/api/', new FileUploaderRouter().router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
 {
     log.success('http server listening on port ' + PORT);
+});
+const WSRouters = {
+    User: new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
+    Game: new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
+
+};
+const easySocket = new EasySocket({
+    httpServer: express.http,
+    originIsAllowed: (origin) => { return true; },
+    onMessage: (socket, messageStr) =>
+    {
+        socket._send = socket.send;
+        socket.send = (ms) =>
+        {
+            if (typeof ms != 'string')
+                ms = JSON.stringify(ms);
+            socket.sendUTF(ms);
+        };
+        if (messageStr.indexOf('{') != -1)
+        {
+            console.log(messageStr);
+            var msg = JSON.parse(messageStr);
+            WSRouters.User.onMessage(socket, msg);
+            WSRouters.Game.onMessage(socket, msg);
+            console.log(`Socket=>${msg.model}=>${msg.method}`)
+        }
+        else
+            socket.send({ code: 400, error: "Access Denied" });
+    },
+    onSocketConnected: (connection) =>
+    {
+
+    },
+    onSocketDisconnected: (connection, reasonCode, description) => { },
 });

@@ -1,10 +1,10 @@
 import { SocketCollection } from "../utils/socket-collection";
 
-export class User extends SocketCollection
+export class PostCat extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('users', apiSocket);
+        super('posts-cats', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         //find:
@@ -15,7 +15,7 @@ export class User extends SocketCollection
             {
                 this._find(params).then((results) =>
                 {
-                    results = User.fixAll(results);
+                    results = PostCat.fixAll(results);
                     resolve(results);
                 }).catch(reject);
             });
@@ -28,7 +28,7 @@ export class User extends SocketCollection
             {
                 this._getOne(_id).then((result) =>
                 {
-                    result = User.fixOne(result);
+                    result = PostCat.fixOne(result);
                     resolve(result);
                 }).catch(reject);
             });
