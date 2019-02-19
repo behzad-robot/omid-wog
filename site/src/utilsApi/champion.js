@@ -1,4 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
+import { isEmptyString, ICON_404 } from "../utils/utils";
+
 
 export class Champion extends SocketCollection
 {
@@ -7,36 +9,47 @@ export class Champion extends SocketCollection
         super('champions', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
-        //find:
-        this._find = this.find;
-        this.find = (params) =>
-        {
-            return Promise((resolve, reject) =>
-            {
-                this._find(params).then((results) =>
-                {
-                    results = Champion.fixAll(results);
-                    resolve(results);
-                }).catch(reject);
-            });
-        };
-        //getOne:
-        this._getOne = this.getOne;
-        this.getOne = (_id) =>
-        {
-            return Promise((resolve, reject) =>
-            {
-                this._getOne(_id).then((result) =>
-                {
-                    result = Champion.fixOne(result);
-                    resolve(result);
-                }).catch(reject);
-            });
-        };
+        this.find = this.find.bind(this);
+        this.getOne = this.getOne.bind(this);
     }
-    fixOne(c)
+    find(params = {})
     {
-        return c;
+        return new Promise((resolve, reject) =>
+        {
+            super.find(params).then((results) =>
+            {
+                results = this.fixAll(results);
+                resolve(results);
+            }).catch(reject);
+        });
+
+    }
+    getOne(_id)
+    {
+        return Promise((resolve, reject) =>
+        {
+            super.getOne(_id).then((result) =>
+            {
+                result = this.fixOne(result);
+                resolve(result);
+            }).catch(reject);
+        });
+    }
+    fixOne(g)
+    {
+        for (var i = 0; i < g.items.length; i++)
+        {
+            if (isEmptyString(g.items[i].icon))
+                g.items[i].icon = ICON_404;
+        }
+        if (isEmptyString(g.icon))
+            g.icon = ICON_404;
+        if (isEmptyString(g.cover))
+            g.cover = ICON_404;
+        if (isEmptyString(g.coverTall))
+            g.coverTall = ICON_404;
+        g.siteUrl = '/Champions/' + g.slug;
+        return g;
     }
     fixAll(cs)
     {

@@ -2,75 +2,30 @@ import APIRouter from "./api_router";
 import { IS_LOCALHOST } from "../constants";
 const fs = require('fs');
 const path = require('path');
-
-const handler = new AppInfoHandler();
-export class AppInfoHttpRouter extends APIRouter
+export class AppInfoRouter extends APIRouter
 {
     constructor()
     {
         super();
-        this.router.get('/app-info', (req, res) =>
-        {
-            handler.loadAppInfo().then((result) =>
-            {
-                this.sendResponse(req, res, result);
-            }).catch((err) =>
-            {
-                this.handleError(req, res, err);
-            });
-        });
-    }
-}
-export class AppInfoSocketRouter extends SocketRouter
-{
-    constructor()
-    {
-        super();
-        this.onMessage = this.onMessage.bind(this);
-    }
-    onMessage(socket, request)
-    {
-        if (!this.isValidRequest(request))
-            return;
-        if (request.method != 'app-info')
-            return;
-        handler.loadAppInfo().then((result) =>
-        {
-            this.sendResponse(socket, request, result);
-        }).catch((err) =>
-        {
-            this.handleError(socket, request, err);
-        });
-    }
-}
-class AppInfoHandler
-{
-    constructor()
-    {
         this.loadAppInfo = this.loadAppInfo.bind(this);
-    }
-    loadAppInfo()
-    {
-        return new Promise((resolve, reject) =>
+        this.router.get('/app-info', (req, res) =>
         {
             const appInfo = new AppInfo();
             appInfo.load((err, data) =>
             {
                 if (err)
                 {
-                    // this.handleError(req, res, err.toString(), 500);
-                    reject(err.toString());
+                    this.handleError(req, res, err.toString(), 500);
                     return;
                 }
-                // this.sendResponse(req, res, data);
-                resolve(data);
+                this.sendResponse(req, res, data);
             });
         });
     }
-}
-export class AppInfoRouter extends APIRouter
-{
-
+    loadAppInfo(request,resultCallBack)
+    {
+        
+    }
 
 }
 export class AppInfo

@@ -99,7 +99,7 @@ export class APISocket
                 'admin-token': ADMIN_TOKEN,
             }
         }
-        console.log('inside apiCall!');
+        // console.log('inside apiCall!');
         var b = Object.assign({}, r);
         b.callBack = callBack;
         this.requests.push(b);

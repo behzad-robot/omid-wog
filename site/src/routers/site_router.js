@@ -57,12 +57,17 @@ export default class SiteRouter extends Router
                 }
                 console.log('all games count=>' + games.length);
                 data.allGames = games;
-                data.currentUser = req.session ? req.session.currentUser : undefined;
-                data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
-                data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
-                data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), data);
-                console.log("parts readY!");
-                res.send(mustache.render(view_str, data));
+                this.modules.Cache.navbarPosts.getData((err, navbarPosts) =>
+                {
+                    data.navbarPosts = navbarPosts;
+                    data.currentUser = req.session ? req.session.currentUser : undefined;
+                    data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
+                    data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+                    data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), data);
+                    console.log("parts readY!");
+                    res.send(mustache.render(view_str, data));
+                });
+
             });
         } catch (err)
         {

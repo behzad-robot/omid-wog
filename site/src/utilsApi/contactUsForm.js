@@ -2,11 +2,11 @@ import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
 
 
-export class ChampBuild extends SocketCollection
+export class ContactUsForm extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('builds', apiSocket);
+        super('contact-us-forms', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.find = this.find.bind(this);
@@ -48,7 +48,7 @@ export class ChampBuild extends SocketCollection
             g.cover = ICON_404;
         if (isEmptyString(g.coverTall))
             g.coverTall = ICON_404;
-        g.siteUrl = '/ChampBuilds/' + g.slug;
+        g.siteUrl = '/ContactUsForms/' + g.slug;
         return g;
     }
     fixAll(cs)

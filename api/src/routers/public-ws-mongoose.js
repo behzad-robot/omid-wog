@@ -1,9 +1,7 @@
 import { ADMIN_TOKEN, API_TOKEN, API_ENCODE_KEY } from "../constants";
-import { JesEncoder } from "../utils/jes-encoder";
-
+import { SocketRouter } from "./socket_router";
 const ObjectId = require('mongoose').Types.ObjectId;
-const encoder = new JesEncoder(API_ENCODE_KEY);
-export class PublicMongooseWSRouter
+export class PublicMongooseWSRouter extends SocketRouter
 {
     constructor(modelSlug, model, settings = {
         apiTokenRequired: false
@@ -12,7 +10,6 @@ export class PublicMongooseWSRouter
         this.model = model;
         this.modelSlug = modelSlug;
         //bind functions:
-        this.handleError = this.handleError.bind(this);
         this.find = this.find.bind(this);
         this.getOne = this.getOne.bind(this);
         this.insert = this.insert.bind(this);
@@ -20,11 +17,8 @@ export class PublicMongooseWSRouter
         this.deleteOne = this.deleteOne.bind(this);
         this.onMessage = (socket, request) =>
         {
-            if (request._headers == undefined || request._headers['api-token'] != API_TOKEN)
-            {
+            if(!this.isValidRequest())
                 this.handleError(socket, 'Access Denied');
-                return;
-            }
             socket.isAdmin = request._headers['admin-token'] == ADMIN_TOKEN;
             if (request.model != this.modelSlug)
                 return;
@@ -42,17 +36,7 @@ export class PublicMongooseWSRouter
                 this.deleteOne(socket, request);
         };
     }
-    handleError(socket, request, error, code = 500)
-    {
-        socket.send({ code: code, error: error, _data: null, request: request });
-    }
-    sendResponse(socket, request, data, code = 200)
-    {
-        if (socket.isAdmin)
-            socket.send({ code: code, error: null, _data: data, request: request });
-        else
-            socket.send({ code: code, error: null, _data: encoder.encode(data), request: request });
-    }
+
     find(socket, request)
     {
         let params = request.params;
@@ -111,7 +95,7 @@ export class PublicMongooseWSRouter
             {
                 if (err)
                 {
-                    this.handleError(socket , request , err);
+                    this.handleError(socket, request, err);
                     return;
                 }
                 if (this.model.Helpers.hasDraft() && !allDraft)
@@ -127,7 +111,7 @@ export class PublicMongooseWSRouter
                     for (var i = 0; i < results.length; i++)
                         results[i] = this.model.Helpers.public(results[i]);
                 }
-                this.sendResponse(socket , request , results);
+                this.sendResponse(socket, request, results);
             });
     }
     getOne(socket, request)
@@ -139,17 +123,17 @@ export class PublicMongooseWSRouter
             {
                 if (result == null || result == {})
                 {
-                    this.handleError(socket , request , "Object not found!", 404);
+                    this.handleError(socket, request, "Object not found!", 404);
                     return;
                 }
                 if (err)
                 {
-                    this.handleError(socket, request , err);
+                    this.handleError(socket, request, err);
                     return;
                 }
                 if (!socket.isAdmin)
                     result = this.model.Helpers.public(result);
-                this.sendResponse(socket , request , result);
+                this.sendResponse(socket, request, result);
             });
     }
     insert(socket, request)
@@ -162,10 +146,10 @@ export class PublicMongooseWSRouter
         var doc = new model(params);
         doc.save().then(() =>
         {
-            this.sendResponse(socket , request , doc);
+            this.sendResponse(socket, request, doc);
         }).catch((err) =>
         {
-            this.handleError(socket , request , err);
+            this.handleError(socket, request, err);
         });
     }
     editOne(socket, request)
@@ -179,11 +163,11 @@ export class PublicMongooseWSRouter
         {
             if (err)
             {
-                this.handleError(socket , request , err);
+                this.handleError(socket, request, err);
                 return;
             }
             else
-                this.sendResponse(socket , request , result);
+                this.sendResponse(socket, request, result);
         });
     }
     deleteOne(socket, request)
@@ -191,9 +175,9 @@ export class PublicMongooseWSRouter
         this.model.deleteOne({ _id: params._id }, (err) =>
         {
             if (err)
-                this.handleError(socket , request , err);
+                this.handleError(socket, request, err);
             else
-                this.sendResponse(socket , request , params);
+                this.sendResponse(socket, request, params);
             // this.sendResponse({ message: "DELETED " + params._id, error: err });
         });
     }

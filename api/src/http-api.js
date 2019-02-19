@@ -9,7 +9,7 @@ import MongooseDB from './libs/mongoose-db';
 
 
 import UsersAuthRouter from './routers/users_auth_router';
-import { PublicMongooseAPIRouter } from './routers/public-api-mongoose';
+import { PublicMongooseAPIRouter } from './routers/public-http-mongoose';
 import { AppInfoRouter } from './routers/app_info_router';
 import { IS_LOCALHOST, GetMongoDBURL, ADMIN_TOKEN, API_TOKEN } from './constants';
 import { Admin } from './models/admin';
@@ -108,6 +108,8 @@ express.http.listen(PORT, function ()
 const WSRouters = {
     User: new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
     Game: new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
+    PostCat: new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
+    Post: new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
 
 };
 const easySocket = new EasySocket({
@@ -128,6 +130,8 @@ const easySocket = new EasySocket({
             var msg = JSON.parse(messageStr);
             WSRouters.User.onMessage(socket, msg);
             WSRouters.Game.onMessage(socket, msg);
+            WSRouters.PostCat.onMessage(socket, msg);
+            WSRouters.Post.onMessage(socket, msg);
             console.log(`Socket=>${msg.model}=>${msg.method}`)
         }
         else

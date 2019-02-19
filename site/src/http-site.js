@@ -22,11 +22,9 @@ import SiteContactRouter from "./routers/contact_router";
 import { Post } from "./utilsApi/post";
 import { PostCat } from "./utilsApi/postCat";
 import { ChampBuild } from "./utilsApi/build";
+import { ContactUsForm } from "./utilsApi/contactUsForm";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
-//db:
-// const Game = new APICollection('games', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const ICON_404 = '/images/404-image.png';
 //api socket
 const apiSocket = new APISocket();
 //express:
@@ -40,7 +38,8 @@ const express = new MyExpressApp({
         }
     ],
 });
-const ContactUsForm = new APICollection('contact-us-forms', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+//modules:
+const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const SiteModules = {
     User: new User(apiSocket),
     Game: new Game(apiSocket),
@@ -48,48 +47,9 @@ const SiteModules = {
     Build: new ChampBuild(apiSocket),
     Post: new Post(apiSocket),
     PostCat: new PostCat(apiSocket),
-    ContactUsForm: ContactUsForm,
+    ContactUsForm: new ContactUsForm(apiSocket),
     proxyAPI: proxyAPI,
 }
-
-// Game.fixOne = (game) =>
-// {
-//     for (var i = 0; i < game.items.length; i++)
-//     {
-//         if (game.items[i].name == 'NECRONOMICON 2')
-//             console.log('ICON=>' + game.items[i].icon + '=>' + isEmptyString(game.items[i].icon));
-//         if (isEmptyString(game.items[i].icon))
-//             game.items[i].icon = ICON_404;
-//     }
-//     return game;
-// };
-// Game.fixAll = (games) =>
-// {
-//     for (var i = 0; i < games.length; i++)
-//         games[i] = Game.fixOne(games[i]);
-//     return games;
-// }
-// ChampBuild.fixOne = (build) =>
-// {
-
-// };
-// Post.fixOne = (p) =>
-// {
-//     if (isEmptyString(p.media))
-//         p.media = ICON_404;
-//     p.siteUrl = '/posts/' + p.slug;
-//     return p;
-// };
-// Post.fixAll = (ps) =>
-// {
-//     for (var i = 0; i < ps.length; i++)
-//         ps[i] = Post.fixOne(ps[i]);
-//     return ps;
-// };
-
-//modules:
-
-const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const allGamesCache = new CacheReader('all-games', (cb) =>
 {
     SiteModules.Game.find().then((games) =>
@@ -103,12 +63,49 @@ const allGamesCache = new CacheReader('all-games', (cb) =>
 });
 const allPostsCatsCache = new CacheReader('allPostsCats', (cb) =>
 {
-    PostCat.find().then((cats) =>
+    SiteModules.PostCat.find().then((cats) =>
     {
         cb(undefined, cats);
     }).catch((err) =>
     {
         cb(err, undefined);
+    });
+});
+const navbarPostsCache = new CacheReader('navbar-posts', (cb) =>
+{
+    console.log("enter cache!");
+    allPostsCatsCache.getData((err, cats) =>
+    {
+        if (err)
+        {
+            cb(err, undefined);
+            return;
+        }
+        console.log("got cats!");
+        const loadPosts = (index, done) =>
+        {
+            if (index >= cats.length)
+            {
+                done();
+                return;
+            }
+            var c = cats[index];
+            SiteModules.Post.find({ categories: c._id }).then((posts) =>
+            {
+                c.posts = posts;
+            }).catch((err) =>
+            {
+                console.log("error while retriving result");
+                loadPosts(index + 1, done);
+            });
+        };
+        loadPosts(0, () =>
+        {
+            console.log("navbarPostsCache:")
+            console.log(cats);
+            console.log("================================");
+            cb(undefined, cats);
+        });
     });
 });
 const allDota2Champions = new CacheReader('allDota2Champions', (cb) =>
@@ -125,6 +122,7 @@ SiteModules.Cache = {
     allGames: allGamesCache,
     allPostsCats: allPostsCatsCache,
     allDota2Champions: allDota2Champions,
+    navbarPosts: navbarPostsCache,
 }
 
 
@@ -141,11 +139,11 @@ express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) =>
 {
-    // res.send('SHINE');    
-    // if (req.method != 'GET') {
-    //     res.send('access denied!');
-    //     return;
-    // }
+    if (req.method != 'GET')
+    {
+        res.send({ code: 400, error: "Access Denied" });
+        return;
+    }
     if (req.query.cache)
     {
         if (req.query.cache == 'allGames')
@@ -159,30 +157,6 @@ express.expressApp.all('/api/*', (req, res) =>
             });
             return;
         }
-        // if (req.query.cache == 'allPostsCats')
-        // {
-        //     console.log(`using cache for ${req.query.cache}`);
-        //     SiteModules.Cache.allPostsCatsCache.getData((err, data) =>
-        //     {
-        //         if (err)
-        //             res.send(err.toString());
-        //         else
-        //             res.send(data);
-        //     });
-        // }
-
-    }
-    if (req.url.indexOf('/champions') != -1 && req.query.gameId == '5c483dc1c966fb21f9ae800c')
-    {
-        console.log(`using cache for allDota2Champions`);
-        SiteModules.Cache.allDota2Champions.getData((err, data) =>
-        {
-            if (err)
-                res.send(err.toString());
-            else
-                res.send(data);
-        });
-        return;
     }
     console.log('API CALL => ' + req.url);
     // if(req.url == 'twitch')

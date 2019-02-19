@@ -17,11 +17,8 @@ export class SocketCollection
     {
         return new Promise((resolve, reject) =>
         {
-            console.log("SHINE");
             this.apiSocket.apiCall(this.modelSlug, method, params, (response) =>
             {
-                console.log("api call result is out!");
-                console.log(response);
                 if (response.error == null && response.code >= 200 && response.code < 300)
                     resolve(response._data);
                 else
@@ -29,7 +26,7 @@ export class SocketCollection
             });
         });
     }
-    find(params={})
+    find(params = {})
     {
         return this.apiCall('find', params);
     }

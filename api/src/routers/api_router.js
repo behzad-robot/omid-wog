@@ -14,6 +14,11 @@ export default class APIRouter extends Router
         this.adminTokenRequired = this.adminTokenRequired.bind(this);
         this.encoder = encoder;
     }
+    //override this in each router!
+    onMessage(socket, request)
+    {
+        return false;
+    }
     //override send Reponse:
     sendResponse(req, res, body, code = 200)
     {
@@ -26,7 +31,7 @@ export default class APIRouter extends Router
     }
     handleError(req, res, err, code = 500)
     {
-        if(err == undefined)
+        if (err == undefined)
             err = 'undefined';
         err = err.toString();
         res.status(code).send({ code: code, error: (err != null && err != "" ? err : "Null"), _data: null });
