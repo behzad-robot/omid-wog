@@ -1,4 +1,5 @@
 import APIRouter from "./api_router";
+import { SocketRouter } from "./socket_router";
 import { IS_LOCALHOST } from "../constants";
 const fs = require('fs');
 const path = require('path');
@@ -32,7 +33,7 @@ export class AppInfoSocketRouter extends SocketRouter
     {
         if (!this.isValidRequest(request))
             return;
-        if (request.method != 'app-info')
+        if (request.model != 'app-info' || request.model != 'get')
             return;
         handler.loadAppInfo().then((result) =>
         {
@@ -67,11 +68,6 @@ class AppInfoHandler
             });
         });
     }
-}
-export class AppInfoRouter extends APIRouter
-{
-
-
 }
 export class AppInfo
 {

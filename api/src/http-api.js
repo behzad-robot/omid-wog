@@ -8,14 +8,12 @@ import { AnalyticsEvent } from './models/analytics';
 import MongooseDB from './libs/mongoose-db';
 
 
-import UsersAuthRouter from './routers/users_auth_router';
+import { UsersAuthHandler } from './routers/users_auth_router';
 import { PublicMongooseAPIRouter } from './routers/public-http-mongoose';
-import { AppInfoRouter } from './routers/app_info_router';
+import { AppInfoHttpRouter, AppInfoSocketRouter } from './routers/app_info_router';
 import { IS_LOCALHOST, GetMongoDBURL, ADMIN_TOKEN, API_TOKEN } from './constants';
-import { Admin } from './models/admin';
-import AdminsAuthRouter from './routers/admins_auth_router';
+//media:
 import { Post } from './models/post';
-import { FileUploaderRouter } from './routers/file_uploader_router';
 import { Champion } from './models/champion';
 import { ChampionBuild } from './models/champBuild';
 import { ContactUsForm } from './models/contactUsForm';
@@ -78,40 +76,48 @@ express.expressApp.get('/', (req, res) =>
 {
     res.status(200).send('Welcome to API :)');
 });
-express.expressApp.use('/api/', new AppInfoRouter().router);
+express.expressApp.use('/api/', new AppInfoHttpRouter().router);
 express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsEvent, { apiTokenRequired: true }).router);
-//admins:
-// express.expressApp.use('/api/admins/', new PublicMongooseAPIRouter(Admin, { apiTokenRequired: true }).router);
-// express.expressApp.use('/api/admins/', new AdminsAuthRouter(Admin).router);
 //users:
-express.expressApp.use('/api/users/', new UsersAuthRouter(User).router);
+const usersAuthHandler = new UsersAuthHandler(User);
+express.expressApp.use('/api/users/', usersAuthHandler.httpRouter);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
-//games:
+//games , champions , champBuilds:
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);
-//champions , champBuilds:
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
-//posts & news & media:
+//posts , comments:
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
+//media:
 express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
-//comments:
-express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
 {
     log.success('http server listening on port ' + PORT);
 });
-const WSRouters = {
-    User: new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
-    Game: new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
-    PostCat: new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
-    Post: new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
-
-};
+const WSRouters = [
+    //users:
+    new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
+    usersAuthHandler.socketRouter,
+    //games & champs & builds:
+    new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('champions', Champion, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('builds', ChampionBuild, { apiTokenRequired: true }),
+    //posts & comments:
+    new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
+    //media:
+    new PublicMongooseWSRouter('media', Media, { apiTokenRequired: true }),
+    //contact us:
+    new PublicMongooseWSRouter('contact-us-forms', Media, { apiTokenRequired: true }),
+    //extras:
+    new AppInfoSocketRouter(),
+];
 const easySocket = new EasySocket({
     httpServer: express.http,
     originIsAllowed: (origin) => { return true; },
@@ -126,20 +132,21 @@ const easySocket = new EasySocket({
         };
         if (messageStr.indexOf('{') != -1)
         {
-            console.log(messageStr);
+            // console.log(messageStr);
+            console.log(`Socket=>${msg.model}=>${msg.method}`);
             var msg = JSON.parse(messageStr);
-            WSRouters.User.onMessage(socket, msg);
-            WSRouters.Game.onMessage(socket, msg);
-            WSRouters.PostCat.onMessage(socket, msg);
-            WSRouters.Post.onMessage(socket, msg);
-            console.log(`Socket=>${msg.model}=>${msg.method}`)
+            for (var i = 0; i < WSRouters.length; i++)
+                WSRouters[i].onMessage(socket, msg);
         }
         else
             socket.send({ code: 400, error: "Access Denied" });
     },
     onSocketConnected: (connection) =>
     {
-
+        console.log("onSocketConnected");
     },
-    onSocketDisconnected: (connection, reasonCode, description) => { },
+    onSocketDisconnected: (connection, reasonCode, description) =>
+    {
+        console.log("onSocketDisconnected");
+    },
 });

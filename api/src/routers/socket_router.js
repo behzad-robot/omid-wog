@@ -18,6 +18,11 @@ export class SocketRouter
     }
     handleError(socket, request, error, code = 500)
     {
+        if (typeof error != 'string')
+        {
+            code = error.code ? error.code : code;
+            error = error.error ? error.error : error.toString();
+        }
         socket.send({ code: code, error: error, _data: null, request: request });
     }
     sendResponse(socket, request, data, code = 200)

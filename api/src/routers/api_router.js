@@ -33,6 +33,11 @@ export default class APIRouter extends Router
     {
         if (err == undefined)
             err = 'undefined';
+        if (typeof err == 'object')
+        {
+            code = err.code ? err.code : code;
+            err = err.error ? err.error : err.toString();
+        }
         err = err.toString();
         res.status(code).send({ code: code, error: (err != null && err != "" ? err : "Null"), _data: null });
         //this.sendResponse(req, res, { error: (err != null && err != "" ? err : "Null"), code: code }, code);
