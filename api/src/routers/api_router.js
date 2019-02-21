@@ -1,6 +1,6 @@
 import Router from "../libs/router";
 import { JesEncoder } from "../utils/jes-encoder";
-import { API_ENCODE_KEY, ADMIN_TOKEN, API_TOKEN } from "../constants";
+import { API_ENCODE_KEY, ADMIN_TOKEN, API_TOKEN, APP_TOKEN } from "../constants";
 const encoder = new JesEncoder(API_ENCODE_KEY);
 export default class APIRouter extends Router
 {
@@ -26,6 +26,8 @@ export default class APIRouter extends Router
         //console.log("hello this is override!");
         if (req.header('admin-token') == ADMIN_TOKEN)
             res.status(code).send(body);
+        else if (req.header('app-token') != APP_TOKEN)
+            res.status(code).send({ code: code, error: null, _data: body });
         else
             res.status(code).send({ code: code, error: null, _data: encoded ? encoder.encode(body) : body });
     }
