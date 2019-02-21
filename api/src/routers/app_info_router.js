@@ -3,7 +3,31 @@ import { SocketRouter } from "./socket_router";
 import { IS_LOCALHOST } from "../constants";
 const fs = require('fs');
 const path = require('path');
-
+class AppInfoHandler
+{
+    constructor()
+    {
+        this.loadAppInfo = this.loadAppInfo.bind(this);
+    }
+    loadAppInfo()
+    {
+        return new Promise((resolve, reject) =>
+        {
+            const appInfo = new AppInfo();
+            appInfo.load((err, data) =>
+            {
+                if (err)
+                {
+                    // this.handleError(req, res, err.toString(), 500);
+                    reject(err.toString());
+                    return;
+                }
+                // this.sendResponse(req, res, data);
+                resolve(data);
+            });
+        });
+    }
+}
 const handler = new AppInfoHandler();
 export class AppInfoHttpRouter extends APIRouter
 {
@@ -44,31 +68,7 @@ export class AppInfoSocketRouter extends SocketRouter
         });
     }
 }
-class AppInfoHandler
-{
-    constructor()
-    {
-        this.loadAppInfo = this.loadAppInfo.bind(this);
-    }
-    loadAppInfo()
-    {
-        return new Promise((resolve, reject) =>
-        {
-            const appInfo = new AppInfo();
-            appInfo.load((err, data) =>
-            {
-                if (err)
-                {
-                    // this.handleError(req, res, err.toString(), 500);
-                    reject(err.toString());
-                    return;
-                }
-                // this.sendResponse(req, res, data);
-                resolve(data);
-            });
-        });
-    }
-}
+
 export class AppInfo
 {
     constructor()

@@ -21,7 +21,7 @@ import { Media } from './models/media';
 import { PostCategory } from './models/postCat';
 import { Comment } from './models/comment';
 import { EasySocket } from './libs/easy-socket';
-import { PublicMongooseWSRouter } from './sockets/public-ws-mongoose';
+import { PublicMongooseWSRouter } from './routers/public-ws-mongoose';
 
 
 
@@ -80,7 +80,7 @@ express.expressApp.use('/api/', new AppInfoHttpRouter().router);
 express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsEvent, { apiTokenRequired: true }).router);
 //users:
 const usersAuthHandler = new UsersAuthHandler(User);
-express.expressApp.use('/api/users/', usersAuthHandler.httpRouter);
+express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
 //games , champions , champBuilds:
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);

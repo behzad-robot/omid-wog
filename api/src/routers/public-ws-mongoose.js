@@ -7,6 +7,7 @@ export class PublicMongooseWSRouter extends SocketRouter
         apiTokenRequired: false
     })
     {
+        super();
         this.model = model;
         this.modelSlug = modelSlug;
         //bind functions:

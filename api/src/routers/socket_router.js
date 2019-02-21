@@ -1,4 +1,6 @@
 import { JesEncoder } from "../utils/jes-encoder";
+import { API_ENCODE_KEY } from "../constants";
+
 const encoder = new JesEncoder(API_ENCODE_KEY);
 export class SocketRouter
 {
