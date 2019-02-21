@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { API_BASE_URL } from '../../../admin/src/constants';
+import { SITE_URL } from '../constants';
 
 export const ChampionSchema = new mongoose.Schema({
     gameId: {type:String,default:''},
@@ -104,6 +105,24 @@ Champion.Helpers = {
     hasDraft : () => true ,
     public: (doc) =>
     {
+        if(doc.icon)
+            doc.icon = SITE_URL(doc.icon);
+        if(doc.icon_tall)
+            doc.icon_tall = SITE_URL(doc.icon_tall);
+        if(doc.icon_gif)
+            doc.icon_gif = SITE_URL(doc.icon_gif);
+        if(doc.cover)
+            doc.cover = SITE_URL(doc.cover);
+        if(doc.cover2)
+            doc.cover2 = SITE_URL(doc.cover2);
+        if(doc.abilities)
+        {
+            for(var i = 0 ; i < doc.abilities.length;i++)
+            {
+                if(doc.abilities[i].icon)
+                    doc.abilities[i].icon = SITE_URL(doc.abilities[i].icon);
+            }
+        }
         return doc;
     },
 }

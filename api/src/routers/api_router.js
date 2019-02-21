@@ -21,7 +21,7 @@ export default class APIRouter extends Router
         //console.log("hello this is override!");
         if (req.header('admin-token') == ADMIN_TOKEN)
             res.status(code).send(body);
-        else if (req.header('app-token') != APP_TOKEN)
+        else if (req.header('app-token') == APP_TOKEN)
             res.status(code).send({ code: code, error: null, _data: body });
         else
             res.status(code).send({ code: code, error: null, _data: encoded ? encoder.encode(body) : body });

@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { SITE_URL } from '../constants';
 
 export const GameSchema = new mongoose.Schema({
     name: String,
@@ -42,6 +43,20 @@ Game.Helpers = {
     hasDraft : () => true ,
     public: (doc) =>
     {
+        if(doc.icon)
+            doc.icon = SITE_URL(doc.icon);
+        if(doc.cover)
+            doc.cover = SITE_URL(doc.cover);
+        if(doc.coverTall)
+            doc.coverTall = SITE_URL(doc.coverTall);
+        if(doc.items && doc.items.length != 0)
+        {
+            for(var i = 0 ; i < doc.items.length;i++)
+            {
+                if(doc.items[i].icon)
+                    doc.items[i].icon = SITE_URL(doc.items[i].icon);
+            }
+        }
         return doc;
     },
 }
