@@ -159,6 +159,11 @@ export class PublicMongooseAPIRouter extends APIRouter
     }
     insert(req, res)
     {
+        if (req.header('admin-token') != ADMIN_TOKEN)
+        {
+            this.accessDenied(res);
+            return;
+        }
         console.log(req.body);
         const model = this.model;
         delete (req.body._id);
@@ -177,6 +182,11 @@ export class PublicMongooseAPIRouter extends APIRouter
     }
     editOne(req, res)
     {
+        if (req.header('admin-token') != ADMIN_TOKEN)
+        {
+            this.accessDenied(res);
+            return;
+        }
         delete (req.body._id);
         delete (req.body.createdAt);
         delete (req.body.updatedAt);
@@ -195,6 +205,11 @@ export class PublicMongooseAPIRouter extends APIRouter
     }
     deleteOne(req, res)
     {
+        if (req.header('admin-token') != ADMIN_TOKEN)
+        {
+            this.accessDenied(res);
+            return;
+        }
         this.model.deleteOne({ _id: req.params._id }, (err) =>
         {
             res.send({ message: "DELETED " + req.params._id, error: err });
