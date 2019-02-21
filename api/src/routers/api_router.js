@@ -14,11 +14,6 @@ export default class APIRouter extends Router
         this.adminTokenRequired = this.adminTokenRequired.bind(this);
         this.encoder = encoder;
     }
-    //override this in each router!
-    onMessage(socket, request)
-    {
-        return false;
-    }
     //override send Reponse:
     sendResponse(req, res, body, code = 200)
     {
