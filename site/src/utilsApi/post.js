@@ -37,18 +37,7 @@ export class Post extends SocketCollection
     }
     fixOne(g)
     {
-        for (var i = 0; i < g.items.length; i++)
-        {
-            if (isEmptyString(g.items[i].icon))
-                g.items[i].icon = ICON_404;
-        }
-        if (isEmptyString(g.icon))
-            g.icon = ICON_404;
-        if (isEmptyString(g.cover))
-            g.cover = ICON_404;
-        if (isEmptyString(g.coverTall))
-            g.coverTall = ICON_404;
-        g.siteUrl = '/Posts/' + g.slug;
+        
         return g;
     }
     fixAll(cs)

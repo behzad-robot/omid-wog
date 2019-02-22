@@ -8,8 +8,10 @@ export default class SiteUsersRouter extends SiteRouter
         super(siteModules);
         this.router.get('/:username', (req, res) =>
         {
+            console.log(req.query.username);
             siteModules.User.find({ username: req.params.username }).then((users) =>
             {
+                console.log(users);
                 if (users.length == 0)
                 {
                     this.show404(req, res);

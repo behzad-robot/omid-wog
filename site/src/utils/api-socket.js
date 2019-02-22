@@ -13,6 +13,7 @@ export class APISocket
         this.ws = new WebSocketClient();
         this.socket = undefined;
         this.onConnected = undefined;
+        this.onDisconnected = undefined;
         this.requests = [];
         this.apiCall = this.apiCall.bind(this);
         this.connect = this.connect.bind(this);
@@ -20,7 +21,7 @@ export class APISocket
         this.ws.on('connect', (conn) =>
         {
             this.socket = conn;
-            // console.log('API Socket connected');
+            console.log('API Socket connected');
             conn._send = conn.send;
             conn.send = function (ms)
             {
@@ -33,9 +34,10 @@ export class APISocket
             {
                 console.log("API Socket Connection Error: " + err.toString());
             });
-            conn.on('close', function ()
+            conn.on('close', () =>
             {
                 console.log('API Socket Connection Closed.');
+                this.connect();
             });
             conn.on('message', (message) =>
             {
@@ -80,6 +82,9 @@ export class APISocket
         this.ws.on('connectFailed', (err) =>
         {
             console.log("API Socket connecting failed => error=" + err.toString());
+            setTimeout(()=>{
+                this.connect();
+            },1000);
         });
     }
     connect(onConnected = undefined)

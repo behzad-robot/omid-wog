@@ -148,12 +148,20 @@
                             style="background-image:url('/images/dropdown-chiz.jpg');background-size:cover;background-position:center;height:375px;padding:0;"
                             id="navbar-cats">
                             <!-- <a href="#" class="dropdown-cat-link news-link " cat="dota2">Cat 1<i class="fas fa-chevron-left"></i></a> -->
-
+                            {{#navbarPosts}}
+                            <a href="#" class="dropdown-cat-link news-link " cat="{{_id}}">{{name}}<i
+                                    class="fas fa-chevron-left"></i></a>
+                            <div style="display:none" class="hidden-news-cat-data" cat="{{_id}}">
+                                {{#posts}}
+                                <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;" href="/posts/{{slug}}">
+                                    <img src="{{thumbnail_640x480}}" width="80%" />
+                                    <h4 style="margin-top:5px;font-size:16px;font-weight:bold;">{{title}}</h4>
+                                </a>
+                                {{/posts}}
+                            </div>
+                            {{/navbarPosts}}
                         </div>
                         <div class="col-9">
-                            <div id="navbar-posts-loading" name="loading" class="text-center" style="margin:10px 0;">
-                                <img src="/images/loading.gif" width="72px" />
-                            </div>
                             <div class="row" style="padding-top:5px;" id="navbar-posts">
                                 <!-- <a class="col-md-4 col-6 text-center" style="margin-bottom:5px;">
                                     <img src="/images/jaina.jpg" width="100%" />
@@ -222,6 +230,14 @@
             var token = $(this).attr('game');
             var html = $(`.hidden-game-data[game=${token}]`).html();
             $("#navbar-current-game").html(html);
+        });
+        $(".dropdown-cat-link.news-link").mouseenter(function ()
+        {
+            $(".dropdown-cat-link.news-link").removeClass('selected');
+            $(this).addClass('selected');
+            var cat = $(this).attr('cat');
+            var html = $(`.hidden-news-cat-data[cat=${cat}]`).html();
+            $("#navbar-posts").html(html);
         });
         // findObjects('posts-cats', '?cache=allPostsCats', (cs) =>
         // {

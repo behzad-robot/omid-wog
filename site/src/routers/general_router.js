@@ -7,7 +7,11 @@ export default class SiteGeneralRouter extends SiteRouter
         super(modules);
         this.router.get('/', (req, res) =>
         {
-            this.renderTemplate(req, res, 'wog-home.html', {});
+            var t = Date.now();
+            console.log(Date.now());
+            this.renderTemplate(req, res, 'wog-home.html', {
+                _t : t,
+            });
         });
         this.router.get('/shop', (req, res) =>
         {

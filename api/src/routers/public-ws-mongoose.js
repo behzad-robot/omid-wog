@@ -1,5 +1,6 @@
 import { ADMIN_TOKEN, API_TOKEN, API_ENCODE_KEY } from "../constants";
 import { SocketRouter } from "./socket_router";
+import moment from 'moment';
 const ObjectId = require('mongoose').Types.ObjectId;
 export class PublicMongooseWSRouter extends SocketRouter
 {
@@ -11,6 +12,7 @@ export class PublicMongooseWSRouter extends SocketRouter
         this.model = model;
         this.modelSlug = modelSlug;
         //bind functions:
+        this.now = this.now.bind(this);
         this.find = this.find.bind(this);
         this.getOne = this.getOne.bind(this);
         this.insert = this.insert.bind(this);
@@ -18,7 +20,7 @@ export class PublicMongooseWSRouter extends SocketRouter
         this.deleteOne = this.deleteOne.bind(this);
         this.onMessage = (socket, request) =>
         {
-            if(!this.isValidRequest())
+            if (!this.isValidRequest())
                 this.handleError(socket, 'Access Denied');
             socket.isAdmin = request._headers['admin-token'] == ADMIN_TOKEN;
             if (request.model != this.modelSlug)
@@ -37,7 +39,10 @@ export class PublicMongooseWSRouter extends SocketRouter
                 this.deleteOne(socket, request);
         };
     }
-
+    now = () =>
+    {
+        return moment().format('YYYY-MM-DD hh:mm:ss');
+    }
     find(socket, request)
     {
         let params = request.params;
@@ -46,6 +51,9 @@ export class PublicMongooseWSRouter extends SocketRouter
         var limit = params.limit ? params.limit : 50;
         var offset = params.offset ? params.offset : 0;
         var sort = params.sort ? params.sort : '';
+        var publicCast = params._publicCast ? params._publicCast : false;
+        console.log(`publicCast=>${publicCast}`);
+        delete (params._publicCast);
         delete (params.limit);
         delete (params.offset);
         delete (params.sort);
@@ -53,9 +61,10 @@ export class PublicMongooseWSRouter extends SocketRouter
         {
             if (typeof params._ids == 'string')
                 params._ids = params._ids.split(',');
+            // console.log(params._ids);
             this.model
                 .where('_id')
-                .in(options)
+                .in(params._ids)
                 .limit(limit)
                 .skip(offset)
                 .sort(sort)
@@ -76,7 +85,7 @@ export class PublicMongooseWSRouter extends SocketRouter
                                 results.splice(i, 1);
                         }
                     }
-                    if (!socket.isAdmin)
+                    if (!socket.isAdmin || publicCast)
                     {
                         for (var i = 0; i < results.length; i++)
                         {
@@ -107,7 +116,7 @@ export class PublicMongooseWSRouter extends SocketRouter
                             results.splice(i, 1);
                     }
                 }
-                if (!socket.isAdmin)
+                if (!socket.isAdmin || publicCast)
                 {
                     for (var i = 0; i < results.length; i++)
                         results[i] = this.model.Helpers.public(results[i]);
@@ -117,6 +126,9 @@ export class PublicMongooseWSRouter extends SocketRouter
     }
     getOne(socket, request)
     {
+        var params = request.params;
+        var publicCast = params._publicCast ? _publicCast : false;
+        delete (params._publicCast);
         this.model
             .findOne({ _id: params._id })
             // .lean()
@@ -132,19 +144,20 @@ export class PublicMongooseWSRouter extends SocketRouter
                     this.handleError(socket, request, err);
                     return;
                 }
-                if (!socket.isAdmin)
+                if (!socket.isAdmin || publicCast)
                     result = this.model.Helpers.public(result);
                 this.sendResponse(socket, request, result);
             });
     }
     insert(socket, request)
     {
+        let params = request.params;
         delete (params._id);
         delete (params.createdAt);
         delete (params.updatedAt);
         params.createdAt = this.now();
         params.updatedAt = "";
-        var doc = new model(params);
+        var doc = new this.model(params);
         doc.save().then(() =>
         {
             this.sendResponse(socket, request, doc);
@@ -155,6 +168,7 @@ export class PublicMongooseWSRouter extends SocketRouter
     }
     editOne(socket, request)
     {
+        let params = request.params;
         const _id = params._id;
         delete (params._id);
         delete (params.createdAt);
@@ -173,6 +187,7 @@ export class PublicMongooseWSRouter extends SocketRouter
     }
     deleteOne(socket, request)
     {
+        let params = request.params;
         this.model.deleteOne({ _id: params._id }, (err) =>
         {
             if (err)

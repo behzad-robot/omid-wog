@@ -2,11 +2,11 @@ import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
 
 
-export class ContactUsForm extends SocketCollection
+export class Media extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('contact-us-forms', apiSocket);
+        super('media', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.find = this.find.bind(this);
@@ -37,6 +37,7 @@ export class ContactUsForm extends SocketCollection
     }
     fixOne(g)
     {
+        
         return g;
     }
     fixAll(cs)

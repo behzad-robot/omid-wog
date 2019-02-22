@@ -1,6 +1,10 @@
 import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
-
+import { isEmptyString } from "../utils/utils";
+import { JesEncoder } from "../utils/jes-encoder";
+import { API_ENCODE_KEY } from "../constants";
+import moment from 'moment';
+const encoder = new JesEncoder(API_ENCODE_KEY);
 class UsersAuthHttpRouter extends APIRouter
 {
     constructor(handler)
@@ -9,7 +13,7 @@ class UsersAuthHttpRouter extends APIRouter
         this.handler = handler;
         this.router.post('/login', (req, res) =>
         {
-            handler.login(req.body).then((user) =>
+            this.handler.login(req.body).then((user) =>
             {
                 this.sendResponse(req, res, user);
             }).catch((err) =>
@@ -19,7 +23,7 @@ class UsersAuthHttpRouter extends APIRouter
         });
         this.router.post('/signup', (req, res) =>
         {
-            handler.signup(req.body).then((user) =>
+            this.handler.signup(req.body).then((user) =>
             {
                 this.sendResponse(req, res, user);
             }).catch((err) =>
@@ -29,7 +33,7 @@ class UsersAuthHttpRouter extends APIRouter
         });
         this.router.post('/check-token', (req, res) =>
         {
-            handler.checkToken(req.body).then((result) =>
+            this.handler.checkToken(req.body).then((result) =>
             {
                 this.sendResponse(req, res, result);
             }).catch((err) =>
@@ -56,7 +60,8 @@ class UsersAuthSocketRouter extends SocketRouter
         //logic comes here:
         if (request.method == 'login')
         {
-            handler.signup(request.params).then((user) =>
+            console.log(request);
+            this.handler.login(request.params).then((user) =>
             {
                 this.sendResponse(socket, request, user);
             }).catch((err) =>
@@ -66,7 +71,7 @@ class UsersAuthSocketRouter extends SocketRouter
         }
         else if (request.method == 'signup')
         {
-            handler.signup(request.params).then((user) =>
+            this.handler.signup(request.params).then((user) =>
             {
                 this.sendResponse(socket, request, user);
             }).catch((err) =>
@@ -74,9 +79,9 @@ class UsersAuthSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
-        else if (method == 'checkToken' || method == 'check-token')
+        else if (request.method == 'checkToken' || request.method == 'check-token')
         {
-            handler.checkToken(request.params).then((result) =>
+            this.handler.checkToken(request.params).then((result) =>
             {
                 this.sendResponse(socket, request, result);
             }).catch((err) =>
@@ -111,11 +116,16 @@ export class UsersAuthHandler
             }
             const query = {
                 password: params.password,
-                _id: params._id ? params._id : undefined,
-                email: params.email ? params.email : undefined,
-                password: params.password ? params.password : undefined,
             };
-            User.findOne(query).exec((err, result) =>
+            if(params._id)
+                query._id = params._id;
+            if(params.email)
+                query.email = params.email;
+            if(params.username)
+                query.username = params.username;
+            console.log("ok fuck u!");
+            console.log(query);
+            this.User.findOne(query).exec((err, result) =>
             {
                 if (err)
                 {
@@ -124,11 +134,12 @@ export class UsersAuthHandler
                 }
                 if (result == null)
                 {
-                    reject({ code: 400, error: err });
+                    reject({ code: 400, error: "User Not found" });
                     return;
                 }
-                result.token = this.encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
-                User.findByIdAndUpdate(result._id, { $set: { token: result.token, lastLogin: this.now() } }, { new: true }, (err, user) =>
+                console.log("this is fine");
+                result.token = encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
+                this.User.findByIdAndUpdate(result._id, { $set: { token: result.token, lastLogin: moment().format('YYYY-MM-DD hh:mm:ss') } }, { new: true }, (err, user) =>
                 {
                     if (err || user == null)
                     {
@@ -165,7 +176,7 @@ export class UsersAuthHandler
                 createdAt: this.now(),
                 updatedAt: "",
             }
-            User.findOne({
+            this.User.findOne({
                 $or: [
                     { username: data.username },
                     { email: data.email },
@@ -205,7 +216,7 @@ export class UsersAuthHandler
     {
         return new Promise((resolve, reject) =>
         {
-            User.Helpers.isValidToken(params.token, (result) =>
+            this.User.Helpers.isValidToken(params.token, (result) =>
             {
                 //console.log(result);
                 resolve(result);

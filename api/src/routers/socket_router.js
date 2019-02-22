@@ -29,6 +29,8 @@ export class SocketRouter
     }
     sendResponse(socket, request, data, code = 200)
     {
+        if(request.model == 'users')
+            console.log({ code: code, error: null, _data: data, request: request });
         if (socket.isAdmin)
             socket.send({ code: code, error: null, _data: data, request: request });
         else

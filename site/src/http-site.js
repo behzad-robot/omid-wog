@@ -23,6 +23,7 @@ import { Post } from "./utilsApi/post";
 import { PostCat } from "./utilsApi/postCat";
 import { ChampBuild } from "./utilsApi/build";
 import { ContactUsForm } from "./utilsApi/contactUsForm";
+import { Media } from "./utilsApi/media";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //api socket
@@ -47,6 +48,7 @@ const SiteModules = {
     Build: new ChampBuild(apiSocket),
     Post: new Post(apiSocket),
     PostCat: new PostCat(apiSocket),
+    Media: new Media(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     proxyAPI: proxyAPI,
 }
@@ -78,10 +80,10 @@ const navbarPostsCache = new CacheReader('navbar-posts', (cb) =>
     {
         if (err)
         {
+            console.log("navbar-posts => " + err);
             cb(err, undefined);
             return;
         }
-        console.log("got cats!");
         const loadPosts = (index, done) =>
         {
             if (index >= cats.length)
@@ -89,40 +91,53 @@ const navbarPostsCache = new CacheReader('navbar-posts', (cb) =>
                 done();
                 return;
             }
+            // console.log("loadPosts");
             var c = cats[index];
             SiteModules.Post.find({ categories: c._id }).then((posts) =>
             {
                 c.posts = posts;
+                loadPosts(index + 1, done);
             }).catch((err) =>
             {
-                console.log("error while retriving result");
+                console.log("error while retriving result=>" + err.toString());
                 loadPosts(index + 1, done);
             });
         };
         loadPosts(0, () =>
         {
-            console.log("navbarPostsCache:")
-            console.log(cats);
-            console.log("================================");
+            // console.log("navbarPostsCache:")
+            // console.log(cats);
+            // console.log("================================");
             cb(undefined, cats);
         });
     });
 });
-const allDota2Champions = new CacheReader('allDota2Champions', (cb) =>
+const footerPostsCache = new CacheReader('footer-posts', (cb) =>
 {
-    Champion.find({ gameId: '5c483dc1c966fb21f9ae800c' }).then((data) =>
+    SiteModules.Post.find({ limit: 3 }).then((posts) =>
     {
-        cb(undefined, data);
+        cb(undefined, posts);
     }).catch((err) =>
     {
-        cb(err, undefined);
+        cb(err.toString(), undefined);
+    });
+});
+const footerMediaCache = new CacheReader('footer-media', (cb) =>
+{
+    SiteModules.Media.find({ limit: 9 }).then((media) =>
+    {
+        cb(undefined, media);
+    }).catch((err) =>
+    {
+        cb(err.toString(), undefined);
     });
 });
 SiteModules.Cache = {
     allGames: allGamesCache,
     allPostsCats: allPostsCatsCache,
-    allDota2Champions: allDota2Champions,
     navbarPosts: navbarPostsCache,
+    footerPosts: footerPostsCache,
+    footerMedia : footerMediaCache,
 }
 
 
@@ -187,9 +202,9 @@ express.expressApp.all('/api/*', (req, res) =>
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
-// express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
-// express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
-// express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
+express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
+express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 // express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 // express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 // express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);

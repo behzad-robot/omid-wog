@@ -38,9 +38,8 @@
             text-decoration: none !important;
             height: 170px;
         }
-
-        .champ-box.champ.vg {
-            height: 100px;
+        .champ-box.champ.vg{
+            height:100px;
         }
 
         .champ-box:hover {
@@ -52,7 +51,7 @@
             width: 15%;
             /* margin: 2px 2px; */
         }
-
+        
 
         .champ-box::before {
             box-shadow: 0 1px 3px rgba(0, 0, 0, .4), inset 0 1px 1px rgba(255, 255, 255, .2);
@@ -78,7 +77,6 @@
             position: absolute;
             top: -54px;
             left: -30px;
-            pointer-events: none;
         }
 
         .champ-box .zoom.topRow {
@@ -114,7 +112,7 @@
             height: 30px;
             text-overflow: clip;
         }
-
+        
 
         @media (max-width: 576px) {
             .dota2 .champ-box {
@@ -274,7 +272,7 @@
             <h1 class="shadow-text" style="color:white;font-size:54px;">{{game.name}}</h1>
         </div>
     </section>
-    <section class="bg-section" style="padding:20px 0;">
+    <section class="bg-section" style="padding-top:20px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
@@ -282,33 +280,9 @@
                         <h2>قهرمان ها</h2>
                     </div>
                     <div id="champs-row" class="{{game.token}}" style="overflow:hidden;padding-bottom:10px;">
-                        <!-- <div name="loading" class="text-center" style="margin:10px 0;">
+                        <div name="loading" class="text-center" style="margin:10px 0;">
                             <img src="/images/loading.gif" width="72px" />
-                        </div> -->
-                        {{#champions_1}}
-                        <a href="{{siteUrl}}" class="champ-box champ {{game.token}} text-center">
-                            <div class="content">
-                                <img class="icon" src="{{icon_tall}}" width="100%" />
-                                <h4 class="text-white text-english">{{name}}</h4>
-                                <video playsinline autoplay muted loop class="zoom" poster="{{icon_tall}}">
-                                    <source src="{{icon_gif}}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        </a>
-                        {{/champions_1}}
-                        {{#champions_2}}
-                        <a href="{{siteUrl}}" class="champ-box champ {{game.token}} text-center" style="display:none;">
-                            <div class="content">
-                                <img class="icon" src="{{icon_tall}}" width="100%" />
-                                <h4 class="text-white text-english">{{name}}</h4>
-                                <video playsinline autoplay muted loop class="zoom" poster="{{icon_tall}}">
-                                    <source src="{{icon_gif}}" type="video/mp4">
-                                    Your browser does not support the video tag.
-                                </video>
-                            </div>
-                        </a>
-                        {{/champions_2}}
+                        </div>
                     </div>
                     <div class="btn btn-md btn-black" id="champions-load-more-btn" onclick="champions_show_all()">
                         <span>مشاهده
@@ -318,18 +292,9 @@
                         <h2>آیتم ها</h2>
                     </div>
                     <div id="items-row" class="{{game.token}}" style="overflow:hidden;margin-bottom:10px;">
-                        <!-- <div name="loading" class="text-center" style="margin:10px 0;">
+                        <div name="loading" class="text-center" style="margin:10px 0;">
                             <img src="/images/loading.gif" width="72px" />
-                        </div> -->
-                        {{#game.items}}
-                        <div class="champ-box item-box  text-english text-center tooltipster" itemId="{{_id}}"
-                            data-tooltip-content="#tooltip_item_{{_id}}">
-                            <div class="content">
-                                <img class="icon" src="{{icon}}" width="100%" />
-                                <h4 class="text-english">{{name}}</h4>
-                            </div>
                         </div>
-                        {{/game.items}}
                     </div>
                     <div class="btn btn-md btn-black" id="items-load-more-btn" onclick="items_show_all()"><span>مشاهده
                             همه</span></div>
@@ -340,23 +305,9 @@
                                 همه</span></a>
                     </h3>
                     <div id="builds-row">
-                        <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
-                        </div> -->
-                        {{#builds}}
-                        <a class="card build-box" href="{{siteUrl}}">
-                            <div class="icon-wrapper"><img src="{{_champ.icon_tall}}" width="100%" /></div>
-                            <div class="content-wrapper">
-                                <h4>{{title}}</h4><b class="username">توسط <span userId="${b.userId}"
-                                        label="username">{{_user.username}}</span></b>
-                            </div>
-                            <div class="vote-wrapper">
-                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;{{votes.length}} رای</span>
-                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;{{views}} بازدید</span>
-                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;{{comments.length}} نظر</span>
-                            </div>
-                        </a>
-                        {{/builds}}
+                        </div>
                     </div>
                     <h3 style="margin-top:10px;font-size:22px;">استریم های فعال:</h3>
                     <div id="streamers-row" class="row">
@@ -370,12 +321,9 @@
                             <h3>گالری</h3>
                         </div>
                         <div class="content-wrapper" id="game-gallery-box">
-                            <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                                 <img src="/images/loading.gif" width="72px" />
-                            </div> -->
-                            {{#media}}
-                            <a class="img-col" href="{{siteUrl}}"><img src="{{thumbnail_url}}" width="100%"></a>
-                            {{/media}}
+                            </div>
                         </div>
                     </div>
                     <!-- END Game Gallery -->
@@ -391,89 +339,197 @@
             <img src="/images/jaina.jpg" width="128px" /> <strong>This is the content of my tooltip!</strong>
         </span>
     </div> -->
-    <div id="tooltips-container">
-        {{#game.items}}
-        <div class="tooltip_templates">
-            <span id="tooltip_item_{{_id}}">
-                <img src="{{icon}}" width="64px" />
-                <strong>{{name}}</strong>
-                <div class="text-english" style="direction:ltr;text-align:left">
-                    <div><b style="color:#ffc400;">Category: </b><span
-                            style="text-transform:capitalize">{{category}}</span></div>
-                    <div><b style="color:#ffc400;">Price: </b><span style="text-transform:capitalize">{{price}}</span>
-                    </div>
-                    {{#hasRecipe}}
-                    <div><b style="color:#03A9F4">Requires Recipe</b></div>
-                    {{/hasRecipe}}
-                    {{#coolDown}}
-                    <div><b style="color:#ffc400;">Cool Down: </b>{{coolDown}} seconds</div>
-                    {{/coolDown}}
-                    {{#manaCost}}
-                    <div><b style="color:#ffc400;">Mana Cost: </b>{{manaCost}}</div>
-                    {{/manaCost}}
-                    <div class="text-english">{{{description}}}</div>
-
-                </div>
-            </span>
-        </div>
-        {{/game.items}}
-    </div>
+    <div id="tooltips-container"></div>
     <script>
-        function champions_show_all()
-        {
-            $("#champions-load-more-btn").hide();
-            $(".champ-box").show();
-        }
-        function items_show_all()
-        {
-            $("#items-load-more-btn").hide();
-            $(".item-box").show();
-        }
-        $(() =>
-        {
-            //setup champions:
-            var champs = $(".champ-box");
-            for (var i = 0; i < champs.length; i++)
-            {
-                if (i == 0)
-                    $(champs[i]).find(".zoom").addClass('firstCol');
-                else if (i <= 5)
-                    $(champs[i]).find(".zoom").addClass('topRow');
-                else if (i % 6 == 0)
-                    $(champs[i]).find(".zoom").addClass('firstCol');
-            }
-            //setup items:
-            var items = $(".item-box");
-            for (var i = 28; i < items.length; i++)
-            {
-                $(items[i]).hide();
-            }
+        let champions = [];
+        let builds = [];
+        let game = undefined;
+        let streamers = [];
+        let fixmeTop = -1;
+        $(document).ready(() => {
             $('.tooltipster').tooltipster();
-            //streamers:
-            let gameId = 29595;
-            if (`{{game.token}}` == 'dota2')
-                gameId = 29595;
-            else if (`{{game.token}}` == 'mortal')
-                gameId = 460521;
-            else
-                gameId = 478467; // vg
-            getTwitchStreamersFor(gameId, (ss) =>
-            {
-                streamers = ss;
-                streamers_create();
+
+            getGame('{{game._id}}', (g) => {
+                game = g;
+                items_create();
+                getChampions('?gameId=' + `{{game._id}}`, (cs) => {
+                    champions = cs;
+                    //draw champions:
+                    champions_create();
+                    //load builds:
+                    getBuilds('?gameId=' + `{{game._id}}`, game, champions, (bs) => {
+                        builds = bs;
+                        builds_create();
+                        //twitch streamers: TODO: convert to twitchGameId field in games!
+                        let gameId = 29595;
+                        if(game.token == 'dota2')
+                            gameId = 29595;
+                        else if(game.token =='mortal')
+                            gameId = 460521;
+                        else
+                            gameId = 478467; // vg
+                        getTwitchStreamersFor(gameId, (ss) => {
+                            streamers = ss;
+                            streamers_create();
+                        });
+                        console.log("plz load media!");
+                        //media:
+                        getMedia('?gameId=' + game._id, (media) => {
+                            var container = $("#game-gallery-box");
+                            console.log(media);
+                            if(media.length == 0){
+                                $("#game-gallery-box").append(`موردی برای این بازی ثبت نشده.`);
+                                $("#game-gallery-box [name=loading]").hide();
+                                return;
+                            }
+                            for (var i = 0; i < media.length; i++) {
+                                var m = media[i];
+                                $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail}" width="100%"></a>`);
+                            }
+                            $("#game-gallery-box [name=loading]").hide();
+                        });
+                    });                                       
+                });
             });
+            // var champBox = $("#champs-row").html();
+            // for (var i = 0; i < 27; i++) {
+            //     // $("#champs-row").append(champBox);
+            //     $("#champs-row").append(`<div class="champ-box text-center"><div class="content"><img class="icon" src="/assets/axe.jpg" width="100%" /><img src="/assets/axe-gif.gif" class="zoom" width="100%" /><h4>Kaisa</h4></div></div>`);
+            // }
+            // for (var i = 0; i < 27; i++) {
+            //     // $("#champs-row").append(champBox);
+            //     $("#items-row").append(`<div class="champ-box item-box text-center"><div class="content"><img class="icon" src="/images/s4.png" width="100%" /><h4>Item</h4></div></div>`);
+            // }
         });
-        function streamers_create()
-        {
+        function champions_create() {
+            for (var i = 0; i < champions.length; i++) {
+                var c = champions[i];
+                var extraClasses = '';
+                if (i == 0)
+                    extraClasses = 'firstCol';
+                else if (i <= 5)
+                    extraClasses = 'topRow';
+                else if (i % 6 == 0)
+                    extraClasses = 'firstCol';
+                let zoomIn = '';
+                if(game.token == 'dota2'){
+                    zoomIn = `<video  playsinline autoplay muted loop class="zoom ${extraClasses}" poster="${c.icon_tall}">
+                            <source src="${c.icon_gif}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>`;
+                }
+                $("#champs-row").append(
+                    `<a href="${c.siteUrl}" class="champ-box champ ${game.token} text-center" index="${i}">`
+                    + `<div class="content">
+                        <img class="icon" src="${game.token == 'dota2' ? c.icon_tall : c.icon}" width="100%" />
+                        ${zoomIn}
+                        `
+                    + `<h4 class="text-white text-english">${c.name}</h4>`
+                    + `</div>`
+                    + `</a>`
+                );
+                if (i >= 28)
+                    $(`.champ-box[index=${i}]`).hide();
+            }
+            $("#champs-row [name=loading]").hide();
+        }
+        function champions_show_all() {
+            $(`.champ-box.champ`).show();
+            $("#champions-load-more-btn").hide();
+        }
+        function items_create() {
+            for (var i = 0; i < game.items.length; i++) {
+                const item = game.items[i];
+                var itemExtraInfo = '';
+                if (item.coolDown != '' && item.coolDown != 0)
+                    itemExtraInfo += '<b>Cool Down:</b><span style="">${item.coolDown}</span>';
+                if (item.manCost != '')
+                    itemExtraInfo += '<b>Mana Cost:</b><span style="">${item.manaCost}</span>';
+                if (item.psi != '' && item.psi != undefined)
+                    itemExtraInfo += '<b>Pierce Spell Immunity:</b><span style="">${item.psi}</span>';
+                $("#items-row").append(
+                    `<div class="champ-box item-box  text-english text-center tooltipster" itemId="${item._id}" data-tooltip-content="#tooltip_item_${item._id}">
+                        <div class="content">
+                            <img class="icon" src="${item.icon}" width="100%" />
+                            <h4 class="text-english">${item.name}</h4>
+                        </div>
+                    </div>
+                    `
+                );
+                var recipe = item.hasRecipe ? '<b style="color:#03A9F4">Requires Recipe</b>' : '';
+                var coolDown = item.coolDown != '' && item.coolDown != ' ' ? ('<b style="color:#ffc400;">Cool Down: </b>'+item.coolDown+' seconds') : '';
+                var manaCost = item.manaCost != '' && item.manaCost != ' ' ? ('<b style="color:#ffc400;">Mana Cost: </b>'+item.manaCost) : '';
+
+                $("#tooltips-container").append(`<div class="tooltip_templates">
+                        <span id="tooltip_item_${item._id}">
+                            <img src="${item.icon}" width="64px" /> 
+                            <strong>${item.name}</strong>
+                            <div class="text-english" style="direction:ltr;text-align:left">
+                                <div><b style="color:#ffc400;">Category: </b><span style="text-transform:capitalize">${item.category}</span></div>
+                                <div><b style="color:#ffc400;">Price: </b><span style="text-transform:capitalize">${item.price}</span></div>
+                                <div>${recipe}</div>
+                                <div>${coolDown}</div>
+                                <div class="text-english">${item.description}</div>
+                                
+                            </div>
+                        </span>
+                    </div>`);
+                if (i >= 28)
+                    $(`.item-box[itemId=${item._id}]`).hide();
+            }
+            $("#items-row [name=loading]").hide();
+            $('.tooltipster').tooltipster();
+            $(".item-box").mouseenter(function () {
+
+            });
+        }
+        function items_show_all() {
+            $(`.item-box`).show();
+            $("#items-load-more-btn").hide();
+        }
+        function builds_create() {
+            if(builds.length == 0){
+                $("#builds-row").html("آموزشی برای این بازی ثبت نشده است.");
+            }
+            for (var i = 0; i < builds.length; i++) {
+                if (builds[i].itemRows.length == 0)
+                    continue;
+                var b = builds[i];
+                var items_str = ``;
+                var row = b.itemRows[b.itemRows.length >= 2 ? 1 : 0];
+                console.log(row);
+                for (var j = 0; j < row.items.length; j++) {
+                    var it = row._items[j];
+                    items_str += `<img src="${it.icon}" class="item" />`;
+                }
+                $("#builds-row").append(
+                    `<a class="card build-box" href="${b.siteUrl}">
+                        <div class="icon-wrapper"><img src="${b._champ.icon_tall}" width="100%" /></div>
+                        <div class="content-wrapper">
+                        <h4>${b.title}</h4><b class="username">توسط <span userId="${b.userId}" label="username">??</span></b><div class="item-wrapper">${items_str}</div>
+                        </div>
+                        <div class="vote-wrapper"><span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;0 رای</span><span><i class="fas fa-eye"></i>&nbsp;&nbsp;0 بازدید</span><span><i class="fas fa-comment"></i>&nbsp;&nbsp;0 نظر</span></div>
+                    </a>`
+                );
+                const userId = b.userId;
+                getUser(userId, (user) => {
+                    var thing = $(`[userId=${userId}]`);
+                    var label = $(thing).attr('label');
+                    $(thing).html(user[label]);
+                });
+            }
+            $("#builds-row [name=loading]").hide();
+        }
+        function streamers_create() {
             console.log("streamers loaded " + streamers.length);
-            for (var i = 0; i < streamers.length && i < 3; i++)
-            {
+            for (var i = 0; i < streamers.length && i < 3; i++) {
                 var s = streamers[i];
                 console.log(s);
-                $("#streamers-row").append(`<div class="col-12"><a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a></div>`);
+                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
             }
             $("#streamers-row [name=loading]").hide();
         }
+
     </script>
     {{{footer}}}
 </body>

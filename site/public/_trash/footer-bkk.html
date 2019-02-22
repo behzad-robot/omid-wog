@@ -10,15 +10,7 @@
                         <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div> -->
-                        {{#footerPosts}}
-                        <a class="hot-news-container text-center" style="background-image:url('{{thumbnail}}')" href="${p.siteUrl}">
-                            <div class="wog-overlay trans-6"></div>
-                            <div class="content text-shadow">
-                                <small><i class="fas fa-calendar"></i>&nbsp;{{createdAt}}</small>
-                                <h2>{{title}}</h2>
-                            </div>
-                        </a>
-                        {{/footerPosts}}
+                        
                     </div>
                 </div>
             </div>
@@ -53,6 +45,50 @@
         </div>
     </div>
 </section>
+<script>
+    $(function ()
+    {
+        return;
+        $("#above-footer-section").Lazy({
+            scrollDirection: 'vertical',
+            effect: 'fadeIn',
+            delay: 1000,
+            beforeLoad: function (element)
+            {
+                console.log("beforeLoad");
+            },
+            loadData: function (element)
+            {
+                console.log("loadData called!");
+                //media:
+                getMedia('?limit=12', (media) =>
+                {
+                    var container = $("#footer-gallery-box");
+                    console.log(media);
+                    for (var i = 0; i < media.length; i++)
+                    {
+                        var m = media[i];
+                        $(container).append(`<a class="img-col" href="${m.siteUrl}"><img src="${m.thumbnail_url}" width="100%"></a>`);
+                    }
+                    $("#footer-gallery-box [name=loading]").hide();
+                });
+                //posts
+                getPosts('?limit=3', (posts) =>
+                {
+                    var container = $("#footer-news-box");
+                    console.log(posts);
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        var p = posts[i];
+                        $(container).append(`<a class="hot-news-container text-center" style="background-image:url('${p.thumbnail}')" href="${p.siteUrl}"><div class="wog-overlay trans-6"></div><div class="content text-shadow"><small><i class="fas fa-calendar"></i>&nbsp;21 آبان 1397</small><h2>${p.title}</h2></div></a>`);
+                    }
+                    $("#footer-news-box [name=loading]").hide();
+                });
+            }
+        });
+
+    });
+</script>
 <footer>
     <div class="container">
 

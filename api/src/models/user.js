@@ -31,6 +31,7 @@ User.Helpers = {
     hasDraft: () => true,
     public: (doc) =>
     {
+        doc = doc.toObject();
         delete (doc.accessLevel);
         delete (doc.token);
         delete (doc.password);

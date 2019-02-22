@@ -46,7 +46,7 @@ export default class SiteRouter extends Router
         try
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
-            console.log("load all games from cache");
+            // console.log("load all games from cache");
             //cache related things:
             this.modules.Cache.allGames.getData((err, games) =>
             {
@@ -55,7 +55,7 @@ export default class SiteRouter extends Router
                     res.send("Error=" + err.toString());
                     return;
                 }
-                console.log('all games count=>' + games.length);
+                // console.log('all games count=>' + games.length);
                 data.allGames = games;
                 this.modules.Cache.navbarPosts.getData((err, navbarPosts) =>
                 {
@@ -63,11 +63,30 @@ export default class SiteRouter extends Router
                     data.currentUser = req.session ? req.session.currentUser : undefined;
                     data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
                     data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
-                    data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), data);
-                    console.log("parts readY!");
-                    res.send(mustache.render(view_str, data));
+                    this.modules.Cache.footerPosts.getData((err, footerPosts) =>
+                    {
+                        if (err)
+                        {
+                            this.show500(req, res, err);
+                            return;
+                        }
+                        this.modules.Cache.footerMedia.getData((err, footerMedia) =>
+                        {
+                            if (err)
+                            {
+                                this.show500(req, res, err);
+                                return;
+                            }
+                            data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {
+                                footerPosts : footerPosts,
+                                footerMedia : footerMedia,
+                            });
+                            console.log("parts readY!");
+                            // console.log(Date.now()-data._t);
+                            res.send(mustache.render(view_str, data));
+                        });
+                    });
                 });
-
             });
         } catch (err)
         {

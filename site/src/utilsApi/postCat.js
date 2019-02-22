@@ -37,23 +37,11 @@ export class PostCat extends SocketCollection
     }
     fixOne(g)
     {
-        for (var i = 0; i < g.items.length; i++)
-        {
-            if (isEmptyString(g.items[i].icon))
-                g.items[i].icon = ICON_404;
-        }
-        if (isEmptyString(g.icon))
-            g.icon = ICON_404;
-        if (isEmptyString(g.cover))
-            g.cover = ICON_404;
-        if (isEmptyString(g.coverTall))
-            g.coverTall = ICON_404;
-        g.siteUrl = '/PostCats/' + g.slug;
         return g;
     }
     fixAll(cs)
     {
-        for (var i = 0; i < cs.length; i++)
+        for(var i = 0 ; i < cs.length;i++)
             cs[i] = this.fixOne(cs[i]);
         return cs;
     }

@@ -111,10 +111,11 @@ const WSRouters = [
     //posts & comments:
     new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('comments', Comment, { apiTokenRequired: true }),
     //media:
     new PublicMongooseWSRouter('media', Media, { apiTokenRequired: true }),
     //contact us:
-    new PublicMongooseWSRouter('contact-us-forms', Media, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('contact-us-forms', ContactUsForm, { apiTokenRequired: true }),
     //extras:
     new AppInfoSocketRouter(),
 ];
@@ -133,8 +134,8 @@ const easySocket = new EasySocket({
         if (messageStr.indexOf('{') != -1)
         {
             // console.log(messageStr);
-            console.log(`Socket=>${msg.model}=>${msg.method}`);
             var msg = JSON.parse(messageStr);
+            console.log(`Socket=>${msg.model}=>${msg.method}`);
             for (var i = 0; i < WSRouters.length; i++)
                 WSRouters[i].onMessage(socket, msg);
         }

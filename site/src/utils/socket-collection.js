@@ -8,6 +8,7 @@ export class SocketCollection
         this.apiSocket = apiSocket;
         this.apiCall = this.apiCall.bind(this);
         this.find = this.find.bind(this);
+        this.findOne = this.findOne.bind(this);
         this.getOne = this.getOne.bind(this);
         this.insert = this.insert.bind(this);
         this.edit = this.edit.bind(this);
@@ -29,6 +30,19 @@ export class SocketCollection
     find(params = {})
     {
         return this.apiCall('find', params);
+    }
+    findOne(params = {})
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.find({}).then((results) =>
+            {
+                if (results.length == 0)
+                    reject("Result Not Found");
+                else
+                    resolve(results[0]);
+            }).catch(reject);
+        });
     }
     getOne(_id)
     {

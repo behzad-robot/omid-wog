@@ -9,6 +9,7 @@ export class User extends SocketCollection
         super('users', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
+        this.public = this.public.bind(this);
         this.find = this.find.bind(this);
         this.getOne = this.getOne.bind(this);
     }
@@ -37,18 +38,6 @@ export class User extends SocketCollection
     }
     fixOne(g)
     {
-        for (var i = 0; i < g.items.length; i++)
-        {
-            if (isEmptyString(g.items[i].icon))
-                g.items[i].icon = ICON_404;
-        }
-        if (isEmptyString(g.icon))
-            g.icon = ICON_404;
-        if (isEmptyString(g.cover))
-            g.cover = ICON_404;
-        if (isEmptyString(g.coverTall))
-            g.coverTall = ICON_404;
-        g.siteUrl = '/Users/' + g.slug;
         return g;
     }
     fixAll(cs)
@@ -57,5 +46,12 @@ export class User extends SocketCollection
             cs[i] = this.fixOne(cs[i]);
         return cs;
     }
-
+    public(u)
+    {
+        delete(u.token);
+        delete(u.email);
+        delete(u.password);
+        delete(u.phoneNumber);
+        return u;
+    }
 }
