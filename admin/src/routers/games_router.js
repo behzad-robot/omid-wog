@@ -10,9 +10,10 @@ export default class GamesPanelRouter extends AdminRouter
         const Admin = AdminModules.Admin;
         const Game = AdminModules.Game;
         this.requireAdmin();
-        this.router.use((req,res,next)=>{
+        this.router.use((req, res, next) =>
+        {
             // console.log(req.url);
-            if(req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
+            if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
             {
                 updateCache('all-games');
             }
@@ -43,7 +44,7 @@ export default class GamesPanelRouter extends AdminRouter
         {
             Game.delete(req.params._id).then((result) =>
             {
-                res.send('<p>Item Delete Result</p>'+JSON.stringify(result)+'<br><br><a href="/admin/games/">Back to Games</a>');
+                res.send('<p>Item Delete Result</p>' + JSON.stringify(result) + '<br><br><a href="/admin/games/">Back to Games</a>');
             }).catch((err) =>
             {
                 res.send(err);
@@ -60,12 +61,19 @@ export default class GamesPanelRouter extends AdminRouter
             req.body._draft = req.body._draft == 'on' ? true : false;
             req.body.images = JSON.parse(req.body.images);
             // req.body.media = JSON.parse(req.body.media);
-            req.body.items = JSON.parse(req.body.items);
-            if(req.body.summonerSpells && req.body.summonerSpells != '')
-                req.body.summonerSpells = JSON.parse(req.body.summonerSpells);
-            if(req.body.runes && req.body.runes != '')
-                req.body.runes = JSON.parse(req.body.runes);
-            req.body.patchNotes = JSON.parse(req.body.patchNotes);
+            if (req.body.items)
+            {
+                req.body.items = JSON.parse(req.body.items);
+                if (req.body.summonerSpells && req.body.summonerSpells != '')
+                    req.body.summonerSpells = JSON.parse(req.body.summonerSpells);
+                if (req.body.runes && req.body.runes != '')
+                    req.body.runes = JSON.parse(req.body.runes);
+                req.body.patchNotes = JSON.parse(req.body.patchNotes);
+            }
+            else
+            {
+                
+            }
             const _id = req.body._id;
             delete (req.body._id);
             Game.edit(_id, req.body).then((result) =>
@@ -80,7 +88,7 @@ export default class GamesPanelRouter extends AdminRouter
         {
             res.send(this.renderTemplate('game-single.html', {
                 admin: req.session.admin,
-                _id : req.params._id,
+                _id: req.params._id,
                 fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });

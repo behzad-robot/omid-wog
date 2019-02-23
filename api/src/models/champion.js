@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
-import { API_BASE_URL } from '../../../admin/src/constants';
-import { SITE_URL } from '../constants';
+import { SITE_URL ,API_BASE_URL } from '../constants';
 
 export const ChampionSchema = new mongoose.Schema({
     gameId: {type:String,default:''},
@@ -15,14 +14,10 @@ export const ChampionSchema = new mongoose.Schema({
     videoSpotlight: {type:String,default:'?'},
     description: {type:String,default:''},
     descriptionPersian: {type:String,default:''},
-    media: Array,
 
     lore: {type:String,default:'?'},
     loreUrl: {type:String,default:'?'},
 
-    createdAt: String,
-    updatedAt: String,
-    _draft : {type : Boolean , default : false},
     //lol,dota:
     roles: Array, //{name , playRate}
     /*
@@ -44,7 +39,14 @@ export const ChampionSchema = new mongoose.Schema({
     //dota:
     attackType: {type:String,default:''},
     primaryAttr: {type:String,default:''},
-
+    //mortal combat:
+    variations : Array , // { name : string , icon : string , moves :[] }
+    moves : Array, //{ _id : int , name : string, description : string, video : string, keys : string [] }
+    
+    
+    createdAt: String,
+    updatedAt: String,
+    _draft : {type : Boolean , default : false},
 }, {
         toObject: {
             virtuals: true
