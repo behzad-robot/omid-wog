@@ -9,8 +9,15 @@ export const ADMIN_FILE_UPLOAD = IS_LOCALHOST () ? "http://localhost:6565/admin/
 export const ADMIN_TOKEN = "hamunhamishegi";
 export const ADMIN_URL = "http://localhost:6565/";
 export const SERVER_FILES_URL = IS_LOCALHOST() ? "http://localhost:8081" : "http://worldofgamers.ir:8080";
-
-
+export const STORAGE_BASE_URL = IS_LOCALHOST() ? "http://localhost" : "http://worldofgamers.ir";
+export function SITE_URL(path)
+{
+    if (path.indexOf("http://") != -1 || path.indexOf("https://") != -1)
+        return path;
+    if (!path.startsWith('/'))
+        path = '/' + path;
+    return STORAGE_BASE_URL + path;
+}
 export function IS_LOCALHOST()
 {
     return fs.existsSync(path.resolve('.localhost'));

@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class Post extends SocketCollection
@@ -35,10 +36,15 @@ export class Post extends SocketCollection
             }).catch(reject);
         });
     }
-    fixOne(g)
+    fixOne(p)
     {
-        
-        return g;
+        if (isEmptyString(p.thumbnail))
+            p.thumbnail = ICON_404;
+        p.thumbnail = SITE_URL(p.thumbnail);
+        p.siteUrl = SITE_URL('/posts/' + p.slug);
+        if (p.authorId == undefined)
+            p.authorId = p.adminId;
+        return p;
     }
     fixAll(cs)
     {

@@ -6,3 +6,4 @@ admin/.localhost
 api/.localhost
 admin/package-lock.json
 api/package-lock.json
+site/.localhost

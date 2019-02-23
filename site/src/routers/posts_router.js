@@ -1,7 +1,8 @@
 import SiteRouter from "./site_router";
 import BehzadTimer from "../libs/behzad_timer";
+import { isEmptyString } from "../utils/utils";
 
-const timer = new BehzadTimer("posts_router",true);
+const timer = new BehzadTimer("posts_router", true);
 export default class SitePostsRouter extends SiteRouter
 {
     constructor(siteModules)
@@ -9,18 +10,46 @@ export default class SitePostsRouter extends SiteRouter
         super(siteModules);
         this.router.get('/', (req, res) =>
         {
-            siteModules.Post.find({}, 20).then((posts) =>
+            siteModules.Post.find({ limit: 20 }).then((posts) =>
             {
-                posts = siteModules.Post.fixAll(posts);
-                siteModules.Post.find({}).then((leftPosts) =>
+                var requiredUsers = [];
+                for (var i = 0; i < posts.length; i++)
                 {
-                    leftPosts = siteModules.Post.fixAll(leftPosts);
+                    var has = false;
+                    for (var j = 0; j < requiredUsers.length; j++)
+                    {
+                        if (requiredUsers[j] == posts[i].authorId)
+                        {
+                            has = true;
+                            break;
+                        }
+                    }
+                    if (!has && !isEmptyString(posts[i].authorId))
+                        requiredUsers.push(posts[i].authorId);
+                }
+                siteModules.User.find({ _ids: requiredUsers }).then((users) =>
+                {
+                    for(var i = 0 ; i < posts.length;i++)
+                    {
+                        for(var j = 0 ; j < users.length; j++)
+                        {
+                            if(posts[i].authorId == users[j]._id)
+                            {
+                                posts[i]._author = users[j];
+                                break;
+                            }
+                        }
+                    }
                     this.renderTemplate(req, res, 'posts-archive.html', {
                         posts: posts,
-                        leftPosts: leftPosts,
-                        rightPosts: leftPosts,
+                        leftPosts: [],
+                        rightPosts: [],
                     });
+                }).catch((err) =>
+                {
+                    this.show500(req, res, err.toString());
                 });
+
             }).catch((err) =>
             {
                 res.send(err.toString());
@@ -70,8 +99,8 @@ export default class SitePostsRouter extends SiteRouter
                         }).catch((err) =>
                         {
                             post._author = {
-                                _id : "??",
-                                username :"Not-Found",
+                                _id: "??",
+                                username: "Not-Found",
                             };
                             post._author = siteModules.User.fixOne(post._author);
                             this.renderTemplate(req, res, 'post-single.html', {

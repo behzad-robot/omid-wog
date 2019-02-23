@@ -9,7 +9,7 @@ export const ADMIN_FILE_UPLOAD = IS_LOCALHOST() ? "http://localhost:6565/admin/f
 export const ADMIN_TOKEN = "hamunhamishegi";
 export const ADMIN_URL = "http://localhost:6565/";
 export const APP_TOKEN = "dokidokiappclub";
-export const STORAGE_BASE_URL = "http://worldofgamers.ir";
+export const STORAGE_BASE_URL = IS_LOCALHOST() ? "http://localhost" : "http://worldofgamers.ir";
 
 
 export function SITE_URL(path)
