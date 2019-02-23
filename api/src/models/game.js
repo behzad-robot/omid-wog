@@ -12,10 +12,10 @@ export const GameSchema = new mongoose.Schema({
     category : {type:String,default:'?'},
     ageRange : {type:String,default:''},
     images : Array,
-    media: Array,//{type , url}
     items: Array,
     /*
         {
+            id : int
             icon : string
             name : string
             slug : string,
@@ -32,6 +32,8 @@ export const GameSchema = new mongoose.Schema({
     summonerSpells:Array, // { name , icon , description , level , range , coolDown}
     runes:Array, // {tree , name , icon , description , depth , bonus}
     patchNotes:Array, // {title : string , body : string}
+    //mortal only:
+    factions : Array, // {slug : string , name : string , icon : string ,cover : string , description : string , info : string }
     
     createdAt:String,
     updatedAt:String,

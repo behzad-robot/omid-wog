@@ -1,0 +1,32 @@
+Champion{
+    name : string,
+    slug
+    icon 
+    icon_tall
+    cover
+    variations : [
+        {
+            name : string,
+            icon : string,
+            moves : [],
+        }
+    ],
+    moves : [
+        {
+            _id : int ,
+            name : string,
+            description : string,
+            video : string,
+            buttons : string [] ,
+        }
+    ],
+}
+Game{
+    factions : [
+        {
+            icon : string ,
+            name : string ,
+            description : string,
+        }
+    ],
+}

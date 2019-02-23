@@ -1,0 +1,277 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Champion {{{_id}}}:<a href="/admin/champions/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a></h2>
+        <hr />
+        <form id="single" action="/admin/champions/{{{_id}}}/edit" method="POST"></form>
+        <hr />
+        <div id="extra"></div>
+        <script>
+            var game = undefined;
+            var champion = undefined;
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=champions`
+            let MY_DIR = '';
+            getObject('champions', `{{{_id}}}`, (c) =>
+            {
+                if (c.icon_tall == undefined)
+                    c.icon_tall = '?';
+                if (c.nickname == undefined)
+                    c.nickname = '';
+                for (var i = 0; i < c.abilities.length; i++)
+                {
+                    if (c.abilities[i].descriptionPersian == undefined)
+                        c.abilities[i].descriptionPersian = '';
+                }
+                for (var i = 0; i < c.abilities.length; i++)
+                {
+                    c.abilities[i].range = c.abilities[i].range ? c.abilities[i].range : '';
+                    c.abilities[i].coolDown = c.abilities[i].coolDown ? c.abilities[i].coolDown : '';
+                    c.abilities[i].cost = c.abilities[i].cost ? c.abilities[i].cost : '';
+                }
+                champion = c;
+                console.log(champion);
+                getObject('games', champion.gameId, (g) =>
+                {
+                    game = g;
+                    MY_DIR = `games/${g.token}/champions`;
+                    //create fields:
+                    $("#single").append(idInput('_id', champion._id));
+                    $("#single").append(draftInput(champion._draft));
+                    $("#single").append(idInput('createdAt', champion.createdAt));
+                    $("#single").append(idInput('updatedAt', champion.updatedAt));
+                    $("#single").append(textInput('gameId', champion.gameId, { readonly: false, after: game.name }));
+                    $("#single").append(textInput('name', champion.name));
+                    $("#single").append(textInput('nickname', champion.nickname));
+                    $("#single").append(textInput('slug', champion.slug));
+                    // $("#single").append(bodyInput('lore', champion.lore));
+                    // $("#single").append(textInput('loreUrl', champion.loreUrl));
+                    $("#single").append(bodyInput('description', champion.description));
+                    //image fields:
+                    imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, MY_DIR, [{ width: 128, height: -1 }]);
+                    imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL, MY_DIR, [{ width: 128, height: -1 }]);
+                    // $(`#single`).append(filePickTool(undefined,'icon_gif',champion.icon_gif));
+                    imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL, MY_DIR, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
+                    imageInput('#single', 'cover2', champion.cover2, FILE_UPLOAD_URL, MY_DIR, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);
+                    //complicated shit:
+                    $("#single").append(jsonInput('variations', champion.variations));
+                    $("#single").append(jsonInput('moves', champion.moves));
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    //extras:
+                    $("#extra").append(`<div id="variations"></div>`);
+                    variations_recreate();
+                    $("#extra").append(`<div id="moves"></div>`);
+                    moves_recreate();
+                });
+
+            });
+            function scroll_to(el)
+            {
+                $('html, body').animate({
+                    scrollTop: parseInt($(el).offset().top)
+                }, 2000);
+            }
+            function variations_recreate()
+            {
+                $("[name=variations]").val(JSON.stringify(champion.variations));
+                $("#variations").html(`<h4>Variations:</h4><div class="btn btn-md btn-secondary" onclick="variations_add()">+Add Variation</div>`);
+                for (var i = 0; i < champion.variations.length; i++)
+                {
+                    var v = champion.variations[i];
+                    $("#variations").append(`<div class="box-row variation-box" id="variations-${i}" index="${i}"></div>`);
+                    $(`#variations-${i}`).append(textInput('name', v.name));
+                    $(`#variations-${i}`).append(bodyInput('description', v.description));
+                    imageInput(`#variations-${i}`, 'icon', v.icon, FILE_UPLOAD_URL, MY_DIR);
+                    $(`#variations-${i}`).append(jsonInput('_moves', v.moves));
+                    $(`#variations-${i}`).append(`<hr>`);
+                    var movesStr = '';
+                    for(var j= 0 ; j < v.moves.length;j++)
+                    {
+                        var m = get_move(v.moves[j]);
+                        movesStr += `
+                        <div class="box-row">
+                            ${m.name}
+                            <div class="float-right">
+                                <div class="btn btn-xs btn-info" onclick="variations_move_move(${i},${j},-1)">Up</div>
+                                <div class="btn btn-xs btn-info" onclick="variations_move_move(${i},${j},1)">Down</div>
+                                <div class="btn btn-xs btn-danger" onclick="variations_remove_move(${i},${j})">Remove</div>
+                            </div>
+                        </div>
+                        `;
+                    }
+                    $(`#variations-${i}`).append(`
+                    <div name="moves-container">
+                        <h5>Moves:</h5>
+                        ${movesStr}
+                    </div>`);
+                    $(`#variations-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="variations_remove(${i})">Remove</div>`);
+                }
+                $("#variations input,#variations textarea").change(function () {
+                    variations_update(this);
+                });
+            }
+            function variations_add()
+            {
+                champion.variations.push({
+                    name: 'Jungul Var',
+                    icon: '',
+                    description: '',
+                    moves: [],
+                });
+                variations_recreate();
+            }
+            function variations_remove(index)
+            {
+                champion.variations.splice(index, 1);
+                variations_recreate();
+            }
+            function variations_update(elm)
+            {
+                var i = $(elm).closest('.variation-box').attr('index');
+                champion.variations[i] = {
+                    name: $(`#variations-${i} [name=name]`).val(),
+                    icon: $(`#variations-${i} [name=icon]`).val(),
+                    description: $(`#variations-${i} [name=description]`).val(),
+                    moves: JSON.parse($(`#variations-${i} [name=_moves]`).val()),
+                }
+                $("[name=variations]").val(JSON.stringify(champion.variations));
+            }
+            function variations_move_move(vIndex,mIndex,dir){
+                var variation = champion.variations[vIndex];
+                if((mIndex == 0 && dir == -1) || (mIndex ==  variation.moves.length-1 && dir == 1))
+                {
+                    alert('Action not allowed');
+                    return;
+                }
+                var temp = variation.moves[mIndex];
+                variation.moves[mIndex] = variation.moves[mIndex+dir];
+                variation.moves[mIndex+dir] = temp;
+                variations_recreate();
+            }
+            function variations_remove_move(vIndex,mIndex){
+                champion.variations[vIndex].moves.splice(mIndex,1);
+                variations_recreate();
+            }
+            function moves_recreate()
+            {
+                $("[name=moves]").val(JSON.stringify(champion.moves));
+                $("#moves").html(`<h4>Moves:</h4><div class="btn btn-md btn-secondary" onclick="moves_add()">+Add Move</div>`);
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    var v = champion.moves[i];
+                    $("#moves").append(`<div class="box-row move-box" id="moves-${i}" index="${i}" moveId="${v._id}"></div>`);
+                    $(`#moves-${i}`).append(idInput('_id', v._id));
+                    $(`#moves-${i}`).append(textInput('name', v.name));
+                    $(`#moves-${i}`).append(bodyInput('description', v.description));
+                    $(`#moves-${i}`).append(filePickTool(undefined, 'video', v.video));
+                    $(`#moves-${i}`).append(jsonInput('buttons', v.buttons));
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'up')"><img src="/images/joystick/up.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'down')"><img src="/images/joystick/down.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'left')"><img src="/images/joystick/left.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'right')"><img src="/images/joystick/right.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'triangle')"><img src="/images/joystick/triangle.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'circle')" ><img src="/images/joystick/circle.png" width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'cross')" ><img src="/images/joystick/cross.png" width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'square')"><img src="/images/joystick/square.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'r1')"><img src="/images/joystick/r1.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'r2')"><img src="/images/joystick/r2.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'l1')"><img src="/images/joystick/l1.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'l2')"><img src="/images/joystick/l2.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-dark" onclick="moves_add_btn(${v._id},'clear')">Clear All</div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<hr>`);
+                    $(`#moves-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="moves_remove(${v._id})">Remove</div>`);
+                }
+                $("#moves input,#moves textarea").change(function () {
+                    moves_update(this);
+                });
+            }
+            function get_move(_id){
+                for(var i = 0 ; i < champion.moves.length;i++)
+                    if(champion.moves[i]._id == _id)
+                        return champion.moves[i];
+                return undefined;
+            }
+            function moves_add()
+            {
+                var maxId = -1;
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    if (champion.moves[i]._id > maxId)
+                    {
+                        maxId = champion.moves[i]._id;
+                    }
+                }
+                maxId++;
+                champion.moves.push({
+                    _id: maxId,
+                    name: 'Ryugawa Tekyo Kurooo',
+                    description: '',
+                    video: '',
+                    buttons: [],
+                });
+                moves_recreate();
+            }
+            function moves_remove(_id)
+            {
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    if (champion.moves[i]._id == _id)
+                    {
+                        champion.moves.splice(i, 1);
+                        moves_recreate();
+                        return;
+                    }
+                }
+            }
+            function moves_update(elm)
+            {
+                let _id = $(elm).closest('.move-box').attr('moveId');
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    if (champion.moves[i]._id == _id)
+                    {
+                        champion.moves[i] = {
+                            _id: $(`#moves-${i} [name=_id]`).val(),
+                            name: $(`#moves-${i} [name=name]`).val(),
+                            video: $(`#moves-${i} [name=video]`).val(),
+                            description: $(`#moves-${i} [name=description]`).val(),
+                            buttons: JSON.parse($(`#moves-${i} [name=buttons]`).val()),
+                        };
+                        $("[name=moves]").val(JSON.stringify(champion.moves));
+                        return;
+                    }
+                }
+            }
+            function moves_add_btn(_id, btn)
+            {
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    if (champion.moves[i]._id == _id)
+                    {
+                        if(btn != 'clear')
+                            champion.moves[i].buttons.push(btn);
+                        else
+                            champion.moves[i].buttons = [];
+                        $("[name=moves]").val(JSON.stringify(champion.moves));
+                        $(`#moves-${i} [name=buttons]`).val(JSON.stringify(champion.moves[i].buttons));
+                        return;
+                    }
+                }
+            }
+        </script>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

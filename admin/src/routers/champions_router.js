@@ -16,7 +16,6 @@ export default class ChampionsPanelRouter extends AdminRouter
             if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
             {
                 console.log('update cache for allDota2Champions');
-                updateCache('allDota2Champions');
             }
             next();
         });
@@ -28,9 +27,18 @@ export default class ChampionsPanelRouter extends AdminRouter
         });
         this.router.get('/new', (req, res) =>
         {
-            AdminModules.Champion.insert({
-                name: 'New Champion',
-            }).then((result) =>
+            var data =  {
+                name : 'New Champion',
+
+            };
+            if(req.query.game == 'moba')
+                data.roles = [];
+            else if(req.query.game == 'mortal')
+            {
+                data.moves = [];
+                data.varirations = [];
+            }
+            AdminModules.Champion.insert(data).then((result) =>
             {
                 if (result._id)
                     res.redirect('/admin/champions/' + result._id + '/');
@@ -61,10 +69,18 @@ export default class ChampionsPanelRouter extends AdminRouter
             console.log(req.body);
             req.body._draft = req.body._draft == 'on' ? true : false;
             // req.body.media = JSON.parse(req.body.media);
-            req.body.abilities = JSON.parse(req.body.abilities);
-            req.body.roles = JSON.parse(req.body.roles);
-            req.body.stats = JSON.parse(req.body.stats);
-            req.body.talents = JSON.parse(req.body.talents);
+            if(req.body.abilities)
+            {
+                req.body.abilities = JSON.parse(req.body.abilities);
+                req.body.roles = JSON.parse(req.body.roles);
+                req.body.stats = JSON.parse(req.body.stats);
+                req.body.talents = JSON.parse(req.body.talents);
+            }
+            if(req.body.moves)
+            {
+                req.body.variations = JSON.parse(req.body.variations);
+                req.body.moves = JSON.parse(req.body.moves);
+            }
             const _id = req.body._id;
             delete (req.body._id);
             AdminModules.Champion.edit(_id, req.body).then((result) =>
@@ -77,11 +93,26 @@ export default class ChampionsPanelRouter extends AdminRouter
         });
         this.router.get('/:_id', (req, res) =>
         {
-            res.send(this.renderTemplate('champ-single.html', {
-                admin: req.session.admin,
-                _id: req.params._id,
-                fileUploadURL: ADMIN_FILE_UPLOAD
-            }));
+            AdminModules.Champion.getOne(req.params._id).then((champ) =>
+            {
+                if (champ.moves == undefined)
+                {
+                    res.send(this.renderTemplate('champ-moba-single.html', {
+                        admin: req.session.admin,
+                        _id: req.params._id,
+                        fileUploadURL: ADMIN_FILE_UPLOAD
+                    }));
+                }
+                else
+                {
+                    res.send(this.renderTemplate('champ-mortal-single.html', {
+                        admin: req.session.admin,
+                        _id: req.params._id,
+                        fileUploadURL: ADMIN_FILE_UPLOAD
+                    }));
+                }
+            });
+
         });
 
     }
