@@ -100,6 +100,7 @@
                 {
                     $("#single").append(jsonInput('factions', game.factions));
                     $("#extra").append(`<div id="factions"></div>`);
+                    factions_recreate();
                     /*
                     $("#single").append(bodyInput('members',game.members));
                     $("#single").append(bodyInput('objective',game.objective));
@@ -435,18 +436,23 @@
             function factions_recreate()
             {
                 $("[name=factions]").val(JSON.stringify(game.factions));
-                $("#factions").html(`<h3>Factions:</h3><div class="btn btn-md btn-secondary">+Add Faction</div>`);
+                $("#factions").html(`<h3>Factions:</h3><div class="btn btn-md btn-secondary" onclick="factions_add()">+Add Faction</div>`);
                 for(var i = 0 ; i < game.factions.length; i++)
                 {
                     var f = game.factions[i];
                     $("#factions").append(`<div class="box-row faction-box" id="factions-${i}" index="${i}"></div>`);
                     $(`#factions-${i}`).append(textInput('name',f.name));
                     $(`#factions-${i}`).append(textInput('slug',f.slug));
-                    $(`#factions-${i}`).append(bodyInput('info',f.info));
                     $(`#factions-${i}`).append(bodyInput('description',f.description));
+                    $(`#factions-${i}`).append(bodyInput('info',f.info));
                     imageInput(`#factions-${i}`, 'icon', f.icon, FILE_UPLOAD_URL, MY_DIR);
                     imageInput(`#factions-${i}`, 'cover', f.cover, FILE_UPLOAD_URL, MY_DIR);
+                    $(`#factions-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="factions_remove(${i})">Remove</div>`)
                 }
+                $("#factions input,#factions textarea").change(function () {
+                    factions_update(this);
+                });
+
             }
             function factions_add()
             {
@@ -462,11 +468,21 @@
             }
             function factions_remove(i)
             {
-
+                game.factions.splice(i,1);
+                factions_recreate();
             }
             function factions_update(elm)
             {
-
+                let i = $(elm).closest('.faction-box').attr('index');
+                game.factions[i] = {
+                    name : $(`#factions-${i} [name=name]`).val(),
+                    slug : $(`#factions-${i} [name=slug]`).val(),
+                    info : $(`#factions-${i} [name=info]`).val(),
+                    description : $(`#factions-${i} [name=description]`).val(),
+                    icon : $(`#factions-${i} [name=icon]`).val(),
+                    cover : $(`#factions-${i} [name=cover]`).val(),
+                }
+                $("[name=factions]").val(JSON.stringify(game.factions));
             }
         </script>
     </div>

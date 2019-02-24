@@ -1,4 +1,6 @@
 import mongoose, { ConnectionBase } from 'mongoose';
+import { getResizedFileName, isEmptyString, ICON_404 } from '../utils/utils';
+import { SITE_URL } from '../constants';
 const moment = require('moment');
 const jalaali = require('jalaali-js');
 const fs = require('fs');
@@ -9,10 +11,11 @@ export const PostSchema = new mongoose.Schema({
     body: String,
     slug: String,
     thumbnail: String,
-    authorId: {type:String,default:''},
+    authorId: { type: String, default: '' },
     gameId: String,
     tags: Array,
     categories: Array,
+    _seo: Object,
 
     createdAt: String,
     updatedAt: String,
@@ -25,10 +28,12 @@ export const PostSchema = new mongoose.Schema({
             virtuals: true,
         }
     });
-PostSchema.virtual('createdAt_persian').get(function () {
+PostSchema.virtual('createdAt_persian').get(function ()
+{
     //2019-02-09 05:16:59
     var val = this.createdAt;
-    if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1) {
+    if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1)
+    {
         var parts = val.split(' ');
         // console.log(parts);
         var dateParts = parts[0].split('-');
@@ -42,28 +47,29 @@ PostSchema.virtual('createdAt_persian').get(function () {
     else
         return this.createdAt;
 });
-PostSchema.virtual('thumbnail_150x150').get(function () {
-    const width = 150, height = 150;
-    // console.log("thumbnail was empty lets rely on url!");
-    var filePath = this.thumbnail;
-    let fileName = filePath.substring(0, filePath.indexOf('.'));
-    let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
-    let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
-    return file_resize;
+PostSchema.virtual('thumbnail_150x150').get(function ()
+{
+    return getResizedFileName(this.thumbnail, 150, 150);
 });
-PostSchema.virtual('thumbnail_640x480').get(function () {
-    const width = 640, height = 480;
-    // console.log("thumbnail was empty lets rely on url!");
-    var filePath = this.thumbnail;
-    let fileName = filePath.substring(0, filePath.indexOf('.'));
-    let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
-    let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
-    return file_resize;
+PostSchema.virtual('thumbnail_640x480').get(function ()
+{
+    return getResizedFileName(this.thumbnail, 640, 480);
 });
 export const Post = mongoose.model('Post', PostSchema);
 Post.Helpers = {
     hasDraft: () => true,
-    public: (doc) => {
+    public: (doc) =>
+    {
+        doc = doc.toObject();
+        if (isEmptyString(doc.thumbnail))
+        {
+            doc.thumbnail = ICON_404;
+            doc.thumbnail_150x150 = ICON_404;
+            doc.thumbnail_640x480 = ICON_404;
+        }
+        doc.thumbnail = SITE_URL(doc.thumbnail);
+        doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
+        doc.thumbnail_640x480 = SITE_URL(doc.thumbnail_640x480);
         return doc;
     },
 }

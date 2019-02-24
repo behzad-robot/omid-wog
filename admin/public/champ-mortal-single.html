@@ -3,7 +3,27 @@
 <head>
     {{{head}}}
     <style>
+        #moves-screen {
+            display: block;
+            position: fixed;
+            background-color: rgba(0, 0, 0, 0.5);
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            z-index: 10000;
+        }
 
+        #moves-screen .move-screen-item {
+            overflow: hidden;
+            border-bottom: 1px solid #aaaaaa;
+            padding: 5px 0;
+            cursor: pointer;
+        }
+
+        #moves-screen .move-screen-item:hover {
+            background-color: #bbbbbbbb;
+        }
     </style>
 </head>
 
@@ -16,6 +36,16 @@
         <form id="single" action="/admin/champions/{{{_id}}}/edit" method="POST"></form>
         <hr />
         <div id="extra"></div>
+        <div id="moves-screen" style="display:none;">
+            <div class="container" style="padding-top:50px;">
+                <div class="btn btn-md btn-primary" onclick="moves_screen_hide()">Close Window</div>
+                <div class="card" style="width:80%;margin:10px auto;min-height:150px;padding:10px 20px;">
+                    <h3>Moves List:</h3>
+                    <div name="moves-list">
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
             var game = undefined;
             var champion = undefined;
@@ -95,7 +125,7 @@
                     $(`#variations-${i}`).append(jsonInput('_moves', v.moves));
                     $(`#variations-${i}`).append(`<hr>`);
                     var movesStr = '';
-                    for(var j= 0 ; j < v.moves.length;j++)
+                    for (var j = 0; j < v.moves.length; j++)
                     {
                         var m = get_move(v.moves[j]);
                         movesStr += `
@@ -112,11 +142,13 @@
                     $(`#variations-${i}`).append(`
                     <div name="moves-container">
                         <h5>Moves:</h5>
+                        <div class="btn btn-sm btn-secondary" onclick="moves_screen_show(${i})">+Add Move</div>
                         ${movesStr}
                     </div>`);
-                    $(`#variations-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="variations_remove(${i})">Remove</div>`);
+                    $(`#variations-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="variations_remove(${i})">Remove</div>`);
                 }
-                $("#variations input,#variations textarea").change(function () {
+                $("#variations input,#variations textarea").change(function ()
+                {
                     variations_update(this);
                 });
             }
@@ -146,20 +178,22 @@
                 }
                 $("[name=variations]").val(JSON.stringify(champion.variations));
             }
-            function variations_move_move(vIndex,mIndex,dir){
+            function variations_move_move(vIndex, mIndex, dir)
+            {
                 var variation = champion.variations[vIndex];
-                if((mIndex == 0 && dir == -1) || (mIndex ==  variation.moves.length-1 && dir == 1))
+                if ((mIndex == 0 && dir == -1) || (mIndex == variation.moves.length - 1 && dir == 1))
                 {
                     alert('Action not allowed');
                     return;
                 }
                 var temp = variation.moves[mIndex];
-                variation.moves[mIndex] = variation.moves[mIndex+dir];
-                variation.moves[mIndex+dir] = temp;
+                variation.moves[mIndex] = variation.moves[mIndex + dir];
+                variation.moves[mIndex + dir] = temp;
                 variations_recreate();
             }
-            function variations_remove_move(vIndex,mIndex){
-                champion.variations[vIndex].moves.splice(mIndex,1);
+            function variations_remove_move(vIndex, mIndex)
+            {
+                champion.variations[vIndex].moves.splice(mIndex, 1);
                 variations_recreate();
             }
             function moves_recreate()
@@ -191,13 +225,15 @@
                     $(`#moves-${i}`).append(`<hr>`);
                     $(`#moves-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="moves_remove(${v._id})">Remove</div>`);
                 }
-                $("#moves input,#moves textarea").change(function () {
+                $("#moves input,#moves textarea").change(function ()
+                {
                     moves_update(this);
                 });
             }
-            function get_move(_id){
-                for(var i = 0 ; i < champion.moves.length;i++)
-                    if(champion.moves[i]._id == _id)
+            function get_move(_id)
+            {
+                for (var i = 0; i < champion.moves.length; i++)
+                    if (champion.moves[i]._id == _id)
                         return champion.moves[i];
                 return undefined;
             }
@@ -258,7 +294,7 @@
                 {
                     if (champion.moves[i]._id == _id)
                     {
-                        if(btn != 'clear')
+                        if (btn != 'clear')
                             champion.moves[i].buttons.push(btn);
                         else
                             champion.moves[i].buttons = [];
@@ -267,6 +303,31 @@
                         return;
                     }
                 }
+            }
+            function moves_screen_show(varIndex)
+            {
+                //re fill with moves data:
+                $("#moves-screen [name=moves-list]").html("");
+                for (var i = 0; i < champion.moves.length; i++)
+                {
+                    var m = champion.moves[i];
+                    $("#moves-screen [name=moves-list]").append(`
+                        <div class="move-screen-item" onclick="moves_screen_pick(${m._id},${varIndex})">
+                            <b>${m._id}</b>&nbsp;
+                            <span>${m.name}</span>
+                        </div>
+                    `);
+                }
+                $("#moves-screen").show();
+            }
+            function moves_screen_hide()
+            {
+                $("#moves-screen").hide();
+            }
+            function moves_screen_pick(mId,varIndex){
+                champion.variations[varIndex].moves.push(mId);
+                moves_screen_hide();
+                variations_recreate();
             }
         </script>
     </div>

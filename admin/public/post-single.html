@@ -48,7 +48,7 @@
                     <div class="form-row">
                         <b>keywords:</b>
                         <input type="text" class="form-control m" name="keywords" />
-                        <small>keywords should start with focusKeyword!</small>
+                        <small>keywords should start with focusKeyword!Seprate with ,</small>
                     </div>
                 </div>
             </div>
@@ -78,6 +78,14 @@
                     post = p;
                     if (post.authorId == undefined)
                         post.authorId = post.adminId;
+                    if(post._seo == undefined)
+                    {
+                        post._seo = {
+                            'metaDescription' : '',
+                            'focusKeyword' : '',
+                            'keywords' : '',
+                        };
+                    }
                     console.log(post);
                     $("#single").append(idInput('_id', post._id));
                     $("#single").append(draftInput(post._draft));
@@ -93,6 +101,7 @@
                     $("#single").append(bodyInput('body', post.body));
                     $("#single").append(jsonInput('tags', post.tags));
                     $("#single").append(jsonInput('categories', post.categories));
+                    $("#single").append(jsonInput('_seo', post._seo));
                     $("#single").append(submitBtn());
                     $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                     $("#single").append(`<div id="cats"></div>`);
@@ -111,8 +120,20 @@
                             $("#authorName").html(user.username);
                         });
                     }
-                    $(".json-row").hide();
-
+                    //seo :
+                    $(`#seo-row [name=metaDescription]`).val(post._seo.metaDescription);
+                    $(`#seo-row [name=focusKeyword]`).val(post._seo.focusKeyword);
+                    $(`#seo-row [name=keywords]`).val(post._seo.keywords);
+                    $("#seo-row textarea,#seo-row input").change(function(){
+                        post._seo = {
+                            metaDescription : $(`#seo-row [name=metaDescription]`).val(),
+                            focusKeyword : $(`#seo-row [name=focusKeyword]`).val(),
+                            keywords : $(`#seo-row [name=keywords]`).val(),
+                        };
+                        $("[name=_seo]").val(JSON.stringify(post._seo));
+                    });
+                    //hide json:
+                    // $(".json-row").hide();
                 });
             });
             function recreate_cats()

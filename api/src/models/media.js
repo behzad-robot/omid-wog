@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { isEmptyString, getResizedFileName } from '../utils/utils';
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
@@ -16,7 +17,7 @@ export const MediaSchema = new mongoose.Schema({
     tags: Array,
     createdAt: String,
     updatedAt: String,
-    _draft : Boolean,
+    _draft: Boolean,
 }, {
         toObject: {
             virtuals: true
@@ -25,40 +26,27 @@ export const MediaSchema = new mongoose.Schema({
             virtuals: true,
         }
     });
-MediaSchema.virtual('thumbnail_url').get(function () {
-    if (this.thumbnail != '' && this.thumbnail != '?')
-        return this.thumbnail;
-    const width = 150, height = 150;
-    // console.log("thumbnail was empty lets rely on url!");
-    var filePath = this.url;
-    let fileName = filePath.substring(0, filePath.indexOf('.'));
-    let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
-    let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
-    return file_resize;
-    // if (fs.existsSync(path.resolve("../" + file_resize)))
-    //     return file_resize;
-    // else {
-    //     console.log("file is not around!");
-    //     Jimp.read(".." + filePath, (err, img) => {
-    //         if (err) {
-    //             console.log(err);
-    //             return;
-    //         }
-    //         img
-    //             // .resize(width, height)
-    //             .cover(width,height,Jimp.VERTICAL_ALIGN_MIDDLE)
-    //             .quality(60)
-    //             .write(path.resolve(".." + fileName + '-resize-' + width + 'x' + height + fileFormat))
-    //         console.log("file created => " + ".." + fileName + '-resize-' + width + 'x' + height + fileFormat);
-    //     });
-    //     return file_resize;
-    // }
+MediaSchema.virtual('thumbnail_150x150').get(function ()
+{
+    var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
+    return getResizedFileName(t,150,150);
+});
+MediaSchema.virtual('thumbnail_350x350').get(function ()
+{
+    var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
+    return getResizedFileName(t,350,350);
+});
+MediaSchema.virtual('thumbnail_url').get(function ()
+{
+    var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
+    return t;
 });
 
 export const Media = mongoose.model('Media', MediaSchema);
 Media.Helpers = {
-    hasDraft : () => true ,
-    public: (doc) => {
+    hasDraft: () => true,
+    public: (doc) =>
+    {
         doc = doc.toObject();
         return doc;
     },
