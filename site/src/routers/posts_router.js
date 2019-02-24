@@ -97,6 +97,32 @@ export default class SitePostsRouter extends SiteRouter
                 res.send(err.toString());
             });
         });
+        this.router.get('/categories/:slug', (req, res) =>
+        {
+            siteModules.Cache.allPostsCats.getData((err, cats) =>
+            {
+                if (err)
+                {
+                    this.show500(req, res, err);
+                    return;
+                }
+                let category = undefined;
+                for (var i = 0; i < cats.length; i++)
+                {
+                    if (cats[i].slug == req.params.slug)
+                    {
+                        category = cats[i];
+                        break;
+                    }
+                }
+                if (category == undefined)
+                {
+                    this.show500(req, res, err);
+                    return;
+                }
+                
+            });
+        });
 
     }
     postSingle(req, res, post)
