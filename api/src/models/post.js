@@ -3,8 +3,7 @@ import { getResizedFileName, isEmptyString, ICON_404 } from '../utils/utils';
 import { SITE_URL } from '../constants';
 const moment = require('moment');
 const jalaali = require('jalaali-js');
-const fs = require('fs');
-const Jimp = require('jimp');
+const persianDate = require('persian-date');
 export const PostSchema = new mongoose.Schema({
     title: String,
     intro: String,
@@ -32,6 +31,9 @@ PostSchema.virtual('createdAt_persian').get(function ()
 {
     //2019-02-09 05:16:59
     var val = this.createdAt;
+    if(isEmptyString(val))
+        return val;
+    
     if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1)
     {
         var parts = val.split(' ');
@@ -42,7 +44,9 @@ PostSchema.virtual('createdAt_persian').get(function ()
         var day = parseInt(dateParts[2]);
         var timeParts = parts[1].split(':');
         var jj = jalaali.toJalaali(year, month, day) // { jy: 1395, jm: 1, jd: 23 }
-        return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
+        // return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
+        var pd = new persianDate([year,month,day]);
+        return pd.format('dddd')+' '+day+' '+pd.format('MMMM')+' '+jj.jy;
     }
     else
         return this.createdAt;

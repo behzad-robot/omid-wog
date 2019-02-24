@@ -26,7 +26,7 @@ export class ContactUsForm extends SocketCollection
     }
     getOne(_id)
     {
-        return Promise((resolve, reject) =>
+        return new Promise((resolve, reject) =>
         {
             super.getOne(_id).then((result) =>
             {

@@ -2,6 +2,28 @@
 
 <head>
     {{{head}}}
+    <!-- SEO -->
+    <title>{{post.title}} - واج</title>
+    <meta name="description" content="{{post._seo.metaDescription}}">
+    <meta name="keywords" itemprop="keywords" content="{{post._seo.keywords}}">
+    <link rel="canonical" href="{{post.siteUrl}}">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{post.title}} - واج">
+    <meta property="og:description" content="{{post._seo.metaDescription}}">
+    <meta property="og:url" content="{{post.siteUrl}}">
+    <meta property="og:site_name" content="واج">
+    <meta property="article:section" content="{{post._cats[0].name}}">
+    <meta property="article:published_time" content="{{post.createdAt}}">
+    <meta property="article:published_time" content="{{post.createdAt}}">
+    <meta property="og:image" content="{{post.thumbnail_640x480}}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{post._seo.metaDescription}}">
+    <meta name="twitter:title" content="{{post.title}}">
+    <meta name="twitter:image" content="{{post.thumbnail_640x480}}">
+
+    <!-- End SEO -->
     <style>
         .topSection {
             width: 100%;
@@ -10,7 +32,6 @@
             background-size: cover;
             background-position: center;
             padding-top: 10vw;
-            border-bottom: 5px black;
         }
 
         .topSection h1 {
@@ -63,6 +84,8 @@
 
         .contentSection {
             color: white;
+            padding-top: 30px;
+            padding-bottom: 20px;
         }
 
         .contentSection img {
@@ -99,6 +122,41 @@
             margin-top: 5px;
             margin-left: -65px;
         }
+
+        /* .comment-box {
+            background-color: #2a2a34;
+            border-radius: 4px;
+            padding: 10px 20px;
+
+        } */
+
+        .comment-box {
+            padding: 10px 20px;
+        }
+
+        .comment-box .profile-image {
+            display: inline-block;
+            width: 48px;
+            border: 1px solid orange;
+            padding: 2px;
+            vertical-align: top;
+        }
+
+        .comment-box .comment-main-part {
+            display: inline-block;
+            width: auto;
+            max-width: 100%;
+            color: white;
+            padding: 5px 10px;
+        }
+
+        .comment-box .comment-footer {
+            display: block;
+            width: 60%;
+            margin: 0 auto;
+            margin-top: 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
     </style>
     <style>
         .wog-insertImageRText {
@@ -124,12 +182,13 @@
         <section class="topSection" style="background-image:url('{{post.thumbnail}}')">
             <h1>{{post.title}}</h1>
             <div class="author-box">
-                <img src="{{post._author.profileImage}}"
-                    class="author-profile-image" />
+                <img src="{{post._author.profileImage}}" class="author-profile-image" />
                 <span class="author-name"><b>نویسنده:&nbsp;</b><span>{{post._author.username}}</span></span>
-                <span class="date">جمعه, ۲۶ بهمن ۹۷ ساعت ۱۱:۰۱</span>
+                <span class="date">{{post.createdAt_persian}}</span>
             </div>
             <div class="cats-box">
+                <b class="text-white text-shadow"
+                    style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b>
                 {{#post._cats}}
                 <a href="#" class="btn btn-sm btn-warning">{{name}}</a>
                 {{/post._cats}}
@@ -143,9 +202,19 @@
         </section>
         <section class="bg-section" style="padding:20px 0">
             <div class="container">
-                <h3 style="margin-bottom:20px;background-color: orange;padding: 5px 10px;width: fit-content;color: #2e2e2e;font-weight: normal;border-radius: 3px;">دیگر مطالب پیشنهادی:</h3>
+                <h3
+                    style="margin-bottom:20px;background-color: orange;padding: 5px 10px;width: fit-content;color: #2e2e2e;font-weight: normal;border-radius: 3px;">
+                    دیگر مطالب پیشنهادی:</h3>
                 <div class="row">
+                    {{#recommendedPosts}}
                     <div class="col-md-3">
+                        <a class="suggested-post-box" href="{{siteUrl}}">
+                            <img src="{{thumbnail_640x480}}" width="100%" />
+                            <h1>{{title}}</h1>
+                        </a>
+                    </div>
+                    {{/recommendedPosts}}
+                    <!-- <div class="col-md-3">
                         <a class="suggested-post-box" href="#">
                             <img src="https://via.placeholder.com/800x600" width="100%" />
                             <h1>عنوان مطلب</h1>
@@ -162,13 +231,7 @@
                             <img src="https://via.placeholder.com/800x600" width="100%" />
                             <h1>عنوان مطلب</h1>
                         </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a class="suggested-post-box" href="#">
-                            <img src="https://via.placeholder.com/800x600" width="100%" />
-                            <h1>عنوان مطلب</h1>
-                        </a>
-                    </div>
+                    </div> -->
                 </div>
             </div>
 
@@ -176,15 +239,78 @@
         <section style="padding:20px 0;">
             <div class="container">
                 <h2 style="color:#79848f"> متن دیدگاه</h2>
-                <textarea class="form-control dark" style="width:50%;height:200px;"
+                {{#currentUser}}
+                <form action="/comments/new" method="POST" id="new-comment-form">
+                    <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
+                        placeholder="دیدگاه خود را وارد کنید"></textarea>
+                    <input type="hidden" name="objectType" value="posts" />
+                    <input type="hidden" name="objectId" value="{{post._id}}" />
+                    <input type="submit" class="btn btn-yellow" value="ارسال دیدگاه" />
+                </form>
+                <script>
+                    $(() =>
+                    {
+                        $("#new-comment-form").ajaxForm(
+                            {
+                                beforeSubmit: (formData, jqForm, options) =>
+                                {
+                                    var str = $("#new-comment-form [name=body]").html();
+                                    str = str.replaceAll(' ', '').replaceAll('\n', '').replaceAll('<br>', '');
+                                    if (str == '')
+                                    {
+                                        alert('لطفا متن نظر را وارد کنید.');
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                success: (text, code, xhr, form) =>
+                                {
+                                    alert(text);
+                                    $("#new-comment-form").clearForm();
+                                },
+                                error: (xhr, text, err) =>
+                                {
+                                    alert('خطا از سمت سرور');
+                                    console.log(text);
+                                    console.log(err);
+                                },
+                            }
+                    });
+                </script>
+                {{/currentUser}}
+                {{^currentUser}}
+                <textarea class="form-control dark" name="body" style="width:50%;height:200px;margin-bottom:10px;"
                     placeholder="دیدگاه خود را وارد کنید"></textarea>
-                <button type="button" class="btn btn-yellow" onclick="alert('به زودی!')">ارسال دیدگاه</button>
+                <p class="btn btn-md btn-black text-white"><span>برای ارسال نظر ابتدا باید <a
+                            href="{{#SITE_URL}}/login{{/SITE_URL}}" class="link-yellow">وارد</a> سایت شوید.</span></p>
+                {{/currentUser}}
                 <div>
                     <div class="triangle" style="margin:20px 0">
                         <h3 style="margin-top:8px;font-size:24px;">دیدگاه ها</h3>
                     </div>
                 </div>
-                <p class="btn btn-lg btn-black text-white"><span>به زودی....</span></p>
+                {{#comments}}
+                <div class="comment-box">
+                    <div class="profile-image">
+                        <img src="{{_user.profileImage}}" width="100%" />
+                    </div>
+                    <div class="comment-main-part">
+                        <div class="top-info">
+                            <a class="link-yellow" href="{{_user.siteUrl}}">{{_user.username}}</a>&nbsp;
+                            |
+                            <small class="date">{{createdAt_persian}}</small>
+                        </div>
+                        <div class="comment-body">
+                            ^_^ Man asheghe in site e abyaritun am.
+                        </div>
+
+                    </div>
+                    <div class="comment-footer"></div>
+                </div>
+                {{/comments}}
+                {{^comments}}
+                <div class="text-white text-shadow">هیچ نظری برای این مطلب ثبت نشده.</div>
+                {{/comments}}
 
                 <!-- <div class="widget-box author detail" style="margin-bottom: 15px">
                 <div class="title-wrapper">

@@ -24,6 +24,8 @@ import { PostCat } from "./utilsApi/postCat";
 import { ChampBuild } from "./utilsApi/build";
 import { ContactUsForm } from "./utilsApi/contactUsForm";
 import { Media } from "./utilsApi/media";
+import { Comment } from "./utilsApi/comment";
+import SiteCommentsRouter from "./routers/comments_router";
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //api socket
@@ -49,6 +51,7 @@ const SiteModules = {
     Post: new Post(apiSocket),
     PostCat: new PostCat(apiSocket),
     Media: new Media(apiSocket),
+    Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     proxyAPI: proxyAPI,
 }
@@ -132,12 +135,34 @@ const footerMediaCache = new CacheReader('footer-media', (cb) =>
         cb(err.toString(), undefined);
     });
 });
+const recommendedPostsCache = new CacheReader('posts-recommended', (cb) =>
+{
+    const fs = require('fs');
+    const path = require('path');
+    fs.readFile(path.resolve("../storage/caches/posts-recommended-ids.json"), (err, data) =>
+    {
+        console.log('recommendedPostsCache');
+        if (err)
+            cb(err, undefined);
+        else
+        {
+            var ids = JSON.parse(data.toString());
+            SiteModules.Post.find({ _ids: ids, _publicCast: true }).then((posts) =>
+            {
+                cb(undefined,posts);
+            });
+        }
+    });
+});
 SiteModules.Cache = {
+    //navbar , footer:
     allGames: allGamesCache,
     allPostsCats: allPostsCatsCache,
     navbarPosts: navbarPostsCache,
     footerPosts: footerPostsCache,
-    footerMedia : footerMediaCache,
+    footerMedia: footerMediaCache,
+    //posts list , post single : 
+    posts_recommended : recommendedPostsCache,
 }
 
 
@@ -207,6 +232,7 @@ express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 // express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+express.expressApp.use('/posts', new SiteCommentsRouter(SiteModules).router);
 // express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)

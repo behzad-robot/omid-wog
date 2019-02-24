@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class User extends SocketCollection
@@ -27,8 +28,10 @@ export class User extends SocketCollection
     }
     getOne(_id)
     {
-        return Promise((resolve, reject) =>
+        console.log(':|');
+        return new Promise((resolve, reject) =>
         {
+            console.log(":D");
             super.getOne(_id).then((result) =>
             {
                 result = this.fixOne(result);
@@ -36,9 +39,12 @@ export class User extends SocketCollection
             }).catch(reject);
         });
     }
-    fixOne(g)
+    fixOne(u)
     {
-        return g;
+        if(isEmptyString(u.profileImage))
+            u.profileImage = SITE_URL('/images/user-profile-default.png');
+        u.siteUrl = SITE_URL('users/'+u.username);
+        return u;
     }
     fixAll(cs)
     {
@@ -48,10 +54,10 @@ export class User extends SocketCollection
     }
     public(u)
     {
-        delete(u.token);
-        delete(u.email);
-        delete(u.password);
-        delete(u.phoneNumber);
+        delete (u.token);
+        delete (u.email);
+        delete (u.password);
+        delete (u.phoneNumber);
         return u;
     }
 }

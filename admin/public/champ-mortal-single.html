@@ -57,18 +57,17 @@
                     c.icon_tall = '?';
                 if (c.nickname == undefined)
                     c.nickname = '';
-                for (var i = 0; i < c.abilities.length; i++)
-                {
-                    if (c.abilities[i].descriptionPersian == undefined)
-                        c.abilities[i].descriptionPersian = '';
-                }
-                for (var i = 0; i < c.abilities.length; i++)
-                {
-                    c.abilities[i].range = c.abilities[i].range ? c.abilities[i].range : '';
-                    c.abilities[i].coolDown = c.abilities[i].coolDown ? c.abilities[i].coolDown : '';
-                    c.abilities[i].cost = c.abilities[i].cost ? c.abilities[i].cost : '';
-                }
                 champion = c;
+                console.log(InputUtils);
+                for(var i = 0 ; i < champion.moves.length;i++)
+                {
+                    champion.moves[i].n = champion.moves[i]._id;
+                    if(typeof champion.moves[i]._id == 'number')
+                    {
+                        champion.moves[i]._id = InputUtils.ID();
+                    }
+                }
+                
                 console.log(champion);
                 getObject('games', champion.gameId, (g) =>
                 {
@@ -118,7 +117,8 @@
                 for (var i = 0; i < champion.variations.length; i++)
                 {
                     var v = champion.variations[i];
-                    $("#variations").append(`<div class="box-row variation-box" id="variations-${i}" index="${i}"></div>`);
+                    $("#variations").append(`<div class="box-row" id="variations-container-${i}" style="overflow:hidden">${v.name}<div class="btn btn-sm btn-info float-right" onclick="variation_toggle(${i})">Expand</div></div>`)
+                    $(`#variations-container-${i}`).append(`<div class="variation-box" style="display:none" id="variations-${i}" index="${i}"></div>`);
                     $(`#variations-${i}`).append(textInput('name', v.name));
                     $(`#variations-${i}`).append(bodyInput('description', v.description));
                     imageInput(`#variations-${i}`, 'icon', v.icon, FILE_UPLOAD_URL, MY_DIR);
@@ -151,6 +151,9 @@
                 {
                     variations_update(this);
                 });
+            }
+            function variation_toggle(i){
+                $(`#variations-${i}`).toggle();
             }
             function variations_add()
             {
@@ -190,11 +193,13 @@
                 variation.moves[mIndex] = variation.moves[mIndex + dir];
                 variation.moves[mIndex + dir] = temp;
                 variations_recreate();
+                variation_toggle(vIndex);
             }
             function variations_remove_move(vIndex, mIndex)
             {
                 champion.variations[vIndex].moves.splice(mIndex, 1);
                 variations_recreate();
+                variation_toggle(vIndex);
             }
             function moves_recreate()
             {
@@ -203,27 +208,30 @@
                 for (var i = 0; i < champion.moves.length; i++)
                 {
                     var v = champion.moves[i];
-                    $("#moves").append(`<div class="box-row move-box" id="moves-${i}" index="${i}" moveId="${v._id}"></div>`);
+                    $(`#moves`).append(`<div class="box-row" id="moves-container-${i}"><b>${v._id}</b>=>${v.name}<div class="btn btn-sm btn-info float-right" onclick="move_toggle(${i})">Expand</div></div>`);
+                    $(`#moves-container-${i}`).append(`<div class="move-box" style="display:none" id="moves-${i}" index="${i}" moveId="${v._id}"></div>`);
                     $(`#moves-${i}`).append(idInput('_id', v._id));
                     $(`#moves-${i}`).append(textInput('name', v.name));
                     $(`#moves-${i}`).append(bodyInput('description', v.description));
                     $(`#moves-${i}`).append(filePickTool(undefined, 'video', v.video));
                     $(`#moves-${i}`).append(jsonInput('buttons', v.buttons));
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'up')"><img src="/images/joystick/up.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'down')"><img src="/images/joystick/down.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'left')"><img src="/images/joystick/left.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'right')"><img src="/images/joystick/right.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'triangle')"><img src="/images/joystick/triangle.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'circle')" ><img src="/images/joystick/circle.png" width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'cross')" ><img src="/images/joystick/cross.png" width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'square')"><img src="/images/joystick/square.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'r1')"><img src="/images/joystick/r1.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'r2')"><img src="/images/joystick/r2.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'l1')"><img src="/images/joystick/l1.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn(${v._id},'l2')"><img src="/images/joystick/l2.png"  width="32px"/></div>&nbsp;`)
-                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-dark" onclick="moves_add_btn(${v._id},'clear')">Clear All</div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','up')"><img src="/images/joystick/up.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','down')"><img src="/images/joystick/down.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','left')"><img src="/images/joystick/left.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','right')"><img src="/images/joystick/right.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','triangle')"><img src="/images/joystick/triangle.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','circle')" ><img src="/images/joystick/circle.png" width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','cross')" ><img src="/images/joystick/cross.png" width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','square')"><img src="/images/joystick/square.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','r1')"><img src="/images/joystick/r1.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','r2')"><img src="/images/joystick/r2.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','l1')"><img src="/images/joystick/l1.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','l2')"><img src="/images/joystick/l2.png"  width="32px"/></div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}','+')">+</div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-light" onclick="moves_add_btn('${v._id}',',')">,</div>&nbsp;`)
+                    $(`#moves-${i}`).append(`<div class="btn btn-md btn-dark" onclick="moves_add_btn('${v._id}','clear')">Clear All</div>&nbsp;`)
                     $(`#moves-${i}`).append(`<hr>`);
-                    $(`#moves-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="moves_remove(${v._id})">Remove</div>`);
+                    $(`#moves-${i}`).append(`<div class="btn btn-sm btn-danger" onclick="moves_remove('${v._id}')">Remove</div>`);
                 }
                 $("#moves input,#moves textarea").change(function ()
                 {
@@ -237,19 +245,13 @@
                         return champion.moves[i];
                 return undefined;
             }
+            function move_toggle(index){
+                $(`#moves-${index}`).toggle();
+            }
             function moves_add()
             {
-                var maxId = -1;
-                for (var i = 0; i < champion.moves.length; i++)
-                {
-                    if (champion.moves[i]._id > maxId)
-                    {
-                        maxId = champion.moves[i]._id;
-                    }
-                }
-                maxId++;
                 champion.moves.push({
-                    _id: maxId,
+                    _id: InputUtils.ID(),
                     name: 'Ryugawa Tekyo Kurooo',
                     description: '',
                     video: '',
@@ -312,7 +314,7 @@
                 {
                     var m = champion.moves[i];
                     $("#moves-screen [name=moves-list]").append(`
-                        <div class="move-screen-item" onclick="moves_screen_pick(${m._id},${varIndex})">
+                        <div class="move-screen-item" onclick="moves_screen_pick('${m._id}',${varIndex})">
                             <b>${m._id}</b>&nbsp;
                             <span>${m.name}</span>
                         </div>
@@ -328,6 +330,7 @@
                 champion.variations[varIndex].moves.push(mId);
                 moves_screen_hide();
                 variations_recreate();
+                variation_toggle(varIndex);
             }
         </script>
     </div>

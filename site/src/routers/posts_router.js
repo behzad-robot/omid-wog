@@ -29,11 +29,11 @@ export default class SitePostsRouter extends SiteRouter
                 }
                 siteModules.User.find({ _ids: requiredUsers }).then((users) =>
                 {
-                    for(var i = 0 ; i < posts.length;i++)
+                    for (var i = 0; i < posts.length; i++)
                     {
-                        for(var j = 0 ; j < users.length; j++)
+                        for (var j = 0; j < users.length; j++)
                         {
-                            if(posts[i].authorId == users[j]._id)
+                            if (posts[i].authorId == users[j]._id)
                             {
                                 posts[i]._author = users[j];
                                 break;
@@ -59,7 +59,7 @@ export default class SitePostsRouter extends SiteRouter
         this.router.get('/_id/:_id', (req, res) =>
         {
             timer.tick('Request Arrived');
-            siteModules.Post.find({ _id: req.params._id, _draft: 'all' }).then((posts) =>
+            siteModules.Post.find({ _id: req.params._id, _draft: 'all', _publicCast: true }).then((posts) =>
             {
                 if (posts.length == 0)
                 {
@@ -88,13 +88,76 @@ export default class SitePostsRouter extends SiteRouter
                                     post._cats.push(cats[j]);
                             }
                         }
-                        timer.tick('Cats Setup');
+                        timer.tick('Cats Setup Done');
                         siteModules.User.getOne(post.authorId).then((author) =>
                         {
                             timer.tick('Author Setup');
                             post._author = siteModules.User.public(author);
-                            this.renderTemplate(req, res, 'post-single.html', {
-                                post: post,
+                            //also get recommended posts:
+                            console.log('lets find a recommended posts');
+                            siteModules.Cache.posts_recommended.getData((err, recommendedPosts) =>
+                            {
+                                if (err)
+                                {
+                                    this.show500(req, res, err);
+                                    return;
+                                }
+                                //also get recommended posts:
+                                console.log('lets find a recommended posts');
+                                siteModules.Cache.posts_recommended.getData((err, recommendedPosts) =>
+                                {
+                                    if (err)
+                                    {
+                                        this.show500(req, res, err);
+                                        return;
+                                    }
+                                    siteModules.Comment.find({ objectType: 'posts', objectId: post._id }).then((comments) =>
+                                    {
+                                        //find related users:
+                                        var commentsUsers = [];
+                                        for(var i = 0 ; i < comments.length;i++)
+                                        {
+                                            var has = false;
+                                            for(var j = 0 ; j < commentsUsers.length;j++)
+                                            {
+                                                if(commentsUsers[j] == comments[i].userId)
+                                                {
+                                                    has = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!has && !isEmptyString(comments[i].userId))
+                                                commentsUsers.push(comments[i].userId);
+                                        }
+                                        siteModules.User.find({ _ids: commentsUsers, _publicCast: true }).then((users) =>
+                                        {
+                                            for(var i = 0 ; i < comments.length;i++)
+                                            {
+                                                for(var j = 0 ; j < users.length;j++)
+                                                {
+                                                    if(comments[i].userId == users[j]._id)
+                                                    {
+                                                        comments[i]._user = users[j];
+                                                        break;
+                                                    }
+                                                }
+                                            }
+                                            this.renderTemplate(req, res, 'post-single.html', {
+                                                post: post,
+                                                recommendedPosts: recommendedPosts,
+                                                comments: comments,
+                                            });
+                                        }).catch((err) =>
+                                        {
+                                            this.show500(req, res, err);
+                                        });
+
+                                    }).catch((err) =>
+                                    {
+                                        this.show500(req, res, err);
+                                    });
+
+                                });
                             });
                         }).catch((err) =>
                         {
@@ -141,6 +204,10 @@ export default class SitePostsRouter extends SiteRouter
 
 
         });
+
+    }
+    postSingle(req, res)
+    {
 
     }
 }

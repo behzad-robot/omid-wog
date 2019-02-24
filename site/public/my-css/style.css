@@ -417,6 +417,12 @@ a.hot-news-container:hover .wog-overlay{
     box-shadow:0 3px 4px rgba(0,0,0,0), inset 0 0 1px 1px #ff8800;
     border: 1px solid white;
 }
+.link-yellow{
+    color : #ffc400;
+}
+.link-yellow:hover{
+    color : #ff8800;
+}
 .btn-green{
     color:white !important;
     border-top: 1px solid #54773F;

@@ -3,6 +3,7 @@ import { isEmptyString, ICON_404 } from "../utils/utils";
 import { SITE_URL } from "../constants";
 
 
+
 export class Post extends SocketCollection
 {
     constructor(apiSocket)
@@ -27,7 +28,7 @@ export class Post extends SocketCollection
     }
     getOne(_id)
     {
-        return Promise((resolve, reject) =>
+        return new Promise((resolve, reject) =>
         {
             super.getOne(_id).then((result) =>
             {

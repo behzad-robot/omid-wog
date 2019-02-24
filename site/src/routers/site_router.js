@@ -1,4 +1,5 @@
 import Router from "../libs/router";
+import { SITE_URL } from "../constants";
 const fileSystem = require('fs');
 const mustache = require('mustache');
 const path = require('path');
@@ -81,6 +82,11 @@ export default class SiteRouter extends Router
                                 footerPosts : footerPosts,
                                 footerMedia : footerMedia,
                             });
+                            data.SITE_URL = function (){
+                                return function(val,render){
+                                    return render(SITE_URL(val));
+                                }
+                            };
                             console.log("parts readY!");
                             // console.log(Date.now()-data._t);
                             res.send(mustache.render(view_str, data));
