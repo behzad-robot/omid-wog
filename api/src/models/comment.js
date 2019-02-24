@@ -13,7 +13,7 @@ export const CommentSchema = new mongoose.Schema({
 
     createdAt: String,
     updatedAt: String,
-    _draft: Boolean,
+    _draft: {type:Boolean,default:true},
 }, {
         toObject: {
             virtuals: true

@@ -63,4 +63,10 @@
         var target = this;
         return target.split(search).join(replacement);
     };
+    function scroll_to(el)
+    {
+        $('html, body').animate({
+            scrollTop: parseInt($(el).offset().top)
+        }, 2000);
+    }
 </script>

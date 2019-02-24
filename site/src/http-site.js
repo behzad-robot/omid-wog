@@ -232,7 +232,7 @@ express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 // express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
-express.expressApp.use('/posts', new SiteCommentsRouter(SiteModules).router);
+express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 // express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)

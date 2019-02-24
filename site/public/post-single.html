@@ -254,7 +254,7 @@
                             {
                                 beforeSubmit: (formData, jqForm, options) =>
                                 {
-                                    var str = $("#new-comment-form [name=body]").html();
+                                    var str = $("#new-comment-form [name=body]").val();
                                     str = str.replaceAll(' ', '').replaceAll('\n', '').replaceAll('<br>', '');
                                     if (str == '')
                                     {
@@ -265,7 +265,40 @@
                                 },
                                 success: (text, code, xhr, form) =>
                                 {
-                                    alert(text);
+                                    if (typeof text == 'string')
+                                        text = JSON.parse(text);
+                                    if (text.error)
+                                    {
+                                        alert(text.error);
+                                        return;
+                                    }
+                                    var comment = text.comment;
+                                    if (comment._draft == true)
+                                    {
+                                        alert('با تشکر نظر شما با موفقیت ثبت شد و پس از بررسی مدیر سایت نمایش داده میشود.');
+                                    }
+                                    else
+                                    {
+                                        alert('نظر شما با موفقیت ثبت شد.');
+                                        $("#comments-list").append(`
+                                        <div class="comment-box" id="comment-${comment._id}">
+                                            <div class="profile-image">
+                                                <img src="{{currentUser.profileImage}}" width="100%" />
+                                            </div>
+                                            <div class="comment-main-part">
+                                                <div class="top-info">
+                                                    <a class="link-yellow" href="#">{{currentUser.username}}</a>&nbsp;
+                                                    |
+                                                    <small class="date">${comment.createdAt_persian}</small>
+                                                </div>
+                                                <div class="comment-body">${comment.body}</div>
+                                            </div>
+                                            <div class="comment-footer"></div>
+                                        </div>
+                                        `);
+                                        scroll_to(`#comment-${comment._id}`);
+                                        $("#no-comments").hide();
+                                    }
                                     $("#new-comment-form").clearForm();
                                 },
                                 error: (xhr, text, err) =>
@@ -274,7 +307,7 @@
                                     console.log(text);
                                     console.log(err);
                                 },
-                            }
+                            });
                     });
                 </script>
                 {{/currentUser}}
@@ -289,77 +322,30 @@
                         <h3 style="margin-top:8px;font-size:24px;">دیدگاه ها</h3>
                     </div>
                 </div>
-                {{#comments}}
-                <div class="comment-box">
-                    <div class="profile-image">
-                        <img src="{{_user.profileImage}}" width="100%" />
-                    </div>
-                    <div class="comment-main-part">
-                        <div class="top-info">
-                            <a class="link-yellow" href="{{_user.siteUrl}}">{{_user.username}}</a>&nbsp;
-                            |
-                            <small class="date">{{createdAt_persian}}</small>
+                <div id="comments-list">
+                    {{#comments}}
+                    <div class="comment-box" id="comment-{{_id}}">
+                        <div class="profile-image">
+                            <img src="{{_user.profileImage}}" width="100%" />
                         </div>
-                        <div class="comment-body">
-                            ^_^ Man asheghe in site e abyaritun am.
-                        </div>
+                        <div class="comment-main-part">
+                            <div class="top-info">
+                                <a class="link-yellow" href="{{_user.siteUrl}}">{{_user.username}}</a>&nbsp;
+                                |
+                                <small class="date">{{createdAt_persian}}</small>
+                            </div>
+                            <div class="comment-body">
+                                {{body}}
+                            </div>
 
+                        </div>
+                        <div class="comment-footer"></div>
                     </div>
-                    <div class="comment-footer"></div>
+                    {{/comments}}
+                    {{^comments}}
+                    <div class="text-white text-shadow" id="no-comments">هیچ نظری برای این مطلب ثبت نشده.</div>
+                    {{/comments}}
                 </div>
-                {{/comments}}
-                {{^comments}}
-                <div class="text-white text-shadow">هیچ نظری برای این مطلب ثبت نشده.</div>
-                {{/comments}}
-
-                <!-- <div class="widget-box author detail" style="margin-bottom: 15px">
-                <div class="title-wrapper">
-
-                    <div>
-                        <div>
-
-                            <div class="comment-wrapper">
-                                <img class="comment-picture" src="/images/s5.jpg">
-                                <a class="commenters-link" href="#">mr.folani</a>
-                                <span style="color:darkgray">|</span>
-                                <p style="display: inline-block; color: darkgrey">folan time</p>
-                                <span style="color:darkgray">|</span>
-                                <a style="display: inline-block;color:goldenrod;" href="#">replies</a>
-                                <p class="user-comment">this is fine</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="line-between-comments">
-
-                    <div>
-                        <div>
-                            <div class="comment-wrapper">
-                                <img class="comment-picture" src="/images/s4.png">
-                                <a class="commenters-link" href="#">mr.bamani</a>
-                                <span style="color:darkgray">|</span>
-                                <p style="display: inline-block; color: darkgrey">folan time</p>
-                                <span style="color:darkgray">|</span>
-                                <a style="display: inline-block;color:goldenrod;text-decoration: none;" href="#">replies</a>
-                                <p class="user-comment">this game is cool</p>
-                            </div>
-                        </div>
-                    </div>
-                    <hr class="line-between-comments">
-                    <div>
-                        <div>
-                            <div class="comment-wrapper">
-                                <img class="comment-picture" src="/images/s4.png">
-                                <a class="commenters-link" href="#">mr.baghali</a>
-                                <span style="color:darkgray">|</span>
-                                <p style="display: inline-block; color: darkgrey">folan time</p>
-                                <span style="color:darkgray">|</span>
-                                <a style="display: inline-block;color:goldenrod;text-decoration: none;" href="#">replies</a>
-                                <p class="user-comment">this game is peace of s**t</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             </div>
         </section>
         {{{footer}}}
