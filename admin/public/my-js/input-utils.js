@@ -1,4 +1,5 @@
 const InputUtils = {
+    bodyId : 0 ,
     idInput: (name, value, settings) =>
     {
         var after = settings.after ? settings.after : '';
@@ -17,13 +18,13 @@ const InputUtils = {
             `
         );
     },
-    textInput: (name, value, settings = { readonly: false , after : '' }) =>
+    textInput: (name, value, settings = { readonly: false, after: '' }) =>
     {
         var readonly = settings.readonly ? 'readonly' : '';
         var after = settings.after ? settings.after : '';
         return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/>${after}</div>`;
     },
-    numberInput: (name, value, settings = { readonly: false , after : '' }) =>
+    numberInput: (name, value, settings = { readonly: false, after: '' }) =>
     {
         //return ":|";
         var readonly = settings.readonly ? "readonly" : "";
@@ -41,7 +42,8 @@ const InputUtils = {
             </div>
         `;
     },
-    imageInput : (name , value , settings = { 'dir' : '' } ) =>{
+    imageInput: (name, value, settings = { 'dir': '' }) =>
+    {
         $(parent).append(
             `<div class='form-row' style="background-color:#eee;border:1px solid #aaa;padding:5px;border-radius:5px;" name='image-field-${name}'>`
             + `<b>${name}:</b>`
@@ -49,6 +51,15 @@ const InputUtils = {
             + `<input type="hidden" name="${name}" value="${value}"/>`
             + `</div>`
         );
+    },
+    bodyInput: (name, value, settings = {}) =>
+    {
+        InputUtils.bodyId++;
+        const b = InputUtils.bodyId;
+        return `
+        <div class='form-row'>
+        <b>${name}:</b>
+        <textarea editor="true" id='bodyinput-${b}' class='form-control m' name='${name}' ${readonly}>${value}</textarea>
+        </div>`;
     }
-
 };
