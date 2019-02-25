@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class PostCat extends SocketCollection
@@ -35,9 +36,10 @@ export class PostCat extends SocketCollection
             }).catch(reject);
         });
     }
-    fixOne(g)
+    fixOne(cat)
     {
-        return g;
+        cat.siteUrl = SITE_URL('posts/category/'+cat.slug);
+        return cat;
     }
     fixAll(cs)
     {

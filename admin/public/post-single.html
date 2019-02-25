@@ -13,6 +13,15 @@
             top: 3px;
             margin-right: 5px;
         }
+        .status-circle.green{
+            background-color:greenyellow;
+        }
+        .status-circle.orange{
+            background-color:orange;
+        }
+        .status-circle.red{
+            background-color:red;
+        }
     </style>
 </head>
 
@@ -53,21 +62,23 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="box-row">
+                <div class="box-row" id="seo-score">
                     <h3>SEO Analyze:</h3>
                     <small>Press Save to Update Analyze.</small>
-                    <div><span class="status-circle"></span>OutBound Links</div>
-                    <div><span class="status-circle"></span>InBound Links</div>
-                    <div><span class="status-circle"></span>Contains Headings</div>
-                    <div><span class="status-circle"></span>Contains Images</div>
-                    <div><span class="status-circle"></span>KeyPhrase Density : 0%</div>
-                    <div><span class="status-circle"></span>KeyPhrase Introduction</div>
-                    <div><span class="status-circle"></span>KeyPhrase In Title</div>
-                    <div><span class="status-circle"></span>KeyPhrase In Slug</div>
-                    <div><span class="status-circle"></span>Images Have Alt Text</div>
+                    <div><span class="status-circle" name="outbound_links"></span>OutBound Links</div>
+                    <div><span class="status-circle" name="inbound_links"></span>InBound Links</div>
+                    <div><span class="status-circle" name="contains_headings"></span>Contains Headings</div>
+                    <div><span class="status-circle" name="contains_images"></span>Contains Images</div>
+                    <div><span class="status-circle" name="images_alt"></span>Images Have Alt Text</div>
+                    <div><span class="status-circle"></span>KeyPhrase Density :<span  name="keyphrase_density"> :| </span></div>
+                    <div><span class="status-circle" name="keyphrase_introduction"></span>KeyPhrase Introduction</div>
+                    <div><span class="status-circle" name="keyphrase_title"></span>KeyPhrase In Title</div>
+                    <div><span class="status-circle" name="keyphrase_slug"></span>KeyPhrase In Slug</div>
+                    
                 </div>
             </div>
         </div>
+        <div style="display:none" id="hiddenBody"></div>
         <script>
             let post = undefined, cats = [];
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
@@ -132,6 +143,66 @@
                         };
                         $("[name=_seo]").val(JSON.stringify(post._seo));
                     });
+                    //seo score:
+                    $("#hiddenBody").html(post.body);
+                    var seoScore = {
+                        outbound_links : false,
+                        inbound_links : false,
+                        contains_headings : false,
+                        contains_images : false,
+                        images_alt : false,
+                        keyphrase_density : '?',
+                        keyphrase_introduction : false,
+                        keyphrase_title : false,
+                        keyphrase_slug : false,
+                        
+                    };
+                    if(post.body.contains(`href="http://worldofgamers.ir`) || post.body.contains(`href="http://www.worldofgamers.ir`))
+                        seoScore.inbound_links = true;
+                    var str = post.body.replaceAll(`href="http://worldofgamers.ir`,'').replaceAll(`href="http://www.worldofgamers.ir`,'').replaceAll('https','http');
+                    if(str.contains(`href="http`))
+                        seoScore.outbound_links = true;
+                    if(post.body.contains('h1') || post.body.contains('h2') || post.body.contains('h3') || post.body.contains('h4') || post.body.contains('h5'))
+                        seoScore.contains_headings = true;
+                    if(post.body.contains('img'))
+                        seoScore.contains_images = true;
+                    //images alt:
+                    var images = $("#hiddenBody img");
+                    seoScore.images_alt = true;
+                    for(var i = 0 ; i <images.length;i++)
+                    {
+                        var alt = $(images[i]).attr('alt');
+                        var src = $(images[i]).attr('src');
+                        console.log(src+'=>'+alt);
+                        if(alt == undefined || alt == 'undefined' || alt == '')
+                        {
+                            seoScore.images_alt = false;
+                            break;
+                        }
+                    }
+                    //key phrase:
+                    if(post._seo.focusKeyword != '' && post._seo.focusKeyword.replaceAll(' ','') != '')
+                    {
+                        var strip = post.body.stripHTML();
+                        var totalWordCount = strip.split(' ').length-1;
+                        var count = (strip.split(post._seo.focusKeyword).length)-1;
+                        console.log('total word count='+totalWordCount);
+                        console.log('focusKeyword count ='+count);
+                        seoScore.keyphrase_density = count+'/'+totalWordCount;
+                        seoScore.keyphrase_introduction = post.intro.contains(post._seo.focusKeyword);
+                        seoScore.keyphrase_title = post.title.contains(post._seo.focusKeyword);
+                        seoScore.keyphrase_slug = post.slug.contains(post._seo.focusKeyword.toLowerCase());
+                    }
+                    console.log(seoScore);
+                    $("#seo-score [name=outbound_links]").addClass(seoScore.outbound_links ? 'green' : 'orange');
+                    $("#seo-score [name=inbound_links]").addClass(seoScore.inbound_links ? 'green' : 'orange');
+                    $("#seo-score [name=contains_headings]").addClass(seoScore.contains_headings ? 'green' : 'red');
+                    $("#seo-score [name=contains_images]").addClass(seoScore.contains_images ? 'green' : 'red');
+                    $("#seo-score [name=images_alt]").addClass(seoScore.images_alt ? 'green' : 'red');
+                    $("#seo-score [name=keyphrase_density]").html(seoScore.keyphrase_density);
+                    $("#seo-score [name=keyphrase_title]").addClass(seoScore.keyphrase_title ? 'green' : 'red');
+                    $("#seo-score [name=keyphrase_introduction]").addClass(seoScore.keyphrase_introduction ? 'green' : 'red');
+                    $("#seo-score [name=keyphrase_slug]").addClass(seoScore.keyphrase_slug ? 'green': 'orange');
                     //hide json:
                     // $(".json-row").hide();
                 });

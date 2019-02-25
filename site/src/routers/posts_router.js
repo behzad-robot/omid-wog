@@ -43,6 +43,7 @@ export default class SitePostsRouter extends SiteRouter
                         }
                     }
                     this.renderTemplate(req, res, 'posts-archive.html', {
+                        title : 'اخبار و مطالب',
                         posts: posts,
                         leftPosts: [],
                         rightPosts: [],
@@ -56,7 +57,6 @@ export default class SitePostsRouter extends SiteRouter
             {
                 res.send(err.toString());
             });
-
         });
         this.router.get('/_id/:_id', (req, res) =>
         {
@@ -97,7 +97,7 @@ export default class SitePostsRouter extends SiteRouter
                 res.send(err.toString());
             });
         });
-        this.router.get('/categories/:slug', (req, res) =>
+        this.router.get('/category/:slug', (req, res) =>
         {
             siteModules.Cache.allPostsCats.getData((err, cats) =>
             {
@@ -120,7 +120,14 @@ export default class SitePostsRouter extends SiteRouter
                     this.show500(req, res, err);
                     return;
                 }
-                
+                siteModules.Post.find({ 'categories': category._id, limit: 20 }).then((posts) =>
+                {
+                    this.renderTemplate(req,res,'posts-archive.html',{
+                        category : category,
+                        posts : posts,
+                        title : category.name,
+                    })
+                });
             });
         });
 

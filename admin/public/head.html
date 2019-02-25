@@ -17,7 +17,8 @@
 <script src="/admin/froala/froala_editor.min.js"></script> -->
 
 <!-- Include CSS for icons. -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
+    integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
 <!-- Include Editor style. -->
 <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.9.2/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" /> -->
@@ -44,11 +45,13 @@
 
 
     ]);
-    CKEDITOR.on('instanceCreated', function (event) {
+    CKEDITOR.on('instanceCreated', function (event)
+    {
         var editor = event.editor,
-        element = editor.element;
+            element = editor.element;
         // console.log(editor);
-        editor.on('blur', function () {
+        editor.on('blur', function ()
+        {
             // alert("BLUR");
             // editor.updateElement();
             for (var i in CKEDITOR.instances) 
@@ -59,14 +62,31 @@
                 // CKEDITOR.instances[i].on('change', function() { 
                 //     CKEDITOR.instances[i].updateElement();
                 //     alert(":D kussso!");
-                    
+
                 // });    
             }
-            $("textarea#"+editor.name).trigger('change');
+            $("textarea#" + editor.name).trigger('change');
             // console.log($("textarea#"+editor.name).val());
             // console.log($(editor).val());
         });
     });
+    String.prototype.replaceAll = function (search, replacement)
+    {
+        var target = this;
+        return target.split(search).join(replacement);
+    };
+    String.prototype.contains = function (str)
+    {
+        var target = this;
+        return target.indexOf(str) != -1;
+    };
+    String.prototype.stripHTML = function()
+    {
+        var html = this;
+        var tmp = document.createElement("DIV");
+        tmp.innerHTML = html;
+        return tmp.textContent || tmp.innerText || "";
+    }
 </script>
 <style>
     .wog-lol-ap {
