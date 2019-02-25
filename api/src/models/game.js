@@ -11,6 +11,7 @@ export const GameSchema = new mongoose.Schema({
     coverTall : {type:String,default:'?'},
     category : {type:String,default:'?'},
     ageRange : {type:String,default:''},
+    twitchGameId : {type : String , default : ''},
     images : Array,
     items: Array,
     /*

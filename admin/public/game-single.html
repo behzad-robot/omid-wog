@@ -62,6 +62,8 @@
                     g.summonerSpells = [];
                 if (g.coverTall == undefined)
                     g.coverTall = '?';
+                if(g.twitchGameId == undefined)
+                    g.twitchGameId = '';
                 game = g;
                 console.log(game);
                 MY_DIR = `games/${game.token}`;
@@ -74,6 +76,7 @@
                 $("#single").append(textInput('slug', game.slug));
                 $("#single").append(textInput('category', game.category));
                 $("#single").append(textInput('ageRange', game.ageRange));
+                $("#single").append(textInput('twitchGameId', game.twitchGameId));
                 $("#single").append(bodyInput('description', game.description));
                 imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL, MY_DIR);
                 imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL, MY_DIR);

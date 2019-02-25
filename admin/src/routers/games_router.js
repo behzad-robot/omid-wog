@@ -1,6 +1,6 @@
 
 import { AdminRouter } from "./admin_router";
-import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
+import { API_URL, ADMIN_FILE_UPLOAD, ADMIN_FILE_UPLOAD_NEW } from "../constants";
 import { updateCache } from "../utils/cache";
 export default class GamesPanelRouter extends AdminRouter
 {

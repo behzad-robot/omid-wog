@@ -58,6 +58,5 @@ export default class MyExpressApp
         //helper for file uploads:
         const fileUpload = require('express-fileupload');
         this.expressApp.use(fileUpload());
-        console.log('fuck me! upload files!');
     }
 }

@@ -1,7 +1,7 @@
 const InputUtils = {
     bodyId: 0,
     fileId: 0,
-    idInput: (name, value, settings) =>
+    idInput: (name, value, settings = {}) =>
     {
         var after = settings.after ? settings.after : '';
         return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
@@ -19,11 +19,12 @@ const InputUtils = {
             `
         );
     },
-    textInput: (name, value, settings = { readonly: false, after: '' }) =>
+    textInput: (name, value, settings = { readonly: false, after: '' , vue : false }) =>
     {
+        var vue = settings.vue ? `v-model='item.name'` : '';
         var readonly = settings.readonly ? 'readonly' : '';
         var after = settings.after ? settings.after : '';
-        return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/>${after}</div>`;
+        return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' ${vue} name='${name}' value='${value}' ${readonly}/>${after}</div>`;
     },
     numberInput: (name, value, settings = { readonly: false, after: '' }) =>
     {
@@ -43,15 +44,16 @@ const InputUtils = {
             </div>
         `;
     },
-    hiddenInput : (name, value, settings = { readonly: false }) =>
+    hiddenInput: (name, value, settings = { readonly: false }) =>
     {
         //return ":|";
         var readonly = settings.readonly ? "readonly" : "";
         return `<input type='hidden' class='form-control m' name='${name}' value='${value}' ${readonly}/>`;
     },
-    imageInput: (parent,name, value, settings = { fId: -1, fileUploadURL: '', dir: '' } , onUploaded = undefined) =>
+    imageInput: (parent, name, value, settings = { fileUploadURL: '', dir: '' }, onUploaded = undefined) =>
     {
         const f = InputUtils.fileId++;
+        console.log(settings.dir);
         $(parent).append(
             `<div class='form-row' style="background-color:#eee;border:1px solid #aaa;padding:5px;border-radius:5px;" fId="${f}" name='image-field-${name}'>
             <b>${name}:</b>
@@ -69,26 +71,53 @@ const InputUtils = {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $(`${parent} .form-row[fId=${f}] [name=status]`).html(`Uploading ${progress}% ...`);
             },
-            done: function (e, data) {
+            done: function (e, data)
+            {
                 console.log(data);
                 console.log(e);
-                // $(`${parent} .form-row[fId=${f}] [name=status]`).html("Uploaded: " + data.result.url);
-                // if (onUploaded != undefined)
-                //     onUploaded(data.result);
+                $(`${parent} .form-row[fId=${f}] [name=status]`).html("Uploaded: " + data.result.url);
+                $(`${parent} .form-row[fId=${f}] img`).attr('src', data.result.url);
+                $(`${parent} .form-row[fId=${f}] input[type=hidden]`).val(data.result.path);
+                $(`${parent} .form-row[fId=${f}] [name=preview-label-${name}]`).html(data.result.path);
+                if (onUploaded != undefined)
+                    onUploaded(data.result);
             }
         });
+        console.log("this is fine");
+        return "";
     },
     bodyInput: (name, value, settings = {}) =>
     {
+
         InputUtils.bodyId++;
         const b = InputUtils.bodyId;
+        var readonly = settings.readonly ? "readonly" : "";
+        setTimeout(() =>
+        {
+            var config = {
+                font_names: `Roboto`,
+                extraPlugins: 'behzad'
+            };
+            config.stylesSet = 'my_styles';
+            // CKEDITOR.replace(name, config);
+            $(`#bodyinput-${b}`).ckeditor(function ()
+            {
+            }, config);
+        }, 300);
         return `
         <div class='form-row'>
         <b>${name}:</b>
         <textarea editor="true" id='bodyinput-${b}' class='form-control m' name='${name}' ${readonly}>${value}</textarea>
         </div>`;
     },
-    ID : function ()
+    jsonInput: (name, value, settings = { readonly : false }) =>
+    {
+        var readonly = settings.readonly ? "readonly" : "";
+        if (typeof value != 'string')
+            value = JSON.stringify(value);
+        return `<div class='form-row json-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
+    },
+    ID: function ()
     {
         // Math.random should be unique because of its seeding algorithm.
         // Convert it to base 36 (numbers + letters), and grab the first 9 characters

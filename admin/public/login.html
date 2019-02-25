@@ -1,20 +1,35 @@
 <html>
-    <head>
-        {{{head}}}
-        <style>
-            
-        </style>
-    </head>
-    <body>
-        {{{actionbar}}}
-        <div class="container">
-            <h2>Admin Login</h2>
-            <form action="/admin/check-login" method="post">
-                <div class="form-row"><b>email: </b><input type="text" class="form-control m" name="email"/></div>
-                <div class="form-row"><b>password: </b><input type="password" class="form-control m" name="password"/></div>
-                <input class="btn btn-md btn-success" type="submit" value="Login"/>
-            </form>
+
+<head>
+    {{{head}}}
+    <title>Admin Login</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <div class="row">
+            <div class="col-2"></div>
+            <div class="col-8">
+                <div class="card" style="padding:10px 20px;margin-top:20px;">
+                    <h2>Admin Login</h2>
+                    <form action="/admin/check-login" method="post">
+                        <div class="form-row"><b>email: </b><input type="text" class="form-control m" name="email" />
+                        </div>
+                        <div class="form-row"><b>password: </b><input type="password" class="form-control m"
+                                name="password" /></div>
+                        <input class="btn btn-md btn-success" type="submit" value="Login" />
+                    </form>
+                </div>
+            </div>
+            <div class="col-2"></div>
         </div>
-        {{{footer}}}
-    </body>
+
+    </div>
+    {{{footer}}}
+</body>
+
 </html>

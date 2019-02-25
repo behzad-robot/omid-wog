@@ -13,8 +13,13 @@
         <h2>Games:</h2>
         <a href="/admin/games/new" class="btn btn-md btn-info">+New Game</a>
         <hr />
+        <div id="loading" class="text-center">
+            <div class="lds-ripple">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
         <div id="list">
-
         </div>
         <script>
             findObjects('games', (games) =>
@@ -33,6 +38,7 @@
                         + `</div>`
                     );
                 }
+                $("#loading").hide();
             });
         </script>
     </div>

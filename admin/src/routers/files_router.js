@@ -17,8 +17,22 @@ export default class AdminFilesRouter extends AdminRouter
         this.router.post('/upload', (req, res) =>
         {
             var dir = req.body.dir ? req.body.dir : '';
-
-            res.send({ success: true });
+            if(!dir.endsWith('/'))
+                dir += '/';
+            console.log('dir is '+dir);
+            this.handleFile(req, res, 'my-file', dir).then((result) =>
+            {
+                if (result)
+                {
+                    result.link = result.path;
+                    res.send(result);
+                }
+                else
+                    res.send({ success: false, error: "nothing to upload" });
+            }).catch((err) =>
+            {
+                res.send({ success: false, error: err.toString() });
+            });
         });
         this.router.get('/update-images-cache', (req, res) =>
         {

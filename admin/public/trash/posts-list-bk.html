@@ -9,15 +9,6 @@
             text-align: right;
             font-family: Tahoma;
         }
-
-        .post-row {
-            background-color: white;
-            /* border-bottom: 1px solid #aaaaaa; */
-            padding: 5px 10px;
-            margin-bottom: 5px;
-            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
     </style>
 </head>
 
@@ -26,20 +17,10 @@
     <div class="container" id="contentContainer">
         <h2>
             اخبار و پست ها:
-            <a href="/admin/posts/new" class="btn btn-md btn-info float-left" style="position: relative;top:5px;">+مطلب
-                جدید</a>
+            <a href="/admin/posts/new" class="btn btn-md btn-info float-left" style="position: relative;top:5px;">+مطلب جدید</a>
         </h2>
-
+        
         <hr />
-        <div class="post-row" style="margin-bottom:0;border-radius:0;border-bottom:1px solid #aaaaaa;background-color:#e0e0e0;padding:20px 0;">
-            <div class="row">
-                <div class="col-md-1 text-center">تصویر</div>
-                <div class="col-md-4 text-center">عنوان</div>
-                <div class="col-md-2 text-center">دسته بندی ها</div>
-                <div class="col-md-2 text-center">تگ ها</div>
-                <div class="col-md-3 text-center">اعمال</div>
-            </div>
-        </div>
         <div id="loading" class="text-center">
             <div class="lds-ripple">
                 <div></div>
@@ -87,7 +68,7 @@
                     var post = posts[i];
                     var tagsStr = '';
                     for (var j = 0; j < post.tags.length; j++)
-                        tagsStr += `<div class="btn btn-sm btn-dark" style="margin-bottom:5px">${post.tags[j]}</div>&nbsp;`;
+                        tagsStr += `<div class="btn btn-md btn-dark">${post.tags[j]}</div>&nbsp;`;
                     var catsStr = '';
                     for (var j = 0; j < post._cats.length; j++)
                         catsStr += `<div class="btn btn-md btn-light">${post._cats[j].name}</div>&nbsp;`;
@@ -101,27 +82,22 @@
                     if (post.intro.length >= 2000)
                         alertStr += 'متن پیش نمایش  طولانی می باشد.<br>';
                     $("#list").append(
-                        `<div class="post-row">
-                                <div class="row">
-                                    <div class="col-md-1 text-center">
-                                        <img src="${post.thumbnail_150x150}" width="64px" height="64px"/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <h5>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h5>
-                                    </div>
-                                    <div class="col-md-2">
-                                        ${catsStr}
-                                    </div>
-                                    <div class="col-md-2">
-                                        ${tagsStr}
-                                    </div>
-                                    <div class="col-md-3">
-                                        <a class="btn btn-md btn-info" href="/admin/posts/${post._id}" title="ویرایش پست"><span class="fas fa-edit"></span>&nbsp;ویرایش</a>
-                                        <a class="btn btn-md btn-warning" href="http://worldofgamers.ir/posts/_id/${post._id}"><span class="fas fa-eye"></span>&nbsp;پیش نمایش</a>    
-                                    </div>
+                        `<div class="box-row">
+                                <div style="display:inline-block;width: 25%;vertical-align: top;">
+                                    <img src="${post.thumbnail}" width="100%"/>
                                 </div>
-                                <small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small>
+                                <div style="display:inline-block;width:70%;">
+                                    <h4>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h4>
+                                    <p>${post.intro}</p><hr/>
+                                </div>
+                                <p><b>تگ ها:</b>${tagsStr}</p>
+                                <p><b>دسته بندی ها:</b> ${catsStr}</p>
+                                <small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small><hr />
                                 ${alertStr != '' ? `<div class="alert alert-warning">${alertStr}</div>` : ''}
+                                <div class="text-right">
+                                    <a class="btn btn-md btn-info" href="/admin/posts/${post._id}">ویرایش پست</a>
+                                    <a class="btn btn-md btn-warning" href="http://worldofgamers.ir/posts/_id/${post._id}">پیش نمایش پست</a>
+                                </div>
                             </div>`
                     );
                 }

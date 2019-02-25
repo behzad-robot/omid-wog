@@ -450,13 +450,16 @@
             }
             $('.tooltipster').tooltipster();
             //streamers:
-            let gameId = 29595;
-            if (`{{game.token}}` == 'dota2')
-                gameId = 29595;
-            else if (`{{game.token}}` == 'mortal')
-                gameId = 460521;
-            else
-                gameId = 478467; // vg
+            let gameId = `{{game.twitchGameId}}`;
+            if(gameId == '' || gameId == 'undefined')
+            {
+                if (`{{game.token}}` == 'dota2')
+                    gameId = 29595;
+                else if (`{{game.token}}` == 'mortal')
+                    gameId = 460521;
+                else
+                    gameId = 478467; // vg
+            }
             getTwitchStreamersFor(gameId, (ss) =>
             {
                 streamers = ss;

@@ -1,0 +1,115 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .item-box{
+            padding:10px 20px;
+            margin-bottom:5px;
+            background-color:white;
+            border-radius:3px;
+            box-shadow:1px 1px 2px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+    </style>
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Game {{{_id}}}:<a href="/admin/games/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a></h2>
+        <hr>
+        <div id="app">
+            <form id="single" action="/admin/games/{{{_id}}}/edit" method="POST"></form>
+            <div id="extra">
+                <h3>Items:</h3>
+                <div class="btn btn-md btn-secondary">Add Item</div>
+                <div id="items">
+                    <div class="item-box" v-for="item in game.items" :id="'items-container-' + item._id">
+                        <img v-bind:src="item.icon" width="64px"/>
+                        <b>${item.name}</b>
+                        <div class="btn btn-md btn-info float-right">Expand</div>
+                        <hr>
+                        <div :id="'items-' + item._id">
+                            <input v-model="item.name"/>
+                            <span v-html="
+                            InputUtils.idInput('_id',item._id)
+                            +InputUtils.textInput('name',item.name , {vue : true})
+                            +InputUtils.textInput('slug',item.slug)
+                            +InputUtils.textInput('category',item.category)
+                            +InputUtils.textInput('price',item.price)
+                            +InputUtils.textInput('coolDown',item.coolDown)
+                            +InputUtils.textInput('manaCost',item.manaCost)
+                            +InputUtils.boolInput('hasRecipe',item.hasRecipe)
+                            +InputUtils.textInput('shop',item.shop)
+                            +InputUtils.bodyInput('description',item.description)
+                            +InputUtils.jsonInput('children',item.children)
+                            +InputUtils.imageInput(`#items-${item._id}`,'icon',item.icon,{ fileUploadURL: FILE_UPLOAD_URL, dir: MY_DIR })
+                            "></span>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}`;
+            const _id = `{{{_id}}}`;
+        </script>
+        <script>
+            let game = undefined;
+            
+            let MY_DIR = ``;
+            $(() =>
+            {
+                getObject('games', _id , (g) =>
+                {
+                    game = g;
+                    MY_DIR = `games/${game.token}`;
+                    //simple fields:
+                    $("#single").append(InputUtils.idInput('_id', game._id));
+                    $("#single").append(InputUtils.draftInput(game._draft));
+                    $("#single").append(InputUtils.textInput('createdAt', game.createdAt, { readonly: true }));
+                    $("#single").append(InputUtils.textInput('updatedAt', game.updatedAt, { readonly: true }));
+                    $("#single").append(InputUtils.textInput('name', game.name));
+                    $("#single").append(InputUtils.textInput('token', game.token));
+                    $("#single").append(InputUtils.textInput('slug', game.slug));
+                    $("#single").append(InputUtils.textInput('category', game.category));
+                    $("#single").append(InputUtils.textInput('ageRange', game.ageRange));
+                    $("#single").append(InputUtils.bodyInput('description', game.description));
+                    InputUtils.imageInput('#single', 'icon', game.icon, { fileUploadURL: FILE_UPLOAD_URL, dir: MY_DIR });
+                    InputUtils.imageInput('#single', 'cover', game.cover, { fileUploadURL: FILE_UPLOAD_URL, dir: MY_DIR });
+                    InputUtils.imageInput('#single', 'coverTall', game.coverTall, { fileUploadURL: FILE_UPLOAD_URL, dir: MY_DIR });
+                    window.InputUtils = InputUtils;
+                    //extra fields:
+                    $("#single").append(InputUtils.jsonInput('items','${itemsJSON}'));
+                    var app = new Vue({
+                        el : '#app',
+                        delimiters: ['${', '}'],
+                        data : {
+                            MY_DIR : MY_DIR,
+                            FILE_UPLOAD_URL : FILE_UPLOAD_URL,
+                            game : game,
+                            itemsCount : game.items.length,
+                        },
+                        computed:{
+                            itemsJSON : function(){
+                                return JSON.stringify(this.game.items);
+                            },
+                            InputUtils : function(){
+                                return window.InputUtils;
+                            }
+                        }
+                    });
+                });
+            });
+        </script>
+    </div>
+    {{{footer}}}
+
+</body>
+
+</html>
