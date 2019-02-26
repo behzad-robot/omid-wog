@@ -52,7 +52,7 @@ export class PublicMongooseWSRouter extends SocketRouter
         var offset = params.offset ? params.offset : 0;
         var sort = params.sort ? params.sort : '';
         var publicCast = params._publicCast ? params._publicCast : false;
-        console.log(`publicCast=>${publicCast}`);
+        // console.log(`publicCast=>${publicCast}`);
         delete (params._publicCast);
         delete (params.limit);
         delete (params.offset);

@@ -26,6 +26,9 @@ import { ContactUsForm } from "./utilsApi/contactUsForm";
 import { Media } from "./utilsApi/media";
 import { Comment } from "./utilsApi/comment";
 import SiteCommentsRouter from "./routers/comments_router";
+
+const fs = require('fs');
+const path = require('path');
 // import AdminAnalyticsRouter from "./routers/admin_analytics";
 
 //api socket
@@ -54,6 +57,10 @@ const SiteModules = {
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     proxyAPI: proxyAPI,
+    getConfig : ()=> {
+        var config = JSON.parse(fs.readFileSync(path.resolve('../storage/config.json')).toString());
+        return config;
+    }
 }
 const allGamesCache = new CacheReader('all-games', (cb) =>
 {
@@ -137,8 +144,6 @@ const footerMediaCache = new CacheReader('footer-media', (cb) =>
 });
 const recommendedPostsCache = new CacheReader('posts-recommended', (cb) =>
 {
-    const fs = require('fs');
-    const path = require('path');
     fs.readFile(path.resolve("../storage/caches/posts-recommended-ids.json"), (err, data) =>
     {
         console.log('recommendedPostsCache');
@@ -185,7 +190,8 @@ SiteModules.Cache = {
                 cb("Not Found", undefined);
             }
         });
-    }
+    },
+    
 }
 
 

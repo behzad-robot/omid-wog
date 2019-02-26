@@ -89,6 +89,8 @@ export default class SiteRouter extends Router
                             };
                             console.log("parts readY!");
                             // console.log(Date.now()-data._t);
+                            data._wogSEO = this.modules.getConfig().seo;
+                            console.log(data._wogSEO);
                             res.send(mustache.render(view_str, data));
                         });
                     });
