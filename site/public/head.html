@@ -69,4 +69,23 @@
             scrollTop: parseInt($(el).offset().top)
         }, 2000);
     }
+    $(document).ready(() =>
+    {
+        updateImagesError();
+        setTimeout(() =>
+        {
+            updateImagesError();
+        }, 1500);
+    });
+    function updateImagesError()
+    {
+        $("img").on('error', function ()
+        {
+            console.log(':D faced problem loading image');
+            // $(this).attr('onerror','');
+            $(this).unbind('error');
+            $(this).attr('src', "/images/hentai.jpg");
+            return true;
+        });
+    }
 </script>

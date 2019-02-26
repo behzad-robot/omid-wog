@@ -106,8 +106,31 @@
             <div class="row">
                 <div class="col-md-8 col-12">
                     <h3 style="margin:15px 0;font-size: 36px;" id="builds-title">آرشیو آموزش ها:</h3>
-                    <div id="builds"></div>
-                    <div id="builds-loading">
+                    <div id="builds">
+                        {{#builds}}
+                        <a class="card build-box" href="{{siteUrl}}">
+                            <div class="icon-wrapper">
+                                <img src="{{_champ.icon_tall}}" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>{{title}}</h4>
+                                <small>توسط:&nbsp;<b class="username"
+                                        label="username">{{_user.username}}</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">{{createdAt}}</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">{{patch}}</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;{{upVotes.length +
+                                    downVotes.length}} رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;{{views}} بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;{{comments.length}} نظر</span>
+                            </div>
+                        </a>
+                        {{/builds}}
+                    </div>
+                    <div id="builds-loading" style="display:none">
                         <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
                             <img src="/images/loading.gif" width="72px" />
                         </div>
@@ -129,98 +152,29 @@
                             <img src="/images/loading.gif" width="72px" />
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
     <script>
-        let game = undefined, champions = undefined, builds = [], streamers = [];
-        let params = '';
-        const query = JSON.parse(`{{{query}}}`);
-        $(document).ready(() => {
-            show_loading();
-            if (query.gameId) {
-                console.log('this is a game case!');
-                params = '?gameId=' + query.gameId;
-                getGame(query.gameId, (g) => {
-                    game = g;
-                    console.log(game);
-                    getChampions(params, (cs) => {
-                        champions = cs;
-                        console.log(champions);
-                        getBuilds(params, game, champions, (bs) => {
-                            builds = bs;
-                            create_builds(builds);
-                        });
-                    });
-                });
-            }
-            else if (query.champId) {
-                params = '?champId=' + query.champId;
-                getChampion(query.champId, (c) => {
-                    champions = [c];
-                    getGame(c.gameId, (g) => {
-                        game = g;
-                        getBuilds(params, game, champions, (bs) => {
-                            builds = bs;
-                            create_builds(bs);
-                        });
-                    });
-                });
-            }
-            //twitch streamers:
-            let gameId = 29595;
-            getTwitchStreamersFor(gameId, (ss) => {
-                streamers = ss;
-                streamers_create();
+        $(() =>
+        {
+            let gameId = `{{game.twitchGameId}}`;
+            getTwitchStreamersFor(gameId, (ss) =>
+            {
+                streamers_create(ss);
             });
-
         });
-        function streamers_create() {
+        function streamers_create(streamers)
+        {
             console.log("streamers loaded " + streamers.length);
-            for (var i = 0; i < streamers.length && i < 3; i++) {
+            for (var i = 0; i < streamers.length && i < 3; i++)
+            {
                 var s = streamers[i];
                 console.log(s);
                 $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
             }
             $("#streamers-row [name=loading]").hide();
-        }
-        function show_loading() { $("#builds-loading").show(); }
-        function hide_loading() { $("#builds-loading").hide(); }
-        function create_builds(bs) {
-            for (var i = 0; i < bs.length; i++) {
-                var b = bs[i];
-                console.log(b);
-                if(b._champ == undefined)
-                    continue;
-                $("#builds").append(`
-                <a class="card build-box" href="${b.siteUrl}">
-                    <div class="icon-wrapper">
-                        <img src="${b._champ.icon_tall}" width="100%">
-                    </div>
-                    <div class="content-wrapper">
-                        <h4>${b.title}</h4>
-                        <small>توسط:&nbsp;<b class="username" userId="${b.userId}" label="username">${b.userId}</b></small><br>
-                        <small>نوشته شده در: <span style="direction:ltr">${b.createdAt}</span></small>
-                        <div style="margin:5px 0">
-                            <span class="badge badge-sm badge-warning text-english">${b.patch}</span>
-                        </div>
-                    </div>
-                    <div class="vote-wrapper">
-                        <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;${b.upVotes.length + b.downVotes.length} رای</span>
-                        <span><i class="fas fa-eye"></i>&nbsp;&nbsp;${b.views} بازدید</span>
-                        <span><i class="fas fa-comment"></i>&nbsp;&nbsp;${b.comments.length} نظر</span>
-                    </div>
-                </a>
-            `);
-                const userId = b.userId;
-                getUser(b.userId, (user) => {
-                    var label = $(`[userId=${user._id}]`).attr('label');
-                    $(`[userId=${user._id}]`).html(user[label]);
-                });
-            }
-            hide_loading();
         }
     </script>
     {{{footer}}}

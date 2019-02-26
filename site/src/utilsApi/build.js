@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class ChampBuild extends SocketCollection
@@ -35,9 +36,10 @@ export class ChampBuild extends SocketCollection
             }).catch(reject);
         });
     }
-    fixOne(g)
+    fixOne(b)
     {
-        return g;
+        b.siteUrl = SITE_URL('builds/' + b._id);
+        return b;
     }
     fixAll(cs)
     {

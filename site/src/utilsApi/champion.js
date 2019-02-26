@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class Champion extends SocketCollection
@@ -35,9 +36,10 @@ export class Champion extends SocketCollection
             }).catch(reject);
         });
     }
-    fixOne(g)
+    fixOne(c)
     {
-        return g;
+        c.siteUrl = SITE_URL('champions/'+c.slug);
+        return c;
     }
     fixAll(cs)
     {

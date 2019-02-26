@@ -149,7 +149,7 @@ const recommendedPostsCache = new CacheReader('posts-recommended', (cb) =>
             var ids = JSON.parse(data.toString());
             SiteModules.Post.find({ _ids: ids, _publicCast: true }).then((posts) =>
             {
-                cb(undefined,posts);
+                cb(undefined, posts);
             });
         }
     });
@@ -162,7 +162,30 @@ SiteModules.Cache = {
     footerPosts: footerPostsCache,
     footerMedia: footerMediaCache,
     //posts list , post single : 
-    posts_recommended : recommendedPostsCache,
+    posts_recommended: recommendedPostsCache,
+
+    getGame: (query, cb) =>
+    {
+        var key = Object.keys(query)[0];
+        allGamesCache.getData((err, games) =>
+        {
+            if (err)
+                cb(err, undefined);
+            else
+            {
+                for (var i = 0; i < games.length; i++)
+                {
+                    var g = games[i];
+                    if (g[key] == query[key])
+                    {
+                        cb(undefined, games[i]);
+                        return;
+                    }
+                }
+                cb("Not Found", undefined);
+            }
+        });
+    }
 }
 
 
@@ -230,10 +253,10 @@ express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
 express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
-// express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
+express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
-// express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
+express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 apiSocket.connect(() =>

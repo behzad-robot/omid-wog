@@ -307,26 +307,48 @@
                     <div>
                         <h2 style="margin:10px 0">گالری</h2>
                         <div style="width:100%;" id="gallery-box">
-                            <!-- <a href="#" style="width:300px;float:right">
-                                <img src="images/bflanding.jpg" height="100%" />
-                            </a> -->
-                            <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
-                                <img src="/images/loading.gif" width="72px" />
+                            {{#media}}
+                            <a href="{{siteUrl}}" style="width:300px;float:right">
+                                <img src="{{thumbnail_url}}" height="100%" />
+                            </a>
+                            {{/media}}
+                            {{^media}}
+                            <div class="text-center">
+                                هیچ عکسی در گالری برای این شخصیت وجود ندارد.
                             </div>
+                            {{/media}}
+                            <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                                <img src="/images/loading.gif" width="72px" />
+                            </div> -->
                         </div>
                     </div>
                     <!-- end gallery -->
                     <h3 style="margin:10px 0;">تازه های آموزش ها:</h3>
                     <div id="builds-box" class="row">
-                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
-                            <img src="/images/loading.gif" width="72px" />
-                        </div>
+                        {{#builds}}
+                        <a class="card build-box" href="{{siteUrl}}">
+                            <div class="icon-wrapper"><img src="{{champion.icon_tall}}" width="100%"></div>
+                            <div class="content-wrapper">
+                                <h4>{{title}}</h4>
+                                <small>
+                                    توسط:&nbsp;<b class="username"><span label="username">{{_user.username}}</span></b>
+                                </small>
+                                <br>
+                                <small>نوشته شده در: <span class="text-english go-ltr">{{createdAt}}</span></small><div style="margin:5px 0"><span class="badge badge-sm badge-warning">{{patch}}</span></div></div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;
+                                <i class="fas fa-thumbs-down"></i>&nbsp;&nbsp;{{upVotes.length + downVotes.length}} رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;{{views}} بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;{{comments.length}} نظر</span>
+                            </div>
+                        </a>
+                        {{/builds}}
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <script>
+   <!-- <script>
         let champion = null;
         let game = null;
         $(document).ready(() => {
@@ -363,6 +385,7 @@
                             });
                         }
                         $("#builds-box [name=loading]").hide();
+                        updateImagesError();
                     });
                     //media:
                     getMedia('?champId=' + champion._id, (media) => {
@@ -375,12 +398,12 @@
                             $("#gallery-box").append(`<div class="col-md-3"><a href="${m.siteUrl}"><img src="${m.url}" width="100%" /></a></div>`);
                         }
                         $("#gallery-box [name=loading]").hide();
+                        updateImagesError();
                     });
-                });
-
+                });                
             });
         });
-    </script>
+    </script>-->
     {{{footer}}}
 </body>
 
