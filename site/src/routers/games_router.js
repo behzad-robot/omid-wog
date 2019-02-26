@@ -17,7 +17,7 @@ export default class SiteGamesRouter extends SiteRouter
                 this.renderTemplate(req, res, 'coming-soon.html', {});
                 return;
             }
-            siteModules.Game.find({ slug: req.params.slug }).then((games) =>
+            siteModules.Game.find({ slug: req.params.slug , _publicCast : true }).then((games) =>
             {
                 if (games.length == 0)
                     this.show404(req, res);

@@ -2,15 +2,19 @@
 
 <head>
     {{{head}}}
-    <title>{{title}} - واج</title>
-    <meta name="description" content="واج دنیای بازی ها">
-    <meta name="keywords" itemprop="keywords" content="واج دنیای بازی ها">
-    <link rel="canonical" href="{{category.siteUrl}}">
+    <title>{{_wogSEO.title}} - {{title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="{{_wogSEO.fullUrl}}">
     <meta property="og:locale" content="fa_IR">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{title}} - واج">
-    <meta property="og:description" content="واج دنیای بازی ها">
-    <meta property="og:url" content="{{category.siteUrl}}">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}} {{title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
     <meta property="og:site_name" content="واج">
     <meta property="article:section" content="{{category.name}}">
     <meta property="og:image" content="/images/wog-logo.png">

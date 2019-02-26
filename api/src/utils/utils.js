@@ -13,3 +13,6 @@ export function getResizedFileName(filePath,width,height)
     let file_resize = fileName + `-resize-${width}x${height}` + fileFormat;
     return file_resize;
 }
+export function replaceAll(target,search,replacement){
+    return target.split(search).join(replacement);
+}
