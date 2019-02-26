@@ -35,6 +35,7 @@ export default class ChampionsPanelRouter extends AdminRouter
                 data.roles = [];
             else if(req.query.game == 'mortal')
             {
+                data.gameId = '5c6411967394a078f182e662';
                 data.moves = [];
                 data.varirations = [];
             }
@@ -95,7 +96,7 @@ export default class ChampionsPanelRouter extends AdminRouter
         {
             AdminModules.Champion.getOne(req.params._id).then((champ) =>
             {
-                if (champ.moves == undefined)
+                if (champ.gameId != '5c6411967394a078f182e662')
                 {
                     res.send(this.renderTemplate('champ-moba-single.html', {
                         admin: req.session.admin,
