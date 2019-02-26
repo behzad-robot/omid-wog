@@ -59,6 +59,10 @@ PostSchema.virtual('thumbnail_640x480').get(function ()
 {
     return getResizedFileName(this.thumbnail, 640, 480);
 });
+PostSchema.virtual('thumbnail_800x600').get(function ()
+{
+    return getResizedFileName(this.thumbnail, 800, 600);
+});
 export const Post = mongoose.model('Post', PostSchema);
 Post.Helpers = {
     hasDraft: () => true,

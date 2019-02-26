@@ -86,6 +86,10 @@ export const SchemaResizes = {
             width: 640,
             height: 480,
         },
+        {
+            width: 800,
+            height: 600,
+        },
     ],
     Media: [
         {

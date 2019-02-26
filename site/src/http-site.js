@@ -58,7 +58,7 @@ const SiteModules = {
     ContactUsForm: new ContactUsForm(apiSocket),
     proxyAPI: proxyAPI,
     getConfig : ()=> {
-        var config = JSON.parse(fs.readFileSync(path.resolve('../storage/config.json')).toString());
+        var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
         return config;
     }
 }
