@@ -80,12 +80,18 @@
         var target = this;
         return target.indexOf(str) != -1;
     };
-    String.prototype.stripHTML = function()
+    String.prototype.stripHTML = function ()
     {
         var html = this;
         var tmp = document.createElement("DIV");
         tmp.innerHTML = html;
         return tmp.textContent || tmp.innerText || "";
+    }
+    function scroll_to(el)
+    {
+        $('html, body').animate({
+            scrollTop: parseInt($(el).offset().top)
+        }, 2000);
     }
 </script>
 <style>
