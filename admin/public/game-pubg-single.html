@@ -1,0 +1,323 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Game {{{_id}}}:<a href="/admin/games/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a></h2>
+        <hr />
+        <form id="single" action="/admin/games/{{{_id}}}/edit" method="POST"></form>
+        <div id="extra"></div>
+        <script>
+            let game = null;
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`;
+            let MY_DIR = ``;
+            $(document).ready(() =>
+            {
+                getObject('games', `{{{_id}}}`, (g) =>
+                {
+                    if (g.twitchGameId == undefined)
+                        g.twitchGameId = '';
+                    game = g;
+                    if (game.maps == undefined)
+                        game.maps = [];
+                    if (game.consumables == undefined)
+                        game.consumables = [];
+                    if (game.equipments == undefined)
+                        game.equipments = [];
+                    if (game.ammunations == undefined)
+                        game.ammunations = [];
+                    console.log(game);
+                    MY_DIR = `games/${game.token}`;
+                    $("#single").append(idInput('_id', game._id));
+                    $("#single").append(draftInput(game._draft));
+                    $("#single").append(idInput('createdAt', game.createdAt));
+                    $("#single").append(idInput('updatedAt', game.updatedAt));
+                    $("#single").append(textInput('name', game.name));
+                    $("#single").append(textInput('token', game.token));
+                    $("#single").append(textInput('slug', game.slug));
+                    $("#single").append(textInput('category', game.category));
+                    $("#single").append(textInput('ageRange', game.ageRange));
+                    $("#single").append(textInput('twitchGameId', game.twitchGameId));
+                    $("#single").append(bodyInput('description', game.description));
+                    imageInput('#single', 'icon', game.icon, FILE_UPLOAD_URL, MY_DIR);
+                    imageInput('#single', 'cover', game.cover, FILE_UPLOAD_URL, MY_DIR);
+                    imageInput('#single', 'coverTall', game.coverTall, FILE_UPLOAD_URL, MY_DIR);
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+
+                    //extra fields
+                    $("#single").append(jsonInput('maps', game.maps));
+                    $("#single").append(jsonInput('consumables', game.consumables));
+                    $("#single").append(jsonInput('equipments', game.equipments));
+                    $("#single").append(jsonInput('ammunations', game.ammunations));
+                    //extras setup:
+                    $("#extra").append(`<div id="maps"></div>`);
+                    maps_recreate();
+                    $("#extra").append(`<div id="consumables"></div>`);
+                    consumables_recreate();
+                    $("#extra").append(`<div id="equipments"></div>`);
+                    equipments_recreate();
+                    $("#extra").append(`<div id="ammunations"></div>`);
+                    ammunations_recreate();
+                });
+            });
+            function maps_recreate()
+            {
+                $("[name=maps]").val(JSON.stringify(game.maps));
+                $("#maps").html(`<h3>Maps:</h3><div class="btn btn-md btn-secondary" onclick="maps_add()">+Add Map</div>`)
+                for (var i = 0; i < game.maps.length; i++)
+                {
+                    var map = game.maps[i];
+                    $("#maps").append(`
+                    <div class="box-row map-box-container" id="maps-wrapper-${map._id}" mapId="${map._id}" index="${i}">
+                        <img name="preview-icon" src="${map.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${map.name}</b>
+                        <div class="btn btn-md btn-info" onclick="maps_toggle('${map._id}')">Expand</div>
+                        <div class="map-box" style="display:none" id="maps-${map._id}" mapId="${map._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#maps-${map._id}`).append(idInput('_id', map._id));
+                    $(`#maps-${map._id}`).append(textInput('name', map.name));
+                    $(`#maps-${map._id}`).append(textInput('slug', map.slug));
+                    $(`#maps-${map._id}`).append(textInput('subtitle', map.subtitle));
+                    $(`#maps-${map._id}`).append(InputUtils.airInput('description', map.description));
+                    $(`#maps-${map._id}`).append(filePickTool(undefined, 'thumbnail', map.thumbnail));
+                    $(`#maps-${map._id}`).append(filePickTool(undefined, 'cover', map.cover));
+                    $(`#maps-${map._id}`).append(jsonInput('weapons', map.weapons));
+                    //TODO : add ez add weapons
+                    $(`#maps-${map._id}`).append(`<div class="btn btn-md btn-danger" onclick="maps_remove(${i})">Remove</div>`);
+                }
+                $("#maps input,#maps textarea").on('change', function ()
+                {
+                    maps_update(this);
+                });
+            }
+            function maps_add()
+            {
+                game.maps.push({
+                    _id: InputUtils.ID(),
+                    name: 'New Map',
+                    slug: '',
+                    subtitle: 'N x N 64KM',
+                    description: '',
+                    thumbnail: '',
+                    cover: '',
+                    weapons: [],
+                });
+                maps_recreate();
+            }
+            function maps_toggle(_id)
+            {
+                $(`#maps-${_id}`).toggle();
+            }
+            function maps_remove(index)
+            {
+                game.maps.splice(index, 1);
+                maps_recreate();
+            }
+            function maps_update(elm)
+            {
+                var i = $(elm).closest(".map-box").attr("index");
+                var map = game.maps[i];
+                const _id = map._id;
+                game.maps[i] = {
+                    _id: $(`#maps-${_id} [name=_id]`).val(),
+                    name: $(`#maps-${_id} [name=name]`).val(),
+                    slug: $(`#maps-${_id} [name=slug]`).val(),
+                    subtitle: $(`#maps-${_id} [name=subtitle]`).val(),
+                    description: $(`#maps-${_id} [name=description]`).val(),
+                    thumbnail: $(`#maps-${_id} [name=thumbnail]`).val(),
+                    cover: $(`#maps-${_id} [name=cover]`).val(),
+                    weapons: JSON.parse($(`#maps-${_id} [name=weapons]`).val()),
+                };
+                $("[name=maps]").val(JSON.stringify(game.maps));
+                $(`#maps-wrapper-${_id} [name=preview-name]`).html(map.name);
+                $(`#maps-wrapper-${_id} [name=preview-icon]`).attr('src', map.thumbnail);
+            }
+            function consumables_recreate()
+            {
+                $("[name=consumables]").val(JSON.stringify(game.consumables));
+                $("#consumables").html(`<h3>consumables:</h3><div class="btn btn-md btn-secondary" onclick="consumables_add()">+Add consumable</div>`)
+                for (var i = 0; i < game.consumables.length; i++)
+                {
+                    var c = game.consumables[i];
+                    $("#consumables").append(`
+                    <div class="box-row consumable-box-container" id="consumables-wrapper-${c._id}" mapId="${c._id}" index="${i}">
+                        <img name="preview-icon" src="${c.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${c.name}</b>
+                        <div class="btn btn-md btn-info" onclick="consumables_toggle('${c._id}')">Expand</div>
+                        <div class="consumable-box" style="display:none" id="consumables-${c._id}" consumableId="${c._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#consumables-${c._id}`).append(idInput('_id', c._id));
+                    $(`#consumables-${c._id}`).append(textInput('name', c.name));
+                    $(`#consumables-${c._id}`).append(textInput('slug', c.slug));
+                    $(`#consumables-${c._id}`).append(InputUtils.airInput('description', c.description));
+                    $(`#consumables-${c._id}`).append(filePickTool(undefined, 'icon', c.icon));
+                }
+                $("#consumables input,#consumables textarea").on('change', function ()
+                {
+                    consumables_update(this);
+                });
+            }
+            function consumables_add()
+            {
+                game.consumables.push({
+                    _id: InputUtils.ID(),
+                    name: 'New Consumable',
+                    slug: '',
+                    description: '',
+                    icon: '',
+                });
+                consumables_recreate();
+            }
+            function consumables_remove(index)
+            {
+                game.consumables.splice(index, 1);
+                consumables_recreate();
+            }
+            function consumables_toggle(i)
+            {
+                $(`#consumables-${i}`).toggle();
+            }
+            function consumables_update(elm)
+            {
+                var i = $(elm).closest(".consumable-box").attr('index');
+                var _id = game.consumables[i]._id;
+                game.consumables[i] = {
+                    _id: $(`#consumables-${_id} [name=_id]`).val(),
+                    name: $(`#consumables-${_id} [name=name]`).val(),
+                    slug: $(`#consumables-${_id} [name=slug]`).val(),
+                    description: $(`#consumables-${_id} [name=description]`).val(),
+                    icon: $(`#consumables-${_id} [name=icon]`).val(),
+                };
+                $("[name=consumables]").val(JSON.stringify(game.consumables));
+                $(`#consumables-wrapper-${_id} [name=preview-name]`).html(game.consumables[i].name);
+                $(`#consumables-wrapper-${_id} [name=preview-icon]`).attr('src', game.consumables[i].icon);
+            }
+            function equipments_recreate()
+            {
+                $("[name=equipments]").val(JSON.stringify(game.equipments));
+                $("#equipments").html(`<h3>equipments:</h3><div class="btn btn-md btn-secondary" onclick="equipments_add()">+Add equipment</div>`)
+                for (var i = 0; i < game.equipments.length; i++)
+                {
+                    var e = game.equipments[i];
+                    $("#equipments").append(`
+                    <div class="box-row equipment-box-container" id="equipments-wrapper-${e._id}" equipmentId="${e._id}" index="${i}">
+                        <img name="preview-icon" src="${e.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${e.name}</b>
+                        <div class="btn btn-md btn-info" onclick="equipments_toggle('${e._id}')">Expand</div>
+                        <div class="equipment-box" style="display:none" id="equipments-${e._id}" equipmentId="${e._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#equipments-${e._id}`).append(idInput('_id', e._id));
+                    $(`#equipments-${e._id}`).append(textInput('name', e.name));
+                    $(`#equipments-${e._id}`).append(textInput('slug', e.slug));
+                    $(`#equipments-${e._id}`).append(textInput('category', e.category));
+                    $(`#equipments-${e._id}`).append(InputUtils.airInput('description', e.description));
+                    $(`#equipments-${e._id}`).append(filePickTool(undefined, 'icon', e.icon));
+                }
+                $("#equipments input,#equipments textarea").on('change', function ()
+                {
+                    equipments_update(this);
+                });
+            }
+            function equipments_add()
+            {
+                game.equipments.push({
+                    _id: InputUtils.ID(),
+                    name: 'New EQ',
+                    slug: '',
+                    category: '',
+                    description: '',
+                    icon: ''
+                });
+                equipments_recreate();
+            }
+            function equipments_remove(index)
+            {
+                game.equipments.splice(index, 1);
+                equipments_recreate();
+            }
+            function equipments_toggle(_id)
+            {
+                $(`#equipments-${_id}`).toggle();
+            }
+            function equipments_update(elm)
+            {
+                var i = $(elm).closest(".equipment-box").attr('index');
+                var _id = game.equipments[i]._id;
+                game.equipments[i] = {
+                    _id: $(`#equipments-${_id} [name=_id]`).val(),
+                    name: $(`#equipments-${_id} [name=name]`).val(),
+                    slug: $(`#equipments-${_id} [name=slug]`).val(),
+                    category: $(`#equipments-${_id} [name=category]`).val(),
+                    description: $(`#equipments-${_id} [name=description]`).val(),
+                    icon: $(`#equipments-${_id} [name=icon]`).val(),
+                };
+                $("[name=equipments]").val(JSON.stringify(game.equipments));
+                $(`#equipments-wrapper-${_id} [name=preview-name]`).html(game.equipments[i].name);
+                $(`#equipments-wrapper-${_id} [name=preview-icon]`).attr('src', game.equipments[i].icon);
+            }
+            function ammunations_recreate()
+            {
+                $("[name=ammunations]").val(JSON.stringify(game.ammunations));
+                $("#equipments").html(`<h3>ammunations:</h3><div class="btn btn-md btn-secondary" onclick="ammunations_add()">+Add ammunation</div>`)
+                for (var i = 0; i < game.ammunations.length; i++)
+                {
+                    var a = game.ammunations[i];
+                    $("#ammunations").append(`
+                    <div class="box-row ammunation-box-container" id="ammunations-wrapper-${a._id}" ammunationId="${a._id}" index="${i}">
+                        <img name="preview-icon" src="${e.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${e.name}</b>
+                        <div class="btn btn-md btn-info" onclick="equipments_toggle('${e._id}')">Expand</div>
+                        <div class="equipment-box" style="display:none" id="equipments-${e._id}" equipmentId="${e._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#equipments-${e._id}`).append(idInput('_id', e._id));
+                    $(`#equipments-${e._id}`).append(textInput('name', e.name));
+                    $(`#equipments-${e._id}`).append(textInput('slug', e.slug));
+                    $(`#equipments-${e._id}`).append(textInput('category', e.category));
+                    $(`#equipments-${e._id}`).append(InputUtils.airInput('description', e.description));
+                    $(`#equipments-${e._id}`).append(filePickTool(undefined, 'icon', e.icon));
+                }
+                $("#equipments input,#equipments textarea").on('change', function ()
+                {
+                    equipments_update(this);
+                });
+            }
+            function ammunations_add()
+            {
+
+            }
+            function ammunations_remove(index)
+            {
+
+            }
+            function ammunations_toggle(_id)
+            {
+
+            }
+            function ammunations_update(elm)
+            {
+
+            }
+        </script>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

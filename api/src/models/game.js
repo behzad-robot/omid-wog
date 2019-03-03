@@ -15,6 +15,10 @@ export const GameSchema = new mongoose.Schema({
     ageRange: { type: String, default: '' },
     twitchGameId: { type: String, default: '' },
     images: Array,
+    extraLinks :[{
+        name : String,
+        url  : String ,
+    }],
     items: Array,
     /*
         {
@@ -37,7 +41,70 @@ export const GameSchema = new mongoose.Schema({
     patchNotes: Array, // {title : string , body : string}
     //mortal only:
     factions: Array, // {slug : string , name : string , icon : string ,cover : string , description : string , info : string }
-
+    //pubg only:
+    maps : [{
+         _id : String,
+         name : String,
+         slug : String,
+         subtitle : String,
+         description : String,
+         thumbnail : String,
+         cover : String,
+         weapons : Array,
+    }],
+    consumables : [{
+        _id : String,
+        name : String,
+        slug : String,
+        icon : String,
+        description : String,
+    }],
+    equipments : [{
+        _id : String,
+        name : String,
+        slug : String,
+        description : String,
+        icon : String,
+        category : String, // vest , helmet , backpack
+    }],
+    ammunations : [{
+        _id : String,
+        name : String,
+        slug : String,
+        icon : String,
+        description : String,
+        weapons : Array, // _id of weapons
+    }],
+    attachmentCategories : [{
+        _id : String,
+        name : String,
+        slug : String,
+    }],
+    attachments :[{
+        _id : String,
+        name : String,
+        slug : String,
+        icon : String,
+        weaponType : String,
+        attachesTo : Array,
+        category : String, //_id of attachmentCategories
+    }],
+    weaponCategories : [{
+        _id : String,
+        name : String,
+        slug : String,
+    }],
+    weapons : [{
+        _id : String,
+        name : String,
+        slug : String,
+        icon : String,
+        description : String,
+        type : String , // bow , gun , melee , grenade 
+        category : String, // _id weapon category
+        range : String ,
+        audios : [],
+    }],
     createdAt: String,
     updatedAt: String,
     _draft: Boolean,

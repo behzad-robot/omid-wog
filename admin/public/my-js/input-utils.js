@@ -19,7 +19,7 @@ const InputUtils = {
             `
         );
     },
-    textInput: (name, value, settings = { readonly: false, after: '' , vue : false }) =>
+    textInput: (name, value, settings = { readonly: false, after: '', vue: false }) =>
     {
         var vue = settings.vue ? `v-model='item.name'` : '';
         var readonly = settings.readonly ? 'readonly' : '';
@@ -110,7 +110,20 @@ const InputUtils = {
         <textarea editor="true" id='bodyinput-${b}' class='form-control m' name='${name}' ${readonly}>${value}</textarea>
         </div>`;
     },
-    jsonInput: (name, value, settings = { readonly : false }) =>
+    airInput: (name, value, settings = {}) =>
+    {
+        InputUtils.bodyId++;
+        const b = InputUtils.bodyId;
+        return (`
+        <div class="form-row" label="${name}" id="airInput-${b}" style="width:100%;border:1px solid #aaa;padding:5px;">
+            <b>${name}:</b>
+            <div name="preview" style="width:100%;height:200px;overflow-y:scroll">${value}</div>
+            <div class="btn btn-md btn-light"  onclick="show_air_editor(undefined,'#airInput-${b}')">Edit</div>
+            <textarea name="${name}" style="display:none">${value}</textarea>
+        </div>
+        `)
+    },
+    jsonInput: (name, value, settings = { readonly: false }) =>
     {
         var readonly = settings.readonly ? "readonly" : "";
         if (typeof value != 'string')

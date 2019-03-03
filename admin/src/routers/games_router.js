@@ -72,7 +72,7 @@ export default class GamesPanelRouter extends AdminRouter
             }
             else
             {
-                
+
             }
             const _id = req.body._id;
             delete (req.body._id);
@@ -86,11 +86,29 @@ export default class GamesPanelRouter extends AdminRouter
         });
         this.router.get('/:_id', (req, res) =>
         {
-            res.send(this.renderTemplate('game-single.html', {
-                admin: req.session.admin,
-                _id: req.params._id,
-                fileUploadURL: ADMIN_FILE_UPLOAD
-            }));
+            Game.getOne(req.params._id).then((g) =>
+            {
+                if (g.token != 'pubg')
+                {
+                    res.send(this.renderTemplate('game-single.html', {
+                        admin: req.session.admin,
+                        _id: req.params._id,
+                        fileUploadURL: ADMIN_FILE_UPLOAD
+                    }));
+                }
+                else
+                {
+                    res.send(this.renderTemplate('game-pubg-single.html', {
+                        admin: req.session.admin,
+                        _id: req.params._id,
+                        fileUploadURL: ADMIN_FILE_UPLOAD
+                    }));
+                }
+            }).catch((err) =>
+            {
+                res.status(500).send(err.toString());
+            });
+
         });
     }
 }

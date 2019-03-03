@@ -1,6 +1,8 @@
+<!-- File Screen -->
 <div class="file-explorer-screen" style="display:none;">
     <div class="wog-overlay"></div>
-    <div class="btn btn-md btn-secondary" style="position:absolute;top:10px;left:10px" onclick="hide_file_screen()">Close
+    <div class="btn btn-md btn-secondary" style="position:absolute;top:10px;left:10px" onclick="hide_file_screen()">
+        Close
         Window</div>
     <div class="container">
         <div class="card" style="padding:10px;height: 85vh;overflow-y: scroll;margin-top:10px;">
@@ -19,18 +21,22 @@
     </div>
 </div>
 <script>
-    var fileScreenCallBack = (file) => {
+    var fileScreenCallBack = (file) =>
+    {
         console.log('NO File Screen CALLBACK!');
     };
-    $(document).ready(() => {
+    $(document).ready(() =>
+    {
         load_files('');
     });
-    function show_file_screen(cb) {
+    function show_file_screen(cb)
+    {
         $(".file-explorer-screen").fadeIn();
         if (typeof cb == 'string')
         {
-            const c= cb;
-            fileScreenCallBack= (file)=>{
+            const c = cb;
+            fileScreenCallBack = (file) =>
+            {
                 $(c).val(file);
                 $(c).trigger('change');
                 hide_file_screen();
@@ -39,14 +45,17 @@
         else
             fileScreenCallBack = cb;
     }
-    function hide_file_screen() {
+    function hide_file_screen()
+    {
         $(".file-explorer-screen").fadeOut();
     }
-    function load_files(dir) {
+    function load_files(dir)
+    {
         $("#list").html("Loading...");
         $("[name=my-dir]").val(dir);
         $("#file-container").html("");
-        fileUploadTool2('#file-container', 'my-file', encodeURI('{{{fileUploadURL}}}'), dir, (result) => {
+        fileUploadTool2('#file-container', 'my-file', encodeURI('{{{fileUploadURL}}}'), dir, (result) =>
+        {
             console.log(result);
             load_files($("input[name=my-dir]").val());
         });
@@ -55,13 +64,16 @@
                 method: 'GET',
             })
             .then((response) => (response.json()))
-            .then((items) => {
+            .then((items) =>
+            {
                 $("#list").html("");
                 if (items.length == 0)
                     $("#list").append('<div class="col-md-12 text-center"><h3>No Files!</h3></div>');
                 //folders:
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].indexOf('.') == -1) {
+                for (var i = 0; i < items.length; i++)
+                {
+                    if (items[i].indexOf('.') == -1)
+                    {
                         var folder = items[i].replace('/storage/', '');
                         $("#list").append(
                             `<div class="col-md-4 text-center">`
@@ -74,8 +86,10 @@
                     }
                 }
                 //files:
-                for (var i = 0; i < items.length; i++) {
-                    if (items[i].indexOf('.') != -1) {
+                for (var i = 0; i < items.length; i++)
+                {
+                    if (items[i].indexOf('.') != -1)
+                    {
                         var file = items[i];
                         var isImage = file.indexOf('.png') != -1 || file.indexOf('.jpg') != -1 || file.indexOf('.jpeg') != -1 || file.indexOf('.gif') != -1;
                         var isVideo = file.indexOf('.mp4') != -1;
@@ -98,7 +112,8 @@
 
             });
     }
-    function delete_file(file) {
+    function delete_file(file)
+    {
         $("#list").html("<h3>Deleting...</h3>");
         fetch('/admin/file-delete',
             {
@@ -110,11 +125,69 @@
                 body: JSON.stringify({ file: file })
             })
             .then((response) => (response.text()))
-            .then((result) => {
+            .then((result) =>
+            {
                 if (result == "success")
                     loadFiles($("input[name=my-dir]").val());
                 else
                     alert(result);
             });
+    }
+</script>
+
+
+<!-- Editor Screen  -->
+<script>
+</script>
+<div id="air-editor-screen"
+    style="display:none;position:fixed;z-index:1000;top:0;left:0;width:100vw;height:100vh;background-color:rgba(0, 0, 0, 0.3)">
+    <div id="air-editor" style="width:80%;margin:50px auto;">
+        <div id="air-editor-container"></div>
+        <div class="btn btn-md btn-success" id="air-editor-submit" style="margin-top:20px;">Save</div>
+        <div class="btn btn-md btn-danger float-right" id="air-editor-cancel" style="margin-top:20px;">Cancel</div>
+    </div>
+</div>
+<script>
+    function show_air_editor(content, onSaved)
+    {
+        if (content == undefined)
+        {
+            const elm = onSaved;
+            content = $(elm + ` textarea`).val();
+            onSaved = (val) =>
+            {
+                $(elm + ` textarea`).val(val);
+                $(elm + ` textarea`).trigger('change');
+                $(elm + ` [name=preview]`).html(val);
+            };
+        }
+        $("#air-editor-screen").show();
+        $("#air-editor-container").html(`<textarea id="air-editor-textarea"></textarea>`);
+        $("#air-editor-textarea").val(content);
+        var config = {
+            font_names: `Roboto`,
+            extraPlugins: 'behzad'
+        };
+        config.stylesSet = 'my_styles';
+        // CKEDITOR.replace(name, config);
+        $(`#air-editor-textarea`).ckeditor(function ()
+        {
+            $(`#air-editor-textarea`).on('change', function ()
+            {
+                //ghorbune change hat beram :D
+                console.log('ghorbune change hat beram');
+            });
+        }, config);
+        $("#air-editor-submit").click(() =>
+        {
+            console.log($("#air-editor-textarea").val());
+            if (onSaved != undefined)
+                onSaved($("#air-editor-textarea").val());
+            $("#air-editor-screen").hide();
+        });
+        $("#air-editor-cancel").click(() =>
+        {
+            $("#air-editor-screen").hide();
+        });
     }
 </script>
