@@ -97,6 +97,12 @@
                             'keywords' : '',
                         };
                     }
+                    if(post.extras == undefined)
+                    {
+                        post.extras = {
+                            bigBox : false,
+                        }
+                    }
                     console.log(post);
                     $("#single").append(idInput('_id', post._id));
                     $("#single").append(draftInput(post._draft));
@@ -113,6 +119,7 @@
                     $("#single").append(jsonInput('tags', post.tags));
                     $("#single").append(jsonInput('categories', post.categories));
                     $("#single").append(jsonInput('_seo', post._seo));
+                    $("#single").append(jsonInput('extras', post.extras));
                     $("#single").append(submitBtn());
                     $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                     $("#single").append(`<div id="cats"></div>`);

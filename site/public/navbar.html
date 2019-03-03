@@ -122,15 +122,7 @@
                         </div>
                         <div class="col-9">
                             <div class="row" id="navbar-current-game">
-                                <div class="col-4">
-                                    <img name="current-game-coverTall" src="/images/ori.jpg" width="100%"
-                                        style="margin-top:5px;" />
-                                </div>
-                                <div class="col-6" style="padding-top:5px;">
-                                    <h4 name="current-game-title">Dota 2</h4>
-                                    <p name="current-game-description">Dota yak bazi rideman free to play. Varzeshkari
-                                        kharaki hast ke nagu.</p>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -231,6 +223,13 @@
             var html = $(`.hidden-game-data[game=${token}]`).html();
             $("#navbar-current-game").html(html);
         });
+        //default to dota 2:
+        $(".dropdown-cat-link.game-link").removeClass('selected');
+        $('.dropdown-cat-link.game-link[game=dota2]').addClass('selected');
+        var token ='dota2';
+        var html = $(`.hidden-game-data[game=${token}]`).html();
+        $("#navbar-current-game").html(html);
+
         $(".dropdown-cat-link.news-link").mouseenter(function ()
         {
             $(".dropdown-cat-link.news-link").removeClass('selected');

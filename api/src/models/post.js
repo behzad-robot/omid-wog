@@ -15,7 +15,10 @@ export const PostSchema = new mongoose.Schema({
     tags: Array,
     categories: Array,
     _seo: Object,
-
+    extras : {
+        type:Object,
+        default:{bigBox : false,}
+    },
     createdAt: String,
     updatedAt: String,
     _draft: Boolean,
@@ -78,6 +81,11 @@ Post.Helpers = {
         doc.thumbnail = SITE_URL(doc.thumbnail);
         doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
         doc.thumbnail_640x480 = SITE_URL(doc.thumbnail_640x480);
+        if(doc.extras == undefined){
+            doc.extras = {
+                bigBox : false,
+            }
+        }
         return doc;
     },
 }
