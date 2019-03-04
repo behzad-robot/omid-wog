@@ -4,6 +4,7 @@ import MyExpressApp from './libs/express';
 
 import { User } from './models/user';
 import { Game } from './models/game';
+import { PubGTeam } from './models/pubg_team';
 import { AnalyticsEvent } from './models/analytics';
 import MongooseDB from './libs/mongoose-db';
 
@@ -94,6 +95,8 @@ express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { 
 express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
+//tournoment:
+express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam, { apiTokenRequired: true }).router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
@@ -118,6 +121,7 @@ const WSRouters = [
     new PublicMongooseWSRouter('contact-us-forms', ContactUsForm, { apiTokenRequired: true }),
     //extras:
     new AppInfoSocketRouter(),
+    new PublicMongooseWSRouter('pubg-teams', PubGTeam, { apiTokenRequired: true }),
 ];
 const easySocket = new EasySocket({
     httpServer: express.http,

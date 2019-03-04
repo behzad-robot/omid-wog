@@ -38,6 +38,7 @@
     "node-fetch": "^2.1.2",
     "nodemon": "^1.17.4",
     "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "socket.io": "^2.1.0",
     "websocket": "^1.0.28",
     "ws": "^6.0.0"

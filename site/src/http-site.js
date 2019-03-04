@@ -25,7 +25,9 @@ import { ChampBuild } from "./utilsApi/build";
 import { ContactUsForm } from "./utilsApi/contactUsForm";
 import { Media } from "./utilsApi/media";
 import { Comment } from "./utilsApi/comment";
+import { PubGTeam } from "./utilsApi/pubgteam";
 import SiteCommentsRouter from "./routers/comments_router";
+import PubGRouter from "./routers/pubg_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -56,6 +58,7 @@ const SiteModules = {
     Media: new Media(apiSocket),
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
+    PubGTeam : new PubGTeam(apiSocket),
     proxyAPI: proxyAPI,
     getConfig : ()=> {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -263,6 +266,7 @@ express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
+express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 apiSocket.connect(() =>

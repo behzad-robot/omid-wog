@@ -21,26 +21,56 @@ var t = new BehzadTimer();
 //     });
 // });
 
-var Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-Champion.find({}).then((champions) =>
+
+// fixBuilds();
+fixChamps();
+function fixBuilds()
 {
-    for (var i = 0; i < champions.length; i++)
+    var Build = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+    Build.find({}, 2000).then((builds) =>
     {
-        const champ = champions[i];
-        console.log(`checking ${champ.name}`);
-        if (champ.roles != undefined && champ.roles != 0)
+        for (var i = 0; i < builds.length; i++)
         {
-            console.log(`applying to ${champ.name}`);
-            for (var j = 0; j < champ.roles.length; j++)
+            builds[i].views = 50;
+            Build.edit(builds[i]._id, { views: 50 }).then((result) =>
             {
-                champ.roles[j].playRate = parseInt(champ.roles[j].playRate);
-            }
-            Champion.edit(champ._id, { roles: champ.roles }).then((result) =>
-            {
-                console.log(`UPDATED ${champ.name}`);
+                console.log('added views');
             });
         }
-        else
-            console.log('this was a mortal combat champ (was!!!)');
-    }
-});
+    });
+}
+
+function fixChamps()
+{
+    var Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+    Champion.find({ _draft: 'all' }, 6000).then((champions) =>
+    {
+        for (var i = 0; i < champions.length; i++)
+        {
+            const champ = champions[i];
+            console.log(`checking ${champ.name}`);
+            if (champ.roles != undefined && champ.roles != 0)
+            {
+                console.log(`applying to ${champ.name}`);
+                for (var j = 0; j < champ.roles.length; j++)
+                {
+                    champ.roles[j].playRate = parseInt(champ.roles[j].playRate);
+                }
+                for (var j = 0; j < champ.talents.length; j++)
+                {
+                    champ.talents[j].level = parseInt(champ.talents[j].level);
+                }
+                for(var j = 0 ; j < champ.stats.length; j++)
+                {
+                    champ.stats[j].value = champ.stats[j].value.toString();
+                }
+                Champion.edit(champ._id, { talents: champ.talents, roles: champ.roles , stats : champ.stats }).then((result) =>
+                {
+                    console.log(`UPDATED ${champ.name}`);
+                });
+            }
+            else
+                console.log('this was a mortal combat champ (was!!!)');
+        }
+    });
+}

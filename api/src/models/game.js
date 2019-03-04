@@ -85,9 +85,10 @@ export const GameSchema = new mongoose.Schema({
         name : String,
         slug : String,
         icon : String,
+        category : String, //_id of attachmentCategories
+        description : String,
         weaponType : String,
         attachesTo : Array,
-        category : String, //_id of attachmentCategories
     }],
     weaponCategories : [{
         _id : String,

@@ -34,6 +34,14 @@
                         game.equipments = [];
                     if (game.ammunations == undefined)
                         game.ammunations = [];
+                    if (game.attachmentCategories == undefined)
+                        game.attachmentCategories = [];
+                    if (game.attachments == undefined)
+                        game.attachments = [];
+                    if (game.weaponCategories == undefined)
+                        game.weaponCategories = [];
+                    if (game.weapons == undefined)
+                        game.weapons = [];
                     console.log(game);
                     MY_DIR = `games/${game.token}`;
                     $("#single").append(idInput('_id', game._id));
@@ -58,6 +66,10 @@
                     $("#single").append(jsonInput('consumables', game.consumables));
                     $("#single").append(jsonInput('equipments', game.equipments));
                     $("#single").append(jsonInput('ammunations', game.ammunations));
+                    $("#single").append(jsonInput('attachmentCategories', game.attachmentCategories));
+                    $("#single").append(jsonInput('attachments', game.attachments));
+                    $("#single").append(jsonInput('weaponCategories', game.weaponCategories));
+                    $("#single").append(jsonInput('weapons', game.weapons));
                     //extras setup:
                     $("#extra").append(`<div id="maps"></div>`);
                     maps_recreate();
@@ -67,6 +79,14 @@
                     equipments_recreate();
                     $("#extra").append(`<div id="ammunations"></div>`);
                     ammunations_recreate();
+                    $("#extra").append(`<div id="attachmentCategories"></div>`);
+                    attachmentCategories_recreate();
+                    $("#extra").append(`<div id="attachments"></div>`);
+                    attachments_recreate();
+                    $("#extra").append(`<div id="weaponCategories"></div>`);
+                    weaponCategories_recreate();
+                    $("#extra").append(`<div id="weapons"></div>`);
+                    weapons_recreate();
                 });
             });
             function maps_recreate()
@@ -164,6 +184,7 @@
                     $(`#consumables-${c._id}`).append(textInput('slug', c.slug));
                     $(`#consumables-${c._id}`).append(InputUtils.airInput('description', c.description));
                     $(`#consumables-${c._id}`).append(filePickTool(undefined, 'icon', c.icon));
+                    $(`#consumables-${c._id}`).append(`<div class="btn btn-md btn-danger" onclick="consumables_remove(${i})">Remove</div>`);
                 }
                 $("#consumables input,#consumables textarea").on('change', function ()
                 {
@@ -227,6 +248,7 @@
                     $(`#equipments-${e._id}`).append(textInput('category', e.category));
                     $(`#equipments-${e._id}`).append(InputUtils.airInput('description', e.description));
                     $(`#equipments-${e._id}`).append(filePickTool(undefined, 'icon', e.icon));
+                    $(`#equipments-${e._id}`).append(`<div class="btn btn-md btn-danger" onclick="equipments_remove(${i})">Remove</div>`);
                 }
                 $("#equipments input,#equipments textarea").on('change', function ()
                 {
@@ -273,46 +295,325 @@
             function ammunations_recreate()
             {
                 $("[name=ammunations]").val(JSON.stringify(game.ammunations));
-                $("#equipments").html(`<h3>ammunations:</h3><div class="btn btn-md btn-secondary" onclick="ammunations_add()">+Add ammunation</div>`)
+                $("#ammunations").html(`<h3>ammunations:</h3><div class="btn btn-md btn-secondary" onclick="ammunations_add()">+Add ammunation</div>`)
                 for (var i = 0; i < game.ammunations.length; i++)
                 {
                     var a = game.ammunations[i];
                     $("#ammunations").append(`
                     <div class="box-row ammunation-box-container" id="ammunations-wrapper-${a._id}" ammunationId="${a._id}" index="${i}">
-                        <img name="preview-icon" src="${e.icon}" width="128px" height="128px"/>
-                        &nbsp;<b name="preview-name">${e.name}</b>
-                        <div class="btn btn-md btn-info" onclick="equipments_toggle('${e._id}')">Expand</div>
-                        <div class="equipment-box" style="display:none" id="equipments-${e._id}" equipmentId="${e._id}" index="${i}">
+                        <img name="preview-icon" src="${a.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${a.name}</b>
+                        <div class="btn btn-md btn-info" onclick="ammunations_toggle('${a._id}')">Expand</div>
+                        <div class="ammunation-box" style="display:none" id="ammunations-${a._id}" ammunationId="${a._id}" index="${i}">
                         </div>
                     </div>
                     `);
-                    $(`#equipments-${e._id}`).append(idInput('_id', e._id));
-                    $(`#equipments-${e._id}`).append(textInput('name', e.name));
-                    $(`#equipments-${e._id}`).append(textInput('slug', e.slug));
-                    $(`#equipments-${e._id}`).append(textInput('category', e.category));
-                    $(`#equipments-${e._id}`).append(InputUtils.airInput('description', e.description));
-                    $(`#equipments-${e._id}`).append(filePickTool(undefined, 'icon', e.icon));
+                    $(`#ammunations-${a._id}`).append(idInput('_id', a._id));
+                    $(`#ammunations-${a._id}`).append(textInput('name', a.name));
+                    $(`#ammunations-${a._id}`).append(textInput('slug', a.slug));
+                    $(`#ammunations-${a._id}`).append(InputUtils.airInput('description', a.description));
+                    $(`#ammunations-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
+                    $(`#ammunations-${a._id}`).append(jsonInput('weapons', a.weapons));
+                    //TODO: weapons screen
+                    $(`#ammunations-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="ammunations_remove(${i})">Remove</div>`);
                 }
-                $("#equipments input,#equipments textarea").on('change', function ()
+                $("#ammunations input,#ammunations textarea").on('change', function ()
                 {
-                    equipments_update(this);
+                    ammunations_update(this);
                 });
             }
             function ammunations_add()
             {
-
+                game.ammunations.push({
+                    _id: InputUtils.ID(),
+                    name: 'AMMU 1',
+                    slug: '',
+                    description: '',
+                    icon: '',
+                    weapons: [],
+                });
+                ammunations_recreate();
             }
             function ammunations_remove(index)
             {
-
+                game.ammunations.splice(index, 1);
+                ammunations_recreate();
             }
             function ammunations_toggle(_id)
             {
-
+                $(`#ammunations-${_id}`).toggle();
             }
             function ammunations_update(elm)
             {
-
+                var i = $(elm).closest(".ammunation-box").attr('index');
+                var _id = game.ammunations[i]._id;
+                game.ammunations[i] = {
+                    _id: $(`#ammunations-${_id} [name=_id]`).val(),
+                    name: $(`#ammunations-${_id} [name=name]`).val(),
+                    slug: $(`#ammunations-${_id} [name=slug]`).val(),
+                    description: $(`#ammunations-${_id} [name=description]`).val(),
+                    icon: $(`#ammunations-${_id} [name=icon]`).val(),
+                    weapons: JSON.parse($(`#ammunations-${_id} [name=weapons]`).val()),
+                };
+                $("[name=ammunations]").val(JSON.stringify(game.ammunations));
+                $(`#ammunations-wrapper-${_id} [name=preview-name]`).html(game.ammunations[i].name);
+                $(`#ammunations-wrapper-${_id} [name=preview-icon]`).attr('src', game.ammunations[i].icon);
+            }
+            function attachmentCategories_recreate()
+            {
+                $("[name=attachmentCategories]").val(JSON.stringify(game.attachmentCategories));
+                $("#attachmentCategories").html(`<h3>attachmentCategories:</h3><div class="btn btn-md btn-secondary" onclick="attachmentCategories_add()">+Add attachmentCategory</div>`)
+                for (var i = 0; i < game.attachmentCategories.length; i++)
+                {
+                    var cat = game.attachmentCategories[i];
+                    $("#attachmentCategories").append(`
+                    <div class="box-row attachmentCategory-box-container" id="attachmentCategories-wrapper-${cat._id}" attachmentCategoryId="${cat._id}" index="${i}">
+                        <b name="preview-name">${cat.name}</b>
+                        <div class="btn btn-md btn-info" onclick="attachmentCategories_toggle('${cat._id}')">Expand</div>
+                        <div class="attachmentCategory-box" style="display:none" id="attachmentCategories-${cat._id}" attachmentCategoriesId="${cat._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#attachmentCategories-${cat._id}`).append(idInput('_id', cat._id));
+                    $(`#attachmentCategories-${cat._id}`).append(textInput('name', cat.name));
+                    $(`#attachmentCategories-${cat._id}`).append(textInput('slug', cat.slug));
+                    $(`#attachmentCategories-${cat._id}`).append(`<div class="btn btn-md btn-danger" onclick="attachmentCategories_remove(${i})">Remove</div>`);
+                }
+                $("#attachmentCategories input,#attachmentCategories textarea").on('change', function ()
+                {
+                    attachmentCategories_update(this);
+                });
+            }
+            function attachmentCategories_add()
+            {
+                game.attachmentCategories.push({
+                    _id: InputUtils.ID(),
+                    name: 'Cat 1',
+                    slug: '',
+                });
+                attachmentCategories_recreate();
+            }
+            function attachmentCategories_remove(index)
+            {
+                game.attachmentCategories.splice(index, 1);
+                attachmentCategories_recreate();
+            }
+            function attachmentCategories_toggle(_id)
+            {
+                $(`#attachmentCategories-${_id}`).toggle();
+            }
+            function attachmentCategories_update(elm)
+            {
+                var i = $(elm).closest(".attachmentCategory-box").attr('index');
+                var _id = game.attachmentCategories[i]._id;
+                game.attachmentCategories[i] = {
+                    _id: $(`#attachmentCategories-${_id} [name=_id]`).val(),
+                    name: $(`#attachmentCategories-${_id} [name=name]`).val(),
+                    slug: $(`#attachmentCategories-${_id} [name=slug]`).val(),
+                };
+                $("[name=attachmentCategories]").val(JSON.stringify(game.attachmentCategories));
+                $(`#attachmentCategories-wrapper-${_id} [name=preview-name]`).html(game.attachmentCategories[i].name);
+            }
+            function attachments_recreate()
+            {
+                $("[name=attachments]").val(JSON.stringify(game.attachments));
+                $("#attachments").html(`<h3>attachments:</h3><div class="btn btn-md btn-secondary" onclick="attachments_add()">+Add attachment</div>`)
+                for (var i = 0; i < game.attachments.length; i++)
+                {
+                    var a = game.attachments[i];
+                    $("#attachments").append(`
+                    <div class="box-row attachment-box-container" id="attachments-wrapper-${a._id}" attachmentId="${a._id}" index="${i}">
+                        <img name="preview-icon" src="${a.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${a.name}</b>
+                        <div class="btn btn-md btn-info" onclick="attachments_toggle('${a._id}')">Expand</div>
+                        <div class="attachment-box" style="display:none" id="attachments-${a._id}" attachmentId="${a._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#attachments-${a._id}`).append(idInput('_id', a._id));
+                    $(`#attachments-${a._id}`).append(textInput('name', a.name));
+                    $(`#attachments-${a._id}`).append(textInput('slug', a.slug));
+                    $(`#attachments-${a._id}`).append(InputUtils.textInput('category', a.category, { after: 'Enter _id of attachmentCategory here!' }));
+                    $(`#attachments-${a._id}`).append(InputUtils.textInput('weaponType', a.weaponType, { after: 'gun/bow/grenade/melee' }));
+                    $(`#attachments-${a._id}`).append(InputUtils.airInput('description', a.description));
+                    $(`#attachments-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
+                    $(`#attachments-${a._id}`).append(jsonInput('attachesTo', a.attachesTo));
+                    //TODO: weapons screen
+                    $(`#attachments-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="attachments_remove(${i})">Remove</div>`);
+                }
+                $("#attachments input,#attachments textarea").on('change', function ()
+                {
+                    attachments_update(this);
+                });
+            }
+            function attachments_add()
+            {
+                game.attachments.push({
+                    _id: InputUtils.ID(),
+                    name: 'AMMU 1',
+                    slug: '',
+                    description: '',
+                    icon: '',
+                    category: '',
+                    weaponType: '',
+                    attachesTo: [],
+                });
+                attachments_recreate();
+            }
+            function attachments_remove(index)
+            {
+                game.attachments.splice(index, 1);
+                attachments_recreate();
+            }
+            function attachments_toggle(_id)
+            {
+                $(`#attachments-${_id}`).toggle();
+            }
+            function attachments_update(elm)
+            {
+                var i = $(elm).closest(".attachment-box").attr('index');
+                var _id = game.attachments[i]._id;
+                game.attachments[i] = {
+                    _id: $(`#attachments-${_id} [name=_id]`).val(),
+                    name: $(`#attachments-${_id} [name=name]`).val(),
+                    slug: $(`#attachments-${_id} [name=slug]`).val(),
+                    category: $(`#attachments-${_id} [name=category]`).val(),
+                    weaponType: $(`#attachments-${_id} [name=weaponType]`).val(),
+                    description: $(`#attachments-${_id} [name=description]`).val(),
+                    icon: $(`#attachments-${_id} [name=icon]`).val(),
+                    attachesTo: JSON.parse($(`#attachments-${_id} [name=attachesTo]`).val()),
+                };
+                $("[name=attachments]").val(JSON.stringify(game.attachments));
+                $(`#attachments-wrapper-${_id} [name=preview-name]`).html(game.attachments[i].name);
+                $(`#attachments-wrapper-${_id} [name=preview-icon]`).attr('src', game.attachments[i].icon);
+            }
+            function weaponCategories_recreate()
+            {
+                $("[name=weaponCategories]").val(JSON.stringify(game.weaponCategories));
+                $("#weaponCategories").html(`<h3>weaponCategories:</h3><div class="btn btn-md btn-secondary" onclick="weaponCategories_add()">+Add weaponCategory</div>`)
+                for (var i = 0; i < game.weaponCategories.length; i++)
+                {
+                    var cat = game.weaponCategories[i];
+                    $("#weaponCategories").append(`
+                    <div class="box-row weaponCategory-box-container" id="weaponCategories-wrapper-${cat._id}" weaponCategoryId="${cat._id}" index="${i}">
+                        <b name="preview-name">${cat.name}</b>
+                        <div class="btn btn-md btn-info" onclick="weaponCategories_toggle('${cat._id}')">Expand</div>
+                        <div class="weaponCategory-box" style="display:none" id="weaponCategories-${cat._id}" weaponCategoriesId="${cat._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#weaponCategories-${cat._id}`).append(idInput('_id', cat._id));
+                    $(`#weaponCategories-${cat._id}`).append(textInput('name', cat.name));
+                    $(`#weaponCategories-${cat._id}`).append(textInput('slug', cat.slug));
+                    $(`#weaponCategories-${cat._id}`).append(`<div class="btn btn-md btn-danger" onclick="weaponCategories_remove(${i})">Remove</div>`);
+                }
+                $("#weaponCategories input,#weaponCategories textarea").on('change', function ()
+                {
+                    weaponCategories_update(this);
+                });
+            }
+            function weaponCategories_add()
+            {
+                game.weaponCategories.push({
+                    _id: InputUtils.ID(),
+                    name: 'Cat 1',
+                    slug: '',
+                });
+                weaponCategories_recreate();
+            }
+            function weaponCategories_remove(index)
+            {
+                game.weaponCategories.splice(index, 1);
+                weaponCategories_recreate();
+            }
+            function weaponCategories_toggle(_id)
+            {
+                $(`#weaponCategories-${_id}`).toggle();
+            }
+            function weaponCategories_update(elm)
+            {
+                var i = $(elm).closest(".weaponCategory-box").attr('index');
+                var _id = game.weaponCategories[i]._id;
+                game.weaponCategories[i] = {
+                    _id: $(`#weaponCategories-${_id} [name=_id]`).val(),
+                    name: $(`#weaponCategories-${_id} [name=name]`).val(),
+                    slug: $(`#weaponCategories-${_id} [name=slug]`).val(),
+                };
+                $("[name=weaponCategories]").val(JSON.stringify(game.weaponCategories));
+                $(`#weaponCategories-wrapper-${_id} [name=preview-name]`).html(game.weaponCategories[i].name);
+            }
+            function weapons_recreate()
+            {
+                $("[name=weapons]").val(JSON.stringify(game.weapons));
+                $("#weapons").html(`<h3>weapons:</h3><div class="btn btn-md btn-secondary" onclick="weapons_add()">+Add weapon</div>`)
+                for (var i = 0; i < game.weapons.length; i++)
+                {
+                    var a = game.weapons[i];
+                    $("#weapons").append(`
+                    <div class="box-row weapon-box-container" id="weapons-wrapper-${a._id}" weaponId="${a._id}" index="${i}">
+                        <img name="preview-icon" src="${a.icon}" width="128px" height="128px"/>
+                        &nbsp;<b name="preview-name">${a.name}</b>
+                        <div class="btn btn-md btn-info" onclick="weapons_toggle('${a._id}')">Expand</div>
+                        <div class="weapon-box" style="display:none" id="weapons-${a._id}" weaponId="${a._id}" index="${i}">
+                        </div>
+                    </div>
+                    `);
+                    $(`#weapons-${a._id}`).append(idInput('_id', a._id));
+                    $(`#weapons-${a._id}`).append(textInput('name', a.name));
+                    $(`#weapons-${a._id}`).append(textInput('slug', a.slug));
+                    $(`#weapons-${a._id}`).append(InputUtils.textInput('category', a.category, { after: 'Enter _id of weaponCategory here!' }));
+                    $(`#weapons-${a._id}`).append(InputUtils.textInput('weaponType', a.weaponType, { after: 'gun/bow/grenade/melee' }));
+                    $(`#weapons-${a._id}`).append(InputUtils.airInput('description', a.description));
+                    $(`#weapons-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
+                    $(`#weapons-${a._id}`).append(jsonInput('attachesTo', a.attachesTo));
+                    //TODO: weapons screen
+                    $(`#weapons-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="weapons_remove(${i})">Remove</div>`);
+                }
+                $("#weapons input,#weapons textarea").on('change', function ()
+                {
+                    weapons_update(this);
+                });
+            }
+            function weapons_add()
+            {
+                game.weapons.push({
+                    _id: InputUtils.ID(),
+                    name: 'AMMU 1',
+                    slug: '',
+                    description: '',
+                    icon: '',
+                    category: '',
+                    weaponType: '',
+                    attachesTo: [],
+                });
+                weapons_recreate();
+            }
+            function weapons_remove(index)
+            {
+                game.weapons.splice(index, 1);
+                weapons_recreate();
+            }
+            function weapons_toggle(_id)
+            {
+                $(`#weapons-${_id}`).toggle();
+            }
+            function weapons_update(elm)
+            {
+                var i = $(elm).closest(".weapon-box").attr('index');
+                var _id = game.weapons[i]._id;
+                game.weapons[i] = {
+                    _id: $(`#weapons-${_id} [name=_id]`).val(),
+                    name: $(`#weapons-${_id} [name=name]`).val(),
+                    slug: $(`#weapons-${_id} [name=slug]`).val(),
+                    category: $(`#weapons-${_id} [name=category]`).val(),
+                    weaponType: $(`#weapons-${_id} [name=weaponType]`).val(),
+                    description: $(`#weapons-${_id} [name=description]`).val(),
+                    icon: $(`#weapons-${_id} [name=icon]`).val(),
+                    attachesTo: JSON.parse($(`#weapons-${_id} [name=attachesTo]`).val()),
+                };
+                $("[name=weapons]").val(JSON.stringify(game.weapons));
+                $(`#weapons-wrapper-${_id} [name=preview-name]`).html(game.weapons[i].name);
+                $(`#weapons-wrapper-${_id} [name=preview-icon]`).attr('src', game.weapons[i].icon);
             }
         </script>
     </div>
