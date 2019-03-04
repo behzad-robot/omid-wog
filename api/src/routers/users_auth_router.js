@@ -1,6 +1,6 @@
 import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
-import { isEmptyString } from "../utils/utils";
+import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY } from "../constants";
 import moment from 'moment';
@@ -165,15 +165,15 @@ export class UsersAuthHandler
                 return;
             }
             const data = {
-                username: req.body.username,
-                password: req.body.password,
-                email: req.body.email ? req.body.email : "",
-                phoneNumber: req.body.phoneNumber,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
-                sex: req.body.sex,
+                username: params.username,
+                password: params.password,
+                email: params.email ? params.email : "",
+                phoneNumber: params.phoneNumber,
+                firstName: params.firstName,
+                lastName: params.lastName,
+                sex: params.sex,
                 followingGames: [],
-                createdAt: this.now(),
+                createdAt: moment_now(),
                 updatedAt: "",
             }
             this.User.findOne({
@@ -201,7 +201,8 @@ export class UsersAuthHandler
                     reject({ code: 500, error: error });
                     return;
                 }
-                var doc = new User(data);
+                console.log(data);
+                var doc = new this.User(data);
                 doc.save().then(() =>
                 {
                     resolve(doc);
