@@ -47,56 +47,21 @@ export default class SiteRouter extends Router
         try
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
-            // console.log("load all games from cache");
-            //cache related things:
-            this.modules.Cache.allGames.getData((err, games) =>
+            data.SITE_URL = function ()
             {
-                if (err)
+                return function (val, render)
                 {
-                    res.send("Error=" + err.toString());
-                    return;
+                    return render(SITE_URL(val));
                 }
-                // console.log('all games count=>' + games.length);
-                data.allGames = games;
-                this.modules.Cache.navbarPosts.getData((err, navbarPosts) =>
-                {
-                    data.navbarPosts = navbarPosts;
-                    data.currentUser = req.session ? req.session.currentUser : undefined;
-                    data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
-                    data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
-                    this.modules.Cache.footerPosts.getData((err, footerPosts) =>
-                    {
-                        if (err)
-                        {
-                            this.show500(req, res, err);
-                            return;
-                        }
-                        this.modules.Cache.footerMedia.getData((err, footerMedia) =>
-                        {
-                            if (err)
-                            {
-                                this.show500(req, res, err);
-                                return;
-                            }
-                            data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {
-                                footerPosts : footerPosts,
-                                footerMedia : footerMedia,
-                            });
-                            data.SITE_URL = function (){
-                                return function(val,render){
-                                    return render(SITE_URL(val));
-                                }
-                            };
-                            console.log("parts readY!");
-                            // console.log(Date.now()-data._t);
-                            data._wogSEO = this.modules.getConfig().seo;
-                            data._wogSEO.fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-                            // console.log(data._wogSEO);
-                            res.send(mustache.render(view_str, data));
-                        });
-                    });
-                });
-            });
+            };
+            data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
+            data.currentUser = req.session ? req.session.currentUser : undefined;
+            data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
+            data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+            data._wogSEO = this.modules.getConfig().seo;
+            data._wogSEO.fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+            // console.log(data._wogSEO);
+            res.send(mustache.render(view_str, data));
         } catch (err)
         {
             res.send("render file failed =>" + err);

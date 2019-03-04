@@ -24,7 +24,7 @@ import { Comment } from './models/comment';
 import { EasySocket } from './libs/easy-socket';
 import { PublicMongooseWSRouter } from './routers/public-ws-mongoose';
 
-
+const morgan = require('morgan');
 
 const express = new MyExpressApp({
     hasSessionEngine: false,
@@ -44,34 +44,7 @@ const db = new MongooseDB(GetMongoDBURL());
 db.schemas.User = User;
 db.schemas.Game = Game;
 //log middleware:
-express.expressApp.use((req, res, next) =>
-{
-    const end = res.end;
-    res.end = (chunk, encoding) =>
-    {
-        AnalyticsEvent.Helpers.newHttpEvent(req.originalUrl, "http-api", {
-            method: req.method,
-            headers: req.headers,
-            query: req.query,
-            body: req.method,
-            ip: req.ip,
-        }, {
-                statusCode: res.statusCode,
-            }, res.statusCode).then(() =>
-            {
-                //super:
-                res.end = end;
-                res.end(chunk, encoding);
-            }).catch((err) =>
-            {
-                //super:
-                res.end = end;
-                res.end(chunk, encoding);
-            });
-        //console.log('Date.now=' + Date.now());
-    };
-    next();
-});
+express.expressApp.use(morgan('tiny'))
 //add routers here:
 express.expressApp.get('/', (req, res) =>
 {

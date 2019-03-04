@@ -5,10 +5,93 @@ body {
     direction: rtl;
     text-align: right;
     font-family: iransans !important;
-    background-color:#141416;
+    background-color: #F0F0FB;
 }
 h1,h2,h3,h4,h5,h6{
     font-family: iransans !important;
     font-weight: initial;
 }
 section{display:block;width:100%;}
+
+.text-white{
+    color:white !important;
+}
+.text-shadow{
+    text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.3)
+}
+.text-english{
+    font-family: Roboto !important;
+}
+.text-tahoma{
+    font-family: Tahoma;
+}
+.text-bold{
+    font-weight: bold;
+}
+.super-title{
+    font-size:2.5rem;
+    font-weight:bold;
+}
+
+.wog-card{
+    background-color: white;
+    box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+.card-padding {
+    padding: 10px 15px;
+}
+
+/************************ 
+        navbar 
+****************************/
+navbar {
+    display: block;
+    width: 100%;
+    height: 80px;
+    background-color: #1F262A;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+}
+
+navbar.transparent-navbar {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.navbar-item {
+    display: inline-block;
+    padding: 25px 10px;
+    min-width: 100px;
+    text-align: center;
+    color: white !important;
+    text-decoration: none !important;
+    height: 100%;
+}
+
+navbar.transparent-navbar .navbar-item {
+    text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.10);
+}
+
+.navbar-item .fas {
+    font-size: 1.2rem;
+    right: 5px;
+    position: relative;
+}
+
+.navbar-item:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.fas-user-auth {
+    display: inline-block;
+    font-size: 1.7rem;
+    position: relative;
+    top: 8px;
+}
+.card{
+    border:none;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1)
+}

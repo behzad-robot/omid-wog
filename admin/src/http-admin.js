@@ -6,7 +6,7 @@ import { APICollection, APIProxy } from "./utils/api-helper";
 
 import AdminGeneralRouter from "./routers/general_router";
 import AdminPanelRouter from "./routers/panel_router";
-import { ADMIN_URL , ADMIN_TOKEN,API_TOKEN, API_BASE_URL, GetMongoDBURL } from "./constants";
+import { ADMIN_URL, ADMIN_TOKEN, API_TOKEN, API_BASE_URL, GetMongoDBURL } from "./constants";
 import PostsPanelRouter from "./routers/posts_router";
 import GamesPanelRouter from "./routers/games_router";
 import ChampionsPanelRouter from "./routers/champions_router";
@@ -24,29 +24,32 @@ const Admin = new APICollection('admins', { apiToken: API_TOKEN, adminToken: ADM
 const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Comment = new APICollection('comments', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
-const Media = new APICollection('media',{ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const Media = new APICollection('media', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
-    User : User,
-    Game : Game,
-    Post : Post,
-    PostCategory : PostCategory,
-    Champion  : Champion,
-    Admin  : Admin,
-    Build : ChampBuild,
-    Media : Media,
-    Comment : Comment,
-    proxyAPI : proxyAPI,
+    User: User,
+    Game: Game,
+    Post: Post,
+    PostCategory: PostCategory,
+    Champion: Champion,
+    Admin: Admin,
+    Build: ChampBuild,
+    Media: Media,
+    Comment: Comment,
+    proxyAPI: proxyAPI,
 }
 //express:
 const express = new MyExpressApp({
     hasSessionEngine: true,
     mongoUrl: GetMongoDBURL(),
-    serveFiles: ['public',{
-        prefix : '/storage',
-        path : '../storage',
+    serveFiles: ['public', {
+        prefix: '/storage',
+        path: '../storage',
     }],
 });
+//log middleware:
+const morgan = require('morgan');
+express.expressApp.use(morgan('tiny'))
 express.expressApp.all('*', (req, res, next) =>
 {
     res.header("Access-Control-Allow-Origin", "*");
@@ -60,16 +63,16 @@ express.expressApp.disable('etag'); //fully disable cache!
 //proxy for api:
 express.expressApp.all('/api/*', (req, res) =>
 {
-    if(!req.session.isAdmin || req.session.adminToken == undefined || req.method != 'GET')
+    if (!req.session.isAdmin || req.session.adminToken == undefined || req.method != 'GET')
     {
-        res.send({error:"Access Denied",code:400});
+        res.send({ error: "Access Denied", code: 400 });
         return;
     }
     // res.send('SHINE');    
     var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-    fullUrl = fullUrl.replace(":6565",":8585");
-    console.log(req.method+' => '+fullUrl);
-    proxyAPI.apiCall(req.method,fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
+    fullUrl = fullUrl.replace(":6565", ":8585");
+    console.log(req.method + ' => ' + fullUrl);
+    proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
     {
         res.send(result);
     });

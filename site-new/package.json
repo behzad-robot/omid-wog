@@ -33,6 +33,7 @@
     "mongodb": "^3.0.7",
     "mongoose": "^5.3.12",
     "monk": "^6.0.5",
+    "morgan": "^1.9.1",
     "multiparty": "^4.2.1",
     "mustache": "^2.3.0",
     "node-fetch": "^2.1.2",
