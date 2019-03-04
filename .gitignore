@@ -1,6 +1,7 @@
 api/node_modules
 admin/node_modules
 site/node_modules
+site-new/node_modules
 storage
 admin/.localhost
 api/.localhost

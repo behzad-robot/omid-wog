@@ -1,0 +1,183 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .build-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #0f0f0f;
+            padding: 0px;
+            overflow: hidden;
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        .build-box:hover {
+            background-color: #1e1e1e;
+        }
+
+
+        .build-box .icon-wrapper {
+            width: 128px;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .icon-wrapper img {
+            border-radius: 2px;
+        }
+
+        .build-box .content-wrapper {
+            max-width: 70%;
+            display: inline-block;
+            float: right;
+            padding: 5px;
+        }
+
+        .build-box .content-wrapper h4 {
+            font-size: 18px;
+        }
+
+        .build-box .content-wrapper .username {
+            font-size: 12px;
+            color: #ff8800;
+        }
+
+        .build-box .content-wrapper .item-wrapper {
+            margin-top: 5px;
+        }
+
+        .build-box .content-wrapper .item-wrapper .item {
+            width: 48px;
+        }
+
+        .build-box .vote-wrapper {
+            float: left;
+            padding: 5px;
+        }
+
+        .build-box .vote-wrapper span {
+            display: block;
+            font-size: 12px;
+            margin: 5px 0;
+            color: #f0f1f2;
+        }
+
+        hr {
+            border-top-color: #3a3a3a;
+        }
+
+        .stream-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #1e1e1e;
+            padding: 0px;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .stream-box span {
+            display: block;
+            padding: 5px 10px;
+        }
+
+        .banner-box {
+            display: block;
+            border: 1px solid #111;
+            border-bottom: 1px solid #2e2e2e;
+            background: #1e1e1e;
+            padding: 0px;
+            overflow: hidden;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section class="bg-section" style="padding-top: 10px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <h3 style="margin:15px 0;font-size: 36px;" id="builds-title">آرشیو آموزش ها:</h3>
+                    <div id="builds">
+                        {{#builds}}
+                        <a class="card build-box" href="{{siteUrl}}">
+                            <div class="icon-wrapper">
+                                <img src="{{_champ.icon_tall}}" width="100%">
+                            </div>
+                            <div class="content-wrapper">
+                                <h4>{{title}}</h4>
+                                <small>توسط:&nbsp;<b class="username"
+                                        label="username">{{_user.username}}</b></small><br>
+                                <small>نوشته شده در: <span style="direction:ltr">{{createdAt}}</span></small>
+                                <div style="margin:5px 0">
+                                    <span class="badge badge-sm badge-warning text-english">{{patch}}</span>
+                                </div>
+                            </div>
+                            <div class="vote-wrapper">
+                                <span><i class="fas fa-thumbs-up"></i>&nbsp;&nbsp;{{upVotes.length +
+                                    downVotes.length}} رای</span>
+                                <span><i class="fas fa-eye"></i>&nbsp;&nbsp;{{views}} بازدید</span>
+                                <span><i class="fas fa-comment"></i>&nbsp;&nbsp;{{comments.length}} نظر</span>
+                            </div>
+                        </a>
+                        {{/builds}}
+                    </div>
+                    <div id="builds-loading" style="display:none">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <!-- <div class="row">
+                        <h3 style="margin-right:18px">بنر فواره ای</h3>
+                        <div class="col-md-12">
+                            <div class="banner-box">
+                                <img src="/images/ori.jpg" width="100%">
+
+                            </div>
+                        </div>
+                    </div> -->
+                    <h3>استریم ها:</h3>
+                    <div id="streamers-row" class="row">
+                        <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(() =>
+        {
+            let gameId = `{{game.twitchGameId}}`;
+            getTwitchStreamersFor(gameId, (ss) =>
+            {
+                streamers_create(ss);
+            });
+        });
+        function streamers_create(streamers)
+        {
+            console.log("streamers loaded " + streamers.length);
+            for (var i = 0; i < streamers.length && i < 3; i++)
+            {
+                var s = streamers[i];
+                console.log(s);
+                $("#streamers-row").append(`<a class="stream-box text-white" href="${s.url}"><img src="${s.thumbnail}" width="100%" /><span>${s.title}</span></a>`);
+            }
+            $("#streamers-row [name=loading]").hide();
+        }
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .return-home {
+            color: orange;
+            text-decoration: none;
+            text-align: center
+        }
+
+        .return-home:hover {
+            color: rgb(134, 87, 0);
+            text-decoration: none;
+            text-align: center
+        }
+    </style>
+</head>
+
+
+<body>
+    {{{navbar}}}
+    <section class="bg-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-6" style="margin-top:100px">
+                    <h1 style="text-align: center; color: white">500</h1>
+                    <h3 style="color:white; text-align:center">فکر کنم یکی پاش رفت رو سیم :)))</h3>
+                    <p style="color:white; text-align:center">سرور به مشکلی برخوره است که ما انتطار آنرا نداشتیم
+                        <br>مااز شما
+                        عذر خواهی می کنیم <br>شما می توانید به
+                        صفحه اصلی مراجعه کنید یا صفحه را دوباره باز کنید<br>
+                        <a class="return-home" href="#"> بازگشت به خانه</a>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <img src="/images/wog-logo.png" alt="" style="width:100%">
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <script>
+        getGames('', (games) => {
+            console.log(games);
+            console.log(games[0].getItem(0));
+            console.log(games[1].getItem(0));
+        });
+
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

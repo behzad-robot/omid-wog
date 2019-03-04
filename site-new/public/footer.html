@@ -1,0 +1,71 @@
+<section class="gradient-section lazy" style="padding:20px 0;" id="above-footer-section" data-loader="loadData">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="widget-box" style="margin-bottom:10px;">
+                    <div class="title-wrapper">
+                        <h3>اخبار داغ:</h3>
+                    </div>
+                    <div class="content-wrapper text-white text-center" id="footer-news-box">
+                        <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div> -->
+                        {{#footerPosts}}
+                        <a class="hot-news-container text-center" style="background-image:url('{{thumbnail_800x600}}')" href="${p.siteUrl}">
+                            <div class="wog-overlay trans-6"></div>
+                            <div class="content text-shadow">
+                                <small><i class="fas fa-calendar"></i>&nbsp;{{createdAt}}</small>
+                                <h2>{{title}}</h2>
+                            </div>
+                        </a>
+                        {{/footerPosts}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="widget-box" style="margin-bottom:10px;">
+                    <div class="title-wrapper">
+                        <h3>گالری:</h3>
+                    </div>
+                    <div class="content-wrapper text-white text-center" id="footer-gallery-box">
+                        <!-- <a class="img-col" href="#">
+                            <img src="/images/s1.jpg" width="100%" />
+                        </a> -->
+                        <!-- <div name="loading" class="text-center" style="margin:10px 0;width:100%;">
+                            <img src="/images/loading.gif" width="72px" />
+                        </div> -->
+                        {{#footerMedia}}
+                            <a class="img-col" href="{{siteUrl}}"><img src="{{thumbnail_150x150}}" width="100%"></a>
+                        {{/footerMedia}}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="widget-box" style="margin-bottom:10px;">
+                    <div class="title-wrapper">
+                        <h3>تورنومنت ها:</h3>
+                    </div>
+                    <div class="content-wrapper text-white text-center">
+                        <img src="/images/coming-soon-square.jpg" width="100%"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="container">
+
+        <div class="back-to-top-wrapper">
+            <a rel="nofollow" class="back-to-top"></a>
+        </div>
+        <p>© 2018&nbsp;&nbsp;واج</p>
+    </div>
+</footer>
+<script>
+    $(".back-to-top").click(function ()
+    {
+        $("html,body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    });
+</script>
