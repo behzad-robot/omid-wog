@@ -134,7 +134,7 @@
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'thumbnail', map.thumbnail));
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'cover', map.cover));
                     $(`#maps-${map._id}`).append(jsonInput('weapons', map.weapons));
-                    $(`#maps-${map._id}`).append(`<div name="weapons-container"><h5>Available Weapons:</h5><div class="btn btn-xs btn-secondary">+Add Weapon</div></div>`);
+                    $(`#maps-${map._id}`).append(`<div name="weapons-container" style="margin-bottom:5px"><h5>Available Weapons:</h5><div class="btn btn-sm btn-secondary">+Add Weapon</div></div>`);
                     for (var j = 0; j < map.weapons.length; j++)
                     {
                         var weapon = get_weapon(map.weapons[j]);
