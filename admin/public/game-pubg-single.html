@@ -3,7 +3,15 @@
 <head>
     {{{head}}}
     <style>
+        .weapon-row {
+            width: 100%;
+            padding: 5px 0;
+            border-bottom: 1px solid #aaa;
+        }
 
+        .weapon-row:hove {
+            background-color: #a0a0a0;
+        }
     </style>
 </head>
 
@@ -15,6 +23,19 @@
         <hr />
         <form id="single" action="/admin/games/{{{_id}}}/edit" method="POST"></form>
         <div id="extra"></div>
+        <div id="weapons-screen"
+            style="display:none;position:fixed;width:100vw;height:100vh;background-color:rgba(0, 0, 0, 0.4);z-index:10000;top:0;left:0">
+            <div class="container" style="padding-top:50px;">
+                <div class="btn btn-md btn-primary" onclick="weapons_screen_hide()">Close</div>
+                <div
+                    style="width:100%;height:60vh;background-color:white;padding:10px 20px;margin-top:10px;overflow-y: scroll;">
+                    <h3 name="title">Title come Here!</h3>
+                    <div name="list">
+
+                    </div>
+                </div>
+            </div>
+        </div>
         <script>
             let game = null;
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=games`;
@@ -113,7 +134,23 @@
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'thumbnail', map.thumbnail));
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'cover', map.cover));
                     $(`#maps-${map._id}`).append(jsonInput('weapons', map.weapons));
-                    //TODO : add ez add weapons
+                    $(`#maps-${map._id}`).append(`<div name="weapons-container"><h5>Available Weapons:</h5><div class="btn btn-xs btn-secondary">+Add Weapon</div></div>`);
+                    for (var j = 0; j < map.weapons.length; j++)
+                    {
+                        var weapon = get_weapon(map.weapons[j]);
+                        if (weapon == undefined)
+                            continue;
+                        $(`#maps-${map._id} [name=weapons-container]`).append(`
+                            <div style="padding:10px 20px;border-bottom:1px solid #ccc;">
+                                <b>${weapon._id}</b>&nbsp;&nbsp;&nbsp;
+                                <span>${weapon.name}</span>
+                                <div class="btn btn-xs btn-info" onclick="maps_weapon_move(${i},${j},-1)">Up</div>
+                                <div class="btn btn-xs btn-info" onclick="maps_weapon_move(${i},${j},1)">Down</div>
+                                <div class="btn btn-xs btn-danger" onclick="maps_weapon_remove(${i},${j})">Remove</div>
+                            </div>
+                        `);
+                    }
+
                     $(`#maps-${map._id}`).append(`<div class="btn btn-md btn-danger" onclick="maps_remove(${i})">Remove</div>`);
                 }
                 $("#maps input,#maps textarea").on('change', function ()
@@ -162,6 +199,26 @@
                 $("[name=maps]").val(JSON.stringify(game.maps));
                 $(`#maps-wrapper-${_id} [name=preview-name]`).html(map.name);
                 $(`#maps-wrapper-${_id} [name=preview-icon]`).attr('src', map.thumbnail);
+            }
+            function maps_weapon_move(mIndex, wIndex, dir)
+            {
+                if ((wIndex == 0 && dir == -1) || (wIndex == game.maps[mIndex].weapons.length - 1 && dir == 1))
+                {
+                    alert('action not allowed!');
+                    return;
+                }
+                var map = game.maps[mIndex];
+                var temp = map.weapons[wIndex];
+                map.weapons[wIndex] = map.weapons[wIndex + dir];
+                map.weapons[wIndex + dir] = temp;
+                maps_recreate();
+                maps_toggle(map._id);
+            }
+            function maps_weapon_remove(mIndex, wIndex)
+            {
+                game.maps[mIndex].weapons.splice(wIndex, 1);
+                maps_recreate();
+                maps_toggle(map._id);
             }
             function consumables_recreate()
             {
@@ -542,10 +599,18 @@
                 $("[name=weaponCategories]").val(JSON.stringify(game.weaponCategories));
                 $(`#weaponCategories-wrapper-${_id} [name=preview-name]`).html(game.weaponCategories[i].name);
             }
+            function get_weapon(_id)
+            {
+                for (var i = 0; i < game.weapons.length; i++)
+                    if (game.weapons[i]._id == _id)
+                        return game.weapons[i];
+                return undefined;
+            }
             function weapons_recreate()
             {
                 $("[name=weapons]").val(JSON.stringify(game.weapons));
-                $("#weapons").html(`<h3>weapons:</h3><div class="btn btn-md btn-secondary" onclick="weapons_add()">+Add weapon</div>`)
+                $("#weapons").html(`<h3>weapons:</h3><div class="btn btn-md btn-secondary" onclick="weapons_add()">+Add weapon</div>`);
+                weapons_screen_recreate();
                 for (var i = 0; i < game.weapons.length; i++)
                 {
                     var a = game.weapons[i];
@@ -562,10 +627,16 @@
                     $(`#weapons-${a._id}`).append(textInput('name', a.name));
                     $(`#weapons-${a._id}`).append(textInput('slug', a.slug));
                     $(`#weapons-${a._id}`).append(InputUtils.textInput('category', a.category, { after: 'Enter _id of weaponCategory here!' }));
-                    $(`#weapons-${a._id}`).append(InputUtils.textInput('weaponType', a.weaponType, { after: 'gun/bow/grenade/melee' }));
+                    $(`#weapons-${a._id}`).append(InputUtils.textInput('type', a.type, { after: 'bow/gun/melee/grenade' }));
+                    $(`#weapons-${a._id}`).append(InputUtils.textInput('range', a.range, { after: '' }));
                     $(`#weapons-${a._id}`).append(InputUtils.airInput('description', a.description));
                     $(`#weapons-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
-                    $(`#weapons-${a._id}`).append(jsonInput('attachesTo', a.attachesTo));
+                    $(`#weapons-${a._id}`).append(jsonInput('audios', a.audios));
+                    $(`#weapons-${a._id}`).append(`<hr><h5>Audios:</h5><div label="audios-container"></div>`);
+                    for (var j = 0; j < 4 || j < a.audios.length; j++)
+                    {
+                        $(`#weapons-${a._id} [label=audios-container]`).append(filePickTool(undefined, `audios-${j}`, a.audios[j] ? a.audios[j] : ''));
+                    }
                     //TODO: weapons screen
                     $(`#weapons-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="weapons_remove(${i})">Remove</div>`);
                 }
@@ -578,13 +649,14 @@
             {
                 game.weapons.push({
                     _id: InputUtils.ID(),
-                    name: 'AMMU 1',
+                    icon: '',
+                    name: 'Weapon 1',
                     slug: '',
                     description: '',
-                    icon: '',
                     category: '',
-                    weaponType: '',
-                    attachesTo: [],
+                    type: '',
+                    range: '',
+                    audios: [],
                 });
                 weapons_recreate();
             }
@@ -601,19 +673,56 @@
             {
                 var i = $(elm).closest(".weapon-box").attr('index');
                 var _id = game.weapons[i]._id;
+                var audios = [];
+                var audElms = $(`#weapons-${_id} [label=audios-container] input`);
+                for (var j = 0; j < audElms.length; j++)
+                {
+                    var val = $(audElms[j]).val();
+                    if (!isEmptyString(val))
+                        audios.push(val);
+                }
                 game.weapons[i] = {
                     _id: $(`#weapons-${_id} [name=_id]`).val(),
                     name: $(`#weapons-${_id} [name=name]`).val(),
                     slug: $(`#weapons-${_id} [name=slug]`).val(),
                     category: $(`#weapons-${_id} [name=category]`).val(),
-                    weaponType: $(`#weapons-${_id} [name=weaponType]`).val(),
+                    type: $(`#weapons-${_id} [name=type]`).val(),
+                    range: $(`#weapons-${_id} [name=range]`).val(),
                     description: $(`#weapons-${_id} [name=description]`).val(),
                     icon: $(`#weapons-${_id} [name=icon]`).val(),
-                    attachesTo: JSON.parse($(`#weapons-${_id} [name=attachesTo]`).val()),
+                    audios: audios,
                 };
                 $("[name=weapons]").val(JSON.stringify(game.weapons));
                 $(`#weapons-wrapper-${_id} [name=preview-name]`).html(game.weapons[i].name);
                 $(`#weapons-wrapper-${_id} [name=preview-icon]`).attr('src', game.weapons[i].icon);
+                weapons_screen_recreate();
+            }
+            function weapons_screen_recreate()
+            {
+                $("#weapons-screen [name=list]").html('');
+                for (var i = 0; i < game.weapons.length; i++)
+                {
+                    var w = game.weapons[i];
+                    $("#weapons-screen [name=list]").append(`
+                        <div class="weapon-row">
+                            <img src="${w.icon}" width="64px" height="64px"/>
+                            <b>${w.name}</b>
+                        </div>
+                    `);
+                }
+            }
+            function weapons_screen_hide()
+            {
+                $("#weapons-screen").hide();
+            }
+            function weapons_screen_show_for_map(mapId)
+            {
+                $("#weapons-screen [name=title]").html(`Add Weapon to ${mapId}`);
+                $("#weapons-screen").show();
+                $(".weapon-row").click(() =>
+                {
+
+                });
             }
         </script>
     </div>

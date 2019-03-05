@@ -87,6 +87,10 @@
         tmp.innerHTML = html;
         return tmp.textContent || tmp.innerText || "";
     }
+    function isEmptyString(str)
+    {
+        return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
+    }
     function scroll_to(el)
     {
         $('html, body').animate({
