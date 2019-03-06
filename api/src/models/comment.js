@@ -3,7 +3,10 @@ import { getResizedFileName, isEmptyString, ICON_404 } from '../utils/utils';
 import { SITE_URL } from '../constants';
 const jalaali = require('jalaali-js');
 const persianDate = require('persian-date');
-
+/*
+    A comment can be used for any objectType meaning any other model class as long as it provides _id field(objectId)
+    (Meaning that we can use comments for nested/weak entities.)
+ */
 export const CommentSchema = new mongoose.Schema({
     objectId: String,
     objectType: String,

@@ -1,6 +1,13 @@
 import mongoose from 'mongoose';
 import { SITE_URL ,API_BASE_URL } from '../constants';
-
+/*
+    Champion is playable character.
+    Used for games:
+    - dota 2
+    - league of legends
+    - vain glory
+    - mortal kombat
+ */
 export const ChampionSchema = new mongoose.Schema({
     gameId: {type:String,default:''},
     name: String,

@@ -2,7 +2,14 @@ import mongoose from 'mongoose';
 import { SITE_URL } from '../constants';
 import { replaceAll } from '../utils/utils';
 const h2p = require('html2plaintext')
-
+/*
+    Supported Games:
+    - Dota 2
+    - League of Legends
+    - Vain Glory
+    - Mortal Kombat ? 
+    - PubG
+ */
 export const GameSchema = new mongoose.Schema({
     name: String,
     token: { type: String, default: '' },
@@ -15,9 +22,9 @@ export const GameSchema = new mongoose.Schema({
     ageRange: { type: String, default: '' },
     twitchGameId: { type: String, default: '' },
     images: Array,
-    extraLinks :[{
-        name : String,
-        url  : String ,
+    extraLinks: [{
+        name: String,
+        url: String,
     }],
     items: Array,
     /*
@@ -42,60 +49,61 @@ export const GameSchema = new mongoose.Schema({
     //mortal only:
     factions: Array, // {slug : string , name : string , icon : string ,cover : string , description : string , info : string }
     //pubg only:
-    maps : [{
-         _id : String,
-         name : String,
-         slug : String,
-         subtitle : String,
-         description : String,
-         thumbnail : String,
-         cover : String,
-         weapons : Array,
+    maps: [{
+        _id: String,
+        name: String,
+        slug: String,
+        subtitle: String,
+        description: String,
+        thumbnail: String,
+        cover: String,
+        weapons: Array,
     }],
-    consumables : [{
-        _id : String,
-        name : String,
-        slug : String,
-        icon : String,
-        description : String,
+    consumables: [{
+        _id: String,
+        name: String,
+        slug: String,
+        icon: String,
+        description: String,
     }],
-    equipments : [{
-        _id : String,
-        name : String,
-        slug : String,
-        description : String,
-        icon : String,
-        category : String, // vest , helmet , backpack
+    equipments: [{
+        _id: String,
+        name: String,
+        slug: String,
+        description: String,
+        icon: String,
+        category: String, // vest , helmet , backpack
     }],
-    ammunations : [{
-        _id : String,
-        name : String,
-        slug : String,
-        icon : String,
-        description : String,
-        weapons : Array, // _id of weapons
+    ammunations: [{
+        _id: String,
+        name: String,
+        slug: String,
+        icon: String,
+        description: String,
+        weapons: Array, // _id of weapons
     }],
-    attachmentCategories : [{
-        _id : String,
-        name : String,
-        slug : String,
+    attachmentCategories: [{
+        _id: String,
+        name: String,
+        slug: String,
     }],
-    attachments :[{
-        _id : String,
-        name : String,
-        slug : String,
-        icon : String,
-        category : String, //_id of attachmentCategories
-        description : String,
-        weaponType : String,
-        attachesTo : Array,
+    attachments: [{
+        _id: String,
+        name: String,
+        slug: String,
+        icon: String,
+        category: String, //_id of attachmentCategories
+        description: String,
+        weaponType: String,
+        attachesTo: Array,
     }],
-    weaponCategories : [{
-        _id : String,
-        name : String,
-        slug : String,
+    weaponCategories: [{
+        _id: String,
+        name: String,
+        slug: String,
     }],
-    weapons : [{
+    weapons: Array, /*
+    {
         _id : String,
         name : String,
         slug : String,
@@ -105,25 +113,25 @@ export const GameSchema = new mongoose.Schema({
         category : String, // _id weapon category
         range : String ,
         audios : [],
-    }],
+    }*/
     createdAt: String,
     updatedAt: String,
     _draft: Boolean,
 
 }, {
-    toObject: {
-        virtuals: true
-    },
-    toJSON: {
-        virtuals: true,
-    }
-});
+        toObject: {
+            virtuals: true
+        },
+        toJSON: {
+            virtuals: true,
+        }
+    });
 GameSchema.virtual('short_description').get(function ()
 {
-    var str =  h2p(this.description);
-    str = replaceAll(str,'&nbsp',' ');
-    str = replaceAll(str,'&zwnj',' ');
-    str = replaceAll(str,';','');
+    var str = h2p(this.description);
+    str = replaceAll(str, '&nbsp', ' ');
+    str = replaceAll(str, '&zwnj', ' ');
+    str = replaceAll(str, ';', '');
     return str;
 });
 export const Game = mongoose.model('Game', GameSchema);

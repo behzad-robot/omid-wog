@@ -9,7 +9,7 @@
             border-bottom: 1px solid #aaa;
         }
 
-        .weapon-row:hove {
+        .weapon-row:hover {
             background-color: #a0a0a0;
         }
     </style>
@@ -134,7 +134,7 @@
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'thumbnail', map.thumbnail));
                     $(`#maps-${map._id}`).append(filePickTool(undefined, 'cover', map.cover));
                     $(`#maps-${map._id}`).append(jsonInput('weapons', map.weapons));
-                    $(`#maps-${map._id}`).append(`<div name="weapons-container" style="margin-bottom:5px"><h5>Available Weapons:</h5><div class="btn btn-sm btn-secondary">+Add Weapon</div></div>`);
+                    $(`#maps-${map._id}`).append(`<div name="weapons-container" style="margin-bottom:5px"><h5>Available Weapons:</h5><div class="btn btn-sm btn-secondary" onclick="weapons_screen_show_for_map(${i})">+Add Weapon</div></div>`);
                     for (var j = 0; j < map.weapons.length; j++)
                     {
                         var weapon = get_weapon(map.weapons[j]);
@@ -150,7 +150,6 @@
                             </div>
                         `);
                     }
-
                     $(`#maps-${map._id}`).append(`<div class="btn btn-md btn-danger" onclick="maps_remove(${i})">Remove</div>`);
                 }
                 $("#maps input,#maps textarea").on('change', function ()
@@ -218,7 +217,7 @@
             {
                 game.maps[mIndex].weapons.splice(wIndex, 1);
                 maps_recreate();
-                maps_toggle(map._id);
+                maps_toggle(game.maps[mIndex]._id);
             }
             function consumables_recreate()
             {
@@ -371,7 +370,22 @@
                     $(`#ammunations-${a._id}`).append(InputUtils.airInput('description', a.description));
                     $(`#ammunations-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
                     $(`#ammunations-${a._id}`).append(jsonInput('weapons', a.weapons));
-                    //TODO: weapons screen
+                    $(`#ammunations-${a._id}`).append(`<div name="weapons-container" style="margin-bottom:5px"><h5>Weapons:</h5><div class="btn btn-sm btn-secondary" onclick="weapons_screen_show_for_ammunation(${i})">+Add Weapon</div></div>`);
+                    for (var j = 0; j < a.weapons.length; j++)
+                    {
+                        var weapon = get_weapon(a.weapons[j]);
+                        if (weapon == undefined)
+                            continue;
+                        $(`#ammunations-${a._id} [name=weapons-container]`).append(`
+                            <div style="padding:10px 20px;border-bottom:1px solid #ccc;">
+                                <b>${weapon._id}</b>&nbsp;&nbsp;&nbsp;
+                                <span>${weapon.name}</span>
+                                <div class="btn btn-xs btn-info" onclick="ammunations_weapon_move(${i},${j},-1)">Up</div>
+                                <div class="btn btn-xs btn-info" onclick="ammunations_weapon_move(${i},${j},1)">Down</div>
+                                <div class="btn btn-xs btn-danger" onclick="ammunations_weapon_remove(${i},${j})">Remove</div>
+                            </div>
+                        `);
+                    }
                     $(`#ammunations-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="ammunations_remove(${i})">Remove</div>`);
                 }
                 $("#ammunations input,#ammunations textarea").on('change', function ()
@@ -415,6 +429,26 @@
                 $("[name=ammunations]").val(JSON.stringify(game.ammunations));
                 $(`#ammunations-wrapper-${_id} [name=preview-name]`).html(game.ammunations[i].name);
                 $(`#ammunations-wrapper-${_id} [name=preview-icon]`).attr('src', game.ammunations[i].icon);
+            }
+            function ammunations_weapon_move(aIndex, wIndex, dir)
+            {
+                if ((wIndex == 0 && dir == -1) || (wIndex == game.maps[mIndex].weapons.length - 1 && dir == 1))
+                {
+                    alert('action not allowed!');
+                    return;
+                }
+                var amm = game.ammunations[aIndex];
+                var temp = amm.weapons[wIndex];
+                amm.weapons[wIndex] = amm.weapons[wIndex + dir];
+                amm.weapons[wIndex + dir] = temp;
+                ammunations_recreate()
+                ammunations_toggle(amm._id);
+            }
+            function ammunations_weapon_remove(mIndex, wIndex)
+            {
+                game.ammunations[mIndex].weapons.splice(wIndex, 1);
+                ammunations_recreate();
+                ammunations_toggle(game.maps[mIndex]._id);
             }
             function attachmentCategories_recreate()
             {
@@ -495,7 +529,22 @@
                     $(`#attachments-${a._id}`).append(InputUtils.airInput('description', a.description));
                     $(`#attachments-${a._id}`).append(filePickTool(undefined, 'icon', a.icon));
                     $(`#attachments-${a._id}`).append(jsonInput('attachesTo', a.attachesTo));
-                    //TODO: weapons screen
+                    $(`#attachments-${a._id}`).append(`<div name="weapons-container" style="margin-bottom:5px"><h5>Available Weapons:</h5><div class="btn btn-sm btn-secondary" onclick="weapons_screen_show_for_attachment(${i})">+Add Weapon</div></div>`);
+                    for (var j = 0; j < a.attachesTo.length; j++)
+                    {
+                        var weapon = get_weapon(a.attachesTo[j]);
+                        if (weapon == undefined)
+                            continue;
+                        $(`#attachments-${a._id} [name=weapons-container]`).append(`
+                            <div style="padding:10px 20px;border-bottom:1px solid #ccc;">
+                                <b>${weapon._id}</b>&nbsp;&nbsp;&nbsp;
+                                <span>${weapon.name}</span>
+                                <div class="btn btn-xs btn-info" onclick="attachments_weapon_move(${i},${j},-1)">Up</div>
+                                <div class="btn btn-xs btn-info" onclick="attachments_weapon_move(${i},${j},1)">Down</div>
+                                <div class="btn btn-xs btn-danger" onclick="attachments_weapon_remove(${i},${j})">Remove</div>
+                            </div>
+                        `);
+                    }
                     $(`#attachments-${a._id}`).append(`<div class="btn btn-md btn-danger" onclick="attachments_remove(${i})">Remove</div>`);
                 }
                 $("#attachments input,#attachments textarea").on('change', function ()
@@ -543,6 +592,26 @@
                 $("[name=attachments]").val(JSON.stringify(game.attachments));
                 $(`#attachments-wrapper-${_id} [name=preview-name]`).html(game.attachments[i].name);
                 $(`#attachments-wrapper-${_id} [name=preview-icon]`).attr('src', game.attachments[i].icon);
+            }
+            function attachments_weapon_move(aIndex, wIndex, dir)
+            {
+                if ((wIndex == 0 && dir == -1) || (wIndex == game.maps[mIndex].weapons.length - 1 && dir == 1))
+                {
+                    alert('action not allowed!');
+                    return;
+                }
+                var attachment = game.attachments[aIndex];
+                var temp = map.attachesTo[wIndex];
+                attachment.attachesTo[wIndex] = attachment.attachesTo[wIndex + dir];
+                attachment.attachesTo[wIndex + dir] = temp;
+                attachments_recreate();
+                maps_toggle(attachment._id);
+            }
+            function attachments_weapon_remove(aIndex, wIndex)
+            {
+                game.attachments[aIndex].weapons.splice(wIndex, 1);
+                attachments_recreate();
+                attachments_toggle(game.attachments[aIndex]._id);
             }
             function weaponCategories_recreate()
             {
@@ -608,7 +677,7 @@
             }
             function weapons_recreate()
             {
-                $("[name=weapons]").val(JSON.stringify(game.weapons));
+                $("#single [name=weapons]").val(JSON.stringify(game.weapons));
                 $("#weapons").html(`<h3>weapons:</h3><div class="btn btn-md btn-secondary" onclick="weapons_add()">+Add weapon</div>`);
                 weapons_screen_recreate();
                 for (var i = 0; i < game.weapons.length; i++)
@@ -675,11 +744,14 @@
                 var _id = game.weapons[i]._id;
                 var audios = [];
                 var audElms = $(`#weapons-${_id} [label=audios-container] input`);
-                for (var j = 0; j < audElms.length; j++)
+                if (audElms != undefined)
                 {
-                    var val = $(audElms[j]).val();
-                    if (!isEmptyString(val))
-                        audios.push(val);
+                    for (var j = 0; j < audElms.length; j++)
+                    {
+                        var val = $(audElms[j]).val();
+                        if (!isEmptyString(val))
+                            audios.push(val);
+                    }
                 }
                 game.weapons[i] = {
                     _id: $(`#weapons-${_id} [name=_id]`).val(),
@@ -692,7 +764,7 @@
                     icon: $(`#weapons-${_id} [name=icon]`).val(),
                     audios: audios,
                 };
-                $("[name=weapons]").val(JSON.stringify(game.weapons));
+                $("#single [name=weapons]").val(JSON.stringify(game.weapons));
                 $(`#weapons-wrapper-${_id} [name=preview-name]`).html(game.weapons[i].name);
                 $(`#weapons-wrapper-${_id} [name=preview-icon]`).attr('src', game.weapons[i].icon);
                 weapons_screen_recreate();
@@ -704,9 +776,10 @@
                 {
                     var w = game.weapons[i];
                     $("#weapons-screen [name=list]").append(`
-                        <div class="weapon-row">
+                        <div class="weapon-row" weaponId="${w._id}">
                             <img src="${w.icon}" width="64px" height="64px"/>
-                            <b>${w.name}</b>
+                            <b>${w._id}</b>&nbsp;&nbsp;&nbsp;
+                            <span>${w.name}</span>
                         </div>
                     `);
                 }
@@ -715,13 +788,49 @@
             {
                 $("#weapons-screen").hide();
             }
-            function weapons_screen_show_for_map(mapId)
+            function weapons_screen_show_for_map(mapIndex)
             {
-                $("#weapons-screen [name=title]").html(`Add Weapon to ${mapId}`);
+                const map = game.maps[mapIndex];
+                $("#weapons-screen [name=title]").html(`Add Weapon to Map ${map._id}`);
                 $("#weapons-screen").show();
-                $(".weapon-row").click(() =>
+                $(".weapon-row").unbind("click");
+                $(".weapon-row").click(function ()
                 {
-
+                    var weaponId = $(this).attr("weaponId");
+                    map.weapons.push(weaponId);
+                    maps_recreate();
+                    maps_toggle(map._id);
+                    weapons_screen_hide();
+                });
+            }
+            function weapons_screen_show_for_attachment(aIndex)
+            {
+                const attachment = game.attachments[aIndex];
+                $("#weapons-screen [name=title]").html(`Add Weapon to Attachment ${attachment._id}`);
+                $("#weapons-screen").show();
+                $(".weapon-row").unbind("click");
+                $(".weapon-row").click(function ()
+                {
+                    var weaponId = $(this).attr("weaponId");
+                    attachment.attachesTo.push(weaponId);
+                    attachments_recreate();
+                    attachments_toggle(attachment._id);
+                    weapons_screen_hide();
+                });
+            }
+            function weapons_screen_show_for_ammunation(aIndex)
+            {
+                const amm = game.ammunations[aIndex];
+                $("#weapons-screen [name=title]").html(`Add Weapon to ammunation ${amm._id}`);
+                $("#weapons-screen").show();
+                $(".weapon-row").unbind("click");
+                $(".weapon-row").click(function ()
+                {
+                    var weaponId = $(this).attr("weaponId");
+                    amm.weapons.push(weaponId);
+                    ammunations_recreate();
+                    ammunations_toggle(amm._id);
+                    weapons_screen_hide();
                 });
             }
         </script>

@@ -59,7 +59,6 @@ export default class GamesPanelRouter extends AdminRouter
             }
             // console.log(req.body);
             req.body._draft = req.body._draft == 'on' ? true : false;
-            req.body.images = JSON.parse(req.body.images);
             // req.body.media = JSON.parse(req.body.media);
             if (req.body.items)
             {
@@ -72,12 +71,26 @@ export default class GamesPanelRouter extends AdminRouter
             }
             else
             {
-
+                
+            }
+            if(req.body.token == 'pubg')
+            {
+                console.log(req.body.weapons);
+                req.body.maps = JSON.parse(req.body.maps);
+                req.body.consumables = JSON.parse(req.body.consumables);
+                req.body.equipments = JSON.parse(req.body.equipments);
+                req.body.ammunations = JSON.parse(req.body.ammunations);
+                req.body.attachmentCategories = JSON.parse(req.body.attachmentCategories);
+                req.body.attachments = JSON.parse(req.body.attachments);
+                req.body.weaponCategories = JSON.parse(req.body.weaponCategories);
+                req.body.weapons = JSON.parse(req.body.weapons);
+                console.log(req.body.weapons);
             }
             const _id = req.body._id;
             delete (req.body._id);
             Game.edit(_id, req.body).then((result) =>
             {
+                console.log(result);
                 res.redirect('/admin/games/' + _id + '/?edit=success');
             }).catch((err) =>
             {
