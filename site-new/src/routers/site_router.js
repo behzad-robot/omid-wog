@@ -47,6 +47,7 @@ export default class SiteRouter extends Router
         try
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
+            //functions:
             data.SITE_URL = function ()
             {
                 return function (val, render)
@@ -54,14 +55,50 @@ export default class SiteRouter extends Router
                     return render(SITE_URL(val));
                 }
             };
-            data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
-            data.currentUser = req.session ? req.session.currentUser : undefined;
-            data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
-            data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+            //add shared data:
             data._wogSEO = this.modules.getConfig().seo;
             data._wogSEO.fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
-            // console.log(data._wogSEO);
-            res.send(mustache.render(view_str, data));
+            data.navbarData = {
+                games: [],
+                tutorials: [],
+                news: [],
+            };
+            //actually load navbarData => step 1 : games
+            this.modules.Cache.allGames.getData((err, navGames) =>
+            {
+                if (err)
+                {
+                    this.show500(req, res, err.toString());
+                    return;
+                }
+                data.navbarData.games = navGames;
+                //step 2 => posts + cats:
+                this.modules.Cache.navbarNews.getData((err, navCats) =>
+                {
+                    if (err)
+                    {
+                        this.show500(req, res, err.toString());
+                        return;
+                    }
+                    data.navbarData.news = navCats;
+                    this.modules.Cache.navbarTutorials.getData((err, navCats) =>
+                    {
+                        if (err)
+                        {
+                            this.show500(req, res, err.toString());
+                            return;
+                        }
+                        data.navbarData.tutorials = navCats;
+                    });
+                    console.log(JSON.stringify(data));
+                    //navbar is all ready => add shared html parts:
+                    data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
+                    data.currentUser = req.session ? req.session.currentUser : undefined;
+                    data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
+                    data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+                    res.send(mustache.render(view_str, data));
+                });
+            });
         } catch (err)
         {
             res.send("render file failed =>" + err);

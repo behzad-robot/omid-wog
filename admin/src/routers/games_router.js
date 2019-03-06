@@ -15,7 +15,8 @@ export default class GamesPanelRouter extends AdminRouter
             // console.log(req.url);
             if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
             {
-                updateCache('all-games');
+                updateCache('all-games'); //deprecated legacy site
+                updateCache('games-all');
             }
             next();
         });

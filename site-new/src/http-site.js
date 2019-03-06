@@ -48,7 +48,6 @@ const express = new MyExpressApp({
     ],
 });
 //modules:
-const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const SiteModules = {
     User: new User(apiSocket),
     Game: new Game(apiSocket),
@@ -59,35 +58,192 @@ const SiteModules = {
     Media: new Media(apiSocket),
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
-    PubGTeam : new PubGTeam(apiSocket),
-    proxyAPI: proxyAPI,
-    getConfig : ()=> {
+    PubGTeam: new PubGTeam(apiSocket),
+    getConfig: () =>
+    {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
         return config;
     }
 }
-express.expressApp.all('*', (req, res, next) =>
+//caches:
+const allGamesCache = new CacheReader('games-all', (cb) =>
 {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
+    console.log('updating games-all cache');
+    SiteModules.Game.find().then((games) =>
+    {
+        cb(undefined, games);
+    }).catch((err) =>
+    {
+        cb(err, undefined);
+    });
 });
+const allPostsCatsCache = new CacheReader('posts-cats-all', (cb) =>
+{
+    console.log('updating posts-cats-all cache');
+    SiteModules.PostCat.find().then((cats) =>
+    {
+        cb(undefined, cats);
+    }).catch((err) =>
+    {
+        cb(err, undefined);
+    });
+});
+const navbarNewsCache = new CacheReader('navbar-news', (cb) =>
+{
+    console.log('updating navbar-news cache');
+    allPostsCatsCache.getData((err, cats) =>
+    {
+        if (err)
+            cb(err, undefined);
+        else
+        {
+            var results = [];
+            //first find news category and its children:
+            for (var i = 0; i < cats.length; i++)
+            {
+                if (cats[i].slug == 'news')
+                {
+                    results.push(cats[i]);
+                    break;
+                }
+            }
+            for (var i = 0; i < cats.length; i++)
+            {
+                if (cats[i].parent == results[0]._id)
+                {
+                    results.push(cats[i]);
+                }
+            }
+            const loadPosts = (index, done) =>
+            {
+                if (index >= results.length)
+                {
+                    done();
+                    return;
+                }
+                // console.log("loadPosts");
+                var c = results[index];
+                SiteModules.Post.find({ categories: c._id }).then((posts) =>
+                {
+                    c.posts = posts;
+                    loadPosts(index + 1, done);
+                }).catch((err) =>
+                {
+                    console.log("error while retriving result=>" + err.toString());
+                    loadPosts(index + 1, done);
+                });
+            };
+            loadPosts(0, () =>
+            {
+                cb(undefined, results);
+            });
+        }
+    });
+});
+const navbarArticlesCache = new CacheReader('navbar-articles', (cb) =>
+{
+    console.log('updating navbar-articles cache');
+    allPostsCatsCache.getData((err, cats) =>
+    {
+        if (err)
+            cb(err, undefined);
+        else
+        {
+            var results = [];
+            //first find news category and its children:
+            for (var i = 0; i < cats.length; i++)
+            {
+                if (cats[i].slug == 'articles')
+                {
+                    results.push(cats[i]);
+                    break;
+                }
+            }
+            for (var i = 0; i < cats.length; i++)
+            {
+                if (cats[i].parent == results[0]._id)
+                {
+                    results.push(cats[i]);
+                }
+            }
+            const loadPosts = (index, done) =>
+            {
+                if (index >= results.length)
+                {
+                    done();
+                    return;
+                }
+                // console.log("loadPosts");
+                var c = results[index];
+                SiteModules.Post.find({ categories: c._id }).then((posts) =>
+                {
+                    c.posts = posts;
+                    loadPosts(index + 1, done);
+                }).catch((err) =>
+                {
+                    console.log("error while retriving result=>" + err.toString());
+                    loadPosts(index + 1, done);
+                });
+            };
+            loadPosts(0, () =>
+            {
+                cb(undefined, results);
+            });
+        }
+    });
+});
+SiteModules.Cache = {
+    //game related:
+    allGames: allGamesCache,
+    getGame: function (query)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            var key = Object.keys(query)[0];
+            allGamesCache.getData((err, games) =>
+            {
+                if (err)
+                    reject(err);
+                else
+                {
+                    for (var i = 0; i < games.length; i++)
+                    {
+                        var g = games[i];
+                        if (g[key] == query[key])
+                        {
+                            resolve(g);
+                            return;
+                        }
+                    }
+                    reject("Not found");
+                }
+            });
+        });
+    },
+    //navbar:
+    allPostsCats: allPostsCatsCache,
+    navbarNews: navbarNewsCache,
+    navbarTutorials: navbarArticlesCache,
+};
+
+
+
+
+
 //add general middlewares here:
 express.expressApp.disable('etag'); //fully disable cache!
 express.expressApp.use(morgan('tiny'))
 
 //routers:
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
-express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
-express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
-express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
-express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
-express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
-express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
-express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
-express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
+// express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
+// express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+// express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
+// express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
+// express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
+// express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+// express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
+// express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)

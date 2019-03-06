@@ -17,7 +17,8 @@ export default class PostsCatsPanelRouter extends AdminRouter
             if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
             {
                 console.log('update cache for allPostsCats');
-                updateCache('allPostsCats');
+                updateCache('allPostsCats'); //deprecated for legacy site
+                updateCache('posts-cats-all');
             }
             next();
         });
@@ -32,6 +33,7 @@ export default class PostsCatsPanelRouter extends AdminRouter
             PostCategory.insert({
                 name: 'New Cat',
                 slug: 'new-cat',
+                parent : '',
             }).then((result) =>
             {
                 if (result._id)

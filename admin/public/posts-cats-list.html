@@ -3,7 +3,26 @@
 <head>
     {{{head}}}
     <style>
+        .box-row {
+            background-color: white;
+            border: none;
+            border-bottom: none;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
 
+        .box-row b {
+            display: inline-block;
+            margin: 0 10px;
+            width: 100px;
+        }
+
+        .box-row span {
+            display: inline-block;
+            margin: 0 10px;
+            width: 120px;
+        }
     </style>
 </head>
 
@@ -13,24 +32,45 @@
         <h2>Post Categories:</h2>
         <a href="/admin/posts-cats/new" class="btn btn-md btn-info">+New Post Category</a>
         <hr />
+        <div class="box-row" style="background-color:#ccc;margin-bottom:0;padding:20px 10px;border-bottom:1px solid #999999;">
+            <b>name</b>
+            <span>slug</span>
+            <span>parent</span>
+            <span>createdAt</span>
+            <span>updatedAt</span>
+        </div>
         <div id="list"></div>
         <script>
-            findObjects('posts-cats', (cats) =>
+            let cats = [];
+            findObjects('posts-cats', (cs) =>
             {
+                cats = cs;
                 console.log((cats));
                 for (var i = 0; i < cats.length; i++)
                 {
                     var cat = cats[i];
                     $("#list").append(
-                        `<div class="box-row">`
-                        + `<h4>${cat.name}</h4>`
-                        + `<p><b>slug:</b>${cat.slug}</p><hr/>`
-                        + `<small><b>createdAt: </b>${cat.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${cat.updatedAt}</small><hr />`
-                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/posts-cats/${cat._id}">Edit</a></div>`
-                        + `</div>`
+                        `<div class="box-row">
+                            <b>${cat.name}</b>
+                            <span>${cat.slug}</span>
+                            <span>${get_cat(cat.parent).name}</span>
+                            <span><small>${cat.createdAt}</small></span>
+                            <span><small>${cat.updatedAt}</small></span>
+                            <a class="btn btn-md btn-info float-right" href="/admin/posts-cats/${cat._id}">Edit</a>
+                        </div>`
                     );
                 }
             });
+            function get_cat(_id)
+            {
+                for (var i = 0; i < cats.length; i++)
+                    if (cats[i]._id == _id)
+                        return cats[i];
+                return {
+                    _id: '??',
+                    name: 'none'
+                };
+            }
         </script>
     </div>
     {{{footer}}}

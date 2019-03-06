@@ -1,6 +1,7 @@
 
 import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
+import { updateCache } from "../utils/cache";
 const fs = require('fs');
 const path = require('path');
 export default class PostsPanelRouter extends AdminRouter
@@ -11,6 +12,16 @@ export default class PostsPanelRouter extends AdminRouter
         const Admin = AdminModules.Admin;
         const Post = AdminModules.Post;
         this.requireAdmin();
+        this.router.use((req, res, next) =>
+        {
+            // console.log(req.url);
+            if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
+            {
+                updateCache('navbar-news');
+                updateCache('navbar-articles');
+            }
+            next();
+        });
         this.router.get('/', (req, res) =>
         {
             res.send(this.renderTemplate('posts-list.html', {

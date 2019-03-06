@@ -12,22 +12,34 @@
     <div class="container">
         <h2>
             Post Cat {{{_id}}}:
-            <a href="/admin/posts-cats/{{{_id}}}/delete/" class="btn btn-md btn-danger" style="float:right;margin-top:5px;">Delete</a>
+            <a href="/admin/posts-cats/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a>
         </h2>
         <hr />
         <form id="single" action="/admin/posts-cats/{{{_id}}}/edit" method="POST"></form>
         <script>
             const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
-            getObject('posts-cats', `{{{_id}}}`, (cat) =>
+            let allCats = [];
+            findObjects('posts-cats', (cs) =>
             {
-                console.log(cat);
-                $("#single").append(idInput('_id',cat._id));
-                $("#single").append(idInput('createdAt',cat.createdAt));
-                $("#single").append(idInput('updatedAt',cat.updatedAt));
-                $("#single").append(textInput('name',cat.name));
-                $("#single").append(textInput('slug',cat.slug));                
-                $("#single").append(submitBtn());
-                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                allCats = cs;
+                getObject('posts-cats', `{{{_id}}}`, (cat) =>
+                {
+                    console.log(cat);
+                    $("#single").append(idInput('_id', cat._id));
+                    $("#single").append(idInput('createdAt', cat.createdAt));
+                    $("#single").append(idInput('updatedAt', cat.updatedAt));
+                    $("#single").append(textInput('name', cat.name));
+                    $("#single").append(textInput('slug', cat.slug));
+                    var optionsStr = '<option></option>';
+                    for (var i = 0 ; i < allCats.length;i++)
+                    {
+                        optionsStr += `<option value="${allCats[i]._id}"  ${allCats[i]._id == cat.parent ? 'selected' : ''} >${allCats[i].name}</option>`;
+                    }
+                    $("#single").append(`<div class="form-row"><b>parent:</b><select name="parent" class="form-control m">${optionsStr}</select></div>`);
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                });
             });
         </script>
     </div>
