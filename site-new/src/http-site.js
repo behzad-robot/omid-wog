@@ -235,6 +235,7 @@ express.expressApp.disable('etag'); //fully disable cache!
 express.expressApp.use(morgan('tiny'))
 
 //routers:
+express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 // express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 // express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
@@ -244,7 +245,7 @@ express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 // express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 // express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 // express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
-express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
+
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 apiSocket.connect(() =>

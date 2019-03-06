@@ -22,6 +22,9 @@ section{display:block;width:100%;}
 .text-english{
     font-family: Roboto !important;
 }
+.text-ltr{
+    direction: ltr;
+}
 .text-tahoma{
     font-family: Tahoma;
 }
