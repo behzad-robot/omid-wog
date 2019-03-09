@@ -23,6 +23,7 @@ import { PostCategory } from './models/postCat';
 import { Comment } from './models/comment';
 import { EasySocket } from './libs/easy-socket';
 import { PublicMongooseWSRouter } from './routers/public-ws-mongoose';
+import { BackupRouter } from './routers/backup_router';
 
 const morgan = require('morgan');
 
@@ -70,6 +71,8 @@ express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTo
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
 //tournoment:
 express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam, { apiTokenRequired: true }).router);
+//backup
+express.expressApp.use('/api/backup/', new BackupRouter({ User: User , Game : Game , Champion : Champion , Post : Post , PostCategory : PostCategory , Media : Media , Comment : Comment , ContactUsForm : ContactUsForm }, { apiTokenRequired: true }).router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
