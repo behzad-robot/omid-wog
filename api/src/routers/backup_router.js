@@ -20,7 +20,7 @@ export class BackupRouter extends APIRouter
                     return;
                 }
                 var key = keys[index];
-                models[key].find({}).limit(LIMIT).exec((err, results) =>
+                models[key].find({}).lean().limit(LIMIT).exec((err, results) =>
                 {
                     backupResult[key] = results;
                     findThings(models, index + 1, done);
