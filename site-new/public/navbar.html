@@ -1,11 +1,11 @@
 <navbar class="">
-    <div class="container-fluid" style="height:100%;overflow: hidden;">
+    <div class="container" style="height:100%;overflow: hidden;">
         <div style="display:inline-block">
             <img src="/images/zoomg-logo.png" width="130px" style="margin-left:20px;" />
         </div>
-        <a href="#" class="navbar-item">بازی ها<span class="fas fa-sort-down"></span></a>
-        <a href="#" class="navbar-item">مقالات<span class="fas fa-sort-down"></span></a>
-        <a href="#" class="navbar-item">اخبار<span class="fas fa-sort-down"></span></a>
+        <a href="#" class="navbar-item" dropDownItem="games">بازی ها<span class="fas fa-sort-down"></span></a>
+        <a href="#" class="navbar-item" dropdownItem="tutorials">مقالات<span class="fas fa-sort-down"></span></a>
+        <a href="#" class="navbar-item" dropdownItem="news">اخبار<span class="fas fa-sort-down"></span></a>
         <a href="#" class="navbar-item">فروشگاه</a>
         <a href="#" class="navbar-item">تماس با ما</a>
         <div class="float-left" style="height:100%">
@@ -15,3 +15,151 @@
         </div>
     </div>
 </navbar>
+<div class="navbar-dropdown" dropDownItem="games" style="display:none;">
+    <div class="container" style="pointer-events: all;">
+        <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
+        <div class="card" style="background-color:#1F262A;color:white;height:450px;">
+            <div class="row">
+
+                <div class="col-md-3 text-english" style="padding-left:0;">
+                    {{#navbarData.games}}
+                    <a href="{{siteUrl}}" class="navbar-games-link selected" token="{{token}}">{{name}}<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    {{/navbarData.games}}
+                    <!-- <a href="#" class="navbar-games-link">League Of Legends<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    <a href="#" class="navbar-games-link">Vain glory<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    <a href="#" class="navbar-games-link">Mortal Kombat nadarim<span
+                            class="fas fa-chevron-left float-left"></span></a> -->
+                </div>
+
+                <div class="col-md-9" style="padding-right:0">
+                    <div class="navbar-games-cover" style="background-image:url('/images/dota-2-wallpaper.jpg');">
+                        <div class="gradient-thing">
+                            <img src="/images/dota2-logo.png" width="128px" />
+                            <h3>بازی Dota 2</h3>
+                            <p style="width:400px;margin-top:15px;">
+                                این بازی خیلی چرتی هست لورم ایپسوم متن پر کنندهاین بازی خیلی چرتی هست لورم ایپسوم متن پر
+                                کننده این بازی خیلی چرتی هست لورم ایپسوم متن پر کنندهر این بازی خیلی چرتی هست لورم
+                                ایپسوم متن پر کننده این بازی خیلی چرتی هست لورم ایپسوم متن پر کنندهاین بازی خیلی چرتی
+                                هست لورم ایپسوم متن پر کننده این بازی خیلی چرتی هست لورم ایپسوم متن پر کننده
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar-dropdown" dropDownItem="tutorials" style="display:none;">
+    <div class="container" style="pointer-events: all;">
+        <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
+        <div class="card" style="background-color:#1F262A;color:white;height:450px;">
+            <div class="row">
+
+                <div class="col-md-3" style="padding-left:0;">
+                    {{#navbarData.tutorials}}
+                    <a href="{{siteUrl}}" class="navbar-games-link selected" slug="{{slug}}">{{name}}<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    {{/navbarData.tutorials}}
+                </div>
+
+                <div class="col-md-9" style="padding-right:0">
+                    <div class="navbar-games-cover">
+                        <div class="gradient-thing">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>عنوان مطلب</h1>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>عنوان مطلب</h1>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>عنوان مطلب</h1>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>عنوان مطلب</h1>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>عنوان مطلب</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="navbar-dropdown" dropDownItem="news" style="display:none;">
+    <div class="container" style="pointer-events: all;">
+        <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
+        <div class="card" style="background-color:#1F262A;color:white;height:450px;">
+            <div class="row">
+
+                <div class="col-md-3" style="padding-left:0;">
+                    {{#navbarData.news}}
+                    <a href="{{siteUrl}}" class="navbar-games-link selected" slug="{{slug}}">{{name}}<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    {{/navbarData.news}}
+                </div>
+
+                <div class="col-md-9" style="padding-right:0">
+                    <div class="navbar-games-cover">
+                        <div class="gradient-thing" id="news-posts-container">
+                            {{#navbarData.news}}
+                            <div class="row" cat="{{slug}}">
+                                {{#posts}}
+                                <div class="col-md-4">
+                                    <div class="navbar-post-box">
+                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                        <h1>{{title}}</h1>
+                                    </div>
+                                </div>
+                                {{/posts}}
+                            </div>
+                            {{/navbarData.news}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(() =>
+    {
+        let currentDropDown = undefined;
+        $(".navbar-item").mouseenter(function ()
+        {
+            var dropDownItem = $(this).attr('dropDownItem');
+            console.log(dropDownItem);
+            if (dropDownItem == undefined)
+                return;
+            $(`.navbar-dropdown`).hide();
+            $(`.navbar-dropdown[dropDownItem=${dropDownItem}]`).show();
+            currentDropDown = dropDownItem;
+        });
+        $(".navbar-dropdown .container").mouseleave(function ()
+        {
+            console.log('mouse leave!');
+            $(`.navbar-dropdown`).hide();
+        });
+    });
+</script>

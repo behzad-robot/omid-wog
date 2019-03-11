@@ -89,14 +89,15 @@ export default class SiteRouter extends Router
                             return;
                         }
                         data.navbarData.tutorials = navCats;
+                        console.log(JSON.stringify(data.navbarData.tutorials));
+                        //navbar is all ready => add shared html parts:
+                        data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
+                        data.currentUser = req.session ? req.session.currentUser : undefined;
+                        data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
+                        data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
+                        res.send(mustache.render(view_str, data));
                     });
-                    console.log(JSON.stringify(data));
-                    //navbar is all ready => add shared html parts:
-                    data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
-                    data.currentUser = req.session ? req.session.currentUser : undefined;
-                    data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
-                    data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
-                    res.send(mustache.render(view_str, data));
+
                 });
             });
         } catch (err)
