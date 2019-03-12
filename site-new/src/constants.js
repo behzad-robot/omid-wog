@@ -21,7 +21,6 @@ export function SITE_URL(path)
 export function IS_LOCALHOST()
 {
     return fs.existsSync(path.resolve('.localhost'));
-
 }
 export function GetMongoDBURL()
 {

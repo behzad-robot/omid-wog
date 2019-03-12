@@ -130,6 +130,28 @@ const InputUtils = {
             value = JSON.stringify(value);
         return `<div class='form-row json-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
     },
+    optionsInput: (name, value, options = [], settings = { readonly: false }) =>
+    {
+        var readonly = settings.readonly ? "readonly" : "";
+        var optionsText = '<option></option>';
+        for (var i = 0; i < options.length; i++)
+        {
+            var title = '', val = '';
+            if (typeof options[i] == 'string')
+            {
+                title = options[i];
+                val = options[i];
+            }
+            else
+            {
+                title = options[i].title;
+                val = options[i].value;
+            }
+            var selected = val == value ? 'selected' : '';
+            optionsText += `<option value="${val}" ${selected}>${title}</option>`;
+        }
+        return `<div class="form-row" label="${name}"><b>${name}:</b><select name="${name}" class="form-control m" ${readonly}>${optionsText}</select></div>`;
+    },
     ID: function ()
     {
         // Math.random should be unique because of its seeding algorithm.

@@ -1,0 +1,44 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Edit Admin Info</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Edit Admin Info:</h2>
+        <hr />
+        <form id="single" method="POST" action="/admin/users/edit-admin-submit">
+        </form>
+        <script>
+            $(() =>
+            {
+                const FILE_UPLOAD_URL = `{{{fileUploadURL}}}`;
+                const MY_DIR = 'users/{{admin._id}}';
+                $("#single").append(InputUtils.idInput('_id', `{{{admin._id}}}`));
+                $("#single").append(InputUtils.textInput('createdAt', `{{{admin.createdAt}}}`, { readonly: true }));
+                $("#single").append(InputUtils.textInput('updatedAt', `{{{admin.updatedAt}}}`, { readonly: true }));
+                $("#single").append(InputUtils.textInput('lastLogin', `{{{admin.lastLogin}}}`, { readonly: true }));
+                $("#single").append(InputUtils.textInput('username', `{{{admin.username}}}`));
+                $("#single").append(InputUtils.textInput('password', `{{{admin.password}}}`));
+                $("#single").append(InputUtils.textInput('email', `{{{admin.email}}}`));
+                $("#single").append(InputUtils.textInput('phoneNumber', `{{{admin.phoneNumber}}}`));
+                $("#single").append(InputUtils.bodyInput('aboutMe', `{{{admin.aboutMe}}}`));
+                $("#single").append(InputUtils.textInput('firstName', `{{{admin.firstName}}}`));
+                $("#single").append(InputUtils.textInput('lastName', `{{{admin.lastName}}}`));
+                $("#single").append(InputUtils.optionsInput('gender', `{{{admin.gender}}}`, ['Male', 'Female']));
+                imageInput('#single', 'profileImage', `{{admin.profileImage}}`, FILE_UPLOAD_URL, MY_DIR);
+                imageInput('#single', 'cover', `{{admin.cover}}`, FILE_UPLOAD_URL, MY_DIR);
+                $("#single").append(submitBtn());
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

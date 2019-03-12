@@ -123,7 +123,6 @@ export class UsersAuthHandler
                 query.email = params.email;
             if(params.username)
                 query.username = params.username;
-            console.log("ok fuck u!");
             console.log(query);
             this.User.findOne(query).exec((err, result) =>
             {
