@@ -1,5 +1,6 @@
 
 import { AdminRouter } from "./admin_router";
+import { ADMIN_FILE_UPLOAD } from "../constants";
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
@@ -20,7 +21,7 @@ export default class AdminPanelRouter extends AdminRouter
         {
             res.send(this.renderTemplate('file-explorer.html', {
                 admin: req.session.admin,
-                fileUploadURL: ADMIN_FILE_UPLOAD
+                fileUploadURL:  ADMIN_FILE_UPLOAD
             }));
         });
         this.router.get('/file-load', (req, res) =>

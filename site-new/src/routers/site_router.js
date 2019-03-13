@@ -89,11 +89,11 @@ export default class SiteRouter extends Router
                             return;
                         }
                         data.navbarData.tutorials = navCats;
-                        console.log(JSON.stringify(data.navbarData.tutorials));
+                        // console.log(JSON.stringify(data.navbarData.tutorials));
                         //navbar is all ready => add shared html parts:
                         data.footer = mustache.render(fileSystem.readFileSync(path.resolve('public/footer.html')).toString(), {});
                         data.currentUser = req.session ? req.session.currentUser : undefined;
-                        console.log(data.currentUser);
+                        // console.log(data.currentUser);
                         data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
                         data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
                         res.send(mustache.render(view_str, data));
@@ -113,7 +113,7 @@ export default class SiteRouter extends Router
     show500(req, res, err)
     {
         console.log("ERROR 500 => " + req.originalUrl + " => " + err);
-        res.send(err);
+        res.status(500).send("<h1>500 Interal Server Error:</h1>"+err);
         // this.renderTemplate(req,res,"404.html",{
         //     error : err
         // });

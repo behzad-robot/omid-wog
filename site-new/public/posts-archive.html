@@ -1,0 +1,438 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .div-outer {
+            width: 100%;
+            position: relative;
+            display: block;
+        }
+
+        .div-middle {
+            background-color: rgba(0, 0, 0, 0.3);
+            z-index: 2;
+            position: absolute;
+        }
+
+        .div-inner {
+            z-index: 1;
+            position: absolute;
+        }
+
+        .div-middle:hover {
+            background-color: rgba(0, 0, 0, 0.7)
+        }
+
+        .div-text {
+            position: absolute;
+        }
+
+        .grid-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .customTitle {
+            margin-right: 20px;
+            position: relative;
+            display: inline-block;
+            background-color: orange;
+            color: whitesmoke !important;
+            padding: 8px 17px 0;
+            font-size: 14px !important;
+            margin-bottom: 7px;
+            height: 37px;
+        }
+
+        .customTitle:after {
+            content: '';
+            position: absolute;
+            left: -33px;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-bottom: 37px solid orange;
+            border-left: 34px solid transparent;
+        }
+
+        .boxWrapper {
+            background: #fff;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .grid-post-box {
+            position: relative;
+            height: 225px;
+        }
+
+        .grid-post-box.big {
+            height: 450px;
+        }
+
+        @media (max-width: 576px) {
+            .grid-post-box.big {
+                height: 225px;
+            }
+        }
+
+        .grid-post-box .post-thumbail {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .grid-post-box .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+            transition: 0.3s all;
+        }
+
+        .grid-post-box .overlay:hover {
+            background: rgba(255, 255, 255, 0);
+
+        }
+
+        .grid-post-box .details {
+            position: absolute;
+            width: 100%;
+            right: 0;
+            bottom: 0;
+            color: #fff;
+            padding: 15px 10px;
+            text-shadow: 1px 1px 3px #000;
+            z-index: 3;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 29%, rgba(0, 0, 0, 1) 100%);
+
+        }
+
+        .grid-post-box .details h1 {
+            font-size: 1.2rem;
+        }
+
+        .grid-post-box .details small {
+            font-size: 0.6rem;
+        }
+
+        .date {
+            font-size: 10px;
+        }
+
+        .orange-title {
+            background-color: #F7931E;
+            display: inline-block;
+            text-align: center;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .white-box {
+            background: white;
+        }
+
+        .post-box {
+            background-color: white;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .post-box a {
+            color: initial !important;
+            text-decoration: none !important;
+        }
+
+        .post-box .post-box-content {
+            padding: 10px 20px;
+        }
+
+        .post-box.post-box-small h1 {
+            font-size: 1.2rem;
+            font-weight: bolder;
+        }
+
+        .post-box.post-box-small p {
+            font-size: 0.95rem;
+        }
+
+        .post-box .date {
+            color: #455A64;
+            font-size: 0.8rem;
+        }
+
+        .post-box .date .fas {
+            position: relative;
+            top: 2px;
+        }
+
+        @media (max-width:576px) {
+            .post-box.post-box-small p {
+                display: none;
+            }
+        }
+
+        .triangle-title {
+            background-color: #F7931E;
+            color: black;
+            width: fit-content;
+            margin: 10px 0;
+            padding: 5px 10px;
+            position: relative;
+        }
+
+        .tail {
+            background-image: url('/images/triangle-orange.svg');
+            height: 32px;
+            width: 32px;
+            position: absolute;
+            top: 0;
+            right: 5px;
+            display: inline-block;
+        }
+
+        .sidebar-aparat-box {
+            padding: 0;
+            margin-bottom: 5px;
+            position: relative;
+            background-color: white;
+            padding: 5px;
+            border-radius: 3px;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+            transition: all 1s;
+            pointer-events: all;
+            display: block;
+            color: initial !important;
+            text-decoration: none !important;
+        }
+
+        .sidebar-aparat-box:hover {
+            background-color: #f0f1f2;
+        }
+
+        .sidebar-aparat-box:hover .aparat {
+            transform: rotate(120deg);
+        }
+
+        .sidebar-aparat-box .aparat {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            transition: all 0.6s;
+        }
+
+        .sidebar-aparat-box .video-title {
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .upcoming-game-box {
+            background-size: cover;
+            background-position: center;
+            height: 160px;
+            display: block;
+            width: 100%;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .upcoming-game-box .overlay {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index:2;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .upcoming-game-box .content{
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding-top:20px;
+        }
+        .upcoming-game-box .title{
+            font-size:1.6rem;
+        }
+        .upcoming-game-box .subtitle{
+            font-size:0.8rem;
+        }
+        .upcoming-game-box .icon{
+            width: 64px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="margin:20px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-12" style="padding:0">
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                            </div>
+                        </div>
+                    </a>
+                </div> <!-- col-md-3-->
+                <div class="col-md-6 col-12" style="padding:0">
+                    <a href="#">
+                        <div class="grid-post-box big">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-12" style="padding:0">
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                            </div>
+                        </div>
+                    </a>
+                </div> <!-- col-md-3-->
+            </div> <!-- row -->
+        </div> <!-- container -->
+    </section>
+
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h3 class="orange-title">اخبار و اینا:</h3>
+                    <div class="post-box">
+                        <a href="#">
+                            <img src="/images/coming-soon-no-text.jpg" alt="" style="width:100%;padding:5px;">
+                        </a>
+                        <div class="post-box-content">
+                            <a href="#">
+                                <h1>Post Title</h1>
+                            </a>
+
+                            <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا</p>
+                            <div class="date">
+                                <span class="fas fa-calendar"></span>&nbsp;
+                                پنجشنبه 10 بهمن 1397
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="post-box post-box-small" style="padding:10px 10px;">
+                        <div class="row">
+                            <div class="col-md-4 col-6">
+                                <a href="#"><img src="/images/coming-soon-no-text.jpg" alt="" style="width:100%"></a>
+                            </div>
+                            <div class="col-md-8 col-6" style="padding-right:0px;">
+                                <a href="#">
+                                    <h1>عنوان زیبا</h1>
+                                </a>
+                                <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                    زیبا
+                                    متن
+                                    زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                    متن
+                                    زیبا متن زیبا متن زیبا متن زیبا</p>
+                                <div class="date">
+                                    <span class="fas fa-calendar"></span>&nbsp;
+                                    پنجشنبه 10 بهمن 1397
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- col-md-8 -->
+                <div class="col-md-4">
+                    <h6 class="orange-title">ویدئو ها</h6>
+                    <a class="sidebar-aparat-box text-center" href="#">
+                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
+                        <img src="/images/aparat-icon.png" class="aparat" />
+                        <h1 class="video-title">عنوان ویدئو</h1>
+                    </a>
+
+
+                    <a class="sidebar-aparat-box text-center" href="#">
+                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
+                        <img src="/images/aparat-icon.png" class="aparat" />
+                        <h1 class="video-title">عنوان ویدئو</h1>
+                    </a>
+
+
+                    <a class="sidebar-aparat-box text-center" href="#">
+                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
+                        <img src="/images/aparat-icon.png" class="aparat" />
+                        <h1 class="video-title">عنوان ویدئو</h1>
+                    </a>
+                    <h6 class="orange-title">بازی های مورد انتظار</h6>
+                    <div class="upcoming-game-box" style="background-image:url('/images/dota-2-wallpaper.jpg')">
+                        <div class="overlay"></div>
+                        <div class="content">
+                            <img src="/images/dota2-logo.png" class="icon"/>
+                            <h1 class="title text-white text-shadow">عنوان بازی</h1>
+                            <h2 class="subtitle text-white text-shadow">تابستان 1397</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+{{{footer}}}
+
+</html>

@@ -3,6 +3,8 @@ import BehzadTimer from "../libs/behzad_timer";
 import { isEmptyString } from "../utils/utils";
 
 const timer = new BehzadTimer("posts_router", true);
+const fs = require('fs');
+const path = require('path');
 export default class SitePostsRouter extends SiteRouter
 {
     constructor(siteModules)
@@ -42,11 +44,32 @@ export default class SitePostsRouter extends SiteRouter
                             }
                         }
                     }
-                    this.renderTemplate(req, res, 'posts-archive.html', {
-                        title : 'اخبار و مطالب',
-                        posts: posts,
-                        leftPosts: [],
-                        rightPosts: [],
+                    //gridPosts:
+                    fs.open(path.resolve('../storage/caches/posts-grid.json'), (err, gridFile) =>
+                    {
+                        if (err)
+                        {
+                            this.show500(req, res, err.toString());
+                            return;
+                        }
+                        var gridIds = JSON.parse(gridFile.toString());
+                        siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
+                        {
+                            fs.open(path.resolve('../storage/caches'), (err, aparatFile) =>
+                            {
+                                if (err)
+                                {
+                                    this.show500(req, res, err.toString());
+                                    return;
+                                }
+                                // aparatFile = 
+                            });
+                            this.renderTemplate(req, res, 'posts-archive.html', {
+                                title: 'اخبار و مطالب',
+                                posts: posts,
+                                gridPosts: gridPosts,
+                            });
+                        });
                     });
                 }).catch((err) =>
                 {
@@ -122,10 +145,10 @@ export default class SitePostsRouter extends SiteRouter
                 }
                 siteModules.Post.find({ 'categories': category._id, limit: 20 }).then((posts) =>
                 {
-                    this.renderTemplate(req,res,'posts-archive.html',{
-                        category : category,
-                        posts : posts,
-                        title : category.name,
+                    this.renderTemplate(req, res, 'posts-archive.html', {
+                        category: category,
+                        posts: posts,
+                        title: category.name,
                     })
                 });
             });
