@@ -8,15 +8,7 @@ export default class SiteAuthRouter extends SiteRouter
         super(siteModules);
         this.router.get('/login', (req, res) =>
         {
-            var error = undefined;
-            if (req.query.msg == 'user-not-found')
-                error = "کاربری با این مشخصات یافت نشد.";
-            else if (req.query.msg == 'enter-username')
-                error = "لطفا نام کاربری خود را وارد کنید.";
-            else if (req.query.msg == 'enter-password')
-                error = "لطفا رمز عبور خود را وارد کنید.";
-            else
-                error = req.query.msg;
+            let error = req.query.msg;
             this.renderTemplate(req, res, 'login.html', {
                 msg: error ? { error: error } : undefined,
             });
@@ -52,6 +44,7 @@ export default class SiteAuthRouter extends SiteRouter
                     user = JSON.parse(user);
                 if (user.error == undefined)
                 {
+                    user = siteModules.User.fixOne(user);
                     req.session.currentUser = user;
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
@@ -65,7 +58,7 @@ export default class SiteAuthRouter extends SiteRouter
                 }
             }).catch((err) =>
             {
-                if(typeof err == 'object')
+                if (typeof err == 'object')
                     err = JSON.stringify(err);
                 res.redirect('/login/?msg=' + err.toString());
             });
@@ -77,11 +70,38 @@ export default class SiteAuthRouter extends SiteRouter
                 res.redirect('/');
             });
         });
-        this.router.get('/signup', (req, res) =>
+        this.router.get('/forget-password', (req, res) =>
         {
             var error = undefined;
+            this.renderTemplate(req, res, 'forget-password.html', {
+                msg: error ? { error: error } : undefined,
+            });
+        });
+        this.router.get('/signup', (req, res) =>
+        {
+            let error = req.query.msg;
             this.renderTemplate(req, res, 'signup.html', {
                 msg: error ? { error: error } : undefined,
+            });
+        });
+        this.router.get('/signup-success', (req, res) =>
+        {
+            this.renderTemplate(req, res, 'signup-success.html', {
+            });
+        });
+        this.router.get('/signup-check-unique', (req, res) =>
+        {
+            //req.query may containt email AND OR username AND OR phoneNumber
+            console.log(req.query);
+            siteModules.User.find(req.query).then((users) =>
+            {
+                if (users == null || users.length == 0)
+                    res.send({ available: true });
+                else
+                    res.send({ available: false });
+            }).catch((err) =>
+            {
+                res.send({ available: true });
             });
         });
         this.router.post('/signup', (req, res) =>
@@ -133,11 +153,12 @@ export default class SiteAuthRouter extends SiteRouter
                     user = JSON.parse(user);
                 if (user.error == undefined)
                 {
+                    user = siteModules.User.fixOne(user);
                     req.session.currentUser = user;
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
                     {
-                        res.redirect('/');
+                        res.redirect('/signup-success');
                     });
                 }
                 else
@@ -146,13 +167,6 @@ export default class SiteAuthRouter extends SiteRouter
             {
                 console.log("err=" + err);
                 res.redirect('/signup/?msg=' + err.toString());
-            });
-        });
-        this.router.get('/forget-password', (req, res) =>
-        {
-            var error = undefined;
-            this.renderTemplate(req, res, 'forget-password.html', {
-                msg: error ? { error: error } : undefined,
             });
         });
     }

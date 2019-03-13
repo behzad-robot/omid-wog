@@ -1,0 +1,408 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+{{{navbar}}}
+<script>
+    $(() => { $("navbar").addClass("transparent-navbar"); });
+</script>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+<style>
+    .div-outer {
+        width: 100%;
+        position: relative;
+        display: block;
+    }
+
+    .div-middle {
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 2;
+        position: absolute;
+    }
+
+    .div-inner {
+        z-index: 1;
+        position: absolute;
+    }
+
+    .div-middle:hover {
+        background-color: rgba(0, 0, 0, 0.7)
+    }
+
+    .div-text {
+        position: absolute;
+    }
+
+    .grid-image {
+        width: 100%;
+        height: auto;
+    }
+
+    .customTitle {
+        margin-right: 20px;
+        position: relative;
+        display: inline-block;
+        background-color: orange;
+        color: whitesmoke !important;
+        padding: 8px 17px 0;
+        font-size: 14px !important;
+        margin-bottom: 7px;
+        height: 37px;
+    }
+
+    .customTitle:after {
+        content: '';
+        position: absolute;
+        left: -33px;
+        top: 0;
+        width: 0;
+        height: 0;
+        border-bottom: 37px solid orange;
+        border-left: 34px solid transparent;
+    }
+
+    .boxWrapper {
+        background: #fff;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+    .grid-post-box {
+        position: relative;
+        height: 225px;
+    }
+
+    .grid-post-box.big {
+        height: 450px;
+    }
+
+    .grid-post-box .post-thumbail {
+        position: absolute;
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+
+    .grid-post-box .overlay {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 2;
+    }
+
+    .grid-post-box .overlay:hover {
+        background: rgba(255, 255, 255, 0);
+
+    }
+
+    .details {
+        margin-right: 3px;
+        position: absolute;
+        color: #fff;
+        padding: 5px 0;
+        font-size: 30px;
+        text-shadow: 1px 1px 3px #000;
+        z-index: 3;
+    }
+
+    .date {
+        font-size: 10px;
+    }
+
+    .orange-title {
+        background-color: #F7931E;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .supertriangle {
+        height: 3.44rem;
+    }
+
+    .h1triangle {
+        height: 3.44rem;
+    }
+
+    .h2triangle {
+        margin-top: 3px;
+        height: 2.9rem;
+    }
+
+    .h3triangle {
+        margin-top: 4px;
+        height: 2.6rem;
+    }
+
+    .h4triangle {
+        margin-top: 6px;
+        height: 2.3rem;
+    }
+
+    .h5triangle {
+        margin-top: 7px;
+        height: 2.05rem;
+    }
+
+    .h6triangle {
+        margin-top: 8px;
+        height: 1.75rem;
+    }
+
+
+
+    .links {
+        text-decoration: none;
+        color: orange;
+    }
+
+    .links:hover {
+        text-decoration: none;
+        color: rgb(240, 175, 53);
+    }
+
+    .white-box {
+        background: white;
+    }
+
+    .post-box {
+        background-color: white;
+        box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        display: block;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+
+    .post-box .post-box-content {
+        padding: 10px 20px;
+    }
+
+    .post-box.post-box-small h1 {
+        font-size: 1.2rem;
+        font-weight: bolder;
+    }
+
+    .post-box.post-box-small p {
+        font-size: 0.95rem;
+    }
+
+    .triangle-title {
+        background-color: #F7931E;
+        color: black;
+        width: fit-content;
+        margin: 10px 0;
+        padding:5px 10px;
+        position: relative;
+    }
+    .tail{
+        background-image:url('/images/triangle-orange.svg');
+        height: 32px;
+        width: 32px;
+        position: absolute;
+        top:0;
+        right: 5px;
+        display:inline-block;
+    }
+</style>
+
+<body>
+    <section style="margin:20px 0 ">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" style="padding:0">
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon.jpg')"></div>
+                            <div class="overlay"></div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/images/coming-soon.jpg')"></div>
+                            <div class="Details">
+                                <h2>نقد جداب</h2><span class="date"> <i class="fa fa-calendar fa-1" aria-hidden="true"
+                                        style="margin-left:1px"></i>پنجشنبه, 16 اسفند 1397</span>
+                            </div>
+                            <div class="overlay"></div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6" style="padding:0">
+                <a href="#">
+                    <div class="grid-post-box big">
+                        <div class="post-thumbail" style="background-image:url('/images/coming-soon.jpg')"></div>
+                        <div class="overlay"></div>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3" style="padding:0">
+            <a href="#">
+                <div class="grid-post-box">
+                    <div class="post-thumbail" style="background-image:url('/images/coming-soon.jpg')"></div>
+                    <div class="overlay"></div>
+            </a>
+        </div>
+        <div class="grid-post-box">
+            <a href="#">
+                <div class="post-thumbail" style="background-image:url('/images/coming-soon.jpg')"></div>
+                <div class="overlay"></div>
+            </a>
+        </div>
+    </section>
+    <section>
+        <div class="orange-title" style="display: inline-block">
+            <h1 class="super-title">سوپر عنوان </h1>
+        </div><span><img class="supertriangle" src="/images/triangle-orange.svg" alt=""></span>
+
+        <div class="orange-title" style="display: inline-block">
+            <h1>عنوان عنوان عنوان </h1>
+        </div><span><img class="h1triangle" src="/images/triangle-orange.svg" alt=""></span>
+
+        <div class="orange-title" style="display: inline-block">
+            <h2>2 عنوان </h2>
+        </div><span><img class="h2triangle" src="/images/triangle-orange.svg" alt=""></span>
+
+        <div class="orange-title" style="display: inline-block">
+            <h3>3 عنوان </h3>
+        </div><span><img class="h3triangle" src="/images/triangle-orange.svg" alt=""></span>
+
+        <div class="orange-title" style="display: inline-block">
+            <h4>4عنوان </h4>
+        </div><span><img class="h4triangle" src="/images/triangle-orange.svg" alt=""></span>
+
+        <div class="orange-title" style="display: inline-block">
+            <h5>5 عنوان </h5>
+        </div><span><img class="h5triangle" src="/images/triangle-orange.svg" alt=""></span>
+        <div>
+            <div class="orange-title" style="display: inline-block">
+                <h6>6 عنوان </h6>
+            </div><span><img class="h6triangle" src="/images/triangle-orange.svg" alt=""></span>
+        </div>
+        <h4 class="triangle-title">6 عنوان<span class="tail">&nbsp;</span></h4>
+    </section>
+    <section>
+            <div class="orange-title" style="display: inline-block">
+                    <h5>5 عنوان </h5>
+                </div><span><img class="h5triangle" src="/images/triangle-orange.svg" alt=""></span>
+            <p>sdlfjdslkfjlksdjfkldsjflskdjfkljlsjflksjflkdsjflk</p>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="post-box">
+                        <a href="#">
+                            <img src="/images/coming-soon.jpg" alt="" style="width:100%;">
+                        </a>
+                        <div class="post-box-content">
+                            <h1>Post Title</h1>
+                            <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا</p>
+                        </div>
+
+                    </div>
+                    <div class="post-box">
+                        <a href="#">
+                            <img src="/images/coming-soon.jpg" alt="" style="width:100%;padding:5px;">
+                        </a>
+                        <div class="post-box-content">
+                            <h1>Post Title</h1>
+                            <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا</p>
+                        </div>
+
+                    </div>
+                    <div class="post-box post-box-small" style="padding:10px 10px;">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="/images/coming-soon.jpg" alt="" style="width:100%">
+                            </div>
+                            <div class="col-md-8" style="padding-right:0px;">
+                                <h1>عنوان زیبا</h1>
+                                <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                    زیبا
+                                    متن
+                                    زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                    متن
+                                    زیبا متن زیبا متن زیبا متن زیبا</p>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="white-box">
+                        <a href="#">
+                            <img src="/images/coming-soon.jpg" alt="" style="width:100%;padding: 20px" >
+                        </a>
+                        <div style="margin-right:20px;margin-left: 20px;">
+                            <h2>نقد جداب</h2>
+                            <i class="fa fa-calendar "></i>
+                            <span> پنجشنبه, 16 اسفند1397 </span>
+                            <p style="margin-bottom: 100px"> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
+                                متن
+                                زیبا متن زیبا متن زیبا متن زیبا</p>
+                        </div>
+                    </div>
+                    <div class="white-box">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <a href="#">
+                                    <img src="/images/coming-soon.jpg" alt="" style="width:100%;">
+                                </a>
+                            </div>
+                            <div class="col-md-8 ">
+                                <div style="margin-right:30px">
+                                    <h2><a href="#" class="links">نقد جداب</a></h2>
+                                    <i class="fa fa-calendar "></i>
+                                    <span> پنجشنبه, 16 اسفند 1397 </span>
+                                    <p>متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
+                                        زیبا
+                                        متن
+                                        زیبا
+                                        متن
+                                        زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا
+                                        متن
+                                        زیبا
+                                        متن
+                                        زیبا متن زیبا متن زیبا متن زیبا</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </section> -->
+</body>
+{{{footer}}}
+
+</html>

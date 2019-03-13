@@ -28,10 +28,8 @@ export class User extends SocketCollection
     }
     getOne(_id)
     {
-        console.log(':|');
         return new Promise((resolve, reject) =>
         {
-            console.log(":D");
             super.getOne(_id).then((result) =>
             {
                 result = this.fixOne(result);
@@ -41,9 +39,11 @@ export class User extends SocketCollection
     }
     fixOne(u)
     {
-        if(isEmptyString(u.profileImage))
+        if (isEmptyString(u.profileImage))
             u.profileImage = SITE_URL('/images/user-profile-default.png');
-        u.siteUrl = SITE_URL('users/'+u.username);
+        else
+            u.profileImage = SITE_URL(u.profileImage);
+        u.siteUrl = SITE_URL('users/' + u.username);
         return u;
     }
     fixAll(cs)

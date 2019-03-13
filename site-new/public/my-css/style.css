@@ -44,7 +44,10 @@ section{display:block;width:100%;}
 .card-padding {
     padding: 10px 15px;
 }
-
+.card{
+    border:none;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1)
+}
 /************************ 
         navbar 
 ****************************/
@@ -94,9 +97,21 @@ navbar.transparent-navbar .navbar-item {
     position: relative;
     top: 8px;
 }
-.card{
-    border:none;
-    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1)
+
+.navbar-user-box{
+    /* padding:15px 10px; */
+    float:left;
+}
+.navbar-user-box img{
+    width:48px;
+    height:48px;
+    border-radius: 50%;
+    display: inline-block;
+    margin:0 5px;
+}
+.navbar-user-box a.navbar-item{
+    min-width: 30px;
+    
 }
 .navbar-dropdown{
    width:100vw;
@@ -154,4 +169,37 @@ navbar.transparent-navbar .navbar-item {
 .navbar-post-box h1{
     font-size:18px;
     margin-top:5px;
+}
+footer{
+    display:block;
+    width:100%;
+    background-color:rgb(35, 44, 47);
+    color:white;
+    min-height: 50px;
+    padding:20px 0;
+    margin-top:20px;
+}
+footer h1{
+    font-size:1.7rem;
+    margin-bottom:20px;
+}
+footer .footer-post-box{
+    display:block;
+    width: 100%;
+    color:white !important;
+    text-decoration: none !important;
+    margin-bottom:10px;
+}
+footer .footer-post-box h2{
+    font-size:1.2rem;
+    display:inline;
+    padding-right:5px;
+    vertical-align: top;
+    padding-top:5px;
+}
+footer .footer-cat{
+    display:block;
+    color:#f0f1f2 !important;
+    text-decoration: none !important;
+    margin-bottom:20px;
 }

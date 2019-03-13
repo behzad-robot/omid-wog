@@ -8,11 +8,19 @@
         <a href="#" class="navbar-item" dropdownItem="news">اخبار<span class="fas fa-sort-down"></span></a>
         <a href="#" class="navbar-item">فروشگاه</a>
         <a href="#" class="navbar-item">تماس با ما</a>
+        {{#currentUser}}
+        <div class="navbar-user-box">
+                <a href="{{siteUrl}}"><img src="{{profileImage}}" /></a>
+            <a class="navbar-item" href="{{siteUrl}}">{{username}}</a>
+        </div>
+        {{/currentUser}}
+        {{^currentUser}}
         <div class="float-left" style="height:100%">
             <span class="fas fa-user fas-user-auth"></span>
-            <a href="#" class="navbar-item">ورود</a>
-            <a href="#" class="navbar-item">ثبت نام</a>
+            <a href="/login" class="navbar-item">ورود</a>
+            <a href="/signup" class="navbar-item">ثبت نام</a>
         </div>
+        {{/currentUser}}
     </div>
 </navbar>
 <div class="navbar-dropdown" dropDownItem="games" style="display:none;">
