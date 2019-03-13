@@ -85,6 +85,7 @@ export default class PostsPanelRouter extends AdminRouter
             req.body.tags = JSON.parse(req.body.tags);
             req.body.categories = JSON.parse(req.body.categories);
             req.body._seo = JSON.parse(req.body._seo);
+            req.body.extras = JSON.parse(req.body.extras);
             const _id = req.body._id;
             delete (req.body._id);
             Post.edit(_id, req.body).then((result) =>

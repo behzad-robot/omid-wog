@@ -246,6 +246,7 @@
             width: 100%;
             position: relative;
             border-radius: 5px;
+            margin-bottom: 5px;
         }
 
         .upcoming-game-box .overlay {
@@ -255,22 +256,26 @@
             position: absolute;
             top: 0;
             left: 0;
-            z-index:2;
+            z-index: 2;
             background-color: rgba(0, 0, 0, 0.5);
         }
-        .upcoming-game-box .content{
+
+        .upcoming-game-box .content {
             position: relative;
             z-index: 10;
             text-align: center;
-            padding-top:20px;
+            padding-top: 20px;
         }
-        .upcoming-game-box .title{
-            font-size:1.6rem;
+
+        .upcoming-game-box .title {
+            font-size: 1.6rem;
         }
-        .upcoming-game-box .subtitle{
-            font-size:0.8rem;
+
+        .upcoming-game-box .subtitle {
+            font-size: 0.8rem;
         }
-        .upcoming-game-box .icon{
+
+        .upcoming-game-box .icon {
             width: 64px;
         }
     </style>
@@ -283,62 +288,62 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-12" style="padding:0">
-                    <a href="#">
+                    <a href="{{{gridPosts1.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            <div class="post-thumbail" style="background-image:url('{{{gridPosts1.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                                <h1>{{{gridPosts1.title}}}</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
-                    <a href="#">
+                    <a href="{{{gridPosts2.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            <div class="post-thumbail" style="background-image:url('{{{gridPosts2.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                                <h1>{{{gridPosts2.title}}}</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
                 </div> <!-- col-md-3-->
                 <div class="col-md-6 col-12" style="padding:0">
-                    <a href="#">
+                    <a href="{{{gridPosts0.siteUrl}}}">
                         <div class="grid-post-box big">
-                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            <div class="post-thumbail" style="background-image:url('{{{gridPosts1.thumbnail_800x600}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                                <h1>{{{gridPosts0.title}}}</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
                 </div>
                 <div class="col-md-3 col-12" style="padding:0">
-                    <a href="#">
+                    <a href="{{{gridPosts3.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            <div class="post-thumbail" style="background-image:url('{{{gridPosts3.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                                <h1>{{{gridPosts3.title}}}</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
-                    <a href="#">
+                    <a href="{{{gridPosts4.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('/images/coming-soon-no-text.jpg')">
+                            <div class="post-thumbail" style="background-image:url('{{{gridPosts4.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>عنوان خبر طولانی هست دیگه بمیر</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;پنجشنبه 10 بهمن 1397</small>
+                                <h1>{{{gridPosts4.title}}}</h1>
+                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
@@ -352,82 +357,68 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h3 class="orange-title">اخبار و اینا:</h3>
+                    <h3 class="orange-title">{{title}}:</h3>
+                    {{#posts}}
+                    {{#extras.bigBox}}
                     <div class="post-box">
-                        <a href="#">
-                            <img src="/images/coming-soon-no-text.jpg" alt="" style="width:100%;padding:5px;">
+                        <a href="{{siteUrl}}">
+                            <img src="{{thumbnail_800x600}}" alt="" style="width:100%;padding:5px;">
                         </a>
                         <div class="post-box-content">
-                            <a href="#">
-                                <h1>Post Title</h1>
+                            <a href="{{siteUrl}}">
+                                <h1>{{title}}</h1>
                             </a>
-
-                            <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
-                                زیبا
-                                متن
-                                زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
-                                متن
-                                زیبا متن زیبا متن زیبا متن زیبا</p>
+                            <p>{{{intro}}}</p>
                             <div class="date">
                                 <span class="fas fa-calendar"></span>&nbsp;
-                                پنجشنبه 10 بهمن 1397
+                                {{{createdAt_persian}}}
                             </div>
                         </div>
 
                     </div>
+                    {{/extras.bigBox}}
+                    {{^extras.bigBox}}
                     <div class="post-box post-box-small" style="padding:10px 10px;">
                         <div class="row">
                             <div class="col-md-4 col-6">
-                                <a href="#"><img src="/images/coming-soon-no-text.jpg" alt="" style="width:100%"></a>
+                                <a href="{{siteUrl}}"><img src="{{thumbnail_800x600}}" alt="" style="width:100%"></a>
                             </div>
                             <div class="col-md-8 col-6" style="padding-right:0px;">
-                                <a href="#">
-                                    <h1>عنوان زیبا</h1>
+                                <a href="{{siteUrl}}">
+                                    <h1>{{title}}</h1>
                                 </a>
-                                <p> متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن زیبا متن
-                                    زیبا
-                                    متن
-                                    زیبا متن زیبا متن زیبا متن زیبا متن زیبامتن زیبا متن زیبا متن زیبا متن زیبا متن زیبا
-                                    متن
-                                    زیبا متن زیبا متن زیبا متن زیبا</p>
+                                <p>{{{intro}}}</p>
                                 <div class="date">
                                     <span class="fas fa-calendar"></span>&nbsp;
-                                    پنجشنبه 10 بهمن 1397
+                                    {{createdAt_persian}}
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {{/extras.bigBox}}
+                    {{/posts}}
+
                 </div> <!-- col-md-8 -->
                 <div class="col-md-4">
                     <h6 class="orange-title">ویدئو ها</h6>
-                    <a class="sidebar-aparat-box text-center" href="#">
-                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
+                    {{#aparatVideos}}
+                    <a class="sidebar-aparat-box text-center" href="{{url}}" target="_blank">
+                        <img src="{{thumbnail}}" width="100%" />
                         <img src="/images/aparat-icon.png" class="aparat" />
-                        <h1 class="video-title">عنوان ویدئو</h1>
+                        <h1 class="video-title">{{title}}</h1>
                     </a>
-
-
-                    <a class="sidebar-aparat-box text-center" href="#">
-                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
-                        <img src="/images/aparat-icon.png" class="aparat" />
-                        <h1 class="video-title">عنوان ویدئو</h1>
-                    </a>
-
-
-                    <a class="sidebar-aparat-box text-center" href="#">
-                        <img src="/images/dota-2-wallpaper.jpg" width="100%" />
-                        <img src="/images/aparat-icon.png" class="aparat" />
-                        <h1 class="video-title">عنوان ویدئو</h1>
-                    </a>
+                    {{/aparatVideos}}
                     <h6 class="orange-title">بازی های مورد انتظار</h6>
-                    <div class="upcoming-game-box" style="background-image:url('/images/dota-2-wallpaper.jpg')">
+                    {{#upComingGames}}
+                    <div class="upcoming-game-box" style="background-image:url('{{thumbnail}}')">
                         <div class="overlay"></div>
                         <div class="content">
-                            <img src="/images/dota2-logo.png" class="icon"/>
-                            <h1 class="title text-white text-shadow">عنوان بازی</h1>
-                            <h2 class="subtitle text-white text-shadow">تابستان 1397</h2>
+                            <img src="{{icon}}" class="icon" />
+                            <h1 class="title text-white text-shadow">{{title}}</h1>
+                            <h2 class="subtitle text-white text-shadow">{{date}}</h2>
                         </div>
                     </div>
+                    {{/upComingGames}}
                 </div>
             </div>
         </div>

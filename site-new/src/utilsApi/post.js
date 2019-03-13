@@ -45,6 +45,8 @@ export class Post extends SocketCollection
         p.siteUrl = SITE_URL('/posts/' + p.slug);
         if (p.authorId == undefined)
             p.authorId = p.adminId;
+        if (p.extras == undefined)
+            p.extras = { bigBox: false };
         return p;
     }
     fixAll(cs)

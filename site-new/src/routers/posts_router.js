@@ -40,12 +40,13 @@ export default class SitePostsRouter extends SiteRouter
                             if (posts[i].authorId == users[j]._id)
                             {
                                 posts[i]._author = users[j];
+                                // posts[i].isSmall = posts[i].extras.bigBox ? '' : 'post-box-small';
                                 break;
                             }
                         }
                     }
                     //gridPosts:
-                    fs.open(path.resolve('../storage/caches/posts-grid.json'), (err, gridFile) =>
+                    fs.readFile(path.resolve('../storage/caches/posts-grid.json'), (err, gridFile) =>
                     {
                         if (err)
                         {
@@ -53,21 +54,38 @@ export default class SitePostsRouter extends SiteRouter
                             return;
                         }
                         var gridIds = JSON.parse(gridFile.toString());
+                        console.log("gridIds=>"+JSON.stringify(gridIds));
                         siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
                         {
-                            fs.open(path.resolve('../storage/caches'), (err, aparatFile) =>
+                            console.log(gridPosts);
+                            fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
                             {
                                 if (err)
                                 {
                                     this.show500(req, res, err.toString());
                                     return;
                                 }
-                                // aparatFile = 
-                            });
-                            this.renderTemplate(req, res, 'posts-archive.html', {
-                                title: 'اخبار و مطالب',
-                                posts: posts,
-                                gridPosts: gridPosts,
+                                var aparatVideos = JSON.parse(aparatFile.toString());
+                                fs.readFile(path.resolve('../storage/caches/upcoming-games.json'), (err, upComingGamesFile) =>
+                                {
+                                    if (err)
+                                    {
+                                        this.show500(req, res, err.toString());
+                                        return;
+                                    }
+                                    var upComingGames = JSON.parse(upComingGamesFile.toString());
+                                    this.renderTemplate(req, res, 'posts-archive.html', {
+                                        title: 'اخبار و مطالب',
+                                        posts: posts,
+                                        gridPosts0: gridPosts[0],
+                                        gridPosts1: gridPosts[0],
+                                        gridPosts2: gridPosts[0],
+                                        gridPosts3: gridPosts[0],
+                                        gridPosts4: gridPosts[0],
+                                        aparatVideos: aparatVideos,
+                                        upComingGames: upComingGames,
+                                    });
+                                });
                             });
                         });
                     });
