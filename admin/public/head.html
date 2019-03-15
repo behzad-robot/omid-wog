@@ -97,7 +97,23 @@
             scrollTop: parseInt($(el).offset().top)
         }, 2000);
     }
+    function copyToClipboard(str)
+    {
+        $("#clipboard-dummy").val(str);
+        /* Get the text field */
+        var copyText = document.getElementById("clipboard-dummy");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+
+        /* Alert the copied text */
+        alert("Copied the text: " + copyText.value);
+    }  
 </script>
+<input type="hidden" id="clipboard-dummy" />
 <style>
     .wog-lol-ap {
         color: greenyellow;

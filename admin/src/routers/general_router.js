@@ -17,6 +17,13 @@ export default class AdminGeneralRouter extends AdminRouter
         {
             res.send(this.renderTemplate('login.html'));
         });
+        this.router.get('/admin/logout', (req, res) =>
+        {
+            req.session.destroy((err) =>
+            {
+                res.redirect('/');
+            });
+        });
         this.router.post('/admin/check-login', (req, res) =>
         {
             var data = {
@@ -31,7 +38,7 @@ export default class AdminGeneralRouter extends AdminRouter
                 user = JSON.parse(user);
                 if (user.accessLevel == undefined || !user.accessLevel.isAdmin)
                 {
-                    res.send({error:"Access To Admin Panel Denied",code : 400 , user : user});
+                    res.send({ error: "Access To Admin Panel Denied", code: 400, user: user });
                     return;
                 }
                 if (user._id)

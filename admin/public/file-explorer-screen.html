@@ -1,7 +1,8 @@
 <!-- File Screen -->
 <div class="file-explorer-screen" style="display:none;">
     <div class="wog-overlay"></div>
-    <div class="btn btn-md btn-secondary" style="position:absolute;top:10px;left:10px" onclick="hide_file_screen()">
+    <div class="btn btn-md btn-secondary" style="position:absolute;top:10px;left:10px" onclick="hide_file_screen()"
+        id="file-screen-close-btn">
         Close
         Window</div>
     <div class="container">
@@ -13,7 +14,19 @@
                 <b>directory:</b><input name="my-dir" class="form-control m" type="text" value="?" />
             </div>
             <hr />
-            <div class="btn btn-md btn-info" style="width:150px;" onclick="load_files('')">Back To Root</div>
+            <div style="display:block;width: 100%;">
+                <div class="btn btn-md btn-danger" style="width:120px;display:inline-block" onclick="load_files('')">
+                    Back To Root</div>
+                <div class="btn btn-md btn-info" style="width:120px;display:inline-block" onclick="back_one_folder()">
+                    Back</div>
+                <div class="btn btn-md btn-primary" style="width:120px;display:inline-block" onclick="reload_dir()">
+                    Reload Folder</div>
+                <div class="btn btn-sm btn-light float-right" style="width:120px;display:inline-block"
+                    onclick="set_file_screen_mode('grid')">Grid View Mode</div>
+                <div class="btn btn-sm btn-light float-right" style="width:120px;display:inline-block"
+                    onclick="set_file_screen_mode('list')">List View Mode</div>
+            </div>
+
             <div style="background-color:#f0f1f2;border:1px solid #eee;padding:5px;">
                 <div class="row" id="list"></div>
             </div>
@@ -21,6 +34,7 @@
     </div>
 </div>
 <script>
+    let fileScreenMode = 'grid';
     var fileScreenCallBack = (file) =>
     {
         console.log('NO File Screen CALLBACK!');
@@ -49,6 +63,24 @@
     {
         $(".file-explorer-screen").fadeOut();
     }
+    function set_file_screen_mode(m)
+    {
+        fileScreenMode = m;
+        reload_dir();
+    }
+    function back_one_folder()
+    {
+        var dir = $("[name=my-dir]").val();
+        if (dir == '' || dir == '/')
+            return;
+        dir = dir.substring(0, dir.lastIndexOf('/'));
+        load_files(dir);
+    }
+    function reload_dir()
+    {
+        var dir = $("[name=my-dir]").val();
+        load_files(dir);
+    }
     function load_files(dir)
     {
         $("#list").html("Loading...");
@@ -75,14 +107,26 @@
                     if (items[i].indexOf('.') == -1)
                     {
                         var folder = items[i].replace('/storage/', '');
-                        $("#list").append(
-                            `<div class="col-md-4 text-center">`
-                            + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;cursor:hand;" onclick="load_files('${folder}')">`
-                            + `<img src="/images/folder-icon.png" style="max-width:100%;max-height:200px;"/><br>`
-                            + `<small>${folder}</small>`
-                            + `</div>`
-                            + `</div>`
-                        );
+                        if (fileScreenMode == 'grid')
+                        {
+                            $("#list").append(
+                                `<div class="col-md-4 text-center">`
+                                + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;cursor:hand;" onclick="load_files('${folder}')">`
+                                + `<img src="/images/folder-icon.png" style="max-width:100%;max-height:200px;"/><br>`
+                                + `<small>${folder}</small>`
+                                + `</div>`
+                                + `</div>`
+                            );
+                        }
+                        else
+                        {
+                            $("#list").append(`
+                                <div class="col-md-12" style="border-bottom:1px solid #ccc;cursor:hand;" onclick="load_files('${folder}')">
+                                    <img src="/images/folder-icon.png" style="width:64px;height:64px"/>
+                                    <small>${folder}</small>
+                                </div>
+                            `);
+                        }
                     }
                 }
                 //files:
@@ -96,16 +140,32 @@
                         var img = isImage ? file : '/images/file-icon.png';
                         if (isVideo)
                             img = '/images/video-icon.png';
-                        $("#list").append(
-                            `<div class="col-md-4 text-center">`
-                            + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;">`
-                            + `<img src="${img}" style="max-width:100%;max-height:200px;"/><br>`
-                            + `<small><a href="${file}">${file}</a></small>`
-                            + `<div><div class="btn btn-xs btn-danger" style="position:absolute;top:10px;left:20px" onclick="delete_file('${file}')">Remove file</div></div>`
-                            + `<div><div class="btn btn-xs btn-info" style="position:absolute;top:10px;right:20px" onclick="fileScreenCallBack('${file}')">Select file</div></div>`
-                            + `</div>`
-                            + `</div>`
-                        );
+                        if (fileScreenMode == 'grid')
+                        {
+                            $("#list").append(
+                                `<div class="col-md-4 text-center">`
+                                + `<div style="background-color:#fefefe;height:256px;margin-bottom:5px;padding:5px;border:1px solid #aaa;">`
+                                + `<img src="${img}" style="max-width:100%;max-height:200px;"/><br>`
+                                + `<small><a href="${file}" target="_blank">${file}</a></small>`
+                                + `<div><div class="btn btn-xs btn-danger" style="position:absolute;top:10px;left:20px" onclick="delete_file('${file}')">Remove file</div></div>`
+                                + `<div><div class="btn btn-xs btn-info" style="position:absolute;top:10px;right:20px" onclick="fileScreenCallBack('${file}')">Select file</div></div>`
+                                + `</div>`
+                                + `</div>`
+                            );
+                        }
+                        else
+                        {
+                            $("#list").append(`
+                                <div class="col-md-12" style="border-bottom:1px solid #ccc;cursor:hand;">
+                                    <img src="${img}" style="width:64px;height:64px;"/>
+                                    <small><a href="${file}" target="_blank">${file}</a></small>
+                                    <div><div class="btn btn-xs btn-danger" onclick="delete_file('${file}')">Remove file</div></div>
+                                    <div><div class="btn btn-xs btn-info float-right"  onclick="fileScreenCallBack('${file}')">Select file</div></div>
+                                    <div><div class="btn btn-xs btn-light float-right"  onclick="copyToClipboard('${file}')">Copy Path</div></div>
+                                    <div><div class="btn btn-xs btn-dark float-right"  onclick="copyToClipboard('http://worldofgamers.ir${file}')">Copy Url</div></div>
+                                </div>
+                            `);
+                        }
                     }
                 }
 

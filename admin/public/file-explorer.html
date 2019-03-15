@@ -9,6 +9,15 @@
     <div class="container">
         <h2>File Uploader</h2>
         <p>The Awesome File Explorer</p>
+        <script>
+            $(()=>{
+                $("#file-screen-close-btn").hide();
+                show_file_screen(()=>{
+                    console.log('this is fine');
+                });
+            });
+        </script>
+        {{{file_screen}}}
         <!-- <form id="file-form" action="{{fileUploadURL}}" method="post" enctype="multipart/form-data">
             <div class="form-row">
                 <b>file:</b><input name="my-file" class="form-control m" type="file" data-url="{{{fileUploadURL}}}"
@@ -20,7 +29,7 @@
             <input type="hidden" name="api-token" value="ftsb" />
             <input type="hidden" name="admin-token" value="hamunhamishegi" />
         </form> -->
-        <div id="file-container"></div>
+        <!-- <div id="file-container"></div>
         <div class="form-row">
             <b>directory:</b><input name="my-dir" class="form-control m" type="text" value="?" />
         </div>
@@ -120,7 +129,7 @@
             }
         </script>
 
-    </div>
+    </div> -->
     {{{footer}}}
 </body>
 

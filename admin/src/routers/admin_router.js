@@ -33,7 +33,7 @@ export class AdminRouter extends Router
         {
             let view_str = fileSystem.readFileSync(path.resolve(fileName)).toString();
             data.head = fileSystem.readFileSync(path.resolve('public/head.html'));
-            data.actionbar = fileSystem.readFileSync(path.resolve('public/nav-bar.html'));
+            data.actionbar = mustache.render(fileSystem.readFileSync(path.resolve('public/nav-bar.html')).toString(),data);
             data.footer = fileSystem.readFileSync(path.resolve('public/footer.html'));
             data.file_screen = mustache.render(fileSystem.readFileSync(path.resolve('public/file-explorer-screen.html')).toString(),data);
             return mustache.render(view_str, data);
