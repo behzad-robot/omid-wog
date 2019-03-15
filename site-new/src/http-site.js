@@ -1,7 +1,7 @@
 import MyExpressApp from "./libs/express";
 import { log } from "./libs/log";
 import { APICollection, APIProxy } from "./utils/api-helper";
-import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL, SERVER_FILES_URL } from "./constants";
+import { API_TOKEN, ADMIN_TOKEN, GetMongoDBURL, SERVER_FILES_URL, IS_LOCALHOST } from "./constants";
 import SiteGeneralRouter from "./routers/general_router";
 import { CacheReader } from "./utils/cache";
 import SiteAuthRouter from "./routers/auth_router";
@@ -254,7 +254,7 @@ apiSocket.connect(() =>
 {
     log.success("api socket connected.");
     //listen:
-    const PORT = 80;
+    const PORT = IS_LOCALHOST() ? 80 : 8080;
     express.http.listen(PORT, function ()
     {
         log.success('http server listening on port ' + PORT);
