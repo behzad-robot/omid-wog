@@ -1,4 +1,4 @@
-import { GetMongoDBURL } from '../constants';
+import { GetMongoDBURL, IS_LOCALHOST } from '../constants';
 
 const express = require('express');
 const session = require('express-session');
@@ -43,12 +43,15 @@ export default class MyExpressApp
                 this.expressApp.use(express.static(settings.serveFiles));
             else
             {
-                for(var i = 0 ; i < settings.serveFiles.length;i++)
+                if(IS_LOCALHOST())
                 {
-                    if(typeof settings.serveFiles[i] == 'string')
-                        this.expressApp.use(express.static(settings.serveFiles[i]));
-                    else
-                        this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
+                    for(var i = 0 ; i < settings.serveFiles.length;i++)
+                    {
+                        if(typeof settings.serveFiles[i] == 'string')
+                            this.expressApp.use(express.static(settings.serveFiles[i]));
+                        else
+                            this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
+                    }
                 }
             }
         }
