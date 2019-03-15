@@ -10,6 +10,7 @@
 <script src="/my-js/input-utils.js"></script>
 <script src="/my-js/api.js"></script>
 <script src="/my-js/enums.js"></script>
+<script src="/js/clipboard-polyfill.js"></script>
 
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
 <link rel="Stylesheet" href="/admin/froala/froala_editor.min.css" />
@@ -99,18 +100,7 @@
     }
     function copyToClipboard(str)
     {
-        $("#clipboard-dummy").val(str);
-        /* Get the text field */
-        var copyText = document.getElementById("clipboard-dummy");
-
-        /* Select the text field */
-        copyText.select();
-
-        /* Copy the text inside the text field */
-        document.execCommand("copy");
-
-        /* Alert the copied text */
-        alert("Copied the text: " + copyText.value);
+        clipboard.writeText(str);
     }  
 </script>
 <input type="hidden" id="clipboard-dummy" />
