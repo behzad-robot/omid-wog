@@ -43,16 +43,14 @@ export default class MyExpressApp
                 this.expressApp.use(express.static(settings.serveFiles));
             else
             {
-                if(IS_LOCALHOST())
-                {
+                
                     for(var i = 0 ; i < settings.serveFiles.length;i++)
                     {
                         if(typeof settings.serveFiles[i] == 'string')
                             this.expressApp.use(express.static(settings.serveFiles[i]));
-                        else
+                        else if(IS_LOCALHOST())
                             this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
                     }
-                }
             }
         }
         //helper for file uploads:
