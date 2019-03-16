@@ -83,15 +83,15 @@ export class PublicMongooseAPIRouter extends APIRouter
                         return;
                     }
                     // console.log("checking draft =>"+this.model.Helpers.hasDraft() +"=>"+allDraft);
-                    if (this.model.Helpers.hasDraft() && !allDraft)
-                    {
-                        // console.log("checking draft!");
-                        for (var i = 0; i < results.length; i++)
-                        {
-                            if (results[i]._draft)
-                                results.splice(i, 1);
-                        }
-                    }
+                    // if (this.model.Helpers.hasDraft() && !allDraft)
+                    // {
+                    //     // console.log("checking draft!");
+                    //     for (var i = 0; i < results.length; i++)
+                    //     {
+                    //         if (results[i]._draft)
+                    //             results.splice(i, 1);
+                    //     }
+                    // }
                     if (req.header('admin-token') != ADMIN_TOKEN)
                     {
                         for (var i = 0; i < results.length; i++)
@@ -118,16 +118,16 @@ export class PublicMongooseAPIRouter extends APIRouter
                     return;
                 }
                 // console.log(req.originalUrl+"checking draft =>"+this.model.Helpers.hasDraft() +"=>"+allDraft);
-                if (this.model.Helpers.hasDraft() && !allDraft)
-                {
-                    // console.log("checking draft!");
-                    for (var i = 0; i < results.length; i++)
-                    {
-                        // console.log(results[i]._draft);
-                        if (results[i]._draft)
-                            results.splice(i, 1);
-                    }
-                }
+                // if (this.model.Helpers.hasDraft() && !allDraft)
+                // {
+                //     // console.log("checking draft!");
+                //     for (var i = 0; i < results.length; i++)
+                //     {
+                //         // console.log(results[i]._draft);
+                //         if (results[i]._draft)
+                //             results.splice(i, 1);
+                //     }
+                // }
                 if (req.header('admin-token') != ADMIN_TOKEN)
                 {
                     for (var i = 0; i < results.length; i++)

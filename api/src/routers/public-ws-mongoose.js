@@ -46,9 +46,11 @@ export class PublicMongooseWSRouter extends SocketRouter
     find(socket, request)
     {
         let params = request.params;
+        console.log(params);
         var allDraft = params._draft == 'all';
         delete (params._draft);
         var limit = params.limit ? params.limit : 50;
+        console.log('ask for =>'+request.model+'=>'+params.limit);
         var offset = params.offset ? params.offset : 0;
         var sort = params.sort ? params.sort : '';
         var publicCast = params._publicCast ? params._publicCast : false;
@@ -76,15 +78,15 @@ export class PublicMongooseWSRouter extends SocketRouter
                         this.handleError(socket, request, err);
                         return;
                     }
-                    if (this.model.Helpers.hasDraft() && !allDraft)
-                    {
-                        // console.log("checking draft!");
-                        for (var i = 0; i < results.length; i++)
-                        {
-                            if (results[i]._draft)
-                                results.splice(i, 1);
-                        }
-                    }
+                    // if (this.model.Helpers.hasDraft() && !allDraft)
+                    // {
+                    //     // console.log("checking draft!");
+                    //     for (var i = 0; i < results.length; i++)
+                    //     {
+                    //         if (results[i]._draft)
+                    //             results.splice(i, 1);
+                    //     }
+                    // }
                     if (!socket.isAdmin || publicCast)
                     {
                         for (var i = 0; i < results.length; i++)
@@ -108,14 +110,14 @@ export class PublicMongooseWSRouter extends SocketRouter
                     this.handleError(socket, request, err);
                     return;
                 }
-                if (this.model.Helpers.hasDraft() && !allDraft)
-                {
-                    for (var i = 0; i < results.length; i++)
-                    {
-                        if (results[i]._draft)
-                            results.splice(i, 1);
-                    }
-                }
+                // if (this.model.Helpers.hasDraft() && !allDraft)
+                // {
+                //     for (var i = 0; i < results.length; i++)
+                //     {posts-grid
+                //         if (results[i]._draft)
+                //             results.splice(i, 1);
+                //     }
+                // }
                 if (!socket.isAdmin || publicCast)
                 {
                     for (var i = 0; i < results.length; i++)

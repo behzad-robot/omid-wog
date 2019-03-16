@@ -35,6 +35,13 @@ section{display:block;width:100%;}
     font-size:2.5rem;
     font-weight:bold;
 }
+.orange-title {
+    background-color: #F7931E;
+    display: inline-block;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
 
 .wog-card{
     background-color: white;
@@ -61,6 +68,7 @@ navbar {
     top: 0;
     left: 0;
     z-index: 10000;
+    transition: all 0.3s;
 }
 navfiller{
     display:block;

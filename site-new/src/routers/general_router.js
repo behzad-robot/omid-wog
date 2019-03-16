@@ -2,12 +2,19 @@ import SiteRouter from "./site_router";
 
 export default class SiteGeneralRouter extends SiteRouter
 {
-    constructor(modules)
+    constructor(siteModules)
     {
-        super(modules);
+        super(siteModules);
         this.router.get('/home', (req, res) =>
         {
-            this.renderTemplate(req,res,'wog-home.html',{});
+            siteModules.Post.find({ limit: 5 }).then((latestPosts) =>
+            {
+                console.log('latestPosts');
+                console.log(latestPosts.length);
+                this.renderTemplate(req, res, 'wog-home.html', {
+                    latestPosts: latestPosts
+                });
+            });
         });
         this.router.get('/html/:fileName', (req, res) =>
         {

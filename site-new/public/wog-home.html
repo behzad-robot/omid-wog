@@ -3,6 +3,144 @@
 <head>
     {{{head}}}
     <style>
+        .home-slider-slide {
+            width: 100%;
+            height: 420px;
+            display: block;
+            background-size: cover;
+            background-position: center;
+            background-color: #e0e0e0;
+            position: relative;
+        }
+
+        .home-slider-slide .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.15);
+        }
+
+        .home-slider-slide .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        #carouselHomeHeader {
+            height: 420px;
+        }
+
+        .khori-card {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .khori-card .khori-content {
+            padding: 10px 20px;
+        }
+
+        .khori-card h2 {
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+
+        .khori-card img {
+            width: 100%;
+        }
+
+        .khori-card p {
+            margin-bottom: 0;
+        }
+
+        /*
+            posts grid
+        */
+        .grid-post-box {
+            position: relative;
+            height: 225px;
+        }
+
+        .grid-post-box.big {
+            height: 450px;
+        }
+
+        @media (max-width: 576px) {
+            .grid-post-box.big {
+                height: 225px;
+            }
+        }
+
+        .grid-post-box .post-thumbail {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .grid-post-box .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+            transition: 0.3s all;
+        }
+
+        .grid-post-box .overlay:hover {
+            background: rgba(255, 255, 255, 0);
+
+        }
+
+        .grid-post-box .details {
+            position: absolute;
+            width: 100%;
+            right: 0;
+            bottom: 0;
+            color: #fff;
+            padding: 15px 10px;
+            text-shadow: 1px 1px 3px #000;
+            z-index: 3;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 29%, rgba(0, 0, 0, 1) 100%);
+
+        }
+
+        .grid-post-box .details h1 {
+            font-size: 1.2rem;
+        }
+
+        .grid-post-box .details small {
+            font-size: 0.6rem;
+        }
+
+        .date {
+            font-size: 10px;
+        }
+
+        /* latest news post-box*/
+        .latest-news-post-box {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .latest-news-post-box img {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .latest-news-post-box h1 {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -12,10 +150,197 @@
         $(() =>
         {
             $("navbar").addClass('transparent-navbar');
+            $(window).scroll(function ()
+            {
+                // do whatever you need here.
+                console.log('scrolliiin!');
+                if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80)
+                    $("navbar").removeClass('transparent-navbar');
+                else
+                    $("navbar").addClass('transparent-navbar');
+            });
         });
     </script>
-    <section style="">
-
+    <section>
+        <div id="carouselHomeHeader" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="home-slider-slide" style="background-image:url('/images/frejlord.jpg')">
+                        <div class="container text-center text-white" style="padding-top:85px;">
+                            <h1 style="font-size:3rem;" class="text-shadow">ویکی واج</h1>
+                            <p class="text-shadow">داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها<span
+                                    style="color:orange">(به زودی)</span></p>
+                            <a href="/wiki" class="btn btn-md btn-warning"
+                                style="font-size:0.7rem;font-weight: bold;">کسب اطلاعات بیشتر</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="home-slider-slide"
+                        style="background-position:50% 40%;;background-image:url('/images/apex_legends_bloodhound_wallpaper.jpg')">
+                        <div class="overlay"></div>
+                        <div class="content">
+                            <div class="container text-center text-white" style="padding-top:85px;">
+                                <h1 style="font-size:3rem;" class="text-shadow">اخبار و مقالات</h1>
+                                <p class="text-shadow">تازه های اخبار بازی ها</p>
+                                <a href="/posts/categories/news" class="btn btn-md btn-warning"
+                                    style="font-size:0.7rem;font-weight: bold;min-width:100px">اخبار</a>
+                                <a href="/posts/categories/articles" class="btn btn-md btn-warning"
+                                    style="font-size:0.7rem;font-weight: bold;min-width:100px">مقالات</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselHomeHeader" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselHomeHeader" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </section>
+    <section style="padding:10px 0;">
+        <div class="container">
+            <h1 class="super-title text-center" style="margin-bottom:20px;">در واج چه خبره؟</h1>
+            <div class="row">
+                <div class="col-md-3 col-6 text-center">
+                    <div class="wog-card khori-card">
+                        <img src="images/ryze.png" />
+                        <div class="khori-content">
+                            <h2>آموزش بازی</h2>
+                            <p>داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="wog-card khori-card">
+                        <img src="images/ryze.png" />
+                        <div class="khori-content">
+                            <h2>آموزش بازی</h2>
+                            <p>داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="wog-card khori-card">
+                        <img src="images/ryze.png" />
+                        <div class="khori-content">
+                            <h2>آموزش بازی</h2>
+                            <p>داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-6 text-center">
+                    <div class="wog-card khori-card">
+                        <img src="images/ryze.png" />
+                        <div class="khori-content">
+                            <h2>آموزش بازی</h2>
+                            <p>داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- posts grid -->
+        <section style="margin:20px 0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-12" style="padding:0">
+                        <a href="{{{gridPosts1.siteUrl}}}">
+                            <div class="grid-post-box">
+                                <div class="post-thumbail"
+                                    style="background-image:url('{{{gridPosts1.thumbnail_640x480}}}')">
+                                </div>
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{{gridPosts1.title}}}</h1>
+                                    <small><span
+                                            class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{{gridPosts2.siteUrl}}}">
+                            <div class="grid-post-box">
+                                <div class="post-thumbail"
+                                    style="background-image:url('{{{gridPosts2.thumbnail_640x480}}}')">
+                                </div>
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{{gridPosts2.title}}}</h1>
+                                    <small><span
+                                            class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div> <!-- col-md-3-->
+                    <div class="col-md-6 col-12" style="padding:0">
+                        <a href="{{{gridPosts0.siteUrl}}}">
+                            <div class="grid-post-box big">
+                                <div class="post-thumbail"
+                                    style="background-image:url('{{{gridPosts1.thumbnail_800x600}}}')">
+                                </div>
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{{gridPosts0.title}}}</h1>
+                                    <small><span
+                                            class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-12" style="padding:0">
+                        <a href="{{{gridPosts3.siteUrl}}}">
+                            <div class="grid-post-box">
+                                <div class="post-thumbail"
+                                    style="background-image:url('{{{gridPosts3.thumbnail_640x480}}}')">
+                                </div>
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{{gridPosts3.title}}}</h1>
+                                    <small><span
+                                            class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="{{{gridPosts4.siteUrl}}}">
+                            <div class="grid-post-box">
+                                <div class="post-thumbail"
+                                    style="background-image:url('{{{gridPosts4.thumbnail_640x480}}}')">
+                                </div>
+                                <div class="overlay"></div>
+                                <div class="details">
+                                    <h1>{{{gridPosts4.title}}}</h1>
+                                    <small><span
+                                            class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
+                                </div>
+                            </div>
+                        </a>
+                    </div> <!-- col-md-3-->
+                </div> <!-- row -->
+            </div> <!-- container -->
+        </section>
+        <!-- END posts grid-->
+    </section>
+    <section style="padding:10px 0">
+        <div class="container">
+            <div style="overflow: hidden;">
+                <h2 class="orange-title" style="font-size:1.2rem;">تازه های سایت:</h2>
+                <a href="/posts/" class="btn float-left">بیشتر</a>
+            </div>
+            <div class="row">
+                {{#latestPosts}}
+                <div class="col-md col-6">
+                    <div class="latest-news-post-box">
+                        <img src="{{thumbnail_640x480}}" />
+                        <h1>{{title}}</h1>
+                    </div>
+                </div>
+                {{/latestPosts}}
+            </div>
+        </div>
     </section>
 </body>
 {{{footer}}}
