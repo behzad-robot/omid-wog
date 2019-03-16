@@ -2,27 +2,364 @@
 
 <head>
     {{{head}}}
-    <title></title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        .signup-section {
+            width: 100%;
+            height: 100vh;
+            padding-top: 80px;
+            background-image: url('/images/image_2019-03-12_15-10-42.png');
+            background-position: center;
+            position: relative;
+        }
+
+        .input-field {
+            background-color: #23313c;
+        }
+
+        .signup {
+            background-color: #171c1f;
+            margin-top: 40px;
+            border-radius: 20px;
+            padding: 20px;
+        }
+
+        .form-control.login-input {
+            background-color: #21323a;
+            color: white;
+            box-shadow: none;
+            width: 100%;
+            height: 37px;
+            margin-top: 10px;
+            border-color: #171c1f;
+            margin-top: 15px;
+            border-radius: 20px;
+        }
+
+        .form-control.login-input:focus {
+            border-color: orange;
+            box-shadow: none;
+            background-color: #2c414b;
+
+        }
+
+        .wogLogo {
+            width: 30%;
+        }
+
+        .forget-link {
+            text-decoration: none;
+            color: grey;
+        }
+
+        .forget-link:hover {
+            text-decoration: none;
+            color: darkgrey
+        }
+
+        .signup-link {
+            text-decoration: none;
+            color: rgb(190, 124, 1);
+        }
+
+        .signup-link:hover {
+            text-decoration: none;
+            color: rgb(255, 177, 32);
+        }
+
+        .tittle {
+            text-align: center;
+            color: orange;
+            font-size: 22px;
+        }
+
+        .default-image {
+            width: 30%;
+            border-radius: 50px;
+        }
+    </style>
 </head>
-{{{navbar}}}
-<section>
-    <div class="container" style="margin-top:120px;">
-        <h1>Signup</h1>
-        <form action="/signup" method="POST">
-            <b>phoneNumber:</b><input type="text" name="phoneNumber" class="form-control m" />
-            <b>email:</b><input type="text" name="email" class="form-control m" />
-            <b>username:</b><input type="text" name="username" class="form-control m" />
-            <b>password:</b><input type="password" name="password" class="form-control m" />
-            <b>confirmPassword:</b><input type="password" name="confirmPassword" class="form-control m" />
-            <b>firstName:</b><input type="text" name="firstName" class="form-control m" />
-            <b>lastName:</b><input type="text" name="lastName" class="form-control m" />
-            <b>city:</b><input type="text" name="city" class="form-control m" />
-            <b>age:</b><input type="text" name="age" class="form-control m" />
-            <b>sex:</b><input type="text" name="sex" class="form-control m" />
-            <input type="submit" class="btn btn-md btn-success" value="Signup"/>
+
+<body>
+    {{{navbar}}}
+    <section class="signup-section">
+        <form id="signupForm" action="/signup" method="POST">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 col-12 ">
+                        <!-- fisrt step -->
+                        <div class="signup" id="step1">
+                            <div class="text-center"><img class="wogLogo" src="/images/wog-logo.png" alt=""></div>
+                            <h1 class="tittle"> ثبت نام در واج</h1>
+                            <input type="text" name="phoneNumber" class="form-control login-input"
+                                placeholder="لطفا شماره همراه خود را وارد کنید">
+                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
+                                type="submit" class="btn btn-warning" id="phoneNumber-submit-btn" onclick="phoneNumberSubmit()">بعدی</div>
+                            <p id="error-phoneNumber" style=" color:red"></p>
+                            <a href="#" class="forget-link" id="forgetpass"">
+                                    <p>رمز عبور خود را فراموش کرده اید؟</p>
+                                </a>
+                                <a href=" #" class="signup-link">
+                                <p>حساب کاربری دارید؟وارد شوید!</p>
+                            </a>
+                        </div>
+                        <!-- end of first step -->
+                        <!-- second step -->
+                        <div class="signup" id="step2" style="display: none">
+                            <div class="text-center"><img class="wogLogo" src="/images/wog-logo.png" alt=""></div>
+                            <h1 class="tittle"> ثبت نام در واج</h1>
+                            <input type="text" name="confirmCode" class="form-control login-input"
+                                placeholder="کد تایید">
+                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
+                                type="submit" class="btn btn-warning" onclick="confirmCodeSubmit()">بعدی</div>
+                            <p id="error-confirmCode" style=" color:red"></p>
+                            <a href="#" class="forget-link" id="forgetpass"">
+                                    <p>رمز عبور خود را فراموش کرده اید؟</p>
+                                </a>
+                                <a href=" #" class="signup-link">
+                                <p>حساب کاربری دارید؟وارد شوید!</p>
+                            </a>
+                        </div>
+                        <!-- end of second step -->
+                        <!-- third step -->
+                        <div class="signup" id="step3" style="display: none">
+                            <div class="text-center"><img class="wogLogo" src="/images/wog-logo.png" alt=""></div>
+                            <h1 class="tittle"> مشخات حساب</h1>
+                            <input type="text" name="username" class="form-control login-input"
+                                placeholder="لطفا نام کاربری خود را وارد کنید">
+                            <input type="email" name="email" class="form-control login-input"
+                                placeholder="لطفا ایمیل خود را وارد کنید">
+                            <input type="password" name="password" class="form-control login-input"
+                                placeholder="لطفا رمز عبور خود را وارد کنید">
+                            <input type="password" name="confirmPassword" class="form-control login-input"
+                                placeholder="لطفا بخش تایید رمز عبور را پر کنید کنید">
+                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
+                                type="submit" class="btn btn-warning" onclick="accountDetailsSubmit()">بعدی</div>
+                            <p id="error-accountDetails" style=" color:red"></p>
+                            <a href="#" class="forget-link" id="forgetpass"">
+                                        <p>رمز عبور خود را فراموش کرده اید؟</p>
+                                    </a>
+                                    <a href=" #" class="signup-link">
+                                <p>حساب کاربری ندارید؟ثبت نام کنید!</p>
+                            </a>
+                        </div>
+                        <!-- end of third step -->
+                        <!-- fourth step -->
+                        <div class="signup" id="step4" style="display: none">
+                            <div class="text-center"><img class="default-image" src="/images/s4.png"
+                                    alt="default-picture"></div>
+                            <h1 class="tittle">مشخات شخصی</h1>
+                            <input type="text" name="firstName" class="form-control login-input"
+                                placeholder="لطفا نام خود را وارد کنید">
+                            <input type="text" name="lastName" class="form-control login-input"
+                                placeholder="لطفا نام خانوادگی خود را وارد کنید">
+                            <select name="gender" class="form-control login-input">
+                                <option value="مرد">مرد</option>
+                                <option value="زن">زن</option>
+                            </select>
+                            <input type="text" name="meliCode" class="form-control login-input"
+                                placeholder="کد ملی پدر">
+                            <input type="text" name="size" class="form-control login-input"
+                                placeholder=" :)) سه سایز به ترتیب">
+                            <div id="checkbox" style="display:inline-block">
+                                <p style="color: orange;display:inline-block"> قوانین را خوانده و قبول دارم 3بار!!!</p>
+                                <input style="display:inline-block" type="checkbox" id="myCheck" onclick="myFunction()"
+                                    name="terms">
+                            </div>
+                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;width: 30%;display:none"
+                                id="signupButton" type="submit" class="btn btn-warning"
+                                onclick="personalDetailsSubmit()">ثبت نام</div>
+                            <p id="error-personalDetails" style=" color:red"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4"></div>
+                </div>
+            </div>
         </form>
-    </div>
-</section>
-{{{footer}}}
+
+    </section>
+    <script>
+        // first part validation
+        function phoneNumberSubmit()
+        {
+            var phoneNumber = $("#signupForm [name=phoneNumber]").val();
+            if (phoneNumber == undefined || phoneNumber.replace(' ', '') == '')
+            {
+                $("#error-phoneNumber").html("لطفا شماره همراه خود را وارد کنید.");
+                return false;
+            }
+            if (phoneNumber.length != 11)
+            {
+                $("#error-phoneNumber").html("شماره وارد شده اشتباه است.");
+                return false;
+            }
+            $("#phoneNumber-submit-btn").css('opacity',0);
+            fetch('/signup-check-unique/?phoneNumber=' + phoneNumber, {
+                method: 'GET',
+            }).then(response => response.json()).then((result) =>
+            {
+                $("#phoneNumber-submit-btn").css('opacity',1);
+                if (result.available)
+                {
+                    $("#error-phoneNumber").html('');
+                    //hide this step and show next step:
+                    $("#step1").hide(300);
+                    $("#step2").show(300);
+                    return true;
+                }
+                else
+                {
+
+                    $("#error-phoneNumber").html('کاربری قبلا با این شماره موبایل ثبت نام کرده است.');
+                    return false;
+                }
+            }).catch((err) =>
+            {
+                $("#phoneNumber-submit-btn").css('opacity',1);
+                $("#error-phoneNumber").html(err.toString());
+            });
+
+
+        }
+        // second step validation
+        function confirmCodeSubmit()
+        {
+            var confirmCode = $("#signupForm [name=confirmCode]").val();
+            if (confirmCode == undefined || confirmCode.replace(' ', '') == '')
+            {
+                $("#error-confirmCode").html("لطفا کد تایید را وارد کنید.");
+                return false;
+            }
+            if (confirmCode != 1234)
+            {
+                $("#error-confirmCode").html(" کد تایید وارد شده اشتباه است!");
+                return false;
+            }
+            $("#error-confirmCode").html('');
+            //hide this step and show next step:
+            console.log($("#step1"));
+            $("#step2").hide(300);
+            $("#step3").show(300);
+
+        }
+        // third step validation
+        function accountDetailsSubmit()
+        {
+            var username = $("#signupForm [name=username]").val();
+            var email = $("#signupForm [name=email]").val();
+            var password = $("#signupForm [name=password]").val();
+            var confirmPassword = $("#signupForm [name=confirmPassword]").val();
+            if (username == undefined || username.replace(' ', '') == '')
+            {
+                $("#error-accountDetails").html("لطفا نام کاربری را وارد کنید.");
+                return false;
+            }
+            if (username.length < 3)
+            {
+                $("#error-accountDetails").html("لطفا حداقل 3 کاراکتر برای نام کاربری خود وارد کنید.");
+                return false;
+            }
+            if (password == undefined || password.replace(' ', '') == '')
+            {
+                $("#error-accountDetails").html("لطفا رمز عبور خود را وارد کنید.");
+                return false;
+            }
+            if (password.length < 6)
+            {
+                $("#error-accountDetails").html("لطفا حداقل 6 کاراکتر برای رمز عبور خود وارد کنید.");
+                return false;
+            }
+            if (confirmPassword == undefined || confirmPassword.replace(' ', '') == '')
+            {
+                $("#error-accountDetails").html("لطفا بخش تایید رمز عبور را پر کنید کنید.");
+                return false;
+            }
+            if (confirmPassword != password)
+            {
+                $("#error-accountDetails").html("مقدار بخش رمز عبور و تایید رمز عبور یکسان نیست.");
+                return false;
+            }
+            $("#error-accountDetails").html('');
+            //hide this step and show next step:
+            $("#step3").hide(300);
+            $("#step4").show(300);
+        }
+        // fourth step validation
+        function myFunction()
+        {
+            var checkBox = document.getElementById("myCheck");
+            var text = document.getElementById("text");
+            if (checkBox.checked == true)
+            {
+                signupButton.style.display = "block";
+                $("#checkbox").hide(300);
+            } else
+            {
+                signupButton.style.display = "none";
+            }
+        }
+        function personalDetailsSubmit()
+        {
+            var firstName = $("#signupForm [name=firstName]").val();
+            var lastName = $("#signupForm [name=lastName]").val();
+            var meliCode = $("#signupForm [name=meliCode]").val();
+            var size = $("#signupForm [name=size]").val();
+            if (firstName == undefined || firstName.replace(' ', '') == '')
+            {
+                $("#error-personalDetails").html("لطفا نام را وارد کنید.");
+                return false;
+            }
+            if (firstName.length < 3)
+            {
+                $("#error-personalDetails").html("لطفا نام را درست وارد کنید.");
+                return false;
+            }
+            if (lastName == undefined || lastName.replace(' ', '') == '')
+            {
+                $("#error-personalDetails").html("لطفا نام خانوادگی را وارد کنید.");
+                return false;
+            }
+            if (lastName.length < 3)
+            {
+                $("#error-personalDetails").html("لطفا نام خانوادگی را درست وارد کنید.");
+                return false;
+            }
+            if (meliCode.length != 10)
+            {
+                $("#error-personalDetails").html("کد ملی را درست وارد کنید.");
+                return false;
+            }
+            if (size == undefined || size.replace(' ', '') == '')
+            {
+                $("#error-personalDetails").html("لطفا سایز را وارد کنید.");
+                return false;
+            }
+            if (size < 70)
+            {
+                $("#error-personalDetails").html("شما صلاحیت ورود ندارید :((((((");
+                return false;
+            }
+            $("#error-personalDetails").html('');
+        }
+    </script>
+    <script>
+        document.getElementById("forgetpass").onclick = function () { forgetpass() };
+
+        function forgetpass()
+        {
+            window.alert("به جهنمم!!!");
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
 
 </html>

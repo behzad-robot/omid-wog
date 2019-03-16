@@ -1,0 +1,149 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .contact-us {
+            background-color: white;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            padding: 10px 20px;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .map-image {
+            width: 100%;
+
+        }
+
+        @media (max-width: 576px) {
+            .map-image {
+                width: 100%;
+
+            }
+        }
+
+        .headers {
+            font-size: 20px;
+            color: orange;
+            margin-top: 10px;
+        }
+
+        .paragraphs {
+            color: #5a5a5a;
+            margin-top: 10px;
+        }
+
+        .form-control.contact-input {
+            background-color: white;
+            color: #1e1e1e;
+            box-shadow: none;
+            width: 100%;
+            height: 37px;
+            margin-top: 10px;
+            border-color: lightgrey;
+            margin-top: 15px;
+            border-radius: 20px;
+        }
+
+        .form-control.contact-input:focus {
+            border-color: orange;
+            box-shadow: none;
+            background-color: rgb(240, 240, 240);
+
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+
+</head>
+
+<body>
+    {{{navbar}}}
+    <section style="padding-top:40px;margin-top: 70px">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5 col-12 contact-us">
+                    <h1 class="headers">آدرس دفتر</h1>
+                    <p class="paragraphs"> خیابان سهروردی شمالی،خیابان زینالی غربی ،پلاک 108،واحد110</p>
+                    <div><a href="/images/location.png" target="_blank"><img class="map-image"
+                                src="/images/location.png" alt="our location"></a>
+                    </div>
+                    <h1 class="headers">آدرس ایمیل</h1>
+                    <p class="paragraphs">wogcompany@gmailcom</p>
+                    <h1 class="headers">تلفن تماس</h1>
+                    <p class="paragraphs">021-88747888</p>
+                </div>
+                <div class="col-md-5 col-12 contact-us">
+                    <h1 class="headers">تماس با ما</h1>
+                    <form id="contactUsForm" action="/contact-us-submit" method="POST">
+                        <input type="text" name="fullName" class="form-control contact-input"
+                            placeholder="نام و نام‌‌ خانوادگی">
+                        <input type="email" name="email" class="form-control contact-input" placeholder="آدرس ایمیل">
+                        <input type="text" name="subject" class="form-control contact-input" placeholder="موضوع">
+                        <textarea name="body" class="form-control contact-input" style="height:150px;" placeholder="متن پیام"></textarea>
+                        <input type="submit" class="btn btn-md btn-warning" value="ارسال"
+                            style="display:block;margin:10px auto;min-width:100px;" />
+                        <p class="error" id="error-contactUs"></p>
+                    </form>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function ()
+        {
+            $("form").ajaxForm({
+                beforeSubmit: (formData, jqForm, options) =>
+                {
+                    var fullName = $("#contactUsForm [name=fullName]").val();
+                    var email = $("#contactUsForm [name=email]").val();
+                    var subject = $("#contactUsForm [name=subject]").val();
+                    var body = $("#contactUsForm [name=body]").val();
+                    if (fullName == undefined || fullName.replace(' ', '') == '')
+                    {
+                        $("#error-contactUs").html("نام و نام خانوادگی نمی تواند خالی باشد.");
+                        return false;
+                    }
+                    if (email == undefined || email.replace(' ', '') == '')
+                    {
+                        $("#error-contactUs").html("ایمیل نمی تواند خالی باشد.");
+                        return false;
+                    }
+                    if (subject == undefined || subject.replace(' ', '') == '')
+                    {
+                        $("#error-contactUs").html("موضوع پیام نمی تواند خالی باشد.");
+                        return false;
+                    }
+                    if(isEmptyString(body))
+                    {
+                        $("#error-contactUs").html("متن پیام نمی تواند خالی باشد.");
+                        return false;
+                    }
+                    return true;
+                },
+                success: (text, code, xhr, form) =>
+                {
+                    alert(`با تشکر به زودی تیم واج پیغام شما را بررسی می کند.`);
+                    $("form").clearForm();
+                },
+                error: (xhr, text, err) =>
+                {
+                    alert('خطا از سمت سرور');
+                },
+            });
+        });
+        $("form").submit(() =>
+        {
+
+
+        });
+    </script>
+</body>
+
+</html>

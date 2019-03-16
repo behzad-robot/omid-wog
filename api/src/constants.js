@@ -28,7 +28,7 @@ export function IS_LOCALHOST()
 export function GetMongoDBURL()
 {
     // return IS_LOCALHOST() ? 'mongodb://localhost:27017/wog' : 'mongodb://31.184.135.51:27017/wog';
-    return 'mongodb://admin:admin123@31.184.135.51:27017/wog?authSource=admin';
+    return IS_LOCALHOST () ? 'mongodb://admin:admin123@31.184.135.51:27017/wog?authSource=admin' : 'mongodb://admin:admin123@localhost:27017/wog?authSource=admin';
     // return 'mongodb://localhost:27017/battleship';
     //'mongodb://admin:polo1374@localhost:27017/corridor';
 }

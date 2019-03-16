@@ -238,9 +238,10 @@ express.expressApp.use(morgan('tiny'))
 express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 
-// express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
+
 // express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 // express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 // express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
