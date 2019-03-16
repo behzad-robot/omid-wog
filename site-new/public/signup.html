@@ -95,7 +95,8 @@
                             <input type="text" name="phoneNumber" class="form-control login-input"
                                 placeholder="لطفا شماره همراه خود را وارد کنید">
                             <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
-                                type="submit" class="btn btn-warning" id="phoneNumber-submit-btn" onclick="phoneNumberSubmit()">بعدی</div>
+                                type="submit" class="btn btn-warning" id="phoneNumber-submit-btn"
+                                onclick="phoneNumberSubmit()">بعدی</div>
                             <p id="error-phoneNumber" style=" color:red"></p>
                             <a href="#" class="forget-link" id="forgetpass"">
                                     <p>رمز عبور خود را فراموش کرده اید؟</p>
@@ -135,7 +136,8 @@
                             <input type="password" name="confirmPassword" class="form-control login-input"
                                 placeholder="لطفا بخش تایید رمز عبور را پر کنید کنید">
                             <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
-                                type="submit" class="btn btn-warning" onclick="accountDetailsSubmit()">بعدی</div>
+                                type="submit" class="btn btn-warning" id="accountDetails-submit-btn"
+                                onclick="accountDetailsSubmit()">بعدی</div>
                             <p id="error-accountDetails" style=" color:red"></p>
                             <a href="#" class="forget-link" id="forgetpass"">
                                         <p>رمز عبور خود را فراموش کرده اید؟</p>
@@ -158,12 +160,8 @@
                                 <option value="مرد">مرد</option>
                                 <option value="زن">زن</option>
                             </select>
-                            <input type="text" name="meliCode" class="form-control login-input"
-                                placeholder="کد ملی پدر">
-                            <input type="text" name="size" class="form-control login-input"
-                                placeholder=" :)) سه سایز به ترتیب">
-                            <div id="checkbox" style="display:inline-block">
-                                <p style="color: orange;display:inline-block"> قوانین را خوانده و قبول دارم 3بار!!!</p>
+                            <div id="checkbox" style="float: right;">
+                                <p style="color: orange;float: left;margin-top: 2px"> قوانین را خوانده و قبول دارم 3بار !!! </p>
                                 <input style="display:inline-block" type="checkbox" id="myCheck" onclick="myFunction()"
                                     name="terms">
                             </div>
@@ -181,58 +179,48 @@
     </section>
     <script>
         // first part validation
-        function phoneNumberSubmit()
-        {
+        function phoneNumberSubmit() {
             var phoneNumber = $("#signupForm [name=phoneNumber]").val();
-            if (phoneNumber == undefined || phoneNumber.replace(' ', '') == '')
-            {
+            if (phoneNumber == undefined || phoneNumber.replace(' ', '') == '') {
                 $("#error-phoneNumber").html("لطفا شماره همراه خود را وارد کنید.");
                 return false;
             }
-            if (phoneNumber.length != 11)
-            {
+            if (phoneNumber.length != 11) {
                 $("#error-phoneNumber").html("شماره وارد شده اشتباه است.");
                 return false;
             }
-            $("#phoneNumber-submit-btn").css('opacity',0);
+            $("#phoneNumber-submit-btn").css('opacity', 0);
             fetch('/signup-check-unique/?phoneNumber=' + phoneNumber, {
                 method: 'GET',
-            }).then(response => response.json()).then((result) =>
-            {
-                $("#phoneNumber-submit-btn").css('opacity',1);
-                if (result.available)
-                {
+            }).then(response => response.json()).then((result) => {
+                $("#phoneNumber-submit-btn").css('opacity', 1);
+                if (result.available) {
                     $("#error-phoneNumber").html('');
                     //hide this step and show next step:
                     $("#step1").hide(300);
                     $("#step2").show(300);
                     return true;
                 }
-                else
-                {
+                else {
 
                     $("#error-phoneNumber").html('کاربری قبلا با این شماره موبایل ثبت نام کرده است.');
                     return false;
                 }
-            }).catch((err) =>
-            {
-                $("#phoneNumber-submit-btn").css('opacity',1);
+            }).catch((err) => {
+                $("#phoneNumber-submit-btn").css('opacity', 1);
                 $("#error-phoneNumber").html(err.toString());
             });
 
 
         }
         // second step validation
-        function confirmCodeSubmit()
-        {
+        function confirmCodeSubmit() {
             var confirmCode = $("#signupForm [name=confirmCode]").val();
-            if (confirmCode == undefined || confirmCode.replace(' ', '') == '')
-            {
+            if (confirmCode == undefined || confirmCode.replace(' ', '') == '') {
                 $("#error-confirmCode").html("لطفا کد تایید را وارد کنید.");
                 return false;
             }
-            if (confirmCode != 1234)
-            {
+            if (confirmCode != 1234) {
                 $("#error-confirmCode").html(" کد تایید وارد شده اشتباه است!");
                 return false;
             }
@@ -244,100 +232,94 @@
 
         }
         // third step validation
-        function accountDetailsSubmit()
-        {
+        function accountDetailsSubmit() {
             var username = $("#signupForm [name=username]").val();
             var email = $("#signupForm [name=email]").val();
             var password = $("#signupForm [name=password]").val();
             var confirmPassword = $("#signupForm [name=confirmPassword]").val();
-            if (username == undefined || username.replace(' ', '') == '')
-            {
+            if (username == undefined || username.replace(' ', '') == '') {
                 $("#error-accountDetails").html("لطفا نام کاربری را وارد کنید.");
                 return false;
             }
-            if (username.length < 3)
-            {
+            if (username.length < 3) {
                 $("#error-accountDetails").html("لطفا حداقل 3 کاراکتر برای نام کاربری خود وارد کنید.");
                 return false;
             }
-            if (password == undefined || password.replace(' ', '') == '')
-            {
+            if (password == undefined || password.replace(' ', '') == '') {
                 $("#error-accountDetails").html("لطفا رمز عبور خود را وارد کنید.");
                 return false;
             }
-            if (password.length < 6)
-            {
+            if (password.length < 6) {
                 $("#error-accountDetails").html("لطفا حداقل 6 کاراکتر برای رمز عبور خود وارد کنید.");
                 return false;
             }
-            if (confirmPassword == undefined || confirmPassword.replace(' ', '') == '')
-            {
+            if (confirmPassword == undefined || confirmPassword.replace(' ', '') == '') {
                 $("#error-accountDetails").html("لطفا بخش تایید رمز عبور را پر کنید کنید.");
                 return false;
             }
-            if (confirmPassword != password)
-            {
+            if (confirmPassword != password) {
                 $("#error-accountDetails").html("مقدار بخش رمز عبور و تایید رمز عبور یکسان نیست.");
                 return false;
             }
-            $("#error-accountDetails").html('');
-            //hide this step and show next step:
-            $("#step3").hide(300);
-            $("#step4").show(300);
+
+            $("#accountDetails-submit-btn").css('opacity', 0);
+            alert(email);
+            fetch(`/signup-check-unique/?username=${username}&email=${email}`, {
+                method: 'GET',
+            }).then(response => response.json()).then((result) => {
+                $("#accountDetails-submit-btn").css('opacity', 1);
+                if (result.available) {
+                    $("#error-accountDetails").html('');
+                    //hide this step and show next step:
+                    $("#step3").hide(300);
+                    $("#step4").show(300);
+                    return true;
+                }
+                else {
+
+                    $("#error-accountDetails").html('کاربری قبلا با این نام کاربری یا ایمیل ثبت نام کرده است.');
+                    return false;
+                }
+            }).catch((err) => {
+                $("#accountDetails-submit-btn").css('opacity', 1);
+                $("#error-accountDetails").html(err.toString());
+            });
+
+
         }
         // fourth step validation
-        function myFunction()
-        {
+        function myFunction() {
             var checkBox = document.getElementById("myCheck");
             var text = document.getElementById("text");
-            if (checkBox.checked == true)
-            {
+            if (checkBox.checked == true) {
                 signupButton.style.display = "block";
                 $("#checkbox").hide(300);
-            } else
-            {
+            } else {
                 signupButton.style.display = "none";
             }
         }
-        function personalDetailsSubmit()
-        {
+        function personalDetailsSubmit() {
             var firstName = $("#signupForm [name=firstName]").val();
             var lastName = $("#signupForm [name=lastName]").val();
-            var meliCode = $("#signupForm [name=meliCode]").val();
-            var size = $("#signupForm [name=size]").val();
-            if (firstName == undefined || firstName.replace(' ', '') == '')
-            {
+            var age = $("#signupForm [name=size]").val();
+            if (firstName == undefined || firstName.replace(' ', '') == '') {
                 $("#error-personalDetails").html("لطفا نام را وارد کنید.");
                 return false;
             }
-            if (firstName.length < 3)
-            {
+            if (firstName.length < 3) {
                 $("#error-personalDetails").html("لطفا نام را درست وارد کنید.");
                 return false;
             }
-            if (lastName == undefined || lastName.replace(' ', '') == '')
-            {
+            if (lastName == undefined || lastName.replace(' ', '') == '') {
                 $("#error-personalDetails").html("لطفا نام خانوادگی را وارد کنید.");
                 return false;
             }
-            if (lastName.length < 3)
-            {
+            if (lastName.length < 3) {
                 $("#error-personalDetails").html("لطفا نام خانوادگی را درست وارد کنید.");
                 return false;
             }
-            if (meliCode.length != 10)
-            {
-                $("#error-personalDetails").html("کد ملی را درست وارد کنید.");
-                return false;
-            }
-            if (size == undefined || size.replace(' ', '') == '')
-            {
-                $("#error-personalDetails").html("لطفا سایز را وارد کنید.");
-                return false;
-            }
-            if (size < 70)
-            {
-                $("#error-personalDetails").html("شما صلاحیت ورود ندارید :((((((");
+            if (age == undefined || age.replace(' ', '') == '') {
+                $("#error-personalDetails").html("لطفا سن را وارد کنید.");
                 return false;
             }
             $("#error-personalDetails").html('');
@@ -346,8 +328,7 @@
     <script>
         document.getElementById("forgetpass").onclick = function () { forgetpass() };
 
-        function forgetpass()
-        {
+        function forgetpass() {
             window.alert("به جهنمم!!!");
         }
     </script>
