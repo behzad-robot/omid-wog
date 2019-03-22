@@ -141,6 +141,28 @@
             font-size: 1.2rem;
             font-weight: bold;
         }
+        .home-aparat-card{
+            display:block;
+            position: relative;            
+        }
+        .home-aparat-card h1{
+            padding:10px 20px;
+            font-size:1.4rem;
+        }
+        .home-aparat-card .thumbnail{
+            width: 100%;
+        }
+        .home-aparat-card .aparat {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 24px;
+            transition: all 1s;
+            pointer-events: all;
+        }
+        .home-aparat-card:hover .aparat{
+            transform: rotate(120deg);
+        }
     </style>
 </head>
 
@@ -339,6 +361,25 @@
                     </div>
                 </div>
                 {{/latestPosts}}
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div style="overflow: hidden;">
+                <h2 class="orange-title" style="font-size:1.2rem;">تازه های آپارات:</h2>
+                <a href="https://www.aparat.com/wogcompany" target="_blank" class="btn float-left">بیشتر</a>
+            </div>
+            <div class="row">
+                {{#aparatVideos}}
+                <div class="col-md col-6">
+                    <div class="wog-card home-aparat-card">
+                        <img src="/images/aparat-icon.png" class="aparat" />
+                        <img src="{{thumbnail}}" class="thumbnail" />
+                        <h1>{{title}}</h1>
+                    </div>
+                </div>
+                {{/aparatVideos}}
             </div>
         </div>
     </section>

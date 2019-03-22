@@ -54,10 +54,10 @@ export default class SitePostsRouter extends SiteRouter
                             return;
                         }
                         var gridIds = JSON.parse(gridFile.toString());
-                        console.log("gridIds=>"+JSON.stringify(gridIds));
+                        // console.log("gridIds=>"+JSON.stringify(gridIds));
                         siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
                         {
-                            console.log(gridPosts);
+                            // console.log(gridPosts);
                             fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
                             {
                                 if (err)
