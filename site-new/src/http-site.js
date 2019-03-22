@@ -192,6 +192,23 @@ const navbarArticlesCache = new CacheReader('navbar-articles', (cb) =>
         }
     });
 });
+const recommendedPostsCache = new CacheReader('posts-recommended', (cb) =>
+{
+    fs.readFile(path.resolve("../storage/caches/posts-recommended-ids.json"), (err, data) =>
+    {
+        console.log('recommendedPostsCache');
+        if (err)
+            cb(err, undefined);
+        else
+        {
+            var ids = JSON.parse(data.toString());
+            SiteModules.Post.find({ _ids: ids, _publicCast: true }).then((posts) =>
+            {
+                cb(undefined, posts);
+            });
+        }
+    });
+});
 SiteModules.Cache = {
     //game related:
     allGames: allGamesCache,
@@ -224,6 +241,7 @@ SiteModules.Cache = {
     allPostsCats: allPostsCatsCache,
     navbarNews: navbarNewsCache,
     navbarTutorials: navbarArticlesCache,
+    posts_recommended : recommendedPostsCache,
 };
 
 

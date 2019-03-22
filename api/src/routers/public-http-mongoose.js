@@ -57,8 +57,17 @@ export class PublicMongooseAPIRouter extends APIRouter
         //     req.query._draft =  { $ne: true };
         // else if (req.query._draft == 'all')
         //     delete (req.query._draft);
-        var allDraft = req.query._draft == 'all';
-        delete (req.query._draft);
+        // var allDraft = req.query._draft == 'all';
+        // delete (req.query._draft);
+        if (this.model.Helpers.hasDraft())
+        {
+            if (req.query._draft != 'all')
+                req.query._draft = false;
+            else
+                delete (req.query._draft);
+        }
+        else
+            delete (req.query._draft);
         var limit = req.query.limit ? Number.parseInt(req.query.limit) : 200;
         var offset = req.query.offset ? Number.parseInt(req.query.offset) : 0;
         var sort = req.query.sort ? req.query.sort : '';

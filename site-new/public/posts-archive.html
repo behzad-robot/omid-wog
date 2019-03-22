@@ -2,6 +2,26 @@
 
 <head>
     {{{head}}}
+    <!-- seo head -->
+    <title>{{title}}-{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
+    <!-- end -->
     <style>
         .div-outer {
             width: 100%;
@@ -129,7 +149,7 @@
             font-size: 10px;
         }
 
-        
+
 
         .white-box {
             background: white;
@@ -228,8 +248,21 @@
         }
 
         .sidebar-aparat-box .video-title {
-            font-size: 1.2rem;
+            font-size: 1rem;
             margin-top: 5px;
+            max-lines:1;
+            text-overflow: clip;
+            max-height:1rem;
+            overflow: hidden;
+            word-wrap: break-word;
+            font-weight: 300;
+        }
+
+        .sidebar-aparat-box .thumbnail {
+            width: 100%;
+            height: 160px;
+            background-size: cover;
+            background-position: center;
         }
 
         .upcoming-game-box {
@@ -270,7 +303,7 @@
         }
 
         .upcoming-game-box .icon {
-            width: 64px;
+            height: 64px;
         }
     </style>
 </head>
@@ -278,29 +311,34 @@
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
+    {{#hasGrid}}
     <section style="margin:20px 0">
         <div class="container">
             <div class="row">
                 <div class="col-md-3 col-12" style="padding:0">
                     <a href="{{{gridPosts1.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('{{{gridPosts1.thumbnail_640x480}}}')">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts1.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
                                 <h1>{{{gridPosts1.title}}}</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
+                                <small><span
+                                        class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
                     <a href="{{{gridPosts2.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('{{{gridPosts2.thumbnail_640x480}}}')">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts2.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
                                 <h1>{{{gridPosts2.title}}}</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
+                                <small><span
+                                        class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
@@ -308,12 +346,14 @@
                 <div class="col-md-6 col-12" style="padding:0">
                     <a href="{{{gridPosts0.siteUrl}}}">
                         <div class="grid-post-box big">
-                            <div class="post-thumbail" style="background-image:url('{{{gridPosts1.thumbnail_800x600}}}')">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts0.thumbnail_800x600}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
                                 <h1>{{{gridPosts0.title}}}</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
+                                <small><span
+                                        class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
@@ -321,23 +361,27 @@
                 <div class="col-md-3 col-12" style="padding:0">
                     <a href="{{{gridPosts3.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('{{{gridPosts3.thumbnail_640x480}}}')">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts3.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
                                 <h1>{{{gridPosts3.title}}}</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
+                                <small><span
+                                        class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
                     <a href="{{{gridPosts4.siteUrl}}}">
                         <div class="grid-post-box">
-                            <div class="post-thumbail" style="background-image:url('{{{gridPosts4.thumbnail_640x480}}}')">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts4.thumbnail_640x480}}}')">
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
                                 <h1>{{{gridPosts4.title}}}</h1>
-                                <small><span class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
+                                <small><span
+                                        class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
                             </div>
                         </div>
                     </a>
@@ -345,7 +389,7 @@
             </div> <!-- row -->
         </div> <!-- container -->
     </section>
-
+    {{/hasGrid}}
 
     <section>
         <div class="container">
@@ -397,7 +441,8 @@
                     <h6 class="orange-title">ویدئو ها</h6>
                     {{#aparatVideos}}
                     <a class="sidebar-aparat-box text-center" href="{{url}}" target="_blank">
-                        <img src="{{thumbnail}}" width="100%" />
+                        <!-- <img src="{{thumbnail}}" width="100%" /> -->
+                        <div class="thumbnail" style="background-image:url('{{thumbnail}}')"></div>
                         <img src="/images/aparat-icon.png" class="aparat" />
                         <h1 class="video-title">{{title}}</h1>
                     </a>
@@ -407,7 +452,9 @@
                     <div class="upcoming-game-box" style="background-image:url('{{thumbnail}}')">
                         <div class="overlay"></div>
                         <div class="content">
+                            {{#icon}}
                             <img src="{{icon}}" class="icon" />
+                            {{/icon}}
                             <h1 class="title text-white text-shadow">{{title}}</h1>
                             <h2 class="subtitle text-white text-shadow">{{date}}</h2>
                         </div>

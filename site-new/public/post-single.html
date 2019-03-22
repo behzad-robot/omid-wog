@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .post-single-header {
+            width: 100%;
+            display: block;
+            height: 32vw;
+            background-size: cover;
+            background-position: center;
+            padding-top: 10vw;
+        }
+
+        .post-single-header h1 {
+            font-size: 55px;
+            font-weight: bold;
+            text-align: center;
+            color: white;
+            text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);
+        }
+
+        .post-single-header .author-box {
+            width: 20%;
+            margin: 0px auto;
+            margin-top: 45px;
+            background-color: rgba(0, 0, 0, .3);
+            /* border-top: 1px solid white; */
+            /* border: 1px solid white; */
+            padding: 5px 25px;
+            color: white;
+            border-radius: 68px;
+            box-shadow: 1px 6px 17px rgba(0, 0, 0, 0.4);
+            font-size: 13px;
+            text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);
+        }
+
+        .post-single-header .author-box .author-profile-image {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+
+        }
+
+        .post-single-header .author-box .author-name {
+            margin: 0 10px;
+        }
+
+        .post-single-header .author-box .date {
+            float: left;
+            margin-top: 15px;
+        }
+
+        .post-single-header .cats-box {
+            width: 16%;
+            margin: 30px auto;
+        }
+
+        .post-single-header .cats-box .btn.btn-sm {
+            font-size: 0.8em;
+        }
+        .contentSection {
+            padding-top: 30px;
+            padding-bottom: 20px;
+        }
+
+        .contentSection img {
+            max-width: 100%;
+        }
+
+        .suggested-post-box {
+            display: block;
+            color :#2e2e2e;
+            text-decoration: none !important;
+        }
+
+        .suggested-post-box:hover {
+            color: orange;
+        }
+
+        .suggested-post-box h1 {
+            font-size:1.1rem;
+            padding: 5px;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="post-single-header" style="background-image:url('{{post.thumbnail}}')">
+        <h1>{{post.title}}</h1>
+        <div class="author-box">
+            <img src="{{post._author.profileImage}}" class="author-profile-image" />
+            <span class="author-name"><b>نویسنده:&nbsp;</b><span>{{post._author.username}}</span></span>
+            <span class="date">{{post.createdAt_persian}}</span>
+        </div>
+        <div class="cats-box">
+            <b class="text-white text-shadow"
+                style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b>
+            {{#post._cats}}
+            <a href="#" class="btn btn-sm btn-warning">{{name}}</a>
+            {{/post._cats}}
+        </div>
+    </section>
+    <section style="background-color:#1e1e1e;height:5px;margin-bottom:10px"></section>
+    <section class="bg-section contentSection">
+        <div class="container">
+            {{{post.body}}}
+        </div>
+    </section>
+    <section class="bg-section" style="padding:20px 0">
+        <div class="container">
+            <h3
+                style="margin-bottom:20px;background-color: orange;padding: 5px 10px;width: fit-content;color: #2e2e2e;font-weight: normal;border-radius: 3px;">
+                دیگر مطالب پیشنهادی:</h3>
+            <div class="row">
+                {{#recommendedPosts}}
+                <div class="col-md-3">
+                    <a class="suggested-post-box" href="{{siteUrl}}">
+                        <img src="{{thumbnail_640x480}}" width="100%" />
+                        <h1>{{title}}</h1>
+                    </a>
+                </div>
+                {{/recommendedPosts}}
+                <!-- <div class="col-md-3">
+                        <a class="suggested-post-box" href="#">
+                            <img src="https://via.placeholder.com/800x600" width="100%" />
+                            <h1>عنوان مطلب</h1>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="suggested-post-box" href="#">
+                            <img src="https://via.placeholder.com/800x600" width="100%" />
+                            <h1>عنوان مطلب</h1>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a class="suggested-post-box" href="#">
+                            <img src="https://via.placeholder.com/800x600" width="100%" />
+                            <h1>عنوان مطلب</h1>
+                        </a>
+                    </div> -->
+            </div>
+        </div>
+
+    </section>
+</body>
+
+</html>

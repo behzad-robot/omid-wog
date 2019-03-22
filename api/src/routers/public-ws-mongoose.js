@@ -47,12 +47,21 @@ export class PublicMongooseWSRouter extends SocketRouter
     {
         let params = request.params;
         console.log(params);
-        var allDraft = params._draft == 'all';
-        delete (params._draft);
+        // var allDraft = params._draft == 'all';
+        // delete (params._draft);
+        if (this.model.Helpers.hasDraft())
+        {
+            if(params._draft != 'all')
+                params._draft = false;
+            else
+                delete(params._draft);
+        }
+        else
+            delete (params._draft);
         var limit = params.limit ? params.limit : 50;
-        console.log('ask for =>'+request.model+'=>'+params.limit);
+        console.log('ask for =>' + request.model + '=>' + params.limit);
         var offset = params.offset ? params.offset : 0;
-        var sort = params.sort ? params.sort : '';
+        var sort = params.sort ? params.sort : '-_id';
         var publicCast = params._publicCast ? params._publicCast : false;
         // console.log(`publicCast=>${publicCast}`);
         delete (params._publicCast);

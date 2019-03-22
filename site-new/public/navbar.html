@@ -1,13 +1,13 @@
 <navbar class="">
     <div class="container" style="height:100%;overflow: hidden;">
         <div style="display:inline-block">
-            <a href="/home"><img src="/images/zoomg-logo.png" width="130px" style="margin-left:20px;" /></a>
+            <a href="/home"><img src="/images/wog-orange-logo.png" width="130px" style="margin-left:20px;" /></a>
         </div>
-        <a href="#" class="navbar-item" dropDownItem="games">بازی ها<span class="fas fa-sort-down"></span></a>
-        <a href="#" class="navbar-item" dropdownItem="tutorials">مقالات<span class="fas fa-sort-down"></span></a>
-        <a href="#" class="navbar-item" dropdownItem="news">اخبار<span class="fas fa-sort-down"></span></a>
-        <a href="#" class="navbar-item">فروشگاه</a>
-        <a href="#" class="navbar-item">تماس با ما</a>
+        <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی ها<!--<span class="fas fa-sort-down"></span>--></a>
+        <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials-disabled">مقالات<!--<span class="fas fa-sort-down"></span>--></a>
+        <a href="/posts/categories/news" class="navbar-item" dropdownItem="news-disabled">اخبار<!--<span class="fas fa-sort-down"></span>--></a>
+        <a href="/shop" class="navbar-item">فروشگاه</a>
+        <a href="/contact-us" class="navbar-item">تماس با ما</a>
         {{#currentUser}}
         <div class="navbar-user-box">
                 <a href="{{siteUrl}}"><img src="{{profileImage}}" /></a>
@@ -23,7 +23,7 @@
         {{/currentUser}}
     </div>
 </navbar>
-<div class="navbar-dropdown" dropDownItem="games" style="display:none;">
+<div class="navbar-dropdown" dropDownItem="games-disabled" style="display:none;">
     <div class="container" style="pointer-events: all;">
         <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
         <div class="card" style="background-color:#1F262A;color:white;height:450px;">

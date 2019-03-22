@@ -12,92 +12,52 @@ export default class SitePostsRouter extends SiteRouter
         super(siteModules);
         this.siteModules = siteModules;
         this.postSingle = this.postSingle.bind(this);
+        this.postsArchive = this.postsArchive.bind(this);
         this.router.get('/', (req, res) =>
         {
             siteModules.Post.find({ limit: 20 }).then((posts) =>
             {
-                var requiredUsers = [];
-                for (var i = 0; i < posts.length; i++)
+                this.postsArchive(req, res, posts, 'اخبار و مقالات', true);
+            }).catch((err) =>
+            {
+                res.send(err.toString());
+            });
+
+        });
+        this.router.get('/categories/:slug', (req, res) =>
+        {
+            siteModules.Post.find({ limit: 20 }).then((posts) =>
+            {
+                this.siteModules.Cache.allPostsCats.getData((err, cats) =>
                 {
-                    var has = false;
-                    for (var j = 0; j < requiredUsers.length; j++)
+                    let category = undefined;
+                    for (var i = 0; i < cats.length; i++)
                     {
-                        if (requiredUsers[j] == posts[i].authorId)
+                        if (cats[i].slug == req.params.slug)
                         {
-                            has = true;
+                            category = cats[i];
                             break;
                         }
                     }
-                    if (!has && !isEmptyString(posts[i].authorId))
-                        requiredUsers.push(posts[i].authorId);
-                }
-                siteModules.User.find({ _ids: requiredUsers }).then((users) =>
-                {
-                    for (var i = 0; i < posts.length; i++)
+                    if (category == undefined)
                     {
-                        for (var j = 0; j < users.length; j++)
-                        {
-                            if (posts[i].authorId == users[j]._id)
-                            {
-                                posts[i]._author = users[j];
-                                // posts[i].isSmall = posts[i].extras.bigBox ? '' : 'post-box-small';
-                                break;
-                            }
-                        }
+                        this.show500(req, res, 'Category Not found!');
+                        return;
                     }
-                    //gridPosts:
-                    fs.readFile(path.resolve('../storage/caches/posts-grid.json'), (err, gridFile) =>
+                    this.siteModules.Post.find({ categories: category._id }).then((posts) =>
                     {
-                        if (err)
-                        {
-                            this.show500(req, res, err.toString());
-                            return;
-                        }
-                        var gridIds = JSON.parse(gridFile.toString());
-                        // console.log("gridIds=>"+JSON.stringify(gridIds));
-                        siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
-                        {
-                            // console.log(gridPosts);
-                            fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
-                            {
-                                if (err)
-                                {
-                                    this.show500(req, res, err.toString());
-                                    return;
-                                }
-                                var aparatVideos = JSON.parse(aparatFile.toString());
-                                fs.readFile(path.resolve('../storage/caches/upcoming-games.json'), (err, upComingGamesFile) =>
-                                {
-                                    if (err)
-                                    {
-                                        this.show500(req, res, err.toString());
-                                        return;
-                                    }
-                                    var upComingGames = JSON.parse(upComingGamesFile.toString());
-                                    this.renderTemplate(req, res, 'posts-archive.html', {
-                                        title: 'اخبار و مطالب',
-                                        posts: posts,
-                                        gridPosts0: gridPosts[0],
-                                        gridPosts1: gridPosts[1],
-                                        gridPosts2: gridPosts[2],
-                                        gridPosts3: gridPosts[3],
-                                        gridPosts4: gridPosts[4],
-                                        aparatVideos: aparatVideos,
-                                        upComingGames: upComingGames,
-                                    });
-                                });
-                            });
-                        });
+                        this.postsArchive(req, res, posts, category.name, true);
+                    }).catch((err) =>
+                    {
+                        this.show500(req, res, err.toString());
                     });
-                }).catch((err) =>
-                {
-                    this.show500(req, res, err.toString());
                 });
 
             }).catch((err) =>
             {
                 res.send(err.toString());
             });
+
         });
         this.router.get('/_id/:_id', (req, res) =>
         {
@@ -138,40 +98,89 @@ export default class SitePostsRouter extends SiteRouter
                 res.send(err.toString());
             });
         });
-        this.router.get('/category/:slug', (req, res) =>
+
+    }
+    postsArchive(req, res, posts, title, hasGrid = false)
+    {
+        var siteModules = this.siteModules;
+        var requiredUsers = [];
+        for (var i = 0; i < posts.length; i++)
         {
-            siteModules.Cache.allPostsCats.getData((err, cats) =>
+            var has = false;
+            for (var j = 0; j < requiredUsers.length; j++)
             {
-                if (err)
+                if (requiredUsers[j] == posts[i].authorId)
                 {
-                    this.show500(req, res, err);
-                    return;
+                    has = true;
+                    break;
                 }
-                let category = undefined;
-                for (var i = 0; i < cats.length; i++)
+            }
+            if (!has && !isEmptyString(posts[i].authorId))
+                requiredUsers.push(posts[i].authorId);
+        }
+        siteModules.User.find({ _ids: requiredUsers }).then((users) =>
+        {
+            for (var i = 0; i < posts.length; i++)
+            {
+                for (var j = 0; j < users.length; j++)
                 {
-                    if (cats[i].slug == req.params.slug)
+                    if (posts[i].authorId == users[j]._id)
                     {
-                        category = cats[i];
+                        posts[i]._author = users[j];
+                        // posts[i].isSmall = posts[i].extras.bigBox ? '' : 'post-box-small';
                         break;
                     }
                 }
-                if (category == undefined)
+            }
+            //gridPosts:
+            fs.readFile(path.resolve('../storage/caches/posts-grid.json'), (err, gridFile) =>
+            {
+                if (err)
                 {
-                    this.show500(req, res, err);
+                    this.show500(req, res, err.toString());
                     return;
                 }
-                siteModules.Post.find({ 'categories': category._id, limit: 20 }).then((posts) =>
+                var gridIds = JSON.parse(gridFile.toString());
+                // console.log("gridIds=>"+JSON.stringify(gridIds));
+                siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
                 {
-                    this.renderTemplate(req, res, 'posts-archive.html', {
-                        category: category,
-                        posts: posts,
-                        title: category.name,
-                    })
+                    // console.log(gridPosts);
+                    fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
+                    {
+                        if (err)
+                        {
+                            this.show500(req, res, err.toString());
+                            return;
+                        }
+                        var aparatVideos = JSON.parse(aparatFile.toString());
+                        fs.readFile(path.resolve('../storage/caches/upcoming-games.json'), (err, upComingGamesFile) =>
+                        {
+                            if (err)
+                            {
+                                this.show500(req, res, err.toString());
+                                return;
+                            }
+                            var upComingGames = JSON.parse(upComingGamesFile.toString());
+                            this.renderTemplate(req, res, 'posts-archive.html', {
+                                title: title,
+                                hasGrid: hasGrid,
+                                posts: posts,
+                                gridPosts0: gridPosts[0],
+                                gridPosts1: gridPosts[1],
+                                gridPosts2: gridPosts[2],
+                                gridPosts3: gridPosts[3],
+                                gridPosts4: gridPosts[4],
+                                aparatVideos: aparatVideos,
+                                upComingGames: upComingGames,
+                            });
+                        });
+                    });
                 });
             });
+        }).catch((err) =>
+        {
+            this.show500(req, res, err.toString());
         });
-
     }
     postSingle(req, res, post)
     {

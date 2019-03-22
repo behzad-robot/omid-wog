@@ -6,7 +6,10 @@ export default class SiteGeneralRouter extends SiteRouter
     constructor(siteModules)
     {
         super(siteModules);
-        this.router.get('/home', (req, res) =>
+        this.router.get('/home',(req,res)=>{
+            res.redirect('/');
+        });
+        this.router.get('/', (req, res) =>
         {
             siteModules.Post.find({ limit: 5 }).then((latestPosts) =>
             {
@@ -24,6 +27,7 @@ export default class SiteGeneralRouter extends SiteRouter
                         fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
                         {
                             var aparatVideosFull = JSON.parse(aparatFile.toString());
+                            console.log(aparatVideosFull);
                             var aparatVideos = [];
                             for(var i = 0 ; i < aparatVideosFull.length && i < 5 ;i++)
                                 aparatVideos.push(aparatVideosFull[i]);
@@ -46,9 +50,14 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, req.params.fileName + '.html', {});
         });
-        this.router.get('/*', (req, res) =>
-        {
-            this.renderTemplate(req, res, 'dushvari.html', {});
+        this.router.get('/shop',(req,res)=>{
+            this.renderTemplate(req, res,'coming-soon.html', {});
+        });
+        this.router.get('/wiki',(req,res)=>{
+            this.renderTemplate(req, res,'coming-soon.html', {});
+        });
+        this.router.get('/users/:username',(req,res)=>{
+            this.renderTemplate(req,res,'coming-soon.html');
         });
     }
 }
