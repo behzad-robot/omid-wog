@@ -28,7 +28,7 @@ export const UserSchema = new mongoose.Schema({
 });
 export const User = mongoose.model('User', UserSchema);
 User.Helpers = {
-    hasDraft: () => true,
+    hasDraft: () => false,
     public: (doc) =>
     {
         doc = doc.toObject();

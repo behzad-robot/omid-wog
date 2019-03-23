@@ -46,7 +46,7 @@ export class PublicMongooseWSRouter extends SocketRouter
     find(socket, request)
     {
         let params = request.params;
-        console.log(params);
+        // console.log(params);
         // var allDraft = params._draft == 'all';
         // delete (params._draft);
         if (this.model.Helpers.hasDraft())
@@ -59,7 +59,7 @@ export class PublicMongooseWSRouter extends SocketRouter
         else
             delete (params._draft);
         var limit = params.limit ? params.limit : 50;
-        console.log('ask for =>' + request.model + '=>' + params.limit);
+        // console.log('ask for =>' + request.model + '=>' + params.limit);
         var offset = params.offset ? params.offset : 0;
         var sort = params.sort ? params.sort : '-_id';
         var publicCast = params._publicCast ? params._publicCast : false;

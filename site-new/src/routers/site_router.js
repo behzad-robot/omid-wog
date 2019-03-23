@@ -112,6 +112,7 @@ export default class SiteRouter extends Router
     }
     show500(req, res, err)
     {
+        err = err.toString();
         console.log("ERROR 500 => " + req.originalUrl + " => " + err);
         res.status(500).send("<h1>500 Interal Server Error:</h1>"+err);
         // this.renderTemplate(req,res,"404.html",{

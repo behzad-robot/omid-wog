@@ -256,6 +256,8 @@ export default class SitePostsRouter extends SiteRouter
                                         }
                                     }
                                 }
+                                if(comments.length == 0)
+                                    comments = undefined;
                                 this.renderTemplate(req, res, 'post-single.html', {
                                     post: post,
                                     recommendedPosts: recommendedPosts,

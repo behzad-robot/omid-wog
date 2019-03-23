@@ -27,7 +27,7 @@ export default class SiteGeneralRouter extends SiteRouter
                         fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
                         {
                             var aparatVideosFull = JSON.parse(aparatFile.toString());
-                            console.log(aparatVideosFull);
+                            // console.log(aparatVideosFull);
                             var aparatVideos = [];
                             for(var i = 0 ; i < aparatVideosFull.length && i < 5 ;i++)
                                 aparatVideos.push(aparatVideosFull[i]);
@@ -55,9 +55,6 @@ export default class SiteGeneralRouter extends SiteRouter
         });
         this.router.get('/wiki',(req,res)=>{
             this.renderTemplate(req, res,'coming-soon.html', {});
-        });
-        this.router.get('/users/:username',(req,res)=>{
-            this.renderTemplate(req,res,'coming-soon.html');
         });
     }
 }

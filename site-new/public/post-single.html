@@ -2,6 +2,31 @@
 
 <head>
     {{{head}}}
+    <!-- SEO -->
+    <title>{{post.title}} - واج</title>
+    <meta name="description" content="{{post._seo.metaDescription}}">
+    <meta name="keywords" itemprop="keywords" content="{{post._seo.keywords}}">
+    <link rel="canonical" href="{{post.siteUrl}}">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{post.title}} - واج">
+    <meta property="og:description" content="{{post._seo.metaDescription}}">
+    <meta property="og:url" content="{{post.siteUrl}}">
+    <meta property="og:image" content="{{post.thumbnail}}">
+    <meta property="og:site_name" content="واج">
+
+    <meta property="article:section" content="{{post._cats[0].name}}">
+    <meta property="article:published_time" content="{{post.createdAt}}">
+    <meta property="article:published_time" content="{{post.createdAt}}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{post._seo.metaDescription}}">
+    <meta name="twitter:title" content="{{post.title}}">
+    <meta name="twitter:image" content="{{post.thumbnail_640x480}}">
+
+    <!-- End SEO -->
     <style>
         .post-single-header {
             width: 100%;
@@ -59,6 +84,7 @@
         .post-single-header .cats-box .btn.btn-sm {
             font-size: 0.8em;
         }
+
         .contentSection {
             padding-top: 30px;
             padding-bottom: 20px;
@@ -70,7 +96,7 @@
 
         .suggested-post-box {
             display: block;
-            color :#2e2e2e;
+            color: #2e2e2e;
             text-decoration: none !important;
         }
 
@@ -79,9 +105,36 @@
         }
 
         .suggested-post-box h1 {
-            font-size:1.1rem;
+            font-size: 1.1rem;
             padding: 5px;
             margin: 5px 0;
+        }
+
+        .comment-box {
+            padding: 10px 20px;
+        }
+
+        .comment-box .profile-image {
+            display: inline-block;
+            width: 48px;
+            border: 1px solid orange;
+            padding: 2px;
+            vertical-align: top;
+        }
+
+        .comment-box .comment-main-part {
+            display: inline-block;
+            width: auto;
+            max-width: 100%;
+            padding: 5px 10px;
+        }
+
+        .comment-box .comment-footer {
+            display: block;
+            width: 60%;
+            margin: 0 auto;
+            margin-top: 20px;
+            border-bottom: 1px solid #3e3e3e;
         }
     </style>
 </head>
@@ -93,7 +146,7 @@
         <h1>{{post.title}}</h1>
         <div class="author-box">
             <img src="{{post._author.profileImage}}" class="author-profile-image" />
-            <span class="author-name"><b>نویسنده:&nbsp;</b><span>{{post._author.username}}</span></span>
+            <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;" href="{{post._author.siteUrl}}"><span>{{post._author.username}}</span></a></span>
             <span class="date">{{post.createdAt_persian}}</span>
         </div>
         <div class="cats-box">
@@ -124,28 +177,122 @@
                     </a>
                 </div>
                 {{/recommendedPosts}}
-                <!-- <div class="col-md-3">
-                        <a class="suggested-post-box" href="#">
-                            <img src="https://via.placeholder.com/800x600" width="100%" />
-                            <h1>عنوان مطلب</h1>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a class="suggested-post-box" href="#">
-                            <img src="https://via.placeholder.com/800x600" width="100%" />
-                            <h1>عنوان مطلب</h1>
-                        </a>
-                    </div>
-                    <div class="col-md-3">
-                        <a class="suggested-post-box" href="#">
-                            <img src="https://via.placeholder.com/800x600" width="100%" />
-                            <h1>عنوان مطلب</h1>
-                        </a>
-                    </div> -->
             </div>
         </div>
 
     </section>
+    <section class="comments-section">
+        <div class="container">
+            <h2 class="orange-title" style="font-size:1.2rem;">ارسال نظر:</h2>
+            <h2 style="color:#79848f"> متن دیدگاه</h2>
+            {{#currentUser}}
+            <form action="/comments/new" method="POST" id="new-comment-form">
+                <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
+                    placeholder="دیدگاه خود را وارد کنید"></textarea>
+                <input type="hidden" name="objectType" value="posts" />
+                <input type="hidden" name="objectId" value="{{post._id}}" />
+                <input type="submit" class="btn btn-md btn-warning" style="margin:10px 0;" value="ارسال دیدگاه" />
+            </form>
+            <script>
+                $(() =>
+                {
+                    $("#new-comment-form").ajaxForm(
+                        {
+                            beforeSubmit: (formData, jqForm, options) =>
+                            {
+                                var str = $("#new-comment-form [name=body]").val();
+                                str = str.replaceAll(' ', '').replaceAll('\n', '').replaceAll('<br>', '');
+                                if (str == '')
+                                {
+                                    alert('لطفا متن نظر را وارد کنید.');
+                                    return false;
+                                }
+                                return true;
+                            },
+                            success: (text, code, xhr, form) =>
+                            {
+                                if (typeof text == 'string')
+                                    text = JSON.parse(text);
+                                if (text.error)
+                                {
+                                    alert(text.error);
+                                    return;
+                                }
+                                var comment = text.comment;
+                                if (comment._draft == true)
+                                {
+                                    alert('با تشکر نظر شما با موفقیت ثبت شد و پس از بررسی مدیر سایت نمایش داده میشود.');
+                                }
+                                else
+                                {
+                                    alert('نظر شما با موفقیت ثبت شد.');
+                                    $("#comments-list").append(`
+                                        <div class="comment-box" id="comment-${comment._id}">
+                                            <div class="profile-image">
+                                                <img src="{{currentUser.profileImage}}" width="100%" />
+                                            </div>
+                                            <div class="comment-main-part">
+                                                <div class="top-info">
+                                                    <a class="link-yellow" href="#">{{currentUser.username}}</a>&nbsp;
+                                                    |
+                                                    <small class="date">${comment.createdAt_persian}</small>
+                                                </div>
+                                                <div class="comment-body">${comment.body}</div>
+                                            </div>
+                                            <div class="comment-footer"></div>
+                                        </div>
+                                        `);
+                                    scroll_to(`#comment-${comment._id}`);
+                                    $("#no-comments").hide();
+                                }
+                                $("#new-comment-form").clearForm();
+                            },
+                            error: (xhr, text, err) =>
+                            {
+                                alert('خطا از سمت سرور');
+                                console.log(text);
+                                console.log(err);
+                            },
+                        });
+                });
+            </script>
+            {{/currentUser}}
+            {{^currentUser}}
+            <div>
+                <textarea class="form-control dark" name="body" style="width:50%;height:200px;margin-bottom:10px;"
+                    placeholder="دیدگاه خود را وارد کنید"></textarea>
+                <p class="btn btn-md btn-black"><span>برای ارسال نظر ابتدا باید <a
+                            href="{{#SITE_URL}}/login{{/SITE_URL}}" class="link-yellow">وارد</a> سایت شوید.</span></p>
+            </div>
+            {{/currentUser}}
+            <h2 class="orange-title" style="font-size:1.2rem;">نظرات کاربرها:</h2>
+            <div id="comments-list">
+                {{#comments}}
+                <div class="comment-box" id="comment-{{_id}}">
+                    <div class="profile-image">
+                        <img src="{{_user.profileImage}}" width="100%" />
+                    </div>
+                    <div class="comment-main-part">
+                        <div class="top-info">
+                            <a class="link-yellow" href="{{_user.siteUrl}}">{{_user.username}}</a>&nbsp;
+                            |
+                            <small class="date">{{createdAt_persian}}</small>
+                        </div>
+                        <div class="comment-body">
+                            {{body}}
+                        </div>
+
+                    </div>
+                    <div class="comment-footer"></div>
+                </div>
+                {{/comments}}
+                {{^comments}}
+                <div class="text-center" id="no-comments">هیچ نظری برای این مطلب ثبت نشده.</div>
+                {{/comments}}
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
 </body>
 
 </html>
