@@ -22,6 +22,43 @@ export default class PostsPanelRouter extends AdminRouter
             }
             next();
         });
+        this.router.get('/collections', (req, res) =>
+        {
+            var postsGrid = fs.readFileSync(path.resolve('../storage/caches/posts-grid.json')).toString();
+            var postsRecommended = fs.readFileSync(path.resolve('../storage/caches/posts-recommended-ids.json')).toString();
+            var upComingGames = fs.readFileSync(path.resolve('../storage/caches/upcoming-games.json')).toString();
+            res.send(this.renderTemplate('collections.html', {
+                admin: req.session.admin,
+                postsGrid: postsGrid,
+                postsRecommended: postsRecommended,
+                upComingGames: upComingGames,
+            }));
+        });
+        this.router.post('/collections/save', (req, res) =>
+        {
+            var postsGridFilePath = path.resolve('../storage/caches/posts-grid.json');
+            var postsRecommendedFilePath = path.resolve('../storage/caches/posts-recommended-ids.json');
+            var upcomingGamesFilePath = path.resolve('../storage/caches/upcoming-games.json');
+            var str = '';
+            fs.writeFile(postsGridFilePath, req.body.postsGrid, (err) =>
+            {
+                if (err)
+                    str += err+'\n';
+                fs.writeFile(postsRecommendedFilePath, req.body.postsRecommended, (err) =>
+                {
+                    if (err)
+                        str += err+'\n';
+                    fs.writeFile(upcomingGamesFilePath,req.body.upComingGames,(err)=>{
+                        if(err)
+                            str += err+'\n';
+                        if(str != '')
+                            res.status(500).send('Error:'+str);
+                        else
+                            res.redirect('/admin/posts/collections');
+                    });
+                });
+            });
+        });
         this.router.get('/', (req, res) =>
         {
             res.send(this.renderTemplate('posts-list.html', {
@@ -105,5 +142,6 @@ export default class PostsPanelRouter extends AdminRouter
                 fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });
+
     }
 }

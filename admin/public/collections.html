@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .aparat-box {
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .aparat-box h1 {
+            font-size: 16px;
+        }
+
+        .aparat-box .aparat-thumbnail {
+            display: block;
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h1>Collections:</h1>
+        <hr />
+        <form action="/admin/posts/collections/save" method="POST">
+            <h2>JSON Files:</h2>
+            <p>Put a valid json string here.Use Visual Studio Code or <a href="https://jsoneditoronline.org/" target="_blank">this online editor</a>.</p>
+            <b>postsGrid:</b>
+            <textarea name="postsGrid" class="form-control m" style="width:100%;height:400px;">{{{postsGrid}}}</textarea>
+            <b>postsRecommended:</b>
+            <textarea name="postsRecommended" class="form-control m" style="width:100%;height:400px;">{{{postsRecommended}}}</textarea>
+            <b>upComingGames:</b>
+            <textarea name="upComingGames" class="form-control m" style="width:100%;height:400px;">{{{upComingGames}}}</textarea>
+            <input type="submit" class="btn btn-md btn-success" value="Save"/>
+        </form>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

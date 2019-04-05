@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .aparat-box {
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+
+        .aparat-box h1 {
+            font-size: 16px;
+        }
+
+        .aparat-box .aparat-thumbnail {
+            display: block;
+            width: 100%;
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Aparat Videos:</h2>
+        <p>Latest Aparat videos showed in website.</p>
+        <hr />
+        <div id="videos" class="row">
+            {{#aparatVideos}}
+            <div class="col-md-4">
+                <div class="card aparat-box">
+                    <div class="aparat-thumbnail" style="background-image:url('{{thumbnail}}')"></div>
+                    <h1>{{title}}</h1>
+                    <p>
+                        <b>url:</b>&nbsp;
+                        <a href="{{url}}">{{url}}</a>
+                    </p>
+                </div>
+            </div>
+            {{/aparatVideos}}
+        </div>
+        <hr />
+        <div class="btn btn-md btn-primary" onclick="show_file_screen()">Open File Explorer</div>
+        <hr />
+        <form action="/admin/aparat/save" method="POST">
+            <h2>JSON File:</h2>
+            <p>Put a valid json string here.Use Visual Studio Code or <a href="https://jsoneditoronline.org/" target="_blank">this online editor</a>.</p>
+            <textarea name="aparatVideosStr" class="form-control m" style="width:100%;height:400px;">{{{aparatVideosStr}}}</textarea>
+            <input type="submit" class="btn btn-md btn-success" value="Save"/>
+        </form>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

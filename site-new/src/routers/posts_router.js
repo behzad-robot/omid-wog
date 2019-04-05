@@ -145,7 +145,7 @@ export default class SitePostsRouter extends SiteRouter
                 siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
                 {
                     // console.log(gridPosts);
-                    fs.readFile(path.resolve('../storage/caches/posts-archive-aparat.json'), (err, aparatFile) =>
+                    fs.readFile(path.resolve('../storage/aparat/posts-archive-aparat.json'), (err, aparatFile) =>
                     {
                         if (err)
                         {

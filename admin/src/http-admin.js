@@ -16,6 +16,7 @@ import PostsCatsPanelRouter from "./routers/posts_cats_router";
 import CommentsPanelRouter from "./routers/comments_router";
 import AdminFilesRouter from "./routers/files_router";
 import UsersPanelRouter from "./routers/users_router";
+import AparatAdminRouter from "./routers/aparat_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -89,6 +90,7 @@ express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules
 express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/comments', new CommentsPanelRouter(AdminModules).router)
 express.expressApp.use('/admin/users', new UsersPanelRouter(AdminModules).router)
+express.expressApp.use('/admin/aparat', new AparatAdminRouter(AdminModules).router)
 
 express.expressApp.use('/admin/files', new AdminFilesRouter(AdminModules).router)
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
