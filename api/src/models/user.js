@@ -4,6 +4,7 @@ import { API_ENCODE_KEY, SITE_URL } from '../constants';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 export const UserSchema = new mongoose.Schema({
     token: { type: String, default: '' },
+    resetPassToken : {type:String,default : ''},
     username: { type: String, default: '' },
     password: { type: String, default: '' },
     profileImage: { type: String, default: '' },

@@ -1,6 +1,7 @@
 import SiteRouter from "./site_router";
 import { isEmptyString } from '../utils/utils';
 import { resolveSoa } from "dns";
+import { SITE_URL } from "../constants";
 const nodemailer = require('nodemailer');
 export default class SiteAuthRouter extends SiteRouter
 {
@@ -172,44 +173,83 @@ export default class SiteAuthRouter extends SiteRouter
         });
         this.router.get('/forget-password', (req, res) =>
         {
-
-
+            this.renderTemplate(req, res, 'forget-password.html', {
+            });
         });
-        this.router.all('/forget-password-submit', (req, res) =>
+        this.router.post('/forget-password-submit', (req, res) =>
         {
-            if(isEmptyString(req.body.email))
+            if (isEmptyString(req.body.email))
             {
-                res.send({success : false , error : 'email cant be empty'});
+                res.send({ success: false, error: 'email cant be empty' });
                 return;
             }
-            siteModules.User.find({email : req.body.email}).then((users)=>{
-                if(users == null || users.length == 0)
+            siteModules.User.find({ email: req.body.email }).then((users) =>
+            {
+                if (users == null || users.length == 0)
                 {
-                    res.send({success : false , error : 'user not found'});
+                    res.send({ success: false, error: 'user not found' });
                     return;
                 }
-                
+                let user = users[0];
+                var transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'wogcompany2019@gmail.com',
+                        pass: 'Lifeistooshort13',
+                    }
+                });
+                user.resetPassToken = 'wog-' + Date.now() + Math.floor(Math.random() * 5000);
+                siteModules.User.edit(user._id, { resetPassToken: user.resetPassToken }).then((result) =>
+                {
+                    let resetPassLink = SITE_URL('/reset-pass/?token=' + user.resetPassToken);
+                    const mailOptions = {
+                        from: 'wogcompany2019@gmail.com', // sender address
+                        to: user.email, // list of receivers
+                        subject: 'بازیابی رمز عبور حساب کاربری واج', // Subject line
+                        html: `<p>برای تنظیم رمز عبور جدید بر روی لینک زیر کلیک کنید:<br><a href="${resetPassLink}">${resetPassLink}</a></p>`// plain text body
+                    };
+                    transporter.sendMail(mailOptions, function (err, info)
+                    {
+                        if (err)
+                            res.send({ success: false, error: err.toString() });
+                        else
+                            res.send({ success: true, result: info, error: null });
+                    });
+                }).catch((err) =>
+                {
+                    res.send({ success: false, error: err.toString() });
+                });
             });
-            var transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'wogcompany2019@gmail.com',
-                    pass: 'Lifeistooshort13',
+        });
+        this.router.get('/reset-pass', (req, res) =>
+        {
+            siteModules.User.find({ resetPassToken: req.query.token }).then((users) =>
+            {
+                if (users == null || users.length == 0)
+                {
+                    this.renderTemplate(req, res, 'reset-password.html', {
+                        error: 'user not found',
+                    });
+                }
+                else
+                {
+                    let user = users[0];
+                    let pass = 'wog' + (2000+Math.floor(Math.random() * 100)).toString();
+                    siteModules.User.edit(user._id, { resetPassToken: '', password: pass }).then((result) =>
+                    {
+                        this.renderTemplate(req, res, 'reset-password.html', {
+                            username: result.username,
+                            password: result.password,
+                        });
+                    }).catch((err) =>
+                    {
+                        this.renderTemplate(req, res, 'reset-password.html', {
+                            error: err.toString(),
+                        });
+                    });
                 }
             });
-            const mailOptions = {
-                from: 'wogcompany2019@gmail.com', // sender address
-                to: 'behzad.robot@gmail.com', // list of receivers
-                subject: 'بازیابی رمز عبور حساب کاربری واج', // Subject line
-                html: '<p>Your html here</p>'// plain text body
-            };
-            transporter.sendMail(mailOptions, function (err, info)
-            {
-                if (err)
-                    res.send(err)
-                else
-                    res.send(info);
-            });
+
         });
     }
 }
