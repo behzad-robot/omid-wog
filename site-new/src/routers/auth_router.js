@@ -1,6 +1,7 @@
 import SiteRouter from "./site_router";
+import { isEmptyString } from '../utils/utils';
 import { resolveSoa } from "dns";
-
+const nodemailer = require('nodemailer');
 export default class SiteAuthRouter extends SiteRouter
 {
     constructor(siteModules)
@@ -167,6 +168,47 @@ export default class SiteAuthRouter extends SiteRouter
             {
                 console.log("err=" + err);
                 res.redirect('/signup/?msg=' + err.toString());
+            });
+        });
+        this.router.get('/forget-password', (req, res) =>
+        {
+
+
+        });
+        this.router.all('/forget-password-submit', (req, res) =>
+        {
+            if(isEmptyString(req.body.email))
+            {
+                res.send({success : false , error : 'email cant be empty'});
+                return;
+            }
+            siteModules.User.find({email : req.body.email}).then((users)=>{
+                if(users == null || users.length == 0)
+                {
+                    res.send({success : false , error : 'user not found'});
+                    return;
+                }
+                
+            });
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'wogcompany2019@gmail.com',
+                    pass: 'Lifeistooshort13',
+                }
+            });
+            const mailOptions = {
+                from: 'wogcompany2019@gmail.com', // sender address
+                to: 'behzad.robot@gmail.com', // list of receivers
+                subject: 'بازیابی رمز عبور حساب کاربری واج', // Subject line
+                html: '<p>Your html here</p>'// plain text body
+            };
+            transporter.sendMail(mailOptions, function (err, info)
+            {
+                if (err)
+                    res.send(err)
+                else
+                    res.send(info);
             });
         });
     }

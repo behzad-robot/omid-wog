@@ -1,21 +1,47 @@
 <navbar class="">
     <div class="container" style="height:100%;overflow: hidden;">
-        <div style="display:inline-block">
-            <a href="/home"><img src="/images/wog-orange-logo.png" width="130px" style="margin-left:20px;" /></a>
+        <div class="navbar-mobile-btn-wrapper">
+            <div class="btn btn-md btn-dark" style="margin-top:10px;">
+                <span><i class="fas fa-bars"></i></span>
+            </div>
         </div>
-        <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی ها<!--<span class="fas fa-sort-down"></span>--></a>
-        <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials-disabled">مقالات<!--<span class="fas fa-sort-down"></span>--></a>
-        <a href="/posts/categories/news" class="navbar-item" dropdownItem="news-disabled">اخبار<!--<span class="fas fa-sort-down"></span>--></a>
-        <a href="/shop" class="navbar-item">فروشگاه</a>
-        <a href="/contact-us" class="navbar-item">تماس با ما</a>
+        <div style="display:inline-block">
+            <a href="/home"><img src="/images/wog-orange-logo.png" width="130px" style="margin-left:20px;"
+                    class="navbar-logo" /></a>
+        </div>
+
+        <div class="navbar-links-container">
+            <div class="btn btn-md navbar-item navbar-links-back-btn"><span class="fas fa-arrow-right"></span></div>
+            <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی ها
+                <!--<span class="fas fa-sort-down"></span>--></a>
+            <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials-disabled">مقالات
+                <!--<span class="fas fa-sort-down"></span>--></a>
+            <a href="/posts/categories/news" class="navbar-item" dropdownItem="news-disabled">اخبار
+                <!--<span class="fas fa-sort-down"></span>--></a>
+            <a href="/shop" class="navbar-item">فروشگاه</a>
+            <a href="/contact-us" class="navbar-item">تماس با ما</a>
+        </div>
+        <script>
+            $(() =>
+            {
+                $(".navbar-links-back-btn").click(() =>
+                {
+                    $(".navbar-links-container").hide();
+                });
+                $(".navbar-mobile-btn-wrapper .btn").click(() =>
+                {
+                    $(".navbar-links-container").show();
+                });
+            });
+        </script>
         {{#currentUser}}
         <div class="navbar-user-box">
-                <a href="{{siteUrl}}"><img src="{{profileImage}}" /></a>
+            <a href="{{siteUrl}}"><img src="{{profileImage}}" /></a>
             <a class="navbar-item" href="{{siteUrl}}">{{username}}</a>
         </div>
         {{/currentUser}}
         {{^currentUser}}
-        <div class="float-left" style="height:100%">
+        <div class="float-left navbar-login-box" style="height:100%">
             <span class="fas fa-user fas-user-auth"></span>
             <a href="/login" class="navbar-item">ورود</a>
             <a href="/signup" class="navbar-item">ثبت نام</a>

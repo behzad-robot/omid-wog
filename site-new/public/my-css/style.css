@@ -79,7 +79,12 @@ navfiller{
 navbar.transparent-navbar {
     background-color: rgba(255, 255, 255, 0.05);
 }
-
+navbar .navbar-links-container{
+    display: inline;
+}
+navbar .navbar-links-back-btn{
+    display:none;
+}
 .navbar-item {
     display: inline-block;
     padding: 25px 10px;
@@ -89,6 +94,7 @@ navbar.transparent-navbar {
     text-decoration: none !important;
     height: 100%;
 }
+
 
 navbar.transparent-navbar .navbar-item {
     text-shadow: 2px 3px 2px rgba(0, 0, 0, 0.10);
@@ -110,7 +116,9 @@ navbar.transparent-navbar .navbar-item {
     position: relative;
     top: 8px;
 }
-
+.navbar-mobile-btn-wrapper{
+    display:none;
+}
 .navbar-user-box{
     /* padding:15px 10px; */
     float:left;
@@ -183,6 +191,52 @@ navbar.transparent-navbar .navbar-item {
     font-size:18px;
     margin-top:5px;
 }
+/*Mobile Devices*/
+@media (max-width: 576px)
+{ 
+    .navbar-mobile-btn-wrapper{
+        display:inline-block;
+        margin-left: 5px;
+    }
+    navbar .navbar-logo{
+        padding-top:15px;
+    }
+    navbar .navbar-links-container{
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 300px;
+        z-index: 100000;
+        background-color: #202020;
+    }
+    navbar .navbar-links-container .navbar-item{
+        display: block;
+        width: 100%;
+        height:auto;
+        padding:10px 0;
+    }
+    navbar .navbar-links-back-btn{
+        display:block;
+        font-size:25px;
+        text-align:right;
+        padding:10px 15px;
+    }
+    
+    navbar .navbar-login-box{
+        display:inline-block;
+        font-size:10px;
+    }
+    navbar .fas-user-auth{
+        display:none;
+    }
+    navbar .navbar-login-box .navbar-item{
+        min-width:60px;
+        font-size:12px;
+    }
+}
+
 footer{
     display:block;
     width:100%;

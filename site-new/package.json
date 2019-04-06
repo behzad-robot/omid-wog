@@ -37,6 +37,7 @@
     "multiparty": "^4.2.1",
     "mustache": "^2.3.0",
     "node-fetch": "^2.1.2",
+    "nodemailer": "^6.0.0",
     "nodemon": "^1.17.4",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",

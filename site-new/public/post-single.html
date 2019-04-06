@@ -136,6 +136,24 @@
             margin-top: 20px;
             border-bottom: 1px solid #3e3e3e;
         }
+
+        @media (max-width: 576px) {
+            .post-single-header {
+                height: 60vh;
+            }
+
+            .post-single-header h1 {
+                font-size: 36px;
+            }
+
+            .post-single-header .author-box {
+                width: 90%;
+            }
+
+            .post-single-header .cats-box {
+                width: 90%;
+            }
+        }
     </style>
 </head>
 
@@ -146,7 +164,8 @@
         <h1>{{post.title}}</h1>
         <div class="author-box">
             <img src="{{post._author.profileImage}}" class="author-profile-image" />
-            <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;" href="{{post._author.siteUrl}}"><span>{{post._author.username}}</span></a></span>
+            <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;"
+                    href="{{post._author.siteUrl}}"><span>{{post._author.username}}</span></a></span>
             <span class="date">{{post.createdAt_persian}}</span>
         </div>
         <div class="cats-box">
@@ -163,6 +182,13 @@
             {{{post.body}}}
         </div>
     </section>
+    <script>
+        $(() =>
+        {
+            $(".contentSection img").css('width', '100%');
+            $(".contentSection img").css('height','auto');
+        });
+    </script>
     <section class="bg-section" style="padding:20px 0">
         <div class="container">
             <h3
