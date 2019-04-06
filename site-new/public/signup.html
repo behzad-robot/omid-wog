@@ -100,7 +100,7 @@
                                 type="submit" class="btn btn-warning" id="phoneNumber-submit-btn"
                                 onclick="phoneNumberSubmit()">بعدی</div>
                             <p id="error-phoneNumber" style=" color:red"></p>
-                            <a href="#" class="forget-link" id="forgetpass"">
+                            <a href="/forget-password" class="forget-link" id="forgetpass"">
                                     <p>رمز عبور خود را فراموش کرده اید؟</p>
                                 </a>
                                 <a href="/login" class="signup-link">
@@ -117,7 +117,7 @@
                             <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
                                 type="submit" class="btn btn-warning" onclick="confirmCodeSubmit()">بعدی</div>
                             <p id="error-confirmCode" style=" color:red"></p>
-                            <a href="#" class="forget-link" id="forgetpass"">
+                            <a href="/forget-password" class="forget-link" id="forgetpass"">
                                     <p>رمز عبور خود را فراموش کرده اید؟</p>
                                 </a>
                                 <a href="/login" class="signup-link">
@@ -356,10 +356,9 @@
     </script>
     <script>
         document.getElementById("forgetpass").onclick = function () { forgetpass() };
-
         function forgetpass()
         {
-            window.alert("به جهنمم!!!");
+            // window.alert("به جهنمم!!!");
         }
     </script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
