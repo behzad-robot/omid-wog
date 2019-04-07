@@ -109,8 +109,11 @@ export class OTPHandler
                     var timePassed = Date.now() - result.lastSent;
                     if (timePassed > 60 * 1000)
                     {
-                        kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
-                        resolve({ ok: true, message: "sms resent" });
+                        OTPObject.findByIdAndUpdate(result._id, { lastSent : Date.now() }, { new: true }, (err, result) =>
+                        {
+                            kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
+                            resolve({ ok: true, message: "sms resent" });
+                        });
                     }
                     else
                     {

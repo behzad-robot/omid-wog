@@ -45,6 +45,10 @@ class UsersAuthHttpRouter extends APIRouter
         });
         this.router.post('/edit-profile', (req, res) =>
         {
+            if(!isEmptyString(req.header('user-token')))
+            {
+                req.body.token = req.header('user-token');
+            }
             this.handler.editProfile(req.body).then((result) =>
             {
                 this.sendResponse(req, res, result);
@@ -251,12 +255,26 @@ export class UsersAuthHandler
         return new Promise((resolve, reject) =>
         {
             const _id = params._id;
-            this.User.findByIdAndUpdate(_id, params, { new: true }).then((result) =>
+            if(isEmptyString(params.token ))
             {
-                resolve(result);
-            }).catch((err) =>
+                reject('token is missing');
+                return;
+            }
+            this.User.findOne({ token: params.token }).exec((err, poff) =>
             {
-                reject(err.toString());
+                delete (params.token);
+                if(err || poff == null)
+                {
+                    reject(err ? err : 'object not found');
+                    return;
+                }
+                this.User.findByIdAndUpdate(_id, params, { new: true }).then((result) =>
+                {
+                    resolve(result);
+                }).catch((err) =>
+                {
+                    reject(err.toString());
+                });
             });
         });
     }

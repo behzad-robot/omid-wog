@@ -29,6 +29,7 @@ import { PubGTeam } from "./utilsApi/pubgteam";
 import { OTPObject } from "./utilsApi/otpobject";
 import SiteCommentsRouter from "./routers/comments_router";
 import PubGRouter from "./routers/pubg_router";
+import SiteOTPRouter from "./routers/otp_router";
 
 const fs = require('fs');
 const path = require('path');

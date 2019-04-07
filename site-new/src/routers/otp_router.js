@@ -12,7 +12,7 @@ export default class SiteOTPRouter extends SiteRouter
                 res.send(result);
             }).catch((err) =>
             {
-                res.send(err);
+                res.send({error : err});
             });
         });
         this.router.post('/check-otp', (req, res) =>
@@ -22,7 +22,7 @@ export default class SiteOTPRouter extends SiteRouter
                 res.send(result);
             }).catch((err) =>
             {
-                res.send(err);
+                res.send({error : err});
             });
         });
     }
