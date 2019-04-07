@@ -26,6 +26,7 @@ import { ContactUsForm } from "./utilsApi/contactUsForm";
 import { Media } from "./utilsApi/media";
 import { Comment } from "./utilsApi/comment";
 import { PubGTeam } from "./utilsApi/pubgteam";
+import { OTPObject } from "./utilsApi/otpobject";
 import SiteCommentsRouter from "./routers/comments_router";
 import PubGRouter from "./routers/pubg_router";
 
@@ -59,6 +60,7 @@ const SiteModules = {
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     PubGTeam: new PubGTeam(apiSocket),
+    OTPObject : new OTPObject(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -259,6 +261,7 @@ express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
+express.expressApp.use('/otp', new SiteOTPRouter(SiteModules).router);
 // express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 // express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
 

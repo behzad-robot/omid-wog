@@ -1,12 +1,14 @@
 import SiteRouter from "./site_router";
 const fs = require('fs');
 const path = require('path');
+
 export default class SiteGeneralRouter extends SiteRouter
 {
     constructor(siteModules)
     {
         super(siteModules);
-        this.router.get('/home',(req,res)=>{
+        this.router.get('/home', (req, res) =>
+        {
             res.redirect('/');
         });
         this.router.get('/', (req, res) =>
@@ -29,7 +31,7 @@ export default class SiteGeneralRouter extends SiteRouter
                             var aparatVideosFull = JSON.parse(aparatFile.toString());
                             // console.log(aparatVideosFull);
                             var aparatVideos = [];
-                            for(var i = 0 ; i < aparatVideosFull.length && i < 5 ;i++)
+                            for (var i = 0; i < aparatVideosFull.length && i < 5; i++)
                                 aparatVideos.push(aparatVideosFull[i]);
                             this.renderTemplate(req, res, 'wog-home.html', {
                                 latestPosts: latestPosts,
@@ -50,11 +52,22 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, req.params.fileName + '.html', {});
         });
-        this.router.get('/shop',(req,res)=>{
-            this.renderTemplate(req, res,'coming-soon.html', {});
+        this.router.get('/shop', (req, res) =>
+        {
+            this.renderTemplate(req, res, 'coming-soon.html', {});
         });
-        this.router.get('/wiki',(req,res)=>{
-            this.renderTemplate(req, res,'coming-soon.html', {});
+        this.router.get('/tournoments', (req, res) =>
+        {
+            this.renderTemplate(req, res, 'coming-soon.html', {});
         });
+        this.router.get('/wiki', (req, res) =>
+        {
+            this.renderTemplate(req, res, 'coming-soon.html', {});
+        });
+        // this.router.get('/sms', (req, res) =>
+        // {
+        //     kavenegarAPI.Send({ message: "من یک تباهم آرزو دارم 3530" , sender: "100065995" , receptor: "09375801307" });
+        //     res.send('TABAH!');
+        // });
     }
 }

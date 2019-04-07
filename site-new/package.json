@@ -29,6 +29,7 @@
     "http-proxy": "^1.17.0",
     "jimp": "^0.6.0",
     "jsonwebtoken": "^8.3.0",
+    "kavenegar": "^1.1.4",
     "moment": "^2.22.2",
     "mongodb": "^3.0.7",
     "mongoose": "^5.3.12",

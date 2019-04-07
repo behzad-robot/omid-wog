@@ -5,37 +5,18 @@ import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY } from "../constants";
 import moment from 'moment';
 const encoder = new JesEncoder(API_ENCODE_KEY);
+const Kavenegar = require('kavenegar');
+const kavenegarAPI = Kavenegar.KavenegarApi({ apikey: '4868637A4941627444765A477958596C306733367338776D567770686C73704F' });
 
-
-class UsersAuthHttpRouter extends APIRouter
+class OTPHttpRouter extends APIRouter
 {
     constructor(handler)
     {
         super();
         this.handler = handler;
-        this.router.post('/login', (req, res) =>
+        this.router.post('/send-otp', (req, res) =>
         {
-            this.handler.login(req.body).then((user) =>
-            {
-                this.sendResponse(req, res, user);
-            }).catch((err) =>
-            {
-                this.handleError(req, res, err);
-            });
-        });
-        this.router.post('/signup', (req, res) =>
-        {
-            this.handler.signup(req.body).then((user) =>
-            {
-                this.sendResponse(req, res, user);
-            }).catch((err) =>
-            {
-                this.handleError(req, res, err);
-            });
-        });
-        this.router.post('/check-token', (req, res) =>
-        {
-            this.handler.checkToken(req.body).then((result) =>
+            this.handler.sendOTP(req.body).then((result) =>
             {
                 this.sendResponse(req, res, result);
             }).catch((err) =>
@@ -43,9 +24,9 @@ class UsersAuthHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
-        this.router.post('/edit-profile', (req, res) =>
+        this.router.post('/check-otp', (req, res) =>
         {
-            this.handler.editProfile(req.body).then((result) =>
+            this.handler.checkOTP(req.body).then((result) =>
             {
                 this.sendResponse(req, res, result);
             }).catch((err) =>
@@ -55,7 +36,7 @@ class UsersAuthHttpRouter extends APIRouter
         });
     }
 }
-class UsersAuthSocketRouter extends SocketRouter
+class OTPSocketRouter extends SocketRouter
 {
     constructor(handler)
     {
@@ -67,33 +48,12 @@ class UsersAuthSocketRouter extends SocketRouter
     {
         if (!this.isValidRequest(request))
             return;
-        if (request.model != 'users')
+        if (request.model != 'otpObjects')
             return;
         //logic comes here:
-        if (request.method == 'login')
+        if (request.method == 'send-otp')
         {
-            console.log(request);
-            this.handler.login(request.params).then((user) =>
-            {
-                this.sendResponse(socket, request, user);
-            }).catch((err) =>
-            {
-                this.handleError(socket, request, err);
-            });
-        }
-        else if (request.method == 'signup')
-        {
-            this.handler.signup(request.params).then((user) =>
-            {
-                this.sendResponse(socket, request, user);
-            }).catch((err) =>
-            {
-                this.handleError(socket, request, err);
-            });
-        }
-        else if (request.method == 'checkToken' || request.method == 'check-token')
-        {
-            this.handler.checkToken(request.params).then((result) =>
+            this.handler.sendOTP(request.params).then((result) =>
             {
                 this.sendResponse(socket, request, result);
             }).catch((err) =>
@@ -101,9 +61,9 @@ class UsersAuthSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
-        else if (request.method == 'editProfile')
+        else if (request.method == 'check-otp')
         {
-            this.handler.editProfile(request.params).then((result) =>
+            this.handler.checkOTP(request.params).then((result) =>
             {
                 this.sendResponse(socket, request, result);
             }).catch((err) =>
@@ -114,19 +74,117 @@ class UsersAuthSocketRouter extends SocketRouter
     }
 
 }
-export class UsersAuthHandler
+export class OTPHandler
 {
-    constructor(User)
+    constructor(OTPObject)
     {
-        this.User = User;
+        this.OTPObject = OTPObject;
         //routers:
-        this.httpRouter = new UsersAuthHttpRouter(this);
-        this.socketRouter = new UsersAuthSocketRouter(this);
+        this.httpRouter = new OTPHttpRouter(this);
+        this.socketRouter = new OTPSocketRouter(this);
         //bind functions:
-        this.login = this.login.bind(this);
-        this.signup = this.signup.bind(this);
-        this.checkToken = this.checkToken.bind(this);
-        this.editProfile = this.editProfile.bind(this);
+        this.sendOTP = this.sendOTP.bind(this);
+        this.checkOTP = this.checkOTP.bind(this);
+    }
+    sendOTP(params)
+    {
+        const OTPObject = this.OTPObject;
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.phoneNumber) || isEmptyString(params.type))
+            {
+                reject({ code: 500, error: "parameters missing" });
+                return;
+            }
+            OTPObject.findOne({ phoneNumber: params.phoneNumber, status: 0 }).exec((err, result) =>
+            {
+                if (err)
+                {
+                    reject({ code: 500, error: err.toString() });
+                    return;
+                }
+                if (result != null)
+                {
+                    //check if we can re-send the sms:
+                    var timePassed = Date.now() - result.lastSent;
+                    if (timePassed > 60 * 1000)
+                    {
+                        kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
+                        resolve({ ok: true, message: "sms resent" });
+                    }
+                    else
+                    {
+                        reject({ code: 500, error: "try again in a few seconds" });
+                    }
+                }
+                else
+                {
+                    //all is ok lets do this:
+                    const code = (Math.floor(Math.random() * 8) + 1).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString();
+                    const data = {
+                        type: params.type,
+                        phoneNumber: params.phoneNumber,
+                        code: code,
+                        body: `کد فعال سازی حساب واج شما: ${code}`,
+                        status: 0,
+                        lastSent: Date.now(),
+                        createdAt: moment_now(),
+                        updatedAt: moment_now(),
+                    };
+                    var doc = new OTPObject(data);
+                    doc.save().then(() =>
+                    {
+                        kavenegarAPI.Send({ message: data.body, sender: "100065995", receptor: "09375801307" });
+                        resolve({ ok: true, message: "sms sent" });
+                    }).catch((err) =>
+                    {
+                        reject({ code: 500, error: err.toString() });
+                    });
+                }
+            });
+        });
+    }
+    checkOTP(params)
+    {
+        const OTPObject = this.OTPObject;
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.phoneNumber) || isEmptyString(params.type) || isEmptyString(params.code))
+            {
+                reject({ code: 500, error: "parameters missing" });
+                return;
+            }
+            OTPObject.findOne({ type: params.type, phoneNumber: params.phoneNumber }).exec((err, result) =>
+            {
+                if (err)
+                {
+                    reject({ code: 500, error: err.toString() });
+                    return;
+                }
+                if (result == null)
+                {
+                    reject({ code: 500, error: "object not found" });
+                    return;
+                }
+                if (result.code != params.code)
+                {
+                    reject({ code: 500, error: "wrong code", ok: false });
+                    return;
+                }
+                else
+                {
+                    OTPObject.findByIdAndUpdate(result._id, { status: 1 }, { new: true }, (err, result) =>
+                    {
+                        if (err)
+                        {
+                            reject({ code: 500, error: err.toString() });
+                            return;
+                        }
+                        resolve({ ok: true });
+                    });
+                }
+            });
+        });
     }
     login(params = { username: '', email: '', password: '' })
     {
@@ -251,7 +309,7 @@ export class UsersAuthHandler
         return new Promise((resolve, reject) =>
         {
             const _id = params._id;
-            this.User.findByIdAndUpdate(_id, params, { new: true }).then((result) =>
+            this.User.edit(_id, params).then((result) =>
             {
                 resolve(result);
             }).catch((err) =>

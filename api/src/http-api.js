@@ -24,6 +24,8 @@ import { Comment } from './models/comment';
 import { EasySocket } from './libs/easy-socket';
 import { PublicMongooseWSRouter } from './routers/public-ws-mongoose';
 import { BackupRouter } from './routers/backup_router';
+import { OTPObject } from './models/otpObject';
+import { OTPHandler } from './routers/otp_handler';
 
 const morgan = require('morgan');
 
@@ -57,6 +59,10 @@ express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsE
 const usersAuthHandler = new UsersAuthHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
+//otpObjects:
+const otpHandler = new OTPHandler(OTPObject);
+express.expressApp.use('/api/otpObjects/', new PublicMongooseAPIRouter(OTPObject, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/otpObjects/', otpHandler.httpRouter.router);
 //games , champions , champBuilds:
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
@@ -72,7 +78,7 @@ express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(Con
 //tournoment:
 express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam, { apiTokenRequired: true }).router);
 //backup
-express.expressApp.use('/api/backup/', new BackupRouter({ User: User , Game : Game , Champion : Champion , Build : ChampionBuild , Post : Post , PostCategory : PostCategory , Media : Media , Comment : Comment , ContactUsForm : ContactUsForm }, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
@@ -83,6 +89,10 @@ const WSRouters = [
     //users:
     new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
     usersAuthHandler.socketRouter,
+    //otp objects:
+    new PublicMongooseWSRouter('otpObjects', OTPObject, { apiTokenRequired: true }),
+    otpHandler.socketRouter,
+    
     //games & champs & builds:
     new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('champions', Champion, { apiTokenRequired: true }),

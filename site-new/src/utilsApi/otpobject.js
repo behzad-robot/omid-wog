@@ -2,11 +2,11 @@ import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
 
 
-export class PubGTeam extends SocketCollection
+export class OTPObject extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('pubg-teams', apiSocket);
+        super('otpObjects', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.find = this.find.bind(this);

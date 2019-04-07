@@ -28,6 +28,8 @@ import { Comment } from "./utilsApi/comment";
 import { PubGTeam } from "./utilsApi/pubgteam";
 import SiteCommentsRouter from "./routers/comments_router";
 import PubGRouter from "./routers/pubg_router";
+import { OTPObject } from "./utilsApi/otpobject";
+import SiteOTPRouter from "./routers/otp_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -59,6 +61,7 @@ const SiteModules = {
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     PubGTeam : new PubGTeam(apiSocket),
+    OTPObject : new OTPObject(apiSocket),
     proxyAPI: proxyAPI,
     getConfig : ()=> {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -260,6 +263,7 @@ express.expressApp.all('/api/*', (req, res) =>
 express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
+
 express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
 express.expressApp.use('/champions', new SiteChampionsRouter(SiteModules).router);
@@ -267,6 +271,7 @@ express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
 express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 express.expressApp.use('/builds', new SiteBuildsRouter(SiteModules).router);
 express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
+
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 apiSocket.connect(() =>
