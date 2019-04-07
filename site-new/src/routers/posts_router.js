@@ -26,38 +26,30 @@ export default class SitePostsRouter extends SiteRouter
         });
         this.router.get('/categories/:slug', (req, res) =>
         {
-            siteModules.Post.find({ limit: 20 }).then((posts) =>
+            this.siteModules.Cache.allPostsCats.getData((err, cats) =>
             {
-                this.siteModules.Cache.allPostsCats.getData((err, cats) =>
+                let category = undefined;
+                for (var i = 0; i < cats.length; i++)
                 {
-                    let category = undefined;
-                    for (var i = 0; i < cats.length; i++)
+                    if (cats[i].slug == req.params.slug)
                     {
-                        if (cats[i].slug == req.params.slug)
-                        {
-                            category = cats[i];
-                            break;
-                        }
+                        category = cats[i];
+                        break;
                     }
-                    if (category == undefined)
-                    {
-                        this.show500(req, res, 'Category Not found!');
-                        return;
-                    }
-                    this.siteModules.Post.find({ categories: category._id }).then((posts) =>
-                    {
-                        this.postsArchive(req, res, posts, category.name, true);
-                    }).catch((err) =>
-                    {
-                        this.show500(req, res, err.toString());
-                    });
+                }
+                if (category == undefined)
+                {
+                    this.show500(req, res, 'Category Not found!');
+                    return;
+                }
+                this.siteModules.Post.find({ categories: category._id }).then((posts) =>
+                {
+                    this.postsArchive(req, res, posts, category.name, false);
+                }).catch((err) =>
+                {
+                    this.show500(req, res, err.toString());
                 });
-
-            }).catch((err) =>
-            {
-                res.send(err.toString());
             });
-
         });
         this.router.get('/_id/:_id', (req, res) =>
         {
@@ -256,7 +248,7 @@ export default class SitePostsRouter extends SiteRouter
                                         }
                                     }
                                 }
-                                if(comments.length == 0)
+                                if (comments.length == 0)
                                     comments = undefined;
                                 this.renderTemplate(req, res, 'post-single.html', {
                                     post: post,

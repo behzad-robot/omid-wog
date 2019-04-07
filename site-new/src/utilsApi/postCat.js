@@ -38,7 +38,7 @@ export class PostCat extends SocketCollection
     }
     fixOne(cat)
     {
-        cat.siteUrl = SITE_URL('posts/category/'+cat.slug);
+        cat.siteUrl = SITE_URL('posts/categories/'+cat.slug);
         return cat;
     }
     fixAll(cs)
