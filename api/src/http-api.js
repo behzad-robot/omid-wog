@@ -26,6 +26,7 @@ import { PublicMongooseWSRouter } from './routers/public-ws-mongoose';
 import { BackupRouter } from './routers/backup_router';
 import { OTPObject } from './models/otpObject';
 import { OTPHandler } from './routers/otp_handler';
+import { PostsHandler } from './routers/posts_router';
 
 const morgan = require('morgan');
 
@@ -68,7 +69,10 @@ express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTok
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
 //posts , comments:
+const postsHandler = new PostsHandler(Post);
+express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
+
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 //media:
@@ -100,6 +104,7 @@ const WSRouters = [
     //posts & comments:
     new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
+    postsHandler.socketRouter,
     new PublicMongooseWSRouter('comments', Comment, { apiTokenRequired: true }),
     //media:
     new PublicMongooseWSRouter('media', Media, { apiTokenRequired: true }),

@@ -26,9 +26,12 @@
                 getObject('posts-cats', `{{{_id}}}`, (cat) =>
                 {
                     console.log(cat);
+                    if(cat.icon == undefined)
+                        cat.icon = '';
                     $("#single").append(idInput('_id', cat._id));
                     $("#single").append(idInput('createdAt', cat.createdAt));
                     $("#single").append(idInput('updatedAt', cat.updatedAt));
+                    $("#single").append(filePickTool(undefined, 'icon', cat.icon));
                     $("#single").append(textInput('name', cat.name));
                     $("#single").append(textInput('slug', cat.slug));
                     var optionsStr = '<option></option>';
@@ -44,6 +47,7 @@
         </script>
     </div>
     {{{footer}}}
+    {{{file_screen}}}
 </body>
 
 </html>

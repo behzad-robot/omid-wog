@@ -81,7 +81,8 @@ export default class PostsPanelRouter extends AdminRouter
                     'metaDescription': '',
                     'focusKeyword': '',
                     'keywords': '',
-                }
+                },
+                _draft : true,
             }).then((result) =>
             {
                 if (result._id)

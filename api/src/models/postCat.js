@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 export const PostCategorySchema = new mongoose.Schema({
     parent: String,
+    icon :{type:String,default:''},
     name: { type: String, default: '' },
     slug: { type: String, default: '' },
     createdAt: { type: String, default: '?' },
