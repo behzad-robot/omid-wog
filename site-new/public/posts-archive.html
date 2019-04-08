@@ -185,6 +185,13 @@
             color: #455A64;
             font-size: 0.8rem;
         }
+        .post-box a.author{
+            color: #455A64 !important;
+            font-size: 0.8rem;
+        }
+        .post-box a.author:hover{
+            color:orange !important;
+        }
 
         .post-box .date .fas {
             position: relative;
@@ -250,9 +257,9 @@
         .sidebar-aparat-box .video-title {
             font-size: 1rem;
             margin-top: 5px;
-            max-lines:1;
+            max-lines: 1;
             text-overflow: clip;
-            max-height:1rem;
+            max-height: 1rem;
             overflow: hidden;
             word-wrap: break-word;
             font-weight: 300;
@@ -408,6 +415,8 @@
                             </a>
                             <p>{{{intro}}}</p>
                             <div class="date">
+                                <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
+                                {{{_author.username}}}</a>&nbsp;&nbsp;
                                 <span class="fas fa-calendar"></span>&nbsp;
                                 {{{createdAt_persian}}}
                             </div>
@@ -427,6 +436,10 @@
                                 </a>
                                 <p>{{{intro}}}</p>
                                 <div class="date">
+                                    <a href="{{_author.siteUrl}}" class="author">
+                                        <span class="fas fa-user"></span>&nbsp;{{{_author.username}}}
+                                    </a>
+                                    &nbsp;&nbsp;
                                     <span class="fas fa-calendar"></span>&nbsp;
                                     {{createdAt_persian}}
                                 </div>

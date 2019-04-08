@@ -113,9 +113,9 @@ export const resizeImageIfNeeded = (originalPath, resize, next, _log = console.l
     resizePath = path.resolve(".." + resizePath);
     if (!fs.existsSync(originalPath))
     {
-        _log('Fatal Error: File Doesnt Exsist => ' + originalPath);
+        _log('Fatal Error: File Doesnt Exist => ' + originalPath);
         if (next != undefined)
-            next('Fatal Error: File Doesnt Exsist => ' + originalPath);
+            next('Fatal Error: File Doesnt Exist => ' + originalPath);
         return;
     }
     _log(originalPath + ' => OK');
@@ -132,7 +132,7 @@ export const resizeImageIfNeeded = (originalPath, resize, next, _log = console.l
                 return;
             }
             img
-                .cover(r.width, r.height, Jimp.VERTICAL_ALIGN_MIDDLE)
+                .cover(r.width, r.height/*, Jimp.VERTICAL_ALIGN_MIDDLE | Jimp.HORIZONTAL_ALIGN_MIDDLE*/)
                 .quality(r.quality ? r.quality : 60)
                 .write(rPath);
             _log(`file created => ${rPath}`);

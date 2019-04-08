@@ -73,6 +73,7 @@ export default class SitePostsRouter extends SiteRouter
         });
         this.router.get('/:slug', (req, res) =>
         {
+            req.params.slug = req.params.slug.toString().toLowerCase();
             siteModules.Post.find({ slug: req.params.slug, _publicCast: true }).then((posts) =>
             {
                 if (posts.length == 0)
