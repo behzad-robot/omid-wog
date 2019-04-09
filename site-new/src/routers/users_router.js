@@ -19,20 +19,21 @@ export default class SiteUsersRouter extends SiteRouter
                 }
                 let user = users[0];
                 // let user = siteModules.User.public(users[0]);
-                siteModules.Post.find({ authorId: user._id }).then((posts) =>
+                siteModules.Post.find({ authorId: user._id, limit: 200 }).then((posts) =>
                 {
-                    for(var i = 0 ; i < posts.length;i++)
+                    for (var i = 0; i < posts.length; i++)
                         posts[i]._user = user;
                     this.renderTemplate(req, res, 'user-profile.html', {
                         user: user,
                         isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
-                        posts : posts,
-                    });    
+                        posts: posts,
+                        postsCount : posts.length,
+                    });
                 }).catch((err) =>
                 {
                     this.show500(req, res, err);
                 });
-                
+
             }).catch((err) =>
             {
                 this.show500(req, res, err);

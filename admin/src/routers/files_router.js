@@ -17,9 +17,9 @@ export default class AdminFilesRouter extends AdminRouter
         this.router.post('/upload', (req, res) =>
         {
             var dir = req.body.dir ? req.body.dir : '';
-            if(!dir.endsWith('/'))
+            if (!dir.endsWith('/'))
                 dir += '/';
-            console.log('dir is '+dir);
+            console.log('dir is ' + dir);
             this.handleFile(req, res, 'my-file', dir).then((result) =>
             {
                 if (result)
@@ -32,6 +32,35 @@ export default class AdminFilesRouter extends AdminRouter
             }).catch((err) =>
             {
                 res.send({ success: false, error: err.toString() });
+            });
+        });
+        this.router.get('/update-sitemap', (req, res) =>
+        {
+            var siteMapStr = '';
+            adminModules.Post.find({}, 2000).then((posts) =>
+            {
+                for (var i = 0; i < posts.length; i++)
+                {
+                    siteMapStr += 'http://worldofgamers.ir/posts/' + posts[i].slug;
+                    siteMapStr += '\n';
+                }
+                adminModules.PostCategory.find({}, 2000).then((cats) =>
+                {
+                    for (var i = 0; i < cats.length; i++)
+                    {
+                        siteMapStr += 'http://worldofgamers.ir/posts/categories/' + cats[i].slug + '/';
+                        siteMapStr += '\n';
+                    }
+                    fs.writeFile(path.resolve('../storage/sitemap.txt'),siteMapStr, (err) =>
+                    {
+                        if(err)
+                        {
+                            res.status(500).send(err.toString());
+                            return;
+                        }
+                        res.send('sitemap file updated!<br>'+siteMapStr);
+                    });
+                });
             });
         });
         this.router.get('/update-images-cache', (req, res) =>

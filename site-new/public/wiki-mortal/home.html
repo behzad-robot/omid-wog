@@ -1,0 +1,21 @@
+<h1>{{game.title}}</h1>
+<h3>Champions:</h3>
+{{#champions}} 
+    <b>{{name}}</b>#
+{{/champions}}
+<hr>
+<h3>Five Champions:</h3>
+{{#fiveChampions}} 
+    <b>{{name}}</b>#
+{{/fiveChampions}}
+<hr>
+<h3>Gallery:</h3>
+{{#media}} 
+    <img src="{{thumbnail_url}}" width="100px"/>
+    <b>{{title}}</b>#
+{{/media}}
+<h3>Posts:</h3>
+{{#posts}} 
+    <img src="{{thumbnail_150x150}}" width="100px"/>
+    <b>{{title}}</b>#
+{{/posts}}

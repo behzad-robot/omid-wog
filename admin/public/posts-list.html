@@ -31,7 +31,8 @@
         </h2>
 
         <hr />
-        <div class="post-row" style="margin-bottom:0;border-radius:0;border-bottom:1px solid #aaaaaa;background-color:#e0e0e0;padding:20px 0;">
+        <div class="post-row"
+            style="margin-bottom:0;border-radius:0;border-bottom:1px solid #aaaaaa;background-color:#e0e0e0;padding:20px 0;">
             <div class="row">
                 <div class="col-md-1 text-center">تصویر</div>
                 <div class="col-md-4 text-center">عنوان</div>
@@ -48,36 +49,41 @@
         </div>
         <div id="list"></div>
         <script>
-            let posts = [], cats = [];
+            let posts = [], cats = [], users = [];
             $(document).ready(() =>
             {
                 $("#list").html("<h3>در حال بارگذاری...</h3>");
-                findObjects('posts', (ps) =>
+                findObjects('users', (us) =>
                 {
-                    posts = ps;
-                    console.log(posts);
-                    $("#list").html("<h3>بارگذاری دسته بندی ها...</h3>");
-                    findObjects('posts-cats', (cs) =>
+                    users = us;
+                    findObjects('posts', (ps) =>
                     {
-                        cats = cs;
-                        for (var i = 0; i < posts.length; i++)
+                        posts = ps;
+                        console.log(posts);
+                        $("#list").html("<h3>بارگذاری دسته بندی ها...</h3>");
+                        findObjects('posts-cats', (cs) =>
                         {
-                            posts[i]._cats = [];
-                            for (var j = 0; j < posts[i].categories.length; j++)
+                            cats = cs;
+                            for (var i = 0; i < posts.length; i++)
                             {
-                                var cat = get_cat(posts[i].categories[j]);
-                                if (cat != undefined)
-                                    posts[i]._cats.push(cat);
-                                else
-                                    posts[i]._cats.push({ name: "Missing CAT!!" });
+                                posts[i]._cats = [];
+                                for (var j = 0; j < posts[i].categories.length; j++)
+                                {
+                                    var cat = get_cat(posts[i].categories[j]);
+                                    if (cat != undefined)
+                                        posts[i]._cats.push(cat);
+                                    else
+                                        posts[i]._cats.push({ name: "Missing CAT!!" });
+                                }
                             }
-                        }
-                        //now lets draw posts:
-                        create_posts();
-                        $("#loading").hide();
-                    });
+                            //now lets draw posts:
+                            create_posts();
+                            $("#loading").hide();
+                        });
 
+                    });
                 });
+
             });
             function create_posts()
             {
@@ -85,6 +91,7 @@
                 for (var i = 0; i < posts.length; i++)
                 {
                     var post = posts[i];
+                    post._author = get_user(post.authorId);
                     var tagsStr = '';
                     for (var j = 0; j < post.tags.length; j++)
                         tagsStr += `<div class="btn btn-sm btn-dark" style="margin-bottom:5px">${post.tags[j]}</div>&nbsp;`;
@@ -108,6 +115,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <h5>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h5>
+                                        <small class="badge badge-sm badge-info">${post._author.username}</small>
                                     </div>
                                     <div class="col-md-2">
                                         ${catsStr}
@@ -132,6 +140,13 @@
                 for (var i = 0; i < cats.length; i++)
                     if (cats[i]._id == catId)
                         return cats[i];
+                return undefined;
+            }
+            function get_user(userId)
+            {
+                for(var i = 0 ; i < users.length; i++)
+                    if(users[i]._id == userId)
+                        return users[i];
                 return undefined;
             }
         </script>

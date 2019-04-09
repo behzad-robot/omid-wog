@@ -51,6 +51,16 @@ export default class SitePostsRouter extends SiteRouter
                 });
             });
         });
+        this.router.get('/tags/:slug', (req, res) =>
+        {
+            this.siteModules.Post.find({ tags: req.params.slug }).then((posts) =>
+            {
+                this.postsArchive(req, res, posts, req.params.slug, false);
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
+            });
+        });
         this.router.get('/_id/:_id', (req, res) =>
         {
             siteModules.Post.find({ _id: req.params._id, _draft: 'all', _publicCast: true }).then((posts) =>

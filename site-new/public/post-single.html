@@ -47,6 +47,7 @@
 
         .post-single-header .author-box {
             width: 20%;
+            min-width:450px;
             margin: 0px auto;
             margin-top: 45px;
             background-color: rgba(0, 0, 0, .3);
@@ -182,12 +183,23 @@
             {{{post.body}}}
         </div>
     </section>
+    <section class="bg-section">
+        <div class="container">
+            <div style="padding:10px 20px;background-color:#e0e1e2;border:1px solid #d0d0d0;border-radius:5px;">
+                <h3 style="font-size:1.2rem;">تگ ها:</h3>
+                {{#post.tags}}
+                    <a href="{{#SITE_URL}}/posts/tags/{{.}}{{/SITE_URL}}" class="btn btn-sm btn-light" style="font-size:0.7rem;">{{.}}</a>
+                {{/post.tags}}
+            </div>
+        </div>
+        <hr>
+    </section>
     <script>
-        $(() =>
-        {
-            $(".contentSection img").css('width', '100%');
-            $(".contentSection img").css('height','auto');
-        });
+        // $(() =>
+        // {
+        //     $(".contentSection img").css('width', '100%');
+        //     $(".contentSection img").css('height','auto');
+        // });
     </script>
     <section class="bg-section" style="padding:20px 0">
         <div class="container">
