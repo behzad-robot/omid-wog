@@ -60,6 +60,7 @@ export default class GamesPanelRouter extends AdminRouter
             }
             // console.log(req.body);
             req.body._draft = req.body._draft == 'on' ? true : false;
+            req.body.images = JSON.parse(req.body.images);
             // req.body.media = JSON.parse(req.body.media);
             if (req.body.items)
             {
@@ -70,9 +71,9 @@ export default class GamesPanelRouter extends AdminRouter
                     req.body.runes = JSON.parse(req.body.runes);
                 req.body.patchNotes = JSON.parse(req.body.patchNotes);
             }
-            else
+            else if(req.body.token.indexOf('mortal') != -1)
             {
-                
+                req.body.factions = JSON.parse(req.body.factions);
             }
             if(req.body.token == 'pubg')
             {

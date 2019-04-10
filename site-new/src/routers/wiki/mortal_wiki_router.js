@@ -50,6 +50,32 @@ export class MortalWikiRouter extends SiteRouter
                 this.show500(req, res, err.toString());
             });
         });
+        this.router.get('/:gameSlug', (req, res) =>
+        {
+            var slug = req.params.gameSlug.toString().toLowerCase();
+            siteModules.Cache.getGame({ slug: slug }).then((game) =>
+            {
+                if(game == null)
+                {
+                    this.show404(req,res);
+                    return;
+                }
+                siteModules.Champion.find({ gameId: game._id }).then((champions) =>
+                {
+                    siteModules.Media.find({ gameId: game._id }).then((media) =>
+                    {
+                        this.renderTemplate(req, res, 'wiki-mortal/game-single.html', {
+                            game: game,
+                            champions: champions,
+                            media: media,
+                        });
+                    });
+                });
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
+            });
+        });
         this.router.get('/characters/:slug', (req, res) =>
         {
             req.params.slug = req.params.slug.toString().toLowerCase();
@@ -65,7 +91,7 @@ export class MortalWikiRouter extends SiteRouter
                             game: game,
                             champion: champion,
                             champions: champions,
-                            media : media,
+                            media: media,
                         });
                     });
                 }).catch((err) =>

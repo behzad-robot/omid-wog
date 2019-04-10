@@ -145,8 +145,20 @@ export default class SitePostsRouter extends SiteRouter
                 }
                 var gridIds = JSON.parse(gridFile.toString());
                 // console.log("gridIds=>"+JSON.stringify(gridIds));
-                siteModules.Post.find({ _ids: gridIds }).then((gridPosts) =>
+                siteModules.Post.find({ _ids: gridIds }).then((gs) =>
                 {
+                    let gridPosts = [];
+                    for (var i = 0; i < gridIds.length; i++)
+                    {
+                        for (var j = 0; j < gs.length; j++)
+                        {
+                            if (gs[j]._id == gridIds[i])
+                            {
+                                gridPosts.push(gs[j]);
+                                break;
+                            }
+                        }
+                    }
                     // console.log(gridPosts);
                     fs.readFile(path.resolve('../storage/aparat/posts-archive-aparat.json'), (err, aparatFile) =>
                     {

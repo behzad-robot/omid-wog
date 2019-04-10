@@ -83,7 +83,7 @@
                 imageInput('#single', 'coverTall', game.coverTall, FILE_UPLOAD_URL, MY_DIR);
                 $("#single").append(jsonInput('images', game.images));
                 // $("#single").append(jsonInput('media', game.media));
-                if (game.token != 'mortal')
+                if (game.token.indexOf('mortal') == -1)
                 {
                     $("#single").append(jsonInput('items', game.items));
                     $("#single").append(jsonInput('summonerSpells', game.summonerSpells));
@@ -104,6 +104,8 @@
                     $("#single").append(jsonInput('factions', game.factions));
                     $("#extra").append(`<div id="factions"></div>`);
                     factions_recreate();
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`);
                     /*
                     $("#single").append(bodyInput('members',game.members));
                     $("#single").append(bodyInput('objective',game.objective));
