@@ -5,12 +5,18 @@
     <title>ثبت نام</title>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
+        body {
+            background-image: url('/images/image_2019-03-12_15-10-42.png');
+            background-size: cover;
+            background-position: center;
+        }
+
         .signup-section {
             width: 100%;
             height: 100vh;
             padding-top: 80px;
-            background-image: url('/images/image_2019-03-12_15-10-42.png');
             background-position: center;
+            background-size: cover;
             position: relative;
         }
 
@@ -128,15 +134,14 @@
                         <!-- third step -->
                         <div class="signup" id="step3" style="display: none">
                             <div class="text-center"><img class="wogLogo" src="/images/wog-logo.png" alt=""></div>
-                            <h1 class="tittle"> مشخات حساب</h1>
+                            <h1 class="tittle">مشخصات حساب</h1>
                             <input type="text" name="username" class="form-control login-input"
-                                placeholder="لطفا نام کاربری خود را وارد کنید">
-                            <input type="email" name="email" class="form-control login-input"
-                                placeholder="لطفا ایمیل خود را وارد کنید">
+                                placeholder="نام کاربری">
+                            <input type="email" name="email" class="form-control login-input" placeholder="ایمیل">
                             <input type="password" name="password" class="form-control login-input"
-                                placeholder="لطفا رمز عبور خود را وارد کنید">
+                                placeholder="رمز عبور">
                             <input type="password" name="confirmPassword" class="form-control login-input"
-                                placeholder="لطفا بخش تایید رمز عبور را پر کنید کنید">
+                                placeholder="رمز عبور مجدد">
                             <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
                                 type="submit" class="btn btn-warning" id="accountDetails-submit-btn"
                                 onclick="accountDetailsSubmit()">بعدی</div>
@@ -145,27 +150,30 @@
                         <!-- end of third step -->
                         <!-- fourth step -->
                         <div class=" signup" id="step4" style="display: none">
-                                <div class="text-center"><img class="default-image" src="/images/s4.png"
-                                        alt="default-picture"></div>
-                                <h1 class="tittle">مشخات شخصی</h1>
-                                <input type="text" name="firstName" class="form-control login-input"
-                                    placeholder="لطفا نام خود را وارد کنید">
-                                <input type="text" name="lastName" class="form-control login-input"
-                                    placeholder="لطفا نام خانوادگی خود را وارد کنید">
-                                <select name="gender" class="form-control login-input">
-                                    <option value="مرد">مرد</option>
-                                    <option value="زن">زن</option>
-                                </select>
-                                <div id="checkbox" style="float: right;">
-                                    <p style="color: orange;float: left;margin-top: 2px"> قوانین را خوانده و قبول دارم
-                                        3بار !!! </p>
-                                    <input style="display:inline-block" type="checkbox" id="myCheck"
-                                        onclick="myFunction()" name="terms">
-                                </div>
-                                <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;width: 30%;display:none"
-                                    id="signupButton" type="submit" class="btn btn-warning"
-                                    onclick="personalDetailsSubmit()">ثبت نام</div>
-                                <p id="error-personalDetails" style=" color:red"></p>
+                            <div class="text-center"><img class="default-image" src="/images/mario-gamer.jpg"
+                                    alt="default-picture"></div>
+                            <h1 class="tittle">مشخصات شخصی</h1>
+                            <input type="text" name="firstName" class="form-control login-input" placeholder="نام">
+                            <input type="text" name="lastName" class="form-control login-input"
+                                placeholder="نام خانوادگی">
+                            <!-- <select name="gender" class="form-control login-input">
+                                <option value="مرد">مرد</option>
+                                <option value="زن">زن</option>
+                            </select> -->
+                            <!-- <div id="checkbox" style="float: right;">
+                                <p style="color: orange;float: left;margin-top: 2px"> قوانین را خوانده و قبول دارم
+                                    3بار !!! </p>
+                                <input style="display:inline-block" type="checkbox" id="myCheck" onclick="myFunction()"
+                                    name="terms">
+                            </div> -->
+                            <div style="padding:20px 0">
+                                <input type="checkbox" style="width:16px;height:16px;position: relative;top:3px;">
+                                <span style="color:orange">قوانین را خوانده و قبول دارم.</span>
+                            </div>
+                            <div class="text-center" style="padding:20px 0">
+                                <input type="submit" class="btn btn-md btn-warning" value="ثبت نام" />
+                            </div>
+                            <p id="error-personalDetails" style=" color:red"></p>
                         </div>
                     </div>
                     <div class="col-md-4"></div>
@@ -175,6 +183,51 @@
 
     </section>
     <script>
+        $(() =>
+        {
+            // $("#step1").hide();
+            // $("#step2").hide();
+            // $("#step3").hide();
+            // $("#step4").show();
+            $("form").submit(() =>
+            {
+                var firstName = $("#signupForm [name=firstName]").val();
+                var lastName = $("#signupForm [name=lastName]").val();
+                var age = $("#signupForm [name=size]").val();
+                if (firstName == undefined || firstName.replace(' ', '') == '')
+                {
+                    $("#error-personalDetails").html("لطفا نام را وارد کنید.");
+                    return false;
+                }
+                if (firstName.length < 3)
+                {
+                    $("#error-personalDetails").html("لطفا نام را درست وارد کنید.");
+                    return false;
+                }
+                if (lastName == undefined || lastName.replace(' ', '') == '')
+                {
+                    $("#error-personalDetails").html("لطفا نام خانوادگی را وارد کنید.");
+                    return false;
+                }
+                if (lastName.length < 3)
+                {
+                    $("#error-personalDetails").html("لطفا نام خانوادگی را درست وارد کنید.");
+                    return false;
+                }
+                // if (age == undefined || age.replace(' ', '') == '')
+                // {
+                //     $("#error-personalDetails").html("لطفا سن را وارد کنید.");
+                //     return false;
+                // }
+                if (!$("input[type=checkbox]").is(':checked'))
+                {
+                    $("#error-personalDetails").html('قوانین سایت را بخوانید .');
+                    return false;
+                }
+                $("#error-personalDetails").html('');
+                return true;
+            });
+        });
         // first part validation
         function phoneNumberSubmit()
         {
@@ -189,6 +242,11 @@
                 $("#error-phoneNumber").html("شماره وارد شده اشتباه است.");
                 return false;
             }
+            if (phoneNumber.indexOf('09') == -1)
+            {
+                $("#error-phoneNumber").html("شماره وارد شده اشتباه است.");
+                return;
+            }
             $("#phoneNumber-submit-btn").css('opacity', 0);
             fetch('/signup-check-unique/?phoneNumber=' + phoneNumber, {
                 method: 'GET',
@@ -197,12 +255,34 @@
                 $("#phoneNumber-submit-btn").css('opacity', 1);
                 if (result.available)
                 {
-                    $("#error-phoneNumber").html('');
-                    //hide this step and show next step:
-                    $("#step1").hide(300);
-                    // $("#step2").show(300);
-                    //also for now skip step 2:
-                    $("#step3").show(300);
+                    $("#error-phoneNumber").html('در حال بارگذاری...');
+                    //call webservice:
+                    fetch('/otp/send-otp', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ phoneNumber: phoneNumber, type: 'signup' }),
+
+                    }).then((response => response.json())).then((result) =>
+                    {
+                        console.log(result);
+                        if (result.error)
+                        {
+                            if (result.error == 'try again in a few seconds')
+                                result.error = 'به تازگی یک کد فعال سازی برای شما ارسال شده، 60 ثانیه صبر کنید و مجدد تلاش کنید.';
+                            $("#error-phoneNumber").html(result.error);
+                        }
+                        else
+                        {
+                            $("#error-phoneNumber").html('');
+                            //hide this step and show next step:
+                            $("#step1").hide(300);
+                            $("#step2").show(300);
+                        }
+                    });
+                    // $("#step3").show(300);
                     return true;
                 }
                 else
@@ -222,23 +302,40 @@
         // second step validation
         function confirmCodeSubmit()
         {
+            var phoneNumber = $("#signupForm [name=phoneNumber]").val();
             var confirmCode = $("#signupForm [name=confirmCode]").val();
-            if (confirmCode == undefined || confirmCode.replace(' ', '') == '')
+            if ((confirmCode == undefined || confirmCode.replace(' ', '') == '') || isEmptyString(confirmCode))
             {
                 $("#error-confirmCode").html("لطفا کد تایید را وارد کنید.");
                 return false;
             }
-            if (confirmCode != 1234)
-            {
-                $("#error-confirmCode").html(" کد تایید وارد شده اشتباه است!");
-                return false;
-            }
-            $("#error-confirmCode").html('');
-            //hide this step and show next step:
-            console.log($("#step1"));
-            $("#step2").hide(300);
-            $("#step3").show(300);
+            $("#error-confirmCode").html('در حال بارگذاری...');
+            //call webservice:
+            fetch('/otp/check-otp', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ phoneNumber: phoneNumber, type: 'signup', code: confirmCode }),
 
+            }).then((response => response.json())).then((result) =>
+            {
+                console.log(result);
+                if (result.error || !result.ok)
+                {
+                    if (result.error == 'wrong code')
+                        result.error = 'کد وارد شده اشتباه است';
+                    $("#error-confirmCode").html(result.error);
+                }
+                else
+                {
+                    $("#error-confirmCode").html('');
+                    //hide this step and show next step:
+                    $("#step2").hide(300);
+                    $("#step3").show(300);
+                }
+            });
         }
         // third step validation
         function accountDetailsSubmit()
@@ -279,7 +376,6 @@
             }
 
             $("#accountDetails-submit-btn").css('opacity', 0);
-            alert(email);
             fetch(`/signup-check-unique/?username=${username}&email=${email}`, {
                 method: 'GET',
             }).then(response => response.json()).then((result) =>
@@ -306,20 +402,6 @@
             });
 
 
-        }
-        // fourth step validation
-        function myFunction()
-        {
-            var checkBox = document.getElementById("myCheck");
-            var text = document.getElementById("text");
-            if (checkBox.checked == true)
-            {
-                signupButton.style.display = "block";
-                $("#checkbox").hide(300);
-            } else
-            {
-                signupButton.style.display = "none";
-            }
         }
         function personalDetailsSubmit()
         {

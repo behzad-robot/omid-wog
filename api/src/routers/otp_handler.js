@@ -91,6 +91,7 @@ export class OTPHandler
         const OTPObject = this.OTPObject;
         return new Promise((resolve, reject) =>
         {
+            console.log(params);
             if (isEmptyString(params.phoneNumber) || isEmptyString(params.type))
             {
                 reject({ code: 500, error: "parameters missing" });
@@ -109,7 +110,7 @@ export class OTPHandler
                     var timePassed = Date.now() - result.lastSent;
                     if (timePassed > 60 * 1000)
                     {
-                        OTPObject.findByIdAndUpdate(result._id, { lastSent : Date.now() }, { new: true }, (err, result) =>
+                        OTPObject.findByIdAndUpdate(result._id, { lastSent: Date.now() }, { new: true }, (err, result) =>
                         {
                             kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
                             resolve({ ok: true, message: "sms resent" });
@@ -157,7 +158,7 @@ export class OTPHandler
                 reject({ code: 500, error: "parameters missing" });
                 return;
             }
-            OTPObject.findOne({ type: params.type, phoneNumber: params.phoneNumber }).exec((err, result) =>
+            OTPObject.findOne({ type: params.type, phoneNumber: params.phoneNumber, status: 0 }).exec((err, result) =>
             {
                 if (err)
                 {
