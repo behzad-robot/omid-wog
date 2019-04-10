@@ -1,0 +1,108 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
+    <style>
+        .form-row {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-row b {
+            display: inline-block;
+            width: 100px;
+        }
+
+        .form-row .form-control.m {
+            display: inline-block;
+            width: 300px;
+            max-width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container" style="padding-top:20px;min-height:80vh;">
+            <div class="row">
+                <div class="col-1"></div>
+                <div class="col-10">
+                    <form action="/users/{{currentUser.username}}/submit-edit/" method="POST">
+                        <div class="wog-card" style="padding:10px 20px;">
+                            <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:15px;">تغییر مشخصات کاربری:</h1>
+                            <div class="form-row">
+                                <b>نام کاربری:</b>
+                                <input type="text" class="form-control m" name="username"
+                                    value="{{currentUser.username}}" />
+                            </div>
+                            <div class="form-row">
+                                <b>ایمیل:</b>
+                                <input type="text" class="form-control m" name="email" value="{{currentUser.email}}" />
+                            </div>
+                            <div class="form-row">
+                                <b>شماره تماس:</b>
+                                <input type="text" class="form-control m" name="phoneNumber"
+                                    value="{{currentUser.phoneNumber}}" readonly />
+                            </div>
+                            <div class="form-row">
+                                <b>نام:</b>
+                                <input type="text" class="form-control m" name="firstName"
+                                    value="{{currentUser.firstName}}" />
+                            </div>
+                            <div class="form-row">
+                                <b>نام خانوادگی:</b>
+                                <input type="text" class="form-control m" name="lastName"
+                                    value="{{currentUser.lastName}}" />
+                            </div>
+                            <div class="form-row">
+                                <b>سن:</b>
+                                <input type="number" class="form-control m" name="age" value="{{currentUser.age}}" />
+                            </div>
+                            <div class="form-row">
+                                <b>جنسیت:</b>
+                                <select class="form-control m" name="sex">
+                                    <option></option>
+                                    <option value="Female">زن</option>
+                                    <option value="Male">مرد</option>
+                                </select>
+                            </div>
+                    </form>
+                    <script>
+                        $(() =>
+                        {
+                            $("input[name=sex]").val(`{{currentUser.sex}}`);
+                        });
+                    </script>
+                    <div class="text-center" style="padding:10px 0">
+                        <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+</body>
+{{{footer}}}
+
+</html>

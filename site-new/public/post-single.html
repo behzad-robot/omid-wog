@@ -35,6 +35,7 @@
             background-size: cover;
             background-position: center;
             padding-top: 10vw;
+            position: relative;
         }
 
         .post-single-header h1 {
@@ -42,7 +43,7 @@
             font-weight: bold;
             text-align: center;
             color: white;
-            text-shadow: 1px 2px 2px rgba(0, 0, 0, 1);
+            text-shadow: 3px 4px 6px rgba(0, 0, 0, 0.45);
         }
 
         .post-single-header .author-box {
@@ -90,6 +91,7 @@
             padding-top: 30px;
             padding-bottom: 20px;
             line-height: 2rem;
+            font-size:0.7rem;
         }
 
         .contentSection img {
@@ -163,20 +165,26 @@
     {{{navbar}}}
     <navfiller></navfiller>
     <section class="post-single-header" style="background-image:url('{{post.thumbnail}}')">
-        <h1>{{post.title}}</h1>
-        <div class="author-box">
-            <img src="{{post._author.profileImage}}" class="author-profile-image" />
-            <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;"
-                    href="{{post._author.siteUrl}}"><span>{{post._author.username}}</span></a></span>
-            <span class="date">{{post.createdAt_persian}}</span>
+        <div
+            style="position:absolute;width: 100%;height: 100%;z-index:0;background-color:rgba(0, 0, 0, .1);top:0;left:0;">
         </div>
-        <div class="cats-box">
-            <b class="text-white text-shadow"
-                style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b>
-            {{#post._cats}}
-            <a href="{{siteUrl}}" class="btn btn-sm btn-warning">{{name}}</a>
-            {{/post._cats}}
+        <div style="position:relative;z-index:0;">
+            <h1>{{post.title}}</h1>
+            <div class="author-box">
+                <img src="{{post._author.profileImage}}" class="author-profile-image" />
+                <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;"
+                        href="{{post._author.siteUrl}}"><span>{{post._author.username}}</span></a></span>
+                <span class="date">{{post.createdAt_persian}}</span>
+            </div>
+            <div class="cats-box">
+                <b class="text-white text-shadow"
+                    style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b>
+                {{#post._cats}}
+                <a href="{{siteUrl}}" class="btn btn-sm btn-warning">{{name}}</a>
+                {{/post._cats}}
+            </div>
         </div>
+
     </section>
     <section style="background-color:#1e1e1e;height:5px;margin-bottom:10px"></section>
     <section class="bg-section contentSection">

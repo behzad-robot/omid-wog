@@ -102,9 +102,11 @@
                             <h1 class="tittle"> ثبت نام در واج</h1>
                             <input type="text" name="phoneNumber" class="form-control login-input"
                                 placeholder="لطفا شماره همراه خود را وارد کنید">
-                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
-                                type="submit" class="btn btn-warning" id="phoneNumber-submit-btn"
-                                onclick="phoneNumberSubmit()">بعدی</div>
+                            <div class="text-center" style="padding:10px 0">
+                                <div class="btn btn-md btn-warning" id="phoneNumber-submit-btn"
+                                    onclick="phoneNumberSubmit()">بعدی</div>
+                            </div>
+
                             <p id="error-phoneNumber" style=" color:red"></p>
                             <a href="/forget-password" class="forget-link" id="forgetpass"">
                                     <p>رمز عبور خود را فراموش کرده اید؟</p>
@@ -120,8 +122,9 @@
                             <h1 class="tittle"> ثبت نام در واج</h1>
                             <input type="text" name="confirmCode" class="form-control login-input"
                                 placeholder="کد تایید">
-                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
-                                type="submit" class="btn btn-warning" onclick="confirmCodeSubmit()">بعدی</div>
+                            <div class="text-center" style="padding:10px 0;">
+                                <div class="btn btn-md btn-warning" onclick="confirmCodeSubmit()">بعدی</div>
+                            </div>
                             <p id="error-confirmCode" style=" color:red"></p>
                             <a href="/forget-password" class="forget-link" id="forgetpass"">
                                     <p>رمز عبور خود را فراموش کرده اید؟</p>
@@ -142,9 +145,11 @@
                                 placeholder="رمز عبور">
                             <input type="password" name="confirmPassword" class="form-control login-input"
                                 placeholder="رمز عبور مجدد">
-                            <div style="margin-top:20px;border-radius: 20px;margin: 20px auto;display: block;width: 30%"
-                                type="submit" class="btn btn-warning" id="accountDetails-submit-btn"
-                                onclick="accountDetailsSubmit()">بعدی</div>
+                            <div class="text-center" style="padding:10px 0">
+                                <div class="btn btn-md btn-warning" id="accountDetails-submit-btn" onclick="accountDetailsSubmit()">بعدی</div>
+                            </div>
+
+
                             <p id="error-accountDetails" style=" color:red"></p>
                         </div>
                         <!-- end of third step -->

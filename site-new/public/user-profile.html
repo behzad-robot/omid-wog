@@ -125,8 +125,11 @@
                             </div>
                             <div class="author-info">
                                 <h1 class="text-center username">{{user.username}}</h1>
-                                <p>{{{user.aboutMe}}}</p>
+                                <p class="text-center">{{{user.aboutMe}}}</p>
                                 <b>پست ها:</b>&nbsp;{{postsCount}}
+                                {{#isCurrentUser}}
+                                    <a href="/users/{{currentUser.username}}/edit" class="btn btn-md btn-light">ویرایش اطلاعات کاربری</a>
+                                {{/isCurrentUser}}
                             </div>
                         </div>
                     </div>

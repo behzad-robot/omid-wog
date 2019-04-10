@@ -11,7 +11,6 @@ export default class SiteUsersRouter extends SiteRouter
             console.log(req.params.username);
             siteModules.User.find({ username: req.params.username }).then((users) =>
             {
-                console.log(users);
                 if (users.length == 0)
                 {
                     this.show404(req, res);
@@ -27,7 +26,7 @@ export default class SiteUsersRouter extends SiteRouter
                         user: user,
                         isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
                         posts: posts,
-                        postsCount : posts.length,
+                        postsCount: posts.length,
                     });
                 }).catch((err) =>
                 {
@@ -38,6 +37,15 @@ export default class SiteUsersRouter extends SiteRouter
             {
                 this.show500(req, res, err);
             });
+        });
+        this.router.get('/:username/edit', (req, res) =>
+        {
+            if (req.params.username != req.session.currentUser.username)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            this.renderTemplate(req, res, 'edit-profile.html',{});
         });
         // this.router.get('/:username/edit', (req, res) =>
         // {
