@@ -2,7 +2,7 @@ import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
 import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
-import { API_ENCODE_KEY } from "../constants";
+import { API_ENCODE_KEY, SITE_URL } from "../constants";
 import moment from 'moment';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 
@@ -163,7 +163,6 @@ export class UsersAuthHandler
                     reject({ code: 400, error: "User Not found" });
                     return;
                 }
-                console.log("this is fine");
                 result.token = encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
                 this.User.findByIdAndUpdate(result._id, { $set: { token: result.token, lastLogin: moment().format('YYYY-MM-DD hh:mm:ss') } }, { new: true }, (err, user) =>
                 {
@@ -173,6 +172,10 @@ export class UsersAuthHandler
                         return;
                     }
                     user = user.toObject();
+                    if(isEmptyString(user.profileImage))
+                        user.profileImage = SITE_URL('/images/mario-gamer.jpg');
+                    if(isEmptyString(user.cover))
+                        user.cover = SITE_URL('/images/user-default-cover.jpg');
                     resolve(user);
                 });
             });
