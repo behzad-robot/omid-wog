@@ -1,10 +1,11 @@
 import mongoose from 'mongoose';
 import { JesEncoder } from '../utils/jes-encoder';
 import { API_ENCODE_KEY, SITE_URL } from '../constants';
+import { isEmptyString } from '../utils/utils';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 export const UserSchema = new mongoose.Schema({
     token: { type: String, default: '' },
-    resetPassToken : {type:String,default : ''},
+    resetPassToken: { type: String, default: '' },
     username: { type: String, default: '' },
     password: { type: String, default: '' },
     profileImage: { type: String, default: '' },
@@ -26,6 +27,27 @@ export const UserSchema = new mongoose.Schema({
     updatedAt: { type: String, default: '?' },
     lastLogin: { type: String, default: '?' },
     accessLevel: { type: Object, default: { isAdmin: false, permissions: [] } },
+}, {
+        toObject: {
+            virtuals: true
+        },
+        toJSON: {
+            virtuals: true,
+        }
+});
+UserSchema.virtual('profileImage_url').get(function (){
+    var profileImage = this.profileImage;
+    if(isEmptyString(profileImage))
+        return SITE_URL('/images/mario-gamer.jpg');
+    else
+        return SITE_URL(profileImage);
+});
+UserSchema.virtual('cover_url').get(function (){
+    var cover = this.cover;
+    if(isEmptyString(cover))
+        return SITE_URL('/images/user-default-cover.jpg');
+    else
+        return SITE_URL(cover);
 });
 export const User = mongoose.model('User', UserSchema);
 User.Helpers = {
