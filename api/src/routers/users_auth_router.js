@@ -45,7 +45,7 @@ class UsersAuthHttpRouter extends APIRouter
         });
         this.router.post('/edit-profile', (req, res) =>
         {
-            if(!isEmptyString(req.header('user-token')))
+            if (!isEmptyString(req.header('user-token')))
             {
                 req.body.token = req.header('user-token');
             }
@@ -172,9 +172,9 @@ export class UsersAuthHandler
                         return;
                     }
                     user = user.toObject();
-                    if(isEmptyString(user.profileImage))
+                    if (isEmptyString(user.profileImage))
                         user.profileImage = SITE_URL('/images/mario-gamer.jpg');
-                    if(isEmptyString(user.cover))
+                    if (isEmptyString(user.cover))
                         user.cover = SITE_URL('/images/user-default-cover.jpg');
                     resolve(user);
                 });
@@ -234,6 +234,10 @@ export class UsersAuthHandler
                 var doc = new this.User(data);
                 doc.save().then(() =>
                 {
+                    if (isEmptyString(doc.profileImage))
+                        doc.profileImage = SITE_URL('/images/mario-gamer.jpg');
+                    if (isEmptyString(doc.cover))
+                        doc.cover = SITE_URL('/images/user-default-cover.jpg');
                     resolve(doc);
                 }).catch((err) =>
                 {
@@ -258,7 +262,7 @@ export class UsersAuthHandler
         return new Promise((resolve, reject) =>
         {
             const _id = params._id;
-            if(isEmptyString(params.token ))
+            if (isEmptyString(params.token))
             {
                 reject('token is missing');
                 return;
@@ -266,7 +270,7 @@ export class UsersAuthHandler
             this.User.findOne({ token: params.token }).exec((err, poff) =>
             {
                 delete (params.token);
-                if(err || poff == null)
+                if (err || poff == null)
                 {
                     reject(err ? err : 'object not found');
                     return;
