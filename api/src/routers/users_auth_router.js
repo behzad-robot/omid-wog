@@ -4,7 +4,6 @@ import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY, SITE_URL } from "../constants";
 import moment from 'moment';
-import { runInNewContext } from "vm";
 const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
 const path = require('path');
@@ -232,7 +231,7 @@ export class UsersAuthHandler
             }
             this.User.findOne({
                 $or: [
-                    { username: data.username },
+                    { username: { $regex: new RegExp(data.username, 'i') } },
                     { email: data.email },
                     { phoneNumber: data.phoneNumber },
                 ]
@@ -331,7 +330,7 @@ export class UsersAuthHandler
                 };
                 if (params.username && poff.username != params.username) 
                 {
-                    this.User.findOne({ username: params.username }).exec((err, result) =>
+                    this.User.findOne({ username: { $regex: new RegExp(params.username, 'i') } }).exec((err, result) =>
                     {
                         if (err)
                         {

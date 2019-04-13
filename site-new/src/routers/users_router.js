@@ -127,23 +127,15 @@ export default class SiteUsersRouter extends SiteRouter
                 {
                     if (coverImage)
                         req.body.cover = coverImage.path;
-                    if (req.session.currentUser.username != req.body.username)
-                    {
-                        siteModules.User.find({ username: req.body.username }).then((users) =>
-                        {
-                            if (users.length == 0 || users == undefined)
-                            {
-                                doEditUser();
-                            }
-                            else
-                            {
-                                res.send({ success: false, error: "a user with this username already exists" });
-                            }
-                        });
-                    }
-                    else
-                        doEditUser();
+                    console.log('handle file done');
+                    doEditUser();
+                }).catch((err) =>
+                {
+                    res.send({ success: false, error: err.toString() });
                 });
+            }).catch((err) =>
+            {
+                res.send({ success: false, error: err.toString() });
             });
         });
 

@@ -52,9 +52,12 @@
                         <input type="hidden" name="_id" value="{{currentUser._id}}" />
                         <div class="wog-card">
                             <div style="position: relative;height:300px">
-                                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('{{currentUser.cover}}');background-size: cover;background-position: center;border-top-left-radius:5px;border-top-right-radius:5px;"></div>
+                                <div
+                                    style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('{{currentUser.cover}}');background-size: cover;background-position: center;border-top-left-radius:5px;border-top-right-radius:5px;">
+                                </div>
                                 <div class="text-center" style="position:absolute;bottom:5px;left:0;width:100%;">
-                                    <img src="{{currentUser.profileImage}}" style="width:96px;height:96px;border-radius:50%;"/>
+                                    <img src="{{currentUser.profileImage}}"
+                                        style="width:96px;height:96px;border-radius:50%;" />
                                 </div>
                             </div>
                             <div style="padding:10px 20px">
@@ -116,6 +119,9 @@
                                         <option value="Male">مرد</option>
                                     </select>
                                 </div>
+                            </div>
+                            <div class="text-center" style="padding:10px 0">
+                                <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
                             </div>
                         </div>
                     </form>
@@ -190,9 +196,7 @@
                             });
                         });
                     </script>
-                    <div class="text-center" style="padding:10px 0">
-                        <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
-                    </div>
+
 
                 </div>
             </div>
