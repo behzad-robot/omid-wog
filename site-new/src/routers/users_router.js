@@ -129,7 +129,6 @@ export default class SiteUsersRouter extends SiteRouter
                         req.body.cover = coverImage.path;
                     if (req.session.currentUser.username != req.body.username)
                     {
-                        console.log('this is not same username');
                         siteModules.User.find({ username: req.body.username }).then((users) =>
                         {
                             if (users.length == 0 || users == undefined)
