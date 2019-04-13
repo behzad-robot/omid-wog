@@ -66,110 +66,64 @@ export default class Router
         }
     }
     //file functions:
-    handleFile(req, res, name, folder = '', sizes = [])
-    {
+    handleFile(req, res, name, folder = '', sizes = []) {
         if (folder != '' && folder.indexOf('/') == -1)
             folder += '/';
-        return new Promise((resolve, reject) =>
-        {
-            try
-            {
+        return new Promise((resolve, reject) => {
+            try {
                 // console.log('req.files='+JSON.stringify(req.files));
-                if (req.files && req.files[name])
-                {
+                if (req.files && req.files[name]) {
                     let f = req.files[name];
                     const fileName = (f.name.substring(0, f.name.lastIndexOf('.')) + '-' + new Date().getTime().toString()).replace(' ', '');
                     const fileFormat = f.name.substring(f.name.lastIndexOf('.'), f.name.length);
                     const filePath = '../storage/' + folder + fileName + fileFormat;
                     console.log(filePath);
-                    f.mv(filePath, (err) =>
-                    {
+                    f.mv(filePath, (err) => {
                         if (err)
                             reject(err);
-                        else
-                        {
+                        else {
                             console.log('file uploaded ' + filePath);
-                            if (sizes == undefined || sizes.length == 0)
-                                resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
-                            else
-                            {
-                                for (var i = 0; i < sizes.length; i++)
-                                {
+                            if (sizes == undefined || sizes.length == 0) {
+                                var path = filePath.replace('../storage/', '/storage/');
+                                var url = API_URL.replace('api/', '') + `${folder + fileName + fileFormat}`;
+                                path = path.replace("storage//", "storage/");
+                                url = url.replace(":8585//", ":8585/");
+                                resolve({ path: path, url: url });
+                            }
+                            else {
+                                for (var i = 0; i < sizes.length; i++) {
                                     if (sizes[i].width == -1)
                                         sizes[i].width = Jimp.AUTO;
                                     if (sizes[i].height == -1)
                                         sizes[i].height = Jimp.AUTO;
                                     const i2 = i;
-                                    Jimp.read(filePath, (err, img) =>
-                                    {
+                                    Jimp.read(filePath, (err, img) => {
                                         img
                                             .resize(sizes[i2].width, sizes[i2].height)
                                             .quality(60)
                                             .write('../storage/' + folder + fileName + '-resize-' + sizes[i2].width + 'x' + sizes[i2].height + fileFormat)
                                     });
                                 }
-                                setTimeout(() =>
-                                {
-                                    resolve({ path: filePath.replace('../storage/','/storage/'), url: API_URL.replace('api/', '') + `${folder + fileName + fileFormat}` });
+                                setTimeout(() => {
+                                    var path = filePath.replace('../storage/', '/storage/');
+                                    var url = API_URL.replace('api/', '') + `${folder + fileName + fileFormat}`;
+                                    path = path.replace("storage//", "storage/");
+                                    url = url.replace(":8585//", ":8585/");
+                                    resolve({ path: path, url: url });
                                 }, 200 * sizes.length);
                             }
                         }
                     });
                 }
-                else
-                {
+                else {
                     resolve(undefined);
                 }
             }
-            catch (err)
-            {
+            catch (err) {
                 console.log(err);
                 reject(err);
             }
         });
-        // return new Promise((resolve, reject) =>
-        // {
-        //     try
-        //     {
-        //         if (req.files && req.files[name]) 
-        //         {
-        //             let f = req.files[name];
-        //             const fileName = (f.name.substring(0, f.name.lastIndexOf('.')) + '-' + new Date().getTime().toString()).replace(' ', '');
-        //             const fileFormat = f.name.substring(f.name.lastIndexOf('.'), f.name.length);
-        //             const filePath = path.resolve('public/media') + '/' + folder + fileName + fileFormat;
-        //             f.mv(filePath, async (err) =>
-        //             {
-        //                 if (err)
-        //                     reject(err);
-        //                 else 
-        //                 {
-        //                     log.success('uploaded file =>' + fileName + fileFormat);
-        //                     for (var i = 0; i < sizes.length; i++)
-        //                     {
-        //                         const resizePath = path.resolve('public/media') + '/' + folder + fileName + '-resize-' + sizes[i].width + 'x' + sizes[i].height + fileFormat;
-        //                         console.log(resizePath)
-        //                         console.log(JSON.stringify(sizes[i]));
-        //                         await app.sharp(filePath).resize(sizes[i].width, sizes[i].height).toFile(resizePath);/*.then((file)=>{}).catch((err)=>{
-        //                             app.log.error(err.toString);
-        //                         });*/
-        //                     }
-        //                     console.log('ok we are done!');
-        //                     resolve('/media/' + folder + fileName + fileFormat);
-        //                 }
-        //                 return 0;
-        //             });
-        //         }
-        //         else
-        //         {
-        //             resolve(undefined);
-        //         }
-        //     }
-        //     catch (err)
-        //     {
-        //         console.log(err);
-        //         reject(err);
-        //     }
-        // });
     }
     handleFileArray(app, req, res, files, folder, callBack, i = 0, results = [])
     {

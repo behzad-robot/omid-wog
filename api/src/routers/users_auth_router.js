@@ -4,8 +4,10 @@ import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY, SITE_URL } from "../constants";
 import moment from 'moment';
+import { runInNewContext } from "vm";
 const encoder = new JesEncoder(API_ENCODE_KEY);
-
+const fs = require('fs');
+const path = require('path');
 
 class UsersAuthHttpRouter extends APIRouter
 {
@@ -49,12 +51,30 @@ class UsersAuthHttpRouter extends APIRouter
             {
                 req.body.token = req.header('user-token');
             }
-            this.handler.editProfile(req.body).then((result) =>
+            this.handler.checkUserFolder(req.body._id);
+            const userPath = `storage/users/${req.body._id}/`;
+            this.handleFile(req, res, 'profileImage', userPath).then((img) =>
             {
-                this.sendResponse(req, res, result);
+                if (img)
+                    req.body.profileImage = img.path;
+                this.handleFile(req, res, 'cover', userPath).then((img) =>
+                {
+                    if (img)
+                        req.body.cover = img.path;
+                    this.handler.editProfile(req.body).then((result) =>
+                    {
+                        this.sendResponse(req, res, result);
+                    }).catch((err) =>
+                    {
+                        this.handleError(req, res, err);
+                    });
+                }).catch((err) =>
+                {
+                    this.handleError(req, res, err.toString(), 500);
+                });
             }).catch((err) =>
             {
-                this.handleError(req, res, err);
+                this.handleError(req, res, err.toString(), 500);
             });
         });
     }
@@ -107,6 +127,7 @@ class UsersAuthSocketRouter extends SocketRouter
         }
         else if (request.method == 'editProfile')
         {
+            this.handler.checkUserFolder(request.params._id);
             this.handler.editProfile(request.params).then((result) =>
             {
                 this.sendResponse(socket, request, result);
@@ -131,6 +152,7 @@ export class UsersAuthHandler
         this.signup = this.signup.bind(this);
         this.checkToken = this.checkToken.bind(this);
         this.editProfile = this.editProfile.bind(this);
+        this.checkUserFolder = this.checkUserFolder.bind(this);
     }
     login(params = { username: '', email: '', password: '' })
     {
@@ -143,6 +165,7 @@ export class UsersAuthHandler
             }
             const query = {
                 password: params.password,
+
             };
             if (params._id)
                 query._id = params._id;
@@ -176,6 +199,7 @@ export class UsersAuthHandler
                         user.profileImage = SITE_URL('/images/mario-gamer.jpg');
                     if (isEmptyString(user.cover))
                         user.cover = SITE_URL('/images/user-default-cover.jpg');
+
                     resolve(user);
                 });
             });
@@ -204,6 +228,7 @@ export class UsersAuthHandler
                 followingGames: [],
                 createdAt: moment_now(),
                 updatedAt: "",
+                token: encoder.encode({ _id: '?', username: params.username, expiresIn: Date.now() + 14400000 }), //14400000
             }
             this.User.findOne({
                 $or: [
@@ -257,6 +282,15 @@ export class UsersAuthHandler
             });
         });
     }
+    checkUserFolder(_id)
+    {
+        if (isEmptyString(_id))
+            return;
+        //check if user has a folder:
+        const userFolder = path.resolve('../storage/users/' + _id);
+        if (!fs.existsSync(userFolder))
+            fs.mkdirSync(userFolder);
+    }
     editProfile(params)
     {
         return new Promise((resolve, reject) =>
@@ -275,13 +309,43 @@ export class UsersAuthHandler
                     reject(err ? err : 'object not found');
                     return;
                 }
-                this.User.findByIdAndUpdate(_id, params, { new: true }).then((result) =>
+                let editUser = () =>
                 {
-                    resolve(result);
-                }).catch((err) =>
+                    this.User.findByIdAndUpdate(_id, params, { new: true }).then((result) =>
+                    {
+                        //before finishing check if profileImage , cover need resize:
+                        if (!isEmptyString(result.profileImage))
+                        {
+                            //profile image file also exists:
+                            if (fs.existsSync(path.resolve('..' + result.profileImage)))
+                            {
+                                //check resizes:
+
+                            }
+                        }
+                        resolve(result);
+                    }).catch((err) =>
+                    {
+                        reject(err.toString());
+                    });
+                };
+                if (params.username && poff.username != params.username) 
                 {
-                    reject(err.toString());
-                });
+                    this.User.findOne({ username: params.username }).exec((err, result) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        if(result != undefined)
+                            reject("user with this username already exists");
+                        else
+                            editUser();
+                    });
+                }
+                else
+                    editUser();
             });
         });
     }

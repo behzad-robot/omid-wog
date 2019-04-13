@@ -47,50 +47,147 @@
             <div class="row">
                 <div class="col-1"></div>
                 <div class="col-10">
-                    <form action="/users/{{currentUser.username}}/submit-edit/" method="POST">
-                        <div class="wog-card" style="padding:10px 20px;">
-                            <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:15px;">تغییر مشخصات کاربری:</h1>
-                            <div class="form-row">
-                                <b>نام کاربری:</b>
-                                <input type="text" class="form-control m" name="username"
-                                    value="{{currentUser.username}}" />
+                    <form action="/users/{{currentUser.username}}/submit-edit/" method="POST"
+                        enctype="multipart/form-data">
+                        <input type="hidden" name="_id" value="{{currentUser._id}}" />
+                        <div class="wog-card">
+                            <div style="position: relative;height:300px">
+                                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('{{currentUser.cover}}');background-size: cover;background-position: center;border-top-left-radius:5px;border-top-right-radius:5px;"></div>
+                                <div class="text-center" style="position:absolute;bottom:5px;left:0;width:100%;">
+                                    <img src="{{currentUser.profileImage}}" style="width:96px;height:96px;border-radius:50%;"/>
+                                </div>
                             </div>
-                            <div class="form-row">
-                                <b>ایمیل:</b>
-                                <input type="text" class="form-control m" name="email" value="{{currentUser.email}}" />
+                            <div style="padding:10px 20px">
+                                <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:15px;">تغییر مشخصات کاربری:
+                                </h1>
+                                <div class="form-row">
+                                    <b>تصویر آواتار:</b>
+                                    <input type="file" class="form-control m" name="profileImage" />
+                                </div>
+                                <div class="form-row">
+                                    <b>تصویر کاور:</b>
+                                    <input type="file" class="form-control m" name="cover" />
+                                </div>
+                                <div class="form-row">
+                                    <b>نام کاربری:</b>
+                                    <input type="text" class="form-control m" name="username"
+                                        value="{{currentUser.username}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>رمز عبور:</b>
+                                    <input type="password" class="form-control m" name="password"
+                                        value="{{currentUser.password}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>رمز عبور مجدد:</b>
+                                    <input type="password" class="form-control m" name="confirmPassword"
+                                        value="{{currentUser.password}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>ایمیل:</b>
+                                    <input type="text" class="form-control m" name="email"
+                                        value="{{currentUser.email}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>شماره تماس:</b>
+                                    <input type="text" class="form-control m" name="phoneNumber"
+                                        value="{{currentUser.phoneNumber}}" readonly />
+                                </div>
+                                <div class="form-row">
+                                    <b>نام:</b>
+                                    <input type="text" class="form-control m" name="firstName"
+                                        value="{{currentUser.firstName}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>نام خانوادگی:</b>
+                                    <input type="text" class="form-control m" name="lastName"
+                                        value="{{currentUser.lastName}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>سن:</b>
+                                    <input type="number" class="form-control m" name="age"
+                                        value="{{currentUser.age}}" />
+                                </div>
+                                <div class="form-row">
+                                    <b>جنسیت:</b>
+                                    <select class="form-control m" name="sex">
+                                        <option></option>
+                                        <option value="Female">زن</option>
+                                        <option value="Male">مرد</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-row">
-                                <b>شماره تماس:</b>
-                                <input type="text" class="form-control m" name="phoneNumber"
-                                    value="{{currentUser.phoneNumber}}" readonly />
-                            </div>
-                            <div class="form-row">
-                                <b>نام:</b>
-                                <input type="text" class="form-control m" name="firstName"
-                                    value="{{currentUser.firstName}}" />
-                            </div>
-                            <div class="form-row">
-                                <b>نام خانوادگی:</b>
-                                <input type="text" class="form-control m" name="lastName"
-                                    value="{{currentUser.lastName}}" />
-                            </div>
-                            <div class="form-row">
-                                <b>سن:</b>
-                                <input type="number" class="form-control m" name="age" value="{{currentUser.age}}" />
-                            </div>
-                            <div class="form-row">
-                                <b>جنسیت:</b>
-                                <select class="form-control m" name="sex">
-                                    <option></option>
-                                    <option value="Female">زن</option>
-                                    <option value="Male">مرد</option>
-                                </select>
-                            </div>
+                        </div>
                     </form>
                     <script>
                         $(() =>
                         {
                             $("input[name=sex]").val(`{{currentUser.sex}}`);
+                            $("form").ajaxForm({
+                                beforeSubmit: (formData, jqForm, options) =>
+                                {
+                                    var username = $("[name=username]").val();
+                                    var password = $("[name=password]").val();
+                                    var confirmPassword = $("[name=confirmPassword]").val();
+                                    var email = $("[name=email]").val();
+                                    var phoneNumber = $("[name=phoneNumber]").val();
+                                    var firstName = $("[name=firstName]").val();
+                                    var lastName = $("[name=lastName]").val();
+                                    var age = $("[name=age]").val();
+                                    var sex = $("[name=sex]").val();
+                                    if (isEmptyString(username))
+                                    {
+                                        alert('نام کاربری نباید خالی باشد.')
+                                        return false;
+                                    }
+                                    if (isEmptyString(password))
+                                    {
+                                        alert('رمز عبور نمی تواند خالی باشد.')
+                                        return false;
+                                    }
+                                    if (confirmPassword != password)
+                                    {
+                                        alert('رمز عبور ها یکسان نمی باشد');
+                                        return false;
+                                    }
+                                    if (isEmptyString(phoneNumber))
+                                    {
+                                        alert('شماره تلفن نمی تواند خالی باشد.');
+                                        return false;
+                                    }
+                                    if (isEmptyString(firstName) || isEmptyString(lastName))
+                                    {
+                                        alert('نام یا نام خانوادگی نمی تواند خالی باشد.');
+                                        return false;
+                                    }
+                                    if (age < 0)
+                                    {
+                                        alert('مقدار صحیحی برای سن وارد نشده ');
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                success: (text, code, xhr, form) =>
+                                {
+                                    console.log(text);
+                                    // alert('boro pentatet!');
+                                    if (typeof text == 'string')
+                                        text = JSON.parse(text);
+                                    if (text.success)
+                                    {
+                                        // document.location.reload();
+                                        window.location.replace("/users/" + text.user.username + '/edit/?msg=success');
+                                    }
+                                    else
+                                    {
+                                        alert(text.error);
+                                    }
+                                },
+                                error: (xhr, text, err) =>
+                                {
+                                    alert('خطا از سمت سرور');
+                                },
+                            });
                         });
                     </script>
                     <div class="text-center" style="padding:10px 0">

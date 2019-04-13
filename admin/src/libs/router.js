@@ -112,49 +112,6 @@ export default class Router {
                 reject(err);
             }
         });
-        // return new Promise((resolve, reject) =>
-        // {
-        //     try
-        //     {
-        //         if (req.files && req.files[name]) 
-        //         {
-        //             let f = req.files[name];
-        //             const fileName = (f.name.substring(0, f.name.lastIndexOf('.')) + '-' + new Date().getTime().toString()).replace(' ', '');
-        //             const fileFormat = f.name.substring(f.name.lastIndexOf('.'), f.name.length);
-        //             const filePath = path.resolve('public/media') + '/' + folder + fileName + fileFormat;
-        //             f.mv(filePath, async (err) =>
-        //             {
-        //                 if (err)
-        //                     reject(err);
-        //                 else 
-        //                 {
-        //                     log.success('uploaded file =>' + fileName + fileFormat);
-        //                     for (var i = 0; i < sizes.length; i++)
-        //                     {
-        //                         const resizePath = path.resolve('public/media') + '/' + folder + fileName + '-resize-' + sizes[i].width + 'x' + sizes[i].height + fileFormat;
-        //                         console.log(resizePath)
-        //                         console.log(JSON.stringify(sizes[i]));
-        //                         await app.sharp(filePath).resize(sizes[i].width, sizes[i].height).toFile(resizePath);/*.then((file)=>{}).catch((err)=>{
-        //                             app.log.error(err.toString);
-        //                         });*/
-        //                     }
-        //                     console.log('ok we are done!');
-        //                     resolve('/media/' + folder + fileName + fileFormat);
-        //                 }
-        //                 return 0;
-        //             });
-        //         }
-        //         else
-        //         {
-        //             resolve(undefined);
-        //         }
-        //     }
-        //     catch (err)
-        //     {
-        //         console.log(err);
-        //         reject(err);
-        //     }
-        // });
     }
     handleFileArray(app, req, res, files, folder, callBack, i = 0, results = []) {
         // try
