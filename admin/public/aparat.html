@@ -43,6 +43,7 @@
             {{/aparatVideos}} -->
         </div>
         <hr />
+        <div class="btn btn-md btn-secondary" onclick="add_video()">+Add Video</div>
         <div class="btn btn-md btn-primary" onclick="show_file_screen()">Open File Explorer</div>
         <hr />
         <form action="/admin/aparat/save" method="POST">
@@ -72,7 +73,7 @@
                             <div index="${i}" id="video-${i}" class="card aparat-card" style="margin-bottom:5px;padding:10px 20px;"></div>
                         </div>
                     `);
-                    $(`#video-${i}`).append(`<div style="background-image:url('${video.thumbnail}');background-size:cover;height:200px;"></div>`);
+                    $(`#video-${i}`).append(`<div class="thumbnail" style="background-image:url('${video.thumbnail}');background-size:cover;height:200px;"></div>`);
                     $(`#video-${i}`).append(textInput('title', video.title));
                     $(`#video-${i}`).append(textInput('url', video.url));
                     $(`#video-${i}`).append(textInput('thumbnail', video.thumbnail));
@@ -105,7 +106,7 @@
                     thumbnail : $(`#video-${i} [name=thumbnail]`).val(),
                     url : $(`#video-${i} [name=url]`).val(),
                 };
-                $(`#video-${i} img`).attr('src',videos[i].thumbnail);
+                $(`#video-${i} .thumbnail`).css('background-image',`url('${videos[i].thumbnail}')`);
                 $("[name=aparatVideosStr]").val(JSON.stringify(videos));
             }
         </script>
