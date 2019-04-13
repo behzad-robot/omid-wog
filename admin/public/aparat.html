@@ -29,7 +29,7 @@
         <p>Latest Aparat videos showed in website.</p>
         <hr />
         <div id="videos" class="row">
-            {{#aparatVideos}}
+            <!-- {{#aparatVideos}}
             <div class="col-md-4">
                 <div class="card aparat-box">
                     <div class="aparat-thumbnail" style="background-image:url('{{thumbnail}}')"></div>
@@ -40,17 +40,75 @@
                     </p>
                 </div>
             </div>
-            {{/aparatVideos}}
+            {{/aparatVideos}} -->
         </div>
         <hr />
         <div class="btn btn-md btn-primary" onclick="show_file_screen()">Open File Explorer</div>
         <hr />
         <form action="/admin/aparat/save" method="POST">
             <h2>JSON File:</h2>
-            <p>Put a valid json string here.Use Visual Studio Code or <a href="https://jsoneditoronline.org/" target="_blank">this online editor</a>.</p>
-            <textarea name="aparatVideosStr" class="form-control m" style="width:100%;height:400px;">{{{aparatVideosStr}}}</textarea>
-            <input type="submit" class="btn btn-md btn-success" value="Save"/>
+            <p>Put a valid json string here.Use Visual Studio Code or <a href="https://jsoneditoronline.org/"
+                    target="_blank">this online editor</a>.</p>
+            <textarea name="aparatVideosStr" class="form-control m"
+                style="width:100%;height:400px;">{{{aparatVideosStr}}}</textarea>
+            <input type="submit" class="btn btn-md btn-success" value="Save" />
         </form>
+        <script>
+            let videos = [];
+            $(() =>
+            {
+                videos = JSON.parse(`{{{aparatVideosStr}}}`);
+                recreate_videos();
+            });
+            function recreate_videos()
+            {
+                $("[name=aparatVideosStr]").val(JSON.stringify(videos));
+                $("#videos").html('');
+                for (var i = 0; i < videos.length; i++)
+                {
+                    let video = videos[i];
+                    $("#videos").append(`
+                        <div class="col-md-6">
+                            <div index="${i}" id="video-${i}" class="card aparat-card" style="margin-bottom:5px;padding:10px 20px;"></div>
+                        </div>
+                    `);
+                    $(`#video-${i}`).append(`<div style="background-image:url('${video.thumbnail}');background-size:cover;height:200px;"></div>`);
+                    $(`#video-${i}`).append(textInput('title', video.title));
+                    $(`#video-${i}`).append(textInput('url', video.url));
+                    $(`#video-${i}`).append(textInput('thumbnail', video.thumbnail));
+                    $(`#video-${i}`).append(`<div class="btn btn-md btn-danger" onclick="remove_video(${i})">Remove</div>`);
+                }
+                $("input").change(function ()
+                {
+                    var index = $(this).closest(".aparat-card").attr("index");
+                    update_video(index);
+                });
+            }
+            function remove_video(i)
+            {
+                videos.splice(i, 1);
+                recreate_videos();
+            }
+            function add_video()
+            {
+                videos.push({
+                    title: '',
+                    thumbnail: '',
+                    url: '',
+                });
+                recreate_videos();
+            }
+            function update_video(i)
+            {
+                videos[i] = {
+                    title : $(`#video-${i} [name=title]`).val(),
+                    thumbnail : $(`#video-${i} [name=thumbnail]`).val(),
+                    url : $(`#video-${i} [name=url]`).val(),
+                };
+                $(`#video-${i} img`).attr('src',videos[i].thumbnail);
+                $("[name=aparatVideosStr]").val(JSON.stringify(videos));
+            }
+        </script>
     </div>
     {{{footer}}}
     {{{file_screen}}}
