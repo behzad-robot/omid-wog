@@ -81,6 +81,7 @@ Post.Helpers = {
         doc.thumbnail = SITE_URL(doc.thumbnail);
         doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
         doc.thumbnail_640x480 = SITE_URL(doc.thumbnail_640x480);
+        doc.thumbnail_800x600 = SITE_URL(doc.thumbnail_800x600);
         if(doc.extras == undefined){
             doc.extras = {
                 bigBox : false,

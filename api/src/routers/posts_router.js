@@ -88,6 +88,8 @@ export class PostsHandler
                     reject(err.toString());
                     return;
                 }
+                for (var i = 0; i < results.length; i++)
+                    results[i] = this.Post.Helpers.public(results[i]);
                 resolve(results);
             });
         });
