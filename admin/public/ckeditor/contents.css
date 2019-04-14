@@ -32,6 +32,18 @@
 .wog-image-with-caption p{
 	display:block;
 }
+.img-100p{
+	width: 100%;
+	height: auto;
+}
+.img-80p{
+	width: 80%;
+	height: auto;
+}
+.img-60p{
+	width: 60%;
+	height: auto;
+}
 /*
 Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license

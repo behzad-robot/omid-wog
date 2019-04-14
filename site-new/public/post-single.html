@@ -31,7 +31,7 @@
         .post-single-header {
             width: 100%;
             display: block;
-            height: 32vw;
+            height: 36vw;
             background-size: cover;
             background-position: center;
             padding-top: 10vw;
@@ -48,7 +48,6 @@
 
         .post-single-header .author-box {
             width: 20%;
-            min-width: 450px;
             margin: 0px auto;
             margin-top: 45px;
             background-color: rgba(0, 0, 0, .3);
@@ -100,7 +99,7 @@
 
         .wog-image-with-caption {
             display: block;
-            margin:10px auto;
+            margin: 10px auto;
             text-align: center;
         }
 
@@ -155,9 +154,24 @@
             border-bottom: 1px solid #3e3e3e;
         }
 
+        .img-100p {
+            width: 100%;
+            height: auto;
+        }
+
+        .img-80p {
+            width: 80%;
+            height: auto;
+        }
+
+        .img-60p {
+            width: 60%;
+            height: auto;
+        }
+
         @media (max-width: 576px) {
             .post-single-header {
-                height: 60vh;
+                height: 70vh;
             }
 
             .post-single-header h1 {
@@ -166,10 +180,20 @@
 
             .post-single-header .author-box {
                 width: 90%;
+                margin: 0 auto;
+                padding: 0;
             }
 
             .post-single-header .cats-box {
                 width: 90%;
+            }
+
+            .img-80p {
+                width: 100%;
+            }
+
+            .img-60p {
+                width: 80%;
             }
         }
     </style>

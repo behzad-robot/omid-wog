@@ -17,12 +17,31 @@ export default class SitePostsRouter extends SiteRouter
         {
             siteModules.Post.find({ limit: 20 }).then((posts) =>
             {
-                this.postsArchive(req, res, posts, 'اخبار و مقالات', true);
+                this.postsArchive(req, res, posts, { title: 'اخبار و مقالات', hasGrid: true });
             }).catch((err) =>
             {
                 res.send(err.toString());
             });
 
+        });
+        this.router.all('/load-more', (req, res) =>
+        {
+            const params = req.method == 'GET' ? req.query : req.body;
+            if(params.limit == undefined)
+                params.limit = 20;
+            else
+                params.limit = parseInt(params.limit);
+            if(params.offset == undefined)
+                params.offset = 0; 
+            else
+                params.offset = parseInt(params.offset);
+            this.siteModules.Post.find(params).then((posts) =>
+            {
+                res.send({ code: 200, error: null, _data: posts });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err.toString() });
+            });
         });
         this.router.get('/categories/:slug', (req, res) =>
         {
@@ -44,7 +63,7 @@ export default class SitePostsRouter extends SiteRouter
                 }
                 this.siteModules.Post.find({ categories: category._id }).then((posts) =>
                 {
-                    this.postsArchive(req, res, posts, category.name, false);
+                    this.postsArchive(req, res, posts, { title: category.name, hasGrid: false ,loadMoreParams : '?categories='+category._id });
                 }).catch((err) =>
                 {
                     this.show500(req, res, err.toString());
@@ -55,7 +74,7 @@ export default class SitePostsRouter extends SiteRouter
         {
             this.siteModules.Post.find({ tags: req.params.slug }).then((posts) =>
             {
-                this.postsArchive(req, res, posts, req.params.slug, false);
+                this.postsArchive(req, res, posts, { title: req.params.slug, hasGrid: false });
             }).catch((err) =>
             {
                 this.show500(req, res, err.toString());
@@ -103,7 +122,11 @@ export default class SitePostsRouter extends SiteRouter
         });
 
     }
-    postsArchive(req, res, posts, title, hasGrid = false)
+    postsArchive(req, res, posts, settings = {
+        title: '',
+        hasGrid: false,
+        loadMoreParams: '',
+    })
     {
         var siteModules = this.siteModules;
         var requiredUsers = [];
@@ -177,8 +200,8 @@ export default class SitePostsRouter extends SiteRouter
                             }
                             var upComingGames = JSON.parse(upComingGamesFile.toString());
                             this.renderTemplate(req, res, 'posts-archive.html', {
-                                title: title,
-                                hasGrid: hasGrid,
+                                title: settings.title,
+                                hasGrid: settings.hasGrid,
                                 posts: posts,
                                 gridPosts0: gridPosts[0],
                                 gridPosts1: gridPosts[1],
@@ -187,6 +210,8 @@ export default class SitePostsRouter extends SiteRouter
                                 gridPosts4: gridPosts[4],
                                 aparatVideos: aparatVideos,
                                 upComingGames: upComingGames,
+                                hasLoadMore: posts.length >= 20,
+                                loadMoreParams: settings.loadMoreParams,
                             });
                         });
                     });

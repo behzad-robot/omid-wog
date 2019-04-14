@@ -185,12 +185,14 @@
             color: #455A64;
             font-size: 0.8rem;
         }
-        .post-box a.author{
+
+        .post-box a.author {
             color: #455A64 !important;
             font-size: 0.8rem;
         }
-        .post-box a.author:hover{
-            color:orange !important;
+
+        .post-box a.author:hover {
+            color: orange !important;
         }
 
         .post-box .date .fas {
@@ -403,6 +405,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <h3 class="orange-title">{{title}}:</h3>
+                    <div id="posts-list">
                     {{#posts}}
                     {{#extras.bigBox}}
                     <div class="post-box">
@@ -416,7 +419,7 @@
                             <p>{{{intro}}}</p>
                             <div class="date">
                                 <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
-                                {{{_author.username}}}</a>&nbsp;&nbsp;
+                                    {{{_author.username}}}</a>&nbsp;&nbsp;
                                 <span class="fas fa-calendar"></span>&nbsp;
                                 {{{createdAt_persian}}}
                             </div>
@@ -448,7 +451,92 @@
                     </div>
                     {{/extras.bigBox}}
                     {{/posts}}
+                    </div>
+                    {{#hasLoadMore}}
+                    <div class="text-center" style="padding:10px 0">
+                        <div id="loadMoreBtn" class="btn btn-md btn-warning">بیشتر</div>
+                    </div>
+                    <div id="loading" class="text-center" style="display:none">
+                        <div class="lds-ellipsis">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div id="error" style="color:#a00;">
 
+                    </div>
+                    {{/hasLoadMore}}
+                    <script>
+                        let baseParams = `{{{loadMoreParams}}}`;
+                        let offset = 20;
+                        $(() =>
+                        {
+                            $("#loadMoreBtn").click(() =>
+                            {
+                                $("#loading").show();
+                                $("#loadMoreBtn").hide();
+                                console.log('load more btn clicked');
+                                let query = (baseParams != '' ? (baseParams + '&offset=' + offset) : (baseParams + '?offset=' + offset));
+                                console.log('/posts/load-more/' + query);
+                                fetch('/posts/load-more/' + query, {
+                                    method: 'GET',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                }).then((response => response.json())).then((result) =>
+                                {
+                                    $("#loading").hide();
+                                    $("#loadMoreBtn").show();
+                                    console.log(result);
+                                    if (result.error == undefined)
+                                    {
+                                        $("#error").html(result.error);
+                                    }
+                                    else
+                                    {
+                                        offset += 20;
+                                        let posts = result._data;
+                                        for (var i = 0; i < posts.length; i++)
+                                        {
+                                            let post = posts[i];
+                                            if (post.extras.bigBox)
+                                            {
+                                                $("#posts-list").append(
+                                                    `
+                                                    <div class="post-box">
+                                                        <a href="${post.siteUrl}">
+                                                            <img src="${post.thumbnail_800x600}" alt="" style="width:100%;padding:5px;">
+                                                        </a>
+                                                        <div class="post-box-content">
+                                                            <a href="{{siteUrl}}">
+                                                                <h1>{{title}}</h1>
+                                                            </a>
+                                                            <p>{{{intro}}}</p>
+                                                            <div class="date">
+                                                                <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
+                                                                    {{{_author.username}}}</a>&nbsp;&nbsp;
+                                                                <span class="fas fa-calendar"></span>&nbsp;
+                                                                {{{createdAt_persian}}}
+                                                            </div>
+                                                        </div>
+
+                                                    </div>  
+                                                    `
+                                                );
+                                            }
+                                            else
+                                            {
+
+                                            }
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
                 </div> <!-- col-md-8 -->
                 <div class="col-md-4">
                     <h6 class="orange-title">ویدئو ها</h6>
