@@ -1,20 +1,24 @@
 CKEDITOR.plugins.add( 'behzad', {
     icons: 'behzad,image-right,image-left',
     init: function( editor ) {
-        editor.addCommand('insertImageRText',{
+        editor.addCommand('imageWithCaption',{
             exec : function(editor){
                 var now = new Date();
                 editor.insertHtml( `
-                <div class="wog-insertImageRText">
-                    <img src="https://via.placeholder.com/800x600?text=Your+Text+Comes+Here" style="float:right"/>
-                    <p>Your Text Comes Here</p>
+                <!--<figure class="image" style="display:inline-block">
+                    <img alt="^_^" height="auto" src="https://via.placeholder.com/800x600?text=Your+Text+Comes+Here" width="100%">
+                    <figcaption>fuck this shit</figcaption>
+                </figure>-->
+                <div class="wog-image-with-caption">
+                    <img alt="^_^" height="auto" src="https://via.placeholder.com/800x600?text=Your+Text+Comes+Here" width="100%">
+                    <p>this is fine</p>
                 </div>
                 ` );
             }
         });
-        editor.ui.addButton( 'insertImageRText', {
-            label: 'Insert Image Right + Text',
-            command: 'insertImageRText',
+        editor.ui.addButton( 'imageWithCaption', {
+            label: 'Insert Image With Caption',
+            command: 'imageWithCaption',
             toolbar: 'insert',
             icon : 'image-right',
         });

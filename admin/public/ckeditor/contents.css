@@ -20,6 +20,18 @@
 	margin:0 5px;
 	background-color:#1e1e1e;
 }
+.wog-image-with-caption{
+	display:block;
+	text-align: center;
+	background-color:#eeeeee;
+	padding:5px;
+}
+.wog-image-with-caption img{
+	display: inline;
+}
+.wog-image-with-caption p{
+	display:block;
+}
 /*
 Copyright (c) 2003-2019, CKSource - Frederico Knabben. All rights reserved.
 For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license

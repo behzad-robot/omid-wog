@@ -1,9 +1,11 @@
 //form functions
-const idInput = (name, value, extraInfo = {}) => {
+const idInput = (name, value, extraInfo = {}) =>
+{
     var after = extraInfo.after ? '&nbsp;&nbsp;&nbsp;' + extraInfo.after : '';
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' readonly/>${after}</div>`;
 };
-const draftInput = ( value , settings = { name: '_draft',extraInfo: {} }) => {
+const draftInput = (value, settings = { name: '_draft', extraInfo: {} }) =>
+{
     if (value == undefined)
         value = false;
     return (
@@ -15,9 +17,11 @@ const draftInput = ( value , settings = { name: '_draft',extraInfo: {} }) => {
         `
     );
 };
-const textInput = (name, value, settings = false) => {
+const textInput = (name, value, settings = false) =>
+{
     //return ":|";
-    if (typeof settings == 'boolean') {
+    if (typeof settings == 'boolean')
+    {
         var v = settings;
         settings = {};
         settings.readonly = v;
@@ -29,14 +33,17 @@ const textInput = (name, value, settings = false) => {
     // console.log(settings);
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/>${after}</div>`;
 };
-const numberInput = (name, value, readonly = false) => {
+const numberInput = (name, value, readonly = false) =>
+{
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='number' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
-const boolInput = (name, value, readonly = false) => {
+const boolInput = (name, value, readonly = false) =>
+{
     var label = name;
-    if (typeof name != 'string') {
+    if (typeof name != 'string')
+    {
         label = name.label;
         name = name.name;
     }
@@ -44,18 +51,21 @@ const boolInput = (name, value, readonly = false) => {
     value = value ? "checked" : "";
     return `<div class='form-row' label="${name}"><b>${label}:</b><input type='checkbox' class='form-control m' name='${name}' ${value} ${readonly}/></div>`;
 }
-const passwordInput = (name, value, readonly = false) => {
+const passwordInput = (name, value, readonly = false) =>
+{
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='password' class='form-control m' name='${name}' value='${value}' ${readonly}/></div>`;
 };
-const hiddenInput = (name, value, readonly = false) => {
+const hiddenInput = (name, value, readonly = false) =>
+{
     //return ":|";
     readonly = readonly ? "readonly" : "";
     return `<input type='hidden' class='form-control m' name='${name}' value='${value}' ${readonly}/>`;
 };
 let bId = 0;
-const bodyInput = (name, value, settings = {}) => {
+const bodyInput = (name, value, settings = {}) =>
+{
     // readonly = settings.readonly ? "readonly" : "";
     // setTimeout(function ()
     // {
@@ -96,32 +106,57 @@ const bodyInput = (name, value, settings = {}) => {
     // return `<div class='form-row'><b>${name}:</b><textarea editor="true" class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
     bId++;
     const b = bId;
-    setTimeout(() => {
+    setTimeout(() =>
+    {
         var config = {
-            font_names : `Roboto`,
-            extraPlugins : 'behzad'
+            font_names: `Roboto`,
+            extraPlugins: 'behzad',
         };
+        CKEDITOR.on('dialogDefinition', function (ev)
+        {
+            var dialogName = ev.data.name;
+            var dialogDefinition = ev.data.definition;
+            if (dialogName == 'image2')
+            {
+
+                var infoTab = dialogDefinition.getContents('info');
+
+                infoTab.get('width').validate = function ()
+                {
+                    return true; //more advanced validation rule should be used here
+                }
+
+                infoTab.get('height').validate = function ()
+                {
+                    return true; //more advanced validation rule should be used here
+                }
+            }
+        });
         config.stylesSet = 'my_styles';
         // CKEDITOR.replace(name, config);
-        $(`#bodyinput-${b}`).ckeditor(function () {
+        $(`#bodyinput-${b}`).ckeditor(function ()
+        {
         }, config);
     }, 300);
     readonly = settings.readonly ? "readonly" : "";
     return `<div class='form-row'><b>${name}:</b><textarea editor="true" id='bodyinput-${b}' class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
-const jsonInput = (name, value, readonly = false) => {
+const jsonInput = (name, value, readonly = false) =>
+{
     readonly = readonly ? "readonly" : "";
     if (typeof value != 'string')
         value = JSON.stringify(value);
     return `<div class='form-row json-row'><b>${name}:</b><textarea class='form-control m' name='${name}' ${readonly}>${value}</textarea></div>`;
 };
 var fuid = 0;
-const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onImageUploaded = undefined) => {
+const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onImageUploaded = undefined) =>
+{
     // let img = (value != null && value != '')
     //     ? `<img src='${value}' width='64px' />` + `<a class='small-link' href='${value}'>${value}</a>`
     //     : '';
     // return `<div class='form-row'><b>${name}:</b><input type='file' class='form-control m' name='${name}'/>&nbsp;&nbsp;` + img + `</div>`;
-    if (myDir == undefined || (typeof myDir != 'string')) {
+    if (myDir == undefined || (typeof myDir != 'string'))
+    {
         console.log("PARAMETER MISSING!!!!!!!!!!!!! =>" + name);
         return;
     }
@@ -151,7 +186,8 @@ const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onIma
         + `</div>`
     );
     //(parent, name, fileUploadURL, myDir, onUploaded)
-    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL, myDir, (result) => {
+    fileUploadTool2(`[fuid=${fuid}]`, name, fileUploadURL, myDir, (result) =>
+    {
         console.log(result);
         var value = result.path;
         $(`${parent} input[name=${name}`).val(value).trigger('change');
@@ -168,25 +204,31 @@ const imageInput = (parent, name, value, fileUploadURL, myDir, sizes = [], onIma
             onImageUploaded(result);
     });
 }
-const fileInput = (name, value) => {
+const fileInput = (name, value) =>
+{
     let img = (value != null && value != '')
         ? `<a class='small-link' href='${value}'>${value}</a>`
         : '';
     return `<div class='form-row'><b>${name}:</b><input type='file' class='form-control m' name='${name}'/>&nbsp;&nbsp;` + img + `</div>`;
 }
 // values:{value:string,title:string}
-const dropDown = (name, values, value = '') => {
+const dropDown = (name, values, value = '') =>
+{
     let str = `<div class='form-row'><b>${name}:</b><select class='form-control m' name='${name}'>`;
     str = str + `<option value=''></option>`;
-    if (typeof values[0] == 'string') {
-        for (var i = 0; i < values.length; i++) {
+    if (typeof values[0] == 'string')
+    {
+        for (var i = 0; i < values.length; i++)
+        {
             let selected = value == values[i] ? 'selected' : '';
             str = str + `<option value='${values[i]}' ${selected}>${values[i]}</option>`;
         }
     }
-    else {
+    else
+    {
         //TODO
-        for (var i = 0; i < values.length; i++) {
+        for (var i = 0; i < values.length; i++)
+        {
             let selected = value == values[i].value ? 'selected' : '';
             str = str + `<option value='${values[i].value}' ${selected}>${values[i].title}</option>`;
         }
@@ -197,36 +239,44 @@ const dropDown = (name, values, value = '') => {
 
 
 
-const submitBtn = (text = 'Save') => {
+const submitBtn = (text = 'Save') =>
+{
     return `<input type="submit" class="btn btn-lg btn-success" value="${text}" />`;
 }
-const initEditors = () => {
+const initEditors = () =>
+{
     //$('textarea[input=name').froalaEditor({toolbarInline: false})
 }
-const mediaItemBox = (media, onClick = '') => {
+const mediaItemBox = (media, onClick = '') =>
+{
     return `<div class='col-md-3'><div class='media-item-box' path='${media.path}'>` +
         `<a href='${media.url}' class='thumbnail' style='background-image:url("${media.url}")'></a>` +
         `<div onclick='${onClick}("${media.path}")' class='btn btn-md btn-warning'>Remove</div>` +
         `</div></div>`;
 }
 //media functions:
-const loadMedia = (url, next) => {
-    if (url.indexOf('http') == -1) {
+const loadMedia = (url, next) =>
+{
+    if (url.indexOf('http') == -1)
+    {
         $.get({
             url: API.media(url),
-            success: function (data) {
+            success: function (data)
+            {
                 //console.log(data);
                 let result = JSON.parse(data);
                 next(result);
             }
         });
     }
-    else {
+    else
+    {
         next({ url: url });
     }
 };
 //file uploader
-const fileUploadTool = (parent, name, fileUploadURL, onUploaded) => {
+const fileUploadTool = (parent, name, fileUploadURL, onUploaded) =>
+{
     console.log('fileUploadTool=>' + parent);
     $(parent).append(
         `<div class="form-row" name="${name}-container">`
@@ -238,11 +288,13 @@ const fileUploadTool = (parent, name, fileUploadURL, onUploaded) => {
     $(`${parent} .form-row[name=${name}-container] input[name=my-file]`).fileupload(
         {
             dataType: 'json',
-            progressall: function (e, data) {
+            progressall: function (e, data)
+            {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html(`Uploading ${progress}% ...`);
             },
-            done: function (e, data) {
+            done: function (e, data)
+            {
                 console.log(data);
                 console.log(e);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html("Uploaded: " + data.result.url);
@@ -252,7 +304,8 @@ const fileUploadTool = (parent, name, fileUploadURL, onUploaded) => {
         }
     );
 }
-const fileUploadTool2 = (parent, name, fileUploadURL, myDir, onUploaded) => {
+const fileUploadTool2 = (parent, name, fileUploadURL, myDir, onUploaded) =>
+{
     console.log('fileUploadTool2=>' + parent);
     $(parent).append(
         `<div class="form-row" name="${name}-container">`
@@ -265,11 +318,13 @@ const fileUploadTool2 = (parent, name, fileUploadURL, myDir, onUploaded) => {
         {
             dataType: 'json',
             formData: { 'my-dir': myDir },
-            progressall: function (e, data) {
+            progressall: function (e, data)
+            {
                 var progress = parseInt(data.loaded / data.total * 100, 10);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html(`Uploading ${progress}% ...`);
             },
-            done: function (e, data) {
+            done: function (e, data)
+            {
                 console.log(data);
                 console.log(e);
                 $(`${parent} .form-row[name=${name}-container] [name=status]`).html("Uploaded: " + data.result.url);
@@ -280,7 +335,8 @@ const fileUploadTool2 = (parent, name, fileUploadURL, myDir, onUploaded) => {
     );
 }
 let filePickId = 0;
-const filePickTool = (parent, name, value, onDone) => {
+const filePickTool = (parent, name, value, onDone) =>
+{
     filePickId++;
     var str = `<div class="form-row" name="${name}-container">`
         + `<b>${name}</b>`

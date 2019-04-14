@@ -96,7 +96,8 @@ const InputUtils = {
         {
             var config = {
                 font_names: `Roboto`,
-                extraPlugins: 'behzad'
+                extraPlugins: 'behzad',
+                
             };
             config.stylesSet = 'my_styles';
             // CKEDITOR.replace(name, config);

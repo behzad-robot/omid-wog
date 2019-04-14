@@ -102,6 +102,10 @@
                 }
                 else
                 {
+                    for(var i = 0 ; i < game.factions.length;i++){
+                        if(game.factions[i].iconMobile == undefined)
+                            game.factions[i].iconMobile = '';
+                    }
                     $("#single").append(jsonInput('factions', game.factions));
                     $("#extra").append(`<div id="factions"></div>`);
                     factions_recreate();
@@ -452,6 +456,7 @@
                     $(`#factions-${i}`).append(bodyInput('description',f.description));
                     $(`#factions-${i}`).append(bodyInput('info',f.info));
                     imageInput(`#factions-${i}`, 'icon', f.icon, FILE_UPLOAD_URL, MY_DIR);
+                    imageInput(`#factions-${i}`, 'iconMobile', f.iconMobile, FILE_UPLOAD_URL, MY_DIR);
                     imageInput(`#factions-${i}`, 'cover', f.cover, FILE_UPLOAD_URL, MY_DIR);
                     $(`#factions-${i}`).append(`<hr><div class="btn btn-sm btn-danger" onclick="factions_remove(${i})">Remove</div>`)
                 }

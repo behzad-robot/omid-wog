@@ -223,7 +223,6 @@ export default class SitePostsRouter extends SiteRouter
                 timer.tick('Author Setup');
                 post._author = siteModules.User.public(author);
                 //also get recommended posts:
-                console.log('lets find a recommended posts');
                 siteModules.Cache.posts_recommended.getData((err, recommendedPosts) =>
                 {
                     if (err)

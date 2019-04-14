@@ -77,6 +77,7 @@ Post.Helpers = {
             doc.thumbnail = ICON_404;
             doc.thumbnail_150x150 = ICON_404;
             doc.thumbnail_640x480 = ICON_404;
+            doc.thumbnail_800x600 = ICON_404;
         }
         doc.thumbnail = SITE_URL(doc.thumbnail);
         doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
