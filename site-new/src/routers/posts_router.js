@@ -27,17 +27,52 @@ export default class SitePostsRouter extends SiteRouter
         this.router.all('/load-more', (req, res) =>
         {
             const params = req.method == 'GET' ? req.query : req.body;
-            if(params.limit == undefined)
+            if (params.limit == undefined)
                 params.limit = 20;
             else
                 params.limit = parseInt(params.limit);
-            if(params.offset == undefined)
-                params.offset = 0; 
+            if (params.offset == undefined)
+                params.offset = 0;
             else
                 params.offset = parseInt(params.offset);
             this.siteModules.Post.find(params).then((posts) =>
             {
-                res.send({ code: 200, error: null, _data: posts });
+                let requiredUsers = [];
+                for (var i = 0; i < posts.length; i++)
+                {
+                    var hasUser = false;
+                    for (var j = 0; j < requiredUsers.length; j++)
+                    {
+                        if (requiredUsers[j] == posts[i].authorId)
+                        {
+                            has = true;
+                            break;
+                        }
+                    }
+                    if (!hasUser)
+                        requiredUsers.push(posts[i].authorId);
+                }
+                this.siteModules.User.find({ _ids: requiredUsers }).then((users) =>
+                {
+                    console.log(`got ${users.length} users`);
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        for (var j = 0; j < users.length; j++)
+                        {
+                            if (posts[i].authorId == users[j]._id)
+                            {
+                                console.log(`found user for post ${posts[i].authorId}`)
+                                posts[i]._author = this.siteModules.User.public(users[j]);
+                                break;
+                            }
+                        }
+                    }
+                    res.send({ code: 200, error: null, _data: posts });
+                }).catch((err) =>
+                {
+                    res.send({ code: 500, error: err.toString() });
+                });
+
             }).catch((err) =>
             {
                 res.send({ code: 500, error: err.toString() });
@@ -63,7 +98,7 @@ export default class SitePostsRouter extends SiteRouter
                 }
                 this.siteModules.Post.find({ categories: category._id }).then((posts) =>
                 {
-                    this.postsArchive(req, res, posts, { title: category.name, hasGrid: false ,loadMoreParams : '?categories='+category._id });
+                    this.postsArchive(req, res, posts, { title: category.name, hasGrid: false, loadMoreParams: '?categories=' + category._id });
                 }).catch((err) =>
                 {
                     this.show500(req, res, err.toString());
