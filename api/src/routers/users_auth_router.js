@@ -171,8 +171,7 @@ export class UsersAuthHandler
             if (params.email)
                 query.email = params.email;
             if (params.username)
-                query.username = params.username;
-            console.log(query);
+                query.username = { $regex: new RegExp(params.username, 'i') };
             this.User.findOne(query).exec((err, result) =>
             {
                 if (err)
