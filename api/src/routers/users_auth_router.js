@@ -181,15 +181,20 @@ export class UsersAuthHandler
                 }
                 if (result == null)
                 {
-                    reject({ code: 400, error: "User Not found" });
+                    reject({ code: 404, error: "user not found" });
                     return;
                 }
                 result.token = encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
                 this.User.findByIdAndUpdate(result._id, { $set: { token: result.token, lastLogin: moment().format('YYYY-MM-DD hh:mm:ss') } }, { new: true }, (err, user) =>
                 {
-                    if (err || user == null)
+                    if (err)
                     {
-                        reject({ code: 400, error: "User not found!" });
+                        reject({ code: 500, error: err.toString() });
+                        return;
+                    }
+                    if(user == null)
+                    {
+                        reject({ code: 404, error: "user not found"});
                         return;
                     }
                     user = user.toObject();
