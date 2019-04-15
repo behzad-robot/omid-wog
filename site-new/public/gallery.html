@@ -1,0 +1,217 @@
+<html>
+
+<head>
+    {{{head}}}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <style>
+        .categories {
+            text-decoration: none;
+            color: rgb(97, 97, 97);
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-right: 3px;
+        }
+
+        .categories:focus {
+            text-decoration: none;
+            color: orange;
+        }
+
+        .categories:hover {
+            text-decoration: none;
+            color: orange;
+        }
+
+        .singleImage {
+            width: 32.7%;
+            border-radius: 4px;
+            margin-top: 2px;
+            height: 260px;
+            margin-right: 2px;
+            margin-bottom: 2px;
+        }
+
+        .singleImage:hover {
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6)
+        }
+
+        .col-md-4.imagesColumn {
+            padding: 0;
+            margin-bottom: 2px;
+        }
+
+        .images {
+            padding: 2px;
+        }
+
+        .panel>.panel-heading {
+            background-image: none;
+            background-color: rgb(65, 65, 65);
+            color: orange;
+            border-radius: 0px;
+        }
+
+        .panel>.panel-heading+.panel-collapse>.list-group .list-group-item {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-color: black;
+            margin-top: 0px;
+        }
+
+        .panel-default {
+            border-color: rgb(65, 65, 65);
+            border-radius: 0px;
+        }
+
+        .maintitle {
+            text-decoration: none;
+        }
+
+        .maintitle:hover {
+            text-decoration: none;
+        }
+
+        .maintitle:focus {
+            text-decoration: none;
+        }
+    </style>
+
+<body>
+    {{{navbar}}}
+    <section style="margin-top:80px;margin-bottom: -20px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-2" style="background-color: black">
+                    <div class="panel-group" style="margin-top: 2px;" id="acc">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="maintitle" data-toggle="collapse" href="#collapse1"
+                                        style="font-size: 18px;">فیلتر بر اساس
+                                        دسته بندی:</a>
+                                </h4>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse">
+                                <ul class="list-group" style="padding: 0">
+                                    <li class="list-group-item" style="padding: 0">
+                                        <a href="/gallery/" class="categories">
+                                            نمایش همه </a></li>
+                                    <li class="list-group-item" style="padding: 0"><a href="#"
+                                            onclick="showShootingFunction()" class="categories">نمایش
+                                            shooting </a> </li>
+                                    <li class="list-group-item" style="padding: 0"> <a href="#"
+                                            onclick="showfightingFunction()" class="categories"> نمایش
+                                            fighting </a></li>
+                                    <li class="list-group-item" style="padding: 0"> <a href="#"
+                                            onclick="showMobaFunction()" class="categories"> نمایش
+                                            moba </a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a class="maintitle" data-toggle="collapse" href="#collapse2"
+                                        style="font-size: 18px;">فیلتر بر اساس بازی:</a>
+                                </h4>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse">
+                                <ul class="list-group" style="padding: 0">
+                                    <li class="list-group-item" style="padding: 0">
+                                        <a href="/gallery/?tags=Dota 2" class="categories">
+                                            نمایش DotA2 </a></li>
+                                    <li class="list-group-item" style="padding: 0"><a href="/gallery/?tags=pubg"
+                                            class="categories">نمایش pubg </a> </li>
+                                    <li class="list-group-item" style="padding: 0"> <a
+                                            href="/gallery/?tags=mortal_kombat" class="categories"> نمایش mkxl </a></li>
+                                    <li class="list-group-item" style="padding: 0"> <a href="/gallery/?tags=lol"
+                                            class="categories"> نمایش lol </a></li>
+                                    <li class="list-group-item" style="padding: 0"> <a
+                                            href="/gallery/?tags=apex_legends" class="categories"> نمایش apex legends
+                                        </a></li>
+                                    <li class="list-group-item" style="padding: 0"> <a
+                                            href="/gallery/?tags=assasins_creed" class="categories">نمایش assasins creed
+                                        </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-10" style="padding: 0;">
+                    <div class="images">
+                        {{#media}}
+                        <div style="display:inline">
+                            <a href="{{thumbnail_url}}" target="_blank"><img class="singleImage"
+                                    src="{{thumbnail_url}}"></a>
+                        </div>
+                        {{/media}}
+                        <!-- <div class="fighting mkxl"><a href="/images/KmGhO0r.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/KmGhO0r.jpg" alt="kombaat image"></a>
+                        </div>
+                        <div class="moba lol"><a href="/images/bloodmoon-twisted.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/bloodmoon-twisted.jpg" alt="league image"></a>
+                        </div>
+                        <div class="shooting pubg"><a href="/images/pubgcover.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/pubgcover.jpg" alt="pubg image"></a>
+                        </div>
+                        <div class="moba dota"><a href="/images/image_2019-03-12_15-10-42.png" target="_blank"><img
+                                    class="singleImage" src="/images/image_2019-03-12_15-10-42.png"
+                                    alt="dota cover"></a>
+                        </div>
+                        <div class="shooting lol">
+                            <a href="/images/apex_legends_bloodhound_wallpaper.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/apex_legends_bloodhound_wallpaper.jpg"
+                                    alt="our location"></a>
+                        </div>
+                        <div class="fighting mkxl"><a href="/images/KmGhO0r.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/KmGhO0r.jpg" alt="our location"></a>
+                        </div>
+                        <div class="moba lol"><a href="/images/bloodmoon-twisted.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/bloodmoon-twisted.jpg" alt="our location"></a>
+                        </div>
+                        <div class="shooting pubg"><a href="/images/pubgcover.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/pubgcover.jpg" alt="our location"></a>
+                        </div>
+                        <div class="moba dota"><a href="/images/image_2019-03-12_15-10-42.png" target="_blank"><img
+                                    class="singleImage" src="/images/image_2019-03-12_15-10-42.png"
+                                    alt="our location"></a>
+                        </div>
+                        <div class="shooting pubg"><a href="/images/pubgcover.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/pubgcover.jpg" alt="our location"></a>
+                        </div>
+                        <div class="moba lol"><a href="/images/logo-lol.jpg" target="_blank"><img class="singleImage"
+                                    src="/images/logo-lol.jpg" alt="our location"></a>
+                        </div>
+                        <div class="fighting mkxl"><a href="/images/KmGhO0r.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/KmGhO0r.jpg" alt="our location"></a>
+                        </div>
+                        <div class="shooting pubg"><a href="/images/pubgcover.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/pubgcover.jpg" alt="our location"></a>
+                        </div>
+                        <div class="fighting mkxl"><a href="/images/KmGhO0r.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/KmGhO0r.jpg" alt="our location"></a>
+                        </div>
+                        <div class="moba lol"><a href="/images/frejlord.jpg" target="_blank"><img class="singleImage"
+                                    src="/images/frejlord.jpg" alt="our location"></a>
+                        </div>
+                        <div class="shooting pubg"><a href="/images/DB4vZ2DWAAArElz.jpg" target="_blank"><img
+                                    class="singleImage" src="/images/DB4vZ2DWAAArElz.jpg" alt="our location"></a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+
+
+
+</body>
+</head>
+
+</html>

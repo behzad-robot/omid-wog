@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { isEmptyString, getResizedFileName } from '../utils/utils';
+import { SITE_URL , ICON_404 } from '../constants';
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
@@ -48,6 +49,15 @@ Media.Helpers = {
     public: (doc) =>
     {
         doc = doc.toObject();
+        if (isEmptyString(doc.thumbnail_url))
+        {
+            doc.thumbnail = ICON_404;
+            doc.thumbnail_150x150 = ICON_404;
+            doc.thumbnail_350x350 = ICON_404;
+        }
+        doc.thumbnail_url = SITE_URL(doc.thumbnail_url);
+        doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
+        doc.thumbnail_350x350 = SITE_URL(doc.thumbnail_350x350);
         return doc;
     },
 }

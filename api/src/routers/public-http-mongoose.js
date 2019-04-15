@@ -70,7 +70,7 @@ export class PublicMongooseAPIRouter extends APIRouter
             delete (req.query._draft);
         var limit = req.query.limit ? Number.parseInt(req.query.limit) : 200;
         var offset = req.query.offset ? Number.parseInt(req.query.offset) : 0;
-        var sort = req.query.sort ? req.query.sort : '';
+        var sort = req.query.sort ? req.query.sort : '-_id';
         delete (req.query.limit);
         delete (req.query.offset);
         delete (req.query.sort);

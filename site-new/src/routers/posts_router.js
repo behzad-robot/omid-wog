@@ -45,7 +45,7 @@ export default class SitePostsRouter extends SiteRouter
                     {
                         if (requiredUsers[j] == posts[i].authorId)
                         {
-                            has = true;
+                            hasUser = true;
                             break;
                         }
                     }
@@ -61,7 +61,6 @@ export default class SitePostsRouter extends SiteRouter
                         {
                             if (posts[i].authorId == users[j]._id)
                             {
-                                console.log(`found user for post ${posts[i].authorId}`)
                                 posts[i]._author = this.siteModules.User.public(users[j]);
                                 break;
                             }
@@ -96,7 +95,7 @@ export default class SitePostsRouter extends SiteRouter
                     this.show500(req, res, 'Category Not found!');
                     return;
                 }
-                this.siteModules.Post.find({ categories: category._id }).then((posts) =>
+                this.siteModules.Post.find({ categories: category._id , limit : 20}).then((posts) =>
                 {
                     this.postsArchive(req, res, posts, { title: category.name, hasGrid: false, loadMoreParams: '?categories=' + category._id });
                 }).catch((err) =>
