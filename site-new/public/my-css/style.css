@@ -134,6 +134,18 @@ navbar.transparent-navbar .navbar-item {
     min-width: 30px;
     
 }
+navbar .navbar-search-btn{
+    cursor: pointer;
+
+}
+navbar .search-card{
+    position: absolute;
+    top:80px;
+    z-index:30000;
+    box-shadow:3px 4px 3px rgba(0, 0, 0, 0.3);
+    padding:5px 10px;
+    border-bottom:5px solid orange;
+}
 .navbar-dropdown{
    width:100vw;
    min-height: 200px;
@@ -183,13 +195,22 @@ navbar.transparent-navbar .navbar-item {
     text-shadow:1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 .navbar-post-box{
-    display:inherit;
+    display:block;
     margin-bottom:10px;
     text-align: center;
+    text-decoration: none !important;
+    color:white !important;
+    
 }
 .navbar-post-box h1{
     font-size:18px;
     margin-top:5px;
+}
+.navbar-post-box .navbar-post-thumbnail{
+    width: 100%;
+    height:160px;
+    background-size: cover;
+    background-position: center;
 }
 /*Mobile Devices*/
 @media (max-width: 576px)

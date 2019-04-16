@@ -90,7 +90,7 @@
             padding-top: 30px;
             padding-bottom: 20px;
             line-height: 2rem;
-            font-size: 0.7rem;
+            font-size: 14px;
         }
 
         .contentSection img {
@@ -204,10 +204,19 @@
     <navfiller></navfiller>
     <section class="post-single-header" style="background-image:url('{{post.thumbnail}}')">
         <div
-            style="position:absolute;width: 100%;height: 100%;z-index:0;background-color:rgba(0, 0, 0, .1);top:0;left:0;">
+            style="position:absolute;width: 100%;height: 100%;z-index:0;background-color:rgba(0, 0, 0, .2);top:0;left:0;">
         </div>
         <div style="position:relative;z-index:0;">
-            <h1>{{post.title}}</h1>
+            <h1 id="post-title">{{{post.title_formatted}}}</h1>
+            <script>
+                // $(()=>{
+                //     var title = $("#post-title").html();
+                //     for(var i = 0 ; i < 10;i++){
+                //         title = title.replace(i.toString(),`<span class="text-english">${i}</span>`);
+                //     }
+                //     $("#post-title").html(title);
+                // });
+            </script>
             <div class="author-box">
                 <img src="{{post._author.profileImage}}" class="author-profile-image" />
                 <span class="author-name"><b>نویسنده:&nbsp;</b><a style="color:white !important;"
@@ -215,10 +224,11 @@
                 <span class="date">{{post.createdAt_persian}}</span>
             </div>
             <div class="cats-box">
-                <b class="text-white text-shadow"
-                    style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b>
+                <!-- <b class="text-white text-shadow"
+                    style="font-size:14px;font-weight: bolder;display:block;margin-bottom:5px;">دسته بندی ها:</b> -->
                 {{#post._cats}}
-                <a href="{{siteUrl}}" class="btn btn-sm btn-warning">{{name}}</a>
+                <a href="{{siteUrl}}" class="btn btn-sm btn-warning"
+                    style="font-size:13px;font-weight:bold;margin:2px;">{{name}}</a>
                 {{/post._cats}}
             </div>
         </div>
@@ -227,15 +237,22 @@
     <section style="background-color:#1e1e1e;height:5px;margin-bottom:10px"></section>
     <section class="bg-section contentSection">
         <div class="container">
-            {{{post.body}}}
+            <div class="row">
+                <div class="col-md-1 col-12"></div>
+                <div class="col-md-10 col-12">
+                    {{{post.body}}}
+                </div>
+                <div class="col-md-1 col-12"></div>
+            </div>
+
         </div>
     </section>
     <section class="bg-section">
         <div class="container">
-            <div style="padding:10px 20px;background-color:#e0e1e2;border:1px solid #d0d0d0;border-radius:5px;">
+            <div>
                 <h3 style="font-size:1.2rem;">تگ ها:</h3>
                 {{#post.tags}}
-                <a href="{{#SITE_URL}}/posts/tags/{{.}}{{/SITE_URL}}" class="btn btn-sm btn-light"
+                <a href="{{#SITE_URL}}/posts/tags/{{.}}{{/SITE_URL}}" class="btn btn-sm btn-warning"
                     style="font-size:0.7rem;">{{.}}</a>
                 {{/post.tags}}
             </div>
@@ -252,7 +269,7 @@
     <section class="bg-section" style="padding:20px 0">
         <div class="container">
             <h3
-                style="margin-bottom:20px;background-color: orange;padding: 5px 10px;width: fit-content;color: #2e2e2e;font-weight: normal;border-radius: 3px;">
+                style="margin-bottom:20px;;width: fit-content;color: #4e4e4e;font-weight: bold;;border-radius: 3px;">
                 دیگر مطالب پیشنهادی:</h3>
             <div class="row">
                 {{#recommendedPosts}}
@@ -269,7 +286,7 @@
     </section>
     <section class="comments-section">
         <div class="container">
-            <h2 class="orange-title" style="font-size:1.2rem;">ارسال نظر:</h2>
+            <!-- <h2 class="orange-title" style="font-size:1.2rem;">ارسال نظر:</h2> -->
             <h2 style="color:#79848f"> متن دیدگاه</h2>
             {{#currentUser}}
             <form action="/comments/new" method="POST" id="new-comment-form">
@@ -351,7 +368,7 @@
                             href="{{#SITE_URL}}/login{{/SITE_URL}}" class="link-yellow">وارد</a> سایت شوید.</span></p>
             </div>
             {{/currentUser}}
-            <h2 class="orange-title" style="font-size:1.2rem;">نظرات کاربرها:</h2>
+            <h2 style="font-size:1.2rem;">نظرات کاربرها:</h2>
             <div id="comments-list">
                 {{#comments}}
                 <div class="comment-box" id="comment-{{_id}}">

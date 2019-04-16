@@ -13,14 +13,15 @@
         <div class="navbar-links-container">
             <div class="btn btn-md navbar-item navbar-links-back-btn"><span class="fas fa-arrow-right"></span></div>
             <a href="/tournoments" class="navbar-item">مسابقات</a>
-            <a href="/posts/categories/news" class="navbar-item" dropdownItem="news-disabled">اخبار
-                <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials-disabled">مقالات
-                    <!--<span class="fas fa-sort-down"></span>--></a>
-                <!--<span class="fas fa-sort-down"></span>--></a>
+            <a href="/posts/categories/news" class="navbar-item" dropdownItem="news">اخبار<span
+                    class="fas fa-sort-down"></span></a>
+            <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials">مقالات<span
+                    class="fas fa-sort-down"></span></a>
+
             <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی ها
                 <!--<span class="fas fa-sort-down"></span>--></a>
             <a href="/shop" class="navbar-item">فروشگاه</a>
-            
+
             <a href="/contact-us" class="navbar-item">تماس با ما</a>
         </div>
         <script>
@@ -36,19 +37,57 @@
                 });
             });
         </script>
+        <div class="float-left">
+            <div class="navbar-item text-center navbar-search-btn"><span class="fas fa-search"
+                    style="font-size:26px;position:relative;top:0;left:50px;"></span></div>
+            <div class="wog-card search-card" style="display:none">
+                <form action="/posts/search/" method="GET" style="margin:0;padding:0">
+                    <input name="s" class="form-control search-input" placeholder="جستجو..." />
+                </form>
+            </div>
+        </div>
+        <script>
+            $(() =>
+            {
+                $(".navbar-search-btn").click(() =>
+                {
+                    $("navbar .search-card").slideToggle(300);
+                });
+            });
+        </script>
         {{#currentUser}}
         <div class="navbar-user-box">
             <a href="{{siteUrl}}"><img src="{{profileImage}}" /></a>
-            <a class="navbar-item" href="{{siteUrl}}">{{username}}</a>
+            <div class="navbar-item" id="navbar-dropdownMenuButton" style="cursor:pointer;">
+                <!--<a style="color:white !important;text-decoration: none !important;" href="{{siteUrl}}"></a>-->
+                {{username}}
+                <span class="fas fa-sort-down"></span>
+            </div>
+            <div class="dropdown-menu" id="navbar-dropdownMenu"
+                style="float:unset;left:unset;direction:rtl;text-align: right">
+                <a class="dropdown-item" href="{{siteUrl}}">پروفایل</a>
+                <a class="dropdown-item" href="/users/{{username}}/edit">ویرایش اطلاعات کاربری</a>
+                <a class="dropdown-item" href="/logout">خروج</a>
+            </div>
+            <script>
+                $(() =>
+                {
+                    $("#navbar-dropdownMenuButton").click(() =>
+                    {
+                        $("#navbar-dropdownMenu").slideToggle(100);
+                    })
+                });
+            </script>
         </div>
         {{/currentUser}}
         {{^currentUser}}
         <div class="float-left navbar-login-box" style="height:100%">
-            <span class="fas fa-user fas-user-auth"></span>
             <a href="/login" class="navbar-item">ورود</a>
             <a href="/signup" class="navbar-item">ثبت نام</a>
         </div>
         {{/currentUser}}
+
+
     </div>
 </navbar>
 <div class="navbar-dropdown" dropDownItem="games-disabled" style="display:none;">
@@ -88,7 +127,7 @@
         </div>
     </div>
 </div>
-<div class="navbar-dropdown" dropDownItem="tutorials" style="display:none;">
+<!-- <div class="navbar-dropdown" dropDownItem="tutorials" style="display:none;">
     <div class="container" style="pointer-events: all;">
         <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
         <div class="card" style="background-color:#1F262A;color:white;height:450px;">
@@ -142,16 +181,16 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <div class="navbar-dropdown" dropDownItem="news" style="display:none;">
     <div class="container" style="pointer-events: all;">
-        <img src="/images/navbar-games-tail.png" style="position: relative;right:200px;" width="48px" />
+        <img src="/images/navbar-games-tail.png" style="position: relative;right:300px;" width="48px" />
         <div class="card" style="background-color:#1F262A;color:white;height:450px;">
             <div class="row">
 
                 <div class="col-md-3" style="padding-left:0;">
                     {{#navbarData.news}}
-                    <a href="{{siteUrl}}" class="navbar-games-link selected" slug="{{slug}}">{{name}}<span
+                    <a href="{{siteUrl}}" class="navbar-games-link" slug="{{slug}}">{{name}}<span
                             class="fas fa-chevron-left float-left"></span></a>
                     {{/navbarData.news}}
                 </div>
@@ -160,13 +199,14 @@
                     <div class="navbar-games-cover">
                         <div class="gradient-thing" id="news-posts-container">
                             {{#navbarData.news}}
-                            <div class="row" cat="{{slug}}">
+                            <div class="row navbar-posts-row" cat="{{slug}}">
                                 {{#posts}}
                                 <div class="col-md-4">
-                                    <div class="navbar-post-box">
-                                        <img src="/images/pubgcover.jpg" width="100%" />
+                                    <a class="navbar-post-box" href="{{siteUrl}}">
+                                        <div class="navbar-post-thumbnail"
+                                            style="background-image:url('{{thumbnail_640x480}}')"></div>
                                         <h1>{{title}}</h1>
-                                    </div>
+                                    </a>
                                 </div>
                                 {{/posts}}
                             </div>
@@ -178,9 +218,46 @@
         </div>
     </div>
 </div>
+<div class="navbar-dropdown" dropDownItem="tutorials" style="display:none;">
+    <div class="container" style="pointer-events: all;">
+        <img src="/images/navbar-games-tail.png" style="position: relative;right:300px;" width="48px" />
+        <div class="card" style="background-color:#1F262A;color:white;height:450px;">
+            <div class="row">
+
+                <div class="col-md-3" style="padding-left:0;">
+                    {{#navbarData.tutorials}}
+                    <a href="{{siteUrl}}" class="navbar-games-link" slug="{{slug}}">{{name}}<span
+                            class="fas fa-chevron-left float-left"></span></a>
+                    {{/navbarData.tutorials}}
+                </div>
+
+                <div class="col-md-9" style="padding-right:0">
+                    <div class="navbar-games-cover">
+                        <div class="gradient-thing" id="news-posts-container">
+                            {{#navbarData.tutorials}}
+                            <div class="row navbar-posts-row" cat="{{slug}}">
+                                {{#posts}}
+                                <div class="col-md-4">
+                                    <a class="navbar-post-box" href="{{siteUrl}}">
+                                        <div class="navbar-post-thumbnail"
+                                            style="background-image:url('{{thumbnail_640x480}}')"></div>
+                                        <h1>{{title}}</h1>
+                                    </a>
+                                </div>
+                                {{/posts}}
+                            </div>
+                            {{/navbarData.tutorials}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $(() =>
     {
+        //navbar dropdowns:
         let currentDropDown = undefined;
         $(".navbar-item").mouseenter(function ()
         {
@@ -196,6 +273,36 @@
         {
             console.log('mouse leave!');
             $(`.navbar-dropdown`).hide();
+        });
+        //news rows,buttons:
+        let newsRows = $("[dropDownItem=news] .navbar-posts-row");
+        for (var i = 1; i < newsRows.length; i++)
+            $(newsRows[i]).hide();
+        let newsButtons = $("[dropDownItem=news] .navbar-games-link");
+        $(newsButtons[0]).addClass('selected');
+        $("[dropDownItem=news] .navbar-games-link").mouseover(function ()
+        {
+            $("[dropDownItem=news] .navbar-games-link").removeClass('selected');
+            $(this).addClass('selected');
+
+            var slug = $(this).attr('slug');
+            $("[dropDownItem=news] .navbar-posts-row").hide();
+            $(`[dropDownItem=news] .navbar-posts-row[cat=${slug}]`).show();
+        });
+        //tutorials rows,buttons:
+        let tutorialsRows = $("[dropDownItem=tutorials]  .navbar-posts-row");
+        for (var i = 1; i < tutorialsRows.length; i++)
+            $(tutorialsRows[i]).hide();
+        let tutorialsButtons = $("[dropDownItem=tutorials] .navbar-games-link");
+        $(tutorialsButtons[0]).addClass('selected');
+        $("[dropDownItem=tutorials] .navbar-games-link").mouseover(function ()
+        {
+            $("[dropDownItem=tutorials] .navbar-games-link").removeClass('selected');
+            $(this).addClass('selected');
+
+            var slug = $(this).attr('slug');
+            $("[dropDownItem=tutorials] .navbar-posts-row").hide();
+            $(`[dropDownItem=tutorials] .navbar-posts-row[cat=${slug}]`).show();
         });
     });
 </script>

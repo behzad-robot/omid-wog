@@ -63,7 +63,7 @@ const SiteModules = {
     Comment: new Comment(apiSocket),
     ContactUsForm: new ContactUsForm(apiSocket),
     PubGTeam: new PubGTeam(apiSocket),
-    OTPObject : new OTPObject(apiSocket),
+    OTPObject: new OTPObject(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -128,7 +128,7 @@ const navbarNewsCache = new CacheReader('navbar-news', (cb) =>
                 }
                 // console.log("loadPosts");
                 var c = results[index];
-                SiteModules.Post.find({ categories: c._id }).then((posts) =>
+                SiteModules.Post.find({ categories: c._id, limit: 6 }).then((posts) =>
                 {
                     c.posts = posts;
                     loadPosts(index + 1, done);
@@ -180,7 +180,7 @@ const navbarArticlesCache = new CacheReader('navbar-articles', (cb) =>
                 }
                 // console.log("loadPosts");
                 var c = results[index];
-                SiteModules.Post.find({ categories: c._id }).then((posts) =>
+                SiteModules.Post.find({ categories: c._id, limit: 6 }).then((posts) =>
                 {
                     c.posts = posts;
                     loadPosts(index + 1, done);
@@ -245,7 +245,7 @@ SiteModules.Cache = {
     allPostsCats: allPostsCatsCache,
     navbarNews: navbarNewsCache,
     navbarTutorials: navbarArticlesCache,
-    posts_recommended : recommendedPostsCache,
+    posts_recommended: recommendedPostsCache,
 };
 
 

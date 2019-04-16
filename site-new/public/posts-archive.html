@@ -261,7 +261,7 @@
             margin-top: 5px;
             max-lines: 1;
             text-overflow: clip;
-            max-height: 1rem;
+            max-height: 1.1rem;
             overflow: hidden;
             word-wrap: break-word;
             font-weight: 300;
@@ -283,6 +283,9 @@
             position: relative;
             border-radius: 5px;
             margin-bottom: 5px;
+            text-decoration: none !important;
+            color : white !important;
+
         }
 
         .upcoming-game-box .overlay {
@@ -332,7 +335,7 @@
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>{{{gridPosts1.title}}}</h1>
+                                <h1>{{{gridPosts1.title_formatted}}}</h1>
                                 <small><span
                                         class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
                             </div>
@@ -345,7 +348,7 @@
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>{{{gridPosts2.title}}}</h1>
+                                <h1>{{{gridPosts2.title_formatted}}}</h1>
                                 <small><span
                                         class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
                             </div>
@@ -360,7 +363,7 @@
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>{{{gridPosts0.title}}}</h1>
+                                <h1>{{{gridPosts0.title_formatted}}}</h1>
                                 <small><span
                                         class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
                             </div>
@@ -375,7 +378,7 @@
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>{{{gridPosts3.title}}}</h1>
+                                <h1>{{{gridPosts3.title_formatted}}}</h1>
                                 <small><span
                                         class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
                             </div>
@@ -388,7 +391,7 @@
                             </div>
                             <div class="overlay"></div>
                             <div class="details">
-                                <h1>{{{gridPosts4.title}}}</h1>
+                                <h1>{{{gridPosts4.title_formatted}}}</h1>
                                 <small><span
                                         class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
                             </div>
@@ -414,7 +417,7 @@
                         </a>
                         <div class="post-box-content">
                             <a href="{{siteUrl}}">
-                                <h1>{{title}}</h1>
+                                <h1>{{{title_formatted}}}</h1>
                             </a>
                             <p>{{{intro}}}</p>
                             <div class="date">
@@ -435,7 +438,7 @@
                             </div>
                             <div class="col-md-8 col-6" style="padding-right:0px;">
                                 <a href="{{siteUrl}}">
-                                    <h1>{{title}}</h1>
+                                    <h1>{{{title_formatted}}}</h1>
                                 </a>
                                 <p>{{{intro}}}</p>
                                 <div class="date">
@@ -519,7 +522,7 @@
                                                         </a>
                                                         <div class="post-box-content">
                                                             <a href="${post.siteUrl}">
-                                                                <h1>${post.title}</h1>
+                                                                <h1>${post.title_formatted}</h1>
                                                             </a>
                                                             <p>${post.intro}</p>
                                                             <div class="date">
@@ -544,7 +547,7 @@
                                                         </div>
                                                         <div class="col-md-8 col-6" style="padding-right:0px;">
                                                             <a href="${post.siteUrl}">
-                                                                <h1>${post.title}</h1>
+                                                                <h1>${post.title_formatted}</h1>
                                                             </a>
                                                             <p>${post.intro}</p>
                                                             <div class="date">
@@ -579,7 +582,7 @@
                     {{/aparatVideos}}
                     <h6 class="orange-title">بازی های مورد انتظار</h6>
                     {{#upComingGames}}
-                    <div class="upcoming-game-box" style="background-image:url('{{thumbnail}}')">
+                    <a class="upcoming-game-box" style="background-image:url('{{thumbnail}}')" href="{{url}}" target="_blank">
                         <div class="overlay"></div>
                         <div class="content">
                             {{#icon}}
@@ -588,7 +591,7 @@
                             <h1 class="title text-white text-shadow">{{title}}</h1>
                             <h2 class="subtitle text-white text-shadow">{{date}}</h2>
                         </div>
-                    </div>
+                    </a>
                     {{/upComingGames}}
                 </div>
             </div>

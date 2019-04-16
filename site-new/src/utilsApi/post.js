@@ -47,6 +47,9 @@ export class Post extends SocketCollection
             p.authorId = p.adminId;
         if (p.extras == undefined)
             p.extras = { bigBox: false };
+        p.title_formatted = p.title;
+        for (var i = 0; i < 10; i++)
+            p.title_formatted = p.title_formatted.replace(i.toString(), `<span class="text-english">${i}</span>`);
         return p;
     }
     fixAll(cs)

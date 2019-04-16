@@ -95,9 +95,9 @@ export default class SitePostsRouter extends SiteRouter
                     this.show500(req, res, 'Category Not found!');
                     return;
                 }
-                this.siteModules.Post.find({ categories: category._id , limit : 20}).then((posts) =>
+                this.siteModules.Post.find({ categories: category._id, limit: 20 }).then((posts) =>
                 {
-                    this.postsArchive(req, res, posts, { title: category.name, hasGrid: false, loadMoreParams: '?categories=' + category._id });
+                    this.postsArchive(req, res, posts, { title: category.name, hasGrid: (category.slug == 'news' || category.slug == 'articles'), loadMoreParams: '?categories=' + category._id });
                 }).catch((err) =>
                 {
                     this.show500(req, res, err.toString());
@@ -112,6 +112,17 @@ export default class SitePostsRouter extends SiteRouter
             }).catch((err) =>
             {
                 this.show500(req, res, err.toString());
+            });
+        });
+        this.router.get('/search', (req, res) =>
+        {
+            this.siteModules.Post.apiCall('search', { s: req.query.s , limit : 50 , _draft : false }).then((posts) =>
+            {
+                posts = this.siteModules.Post.fixAll(posts);
+                this.postsArchive(req, res, posts, { title: 'جستجوی '+req.query.s, hasGrid: false });
+            }).catch((err) =>
+            {
+                this.show500(req,res,err.toString());
             });
         });
         this.router.get('/_id/:_id', (req, res) =>
@@ -276,10 +287,8 @@ export default class SitePostsRouter extends SiteRouter
                         post._cats.push(cats[j]);
                 }
             }
-            timer.tick('Cats Setup Done');
             siteModules.User.getOne(post.authorId).then((author) =>
             {
-                timer.tick('Author Setup');
                 post._author = siteModules.User.public(author);
                 //also get recommended posts:
                 siteModules.Cache.posts_recommended.getData((err, recommendedPosts) =>
@@ -290,7 +299,6 @@ export default class SitePostsRouter extends SiteRouter
                         return;
                     }
                     //also get recommended posts:
-                    console.log('lets find a recommended posts');
                     siteModules.Cache.posts_recommended.getData((err, recommendedPosts) =>
                     {
                         if (err)

@@ -11,8 +11,10 @@ export default class SiteAuthRouter extends SiteRouter
         this.router.get('/login', (req, res) =>
         {
             let error = req.query.msg;
+            if(error == 'User Not found')
+                error = 'کاربری با این مشخصات یافت نشد.';
             this.renderTemplate(req, res, 'login.html', {
-                msg: error ? { error: error } : undefined,
+                error : error,
             });
         });
         this.router.post('/login', (req, res) =>

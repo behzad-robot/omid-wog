@@ -114,7 +114,7 @@
             transition: 0.3s all;
         }
 
-        .grid-post-box .overlay:hover {
+        .grid-post-box:hover .overlay {
             background: rgba(255, 255, 255, 0);
 
         }
@@ -342,7 +342,7 @@
                                 </div>
                                 <div class="overlay"></div>
                                 <div class="details">
-                                    <h1>{{{gridPosts1.title}}}</h1>
+                                    <h1>{{{gridPosts1.title_formatted}}}</h1>
                                     <small><span
                                             class="fas fa-calendar"></span>&nbsp;{{{gridPosts1.createdAt_persian}}}</small>
                                 </div>
@@ -355,7 +355,7 @@
                                 </div>
                                 <div class="overlay"></div>
                                 <div class="details">
-                                    <h1>{{{gridPosts2.title}}}</h1>
+                                    <h1>{{{gridPosts2.title_formatted}}}</h1>
                                     <small><span
                                             class="fas fa-calendar"></span>&nbsp;{{{gridPosts2.createdAt_persian}}}</small>
                                 </div>
@@ -370,7 +370,7 @@
                                 </div>
                                 <div class="overlay"></div>
                                 <div class="details">
-                                    <h1>{{{gridPosts0.title}}}</h1>
+                                    <h1>{{{gridPosts0.title_formatted}}}</h1>
                                     <small><span
                                             class="fas fa-calendar"></span>&nbsp;{{{gridPosts0.createdAt_persian}}}</small>
                                 </div>
@@ -385,7 +385,7 @@
                                 </div>
                                 <div class="overlay"></div>
                                 <div class="details">
-                                    <h1>{{{gridPosts3.title}}}</h1>
+                                    <h1>{{{gridPosts3.title_formatted}}}</h1>
                                     <small><span
                                             class="fas fa-calendar"></span>&nbsp;{{{gridPosts3.createdAt_persian}}}</small>
                                 </div>
@@ -398,7 +398,7 @@
                                 </div>
                                 <div class="overlay"></div>
                                 <div class="details">
-                                    <h1>{{{gridPosts4.title}}}</h1>
+                                    <h1>{{{gridPosts4.title_formatted}}}</h1>
                                     <small><span
                                             class="fas fa-calendar"></span>&nbsp;{{{gridPosts4.createdAt_persian}}}</small>
                                 </div>
@@ -421,7 +421,7 @@
                 <div class="col-md col-6">
                     <a class="latest-news-post-box" href="{{siteUrl}}">
                         <img src="{{thumbnail_640x480}}" />
-                        <h1>{{title}}</h1>
+                        <h1>{{{title_formatted}}}</h1>
                     </a>
                 </div>
                 {{/latestPosts}}

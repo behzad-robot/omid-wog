@@ -214,6 +214,15 @@
                     //hide json:
                     // $(".json-row").hide();
                 });
+                $("form").submit(()=>{
+                    var slug = $("[name=slug]").val();
+                    if(slug.toLowerCase() != slug)
+                    {
+                        alert('Error:slug must be all lower case alphabet and - ');
+                        return false;
+                    }
+                    return true;
+                });
             });
             function recreate_cats()
             {
