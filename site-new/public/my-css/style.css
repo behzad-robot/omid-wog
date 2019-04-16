@@ -186,6 +186,9 @@ navbar .search-card{
     padding:10px 20px;
     background: linear-gradient(90deg, rgba(0,0,0,0) 20%, rgba(0,0,0,0.8) 100%);
 }
+.navbar-games-cover .gradient-thing.no-gradient{
+    background:transparent;
+}
 .navbar-games-cover .gradient-thing h3{
     display:inline-block;
     margin-right: 10px;

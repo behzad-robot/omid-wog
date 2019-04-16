@@ -1,0 +1,323 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .mklogo {
+            width: 70px;
+            height: 70px;
+        }
+
+        .mktitle {
+            color: white;
+        }
+
+        .mkdescription {
+            color: white;
+            margin-top: 10px
+        }
+
+        .factions {
+            background-image: url('/images/earth.jpg');
+            height: 350px;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .factions-image {
+            width: 100%;
+        }
+
+        .btn.btn-warning {
+            background-color: rgb(228, 148, 0);
+        }
+
+        .news {
+            background-image: url('/images/livingforest.jpg');
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .news-background {
+            background-color: white;
+            height: 275px;
+            border-radius: 3px;
+
+        }
+
+        .news-image {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .news-title {
+            font-size: 17px;
+            display: inline-block;
+            margin-right: 7px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .date-context {
+            font-size: 11px;
+            color: rgb(114, 114, 114);
+            margin-right: 7px;
+            padding-bottom: 10px
+        }
+
+        .newslinks {
+            text-decoration: none;
+        }
+
+        .newslinks:hover {
+            text-decoration: none;
+        }
+
+        .gallery {
+            background-image: url('/images/livingforest.jpg');
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            margin-bottom: -20px;
+            padding: 10px;
+        }
+
+        .grid-box-small {
+            height: 225px;
+            display: block;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-box-big {
+            height: 450px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-image-small {
+            width: 100%;
+            height: 225px;
+        }
+
+        .grid-image-big {
+            width: 100%;
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mortal-types {
+            width: 33.33333333333%;
+        }
+
+        .intro {
+            background-image: url('/images/scorpion.jpg');
+            height: 550px;
+            width: 100%;
+            margin-top: 80px
+        }
+
+        .faction-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .news-text {
+            color: white;
+            padding: 15px 0;
+            float: right;
+            font-size: 32px;
+
+        }
+
+        .news-more-text {
+            color: orange;
+            padding: 15px 0;
+            float: left;
+            font-size: 22px;
+        }
+
+        .more-button {
+            margin-top: 40px;
+            border-radius: 5px;
+            margin: 0px auto;
+            width: 10%;
+            display: block;
+            font-weight: bold;
+        }
+
+        .gallery-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .hero-names {
+            font-size: 20px;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+            .intro {
+                background-image: url('/images/mobile.png');
+                background-color: black;
+                background-size: cover;
+                vertical-align: middle;
+                background-position: center
+            }
+
+            .mktitle {
+                font-size: 30px;
+                text-align: center;
+            }
+
+            .mklogo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .mkdescription {
+                font-size: 15px;
+                text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5)
+            }
+
+            .heroes-text {
+                font-size: 20px;
+            }
+
+            .news-text {
+                font-size: 20px
+            }
+
+            .news-more-text {
+                font-size: 20px;
+            }
+
+            .news-background {
+                height: 210px;
+                margin-bottom: 5px;
+            }
+
+            .more-button {
+                margin-top: 40px;
+                border-radius: 5px;
+                margin: 0px auto;
+                width: 20%;
+                display: block
+            }
+
+            .grid-box-big {
+                width: 100%;
+                height: 288px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .grid-box-small {
+                width: 100%;
+                height: 144px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .gallery-text {
+                font-size: 20px;
+            }
+
+        }
+
+        .hero-box {
+            display: block;
+            margin-bottom: 10px;
+            color: inherit !important;
+            text-decoration: inherit !important;
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-box:hover {
+            box-shadow: 2px 2px 6px orange;
+        }
+
+        .hero-box .hero-title {
+            font-size: 1.2rem;
+            font-weight: bolder;
+            background-color: #f0f1f2;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+
+        }
+
+        .game-versions-box-wrapper .game-versions-box-right {
+            float: right;
+            position: relative;
+            z-index: 2;
+            height: 294px;
+        }
+
+        .game-versions-box-wrapper .game-versions-box-left {
+            float: left;
+            position: relative;
+            z-index: 3;
+            height: 294px;
+        }
+
+        .game-versions-box-wrapper .game-versions-box-mid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 0;
+            height: 294px;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+            .heros-row-pc-only {
+                display: none;
+            }
+
+            .game-versions-box-wrapper .game-versions-box-right,
+            .game-versions-box-wrapper .game-versions-box-left,
+            .game-versions-box-wrapper .game-versions-box-mid {
+                float: unset;
+                display: block;
+                position: relative;
+                width: 100%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="background-image: url('/images/livingforest.jpg');">
+        <div class="container">
+            <h1 class="heroes-text text-white" style="padding:10px 0">شخصیت های بازی</h1>
+            <div class="row">
+                {{#champions}}
+                <div class="col-md-3 col-6">
+                    <a class="hero-box" href="{{siteUrl}}">
+                        <img src="{{icon}}" alt="{{name}} icon" width="100%" />
+                        <div class="hero-title text-center text-english">
+                            <span>{{name}}</span>
+                        </div>
+                    </a>
+                </div>
+                {{/champions}}
+            </div>
+        </div>
+    </section>
+    <section style="margin-bottom:-20px;"></section>
+    {{{footer}}}
+</body>
+
+</html>

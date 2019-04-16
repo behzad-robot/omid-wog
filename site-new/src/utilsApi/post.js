@@ -48,7 +48,7 @@ export class Post extends SocketCollection
         if (p.extras == undefined)
             p.extras = { bigBox: false };
         p.title_formatted = p.title;
-        for (var i = 0; i < 10; i++)
+        for (var i = 100; i >= 0; i--)
             p.title_formatted = p.title_formatted.replace(i.toString(), `<span class="text-english">${i}</span>`);
         return p;
     }

@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class Game extends SocketCollection
@@ -49,6 +50,15 @@ export class Game extends SocketCollection
         if (isEmptyString(g.coverTall))
             g.coverTall = ICON_404;
         g.siteUrl = '/games/' + g.slug;
+        //mortal kombat specefic:
+        if (g.token == 'mortal')
+        {
+            for (var i = 0; i < g.factions.length; i++)
+            {
+                g.factions[i].siteUrl = SITE_URL('/wiki/mortal-kombat/factions/' + g.factions[i].slug);
+                g.factions[i].icon = SITE_URL(g.factions[i].icon);
+            }
+        }
         return g;
     }
     fixAll(cs)

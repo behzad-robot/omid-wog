@@ -1,4 +1,5 @@
 import SiteRouter from "../site_router";
+import { SITE_URL } from "../../constants";
 
 export class MortalWikiRouter extends SiteRouter
 {
@@ -12,28 +13,45 @@ export class MortalWikiRouter extends SiteRouter
                 //we also need characters:
                 siteModules.Champion.find({ gameId: game._id, limit: 100 }).then((champions) =>
                 {
-                    var fiveChamps = [];
-                    for (var i = 0; i < 5 && i < champions.length; i++)
+                    for (var i = 0; i < champions.length; i++)
+                        champions[i].siteUrl = SITE_URL('/wiki/mortal-kombat/characters/' + champions[i].slug);
+                    let fiveChampions = [], fiveChampionsPart2 = [];
+                    let tenChampsSlug = [
+                        'scorpion', 'sub-zero', 'raiden', 'quan-chi', 'kitana',
+                        'johnny-cage', 'cassie-cage', 'sonya-blade', 'kenshi', 'liu-kang'
+                        //casy cage,sonia blade,kenshi ,reptile , liu kang
+                    ];
+                    for (var i = 0; i < tenChampsSlug.length; i++)
                     {
-                        if ((champions[i].slug == 'scorpion') || (champions[i].slug == 'sub-zero') || (champions[i].slug == 'kitana')
-                            || (champions[i].slug == 'raiden') || (champions[i].slug == 'quan-chi'))
-                            fiveChamps.push(champions[i]);
+                        for (var j = 0; j < champions.length; j++)
+                        {
+                            if (champions[j].slug == tenChampsSlug[i])
+                            {
+                                if (i < 5)
+                                    fiveChampions.push(champions[j]);
+                                else
+                                    fiveChampionsPart2.push(champions[j]);
+                                break;
+                            }
+                        }
                     }
                     //add gallery:
-                    siteModules.Media.find({ gameId: game._id }).then((media) =>
+                    siteModules.Media.find({ gameId: game._id, limit: 5 }).then((media) =>
                     {
                         //add news:
                         siteModules.Post.find({
                             '$or': [
                                 { gameId: game._id },
                                 { tags: 'mortal-kombat' }
-                            ]
+                            ],
+                            limit: 4,
                         }).then((posts) =>
                         {
                             //finish
                             this.renderTemplate(req, res, 'wiki-mortal/home.html', {
                                 game: game,
-                                fiveChampions: fiveChamps,
+                                fiveChampions: fiveChampions,
+                                fiveChampionsPart2: fiveChampionsPart2,
                                 champions: champions,
                                 media: media,
                                 posts: posts,
@@ -55,15 +73,28 @@ export class MortalWikiRouter extends SiteRouter
             var slug = req.params.gameSlug.toString().toLowerCase();
             siteModules.Cache.getGame({ slug: slug }).then((game) =>
             {
-                if(game == null)
+                if (game == null)
                 {
-                    this.show404(req,res);
+                    this.show404(req, res);
                     return;
                 }
-                siteModules.Champion.find({ gameId: game._id }).then((champions) =>
+                siteModules.Champion.find({ gameId: game._id }).then((cs) =>
                 {
+                    for (var i = 0; i < cs.length; i++)
+                        cs[i].siteUrl = SITE_URL('/wiki/mortal-kombat/characters/' + cs[i].slug);
                     siteModules.Media.find({ gameId: game._id }).then((media) =>
                     {
+                        let champions = [];
+                        let arr = [];
+                        for (var i = 0; i < cs.length; i++)
+                        {
+                            if (i % 5 == 0)
+                            {
+                                arr = { members: [] };
+                                champions.push(arr);
+                            }
+                            arr.members.push(cs[i]);
+                        }
                         this.renderTemplate(req, res, 'wiki-mortal/game-single.html', {
                             game: game,
                             champions: champions,
@@ -74,6 +105,26 @@ export class MortalWikiRouter extends SiteRouter
             }).catch((err) =>
             {
                 this.show500(req, res, err.toString());
+            });
+        });
+        this.router.get('/characters/all', (req, res) =>
+        {
+            siteModules.Cache.getGame({ token: 'mortal' }).then((game) =>
+            {
+                if (game == null)
+                {
+                    this.show500(reqr, res, 'game is null');
+                    return;
+                }
+                siteModules.Champion.find({ gameId: game._id }).then((champions) =>
+                {
+                    for (var i = 0; i < champions.length; i++)
+                        champions[i].siteUrl = SITE_URL('/wiki/mortal-kombat/characters/' + champions[i].slug);
+                    this.renderTemplate(req, res, 'wiki-mortal/champs-archive.html', {
+                        game: game,
+                        champions: champions,
+                    });
+                });
             });
         });
         this.router.get('/characters/:slug', (req, res) =>

@@ -1,21 +1,495 @@
-<h1>{{game.title}}</h1>
-<h3>Champions:</h3>
-{{#champions}} 
-    <b>{{name}}</b>#
-{{/champions}}
-<hr>
-<h3>Five Champions:</h3>
-{{#fiveChampions}} 
-    <b>{{name}}</b>#
-{{/fiveChampions}}
-<hr>
-<h3>Gallery:</h3>
-{{#media}} 
-    <img src="{{thumbnail_url}}" width="100px"/>
-    <b>{{title}}</b>#
-{{/media}}
-<h3>Posts:</h3>
-{{#posts}} 
-    <img src="{{thumbnail_150x150}}" width="100px"/>
-    <b>{{title}}</b>#
-{{/posts}}
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .mklogo {
+            width: 70px;
+            height: 70px;
+        }
+
+        .mktitle {
+            color: white;
+            padding-top: 100px;
+        }
+
+        .mkdescription {
+            color: white;
+            margin-top: 10px
+        }
+
+        .factions {
+            background-image: url('/images/earth.jpg');
+            /* height: 350px; */
+            padding: 20px 0;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .factions-image {
+            width: 100%;
+        }
+
+        .btn.btn-warning {
+            background-color: rgb(228, 148, 0);
+        }
+
+        .news {
+            background-image: url('/images/livingforest.jpg');
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .news-background {
+            background-color: white;
+            height: 275px;
+            border-radius: 3px;
+
+        }
+
+        .news-image {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .news-title {
+            font-size: 17px;
+            display: inline-block;
+            margin-right: 7px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .date-context {
+            font-size: 11px;
+            color: rgb(114, 114, 114);
+            margin-right: 7px;
+            padding-bottom: 10px
+        }
+
+        .newslinks {
+            text-decoration: none;
+        }
+
+        .newslinks:hover {
+            text-decoration: none;
+        }
+
+        .gallery {
+            background-image: url('/images/livingforest.jpg');
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            margin-bottom: -20px;
+            padding: 10px;
+        }
+
+        .grid-box-small {
+            height: 225px;
+            display: block;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-box-big {
+            height: 450px;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-image-small {
+            width: 100%;
+            height: 225px;
+        }
+
+        .grid-image-big {
+            width: 100%;
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .mortal-types {
+            width: 33.33333333333%;
+        }
+
+        .intro {
+            background-image: url('/images/mortal-home-desktop.jpg');
+            height: 550px;
+            width: 100%;
+            padding-top: 100px;
+        }
+
+        .faction-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .news-text {
+            color: white;
+            padding: 15px 0;
+            float: right;
+            font-size: 32px;
+
+        }
+
+        .news-more-text {
+            color: orange;
+            padding: 15px 0;
+            float: left;
+            font-size: 22px;
+        }
+
+        .more-button {
+            margin-top: 40px;
+            border-radius: 5px;
+            margin: 0px auto;
+            width: 10%;
+            display: block;
+            font-weight: bold;
+        }
+
+        .gallery-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .hero-names {
+            font-size: 20px;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+            .intro {
+                background-image: url('/images/mortal-home-mobile.jpg');
+                background-color: black;
+                background-size: cover;
+                vertical-align: middle;
+                background-position: center;
+                padding-top: 20px;
+            }
+
+            .mktitle {
+                font-size: 30px;
+                text-align: center;
+            }
+
+            .mklogo {
+                width: 50px;
+                height: 50px;
+            }
+
+            .mkdescription {
+                font-size: 15px;
+                text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5)
+            }
+
+            .heroes-text {
+                font-size: 20px;
+            }
+
+            .news-text {
+                font-size: 20px
+            }
+
+            .news-more-text {
+                font-size: 20px;
+            }
+
+            .news-background {
+                height: 210px;
+                margin-bottom: 5px;
+            }
+
+            .more-button {
+                margin-top: 40px;
+                border-radius: 5px;
+                margin: 0px auto;
+                width: 20%;
+                display: block
+            }
+
+            .grid-box-big {
+                width: 100%;
+                height: 288px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .grid-box-small {
+                width: 100%;
+                height: 144px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .gallery-text {
+                font-size: 20px;
+            }
+
+        }
+
+        .hero-box {
+            display: block;
+            margin-bottom: 10px;
+            color: inherit !important;
+            text-decoration: inherit !important;
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .hero-box:hover {
+            box-shadow: 2px 2px 6px orange;
+        }
+
+        .hero-box .hero-title {
+            font-size: 1.2rem;
+            font-weight: bolder;
+            background-color: #f0f1f2;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+
+        }
+
+        .game-versions-box-wrapper .game-versions-box-right {
+            float: right;
+            position: relative;
+            z-index: 2;
+            height: 294px;
+        }
+
+        .game-versions-box-wrapper .game-versions-box-left {
+            float: left;
+            position: relative;
+            z-index: 3;
+            height: 294px;
+        }
+
+        .game-versions-box-wrapper .game-versions-box-mid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 0;
+            height: 294px;
+        }
+
+        @media only screen and (max-device-width: 480px) {
+            .heros-row-pc-only {
+                display: none;
+            }
+
+            .game-versions-box-wrapper .game-versions-box-right,
+            .game-versions-box-wrapper .game-versions-box-left,
+            .game-versions-box-wrapper .game-versions-box-mid {
+                float: unset;
+                display: block;
+                position: relative;
+                width: 100%;
+                height: auto;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="intro">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-5">
+                    <h1 class="mktitle text-english" style="display:inline">
+                        <img class="mklogo" src="/images/logo-mk.png" alt="mklogo" style="display: inline;">
+                        &nbsp;{{{game.name}}}
+                    </h1>
+                    <div class="mkdescription">{{{game.description}}}
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </section>
+    <section style="overflow:hidden;position: relative" class="game-versions-box-wrapper">
+        <a href="{{#SITE_URL}}/wiki/mortal-kombat/mk-mobile/{{/SITE_URL}}">
+            <picture>
+                <source media="(max-width: 480px)" srcset="/images/raidenmobile.png">
+                <img class="game-versions-box-right" src="/images/raiden-right.png" alt="">
+            </picture>
+        </a>
+        <a href="{{#SITE_URL}}/wiki/mortal-kombat/mk-11/{{/SITE_URL}}">
+            <picture>
+                <source media="(max-width: 480px)" srcset="/images/scorpionmobile.jpg">
+                <img class="game-versions-box-mid" src="/images/mid.png" alt="">
+            </picture>
+        </a>
+        <a href="{{#SITE_URL}}/wiki/mortal-kombat/mk-xl/{{/SITE_URL}}">
+            <picture>
+                <source media="(max-width: 480px)" srcset="/images/mobilexl.png">
+                <img class="game-versions-box-left" src="/images/subzero-left.png" alt="">
+            </picture>
+        </a>
+    </section>
+    <section class="factions">
+        <div class="container">
+            <h1 class="faction-text">گروه های بازی</h1>
+            <div class="row">
+                {{#game.factions}}
+                <div class="col-md col-4">
+                    <a href="{{siteUrl}}" style="margin-bottom:5px;display:block;">
+                        <img class="factions-image" src="{{icon}}" alt="balckdragon">
+                    </a>
+                </div>
+                {{/game.factions}}
+                <!-- <div class="col-md col-4">
+                    <a href="#"><img class="factions-image" src="/images/brotherhoodofshadow.png"
+                            alt="brotherhoodofshadow">
+                    </a>
+                </div>
+                <div class="col-md col-4">
+                    <a href="#">
+                        <img class="factions-image" src="/images/linkuei.png" alt="linkuei">
+                    </a>
+                </div>
+                <div class="col-md col-4"><a href="#">
+                        <img class="factions-image" src="/images/specialforces.png" alt="specialforces">
+                    </a>
+                </div>
+                <div class="col-md col-4">
+                    <a href="#">
+                        <img class="factions-image" src="/images/whitelotus.png" alt="whitelotus">
+                    </a>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    <section style="background-image: url('/images/livingforest.jpg');">
+        <div class="container">
+            <h1 class="heroes-text text-white" style="padding:10px 0">شخصیت های بازی</h1>
+            <div class="row">
+                {{#fiveChampions}}
+                <div class="col-md col-6">
+                    <a class="hero-box" href="{{siteUrl}}">
+                        <img src="{{icon}}" alt="{{name}} icon" width="100%" />
+                        <div class="hero-title text-center text-english">
+                            <span>{{name}}</span>
+                        </div>
+                    </a>
+                </div>
+                {{/fiveChampions}}
+            </div>
+            <div class="row heros-row-pc-only">
+                {{#fiveChampionsPart2}}
+                <div class="col-md col-6">
+                    <a class="hero-box" href="{{siteUrl}}">
+                        <img src="{{icon}}" width="100%" />
+                        <div class="hero-title text-center text-english">
+                            <span>{{name}}</span>
+                        </div>
+                    </a>
+                </div>
+                {{/fiveChampionsPart2}}
+            </div>
+            <div class="text-center" style="padding:10px 0;">
+                <a href="/wiki/mortal-kombat/characters/all"
+                    class="more-button btn btn-warning text-center"><strong>بیشتر</strong></a>
+            </div>
+
+        </div>
+    </section>
+    <section class="news">
+        <div class="container">
+            <div style="overflow: hidden">
+                <h1 class="news-text">اخبار:</h1>
+                <a href="{{#SITE_URL}}/posts/tags/mortal-kombat{{/SITE_URL}}">
+                    <h1 class="news-more-text"> بیشتر</h1>
+                </a>
+            </div>
+            <div class="row">
+                {{#posts}}
+                <div class="col-md-3 col-6">
+                    <a href="{{siteUrl}}" class="newslinks">
+                        <div class="news-background">
+                            <img src="{{thumbnail_640x480}}" alt="{{title}}" class="news-image">
+                            <h1 class="news-title">{{{title_formatted}}}</h1>
+                            <p class="date-context">{{createdAt_persian}}</p>
+                        </div>
+                    </a>
+                </div>
+                {{/posts}}
+
+                <!-- <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div> -->
+            </div>
+        </div>
+    </section>
+    <section class="gallery">
+        <div class="container">
+            <h1 class="gallery-text">گالری:</h1>
+            <div class="row" style="margin-bottom: 10px">
+                <div class="col-md-6 col-4" style="padding:0">
+                    <a href="{{media.0.siteUrl}}">
+                        <div class="grid-box-big" style="background-image:url('{{media.0.thumbnail_url}}');"></div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-4" style="padding:0;">
+                    <a href="{{media.1.siteUrl}}">
+                        <div class="grid-box-small" style="background-image:url('{{media.1.thumbnail_url}}');"></div>
+                    </a>
+                    <a href="{{media.2.siteUrl}}">
+                        <div class="grid-box-small" style="background-image:url('{{media.2.thumbnail_url}}');"></div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-4" style="padding:0">
+                    <a href="{{media.3.siteUrl}}">
+                        <div class="grid-box-small" style="background-image:url('{{media.3.thumbnail_url}}');"></div>
+                    </a>
+                    <a href="{{media.4.siteUrl}}">
+                        <div class="grid-box-small" style="background-image:url('{{media.4.thumbnail_url}}');"></div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-center" style="padding:10px 0">
+                <a href="/media/?gameId={{game._id}}" class="more-button btn btn-warning text-center">بیشتر</a>
+            </div>
+
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

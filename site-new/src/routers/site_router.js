@@ -40,7 +40,7 @@ export default class SiteRouter extends Router
             res.redirect('/login/?msg=AccessDenied');
         return login;
     }
-    renderTemplate(req, res, fileName, data = {})
+    renderTemplate(req, res, fileName, data = {}, statusCode = 200)
     {
         if (!fileName.includes("public/"))
             fileName = "public/" + fileName;
@@ -96,7 +96,7 @@ export default class SiteRouter extends Router
                         // console.log(data.currentUser);
                         data.head = mustache.render(fileSystem.readFileSync(path.resolve('public/head.html')).toString(), data);
                         data.navbar = mustache.render(fileSystem.readFileSync(path.resolve('public/navbar.html')).toString(), data);
-                        res.send(mustache.render(view_str, data));
+                        res.status(statusCode).send(mustache.render(view_str, data));
                     });
 
                 });
@@ -108,13 +108,13 @@ export default class SiteRouter extends Router
     }
     show404(req, res)
     {
-        this.renderTemplate(req, res, "404.html");
+        this.renderTemplate(req, res, "404.html", {}, 404);
     }
     show500(req, res, err)
     {
         err = err.toString();
         console.log("ERROR 500 => " + req.originalUrl + " => " + err);
-        res.status(500).send("<h1>500 Interal Server Error:</h1>"+err);
+        res.status(500).send("<h1>500 Interal Server Error:</h1>" + err);
         // this.renderTemplate(req,res,"404.html",{
         //     error : err
         // });
