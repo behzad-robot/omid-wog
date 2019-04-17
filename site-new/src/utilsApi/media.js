@@ -38,7 +38,7 @@ export class Media extends SocketCollection
     }
     fixOne(g)
     {
-        g.siteUrl = SITE_URL('/media/' + g._id);
+        g.siteUrl = SITE_URL('/gallery/' + g._id);
         return g;
     }
     fixAll(cs)

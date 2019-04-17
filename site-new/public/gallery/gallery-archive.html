@@ -1,0 +1,166 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>گالری -{{title}}</title>
+    <style>
+        .gallery-side-bar {
+            background-color: #1F262A;
+            color: white;
+            padding: 10px 20px;
+            height: 90vh;
+            position: fixed;
+            z-index: 100000;
+        }
+
+        .gallery-category-btn {
+            display: block;
+            padding: 10px 20px;
+            width: 100%;
+            color: white !important;
+            text-decoration: none !important;
+
+        }
+
+        .gallery-category-btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .gallery-grid-item-wrapper {
+            padding: 0;
+        }
+
+        .gallery-grid-item {
+            display: block;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 150px;
+            position: relative;
+            color: white !important;
+            text-decoration: none !important;
+            text-align: center;
+        }
+
+        .gallery-grid-item .gallery-overlay {
+            position: absolute;
+            width: 0%;
+            height: 0%;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding-top: 55px;
+            font-size: 0px;
+            transition: 0.3s all;
+        }
+
+        .gallery-grid-item:hover .gallery-overlay {
+            width: 100%;
+            height: 100%;
+            font-size: 30px;
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="margin-bottom:-20px;">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3 gallery-side-bar">
+                    <h1 style="font-size:32px;color:orange;">{{{title}}}</h1>
+                    <h2 style="font-size:22px;">دسته بندی ها</h2>
+                    <a href="{{#SITE_URL}}/gallery/?tag=wallpaper{{/SITE_URL}}" class="gallery-category-btn">والپیپر&nbsp;<span class="text-english">(Wallpaper)</span></a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=mobile{{/SITE_URL}}" class="gallery-category-btn">والپیپر موبایل&nbsp;<span class="text-english">(Mobile Wallpaper)</span></a>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-9" style="min-height:90vh;background-color:#4e4e4e;">
+                    <div class="row" id="media-row">
+                        {{#media}}
+                        <div class="col-3 gallery-grid-item-wrapper">
+                            <a href="{{siteUrl}}" class="gallery-grid-item"
+                                style="background-image:url('{{{thumbnail_url}}}')">
+                                <div class="gallery-overlay">
+                                    <span class="fas fa-expand"></span>
+                                </div>
+                            </a>
+                        </div>
+                        {{/media}}
+                    </div>
+                    <div class="text-center" style="padding:20px 0">
+                        <div id="loading-btn" class="btn btn-md btn-warning">بیشتر</div>
+                    </div>
+                    <div id="loading" class="text-center" style="display:none">
+                        <div class="lds-ellipsis orange">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                    </div>
+                    <div id="error" style="color:#a00;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        let baseParams = `{{{loadMoreParams}}}`;
+        let offset = 20;
+        let allLoaded = false;
+        $(() =>
+        {
+            $(() =>
+            {
+                $("#loading-btn").click(() =>
+                {
+                    $("#loading-btn").hide();
+                    $("#loading").show();
+                    console.log('load more btn clicked');
+                    let query = (baseParams != '' ? (baseParams + '&offset=' + offset) : (baseParams + '?offset=' + offset));
+                    console.log('/gallery/load-more/' + query);
+                    fetch('/gallery/load-more/' + query, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                    }).then((response => response.json())).then((result) =>
+                    {
+                        $("#loading-btn").show();
+                        $("#loading").hide();
+                        console.log(result);
+                        if (result.error != undefined)
+                        {
+                            $("#error").html(result.error);
+                        }
+                        else
+                        {
+                            offset += 20;
+                            let media = result._data;
+                            if (media.length < 20)
+                            {
+                                allLoaded = true;
+                                $("#loading-btn").hide();
+                                return;
+                            }
+                            for (var i = 0; i < media.length; i++)
+                            {
+                                let m = media[i];
+                                $("#media-row").append(`
+                                    <div class="col-3 gallery-grid-item-wrapper">
+                                        <a href="#" class="gallery-grid-item" style="background-image:url('${m.thumbnail_url}')">
+                                        </a>
+                                    </div>
+                                `);
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

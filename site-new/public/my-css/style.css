@@ -7,6 +7,7 @@ body {
     font-family: iransans !important;
     background-color: #F0F0FB;
 }
+
 h1,h2,h3,h4,h5,h6{
     font-family: iransans !important;
     font-weight: initial;
@@ -328,6 +329,9 @@ footer .footer-social{
   border-radius: 50%;
   background: #37474F;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis.orange div{
+    background: orange;
 }
 .lds-ellipsis div:nth-child(1) {
   left: 6px;

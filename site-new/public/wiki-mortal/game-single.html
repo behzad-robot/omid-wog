@@ -13,7 +13,6 @@
         }
 
         .first-section {
-            background-image: url('/images/scorpionmobile.jpg');
             height: 950px;
             background-size: cover;
             background-repeat: no-repeat;
@@ -169,7 +168,6 @@
 
         @media only screen and (max-device-width: 480px) {
             .first-section {
-                background-image: url('/images/scorpionmobile.jpg');
                 height: auto;
                 background-position: center;
             }
@@ -295,7 +293,7 @@
 
 <body>
     {{{navbar}}}
-    <section class="first-section">
+    <section class="first-section" style="background-image:url('{{game.cover}}')">
         <div class="container">
             <div class="row">
                 <div class="col-md-3"></div>
@@ -455,7 +453,7 @@
                 </div>
             </div>
             <div class="text-center" style="padding:10px 0">
-                <a href="/media/?gameId={{game._id}}" class="more-button btn btn-warning text-center">بیشتر</a>
+                <a href="/gallery/?gameId={{game._id}}" class="more-button btn btn-warning text-center">بیشتر</a>
             </div>
 
         </div>

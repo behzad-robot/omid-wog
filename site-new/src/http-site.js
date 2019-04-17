@@ -33,6 +33,7 @@ import SiteOTPRouter from "./routers/otp_router";
 import SiteMapRouter from "./routers/sitemap_router";
 import { MortalWikiRouter } from "./routers/wiki/mortal_wiki_router";
 import SiteErrorRouter from "./routers/site_error_router";
+import { SiteGalleryRouter } from "./routers/gallery_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -267,7 +268,13 @@ express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);
 express.expressApp.use('/otp', new SiteOTPRouter(SiteModules).router);
 express.expressApp.use('/', new SiteMapRouter(SiteModules).router);
+express.expressApp.use('/gallery', new SiteGalleryRouter(SiteModules).router);
 express.expressApp.use('/wiki/mortal-kombat', new MortalWikiRouter(SiteModules).router);
+
+
+
+
+
 express.expressApp.use('/', new SiteErrorRouter(SiteModules).router);
 
 // express.expressApp.use('/games', new SiteGamesRouter(SiteModules).router);
