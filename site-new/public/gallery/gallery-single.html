@@ -5,13 +5,26 @@
     <body class="dark-theme">
         {{{navbar}}}
         <navfiller></navfiller>
-        <section>
+        <section style="padding-top:10px;">
             <div class="container">
                 <div class="row">
                     <div class="col-md-1 col-12"></div>
                     <div class="col-md-10 col-12">
                         <div class="dark-card dark-card-padding">
-                            
+                            <img src="{{media.thumbnail_url}}" width="100%" style="margin-bottom:10px;"/>
+                            <h1 style="font-size:26px;font-weight: bold;">{{media.title}}</h1>
+                            <p>{{{media.body}}}</p>
+                            <hr />
+                            <div>
+                                {{#media.tags}}
+                                    <div href="{{#SITE_URL}}/gallery/?tag={{.}}{{/SITE_URL}}" class="btn btn-sm btn-warning text-english">{{.}}#</div>
+                                {{/media.tags}}
+                            </div>
+                            <hr />
+                            <small class="text-english" style="color:#d0d0d0">
+                                <span class="fas fa-calendar"></span>&nbsp;
+                                {{media.createdAt}}
+                            </small>
                         </div>    
                     </div>
                 </div>

@@ -1,0 +1,144 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .faction-details {
+            background-color:rgba(10, 10, 10, 0.9);
+            margin-bottom: 20px;
+            margin-top: 20px;
+            /* border: 3px solid; */
+            border-color: #2d323b;
+            border-radius: 5px;
+            position: sticky;
+            top: 100;
+        }
+
+        .faction-title {
+            font-size: 30px;
+            color: white;
+        }
+
+        .typography {
+            margin-top: 10px;
+        }
+
+        .faction-name {
+            background-color: #2d323b;
+            border-radius: 4px;
+            margin-top: 10px;
+        }
+
+        .faction-context {
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .faction-texts {
+            font-size: 20px;
+            color: white;
+            text-shadow: 10px 10px 10px rgba(0, 0, 0, 1)
+        }
+        .faction-info-col{
+            direction: rtl;
+            text-align: right;
+        }
+        .faction-info-col table{
+            direction: ltr;
+            text-align: right;
+            border:none;
+            font-size:13px;
+        }
+        .faction-info-col table tr,.faction-info-col table td{
+            border:none;
+        }
+        .faction-info-col table td{
+            color:orange;
+            font-weight: bold;
+            vertical-align: top;
+        }
+        .faction-info-col table td:nth-child(1){
+            color:white;
+            font-weight: normal;
+            padding-right:20px;
+        }
+        table {
+            color: white;
+        }
+
+        td,
+        th {
+            text-align: right;
+            padding-top: 20px
+        }
+    </style>
+
+</head>
+
+<body>
+    {{{navbar}}}
+    <section style="background-image: url('/images/livingforest.jpg');margin-bottom: -20px">
+        <div class="container">
+            <div class="row" style="margin-top: 80px">
+                <div class="col-md-8" style="margin-bottom: 20px; margin-top: 20px;">
+                    <h1 class="faction-title">{{faction.name}}</h1>
+                    <hr style=" border-style: inset; border-width: 1px;  margin-top: 0.5em;margin-bottom: 0.5em">
+                    <div class="faction-context text-white">
+                        {{{faction.description}}}
+                        <h1 class="faction-texts"></h1>
+                    </div>
+                </div>
+                <div class="col-md-4 faction-details">
+                    <div class="typography text-center">
+                        <!-- <div class="faction-name text-center">
+                            <h6 style="color:white">{{faction.name}}</h6>
+                        </div> -->
+                        <img class="text-center" src="{{faction.icon}}" style="width: 80%">
+                    </div>
+                    <div>
+                        <h4 style="color:white" class="text-center">مشخصات</h4>
+                        <div  class="faction-info-col">
+                        {{{faction.info}}}
+                        </div>
+                        <!-- <table style="width:100%">
+                            <tr>
+                                <th>اصالت:</th>
+                                <td>چین </td>
+                            </tr>
+                            <tr>
+                                <th>رهبر:</th>
+                                <td>Kuai Liang </td>
+                            </tr>
+                            <tr>
+                                <th>اعضا:</th>
+                                <td>Lin Kuei Grandmaster<br>Bi-Han<br>Kuai
+                                    Liang<br>Smoke<br>Sektor<br>Cyrax<br>Frost<br>Sareena
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>هدف:</th>
+                                <td>محافظت از قلمرو زمین </td>
+                            </tr>
+                            <tr>
+                                <th>متحدان:</th>
+                                <td>Raiden<br>Special Forces<br>White Lotus Society<br>Shirai Ryu</td>
+                            </tr>
+                            <tr>
+                                <th>دشمنان:</th>
+                                <td>The Brotherhood of Shadow
+                                    <br>Shinnok<br>Tekunin<br>Triborg<br>Black Dragon<br>
+                                </td>
+                            </tr>
+                        </table> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

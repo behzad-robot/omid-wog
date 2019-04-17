@@ -37,6 +37,11 @@ MediaSchema.virtual('thumbnail_350x350').get(function ()
     var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
     return getResizedFileName(t,350,350);
 });
+MediaSchema.virtual('thumbnail_640x480').get(function ()
+{
+    var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
+    return getResizedFileName(t,640,480);
+});
 MediaSchema.virtual('thumbnail_url').get(function ()
 {
     var t = !isEmptyString(this.thumbnail) ? this.thumbnail : this.url;
@@ -54,10 +59,12 @@ Media.Helpers = {
             doc.thumbnail = ICON_404;
             doc.thumbnail_150x150 = ICON_404;
             doc.thumbnail_350x350 = ICON_404;
+            doc.thumbnail_640x480 = ICON_404;
         }
         doc.thumbnail_url = SITE_URL(doc.thumbnail_url);
         doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
         doc.thumbnail_350x350 = SITE_URL(doc.thumbnail_350x350);
+        doc.thumbnail_640x480 = SITE_URL(doc.thumbnail_640x480);
         return doc;
     },
 }

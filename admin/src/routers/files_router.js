@@ -128,6 +128,10 @@ export const SchemaResizes = {
         {
             width: 350,
             height: 350,
+        },
+        {
+            width: 640,
+            height: 480,
         }
     ]
 };

@@ -72,10 +72,7 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, 'coming-soon.html', {});
         });
-        this.router.get('/wiki', (req, res) =>
-        {
-            this.renderTemplate(req, res, 'coming-soon.html', {});
-        });
+        
         // this.router.get('/sms', (req, res) =>
         // {
         //     kavenegarAPI.Send({ message: "من یک تباهم آرزو دارم 3530" , sender: "100065995" , receptor: "09375801307" });

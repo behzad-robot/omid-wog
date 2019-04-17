@@ -69,8 +69,11 @@
                 <div class="col-md-3 gallery-side-bar">
                     <h1 style="font-size:32px;color:orange;">{{{title}}}</h1>
                     <h2 style="font-size:22px;">دسته بندی ها</h2>
+                    <a href="{{#SITE_URL}}/gallery/{{/SITE_URL}}" class="gallery-category-btn">آرشیو گالری</a>
                     <a href="{{#SITE_URL}}/gallery/?tag=wallpaper{{/SITE_URL}}" class="gallery-category-btn">والپیپر&nbsp;<span class="text-english">(Wallpaper)</span></a>
                     <a href="{{#SITE_URL}}/gallery/?tag=mobile{{/SITE_URL}}" class="gallery-category-btn">والپیپر موبایل&nbsp;<span class="text-english">(Mobile Wallpaper)</span></a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=fanart{{/SITE_URL}}" class="gallery-category-btn"><span class="text-english">Fan Art</span></a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=ps4{{/SITE_URL}}" class="gallery-category-btn"><span class="text-english">PS4</span></a>
                 </div>
                 <div class="col-md-3"></div>
                 <div class="col-md-9" style="min-height:90vh;background-color:#4e4e4e;">
@@ -78,7 +81,7 @@
                         {{#media}}
                         <div class="col-3 gallery-grid-item-wrapper">
                             <a href="{{siteUrl}}" class="gallery-grid-item"
-                                style="background-image:url('{{{thumbnail_url}}}')">
+                                style="background-image:url('{{{thumbnail_640x480}}}')">
                                 <div class="gallery-overlay">
                                     <span class="fas fa-expand"></span>
                                 </div>
@@ -149,7 +152,7 @@
                                 let m = media[i];
                                 $("#media-row").append(`
                                     <div class="col-3 gallery-grid-item-wrapper">
-                                        <a href="#" class="gallery-grid-item" style="background-image:url('${m.thumbnail_url}')">
+                                        <a href="#" class="gallery-grid-item" style="background-image:url('${m.thumbnail_640x480}')">
                                         </a>
                                     </div>
                                 `);

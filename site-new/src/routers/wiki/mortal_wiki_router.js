@@ -151,5 +151,24 @@ export class MortalWikiRouter extends SiteRouter
                 });
             });
         });
+        this.router.get('/factions/:slug', (req, res) =>
+        {
+            siteModules.Cache.getGame({ token: 'mortal' }).then((game) =>
+            {
+                let faction = undefined;
+                for (var i = 0; i < game.factions.length; i++)
+                {
+                    if (game.factions[i].slug == req.params.slug)
+                    {
+                        faction = game.factions[i];
+                        break;
+                    }
+                }
+                this.renderTemplate(req, res, 'wiki-mortal/faction-single.html', {
+                    game: game,
+                    faction: faction,
+                });
+            });
+        });
     }
 }

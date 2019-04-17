@@ -53,9 +53,9 @@ export class SiteGalleryRouter extends SiteRouter
                         this.show500(req, res, err.toString());
                     });
                 }
-                else if (req.query.tag)
+                else if (req.query.tags)
                 {
-                    title = req.query.tag;
+                    title = req.query.tags;
                     finishAndRender();
                 }
                 else
