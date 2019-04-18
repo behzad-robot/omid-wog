@@ -3,7 +3,6 @@ import { SocketRouter } from "./socket_router";
 import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY } from "../constants";
-import moment from 'moment';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 
 
@@ -13,7 +12,7 @@ class CommentsHttpRouter extends APIRouter
     {
         super();
         this.handler = handler;
-        this.router.get('/new-comment', (req, res) =>
+        this.router.post('/new-comment', (req, res) =>
         {
             this.handler.newComment(req.body).then((result) =>
             {
@@ -66,24 +65,27 @@ export class CommentsHandler
     }
     newComment(params)
     {
-        if (isEmptyString(params.objectType) || isEmptyString(params.objectId) || isEmptyString(params.userId))
+        return new Promise((resolve, reject) =>
         {
-            reject('parameters missing');
-            return;
-        }
-        delete (params._id);
-        delete (params.createdAt);
-        delete (params.updatedAt);
-        params.createdAt = this.now();
-        params.updatedAt = "";
-        var doc = new this.Comment(params);
-        doc.save().then(() =>
-        {
-            resolve(doc);
-        }).catch((err) =>
-        {
-            reject(err);
+            if (isEmptyString(params.objectType) || isEmptyString(params.objectId) || isEmptyString(params.userId) || isEmptyString(params.body))
+            {
+                reject('parameters missing');
+                return;
+            }
+            delete (params._id);
+            delete (params.createdAt);
+            delete (params.updatedAt);
+            params.createdAt = moment_now();
+            params.updatedAt = "";
+            var doc = new this.Comment(params);
+            doc.save().then(() =>
+            {
+                resolve(doc);
+            }).catch((err) =>
+            {
+                reject(err);
+            });
         });
     }
-    
+
 }
