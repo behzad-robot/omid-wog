@@ -15,8 +15,14 @@
         <a href="/admin/champions/new/?game=moba" class="btn btn-md btn-info">+New Moba Champion</a>
         <a href="/admin/champions/new/?game=mortal" class="btn btn-md btn-info">+New Mortal Champion</a>
         <hr />
+        <div id="loading" class="text-center">
+            <div class="lds-ripple">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
         <div id="games">
-            <div class="btn btn-md btn-primary" onclick="recreate_champions(undefined)">All</div>&nbsp;
+
         </div>
         <hr />
         <div id="list">
@@ -25,6 +31,7 @@
         <script>
             var champions = [];
             var games = [];
+            let selectedGame = '';
             findObjects('champions', (cs) =>
             {
                 champions = cs;
@@ -32,18 +39,30 @@
                 findObjects('games', (gs) =>
                 {
                     games = gs;
-                    for(var i = 0 ; i < games.length;i++)
-                        $("#games").append(`<div href="#" class="btn btn-md btn-primary" onclick="recreate_champions('${games[i]._id}')">${games[i].name}</div>&nbsp;&nbsp;`);
+                    recreate_games();
                     recreate_champions(undefined);
+                    $("#loading").hide();
                 });
             });
+            function select_game(gameId)
+            {
+                selectedGame = gameId;
+                recreate_games();
+                recreate_champions(gameId);
+            }
+            function recreate_games()
+            {
+                $("#games").html('<div class="btn btn-md btn-primary" onclick="select_game(undefined)">All</div>&nbsp;');
+                for (var i = 0; i < games.length; i++)
+                    $("#games").append(`<div href="#" class="btn btn-md btn-${selectedGame == games[i]._id ? 'dark' : 'light'}" onclick="select_game('${games[i]._id}')">${games[i].name}</div>&nbsp;&nbsp;`);
+            }
             function recreate_champions(gameId)
             {
                 $("#list").html('');
                 for (var i = 0; i < champions.length; i++)
                 {
                     var champ = champions[i];
-                    if(!(gameId == undefined || champ.gameId == gameId))
+                    if (!(gameId == undefined || champ.gameId == gameId))
                         continue;
                     $("#list").append(
                         `<div class="row box-row">`

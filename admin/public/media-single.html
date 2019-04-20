@@ -2,6 +2,7 @@
 
 <head>
     {{{head}}}
+    <title>Media single {{{_id}}}</title>
     <style>
 
     </style>
@@ -25,6 +26,7 @@
             {
                 media = m;
                 console.log(media);
+                $("#single").append(`<div style="form-row"><img src="${media.url}" width="300px"/></div>`)
                 $("#single").append(idInput('_id', media._id));
                 $("#single").append(draftInput(media._draft));
                 $("#single").append(idInput('createdAt', media.createdAt));
@@ -47,12 +49,12 @@
                 $("[name=tags]").val(JSON.stringify(media.tags));
                 $("#tags").html("<h3>tags</h3>");
                 $("#tags").append(`<b>add tag: </b><input type="text" class="form-control m" id="new-tag"/><div class="btn btn-md btn-info" onclick="add_tag()">Add</div><hr>`);
-                for(var i = 0 ; i < media.tags.length;i++)
+                for (var i = 0; i < media.tags.length; i++)
                     $("#tags").append(`<div class="btn btn-md btn-dark" style="margin:5px" onclick="remove_tag(${i})">${media.tags[i]}</div>`);
             }
             function remove_tag(index)
             {
-                media.tags.splice(index,1);
+                media.tags.splice(index, 1);
                 recreate_tags();
             }
             function add_tag()

@@ -42,7 +42,7 @@
                         continue;
                     var previewStr = '';
                     if (m.url.indexOf(".png") != -1 || m.url.indexOf(".jpg") != -1 || m.url.indexOf(".jpeg") != -1 || m.url.indexOf(".gif") != -1)
-                        previewStr += `<img src="${m.url}" width="128px"/>`;
+                        previewStr += `<img src="${m.thumbnail_640x480}" width="128px"/>`;
                     else
                         previewStr += `<img src="/images/file-icon.png" width="128px"/>`;
                     $("#list").append(

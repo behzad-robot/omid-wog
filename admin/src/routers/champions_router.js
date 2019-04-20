@@ -27,13 +27,13 @@ export default class ChampionsPanelRouter extends AdminRouter
         });
         this.router.get('/new', (req, res) =>
         {
-            var data =  {
-                name : 'New Champion',
+            var data = {
+                name: 'New Champion',
 
             };
-            if(req.query.game == 'moba')
+            if (req.query.game == 'moba')
                 data.roles = [];
-            else if(req.query.game == 'mortal')
+            else if (req.query.game == 'mortal')
             {
                 data.gameId = '5c6411967394a078f182e662';
                 data.moves = [];
@@ -70,14 +70,14 @@ export default class ChampionsPanelRouter extends AdminRouter
             console.log(req.body);
             req.body._draft = req.body._draft == 'on' ? true : false;
             // req.body.media = JSON.parse(req.body.media);
-            if(req.body.abilities)
+            if (req.body.abilities)
             {
                 req.body.abilities = JSON.parse(req.body.abilities);
                 req.body.roles = JSON.parse(req.body.roles);
                 req.body.stats = JSON.parse(req.body.stats);
                 req.body.talents = JSON.parse(req.body.talents);
             }
-            if(req.body.moves)
+            if (req.body.moves)
             {
                 req.body.variations = JSON.parse(req.body.variations);
                 req.body.moves = JSON.parse(req.body.moves);
@@ -96,22 +96,29 @@ export default class ChampionsPanelRouter extends AdminRouter
         {
             AdminModules.Champion.getOne(req.params._id).then((champ) =>
             {
-                if (champ.gameId != '5c6411967394a078f182e662')
+                AdminModules.Game.getOne(champ.gameId).then((game) =>
                 {
-                    res.send(this.renderTemplate('champ-moba-single.html', {
-                        admin: req.session.admin,
-                        _id: req.params._id,
-                        fileUploadURL: ADMIN_FILE_UPLOAD
-                    }));
-                }
-                else
+                    console.log(game.token);
+                    if (game.token.toString().indexOf('mortal') == -1)
+                    {
+                        res.send(this.renderTemplate('champ-moba-single.html', {
+                            admin: req.session.admin,
+                            _id: req.params._id,
+                            fileUploadURL: ADMIN_FILE_UPLOAD
+                        }));
+                    }
+                    else
+                    {
+                        res.send(this.renderTemplate('champ-mortal-single.html', {
+                            admin: req.session.admin,
+                            _id: req.params._id,
+                            fileUploadURL: ADMIN_FILE_UPLOAD
+                        }));
+                    }
+                }).catch((err) =>
                 {
-                    res.send(this.renderTemplate('champ-mortal-single.html', {
-                        admin: req.session.admin,
-                        _id: req.params._id,
-                        fileUploadURL: ADMIN_FILE_UPLOAD
-                    }));
-                }
+                    res.status(500).send(`Internal Server error<br>${err.toString()}`);
+                });
             });
 
         });
