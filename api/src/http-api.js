@@ -27,6 +27,7 @@ import { BackupRouter } from './routers/backup_router';
 import { OTPObject } from './models/otpObject';
 import { OTPHandler } from './routers/otp_handler';
 import { PostsHandler } from './routers/posts_router';
+import { CommentsHandler } from './routers/comments_handler';
 
 const morgan = require('morgan');
 
@@ -68,13 +69,16 @@ express.expressApp.use('/api/otpObjects/', otpHandler.httpRouter.router);
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
-//posts , comments:
+//posts:
 const postsHandler = new PostsHandler(Post);
 express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
-
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
+//comments:
+var commentsHandler = new CommentsHandler(Comment);
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/comments/', commentsHandler.httpRouter.router);
+
 //media:
 express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTokenRequired: true }).router);
 //contact us:
@@ -96,7 +100,7 @@ const WSRouters = [
     //otp objects:
     new PublicMongooseWSRouter('otpObjects', OTPObject, { apiTokenRequired: true }),
     otpHandler.socketRouter,
-    
+
     //games & champs & builds:
     new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('champions', Champion, { apiTokenRequired: true }),
@@ -106,6 +110,7 @@ const WSRouters = [
     new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),
     postsHandler.socketRouter,
     new PublicMongooseWSRouter('comments', Comment, { apiTokenRequired: true }),
+    commentsHandler.socketRouter,
     //media:
     new PublicMongooseWSRouter('media', Media, { apiTokenRequired: true }),
     //contact us:
