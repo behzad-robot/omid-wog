@@ -71,65 +71,57 @@ export default class AdminFilesRouter extends AdminRouter
             {
                 fs.writeFileSync(statusFile, content);
             };
-            if (fileContent == 'none')
+            let writeContent = '';
+            let _log = (content) =>
             {
-                let writeContent = '';
-                let _log = (content) =>
-                {
-                    console.log(content);
-                    writeContent += content + '\n';
-                };
-                //start based on param:
-                if (req.query.type == 'posts')
-                {
-                    writeToStatusFile('posts');
-                    res.send('Started Updating Posts Cache... Check again in a few minutes');
-                    adminModules.Post.find({}, 1000).then((posts) =>
-                    {
-                        var sizes = SchemaResizes.Post;
-                        for (var i = 0; i < posts.length; i++)
-                        {
-                            var post = posts[i];
-                            for (var j = 0; j < sizes.length; j++)
-                                resizeImageIfNeeded(post.thumbnail, sizes[j], undefined, _log);
-                        }
-                        writeToStatusFile(writeContent);
-                    }).catch((err) =>
-                    {
-                        writeToStatusFile(err.toString());
-                    });
-                }
-                else if (req.query.params == 'media')
-                {
-                    writeToStatusFile('media');
-                    res.send('Started Updating Media Cache... Check again in a few minutes');
-                    adminModules.Media.find({}, 1000).then((media) =>
-                    {
-                        var sizes = SchemaResizes.Media;
-                        for (var i = 0; i < media.length; i++)
-                        {
-                            var m = media[i];
-                            for (var j = 0; j < sizes.length; j++)
-                                resizeImageIfNeeded(m.thumbnail_url, sizes[j], undefined, _log);
-                        }
-                        writeToStatusFile(writeContent);
-                    });
-                }
-                else
-                    res.send('Unkown Parameter!');
+                console.log(content);
+                writeContent += content + '\n';
+            };
+            if (fileContent == 'posts' || fileContent == 'media')
+            {
+                res.send(`Another Convert is in progress please check in later<br>${fileContent}`);
+                return;
             }
-            else if (fileContent == 'media')
+            if (req.query.type == 'posts')
             {
-                res.send('WIP Updating Media Images Cache...');
+                writeToStatusFile('posts');
+                res.send('Started Updating Posts Cache... Refresh in a few minutes');
+                adminModules.Post.find({}, 1000).then((posts) =>
+                {
+                    var sizes = SchemaResizes.Post;
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        var post = posts[i];
+                        for (var j = 0; j < sizes.length; j++)
+                            resizeImageIfNeeded(post.thumbnail, sizes[j], undefined, _log);
+                    }
+                    writeToStatusFile(writeContent);
+                }).catch((err) =>
+                {
+                    writeToStatusFile(err.toString());
+                });
             }
-            else if (fileContent == 'posts')
+            else if (req.query.type == 'media')
             {
-                res.send('WIP Updating Posts Images Cache...');
+                writeToStatusFile('media');
+                res.send('Started Updating Media Cache... Check again in a few minutes');
+                adminModules.Media.find({}, 1000).then((media) =>
+                {
+                    var sizes = SchemaResizes.Media;
+                    for (var i = 0; i < media.length; i++)
+                    {
+                        var m = media[i];
+                        for (var j = 0; j < sizes.length; j++)
+                            resizeImageIfNeeded(m.thumbnail_url, sizes[j], undefined, _log);
+                    }
+                    writeToStatusFile(writeContent);
+                }).catch((err) =>
+                {
+                    writeToStatusFile(err.toString());
+                });
             }
             else
-            {
                 res.send(fileContent);
-            }
         });
     }
 }
