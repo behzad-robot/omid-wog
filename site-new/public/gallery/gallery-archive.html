@@ -3,9 +3,27 @@
 <head>
     {{{head}}}
     <title>گالری -{{title}}</title>
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
     <style>
         .gallery-side-bar {
-            background-color: #1F262A;
+            background-color: rgb(24, 28, 31);
             color: white;
             padding: 10px 20px;
             height: 90vh;
@@ -27,7 +45,7 @@
         }
 
         .gallery-grid-item-wrapper {
-            padding: 0;
+            padding: 2px;
         }
 
         .gallery-grid-item {
@@ -67,16 +85,20 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3 gallery-side-bar">
-                    <h1 style="font-size:32px;color:orange;">{{{title}}}</h1>
+                    <h1 style="font-size:26px;color:orange;">{{{title}}}</h1>
                     <h2 style="font-size:22px;">دسته بندی ها</h2>
-                    <a href="{{#SITE_URL}}/gallery/{{/SITE_URL}}" class="gallery-category-btn">آرشیو گالری</a>
-                    <a href="{{#SITE_URL}}/gallery/?tag=wallpaper{{/SITE_URL}}" class="gallery-category-btn">والپیپر&nbsp;<span class="text-english">(Wallpaper)</span></a>
-                    <a href="{{#SITE_URL}}/gallery/?tag=mobile{{/SITE_URL}}" class="gallery-category-btn">والپیپر موبایل&nbsp;<span class="text-english">(Mobile Wallpaper)</span></a>
-                    <a href="{{#SITE_URL}}/gallery/?tag=fanart{{/SITE_URL}}" class="gallery-category-btn"><span class="text-english">Fan Art</span></a>
-                    <a href="{{#SITE_URL}}/gallery/?tag=ps4{{/SITE_URL}}" class="gallery-category-btn"><span class="text-english">PS4</span></a>
+                    <a href="{{#SITE_URL}}/gallery/{{/SITE_URL}}" class="gallery-category-btn">•&nbsp;آرشیو گالری</a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=wallpaper{{/SITE_URL}}"
+                        class="gallery-category-btn">•&nbsp;تصویر پس زمینه</a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=mobile{{/SITE_URL}}" class="gallery-category-btn">•&nbsp;تصویر
+                        پس زمینه موبایل</a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=fanart{{/SITE_URL}}" class="gallery-category-btn">•&nbsp;<span
+                            class="text-english">Fan Art</span></a>
+                    <a href="{{#SITE_URL}}/gallery/?tag=ps4{{/SITE_URL}}" class="gallery-category-btn">•&nbsp;<span
+                            class="text-english">PS4</span></a>
                 </div>
                 <div class="col-md-3"></div>
-                <div class="col-md-9" style="min-height:90vh;background-color:#4e4e4e;">
+                <div class="col-md-9" style="min-height:90vh;background-color:#2e2e2e;">
                     <div class="row" id="media-row">
                         {{#media}}
                         <div class="col-3 gallery-grid-item-wrapper">

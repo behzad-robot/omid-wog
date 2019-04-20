@@ -19,6 +19,10 @@ export class SiteGalleryRouter extends SiteRouter
                 let title = 'آرشیو';
                 let finishAndRender = () =>
                 {
+                    if(title == 'mobile')
+                        title = 'تصویر پس زمینه موبایل';
+                    else if(title == 'wallpaper')
+                        title = 'تصویر پس زمینه'
                     this.renderTemplate(req, res, 'gallery/gallery-archive.html', {
                         title: title,
                         media: media,
@@ -31,14 +35,17 @@ export class SiteGalleryRouter extends SiteRouter
                 }
                 else if (req.query.gameId)
                 {
-                    siteModules.Cache.getGame((game) =>
+                    console.log(':) gameId case!');
+                    siteModules.Cache.getGame({_id : req.query.gameId}).then((game) =>
                     {
+                        console.log(game.name);
                         if (game == undefined)
                         {
                             this.show500(req, res, 'game not found?!');
                             return;
                         }
                         title = game.name;
+                        console.log('title is up'+title);
                         finishAndRender();
                     });
                 }

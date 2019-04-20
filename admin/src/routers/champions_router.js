@@ -98,7 +98,6 @@ export default class ChampionsPanelRouter extends AdminRouter
             {
                 AdminModules.Game.getOne(champ.gameId).then((game) =>
                 {
-                    console.log(game.token);
                     if (game.token.toString().indexOf('mortal') == -1)
                     {
                         res.send(this.renderTemplate('champ-moba-single.html', {

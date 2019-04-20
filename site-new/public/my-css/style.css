@@ -217,8 +217,20 @@ navbar .search-card{
     background-position: center;
 }
 /*Mobile Devices*/
+.no-mobile{
+    display:block;
+}
+.mobile-only{
+    display:none;
+}
 @media (max-width: 576px)
 { 
+    .no-mobile{
+        display:none;
+    }
+    .mobile-only{
+        display: block;
+    }
     .navbar-mobile-btn-wrapper{
         display:inline-block;
         margin-left: 5px;

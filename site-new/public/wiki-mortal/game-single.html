@@ -13,7 +13,7 @@
         }
 
         .first-section {
-            height: 950px;
+            height: 450px;
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -21,6 +21,8 @@
         .hero-box {
             display: block;
             margin-bottom: 10px;
+            color: initial !important;
+            text-decoration: none !important;
         }
 
         .hero-box .hero-title {
@@ -29,7 +31,6 @@
             background-color: #f0f1f2;
             border-bottom-right-radius: 3px;
             border-bottom-left-radius: 3px;
-
         }
 
         .heroes-text {
@@ -85,7 +86,6 @@
             padding: 15px 0;
             float: right;
             font-size: 32px;
-
         }
 
         .news-more-text {
@@ -228,7 +228,6 @@
             .gallery-text {
                 font-size: 20px;
             }
-
         }
 
         .hero-box {
@@ -242,7 +241,6 @@
             background-color: #f0f1f2;
             border-bottom-right-radius: 3px;
             border-bottom-left-radius: 3px;
-
         }
 
         .game-versions-box-wrapper .game-versions-box-right {
@@ -286,22 +284,20 @@
                 position: relative;
                 width: 100%;
             }
-
         }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
-    <section class="first-section" style="background-image:url('{{game.cover}}')">
+    <navfiller></navfiller>
+    <section class="first-section" style="background-image:url('{{game.cover}}');padding-top:50px;">
         <div class="container">
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
-                    <div class="mortal-story">
-                        <div style="background-color: rgba(0, 0, 0,0.2);border-radius: 10px">
-                            <div class="story-text">{{{game.description}}}</div>
-                        </div>
+                    <div style="background-color: rgba(0, 0, 0,0.2);border-radius: 10px;">
+                        <div class="story-text">{{{game.description}}}</div>
                     </div>
                 </div>
                 <div class="col-md-3"></div>
@@ -311,38 +307,79 @@
     <section style="background-image: url('/images/livingforest.jpg');margin-top:-16px">
         <div class="container">
             <h1 class="heroes-text text-white" style="padding:10px 0">شخصیت های بازی</h1>
-            {{#champions}}
-            <div class="row champ-row">
-                {{#members}}
-                <div class="col-md col-6">
-                    <a class="hero-box">
-                        <img src="{{icon}}" width="100%" />
-                        <div class="hero-title text-center text-english">
-                            <span>{{name}}</span>
-                        </div>
-                    </a>
+            <div class="no-mobile">
+                {{#champions}}
+                <div class="row champ-row-pc">
+                    {{#members}}
+                    <div class="col-md col-6">
+                        <a href="{{siteUrl}}" class="hero-box">
+                            <img src="{{icon}}" width="100%" />
+                            <div class="hero-title text-center text-english">
+                                <span>{{name}}</span>
+                            </div>
+                        </a>
+                    </div>
+                    {{/members}}
                 </div>
-                {{/members}}
+                {{/champions}}
+                <div class="text-center" style="padding:10px 0;">
+                    <div id="load-more-champs-pc" class="more-button btn btn-warning text-center"><strong>بیشتر</strong>
+                    </div>
+                </div>
             </div>
-            {{/champions}}
-            <div class="text-center" style="padding:10px 0;">
-                <div id="load-more-champs" class="more-button btn btn-warning text-center"><strong>بیشتر</strong></div>
+            <div class="mobile-only">
+
+                <div class="row champ-row-mobile">
+                    {{#champions}}
+                    {{#members}}
+                    <div class="col-6">
+                        <a href="{{siteUrl}}" class="hero-box">
+                            <img src="{{icon}}" width="100%" />
+                            <div class="hero-title text-center text-english">
+                                <span>{{name}}</span>
+                            </div>
+                        </a>
+                    </div>
+                    {{/members}}
+                    {{/champions}}
+                </div>
+
+                <div class="text-center" style="padding:10px 0;">
+                    <div id="load-more-champs-mobile" class="more-button btn btn-warning text-center">
+                        <strong>بیشتر</strong>
+                    </div>
+                </div>
             </div>
             <script>
                 $(() =>
                 {
-                    let champRows = $(".champ-row");
+                    //pc:
+                    let champRows = $(".champ-row-pc");
                     for (var i = 2; i < champRows.length; i++)
                     {
                         $(champRows[i]).hide();
                     }
                     let showRowIndex = 3;
-                    $("#load-more-champs").click(() =>
+                    $("#load-more-champs-pc").click(() =>
                     {
                         $(champRows[showRowIndex++]).show();
                         if (showRowIndex >= champRows.length)
                         {
-                            $("#load-more-champs").parent().hide();
+                            $("#load-more-champs-pc").parent().hide();
+                        }
+                    });
+                    //mobile:
+                    let mobileChamps = $(".champ-row-mobile .hero-box");
+                    for (var i = 4; i < mobileChamps.length; i++)
+                    {
+                        $(mobileChamps[i]).hide();
+                    }
+                    $("#load-more-champs-mobile").click(() =>
+                    {
+                        let mobileChamps = $(".champ-row-mobile .hero-box");
+                        for (var i = 4; i < mobileChamps.length; i++)
+                        {
+                            $(mobileChamps[i]).show();
                         }
                     });
                 })
