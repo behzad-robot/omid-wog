@@ -15,8 +15,10 @@ class PostsHttpRouter extends APIRouter
         this.handler = handler;
         this.router.get('/search', (req, res) =>
         {
-            let limit = req.query.limit ? req.query.limit : 20;
-            let offset = req.query.offset ? req.query.offset : 0;
+            let limit = parseInt(req.query.limit ? req.query.limit : 20);
+            let offset = parseInt(req.query.offset ? req.query.offset : 0);
+            delete(req.query.limit);
+            delete(req.query.offset);
             this.handler.search(req.query.s,limit,offset).then((result) =>
             {
                 this.sendResponse(req, res, result);
