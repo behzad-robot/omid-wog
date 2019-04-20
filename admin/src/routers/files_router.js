@@ -51,57 +51,85 @@ export default class AdminFilesRouter extends AdminRouter
                         siteMapStr += 'http://worldofgamers.ir/posts/categories/' + cats[i].slug + '/';
                         siteMapStr += '\n';
                     }
-                    fs.writeFile(path.resolve('../storage/sitemap.txt'),siteMapStr, (err) =>
+                    fs.writeFile(path.resolve('../storage/sitemap.txt'), siteMapStr, (err) =>
                     {
-                        if(err)
+                        if (err)
                         {
                             res.status(500).send(err.toString());
                             return;
                         }
-                        res.send('sitemap file updated!<br>'+siteMapStr);
+                        res.send('sitemap file updated!<br>' + siteMapStr);
                     });
                 });
             });
         });
         this.router.get('/update-images-cache', (req, res) =>
         {
-            var response = '';
-            let filesCreated = 1;
-            var _log = (msg) =>
+            let statusFile = path.resolve('images-cache-status-file.txt');
+            let fileContent = fs.readFileSync(statusFile).toString();
+            let writeToStatusFile = (content) =>
             {
-                console.log(msg);
-                response += msg + '\n';
+                fs.writeFileSync(statusFile, content);
             };
-            adminModules.Post.find({}, 1000).then((posts) =>
+            if (fileContent == 'none')
             {
-                _log('*************************');
-                _log(`loaded ${posts.length} posts!`);
-                var sizes = SchemaResizes.Post;
-                filesCreated += posts.length * sizes.length;
-                for (var i = 0; i < posts.length; i++)
+                let writeContent = '';
+                let _log = (content) =>
                 {
-                    var post = posts[i];
-                    for (var j = 0; j < sizes.length; j++)
-                        resizeImageIfNeeded(post.thumbnail, sizes[j], undefined, _log);
+                    console.log(content);
+                    writeContent += content + '\n';
+                };
+                //start based on param:
+                if (req.query.type == 'posts')
+                {
+                    writeToStatusFile('posts');
+                    res.send('Started Updating Posts Cache... Check again in a few minutes');
+                    adminModules.Post.find({}, 1000).then((posts) =>
+                    {
+                        var sizes = SchemaResizes.Post;
+                        for (var i = 0; i < posts.length; i++)
+                        {
+                            var post = posts[i];
+                            for (var j = 0; j < sizes.length; j++)
+                                resizeImageIfNeeded(post.thumbnail, sizes[j], undefined, _log);
+                        }
+                        writeToStatusFile(writeContent);
+                    }).catch((err) =>
+                    {
+                        writeToStatusFile(err.toString());
+                    });
                 }
-                adminModules.Media.find({}, 1000).then((media) =>
+                else if (req.query.params == 'media')
                 {
-                    _log('*************************');
-                    _log(`loaded ${media.length} media!`);
-                    var sizes = SchemaResizes.Media;
-                    filesCreated += media.length * sizes.length;
-                    for (var i = 0; i < media.length; i++)
+                    writeToStatusFile('media');
+                    res.send('Started Updating Media Cache... Check again in a few minutes');
+                    adminModules.Media.find({}, 1000).then((media) =>
                     {
-                        var m = media[i];
-                        for (var j = 0; j < sizes.length; j++)
-                            resizeImageIfNeeded(m.thumbnail_url, sizes[j], undefined, _log);
-                    }
-                    setTimeout(() =>
-                    {
-                        res.send(response + 'DONE :)');
-                    }, 250 * filesCreated);
-                });
-            });
+                        var sizes = SchemaResizes.Media;
+                        for (var i = 0; i < media.length; i++)
+                        {
+                            var m = media[i];
+                            for (var j = 0; j < sizes.length; j++)
+                                resizeImageIfNeeded(m.thumbnail_url, sizes[j], undefined, _log);
+                        }
+                        writeToStatusFile(writeContent);
+                    });
+                }
+                else
+                    res.send('Unkown Parameter!');
+            }
+            else if (fileContent == 'media')
+            {
+                res.send('WIP Updating Media Images Cache...');
+            }
+            else if (fileContent == 'posts')
+            {
+                res.send('WIP Updating Posts Images Cache...');
+            }
+            else
+            {
+                res.send(fileContent);
+            }
         });
     }
 }

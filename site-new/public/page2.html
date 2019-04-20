@@ -1,0 +1,1203 @@
+<html>
+
+<head>
+
+    {{{head}}}
+
+    <style>
+        @font-face {
+            font-family: Burbank;
+            font-style: normal;
+            font-weight: bold;
+            src: url('/webfonts/Burbank.otf');
+        }
+
+        body {
+            font-family: Burbank !important;
+        }
+
+        .img2 {
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+            max-width: 100%;
+        }
+
+        .imgcup {
+            position: relative;
+            top: -24%;
+            display: none;
+
+            height: 90%;
+            width: 129%;
+            left: 13%;
+        }
+
+        .divstart {
+            background: linear-gradient(90deg, rgba(0, 210, 249, 1) 0%, rgba(112, 51, 233, 1) 100%);
+            height: 100%;
+            width: 100%;
+            padding: 1rem;
+        }
+
+
+        .divnareng {
+            position: absolute;
+            top: 121%;
+            left: 13%;
+            margin: 30px;
+
+
+
+        }
+
+        .divvideo {
+            outline: 2px solid #ff0;
+            outline-offset: 20px;
+            margin-top: 6rem !important;
+
+        }
+
+        .parallelogram {
+            position: absolute;
+            bottom: calc(100% - 55.3em);
+            right: 221px;
+            background-color: #ff0;
+            z-index: 1;
+            padding: 0.5em 1em;
+            clip-path: polygon(4% 0, 100% 0, 96% 100%, 0 100%);
+            font-size: 23px;
+            display: block;
+
+
+        }
+
+        .divgirl {
+
+            height: 100%;
+            width: 100%;
+            display: block;
+
+
+        }
+
+        .mosalas {
+
+            height: 0;
+            border-top: 3vh solid transparent;
+            border-left: 40vw solid #16ff85;
+            border-bottom: 3vh solid transparent;
+        }
+
+        .p1 {
+            font-size: 91px;
+
+        }
+
+        .p2 {
+            font-size: 84px;
+        }
+
+        .p3 {
+            font-size: 35px;
+        }
+
+
+        .p4,
+        .p6,
+        .p7 {
+            font-size: 25px;
+        }
+
+
+
+        .divtab1 {
+            height: 158%;
+        }
+
+        .enddiv {
+            height: 100%;
+        }
+
+        .enddivparagraf {
+            margin-top: 218px;
+        }
+
+        .perpelcupdiv {
+
+
+            background: rgba(42, 0, 96, .3);
+            height: calc(100%);
+            margin: 18px;
+
+        }
+
+        .imgperper {
+            width: 100%;
+            height: 49%;
+        }
+
+        .circleoreing {
+            background-image: linear-gradient(41deg, #ff8931, #ff285b);
+            color: #4b0097;
+            text-align: center;
+            border-radius: 50%;
+            -webkit-box-shadow: 12px 7px 0 rgba(27, 28, 26, .2);
+            box-shadow: 12px 7px 0 rgba(27, 28, 26, .2);
+            align-items: center;
+            margin: 0 auto;
+            width: 9em;
+            height: 9em;
+        }
+
+
+        .btnperper {
+            clip-path: polygon(3% 0, 100% 3%, 100% 91%, 0 100%);
+            background-color: #4b0097;
+            color: #f3f8f9;
+            padding: 0;
+            font-size: 1.375em;
+            height: 3em;
+            line-height: 300%;
+            width: 100%;
+            margin: 10px auto 0;
+
+            outline: none;
+        }
+
+        .peper1 {
+            height: auto;
+            background-image: linear-gradient(to left bottom, #c30ff0, #b907f3, #ad02f5, #a100f8, #9300fb, #8c00fc, #8500fe, #7e00ff, #7e00ff, #7e00ff, #7e00ff, #7e00ff);
+        }
+
+        .btnblue {
+            clip-path: polygon(10% 15%, 72% 5%, 60% 20%, 100% 12%, 92% 95%, 0 100%);
+            background-color: #3be1ff;
+            color: #4b0097;
+            padding: 5px;
+            font-size: 1.375em;
+            height: 3em;
+            line-height: 300%;
+            width: 26%;
+            margin: 10px auto 0;
+            outline: none;
+        }
+
+        .divpeperkhas {
+            /* clip-path: polygon(4% 27%, 90% 0%, 61% 25%, 92% 16%, 92% 114%, 0 100%); */
+            clip-path: polygon(6% 22%, 105% 5%, 65% 19%, 100% 12%, 95% 94%, 0 100%);
+            background-color: #25005a;
+            height: 98%;
+            width: 29%;
+            /* padding: 72px; */
+            padding-top: 134px;
+            margin: 75px;
+            margin-top: 0px;
+
+        }
+
+
+        .textevent {
+            color: #25005a;
+            margin: 0;
+            font-size: 20em;
+            display: inline-block;
+            font-style: italic;
+            line-height: .7;
+            opacity: .2;
+            /* position: absolute;
+    left: 422px;
+    top: 2100px; */
+        }
+
+
+        /* tab */
+        .tabs {
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+
+
+        }
+
+        /* tab list item */
+        .tabs .tabs-list {
+            list-style: none;
+            margin: 0px;
+            padding: 0px;
+            margin-left: 36%;
+        }
+
+        .tabs .tabs-list li {
+            width: 14%;
+            float: left;
+            margin: 0px;
+            margin-right: 2px;
+            padding: 10px 5px;
+            text-align: center;
+
+            border-radius: 3px;
+        }
+
+        .tabs .tabs-list li:hover {
+            cursor: pointer;
+        }
+
+        .tabs .tabs-list li a {
+            text-decoration: none;
+            color: #c5ced3;
+            font-size: 28px;
+        }
+
+        /* Tab content section */
+        .tabs .tab {
+            display: none;
+            width: 100%;
+            /* min-height: 250px; */
+            height: auto;
+            /* border-radius: 3px; */
+            /* padding: 20px 15px; */
+            /* background-color: lavender; */
+            /* color: darkslategray; */
+            clear: both;
+        }
+
+
+        .tabs .tab h3 {
+            border-bottom: 3px solid cornflowerblue;
+            letter-spacing: 1px;
+            font-weight: normal;
+            padding: 5px;
+        }
+
+        /* .tabs .tab p {
+            line-height: 20px;
+            letter-spacing: 1px;
+        } */
+
+        /* When active state */
+        .active {
+            display: block !important;
+        }
+
+        .tabs .tabs-list li.active {
+            border-bottom: 6px solid rgb(121, 63, 255);
+            color: black !important;
+        }
+
+        .active a {
+            color: #5F26DF !important;
+        }
+
+
+
+        /* end tab */
+
+        .drop {
+            color: #8b9ca7;
+            position: relative;
+            padding: 1em 2em;
+            cursor: pointer;
+            background: white;
+            font-size: 28px;
+            height: 16%;
+        }
+
+        .main {
+            clip-path: polygon(0 28%, 100% 0, 121% 108%, 0 100%);
+            background-color: #5F26DF;
+            padding-top: 70px;
+            margin-bottom: 0px;
+            padding-bottom: 0px;
+            height: 53%;
+            color: white;
+        }
+
+        .dropdown-container {
+            display: none;
+            background-color: white;
+
+            padding: 6%;
+            padding-top: 0;
+
+        }
+
+        .activedrop {
+
+            color: #5F26DF;
+        }
+
+        .philight {
+            font-family: OpenSans, sans-serif;
+            text-align: left;
+            color: #6b727a !important;
+            font-size: 17px;
+            direction: ltr;
+        }
+
+        .pdark {
+            font-size: 28px;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .divpepertab {
+            clip-path: polygon(0 0, 100% 0, 95% 100%, 0 100%);
+            background-color: #7e00ff;
+            color: white;
+
+            width: 21%;
+
+            font-size: 23px;
+
+        }
+
+        .pp2tab {
+            font-size: 34px;
+            text-align: left;
+            padding-top: 4%;
+        }
+
+        @media (max-width: 460px) {
+
+            .tabs {
+                margin: 0;
+                width: 96%;
+            }
+
+            .tabs .tabs-list li {
+                width: 80px;
+            }
+
+            .divstart {
+                height: 50%;
+                padding: 0px;
+            }
+
+            .imgcup {
+                width: 70%;
+                left: -17%;
+            }
+
+            .dmr {
+                margin: 0px;
+            }
+
+            .p1,
+            .p2 {
+                font-size: 41px;
+            }
+
+
+
+            .p3 {
+                font-size: 28px;
+            }
+
+            .p4 {
+                font-size: 14px;
+            }
+
+            .p7 {
+                font-size: 18px;
+            }
+
+            .p6 {
+                font-size: 23px;
+            }
+
+            .parallelogram {
+                display: none;
+            }
+
+            .divvideo {
+                outline: 3px solid #ff0;
+                outline-offset: 5px;
+                margin-top: 6rem !important;
+                padding: 4px;
+            }
+
+            .divtab1 {
+                height: 88%;
+            }
+
+            .divgirl {
+                display: none;
+            }
+
+            .enddiv {
+                height: 16%;
+            }
+
+            .ff {
+                margin-left: 0px;
+            }
+
+            .enddivparagraf {
+                margin-top: 37px;
+            }
+
+            .perpelcupdiv {
+                margin: 0px;
+                height: calc(33% - 7em);
+
+            }
+
+            .peper1 {
+                height: 387%;
+            }
+
+            .btnblue {
+                padding: 0px;
+                font-size: 1.375em;
+                height: 2em;
+                line-height: 255%;
+                width: 100%;
+                width: 45%;
+            }
+        }
+    </style>
+
+    <script>
+
+
+        $(document).ready(function ()
+        {
+
+            $(".imgcup").css("display", "block");
+
+            $(".imgcup").animate({ top: '-100%', width: '45%', left: '-28%' }, 300);
+            $(".imgcup").animate({ top: '-96%', width: '45%', left: '-28%' }, 100);
+
+
+            // tabb
+            $(".tabs-list li a").click(function (e)
+            {
+                e.preventDefault();
+            });
+
+            $(".tabs-list li").click(function ()
+            {
+                var tabid = $(this).find("a").attr("href");
+                $(".tabs-list li,.tabs div.tab").removeClass("active");   // removing active class from tab
+
+                $(".tab").hide();   // hiding open tab
+                $(tabid).show();    // show tab
+                $(this).addClass("active"); //  adding active class to clicked tab
+
+            });
+
+
+
+
+            /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+
+            for (i = 0; i < dropdown.length; i++)
+            {
+                dropdown[i].addEventListener("click", function ()
+                {
+                    this.classList.toggle("activedrop");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block")
+                    {
+                        dropdownContent.style.display = "none";
+                    } else
+                    {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
+
+
+
+        });
+
+
+
+
+    </script>
+
+</head>
+
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+
+
+
+    <div class=" divstart">
+        <div>
+            <div class="row dmr">
+                <div class="col-md-1">
+
+                </div>
+                <div class="col-md-10 col-12">
+                    <img src="/images/Fortnite+Esports_events_world-cup_worldcup-landing_colorExplosion-1880x992-9723703f2b7bc98025ae00cbc3920a80c4db6eea.png"
+                        width="100%" height="100%" style="">
+
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+        </div>
+
+
+        <div class="imgcup  text-center ">
+            <img src="/images/Fortnite+Esports_events_world-cup_worldcup-landing_Logo-849x764-0ed68a56e24f71ca4c193de371c4b51aa33d1864.png"
+                width="100%" height="100%">
+        </div>
+
+
+    </div>
+    <!-- <p class="p2">safdasfdsafas</p> -->
+
+    <!-- tab start -->
+
+
+
+    <div class="text-center ">
+        <div class="tabs">
+
+            <div class="" style="">
+                <ul class="tabs-list">
+                    <li class="active"><a href="#tab1">OVERVIEW</a></li>
+                    <li><a href="#tab2">DETAILS</a></li>
+                    <li><a href="#tab3">SCHEDULE<a /></li>
+                </ul>
+
+            </div>
+            <div id="tab1" class="tab active">
+                <!-- tab1 -->
+                <div class="divtab1"
+                    style="background: linear-gradient(0deg, rgba(255,117,31,1) 0%, rgba(255,0,228,1) 100%)">
+
+
+                    <div style="background-image: url(/images/Fortnite+Esports.png); background-repeat: no-repeat;
+    background-position: right top;height: 100%; ">
+                        <div class=" container text-center ">
+                            <div style="padding-top: 4%;">
+                                <p class="p1 font-italic" style="color: #ff0;">HOP ON THE BATTLE BUS</p>
+                                <p class="text-white p3 ">.THE ROAD TO THE FORTNITE WORLD CUP STARTS HERE</p>
+
+                            </div>
+
+
+                            <div class="divvideo  ">
+                                <div class="parallelogram" style="color: #480095;">FORTNITE WORLD CUP TRAILER</div>
+                                <video width="100%" controls>
+                                    <source src="movie.mp4" type="video/mp4">
+
+                                </video>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+                <div class="peper1">
+                    <div class="lastevent text-center">
+
+
+                        <!-- <div class="divpeperkhas">
+                            <img src="/images/Fortnite+Esports_events_world-ddd.png" alt="" width="50%">
+
+                            <div class="main">
+                                <h3 class="date">April 13 - June 16</h3>
+                                <h2 class="title">$1 Million Prize Pool Each Week!</h2>
+                                <p class="description">Play in 10 weekly online tournaments for a chance to win cash
+                                    prizes and
+                                    qualify
+                                    for the Fortnite World Cup Finals.</p>
+                            </div>
+                        </div> -->
+                        <!-- textevent -->
+
+                        <div class="textevent text-center container pt-5 ">
+                            <div style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;text-align: center"
+                                unselectable="on" onselectstart="return false;" onmousedown="return false; ">
+                                EVENTS
+                            </div>
+                        </div>
+                    </div>
+                    <!-- event -->
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md col-12 mt-4 mb-4 pl-5 pr-5 perpelcupdiv ">
+                                <img src="/images/Fortnite+Esports_events_world-ddd.png" alt=""
+                                    class="imgperper mb-2  ">
+                                <div class="circleoreing">
+                                    <div class="circle p-2 mt-2 mb-4">
+                                        <p class="p6 m-0">Week 2</p>
+                                        <p class="p3 m-0">20-21</p>
+                                        <p class="p3 m-0">April</p>
+
+                                    </div>
+
+                                    <div class="mt-2 mb-2">
+                                        <div class="btnperper p3">Schedule</div>
+                                        <div class="btnperper p3">Watch</div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md col-12 mt-4 mb-4 pl-5 pr-5 perpelcupdiv ">
+                                <img src="/images/Fortnite+Esports_events_world-ddd.png" alt=""
+                                    class="imgperper mb-2  ">
+                                <div class="circleoreing">
+                                    <div class="circle p-2 mt-2 mb-4">
+                                        <p class="p6 m-0">Week 2</p>
+                                        <p class="p3 m-0">20-21</p>
+                                        <p class="p3 m-0">April</p>
+
+                                    </div>
+
+                                    <div class="mt-2 mb-2">
+                                        <div class="btnperper p3">Schedule</div>
+                                        <div class="btnperper p3">Watch</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md col-12 mt-4 mb-4 pl-5 pr-5 perpelcupdiv ">
+                                <img src="/images/Fortnite+Esports_events_world-ddd.png" alt=""
+                                    class="imgperper mb-2  ">
+                                <div class="circleoreing">
+                                    <div class="circle p-2 mt-2 mb-4">
+                                        <p class="p6 m-0">Week 2</p>
+                                        <p class="p3 m-0">20-21</p>
+                                        <p class="p3 m-0">April</p>
+
+                                    </div>
+
+                                    <div class="mt-2 mb-2">
+                                        <div class="btnperper p6">Schedule</div>
+                                        <div class="btnperper p6">Watch</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 
+                    <div class="mosalas">
+                    </div> -->
+
+                <div class="enddiv"
+                    style="background: linear-gradient(90deg, rgba(187,55,226,1) 0%, rgba(255,0,155,1) 100%) ">
+
+                    <div class="row ff" style="    margin-left: 0px;">
+                        <div class="col-md-4">
+                            <img src="/images/Fortnite+Esports_events_world.png" class="divgirl" alt="">
+                        </div>
+                        <div class="col-md-7 col-12 text-white p-5  text-center container enddivparagraf">
+                            <p class="p2"> DROP IN TODAY</p>
+                            <p class="p4" style="font-family: Arial, Helvetica, sans-serif">
+                                <b>
+                                    Play, compete, and qualify for the Fortnite World Cup. Check back for updates on
+                                    standings
+                                    and
+                                    schedule, this will be your one-stop-shop for all information as the Fortnite World
+                                    Cup
+                                    progresses.
+                                    Good luck!
+                                </b>
+                            </p>
+                            <div class="btnblue">
+                                <p class="p7">Play Free Now</p>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div id="tab2" class="tab">
+                <!-- 2-1 -->
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE WORLD CUP ONLINE OPENS (APRIL 13 - JUNE 16)</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container">
+                            Weekly online tournaments start in-game on April 13, where eligible players in each server
+                            region will compete to qualify for the Fortnite World Cup Finals on their supported platform
+                            of
+                            choice. Jump in each week for your chance to win part of a $1,000,000 prize pool with cash
+                            prizes distributed broadly.
+                        </div>
+                        <br />
+
+
+                        <div class="philight container">
+                            Each Online Open occurs over two rounds of play during the weekend, with each server region
+                            having their own tournament: North America - East, North America - West, Europe, Asia,
+                            Brazil, and Oceana.
+                        </div>
+
+
+                        <br />
+
+                        <div class="container pdark">
+                            ONLINE OPEN SEMI-FINALS (SATURDAYS)
+                        </div>
+
+                        <br />
+
+
+                        <div class="container">
+                            <ul class="philight container">
+                                <li>3 Hour Session. See ‘Schedule’ for specific times in each server region.</li>
+                                <li>10 Match Limit.</li>
+                                <li>Scoring based on placement and eliminations.</li>
+                                <li>Top 3,000 players will advance to the Online Open Finals on Sunday.</li>
+                                <li>Players may only participate in one Online Open server region.</li>
+                            </ul>
+                        </div>
+
+
+                        <div class="container pdark">
+                            ONLINE OPEN FINALS (SUNDAYS)
+                        </div>
+
+                        <div class="container">
+                            <ul class="philight container">
+                                <li>Points scored during Online Open Semi-Finals on Saturday&nbsp;do not transfer to
+                                    Online Open Finals on Sunday.</li>
+                                <li>3 Hour Session. See ‘Schedule’ for specific times in each server region.</li>
+                                <li>10 Match Limit.</li>
+                                <li>The top ranked players globally will receive cash prizes from a $1,000,000 prize
+                                    pool. Prize payout tiers to be confirmed. Winning players will be required to
+                                    provide additional information to process payments.</li>
+                                <li>The highest ranked players in each server region will advance to the Fortnite World
+                                    Cup Finals as outlined below.</li>
+                            </ul>
+                        </div>
+
+                        <br />
+                        <!-- table -->
+                        <table class="philight" align="center" border="1"
+                            style="width:100%;height: 34%;;direction: ltr;">
+                            <thead>
+                                <tr style="color: black">
+                                    <td colspan="7" style="text-align: center;"><strong>World Cup Finals Qualification
+                                            <em>Solo</em> Spots</strong></td>
+                                </tr>
+                                <tr style="color: black">
+                                    <td style="text-align: center;"><strong><em>SOLO</em></strong></td>
+                                    <td colspan="6" style="text-align: center;"><strong>Server Region</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="color: black">
+                                    <td style="text-align: center;"><strong>Week</strong></td>
+                                    <td style="text-align: center;"><strong>Europe</strong></td>
+                                    <td style="text-align: center;"><strong>NA East</strong></td>
+                                    <td style="text-align: center;"><strong>NA West</strong></td>
+                                    <td style="text-align: center;"><strong>Asia</strong></td>
+                                    <td style="text-align: center;"><strong>Brazil</strong></td>
+                                    <td style="text-align: center;"><strong>Oceania</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 1</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 3</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 5</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 7</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 9</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--end table  -->
+                        <br />
+                        <!-- table -->
+                        <table class="philight" align="center" border="1"
+                            style="width:100%;height: 34%;;direction: ltr;">
+                            <thead>
+                                <tr style="color: black">
+                                    <td colspan="7" style="text-align: center;"><strong>World Cup Finals Qualification
+                                            <em>Solo</em> Spots</strong></td>
+                                </tr>
+                                <tr style="color: black">
+                                    <td style="text-align: center;"><strong><em>SOLO</em></strong></td>
+                                    <td colspan="6" style="text-align: center;"><strong>Server Region</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="color: black">
+                                    <td style="text-align: center;"><strong>Week</strong></td>
+                                    <td style="text-align: center;"><strong>Europe</strong></td>
+                                    <td style="text-align: center;"><strong>NA East</strong></td>
+                                    <td style="text-align: center;"><strong>NA West</strong></td>
+                                    <td style="text-align: center;"><strong>Asia</strong></td>
+                                    <td style="text-align: center;"><strong>Brazil</strong></td>
+                                    <td style="text-align: center;"><strong>Oceania</strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 1</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 3</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 5</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 7</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;">Week 9</td>
+                                    <td style="text-align: center;">8</td>
+                                    <td style="text-align: center;">6</td>
+                                    <td style="text-align: center;">2</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                    <td style="text-align: center;">1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!--end table  -->
+                        <br />
+
+
+                        <div class="philight">
+                            To qualify in Duos competitions for cash prizes and the Fortnite World Cup Finals, players
+                            can only pair with one Duo partner during each weekend of Online Open tournaments. However,
+                            players can switch Duos partners from week to week. Duos partners that qualify for the
+                            Fortnite World Cup Finals cannot be switched for substitute players.
+                        </div>
+
+                        <br />
+
+
+                        <div class="philight">
+                            Matchmaking during both rounds is based off of current points within the tournament, and all
+                            players are matchmade together regardless of input device or platform.
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <br />
+                <!-- 2-2 -->
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE WORLD CUP FINALS (JULY 26-28)</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container ">
+                            Squad up for the three-day Finals event hosted in New York City with Fortnite-themed fan
+                            experiences and top competitors from around the world competing for their share of the
+                            <strong>$30,000,000</strong> prize pool.<br>
+                            <br />
+
+                            Stay tuned to Fortnite social channels for more activities to be announced as we get closer
+                            to the Finals.
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <!-- 2-3 -->
+
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE WORLD CUP RULES</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container" style="color: black ; font-family:Burbank ">
+                            INTERESTED IN COMPETING?
+                            <br />
+                            Download and read through the full rules here:
+                            <br />
+
+                            <!-- <a href="#"> WORLD CUP ONLINE OPENS OFFICIAL RULES (LAST UPDATED ON 4/14/2019)</a> -->
+                        </div>
+                    </div>
+                </div>
+
+
+                <br />
+                <!-- 2-4 -->
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE CREATIVE WORLD CUP TRIALS (APRIL 29 - JUNE 7)</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container">
+                            Five events, Five different Creative Trials, all built by community Creators.
+                            <br />
+                            Fortnite World Cup Creative Trials will feature five events, each focused on a new Creative
+                            game. Fifteen participants will then be selected to face off in the ultimate Creative
+                            competition at the Fortnite World Cup Finals for a chance to win a piece of a $3,000,000
+                            Creative prize pool.
+                            <br />
+                            The road to the Fortnite World Cup Creative Finals includes five showcase events running
+                            from April 29 - June 7. Every week you’ll have a chance to try out the latest Creative Trial
+                            and submit your best clip using the event specific hashtag on YouTube. Our special Fortnite
+                            captains will select the top submissions as winners. The selected winners each week will be
+                            headed to New York City to participate in the Fortnite World Cup Creative Finals!
+                            <br />
+                            We’ll kick things off with the first Trial, built and judged by Cizzorz. Tune into
+                            Fortnite’s social channels and follow Cizzorz online for the latest news on the first
+                            Creative Trial. Every week a new Creative Trial will be revealed, with more opportunities to
+                            qualify for the Finals.
+                            <br />
+                            Stay tuned to Fortnite social channels for updates on the Fortnite Creative World Cup.
+                            Expect more info on each Trial coming soon from each of the captains.
+                        </div>
+
+
+                        <br />
+
+                        <div class="pdark container">
+                            QUALIFY
+                            <br />
+                            <div class="container">
+                                <ul dir="ltr" class="philight container">
+                                    <li>To qualify, you must submit a YouTube video completing the challenge issued by
+                                        the captains. The submission must include the hashtag specific to the captain’s
+                                        event.</li>
+                                    <li>Each player can only enter one submission per trial.</li>
+                                    <li>The captains will select winners based on criteria set by them.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <br />
+                <!-- 2-5 -->
+
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE WORLD CUP RULES</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container">
+                            Squad up for the Fortnite Creative Finals event hosted in New York City with Fortnite-themed
+                            fan experiences and competitors from around the world competing for their share of the
+                            $3,000,000 Creative prize pool.
+
+                            <br />
+                            Stay tuned to Fortnite social channels for more activities to be announced as we get closer
+                            to the Finals.
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <br />
+                <!-- 2-6 -->
+
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr">
+                        <span class="float-left">FORTNITE CREATIVE WORLD CUP RULES</span> <i
+                            class="fas fa-arrow-circle-down float-right"></i>
+
+                    </div>
+                    <div class="dropdown-container container ">
+                        <div class="philight container">
+
+                            INTERESTED IN COMPETING?
+                            <br />
+
+
+                        </div>
+                        <br />
+                        <div class="philight container">
+
+
+                            Read through the full rules here:
+                            <br />
+
+
+                        </div>
+                        <br />
+                        <div class="philight container">
+
+
+                            CREATIVE WORLD CUP OFFICIAL RULES (LAST UPDATED ON 4/18/2019)
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+
+            </div>
+
+
+            <!-- tab3 -->
+            <div id="tab3" class="tab">
+
+
+
+                <!-- 3-1 -->
+                <div class="container">
+                    <div class="drop dropdown-btn" style="direction: ltr ;background: transparent">
+                        <div class="float-left " style="color: #5F26DF ;    text-align: left;">ONLINE OPENS, WEEK 2
+                            <br /><span class="p7" style="color: #8b9ca7"> 20 - 21 APRIL</span></div>
+
+
+
+                        <i class="fas fa-arrow-circle-down float-right"></i>
+                    </div>
+
+
+
+                    <div class="dropdown-container  " style="background: transparent;">
+                        <div class="" style="background: white ;    height: 15%;">
+                            <div class="  divpepertab p-4 float-left text-center ">
+
+                                SATURDAY
+                                <br />
+                                4 - 7 PM GMT
+                                <br />
+
+
+                            </div>
+                            <p class="pp2tab">SOLO, SEMI-FINALS</p>
+                        </div>
+
+                        <br/>
+                        
+                                <div class="" style="background: white ;    height: 15%;">
+                                    <div class="  divpepertab p-4 float-left text-center ">
+        
+                                        SATURDAY
+                                        <br />
+                                        4 - 7 PM GMT
+                                        <br />
+        
+        
+                                    </div>
+                                    <p class="pp2tab">SOLO, FINALS</p>
+                                </div>
+                            
+
+
+                    </div>
+                   
+                </div>
+                <!-- 3-2 -->
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <!-- last of event  -->
+
+
+    {{{footer}}}
+
+
+
+</body>
+
+</html>

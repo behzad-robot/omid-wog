@@ -17,26 +17,30 @@ export class SiteGalleryRouter extends SiteRouter
             siteModules.Media.find(req.query).then((media) =>
             {
                 let title = 'آرشیو';
+                let loadMoreParams = '';
                 let finishAndRender = () =>
                 {
-                    if(title == 'mobile')
+                    if (title == 'mobile')
                         title = 'تصویر پس زمینه موبایل';
-                    else if(title == 'wallpaper')
+                    else if (title == 'wallpaper')
                         title = 'تصویر پس زمینه'
                     this.renderTemplate(req, res, 'gallery/gallery-archive.html', {
                         title: title,
                         media: media,
+                        loadMoreParams : loadMoreParams,
                     });
                 };
                 if (req.query.title)
                 {
                     title = req.query.title;
+                    loadMoreParams = '';
                     finishAndRender();
                 }
                 else if (req.query.gameId)
                 {
                     console.log(':) gameId case!');
-                    siteModules.Cache.getGame({_id : req.query.gameId}).then((game) =>
+                    loadMoreParams = '?gameId=' + req.query.gameId;
+                    siteModules.Cache.getGame({ _id: req.query.gameId }).then((game) =>
                     {
                         console.log(game.name);
                         if (game == undefined)
@@ -45,7 +49,7 @@ export class SiteGalleryRouter extends SiteRouter
                             return;
                         }
                         title = game.name;
-                        console.log('title is up'+title);
+                        console.log('title is up' + title);
                         finishAndRender();
                     });
                 }
@@ -54,6 +58,7 @@ export class SiteGalleryRouter extends SiteRouter
                     siteModules.Champion.getOne(req.query.champId).then((champion) =>
                     {
                         title = champion.name;
+                        loadMoreParams = '?champId=' + champion._id;
                         finishAndRender();
                     }).catch((err) =>
                     {
@@ -63,6 +68,7 @@ export class SiteGalleryRouter extends SiteRouter
                 else if (req.query.tags)
                 {
                     title = req.query.tags;
+                    loadMoreParams = '?tag=' + req.query.tags;
                     finishAndRender();
                 }
                 else
@@ -84,6 +90,7 @@ export class SiteGalleryRouter extends SiteRouter
                 params.offset = 0;
             else
                 params.offset = parseInt(params.offset);
+            console.log(params);
             siteModules.Media.find(params).then((media) =>
             {
                 res.send({ code: 200, error: null, _data: media });

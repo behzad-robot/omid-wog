@@ -140,6 +140,12 @@ export class MortalWikiRouter extends SiteRouter
                 res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=mobile');
                 return;
             }
+            else if(req.params.slug.indexOf('-xl') != -1)
+            {
+                req.params.slug = req.params.slug.replace('-xl', '');
+                res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=xl');
+                return;
+            }
             siteModules.Cache.getGame({ token: 'mortal' }).then((game) =>
             {
                 siteModules.Champion.find({ slug: req.params.slug }).then((champions) =>

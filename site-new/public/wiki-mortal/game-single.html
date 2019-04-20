@@ -270,6 +270,11 @@
             flex: 0 0 40%;
             max-width: 40%;
         }
+        .col-md-1p5.col-6{
+            width: 20%;
+            flex:initial;
+
+        }
 
         @media only screen and (max-device-width: 480px) {
             .heros-row-pc-only {
@@ -311,7 +316,7 @@
                 {{#champions}}
                 <div class="row champ-row-pc">
                     {{#members}}
-                    <div class="col-md col-6">
+                    <div class="col-md-1p5 col-6">
                         <a href="{{siteUrl}}" class="hero-box">
                             <img src="{{icon}}" width="100%" />
                             <div class="hero-title text-center text-english">
@@ -376,6 +381,7 @@
                     }
                     $("#load-more-champs-mobile").click(() =>
                     {
+                        $("#load-more-champs-mobile").hide();
                         let mobileChamps = $(".champ-row-mobile .hero-box");
                         for (var i = 4; i < mobileChamps.length; i++)
                         {
