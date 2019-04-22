@@ -43,16 +43,17 @@ export default class PostsPanelRouter extends AdminRouter
             fs.writeFile(postsGridFilePath, req.body.postsGrid, (err) =>
             {
                 if (err)
-                    str += err+'\n';
+                    str += err + '\n';
                 fs.writeFile(postsRecommendedFilePath, req.body.postsRecommended, (err) =>
                 {
                     if (err)
-                        str += err+'\n';
-                    fs.writeFile(upcomingGamesFilePath,req.body.upComingGames,(err)=>{
-                        if(err)
-                            str += err+'\n';
-                        if(str != '')
-                            res.status(500).send('Error:'+str);
+                        str += err + '\n';
+                    fs.writeFile(upcomingGamesFilePath, req.body.upComingGames, (err) =>
+                    {
+                        if (err)
+                            str += err + '\n';
+                        if (str != '')
+                            res.status(500).send('Error:' + str);
                         else
                             res.redirect('/admin/posts/collections');
                     });
@@ -61,12 +62,22 @@ export default class PostsPanelRouter extends AdminRouter
         });
         this.router.get('/', (req, res) =>
         {
+            if (!this.hasPermission(req, 'posts') && !this.hasPermission(req, 'posts-super'))
+            {
+                this.accessDenied(req, res);
+                return;
+            }
             res.send(this.renderTemplate('posts-list.html', {
                 admin: req.session.admin
             }));
         });
         this.router.get('/new', (req, res) =>
         {
+            if (!this.hasPermission(req, 'posts') && !this.hasPermission(req, 'posts-super'))
+            {
+                this.accessDenied(req, res);
+                return;
+            }
             Post.insert({
                 authorId: req.session.admin._id,
                 gameId: "?",
@@ -82,7 +93,7 @@ export default class PostsPanelRouter extends AdminRouter
                     'focusKeyword': '',
                     'keywords': '',
                 },
-                _draft : true,
+                _draft: true,
             }).then((result) =>
             {
                 if (result._id)
@@ -96,12 +107,23 @@ export default class PostsPanelRouter extends AdminRouter
         });
         this.router.get('/:_id/delete', (req, res) =>
         {
-            Post.delete(req.params._id).then((result) =>
+            Post.getOne(req.params._id).then((post) =>
             {
-                res.send('<p>Post Delete Result</p>' + JSON.stringify(result) + '<br><br><a href="/admin/posts/">Back to Posts.</a>');
+                if (!this.hasPermission(req, 'posts-super') && post.authorId != req.session.admin._id)
+                {
+                    this.accessDenied(req, res, `You cant delete someone else\'s post.`);
+                    return;
+                }
+                Post.delete(req.params._id).then((result) =>
+                {
+                    res.send('<p>Post Delete Result</p>' + JSON.stringify(result) + '<br><br><a href="/admin/posts/">Back to Posts.</a>');
+                }).catch((err) =>
+                {
+                    res.send(err);
+                });
             }).catch((err) =>
             {
-                res.send(err);
+                res.status(500).send(err);
             });
         });
         this.router.post('/:_id/edit', (req, res) =>
@@ -119,29 +141,56 @@ export default class PostsPanelRouter extends AdminRouter
                     fs.mkdirSync(folderPath);
                 }
             }
-            req.body._draft = req.body._draft == 'on' ? true : false;
-            req.body.tags = JSON.parse(req.body.tags);
-            req.body.categories = JSON.parse(req.body.categories);
-            req.body._seo = JSON.parse(req.body._seo);
-            req.body.extras = JSON.parse(req.body.extras);
-            const _id = req.body._id;
-            delete (req.body._id);
-            Post.edit(_id, req.body).then((result) =>
+            Post.getOne(req.body._id).then((p) =>
             {
-                res.redirect('/admin/posts/' + _id + '/?edit=success');
+                if (p == undefined)
+                {
+                    res.status(500).send('Post Not found!');
+                    return;
+                }
+                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.userId == req.session.admin._id))
+                {
+                    this.accessDenied(req, res, `You cant edit someone else\'s post.`);
+                    return;
+                }
+                req.body._draft = req.body._draft == 'on' ? true : false;
+                req.body.tags = JSON.parse(req.body.tags);
+                req.body.categories = JSON.parse(req.body.categories);
+                req.body._seo = JSON.parse(req.body._seo);
+                req.body.extras = JSON.parse(req.body.extras);
+                const _id = req.body._id;
+                delete (req.body._id);
+                Post.edit(_id, req.body).then((result) =>
+                {
+                    res.redirect('/admin/posts/' + _id + '/?edit=success');
+                }).catch((err) =>
+                {
+                    res.send(err);
+                });
             }).catch((err) =>
             {
-                res.send(err);
+                res.status(500).send(err.toString());
             });
-
         });
         this.router.get('/:_id', (req, res) =>
         {
-            res.send(this.renderTemplate('post-single.html', {
-                admin: req.session.admin,
-                _id: req.params._id,
-                fileUploadURL: ADMIN_FILE_UPLOAD
-            }));
+            Post.getOne(req.params._id).then((p) =>
+            {
+                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.userId == req.session.admin._id))
+                {
+                    this.accessDenied(req,res,'you cant edit someone else post');
+                    return;
+                }
+                res.send(this.renderTemplate('post-single.html', {
+                    admin: req.session.admin,
+                    _id: req.params._id,
+                    fileUploadURL: ADMIN_FILE_UPLOAD
+                }));
+            }).catch((err) =>
+            {
+                res.status(500).send(err);
+            });
+
         });
 
     }

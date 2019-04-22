@@ -32,6 +32,14 @@ export const UserSchema = new mongoose.Schema({
     updatedAt: { type: String, default: '?' },
     lastLogin: { type: String, default: '?' },
     accessLevel: { type: Object, default: { isAdmin: false, permissions: [] } },
+    /**
+     * permissions list:
+     * super ( can do everything)
+     * posts-super (can do everything with all posts)
+     * posts (can add/edit posts that they own)
+     * games-super (can do everything with games)
+     * games-{game.token} (can do everything other than delete with certain game)
+     */
 }, {
         toObject: {
             virtuals: true

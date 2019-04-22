@@ -28,6 +28,7 @@ import { OTPObject } from './models/otpObject';
 import { OTPHandler } from './routers/otp_handler';
 import { PostsHandler } from './routers/posts_router';
 import { CommentsHandler } from './routers/comments_handler';
+import { AdminLog } from './models/admin_log';
 
 const morgan = require('morgan');
 
@@ -85,6 +86,8 @@ express.expressApp.use('/api/media/', new PublicMongooseAPIRouter(Media, { apiTo
 express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(ContactUsForm, { apiTokenRequired: true }).router);
 //tournoment:
 express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam, { apiTokenRequired: true }).router);
+//admin logs:
+express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog, { apiTokenRequired: true }).router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 //listen:

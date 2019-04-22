@@ -28,6 +28,7 @@ const Champion = new APICollection('champions', { apiToken: API_TOKEN, adminToke
 const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Comment = new APICollection('comments', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Media = new APICollection('media', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const AdminLog = new APICollection('admin-logs', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
     User: User,
@@ -39,6 +40,7 @@ const AdminModules = {
     Build: ChampBuild,
     Media: Media,
     Comment: Comment,
+    AdminLog: AdminLog,
     proxyAPI: proxyAPI,
 }
 //express:

@@ -11,6 +11,8 @@ export class AdminRouter extends Router
         //bind functions:
         this.requireAdmin = this.requireAdmin.bind(this);
         this.renderTemplate = this.renderTemplate.bind(this);
+        this.accessDenied = this.accessDenied.bind(this);
+        this.hasPermission = this.hasPermission.bind(this);
     }
     requireAdmin()
     {
@@ -42,8 +44,21 @@ export class AdminRouter extends Router
             return "render file failed =>" + err;
         }
     }
-    accessDenied(req,res)
+    hasPermission(req, permission)
     {
-        res.send(this.renderTemplate(''))
+        let admin = req.session.admin;
+        for (var i = 0; i < admin.accessLevel.permissions.length; i++)
+        {
+            if (admin.accessLevel.permissions[i] == permission || admin.accessLevel.permissions[i] == 'super')
+                return true;
+        }
+        return false;
+    }
+    accessDenied(req, res,extraError = '')
+    {
+        res.send(this.renderTemplate('access-denied.html', {
+            admin: req.session.admin,
+            extraError : extraError,
+        }));
     }
 }
