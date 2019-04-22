@@ -36,6 +36,8 @@ const InputUtils = {
     boolInput: (name, value, settings = { after: '' }) =>
     {
         var after = settings.after ? settings.after : '';
+        if (typeof value == 'string')
+            value = value == 'true' ? true : false;
         value = value ? "checked" : "";
         return `
             <div class="for-row" label="${name}">
@@ -97,7 +99,7 @@ const InputUtils = {
             var config = {
                 font_names: `Roboto`,
                 extraPlugins: 'behzad',
-                
+
             };
             config.stylesSet = 'my_styles';
             // CKEDITOR.replace(name, config);

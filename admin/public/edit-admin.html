@@ -31,9 +31,13 @@
                 $("#single").append(InputUtils.bodyInput('aboutMe', `{{{admin.aboutMe}}}`));
                 $("#single").append(InputUtils.textInput('firstName', `{{{admin.firstName}}}`));
                 $("#single").append(InputUtils.textInput('lastName', `{{{admin.lastName}}}`));
-                $("#single").append(InputUtils.optionsInput('gender', `{{{admin.gender}}}`, ['Male', 'Female']));
+                $("#single").append(InputUtils.optionsInput('sex', `{{{admin.sex}}}`, ['Male', 'Female']));
                 imageInput('#single', 'profileImage', `{{admin.profileImage}}`, FILE_UPLOAD_URL, MY_DIR);
                 imageInput('#single', 'cover', `{{admin.cover}}`, FILE_UPLOAD_URL, MY_DIR);
+                $("#single").append('<hr>');
+                imageInput('#single', 'personelImage', `{{admin.personelImage}}`, FILE_UPLOAD_URL, MY_DIR);
+                $("#single").append(InputUtils.boolInput('isPersonel', `{{{admin.isPersonel}}}`));
+                $("#single").append(InputUtils.textInput('personelCategory', `{{{admin.personelCategory}}}`));
                 $("#single").append(submitBtn());
             });
         </script>

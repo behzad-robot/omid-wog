@@ -51,7 +51,7 @@ class UsersAuthHttpRouter extends APIRouter
                 req.body.token = req.header('user-token');
             }
             this.handler.checkUserFolder(req.body._id);
-            const userPath = `storage/users/${req.body._id}/`;
+            const userPath = `users/${req.body._id}/`;
             this.handleFile(req, res, 'profileImage', userPath).then((img) =>
             {
                 if (img)

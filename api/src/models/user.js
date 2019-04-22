@@ -22,6 +22,11 @@ export const UserSchema = new mongoose.Schema({
 
     followingGames: Array,
 
+    //personell only:
+    isPersonel : {type:Boolean,default:false},
+    personelImage : {type:String,default:''},
+    personelCategory : {type:String,default:''},
+
     _draft: Boolean,
     createdAt: { type: String, default: '?' },
     updatedAt: { type: String, default: '?' },

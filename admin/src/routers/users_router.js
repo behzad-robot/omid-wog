@@ -35,6 +35,9 @@ export default class UsersPanelRouter extends AdminRouter
             delete (req.body.createdAt);
             delete (req.body.updatedAt);
             delete (req.body.lastLogin);
+            console.log(`isPersonel=>`+req.body.isPersonel);
+            req.body.isPersonel = req.body.isPersonel == 'on' ? true : false;
+            console.log(`personelCategory=>`+req.body.personelCategory);
             AdminModules.User.edit(req.session.admin._id, req.body).then((result) =>
             {
                 req.session.admin = result;
