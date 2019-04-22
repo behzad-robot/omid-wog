@@ -26,7 +26,7 @@ export default class PostsPanelRouter extends AdminRouter
                 this.accessDenied(req, res, 'you cant access posts part');
                 return;
             }
-            if (req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1)
+            if ((req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1) && req.query.edit == undefined)
             {
                 let action = 'posts-?';
                 if (req.url.indexOf('edit') != -1)
@@ -36,7 +36,7 @@ export default class PostsPanelRouter extends AdminRouter
                 AdminLog.insert({
                     userId: req.session.admin._id,
                     title: action ,
-                    url : req.url,
+                    url : req.baseUrl+req.url,
                     postBody : req.method == 'POST' ? req.body : {}, 
                 }).then((result)=>{
                     console.log(result);

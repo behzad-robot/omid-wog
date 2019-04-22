@@ -19,27 +19,29 @@ export default class GamesPanelRouter extends AdminRouter
                 updateCache('all-games'); //deprecated legacy site
                 updateCache('games-all');
             }
-            if (!this.hasPermission(req, 'games') && !this.hasPermission(req,'games-super'))
+            if (!this.hasPermission(req, 'games') && !this.hasPermission(req, 'games-super'))
             {
-                this.accessDenied(req,res,'you cant access games part');
+                this.accessDenied(req, res, 'you cant access games part');
                 return;
             }
-            if (req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1)
+            if ((req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1) && req.query.edit == undefined)
             {
                 let action = 'games-?';
                 if (req.url.indexOf('edit') != -1)
                     action = 'games-edit';
-                else if(req.url.indexOf('delete') != -1)
+                else if (req.url.indexOf('delete') != -1)
                     action = 'games-delete';
                 AdminLog.insert({
                     userId: req.session.admin._id,
-                    title: action ,
-                    url : req.url,
-                    postBody : req.method == 'POST' ? req.body : {}, 
-                }).then((result)=>{
+                    title: action,
+                    url: req.baseUrl + req.url,
+                    postBody: req.method == 'POST' ? req.body : {},
+                }).then((result) =>
+                {
                     console.log(result);
                     console.log('=======');
-                }).catch((err)=>{
+                }).catch((err) =>
+                {
                     console.log(err);
                 });
             }
@@ -96,11 +98,11 @@ export default class GamesPanelRouter extends AdminRouter
                     req.body.runes = JSON.parse(req.body.runes);
                 req.body.patchNotes = JSON.parse(req.body.patchNotes);
             }
-            else if(req.body.token.indexOf('mortal') != -1)
+            else if (req.body.token.indexOf('mortal') != -1)
             {
                 req.body.factions = JSON.parse(req.body.factions);
             }
-            if(req.body.token == 'pubg')
+            if (req.body.token == 'pubg')
             {
                 console.log(req.body.weapons);
                 req.body.maps = JSON.parse(req.body.maps);
