@@ -18,6 +18,11 @@ export default class GamesPanelRouter extends AdminRouter
                 updateCache('all-games'); //deprecated legacy site
                 updateCache('games-all');
             }
+            if (!this.hasPermission(req, 'games') && !this.hasPermission(req,'games-super'))
+            {
+                this.accessDenied(req,res,'you cant access games part');
+                return;
+            }
             next();
         });
         this.router.get('/', (req, res) =>

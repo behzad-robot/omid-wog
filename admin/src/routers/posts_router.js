@@ -20,6 +20,11 @@ export default class PostsPanelRouter extends AdminRouter
                 updateCache('navbar-news');
                 updateCache('navbar-articles');
             }
+            if (!this.hasPermission(req, 'posts') && !this.hasPermission(req,'posts-super'))
+            {
+                this.accessDenied(req,res,'you cant access posts part');
+                return;
+            }
             next();
         });
         this.router.get('/collections', (req, res) =>
@@ -178,7 +183,7 @@ export default class PostsPanelRouter extends AdminRouter
             {
                 if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.userId == req.session.admin._id))
                 {
-                    this.accessDenied(req,res,'you cant edit someone else post');
+                    this.accessDenied(req, res, 'you cant edit someone else post');
                     return;
                 }
                 res.send(this.renderTemplate('post-single.html', {
