@@ -9,6 +9,7 @@ export default class GamesPanelRouter extends AdminRouter
         super();
         const Admin = AdminModules.Admin;
         const Game = AdminModules.Game;
+        const AdminLog = AdminModules.AdminLog;
         this.requireAdmin();
         this.router.use((req, res, next) =>
         {
@@ -22,6 +23,25 @@ export default class GamesPanelRouter extends AdminRouter
             {
                 this.accessDenied(req,res,'you cant access games part');
                 return;
+            }
+            if (req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1)
+            {
+                let action = 'games-?';
+                if (req.url.indexOf('edit') != -1)
+                    action = 'games-edit';
+                else if(req.url.indexOf('delete') != -1)
+                    action = 'games-delete';
+                AdminLog.insert({
+                    userId: req.session.admin._id,
+                    title: action ,
+                    url : req.url,
+                    postBody : req.method == 'POST' ? req.body : {}, 
+                }).then((result)=>{
+                    console.log(result);
+                    console.log('=======');
+                }).catch((err)=>{
+                    console.log(err);
+                });
             }
             next();
         });

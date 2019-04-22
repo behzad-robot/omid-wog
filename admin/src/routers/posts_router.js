@@ -11,6 +11,7 @@ export default class PostsPanelRouter extends AdminRouter
         super();
         const Admin = AdminModules.Admin;
         const Post = AdminModules.Post;
+        const AdminLog = AdminModules.AdminLog;
         this.requireAdmin();
         this.router.use((req, res, next) =>
         {
@@ -20,10 +21,29 @@ export default class PostsPanelRouter extends AdminRouter
                 updateCache('navbar-news');
                 updateCache('navbar-articles');
             }
-            if (!this.hasPermission(req, 'posts') && !this.hasPermission(req,'posts-super'))
+            if (!this.hasPermission(req, 'posts') && !this.hasPermission(req, 'posts-super'))
             {
-                this.accessDenied(req,res,'you cant access posts part');
+                this.accessDenied(req, res, 'you cant access posts part');
                 return;
+            }
+            if (req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1)
+            {
+                let action = 'posts-?';
+                if (req.url.indexOf('edit') != -1)
+                    action = 'posts-edit';
+                else if(req.url.indexOf('delete') != -1)
+                    action = 'posts-delete';
+                AdminLog.insert({
+                    userId: req.session.admin._id,
+                    title: action ,
+                    url : req.url,
+                    postBody : req.method == 'POST' ? req.body : {}, 
+                }).then((result)=>{
+                    console.log(result);
+                    console.log('=======');
+                }).catch((err)=>{
+                    console.log(err);
+                });
             }
             next();
         });

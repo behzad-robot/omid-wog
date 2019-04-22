@@ -1,10 +1,7 @@
 import mongoose from 'mongoose';
 export const AdminLogSchema = new mongoose.Schema({
-    objectId: String,
-    objectType: String,
     userId: String,
     title: { type: String, default: '' },
-    description: { type: String, default: '' },
     url: { type: String, default: '' },
     postBody: {type: Object , default : {} },
     
