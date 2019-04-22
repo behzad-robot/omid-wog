@@ -76,12 +76,26 @@
         .divgirl {
 
             height: 100%;
-            width: 100%;
+    width: auto;
+    position: relative;
+    top: 0px;
+    right: 0px;
             display: block;
 
 
         }
 
+.radobargh{
+    background-image: url(/images/Fortnite+Esports.png); 
+    background-repeat: no-repeat;
+    background-position: right top;
+    height: 100%; 
+}
+
+.divpeperwwit{
+    background: white ;
+    height: 117px;
+}
         .mosalas {
 
             height: 0;
@@ -361,13 +375,24 @@
 
         @media (max-width: 460px) {
 
+            .radobargh{
+    background-image: url();
+     }
+     .divpeperwwit{
+        height: 115px;
+     }
+.rowoff{
+    margin: 0px;
+    padding: 0px;
+}
             .tabs {
                 margin: 0;
-                width: 96%;
+                width: 100%;
             }
 
             .tabs .tabs-list li {
-                width: 80px;
+                width: 111px;
+                margin-right: 0px;
             }
 
             .divstart {
@@ -423,11 +448,7 @@
             }
 
             .divgirl {
-                height: 100%;
-    width: auto;
-    position: relative;
-    top: 0px;
-    right: 0px;
+              display: none;
             }
 
             .enddiv {
@@ -439,7 +460,7 @@
             }
 
             .enddivparagraf {
-                margin-top: 37px;
+                margin-top: -510px;
             }
 
             .perpelcupdiv {
@@ -460,6 +481,29 @@
                 width: 100%;
                 width: 45%;
             }
+
+            .textevent{
+                font-size: 101px;
+            }
+
+            .tabs .tabs-list li a{
+                font-size: 22px;
+
+            }
+.drop{
+    font-size: 17px;
+}
+.tabs .tabs-list{
+    margin-left: 0px;
+}
+.divpepertab{
+    
+    width: 165px;
+    font-size: 22px;
+}
+.pp2tab{
+    font-size: 20px;
+}
         }
     </style>
 
@@ -580,8 +624,7 @@
                     style="background: linear-gradient(0deg, rgba(255,117,31,1) 0%, rgba(255,0,228,1) 100%)">
 
 
-                    <div style="background-image: url(/images/Fortnite+Esports.png); background-repeat: no-repeat;
-    background-position: right top;height: 100%; ">
+                    <div class="radobargh">
                         <div class=" container text-center ">
                             <div style="padding-top: 4%;">
                                 <p class="p1 font-italic" style="color: #ff0;">شتبنتسایبعا مشیتسا شسمیت</p>
@@ -633,7 +676,7 @@
                     <!-- event -->
 
                     <div class="container">
-                        <div class="row">
+                        <div class="row rowoff">
                             <div class="col-md col-12 mt-4 mb-4 pl-5 pr-5 perpelcupdiv ">
                                 <img src="/images/Fortnite+Esports_events_world-ddd.png" alt=""
                                     class="imgperper mb-2  ">
@@ -1142,7 +1185,7 @@
 
                     <div class="dropdown-container mt-5 " style="background: transparent;">
 
-                        <div class="" style="background: white ;height: 117px;">
+                        <div class="divpeperwwit" >
                             <div class="  divpepertab p-4 float-left text-center ">
 
                                 SATURDAY
@@ -1157,7 +1200,7 @@
 
                         <br/>
                         
-                                <div class="" style="background: white ;height: 117px;">
+                                <div class="divpeperwwit" >
                                     <div class="  divpepertab p-4 float-left text-center ">
         
                                         SATURDAY
