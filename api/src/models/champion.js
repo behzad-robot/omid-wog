@@ -48,7 +48,7 @@ export const ChampionSchema = new mongoose.Schema({
     primaryAttr: {type:String,default:''},
     //mortal combat:
     variations : Array , // { name : string , icon : string , moves :[] }
-    moves : Array, //{ _id : string , isSpecial : boolean , name : string, description : string, video : string, keys : string [] }
+    moves : Array, //{ _id : string , isSpecial : boolean , name : string, description : string, video : string, buttons : string [] }
     
     
     createdAt: String,

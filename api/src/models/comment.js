@@ -16,7 +16,7 @@ export const CommentSchema = new mongoose.Schema({
 
     createdAt: String,
     updatedAt: String,
-    _draft: {type:Boolean,default:true},
+    _draft: { type: Boolean, default: true },
 }, {
         toObject: {
             virtuals: true
@@ -43,8 +43,8 @@ CommentSchema.virtual('createdAt_persian').get(function ()
         var timeParts = parts[1].split(':');
         var jj = jalaali.toJalaali(year, month, day) // { jy: 1395, jm: 1, jd: 23 }
         // return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
-        var pd = new persianDate([year, month, day]);
-        return pd.format('dddd') + ' ' + day + ' ' + pd.format('MMMM') + ' ' + jj.jy;
+        var pd = new persianDate([jj.jy, jj.jm, jj.jd]);
+        return pd.format('dddd') + ' ' + jj.jd + ' ' + pd.format('MMMM') + ' ' + jj.jy;
     }
     else
         return this.createdAt;

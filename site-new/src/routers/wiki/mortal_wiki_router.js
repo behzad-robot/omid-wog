@@ -161,6 +161,7 @@ export class MortalWikiRouter extends SiteRouter
                             for (var j = 0; j < c.variations.length; j++)
                             {
                                 let v = c.variations[j];
+                                v._token = v.name.replace(' ','-');
                                 v._moves = [];
                                 for (var k = 0; k < v.moves.length; k++)
                                 {
