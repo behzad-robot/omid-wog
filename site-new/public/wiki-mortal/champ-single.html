@@ -1,9 +1,408 @@
-<h1>{{game.name}}</h1>
-<h2>{{champion.name}}</h2>
-<p>man yek tabaah haaaam</p>
-<hr>
-<h3>Gallery:</h3>
-{{#media}} 
-    <img src="{{thumbnail_url}}" width="100px"/>
-    <b>{{title}}</b>#
-{{/media}}
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .tabs-section {
+            width: 100%;
+            height: 65px;
+            background-color: #22313c;
+            color: white;
+            position: fixed;
+            top: 80px;
+            right: 0;
+            padding: 10px 0;
+            z-index: 1000000;
+        }
+
+        .tabs-section-filler {
+            width: 100%;
+            height: 65px;
+        }
+
+        .btn-tab {
+            border-radius: 25px;
+            border: 2px solid white;
+            margin: 0 2px;
+        }
+
+        .btn-tab:hover,
+        .btn-tab.active {
+            background-color: orange;
+        }
+
+        .header-section {
+            background-image: url('/images/bloodmoon-twisted.jpg');
+            background-position: center;
+            background-size: cover;
+            height: 450px;
+            color: white;
+            padding: 50px 0;
+        }
+
+        .header-section h1 {
+            font-size: 55px;
+        }
+
+        .info-section {
+            background-color: black;
+            color: white;
+            padding: 20px 0;
+        }
+
+        tab {
+            display: block;
+            width: 100%;
+        }
+
+        /* gallery classes */
+        .gallery {
+            background-color: black;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            margin-top: -16px;
+            margin-bottom: -20px;
+            padding: 10px;
+        }
+
+        .grid-box-small {
+            height: 225px;
+            display: block;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-box-big {
+            height: 450px;
+            width: 100%;
+
+        }
+
+        .grid-image-small {
+            width: 100%;
+            height: 225px;
+        }
+
+        .grid-image-big {
+            width: 100%;
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        /* END gallery classes */
+        .coming-soon-section {
+            width: 100%;
+            height: 80vh;
+            background-size: cover;
+            background-position: center;
+            background-image: url('/images/mortal-coming-soon.jpg');
+        }
+
+        footer {
+            margin-top: 0;
+        }
+
+        .variations-section {
+            padding: 20px 0;
+            background-color: black;
+            color: white;
+        }
+
+        .variation-images {
+            display: block;
+            width: 60%;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .variation-title {
+            font-size: 26px;
+            font-weight: bolder;
+        }
+
+        .moves-section {
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+            background-image: url('/images/mortal-home-desktop-blurry.jpg');
+            padding: 20px 0;
+            color: white;
+        }
+
+        .move-box {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .move-box.special {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .move-box .move-title {
+            font-size: 18px;
+        }
+
+        .move-box .move-description {
+            display: block;
+        }
+
+        .move-box .move-video {
+            position: absolute;
+            color: orange;
+            font-size: 12px;
+            top: 10px;
+            left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="tabs-section-filler"></section>
+    <section class="tabs-section">
+        <div class="container">
+            <div class="btn btn-md btn-tab" tab="info">اطلاعات کلی</div>
+            <div class="btn btn-md btn-tab" tab="xl">آموزش XL</div>
+            <div class="btn btn-md btn-tab" tab="11">آموزش 11</div>
+            <div class="btn btn-md btn-tab" tab="mobile">آموزش موبایل</div>
+        </div>
+    </section>
+    <section class="header-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <h1>{{champion.name}}</h1>
+                    <div>{{{champion.description}}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <tab tab="info">
+        <section class="info-section">
+            <div class="container">
+                {{{champion.lore}}}
+            </div>
+        </section>
+        <section class="gallery">
+            <div class="container">
+                <h1 class="gallery-text">گالری:</h1>
+                <div class="row" style="margin-bottom: 10px">
+                    <div class="col-md-6 col-4" style="padding:0">
+                        <a href="{{media.0.siteUrl}}">
+                            <div class="grid-box-big" style="background-image:url('{{media.0.thumbnail_640x480}}');">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-4" style="padding:0;">
+                        <a href="{{media.1.siteUrl}}">
+                            <div class="grid-box-small" style="background-image:url('{{media.1.thumbnail_640x480}}');">
+                            </div>
+                        </a>
+                        <a href="{{media.2.siteUrl}}">
+                            <div class="grid-box-small" style="background-image:url('{{media.2.thumbnail_640x480}}');">
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-4" style="padding:0">
+                        <a href="{{media.3.siteUrl}}">
+                            <div class="grid-box-small" style="background-image:url('{{media.3.thumbnail_640x480}}');">
+                            </div>
+                        </a>
+                        <a href="{{media.4.siteUrl}}">
+                            <div class="grid-box-small" style="background-image:url('{{media.4.thumbnail_640x480}}');">
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="text-center" style="padding:20px 0">
+                    <div class="more-button btn btn-warning text-center">بیشتر</div>
+                </div>
+            </div>
+        </section>
+    </tab>
+    <tab tab="xl">
+        <section class="variations-section">
+            <div class="container">
+                <h1 style="font-size:32px;">تکنیک ها:</h1>
+                <div class="row">
+                    {{#champion.variations}}
+                    <div class="col-md-4 col-4 text-center">
+                        <img class="variation-images" src="{{icon}}" alt="varitions {{name}}" width="100%">
+                        <h1 class="variation-title">{{name}}</h1>
+                    </div>
+                    {{/champion.variations}}
+                </div>
+            </div>
+        </section>
+        {{#championXL.variations}}
+        <section class="moves-section" variation="{{name}}">
+            <div class="container">
+                <h1>{{name}}</h1>
+            </div>
+            <div id="carousel-variation-{{name}}" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active moves-slide">
+                        <div class="container">
+                            <div class="row">
+                                {{#moves}}
+                                <div class="col-md-6">
+                                    <div class="move-box {{#isSpecial}}special{{/isSpecial}}">
+                                        <h2 class="move-title">{{name}}{{#isSpecial}}&nbsp;<span
+                                                class="badge badge-md badge-warning">حرکت ویژه</span>{{/isSpecial}}</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                {{/moves}}
+                                <!--end of col-6 -->
+                                <div class="col-md-6">
+                                    <div class="move-box">
+                                        <h2 class="move-title">Jungulo</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end of col-6 -->
+                                <div class="col-md-6">
+                                    <div class="move-box">
+                                        <h2 class="move-title">Jungulo</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end of col-6 -->
+                                <div class="col-md-6">
+                                    <div class="move-box">
+                                        <h2 class="move-title">Jungulo</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end of col-6 -->
+                                <div class="col-md-6">
+                                    <div class="move-box">
+                                        <h2 class="move-title">Jungulo</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end of col-6 -->
+                                <div class="col-md-6">
+                                    <div class="move-box">
+                                        <h2 class="move-title">Jungulo</h2>
+                                        <div class="move-description">
+                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi neque
+                                            consequatur blanditiis enim, iusto rerum, sapiente alias temporibus nostrum
+                                            nesciunt sint itaque dicta nemo non perspiciatis veritatis numquam dolorum
+                                            nisi!
+                                        </div>
+                                        <span class="move-video">
+                                            <span class="fas fa-video"></span>&nbsp;
+                                            مشاهده ویدئو این حرکت
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--end of col-6 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel-variation-{{name}}" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel-variation-{{name}}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </section>
+        {{/championXL.variations}}
+    </tab>
+    <tab tab="11">
+        <section class="coming-soon-section"></section>
+    </tab>
+    <tab tab="mobile">
+        <section class="coming-soon-section"></section>
+    </tab>
+    <script>
+        $(() =>
+        {
+            $("tab").hide();
+            $(`.btn-tab[tab=xl]`).addClass('active');
+            $(`tab[tab=xl]`).show();
+
+            $(".btn-tab").click(function ()
+            {
+                $("tab").hide();
+                let theTab = $(this).attr('tab');
+                $(`tab[tab=${theTab}]`).show();
+                $(`.btn-tab`).removeClass('active');
+                $(`.btn-tab[tab=${theTab}]`).addClass('active');
+                $('html, body').animate({
+                    scrollTop: 0,
+                }, 600);
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

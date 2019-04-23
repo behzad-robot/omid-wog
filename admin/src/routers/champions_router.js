@@ -9,6 +9,7 @@ export default class ChampionsPanelRouter extends AdminRouter
     {
         super();
         const Admin = AdminModules.Admin;
+        const AdminLog = AdminModules.AdminLog;
         this.requireAdmin();
         this.router.use((req, res, next) =>
         {
@@ -16,6 +17,32 @@ export default class ChampionsPanelRouter extends AdminRouter
             if (req.url.indexOf('edit') != -1 || req.url.indexOf('new') != -1 || req.url.indexOf('delete') != -1)
             {
                 console.log('update cache for allDota2Champions');
+            }
+            if (!this.hasPermission(req, 'games') && !this.hasPermission(req, 'games-super'))
+            {
+                this.accessDenied(req, res, 'you cant access games part');
+                return;
+            }
+            if ((req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1) && req.query.edit == undefined)
+            {
+                let action = 'champs-?';
+                if (req.url.indexOf('edit') != -1)
+                    action = 'champs-edit';
+                else if (req.url.indexOf('delete') != -1)
+                    action = 'champs-delete';
+                AdminLog.insert({
+                    userId: req.session.admin._id,
+                    title: action,
+                    url: req.baseUrl + req.url,
+                    postBody: req.method == 'POST' ? req.body : {},
+                }).then((result) =>
+                {
+                    console.log(result);
+                    console.log('=======');
+                }).catch((err) =>
+                {
+                    console.log(err);
+                });
             }
             next();
         });

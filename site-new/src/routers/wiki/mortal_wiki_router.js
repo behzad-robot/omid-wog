@@ -133,33 +133,68 @@ export class MortalWikiRouter extends SiteRouter
         });
         this.router.get('/characters/:slug', (req, res) =>
         {
+            //champ-single champ single:
             req.params.slug = req.params.slug.toString().toLowerCase();
-            if (req.params.slug.indexOf('-mobile') != -1)
+            let extraSlugs = ['-mobile', '-xl', '-11'];
+            for (var i = 0; i < extraSlugs.length; i++)
             {
-                req.params.slug = req.params.slug.replace('-mobile', '');
-                res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=mobile');
-                return;
-            }
-            else if(req.params.slug.indexOf('-xl') != -1)
-            {
-                req.params.slug = req.params.slug.replace('-xl', '');
-                res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=xl');
-                return;
+                let extra = extraSlugs[i];
+                if (req.params.slug.indexOf(extra) != -1)
+                {
+                    req.params.slug = req.params.slug.replace(extra, '');
+                    res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=mobile');
+                    return;
+                }
             }
             siteModules.Cache.getGame({ token: 'mortal' }).then((game) =>
             {
                 siteModules.Champion.find({ slug: req.params.slug }).then((champions) =>
                 {
                     let champion = champions[0]; //the champ general info is here
-                    //other versions are in other champions :D
-                    siteModules.Media.find({ champId: champion._id }).then((media) =>
+                    siteModules.Champion.find({ name: champion.name }).then((cs) =>
                     {
-                        this.renderTemplate(req, res, 'wiki-mortal/champ-single.html', {
-                            game: game,
-                            champion: champion,
-                            champions: champions,
-                            media: media,
+                        let championXL = undefined, champion11 = undefined, championMobile = undefined;
+                        for (var i = 0; i < cs.length; i++)
+                        {
+                            //the c:
+                            let c = cs[i];
+                            for (var j = 0; j < c.variations.length; j++)
+                            {
+                                let v = c.variations[j];
+                                v._moves = [];
+                                for (var k = 0; k < v.moves.length; k++)
+                                {
+                                    for (var h = 0; h < c.moves.length; h++)
+                                    {
+                                        if (v.moves[k] == c.moves[h]._id)
+                                        {
+                                            v._moves.push(c.moves[h]);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (cs[i].slug == champion.slug + '-xl')
+                                championXL = cs[i];
+                            else if (cs[i].slug == champion.slug + '-11')
+                                champion11 = cs[i];
+                            else if (cs[i].slug == champion.slug + '-mobile')
+                                championMobile = cs[i];
+                        }
+                        siteModules.Media.find({ champId: champion._id }).then((media) =>
+                        {
+                            this.renderTemplate(req, res, 'wiki-mortal/champ-single.html', {
+                                game: game,
+                                champion: champion,
+                                championXL: championXL,
+                                champion11: champion11,
+                                championMobile: championMobile,
+                                media: media,
+                            });
                         });
+                    }).catch((err) =>
+                    {
+                        this.show500(req, res, err.toString());
                     });
                 }).catch((err) =>
                 {

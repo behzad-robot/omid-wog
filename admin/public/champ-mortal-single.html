@@ -40,7 +40,8 @@
         <div id="moves-screen" style="display:none;">
             <div class="container" style="padding-top:50px;">
                 <div class="btn btn-md btn-primary" onclick="moves_screen_hide()">Close Window</div>
-                <div class="card" style="width:80%;margin:10px auto;min-height:150px;padding:10px 20px;height:60vh;overflow-y:scroll;">
+                <div class="card"
+                    style="width:80%;margin:10px auto;min-height:150px;padding:10px 20px;height:60vh;overflow-y:scroll;">
                     <h3>Moves List:</h3>
                     <div name="moves-list">
                     </div>
@@ -60,15 +61,15 @@
                     c.nickname = '';
                 champion = c;
                 console.log(InputUtils);
-                for(var i = 0 ; i < champion.moves.length;i++)
+                for (var i = 0; i < champion.moves.length; i++)
                 {
                     champion.moves[i].n = champion.moves[i]._id;
-                    if(typeof champion.moves[i]._id == 'number')
+                    if (typeof champion.moves[i]._id == 'number')
                     {
                         champion.moves[i]._id = InputUtils.ID();
                     }
                 }
-                
+
                 console.log(champion);
                 getObject('games', champion.gameId, (g) =>
                 {
@@ -86,6 +87,7 @@
                     // $("#single").append(bodyInput('lore', champion.lore));
                     // $("#single").append(textInput('loreUrl', champion.loreUrl));
                     $("#single").append(bodyInput('description', champion.description));
+                    $(`#single`).append(bodyInput('lore', champion.lore));
                     //image fields:
                     imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL, MY_DIR, [{ width: 128, height: -1 }]);
                     imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL, MY_DIR, [{ width: 128, height: -1 }]);
@@ -153,7 +155,8 @@
                     variations_update(this);
                 });
             }
-            function variation_toggle(i){
+            function variation_toggle(i)
+            {
                 $(`#variations-${i}`).toggle();
             }
             function variations_add()
@@ -212,6 +215,7 @@
                     $(`#moves`).append(`<div class="box-row" id="moves-container-${i}"><b>${v._id}</b>=>${v.name}<div class="btn btn-sm btn-info float-right" onclick="move_toggle(${i})">Expand</div></div>`);
                     $(`#moves-container-${i}`).append(`<div class="move-box" style="display:none" id="moves-${i}" index="${i}" moveId="${v._id}"></div>`);
                     $(`#moves-${i}`).append(idInput('_id', v._id));
+                    $(`#moves-${i}`).append(InputUtils.boolInput('isSpecial', v.isSpecial));
                     $(`#moves-${i}`).append(textInput('name', v.name));
                     $(`#moves-${i}`).append(bodyInput('description', v.description));
                     $(`#moves-${i}`).append(filePickTool(undefined, 'video', v.video));
@@ -246,13 +250,15 @@
                         return champion.moves[i];
                 return undefined;
             }
-            function move_toggle(index){
+            function move_toggle(index)
+            {
                 $(`#moves-${index}`).toggle();
             }
             function moves_add()
             {
                 champion.moves.push({
                     _id: InputUtils.ID(),
+                    isSpecial : false,
                     name: 'Ryugawa Tekyo Kurooo',
                     description: '',
                     video: '',
@@ -281,6 +287,7 @@
                     {
                         champion.moves[i] = {
                             _id: $(`#moves-${i} [name=_id]`).val(),
+                            isSpecial: $(`#moves-${i} [name=isSpecial]`).is(':checked'),
                             name: $(`#moves-${i} [name=name]`).val(),
                             video: $(`#moves-${i} [name=video]`).val(),
                             description: $(`#moves-${i} [name=description]`).val(),
@@ -327,7 +334,8 @@
             {
                 $("#moves-screen").hide();
             }
-            function moves_screen_pick(mId,varIndex){
+            function moves_screen_pick(mId, varIndex)
+            {
                 champion.variations[varIndex].moves.push(mId);
                 moves_screen_hide();
                 variations_recreate();

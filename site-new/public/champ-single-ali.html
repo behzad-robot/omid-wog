@@ -1,0 +1,1542 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .buttons-back {
+            position: fixed;
+            z-index: 1000000;
+            right: 0;
+            width: 100%;
+            background-color: #22313c;
+            height: 70px;
+        }
+
+        .buttons {
+            background-color: #22313c;
+            border-color: white;
+            border-radius: 20px;
+            width: 10%;
+            color: white;
+        }
+
+        .buttons:hover {
+            background-color: #22313c;
+            border-color: orange;
+        }
+
+        .buttons:focus,
+        .buttons.active {
+            background-color: orange !important;
+            outline: none !important;
+            box-shadow: none;
+            border-color: white !important;
+            color: white !important;
+        }
+
+        .btn.btn-warning {
+            background-color: rgb(228, 148, 0);
+        }
+
+        .btn.btn-warning.buttons {
+            background-color: #22313c;
+        }
+
+        .intro {
+            background-image: url('/images/subzerobanner.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 620px;
+            width: 100%;
+            margin-top: 80px;
+            background-color: black;
+        }
+
+        .hero-description {
+            font-size: 15px;
+            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+            color: white;
+        }
+
+        .hero-name {
+            color: white;
+            text-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-lore {
+            color: white;
+        }
+
+        .gallery {
+            background-color: black;
+            width: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            padding-top: 10px;
+            margin-top: -16px;
+            margin-bottom: -20px;
+            padding: 10px;
+        }
+
+        .grid-box-small {
+            height: 225px;
+            display: block;
+            width: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .grid-box-big {
+            height: 450px;
+            width: 100%;
+
+        }
+
+        .grid-image-small {
+            width: 100%;
+            height: 225px;
+        }
+
+        .grid-image-big {
+            width: 100%;
+            height: 450px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .gallery-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .more-button {
+            margin-top: 40px;
+            border-radius: 5px;
+            margin: 0px auto;
+            width: 10%;
+            display: block;
+            font-weight: bold;
+        }
+
+        .variations-link {
+            text-decoration: none;
+            color: darkgrey;
+            display: block;
+            font-size: 25px;
+        }
+
+        .variations-link.link-active {
+            color: white;
+            text-decoration: none;
+        }
+
+        .variations-link:focus {
+            text-decoration: none;
+            color: white;
+        }
+
+        .variations-link:hover {
+            text-decoration: none;
+            color: lightgray;
+        }
+
+        .mkxl-toturial {
+            background-image: url('/images/scorpionsingle.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 600px;
+            width: 100%;
+            margin-top: 80px
+        }
+
+        .variation-images {
+            border-radius: 50%;
+            width: 70%;
+        }
+
+        .moves-images {
+            width: 7%;
+            margin-right: 8px;
+            float: left;
+        }
+
+        .move-title {
+            color: white;
+            float: right
+        }
+
+        .carousel .item {
+            height: 700px;
+        }
+
+        .teknik-text {
+            color: white;
+            padding-top: 15px;
+            font-size: 24px
+        }
+
+        .variation-logo-text {
+            color: white;
+            margin-top: 10px;
+            font-size: 20px
+        }
+
+        .variationSection {
+            background-image: url('/images/livingforest.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 2300px;
+            margin-bottom: -20px
+        }
+
+        .carousel-item {
+            height: 700px;
+        }
+
+        .intro-headers {
+            color: white;
+            padding-top: 15px;
+            font-size: 28px;
+        }
+
+        .variation-names {
+            color: white;
+            padding-top: 15px;
+            font-size: 28px;
+        }
+
+        @media (max-width: 576px) {
+            .variation-images {
+                border-radius: 50%;
+                width: 100%;
+            }
+
+            .variation-logo-text {
+                font-size: 20px
+            }
+
+            .buttons {
+                border-radius: 20px;
+                width: 31% !important;
+            }
+
+            .more-button {
+                margin-top: 40px;
+                border-radius: 5px;
+                margin: 0px auto;
+                width: 20%;
+                display: block
+            }
+
+            .grid-box-big {
+                width: 100%;
+                height: 288px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .grid-box-small {
+                width: 100%;
+                height: 144px;
+                background-size: cover;
+                background-position: center;
+            }
+
+            .gallery-text {
+                font-size: 20px;
+            }
+
+            .variationSection {
+                height: 3570px;
+                margin-bottom: -20px
+            }
+
+            .carousel-item {
+                height: 1110px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .buttons {
+                width: 18%;
+            }
+
+            .carousel-item {
+                height: 840px;
+            }
+
+            .variationSection {
+                height: 2750px;
+                margin-bottom: -20px
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="buttons-back">
+            <div class="container">
+                <div style="margin-top: 15px;">
+                    <div class="btn btn-warning buttons active" id="overview-btn" onclick="showOverview()">اطلاعات کلی
+                    </div>
+                    <div class="btn btn-warning buttons" id="mk-11-tutorial-btn" onclick="showMk11toturial()">آموزش 11
+                    </div>
+                    <div class="btn btn-warning buttons" id="mk-xl-tutorial-btn" onclick="showMkxlToturial()">آموزش XL
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div id="overview">
+        <section class="intro">
+            <div class="container">
+                <div class="row" style="padding-top: 140px">
+                    <div class="col-md-5">
+                        <h1 class="text-center hero-name"> SCORPION</h1>
+                        <p class="hero-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                            voluptates
+                            maiores fugit deserunt
+                            minima facilis molestiae aperiam excepturi natus, sapiente veniam quidem animi explicabo
+                            facere
+                            praesentium doloremque vitae optio sed.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum adipisci est unde nisi odit
+                            ea
+                            voluptas! Molestiae saepe iusto architecto voluptatum explicabo eius adipisci earum. Amet
+                            impedit exercitationem minus laudantium.
+                        </p>
+                    </div>
+                    <div class="col-md-7"> </div>
+                </div>
+            </div>
+        </section>
+        <section style="background-color: black">
+            <div class="container">
+                <h1 class="intro-headers">داستان:</h1>
+                <p class="hero-lore">Lorem ipsum dolor sit amet consectetur adipisicing elit. A eligendi officiis ipsam
+                    quisquam, perferendis
+                    incidunt cumque sequi sit consequuntur nihil sint ipsa ratione doloribus, nulla maiores accusamus
+                    ut.
+                    Quaerat, aliquid? Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis deserunt
+                    distinctio enim rerum, labore iusto vitae hic dolorum qui provident fugiat tempore architecto
+                    veritatis
+                    eligendi accusantium, minus omnis repudiandae quibusdam.</p>
+                <h1 class="intro-headers"">ماجرای دریدن خشتک ساب زیرو:</h1>
+                <p class=" hero-lore">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia exercitationem
+                    ullam
+                    molestiae mollitia ipsum voluptate qui animi facere rerum, suscipit explicabo consequatur
+                    consequuntur
+                    repellendus, tenetur, id enim pariatur molestias quisquam. Lorem ipsum dolor sit amet, consectetur
+                    adipisicing elit. Ratione aut, rem maxime quod accusantium ab reiciendis exercitationem consequuntur
+                    eaque recusandae labore magni, dolorem aperiam. Suscipit sapiente voluptatum quasi error iste.</p>
+            </div>
+        </section>
+        <section class="gallery">
+            <div class="container">
+                <h1 class="gallery-text">گالری:</h1>
+                <div class="row" style="margin-bottom: 10px">
+                    <div class="col-md-6 col-4" style="padding:0">
+                        <a href="#">
+                            <div class="grid-box-big" style="background-image:url('/images/scorpion.png');"></div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-4" style="padding:0;">
+                        <a href="#">
+                            <div class="grid-box-small" style="background-image:url('/images/scorpion.png');"></div>
+                        </a>
+                        <a href="#">
+                            <div class="grid-box-small" style="background-image:url('/images/scorpion.png');"></div>
+                        </a>
+                    </div>
+                    <div class="col-md-3 col-4" style="padding:0">
+                        <a href="#">
+                            <div class="grid-box-small" style="background-image:url('/images/scorpion.png');"></div>
+                        </a>
+                        <a href="#">
+                            <div class="grid-box-small" style="background-image:url('/images/scorpion.png');"></div>
+                        </a>
+                    </div>
+                </div>
+                <div class="more-button btn btn-warning text-center">بیشتر</div>
+            </div>
+        </section>
+    </div>
+    <!-- end of overview tab -->
+    <div id="tab-mk-xl-tutorial" style="display: none">
+        <section class=" mkxl-toturial">
+            <div class="container">
+                <div class="row" style="padding-top: 140px">
+                    <div class="col-md-5">
+                        <h1 class="text-center hero-name"> SCORPION</h1>
+                        <p class="hero-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit
+                            voluptates
+                            maiores fugit deserunt
+                            minima facilis molestiae aperiam excepturi natus, sapiente veniam quidem animi explicabo
+                            facere
+                            praesentium doloremque vitae optio sed.
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum adipisci est unde nisi odit
+                            ea
+                            voluptas! Molestiae saepe iusto architecto voluptatum explicabo eius adipisci earum. Amet
+                            impedit exercitationem minus laudantium.
+                        </p>
+                    </div>
+                    <div class="col-md-7"> </div>
+                </div>
+            </div>
+        </section>
+        <div style="display:none;position:fixed;top:300px;right:80px;width:300px;z-index:100000"
+            id="variations-buttons">
+            <a class="variations-link" href="#firstVariationCarousel" id="firstVariationLink">hellfire</a>
+            <a class="variations-link" href="#secondVariationCarousel" id="secondVariationLink">Ninjutsu</a>
+            <a class="variations-link" href="#thirdVariationCarousel" id="thirdVariationLink">inferno</a>
+        </div>
+        <section style="background-color: black">
+            <div class="container">
+                <h1 class="teknik-text">تکنیک:</h1>
+                <div class="row">
+                    <div class="col-md-4 col-4 text-center">
+                        <a href="#"><img class="variation-images" src="/images/scorpinsquare.jpg" alt=""></a>
+                        <h3 class="text-center variation-logo-text">hellfire</h1>
+                    </div>
+                    <div class="col-md-4 col-4 text-center">
+                        <a href="#"><img class="variation-images" src="/images/scorpinsquare.jpg" alt=""></a>
+                        <h3 class="text-center variation-logo-text">hellfire</h1>
+                    </div>
+                    <div class="col-md-4 col-4 text-center">
+                        <a href="#"><img class="variation-images" src="/images/scorpinsquare.jpg" alt=""></a>
+                        <h3 class="text-center variation-logo-text">hellfire</h1>
+                    </div>
+                </div>
+        </section>
+        <section class="variationSection">
+            <div id="firstVariationCarousel" class="carousel slide carousel-fade" data-ride="carousel"
+                style="overflow:hidden">
+                <div class="container">
+                    <h1 class="variation-names">hellfire</h1>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-next" href="#firstVariationCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-prev text-center" href="#firstVariationCarousel" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="secondVariationCarousel" class="carousel slide carousel-fade" data-ride="carousel"
+                style="overflow:hidden">
+                <div class="container">
+                    <h1 class="variation-names">ninjutsu</h1>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-next" href="#secondVariationCarousel" role="button"
+                            data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-prev text-center" href="#secondVariationCarousel" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="thirdVariationCarousel" class="carousel slide carousel-fade" data-ride="carousel"
+                style="overflow:hidden">
+                <div class="container">
+                    <h1 class="variation-names">inferno</h1>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-next" href="#thirdVariationCarousel" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                    <div style="display: inline-block">
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                    <div
+                                        style="padding:10px;margin-bottom: 10px;background-color: rgba(255, 255, 255, 0.1);border-radius:10px">
+                                        <div class="move-name" style="overflow: hidden;">
+                                            <h4 class="move-title" style="">chainshit</h4>
+                                            <h6 style="color:orange;float:left;">مشاهده
+                                                ویدئو این حرکت</h6>
+                                            <i class="fas fa-video"
+                                                style="position: relative;margin-left: 10px;float: left;color:orange"></i>
+                                        </div>
+                                        <p style="color:white">Lorem ipsum dolor sit amet consectetur adipisicing
+                                            elit. Commodi
+                                            neque consequatur
+                                            blanditiis enim, iusto rerum, sapiente alias temporibus nostrum nesciunt
+                                            sint itaque
+                                            dicta nemo non perspiciatis veritatis numquam dolorum nisi!</p>
+                                        <div dir="ltr" style="overflow: hidden;padding-bottom: 10px">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/square.png" alt="">
+                                            <img class="moves-images" src="/images/l2.png" alt="">
+                                            <img class="moves-images" src="/images/down.png" alt="">
+                                            <img class="moves-images" src="/images/left.png" alt="">
+                                            <img class="moves-images" src="/images/r1.png" alt="">
+                                            <img class="moves-images" src="/images/cross.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: inline-block;background-color: black">
+                        <a class="carousel-control-prev text-center" href="#thirdVariationCarousel" role="button"
+                            data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="helloDarknessMyOldFriend"></div>
+        </section>
+    </div>
+
+    {{{footer}}}
+    <script>
+        function hideAllTabs()
+        {
+            $('#tab-mk-11-tutorial').css("display", "none");
+            $('#tab-mk-xl-tutorial').css("display", "none");
+            $('#overview').css("display", "none");
+        }
+        function disableAllTabButtons()
+        {
+            $("#overview-btn").removeClass("active");
+            $("#mk-11-tutorial-btn").removeClass("active");
+            $("#mk-xl-tutorial-btn").removeClass("active");
+        }
+        function showOverview()
+        {
+            hideAllTabs();
+            $('#overview').css("display", "block");
+            disableAllTabButtons();
+            $("#overview-btn").addClass("active");
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+        }
+        function showMk11toturial()
+        {
+            hideAllTabs();
+            $('#tab-mk-11-tutorial').css("display", "block");
+            disableAllTabButtons();
+            $("#mk-11-tutorial-btn").addClass("active");
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+        }
+        function showMkxlToturial()
+        {
+            hideAllTabs();
+            $('#tab-mk-xl-tutorial').css("display", "block");
+            disableAllTabButtons();
+            $("#mk-xl-tutorial-btn").addClass("active");
+            $('html,body').animate({ scrollTop: 0 }, 'slow');
+
+        }
+    </script>
+    <!-- <script>
+        $(() =>
+        {
+            $(window).on("scroll", function ()
+            {
+                console.log($(window).scrollTop());
+                if ($(window).scrollTop() > 1000)
+                {
+                    $("#firstVariationLink").addClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                }
+                if ($(window).scrollTop() > 1500)
+                {
+                    $("#firstVariationLink").removeClass("link-active");
+                    $("#secondVariationLink").addClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                } if ($(window).scrollTop() > 2000)
+                {
+                    $("#firstVariationLink").removeClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").addClass("link-active");
+                }
+
+            });
+        })
+    </script> -->
+    <script>
+
+        $(() =>
+        {
+            var x = $("#secondVariationCarousel").offset().top - $("#firstVariationCarousel").offset().top;
+            var y = $("#thirdVariationCarousel").offset().top - $("#secondVariationCarousel").offset().top;
+            var z = $("#helloDarknessMyOldFriend").offset().top - $("#thirdVariationCarousel").offset().top;
+            var j = $("#firstVariationCarousel").offset().top;
+            var k = $(window).scrollTop();
+            $(window).on("scroll", function ()
+            {
+                if (k = j)
+                {
+                    $("#firstVariationLink").addClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                }
+                if (k = j)
+                {
+                    $("#firstVariationLink").addClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                }
+                if (k = j)
+                {
+                    $("#firstVariationLink").addClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                }
+                if (k = j)
+                {
+                    $("#firstVariationLink").addClass("link-active");
+                    $("#secondVariationLink").removeClass("link-active");
+                    $("#thirdVariationLink").removeClass("link-active");
+                }
+
+            });
+        })
+
+
+    </script>
+</body>
+
+</html>
