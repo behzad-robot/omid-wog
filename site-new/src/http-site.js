@@ -35,6 +35,7 @@ import { MortalWikiRouter } from "./routers/wiki/mortal_wiki_router";
 import SiteErrorRouter from "./routers/site_error_router";
 import { SiteGalleryRouter } from "./routers/gallery_router";
 import { GeneralWikiRouter } from "./routers/wiki/general_wiki_router";
+import SiteTournamentRouter from "./routers/tournament_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -289,6 +290,7 @@ express.expressApp.use('/', new SiteGeneralRouter(SiteModules).router);
 express.expressApp.use('/pubg-tournament', new PubGRouter(SiteModules).router);
 express.expressApp.use('/', new SiteAuthRouter(SiteModules).router);
 express.expressApp.use('/posts', new SitePostsRouter(SiteModules).router);
+express.expressApp.use('/tournaments', new SiteTournamentRouter(SiteModules).router);
 express.expressApp.use('/', new SiteContactRouter(SiteModules).router);
 express.expressApp.use('/comments', new SiteCommentsRouter(SiteModules).router);
 express.expressApp.use('/users', new SiteUsersRouter(SiteModules).router);

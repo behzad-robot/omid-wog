@@ -68,25 +68,6 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, 'coming-soon.html', {});
         });
-        this.router.get('/tournaments', (req, res) =>
-        {
-            siteModules.Cache.getPostCat({ slug: 'tournaments' }).then((cat) =>
-            {
-                siteModules.Post.find({ categories: cat._id, limit: 6 }).then((posts) =>
-                {
-                    this.renderTemplate(req, res, 'tournoments-list.html', {
-                        posts : posts,
-                    });        
-                }).catch((err) =>
-                {
-                    this.show500(req, res, err);
-                });;
-            }).catch((err) =>
-            {
-                this.show500(req, res, err);
-            });
-            
-        });
 
         // this.router.get('/sms', (req, res) =>
         // {
