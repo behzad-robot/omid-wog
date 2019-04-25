@@ -26,18 +26,18 @@ export default class SiteGeneralRouter extends SiteRouter
                     var gridIds = JSON.parse(gridFile.toString());
                     siteModules.Post.find({ _ids: gridIds }).then((gs) =>
                     {
-                    let gridPosts = [];
-                    for (var i = 0; i < gridIds.length; i++)
-                    {
-                        for (var j = 0; j < gs.length; j++)
+                        let gridPosts = [];
+                        for (var i = 0; i < gridIds.length; i++)
                         {
-                            if (gs[j]._id == gridIds[i])
+                            for (var j = 0; j < gs.length; j++)
                             {
-                                gridPosts.push(gs[j]);
-                                break;
+                                if (gs[j]._id == gridIds[i])
+                                {
+                                    gridPosts.push(gs[j]);
+                                    break;
+                                }
                             }
                         }
-                    }
                         fs.readFile(path.resolve('../storage/aparat/posts-archive-aparat.json'), (err, aparatFile) =>
                         {
                             var aparatVideosFull = JSON.parse(aparatFile.toString());
@@ -68,11 +68,26 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, 'coming-soon.html', {});
         });
-        this.router.get('/tournoments', (req, res) =>
+        this.router.get('/tournaments', (req, res) =>
         {
-            this.renderTemplate(req, res, 'coming-soon.html', {});
+            siteModules.Cache.getPostCat({ slug: 'tournaments' }).then((cat) =>
+            {
+                siteModules.Post.find({ categories: cat._id, limit: 6 }).then((posts) =>
+                {
+                    this.renderTemplate(req, res, 'tournoments-list.html', {
+                        posts : posts,
+                    });        
+                }).catch((err) =>
+                {
+                    this.show500(req, res, err);
+                });;
+            }).catch((err) =>
+            {
+                this.show500(req, res, err);
+            });
+            
         });
-        
+
         // this.router.get('/sms', (req, res) =>
         // {
         //     kavenegarAPI.Send({ message: "من یک تباهم آرزو دارم 3530" , sender: "100065995" , receptor: "09375801307" });

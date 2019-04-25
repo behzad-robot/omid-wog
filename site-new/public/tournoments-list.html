@@ -1,0 +1,167 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>مسابقات - {{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
+    <style>
+        .tournoment-card {
+            display: block;
+            background-color: white;
+            border-radius: 3px;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .tournoment-card .tournoment-thumbnail {
+            display: block;
+            width: 100%;
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .tournoment-card .tournoment-content {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            height: 113px;
+        }
+
+        .tournoment-card .tournoment-content h1 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .tournoment-card .tournoment-signup {
+            display: inline-block;
+            color: #1A237E;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-decoration: none !important;
+            padding: 8px 16px;
+            border-radius: 3px;
+        }
+
+        .tournoment-card .tournoment-signup:hover {
+            background-color: #e0e1e2;
+        }
+
+        .tournoment-card .tournoment-date {
+            position: absolute;
+            background-color: #283593;
+            color: white;
+            bottom: 0;
+            left: 0;
+            padding: 30px 20px;
+            height: 113px;
+            width: 158px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .side-post-box{
+            display: block;
+            color:#2e2e2e;
+            margin-bottom:10px;
+            text-decoration: none !important;
+        }
+        .side-post-box:hover{
+            color:orange;
+        }
+        .side-post-box .post-thumbnail{
+            display: block;
+            width: 100%;
+            height: auto;
+            margin:0 auto;
+            margin-bottom:5px;
+        }
+        .side-post-box .post-title{
+            font-size:18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container" style="padding-top:15px;">
+        <div class="row">
+            <div class="col-md-7 float-right">
+                <h1>مسابقات:</h1>
+                <div class="tournoment-card">
+                    <div class="tournoment-thumbnail"
+                        style="background-image:url('/images/tournoments/fornite-cover.jpg')"></div>
+                    <div class="tournoment-content">
+                        <h1>مسابقات Fortnite</h1>
+                        <a class="tournoment-signup" href="#">ثبت نام</a>
+                    </div>
+                    <div class="tournoment-date">
+                        سه شنبه <br>
+                        21 اردیبهشت 97
+                    </div>
+                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                    </svg>
+                </div>
+                <div class="tournoment-card">
+                    <div class="tournoment-thumbnail"
+                        style="background-image:url('/images/tournoments/dota-cover.jpg')"></div>
+                    <div class="tournoment-content">
+                        <h1>مسابقات Dota 2</h1>
+                        <a class="tournoment-signup" href="#">به زودی</a>
+                    </div>
+                    <div class="tournoment-date">به زودی</div>
+                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                    </svg>
+                </div>
+                <div class="tournoment-card">
+                    <div class="tournoment-thumbnail"
+                        style="background-image:url('/images/tournoments/league-cover.jpg')"></div>
+                    <div class="tournoment-content">
+                        <h1>مسابقات League Of Legends</h1>
+                        <a class="tournoment-signup" href="#">به زودی</a>
+                    </div>
+                    <div class="tournoment-date">به زودی</div>
+                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                    </svg>
+                </div>
+            </div>
+            <div class="col-md-3 float-right">
+                
+                <h6 class="orange-title">اخبار مسابقات:</h6>
+                {{#posts}}
+                <a href="#" class="side-post-box">
+                    <img class="post-thumbnail" src="{{thumbnail_640x480}}" />
+                    <h2 class="post-title">{{title}}</h2>
+                </a>
+                {{/posts}}
+            </div>
+        </div>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

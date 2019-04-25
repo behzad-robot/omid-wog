@@ -239,13 +239,38 @@ SiteModules.Cache = {
                             return;
                         }
                     }
-                    reject("Not found");
+                    reject("game not found");
                 }
             });
         });
     },
     //navbar:
     allPostsCats: allPostsCatsCache,
+    getPostCat: function (query)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            var key = Object.keys(query)[0];
+            allPostsCatsCache.getData((err, cats) =>
+            {
+                if (err)
+                    reject(err);
+                else
+                {
+                    for (var i = 0; i < cats.length; i++)
+                    {
+                        var c = cats[i];
+                        if (c[key] == query[key])
+                        {
+                            resolve(c);
+                            return;
+                        }
+                    }
+                    reject("category not found");
+                }
+            });
+        });
+    },
     navbarNews: navbarNewsCache,
     navbarTutorials: navbarArticlesCache,
     posts_recommended: recommendedPostsCache,
