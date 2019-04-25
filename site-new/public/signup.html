@@ -6,7 +6,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
         body {
-            background-image: url('/images/image_2019-03-12_15-10-42.png');
+            background-image: url('/images/fortnite-signup-wallpaper.jpg');
             background-size: cover;
             background-position: center;
         }
@@ -48,6 +48,10 @@
             box-shadow: none;
             background-color: #2c414b;
 
+        }
+        .form-control.login-input.login-input-with-icon{
+            display:inline-block;
+            width: 85%;
         }
 
         .wogLogo {
@@ -145,8 +149,13 @@
                                 placeholder="رمز عبور">
                             <input type="password" name="confirmPassword" class="form-control login-input"
                                 placeholder="رمز عبور مجدد">
+                            <div>
+                                <img src="/images/epic-games-icon.png" width="36px"/>
+                                <input type="text" name="epicGamesID" class="form-control login-input login-input-with-icon" placeholder="آیدی EpicGames">
+                            </div>
                             <div class="text-center" style="padding:10px 0">
-                                <div class="btn btn-md btn-warning" id="accountDetails-submit-btn" onclick="accountDetailsSubmit()">بعدی</div>
+                                <div class="btn btn-md btn-warning" id="accountDetails-submit-btn"
+                                    onclick="accountDetailsSubmit()">بعدی</div>
                             </div>
 
 
@@ -191,7 +200,7 @@
         $(() =>
         {
             // $("#step1").hide();
-            // $("#step2").hide();
+            // $("#step3").show();
             // $("#step3").hide();
             // $("#step4").show();
             $("form").submit(() =>

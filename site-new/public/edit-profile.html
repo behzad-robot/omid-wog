@@ -29,6 +29,7 @@
         .form-row b {
             display: inline-block;
             width: 100px;
+            color: white;
         }
 
         .form-row .form-control.m {
@@ -36,40 +37,64 @@
             width: 300px;
             max-width: 100%;
         }
+
+        footer {
+            margin-top: 0;
+        }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <section>
+    <section style="background-image:url('/images/rick-bg.png')">
         <div class="container" style="padding-top:20px;min-height:80vh;">
             <div class="row">
-                <div class="col-1"></div>
-                <div class="col-10">
+                <div class="col-md-8 col-12">
                     <form action="/users/{{currentUser.username}}/submit-edit/" method="POST"
                         enctype="multipart/form-data">
                         <input type="hidden" name="_id" value="{{currentUser._id}}" />
-                        <div class="wog-card">
-                            <div style="position: relative;height:300px">
-                                <div
+                        <div style="background-color:#1F262A">
+                            <div style="position: relative;height:300px" id="cover-circle">
+                                <div id="cover-preview"
                                     style="position:absolute;top:0;left:0;width:100%;height:100%;background-image:url('{{currentUser.cover}}');background-size: cover;background-position: center;border-top-left-radius:5px;border-top-right-radius:5px;">
-                                </div>
-                                <div class="text-center" style="position:absolute;bottom:5px;left:0;width:100%;">
-                                    <img src="{{currentUser.profileImage}}"
-                                        style="width:96px;height:96px;border-radius:50%;" />
+                                    <div
+                                        style="position: absolute;top:0;left:0;width: 100%;height: 100%;background-color:rgba(0, 0, 0, 0.5);z-index:2">
+                                    </div>
+                                    <div
+                                        style="position: absolute;top:0px;z-index: 0;text-align: center;z-index: 3;width: 100%;padding-top:150px;">
+                                        <span class="fas fa-camera" style="color:white;font-size:36px;"></span>
+                                    </div>
                                 </div>
                             </div>
-                            <div style="padding:10px 20px">
-                                <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:15px;">تغییر مشخصات کاربری:
-                                </h1>
-                                <div class="form-row">
-                                    <b>تصویر آواتار:</b>
-                                    <input type="file" class="form-control m" name="profileImage" />
+                            <div class="text-center">
+                                <div style="position: relative;width:96px;height:96px;margin:-48px auto;"
+                                    id="profileImage-circle">
+                                    <div
+                                        style="width: 96px;height: 96px;background-color:rgba(0, 0, 0, 0.5);z-index:8;border-radius:50%;position: absolute;top:0;left:0;">
+                                    </div>
+                                    <div
+                                        style="position: absolute;top:0px;z-index: 0;text-align: center;z-index: 9;width: 100%;padding-top:30px;">
+                                        <span class="fas fa-camera" style="color:white;font-size:36px;"></span>
+                                    </div>
+                                    <img src="{{currentUser.profileImage}}" id="profileImage-preview"
+                                        style="width:96px;height:96px;border-radius:50%;position: absolute;top:0;left:0;z-index: 7;" />
                                 </div>
-                                <div class="form-row">
+                            </div>
+                            <div style="height:50px;"></div>
+                            <div style="padding:10px 20px">
+                                <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:15px;color:white;">تغییر
+                                    مشخصات کاربری:
+                                </h1>
+                                <div class="form-row" style="display:none">
+                                    <b>تصویر آواتار:</b>
+                                    <input type="file" class="form-control m" name="profileImage"
+                                        onchange="updateProfileImage(this)" />
+                                </div>
+                                <div class="form-row" style="display:none">
                                     <b>تصویر کاور:</b>
-                                    <input type="file" class="form-control m" name="cover" />
+                                    <input type="file" class="form-control m" name="cover"
+                                        onchange="updateCoverImage(this)" />
                                 </div>
                                 <div class="form-row">
                                     <b>نام کاربری:</b>
@@ -119,6 +144,11 @@
                                         <option value="Male">مرد</option>
                                     </select>
                                 </div>
+                                <div class="form-row">
+                                    <b>آیدی <span class="text-english">Epic Games:</span></b>
+                                    <input type="text" class="form-control m" name="epicGamesID"
+                                        value="{{currentUser.epicGamesID}}" />
+                                </div>
                             </div>
                             <div class="text-center" style="padding:10px 0">
                                 <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
@@ -128,7 +158,31 @@
                     <script>
                         $(() =>
                         {
-                            $("input[name=sex]").val(`{{currentUser.sex}}`);
+                            $("[name=sex]").val(`{{currentUser.sex}}`);
+                            $("#profileImage-circle").click(() =>
+                            {
+                                $("[name=profileImage]").click();
+                            })
+                            $("#cover-circle").click(() =>
+                            {
+                                $("[name=cover]").click();
+                            })
+                            function updateProfileImage(input)
+                            {
+                                if (input.files && input.files[0])
+                                {
+                                    var reader = new FileReader();
+                                    reader.onload = function (e)
+                                    {
+                                        $('#profileImage-preview').attr('src', e.target.result);
+                                    };
+                                    reader.readAsDataURL(input.files[0]);
+                                }
+                            }
+                            function updateCoverImage(elm)
+                            {
+
+                            }
                             $("form").ajaxForm({
                                 beforeSubmit: (formData, jqForm, options) =>
                                 {

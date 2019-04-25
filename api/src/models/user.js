@@ -27,6 +27,9 @@ export const UserSchema = new mongoose.Schema({
     personelImage : {type:String,default:''},
     personelCategory : {type:String,default:''},
 
+    //games and outsource:
+    epicGamesID : {type:String,default:''},
+
     _draft: Boolean,
     createdAt: { type: String, default: '?' },
     updatedAt: { type: String, default: '?' },

@@ -88,7 +88,7 @@ export default class SiteUsersRouter extends SiteRouter
                     lastName: req.body.lastName,
                     age: req.body.age,
                     sex: req.body.sex,
-
+                    epicGamesID : req.body.epicGamesID,
                 };
                 if (!isEmptyString(req.body.profileImage))
                     data.profileImage = req.body.profileImage;

@@ -227,6 +227,7 @@ export class UsersAuthHandler
                 phoneNumber: params.phoneNumber,
                 firstName: params.firstName,
                 lastName: params.lastName,
+                epicGamesID : params.epicGamesID ? params.epicGamesID : '',
                 sex: params.sex,
                 followingGames: [],
                 createdAt: moment_now(),

@@ -150,6 +150,7 @@ export default class SiteAuthRouter extends SiteRouter
                 city: req.body.city ? req.body.city : '',
                 age: req.body.age ? req.body.age : '',
                 sex: req.body.sex ? req.body.sex : '',
+                epicGamesID : req.body.epicGamesID ? req.body.epicGamesID : '',
             };
             siteModules.User.apiCall('signup', data).then((user) =>
             {
