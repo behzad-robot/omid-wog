@@ -23,12 +23,12 @@ export const UserSchema = new mongoose.Schema({
     followingGames: Array,
 
     //personell only:
-    isPersonel : {type:Boolean,default:false},
-    personelImage : {type:String,default:''},
-    personelCategory : {type:String,default:''},
+    isPersonel: { type: Boolean, default: false },
+    personelImage: { type: String, default: '' },
+    personelCategory: { type: String, default: '' },
 
     //games and outsource:
-    epicGamesID : {type:String,default:''},
+    epicGamesID: { type: String, default: '' },
 
     _draft: Boolean,
     createdAt: { type: String, default: '?' },
@@ -43,6 +43,20 @@ export const UserSchema = new mongoose.Schema({
      * games-super (can do everything with games)
      * games-{game.token} (can do everything other than delete with certain game)
      */
+    dota2Book2019: {
+        type: Object,
+        default: {
+            initPayment: false,
+            initPaymentToken: "",
+            initPaymentDate: "",
+            coins: 0,
+            actions: [], // { token : string , reward : int , createdAt : string }
+            bets: [], // { token : string , value : string ,coins : int , status : string , createdAt : string } // status : pending , win , loose
+            /**
+             *  if bet is win create related action 
+             */
+        }
+    },
 }, {
         toObject: {
             virtuals: true
@@ -50,17 +64,19 @@ export const UserSchema = new mongoose.Schema({
         toJSON: {
             virtuals: true,
         }
-});
-UserSchema.virtual('profileImage_url').get(function (){
+    });
+UserSchema.virtual('profileImage_url').get(function ()
+{
     var profileImage = this.profileImage;
-    if(isEmptyString(profileImage))
+    if (isEmptyString(profileImage))
         return SITE_URL('/images/mario-gamer.jpg');
     else
         return SITE_URL(profileImage);
 });
-UserSchema.virtual('cover_url').get(function (){
+UserSchema.virtual('cover_url').get(function ()
+{
     var cover = this.cover;
-    if(isEmptyString(cover))
+    if (isEmptyString(cover))
         return SITE_URL('/images/user-default-cover.jpg');
     else
         return SITE_URL(cover);

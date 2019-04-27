@@ -26,7 +26,7 @@
             background-position: center;
             display: block;
             width: 100%;
-            height: 400px;
+            height: 55vh;
             position: relative;
             padding-top: 50px;
             color: white !important;
@@ -37,10 +37,14 @@
             display: block;
             width: 600px;
             max-width: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.5);
             color: white;
             padding: 10px 20px;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.7);
+            cursor: default;
+        }
+        .section-game .info-box:hover{
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
         .section-game .info-box h1 {
@@ -51,35 +55,61 @@
         .section-game .info-box ح {
             font-size: 16px;
         }
+        footer{
+            margin:0;
+        }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <a href="{{#SITE_URL}}/wiki/mortal-kombat{{/SITE_URL}}" class="section-game"
-        style="background-image:url('/images/wiki-mortal-cover.jpg');">
+    <section  class="section-game"
+        style="background-image:url('/images/wiki-mortal-cover.jpg');background-position: 50% 30%;">
         <div class="container">
             <div class="info-box">
                 <h1>Mortal Kombat</h1>
                 <p>
                     شما در ويكي Mortal Kombat ميتونيد به دنياي Mortal Kombat ورود كنيد و تمامي كاراكترها را بشناسيد، با
                     داستان هر گروه آشنا شويد و كمبوها و اصول مبارزه هر كاراكتر را ياد بگيريد.
-                    <div class="btn btn-md btn-warning">بیشتر</div>
                 </p>
-
+                <a href="{{#SITE_URL}}/wiki/mortal-kombat{{/SITE_URL}}" class="btn btn-md btn-warning">بیشتر</a>
             </div>
         </div>
-    </a>
-    <section
-        style="background-image:url('/images/bloodmoon-twisted.jpg');background-position:50% 10%;background-size: cover;height:40vh;margin-bottom:-20px;width: 100%;">
+    </section>
+    <section  class="section-game"
+        style="background-image:url('/images/tournoments/dota-cover.jpg');background-position: 50% 30%;">
+        <div class="container">
+            <div class="info-box">
+                <h1>Dota 2</h1>
+                <p>
+                    آموزش Dota 2 ، آخرین build های بازی ،داستان شخصیت ها و....
+                </p>
+                <div class="btn btn-md btn-secondary">به زودی</a>
+            </div>
+        </div>
+    </section>
+    <section  class="section-game"
+        style="background-image:url('/images/tournoments/league-cover.jpg');background-position: 50% 30%;">
+        <div class="container">
+            <div class="info-box">
+                <h1>League Of Legends</h1>
+                <p>
+                    آموزش League Of Legends ، آخرین build های بازی ،داستان شخصیت ها و....
+                </p>
+                <div class="btn btn-md btn-secondary">به زودی</a>
+            </div>
+        </div>
+    </section>
+    <!-- <section
+        style="background-image:url('/images/bloodmoon-twisted.jpg');background-position:50% 10%;background-size: cover;height:50vh;margin-bottom:-20px;width: 100%;">
         <div class="container" style="padding-top:100px;">
             <div style="background-color:rgba(0, 0, 0, 0.8);color:white;width:400px;padding:10px 20px;max-width: 100%;">
                 <h1>به زودی</h1>
                 <p>این قسمت در حال حاضر در دسترس نمی باشد.</p>
             </div>
         </div>
-    </section>
+    </section> -->
 </body>
 {{{footer}}}
 
