@@ -1,5 +1,6 @@
 import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants";
+import { isEmptyString, replaceAll } from "../../utils/utils";
 
 export class MortalWikiRouter extends SiteRouter
 {
@@ -142,7 +143,7 @@ export class MortalWikiRouter extends SiteRouter
                 if (req.params.slug.indexOf(extra) != -1)
                 {
                     req.params.slug = req.params.slug.replace(extra, '');
-                    res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=mobile');
+                    res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab='+extra.replace('-',''));
                     return;
                 }
             }
@@ -184,6 +185,7 @@ export class MortalWikiRouter extends SiteRouter
                         }
                         siteModules.Media.find({ champId: champion._id }).then((media) =>
                         {
+                            console.log(champion.lore);
                             this.renderTemplate(req, res, 'wiki-mortal/champ-single.html', {
                                 game: game,
                                 champion: champion,
@@ -191,6 +193,9 @@ export class MortalWikiRouter extends SiteRouter
                                 champion11: champion11,
                                 championMobile: championMobile,
                                 media: media,
+                                hasMedia : media.length != 0 ,
+                                hasLore : !isEmptyString(champion.lore) &&  champion.lore.indexOf('<p>?</p>') == -1,
+                                defaultTab : req.query.tab ? req.query.tab : 'info',
                             });
                         });
                     }).catch((err) =>

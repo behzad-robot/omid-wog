@@ -173,7 +173,7 @@ export default class PostsPanelRouter extends AdminRouter
                     res.status(500).send('Post Not found!');
                     return;
                 }
-                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.userId == req.session.admin._id))
+                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.authorId == req.session.admin._id))
                 {
                     this.accessDenied(req, res, `You cant edit someone else\'s post.`);
                     return;
@@ -201,7 +201,7 @@ export default class PostsPanelRouter extends AdminRouter
         {
             Post.getOne(req.params._id).then((p) =>
             {
-                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.userId == req.session.admin._id))
+                if (!this.hasPermission(req, 'posts-super') && !(this.hasPermission(req, 'posts') && p.authorId == req.session.admin._id))
                 {
                     this.accessDenied(req, res, 'you cant edit someone else post');
                     return;

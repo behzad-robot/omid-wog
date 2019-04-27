@@ -10,6 +10,13 @@ export default class UsersPanelRouter extends AdminRouter
     {
         super();
         this.requireAdmin();
+        this.router.get('/', (req, res) =>
+        {
+            res.send(this.renderTemplate('users-list.html', {
+                admin: req.session.admin,
+                fileUploadURL: ADMIN_FILE_UPLOAD,
+            }));
+        });
         this.router.get('/edit-admin', (req, res) =>
         {
             var userFolderPath = path.resolve('../storage/users/' + req.session.admin._id);
@@ -35,9 +42,9 @@ export default class UsersPanelRouter extends AdminRouter
             delete (req.body.createdAt);
             delete (req.body.updatedAt);
             delete (req.body.lastLogin);
-            console.log(`isPersonel=>`+req.body.isPersonel);
+            console.log(`isPersonel=>` + req.body.isPersonel);
             req.body.isPersonel = req.body.isPersonel == 'on' ? true : false;
-            console.log(`personelCategory=>`+req.body.personelCategory);
+            console.log(`personelCategory=>` + req.body.personelCategory);
             AdminModules.User.edit(req.session.admin._id, req.body).then((result) =>
             {
                 req.session.admin = result;
@@ -49,6 +56,14 @@ export default class UsersPanelRouter extends AdminRouter
             {
                 res.status(500).send(err.toString());
             });
+        });
+        this.router.get('/:_id', (req, res) =>
+        {
+            res.send(this.renderTemplate('users-single.html', {
+                admin: req.session.admin,
+                _id : req.params._id,
+                fileUploadURL: ADMIN_FILE_UPLOAD,
+            }));
         });
     }
 }

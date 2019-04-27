@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>
+            User {{{_id}}}:
+        </h2>
+        <hr />
+        <div id="single">
+        </div>
+        <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
+            $(() =>
+            {
+                getObject('users', `{{{_id}}}`, (user) =>
+                {
+                    $("#single").append(idInput('_id', user._id));
+                    $("#single").append(idInput('createdAt', user.createdAt));
+                    $("#single").append(idInput('updatedAt', user.updatedAt));
+                    $("#single").append(textInput('username', user.username));
+                    $("#single").append(textInput('password', user.password));
+                    $("#single").append(textInput('phoneNumber', user.phoneNumber));
+                    $("#single").append(textInput('email', user.email));
+                    $("#single").append(`<div class="form-row"><b>profileImage:</b><img src="${user.profileImage}" width="128px"/></div>`);
+                    $("#single").append(`<div class="form-row"><b>cover:</b><img src="${user.cover}" width="300px"/></div>`);
+                    $("#single").append(bodyInput('aboutMe', user.aboutMe));
+                    $("#single").append(textInput('firstName', user.firstName));
+                    $("#single").append(textInput('lastName', user.lastName));
+                    $("#single").append(textInput('sex', user.sex));
+                    $("#single").append(textInput('city', user.city));
+                    $("#single").append(numberInput('age', user.age));
+                    
+                    var optionsStr = '<option></option>';
+                    for (var i = 0; i < allusers.length; i++)
+                    {
+                        optionsStr += `<option value="${allusers[i]._id}"  ${allusers[i]._id == user.parent ? 'selected' : ''} >${allusers[i].name}</option>`;
+                    }
+                    $("#single").append(`<div class="form-row"><b>parent:</b><select name="parent" class="form-control m">${optionsStr}</select></div>`);
+                    $("#single").append(submitBtn());
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                });
+            })
+        </script>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

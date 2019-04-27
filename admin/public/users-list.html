@@ -1,0 +1,147 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Users List</title>
+    <style>
+        #contentContainer {
+            direction: rtl;
+            text-align: right;
+            font-family: Tahoma;
+        }
+
+        .post-row {
+            background-color: white;
+            /* border-bottom: 1px solid #aaaaaa; */
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container" id="contentContainer">
+        <h2>
+            کاربر ها
+        </h2>
+
+        <hr />
+        <div class="post-row"
+            style="margin-bottom:0;border-radius:0;border-bottom:1px solid #aaaaaa;background-color:#e0e0e0;padding:20px 0;">
+            <div class="row">
+                <div class="col-md-4 text-center">نام کاربری</div>
+                <div class="col-md-3 text-center">شماره تماس</div>
+                <div class="col-md-2 text-center">آخرین ورود</div>
+                <div class="col-md-3 text-center">تاریخ عضویت</div>
+            </div>
+        </div>
+        <div id="loading" class="text-center">
+            <div class="lds-ripple">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div id="list"></div>
+        <script>
+            let users = [];
+            $(document).ready(() =>
+            {
+                $("#list").html("<h3>در حال بارگذاری...</h3>");
+                findObjects('users',(us)=>{
+                    users = us;
+                    create_users();
+                })
+            });
+            function create_users()
+            {
+                $("#list").html("");
+                $("#loading").hide();
+                for(var i = 0 ; i < users.length;i++)
+                {
+                    let user = users[i];
+                    $("#list").append(`
+                        <div class="post-row">   
+                            <div class="row">
+                                <div class="col-md-4 text-center"><a href="/admin/users/${user._id}">${user.username}</a></div>
+                                <div class="col-md-3 text-center">${user.phoneNumber}</div>
+                                <div class="col-md-2 text-center">${user.lastLogin}</div>
+                                <div class="col-md-3 text-center">${user.createdAt}</div>
+                            </div>
+                        </div>
+                    `);
+                }                
+            }
+            function create_posts()
+            {
+                $("#list").html("");
+                for (var i = 0; i < posts.length; i++)
+                {
+                    var post = posts[i];
+                    post._author = get_user(post.authorId);
+                    var tagsStr = '';
+                    for (var j = 0; j < post.tags.length; j++)
+                        tagsStr += `<div class="btn btn-sm btn-dark" style="margin-bottom:5px">${post.tags[j]}</div>&nbsp;`;
+                    var catsStr = '';
+                    for (var j = 0; j < post._cats.length; j++)
+                        catsStr += `<div class="btn btn-md btn-light">${post._cats[j].name}</div>&nbsp;`;
+                    var alertStr = '';
+                    if (post.categories.length == 0)
+                        alertStr += 'هیچ دسته بندی ثبت نشده.<br>';
+                    if (post.tags.length == 0)
+                        alertStr += 'هیچ تگی ثبت نشده.<br>';
+                    if (!hasArabicLetter(post.title))
+                        alertStr += 'عنوان شامل کلمه فارسی نیست.<br>';
+                    if (post.intro.length >= 2000)
+                        alertStr += 'متن پیش نمایش  طولانی می باشد.<br>';
+                    $("#list").append(
+                        `<div class="post-row">
+                                <div class="row">
+                                    <div class="col-md-1 text-center">
+                                        <img src="${post.thumbnail_150x150}" width="64px" height="64px"/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <h5>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h5>
+                                        <small class="badge badge-sm badge-info">${post._author.username}</small>
+                                        <small class="badge badge-sm badge-light">${post.slug}</small>
+                                    </div>
+                                    <div class="col-md-2">
+                                        ${catsStr}
+                                    </div>
+                                    <div class="col-md-2">
+                                        ${tagsStr}
+                                    </div>
+                                    <div class="col-md-3">
+                                        <a class="btn btn-md btn-info" href="/admin/posts/${post._id}" title="ویرایش پست"><span class="fas fa-edit"></span>&nbsp;ویرایش</a>
+                                        <a class="btn btn-md btn-warning" href="http://worldofgamers.ir/posts/_id/${post._id}"><span class="fas fa-eye"></span>&nbsp;پیش نمایش</a>    
+                                    </div>
+                                </div>
+                                <small><b>createdAt:</b>${post.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${post.updatedAt}</small>
+                                ${alertStr != '' ? `<div class="alert alert-warning">${alertStr}</div>` : ''}
+                            </div>`
+                    );
+                }
+            }
+
+            function get_cat(catId)
+            {
+                for (var i = 0; i < cats.length; i++)
+                    if (cats[i]._id == catId)
+                        return cats[i];
+                return undefined;
+            }
+            function get_user(userId)
+            {
+                for(var i = 0 ; i < users.length; i++)
+                    if(users[i]._id == userId)
+                        return users[i];
+                return undefined;
+            }
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

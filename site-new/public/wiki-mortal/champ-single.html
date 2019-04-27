@@ -33,6 +33,7 @@
 
         .header-section {
             background-image: url('/images/bloodmoon-twisted.jpg');
+            background-color: #101010;
             background-position: center;
             background-size: cover;
             height: 450px;
@@ -273,11 +274,19 @@
     <tab tab="info">
         <section class="info-section">
             <div class="container">
+                {{#hasLore}}
                 {{{champion.lore}}}
+                {{/hasLore}}
+                {{^hasLore}}
+                <div class="text-white text-center">
+                    <h2>داستان این کاراکتر وارد نشده</h2>
+                </div>
+                {{/hasLore}}
             </div>
         </section>
         <section class="gallery">
             <div class="container">
+                {{#hasMedia}}
                 <h1 class="gallery-text">گالری:</h1>
                 <div class="row" style="margin-bottom: 10px">
                     <div class="col-md-6 col-4" style="padding:0">
@@ -308,8 +317,15 @@
                     </div>
                 </div>
                 <div class="text-center" style="padding:20px 0">
-                    <div class="more-button btn btn-warning text-center">بیشتر</div>
+                    <a href="{{#SITE_URL}}/gallery/?champId={{champion._id}}{{/SITE_URL}}"
+                        class="more-button btn btn-warning text-center">بیشتر</a>
                 </div>
+                {{/hasMedia}}
+                {{^hasMedia}}
+                <div class="text-white text-center" style="padding:20px 0">
+                    <h2>هیچ عکسی در گالری برای این شخصیت یافت نشد.</h2>
+                </div>
+                {{/hasMedia}}
             </div>
         </section>
     </tab>
@@ -327,13 +343,13 @@
                 </div>
             </div>
         </section>
-        <div class="side-bar-variations" tab="xl">
+        <!-- <div class="side-bar-variations" tab="xl">
             {{#championXL.variations}}
-            <div class="side-bar-item" target="{{{name}}}">{{name}}</div>
+            <div class="side-bar-item" target="{{{_token}}}">{{name}}</div>
             {{/championXL.variations}}
-        </div>
+        </div> -->
         {{#championXL.variations}}
-        <section class="moves-section" variation="{{name}}">
+        <section class="moves-section" variation="{{_token}}">
             <div class="container">
                 <h1>{{name}}</h1>
             </div>
@@ -388,9 +404,10 @@
     <script>
         $(() =>
         {
+            let defaultTab = `{{defaultTab}}`;
             $("tab").hide();
-            $(`.btn-tab[tab=xl]`).addClass('active');
-            $(`tab[tab=xl]`).show();
+            $(`.btn-tab[tab=${defaultTab}]`).addClass('active');
+            $(`tab[tab=${defaultTab}]`).show();
 
             $(".btn-tab").click(function ()
             {
@@ -399,8 +416,9 @@
                 $(`tab[tab=${theTab}]`).show();
                 $(`.btn-tab`).removeClass('active');
                 $(`.btn-tab[tab=${theTab}]`).addClass('active');
+                let t = parseInt($(`tab[tab=${theTab}]`).offset().top);
                 $('html, body').animate({
-                    scrollTop: 0,
+                    scrollTop: t - 130,
                 }, 600);
             });
             //xl moves sections:
@@ -444,27 +462,34 @@
                 $(caraousel).find(`.moves-slide[slideindex=0]`).addClass('active');
 
             }
-            $(".side-bar-item").click(function ()
-            {
-                let target = $(this).attr('target');
-                console.log(target);
-                $('html, body').animate({
-                    scrollTop: parseInt($(`.moves-section[variation=${target}]`).offset().top) - 130
-                }, 2000);
-                scroll_to();
-            });
-            $(window).on("scroll", function ()
-            {
-                let scroll = $(window).scrollTop();
-                let varitionsSections = $(".moves-section");
-                for (var i = 0; i < varitionsSections.length; i++)
-                {
-                    if (scroll > $(varitionsSections[i]).scrollTop())
-                    {
-                        console.log('we are after '+$(varitionsSections[i]).attr('variation'))
-                    }
-                }
-            });
+            // $(".side-bar-item").click(function ()
+            // {
+            //     let target = $(this).attr('target');
+            //     console.log(target);
+            //     $('html, body').animate({
+            //         scrollTop: parseInt($(`.moves-section[variation=${target}]`).offset().top) - 130
+            //     }, 2000);
+            //     scroll_to();
+            // });
+            // $(window).on("scroll", function ()
+            // {
+            //     let scroll = $(window).scrollTop();
+            //     let varitionsSections = $(".moves-section");
+            //     console.log(varitionsSections.length);
+            //     for (var i = 0; i < varitionsSections.length; i++)
+            //     {
+            //         let t = $(varitionsSections[i]).offset().top;
+            //         let variation = $(varitionsSections[i]).attr('variation')
+            //         console.log(variation);
+            //         console.log(variation + '=>' + t +' while scroll is=>'+scroll);
+            //         if (scroll > t - 125)
+            //         {1
+            //             console.log('we are after ' + variation);
+            //             $(".side-bar-variations[tab=xl] .side-bar-item").removeClass("active");
+            //             $(`.side-bar-variations[tab=xl] .side-bar-item[target=${variation}]`).addClass("active");
+            //         }
+            //     }
+            // });
         });
     </script>
     {{{footer}}}

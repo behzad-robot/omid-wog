@@ -27,6 +27,7 @@ export class SiteGalleryRouter extends SiteRouter
                     this.renderTemplate(req, res, 'gallery/gallery-archive.html', {
                         title: title,
                         media: media,
+                        hasMedia : media.length != 0 ,
                         loadMoreParams : loadMoreParams,
                     });
                 };

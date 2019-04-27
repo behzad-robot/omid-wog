@@ -111,6 +111,7 @@
                         </div>
                         {{/media}}
                     </div>
+                    {{#hasMedia}}
                     <div class="text-center" style="padding:20px 0">
                         <div id="loading-btn" class="btn btn-md btn-warning">بیشتر</div>
                     </div>
@@ -125,6 +126,12 @@
                     <div id="error" style="color:#a00;">
 
                     </div>
+                    {{/hasMedia}}
+                    {{^hasMedia}}
+                    <div class="text-center" style="padding:20px 0">
+                        <h2>هیچ موردی برای {{title}} یافت نشد.</h2>
+                    </div>
+                    {{/hasMedia}}
                 </div>
             </div>
         </div>
