@@ -2,7 +2,7 @@
 
 <head>
     {{{head}}}
-    <title>{{champion.title}}</title>
+    <title>{{champion.name}}</title>
     <meta name="description" content="{{champion.description}}">
     <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
     <link rel="canonical" href="http://worldofgamers.ir/">
@@ -14,7 +14,7 @@
     <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
     <meta property="og:site_name" content="واج">
 
-    
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@wogcompany">
     <meta name="twitter:description" content="{{champion.description}}">
@@ -161,7 +161,7 @@
         }
 
         .moves-slide {
-            height: 410px;
+            height: 580px;
         }
 
         .move-box {
@@ -172,6 +172,7 @@
             border-radius: 5px;
             position: relative;
             overflow: hidden;
+            height: 170px;
         }
 
         .move-box.special {
@@ -200,7 +201,9 @@
             width: 100%;
             direction: ltr;
             text-align: left;
-            float: left;
+            position: absolute;
+            bottom: 10px;
+            left: 20px;
         }
 
         .move-box .move-buttons-list .move-button {
@@ -263,6 +266,24 @@
             width: 24px;
             height: 24px;
 
+        }
+
+        .carousel-item-next.carousel-item-left,
+        .carousel-item-prev.carousel-item-right {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .carousel-item-next,
+        .active.carousel-item-right {
+            -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+        }
+
+        .carousel-item-prev,
+        .active.carousel-item-left {
+            -webkit-transform: translate3d(+100%,0, 0);
+            transform: translate3d(+100%,0, 0);
         }
     </style>
 </head>
@@ -401,11 +422,11 @@
                         </div>
                     </div>
                 </div>
-                <a class="carousel-control-prev" href="#carousel-variation-{{_token}}" role="button" data-slide="prev">
+                <a class="carousel-control-prev" href="#carousel-variation-{{_token}}" role="button" data-slide="next">
                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                     <span class="sr-only">Previous</span>
                 </a>
-                <a class="carousel-control-next" href="#carousel-variation-{{_token}}" role="button" data-slide="next">
+                <a class="carousel-control-next" href="#carousel-variation-{{_token}}" role="button" data-slide="prev">
                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                     <span class="sr-only">Next</span>
                 </a>
@@ -449,6 +470,8 @@
                 //all moves for this varition are here are here:
                 let movesBoxes = $(vartionsSections[i]).find(".move-box-wrapper");
                 let slidesCount = parseInt(movesBoxes.length / 6);
+                if (movesBoxes.length % 6 != 0)
+                    slidesCount++;
                 console.log($(vartionsSections[i]).attr('variation'));
                 console.log('slides count for varition =' + slidesCount);
                 let caraousel = $(vartionsSections[i]).find(".carousel-inner");
