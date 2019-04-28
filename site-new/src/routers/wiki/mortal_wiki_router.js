@@ -18,8 +18,8 @@ export class MortalWikiRouter extends SiteRouter
                         champions[i].siteUrl = SITE_URL('/wiki/mortal-kombat/characters/' + champions[i].slug);
                     let fiveChampions = [], fiveChampionsPart2 = [];
                     let tenChampsSlug = [
-                        'scorpion', 'sub-zero', 'raiden', 'quan-chi', 'kitana',
-                        'johnny-cage', 'cassie-cage', 'sonya-blade', 'kenshi', 'liu-kang'
+                        'scorpion','raiden','shinnok','leatherface','jason-voorhees', 'sub-zero',
+                        'johnny-cage', 'cassie-cage', 'sonya-blade', 'kenshi',
                         //casy cage,sonia blade,kenshi ,reptile , liu kang
                     ];
                     for (var i = 0; i < tenChampsSlug.length; i++)
