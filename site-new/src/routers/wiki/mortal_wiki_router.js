@@ -18,7 +18,7 @@ export class MortalWikiRouter extends SiteRouter
                         champions[i].siteUrl = SITE_URL('/wiki/mortal-kombat/characters/' + champions[i].slug);
                     let fiveChampions = [], fiveChampionsPart2 = [];
                     let tenChampsSlug = [
-                        'scorpion','raiden','shinnok','leatherface','jason-voorhees', 'sub-zero',
+                        'scorpion', 'raiden', 'shinnok', 'leatherface', 'jason-voorhees', 'sub-zero',
                         'johnny-cage', 'cassie-cage', 'sonya-blade', 'kenshi',
                         //casy cage,sonia blade,kenshi ,reptile , liu kang
                     ];
@@ -71,6 +71,7 @@ export class MortalWikiRouter extends SiteRouter
         });
         this.router.get('/:gameSlug', (req, res) =>
         {
+            //game-single
             var slug = req.params.gameSlug.toString().toLowerCase();
             siteModules.Cache.getGame({ slug: slug }).then((game) =>
             {
@@ -100,6 +101,7 @@ export class MortalWikiRouter extends SiteRouter
                             }
                             this.renderTemplate(req, res, 'wiki-mortal/game-single.html', {
                                 game: game,
+                                gameMortalMain : gameMortalMain,
                                 champions: champions,
                                 media: media,
                             });
@@ -143,7 +145,7 @@ export class MortalWikiRouter extends SiteRouter
                 if (req.params.slug.indexOf(extra) != -1)
                 {
                     req.params.slug = req.params.slug.replace(extra, '');
-                    res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab='+extra.replace('-',''));
+                    res.redirect('/wiki/mortal-kombat/characters/' + req.params.slug + '/?tab=' + extra.replace('-', ''));
                     return;
                 }
             }
@@ -162,7 +164,7 @@ export class MortalWikiRouter extends SiteRouter
                             for (var j = 0; j < c.variations.length; j++)
                             {
                                 let v = c.variations[j];
-                                v._token = v.name.replace(' ','-');
+                                v._token = v.name.replace(' ', '-');
                                 v._moves = [];
                                 for (var k = 0; k < v.moves.length; k++)
                                 {
@@ -193,9 +195,9 @@ export class MortalWikiRouter extends SiteRouter
                                 champion11: champion11,
                                 championMobile: championMobile,
                                 media: media,
-                                hasMedia : media.length != 0 ,
-                                hasLore : !isEmptyString(champion.lore) &&  champion.lore.indexOf('<p>?</p>') == -1,
-                                defaultTab : req.query.tab ? req.query.tab : 'info',
+                                hasMedia: media.length != 0,
+                                hasLore: !isEmptyString(champion.lore) && champion.lore.indexOf('<p>?</p>') == -1,
+                                defaultTab: req.query.tab ? req.query.tab : 'info',
                             });
                         });
                     }).catch((err) =>

@@ -49,6 +49,7 @@
             background-color: orange;
         }
 
+
         .header-section {
             background-image: url('/images/bloodmoon-twisted.jpg');
             background-color: #101010;
@@ -57,6 +58,10 @@
             height: 450px;
             color: white;
             padding: 50px 0;
+        }
+
+        .header-section .header-overlay {
+            display: none;
         }
 
         .header-section h1 {
@@ -282,8 +287,44 @@
 
         .carousel-item-prev,
         .active.carousel-item-left {
-            -webkit-transform: translate3d(+100%,0, 0);
-            transform: translate3d(+100%,0, 0);
+            -webkit-transform: translate3d(+100%, 0, 0);
+            transform: translate3d(+100%, 0, 0);
+        }
+
+        @media only screen and (max-device-width: 480px) {
+            .btn-tab {
+                font-size: 10px;
+            }
+
+            .header-section {
+                background-position: 10% 0;
+                position: relative;
+            }
+
+            .header-section h1 {
+                font-size: 42px;
+                font-weight: bold;
+                text-align: center;
+            }
+
+            .header-section .header-overlay {
+                display: block;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                background-color: rgba(0, 0, 0, 0.4);
+                z-index: 1;
+            }
+            .variation-title{
+                font-size:16px;
+            }
+            .coming-soon-section{
+                background-image: url('/images/mortal-coming-soon-mobile.jpg');
+                background-size: cover;
+                height: 40vh;
+            }
         }
     </style>
 </head>
@@ -301,11 +342,14 @@
         </div>
     </section>
     <section class="header-section" style="background-image:url('{{champion.cover}}')">
+        <div class="header-overlay mobile-only "></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-12">
-                    <h1>{{champion.name}}</h1>
-                    <div>{{{champion.description}}}</div>
+                    <div style="position: relative;z-index:2">
+                        <h1 class="champion-name">{{champion.name}}</h1>
+                        <div>{{{champion.description}}}</div>
+                    </div>
                 </div>
             </div>
         </div>
