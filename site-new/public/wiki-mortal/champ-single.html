@@ -30,7 +30,7 @@
             top: 80px;
             right: 0;
             padding: 10px 0;
-            z-index: 1000000;
+            z-index: 9999;
         }
 
         .tabs-section-filler {
@@ -140,6 +140,10 @@
             padding: 20px 0;
             background-color: black;
             color: white;
+        }
+
+        .variation-circle-wrapper {
+            cursor: pointer;
         }
 
         .variation-images {
@@ -317,10 +321,12 @@
                 background-color: rgba(0, 0, 0, 0.4);
                 z-index: 1;
             }
-            .variation-title{
-                font-size:16px;
+
+            .variation-title {
+                font-size: 16px;
             }
-            .coming-soon-section{
+
+            .coming-soon-section {
                 background-image: url('/images/mortal-coming-soon-mobile.jpg');
                 background-size: cover;
                 height: 40vh;
@@ -418,7 +424,7 @@
                 <h1 style="font-size:32px;">تکنیک ها:</h1>
                 <div class="row">
                     {{#championXL.variations}}
-                    <div class="col-md-4 col-4 text-center">
+                    <div class="col-md-4 col-4 text-center variation-circle-wrapper" variation="{{_token}}">
                         <img class="variation-images" src="{{icon}}" alt="varitions {{name}}" width="100%">
                         <h1 class="variation-title">{{name}}</h1>
                     </div>
@@ -432,7 +438,36 @@
             {{/championXL.variations}}
         </div> -->
         {{#championXL.variations}}
-        <section class="moves-section" variation="{{_token}}">
+        <section class="moves-section mobile-only" variation="{{_token}}" style="background-image:url('/images/mortal-home-desktop-blurry.jpg');background-size:200% auto;background-position: center;">
+            <div class="container">
+                <h1>{{name}}</h1>
+                <div class="row">
+                    {{#_moves}}
+                    <div class="col-md-6 col-12 move-box-wrapper">
+                        <div class="move-box {{#isSpecial}}special{{/isSpecial}}">
+                            <h2 class="move-title">{{name}}{{#isSpecial}}&nbsp;<span
+                                    class="badge badge-md badge-warning">حرکت ویژه</span>{{/isSpecial}}</h2>
+                            <div class="move-description">{{{description}}}</div>
+                            {{#video}}
+                            <span class="move-video">
+                                <span class="fas fa-video"></span>&nbsp;
+                                مشاهده ویدئو این حرکت
+                            </span>
+                            {{/video}}
+                            <div class="move-buttons-list">
+                                {{#buttons}}
+                                <img class="move-button" src="/images/ps-buttons/{{.}}.png" />
+                                {{/buttons}}
+                            </div>
+                        </div>
+                    </div>
+                    {{/_moves}}
+                </div>
+            </div>
+        </section>
+        {{/championXL.variations}}
+        {{#championXL.variations}}
+        <section class="moves-section no-mobile" variation="{{_token}}">
             <div class="container">
                 <h1>{{name}}</h1>
             </div>
@@ -500,6 +535,15 @@
                 $(`.btn-tab`).removeClass('active');
                 $(`.btn-tab[tab=${theTab}]`).addClass('active');
                 let t = parseInt($(`tab[tab=${theTab}]`).offset().top);
+                $('html, body').animate({
+                    scrollTop: t - 130,
+                }, 600);
+            });
+            //xl variations clickable:
+            $(".variation-circle-wrapper").click(function ()
+            {
+                let variation = $(this).attr('variation');
+                let t = $(`.moves-section[variation=${variation}]`).offset().top;
                 $('html, body').animate({
                     scrollTop: t - 130,
                 }, 600);
