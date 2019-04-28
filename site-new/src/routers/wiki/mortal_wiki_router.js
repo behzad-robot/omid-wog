@@ -20,7 +20,6 @@ export class MortalWikiRouter extends SiteRouter
                     let tenChampsSlug = [
                         'scorpion', 'raiden', 'shinnok', 'leatherface', 'jason-voorhees', 'sub-zero',
                         'johnny-cage', 'cassie-cage', 'sonya-blade', 'kenshi',
-                        //casy cage,sonia blade,kenshi ,reptile , liu kang
                     ];
                     for (var i = 0; i < tenChampsSlug.length; i++)
                     {
