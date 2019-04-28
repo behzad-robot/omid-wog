@@ -1,0 +1,61 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>ویکی Mortal Kombat</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
+    <style>
+        .info-box {
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 20px 40px;
+        }
+
+        .info-box h1 {
+            color: orange;
+        }
+
+        footer {
+            margin: 0;
+            
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section
+        style="width: 100%;min-height:80vh;background-size: cover;background-position: center;background-image: url('{{game.cover}}')">
+        <div class="container" style="padding-top:50px;">
+            <div class="row">
+                <div class="col-md-2 col-12"></div>
+                <div class="col-md-8 col-12">
+                    <div class="info-box">
+                        <h1 class="text-mortal text-center" style="margin-bottom:25px;">{{game.name}}</h1>
+                        <div>{{{game.description}}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

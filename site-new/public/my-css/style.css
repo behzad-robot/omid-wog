@@ -23,6 +23,9 @@ section{display:block;width:100%;}
 .text-english{
     font-family: Roboto !important;
 }
+.text-mortal{
+    font-family: mkserif !important;
+}
 .text-ltr{
     direction: ltr;
 }

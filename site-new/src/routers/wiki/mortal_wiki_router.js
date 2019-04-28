@@ -98,7 +98,7 @@ export class MortalWikiRouter extends SiteRouter
                                 }
                                 arr.members.push(cs[i]);
                             }
-                            this.renderTemplate(req, res, 'wiki-mortal/game-single.html', {
+                            this.renderTemplate(req, res, game.token.indexOf('xl') != -1 ? 'wiki-mortal/game-single.html' : 'wiki-mortal/mk-coming-soon.html', {
                                 game: game,
                                 gameMortalMain : gameMortalMain,
                                 champions: champions,
