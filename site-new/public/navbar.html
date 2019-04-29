@@ -6,8 +6,10 @@
             </div>
         </div>
         <div style="display:inline-block">
-            <a href="/home"><img src="/images/wog-orange-logo.png" width="130px" style="margin-left:20px;"
-                    class="navbar-logo" /></a>
+            <a href="/home">
+                <img src="/images/wog-orange-logo.png"   class="navbar-logo" />
+            </a>
+            <!-- <img src="/images/beta-version.png"  class="navbar-beta" /> -->
         </div>
 
         <div class="navbar-links-container">
@@ -18,11 +20,12 @@
             <a href="/posts/categories/articles" class="navbar-item" dropdownItem="tutorials">مقالات<span
                     class="fas fa-sort-down"></span></a>
 
-            <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی‌ها
-                <!--<span class="fas fa-sort-down"></span>--></a>
-            <a href="/shop" class="navbar-item">فروشگاه</a>
+            <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی‌ها<!--<span class="fas fa-sort-down"></span>--></a>
+            <!-- <a href="/shop" class="navbar-item">فروشگاه</a> -->
 
             <a href="/contact-us" class="navbar-item">تماس با ما</a>
+            <a href="/login" class="navbar-item mobile-only">ورود</a>
+            <a href="/signup" class="navbar-item mobile-only">ثبت نام</a>
         </div>
         <script>
             $(() =>
@@ -39,7 +42,7 @@
         </script>
         <div class="float-left">
             <div class="navbar-item text-center navbar-search-btn"><span class="fas fa-search"
-                    style="font-size:26px;position:relative;top:0;left:50px;"></span></div>
+                    style=""></span></div>
             <div class="wog-card search-card" style="display:none">
                 <form action="/posts/search/" method="GET" style="margin:0;padding:0">
                     <input name="s" class="form-control search-input" placeholder="جستجو..." />

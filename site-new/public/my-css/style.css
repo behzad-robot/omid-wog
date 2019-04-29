@@ -142,6 +142,13 @@ navbar .navbar-search-btn{
     cursor: pointer;
 
 }
+navbar .navbar-search-btn .fa-search{
+    font-size:26px;
+    position:relative;
+    top:0;
+    left:50px;
+}
+
 navbar .search-card{
     position: absolute;
     top:80px;
@@ -149,6 +156,14 @@ navbar .search-card{
     box-shadow:3px 4px 3px rgba(0, 0, 0, 0.3);
     padding:5px 10px;
     border-bottom:5px solid orange;
+}
+navbar .navbar-logo{
+    width:130px;
+    margin-left:20px;
+}
+navbar .navbar-beta{
+    width: 96px;
+    margin-left:20px;
 }
 .navbar-dropdown{
    width:100vw;
@@ -238,8 +253,18 @@ navbar .search-card{
         display:inline-block;
         margin-left: 5px;
     }
+    navbar .navbar-login-box .navbar-item{
+        min-width:30px;
+        font-size:10px;
+    }
     navbar .navbar-logo{
-        padding-top:15px;
+        width:100px;
+        padding-top:18px;   
+        margin-left:5px;
+    }
+    navbar .navbar-beta{
+        padding-top:18px;
+        width: 72px;
     }
     navbar .navbar-links-container{
         display: none;
@@ -274,6 +299,14 @@ navbar .search-card{
     navbar .navbar-login-box .navbar-item{
         min-width:60px;
         font-size:12px;
+        padding-top:30px;
+    }
+    navbar .navbar-item.navbar-search-btn{
+        min-width:30px;
+    }
+    navbar .search-card{
+        width: 160px;
+        left:0;
     }
 }
 

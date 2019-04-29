@@ -227,10 +227,29 @@
         .home-aparat-card:hover .aparat {
             transform: rotate(120deg);
         }
+
         @media only screen and (max-device-width: 480px) {
-            .khori-card .khori-content{
-                height:220px;
+            .khori-card .khori-content {
+                height: 220px;
             }
+        }
+
+        .carousel-item-next.carousel-item-left,
+        .carousel-item-prev.carousel-item-right {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .carousel-item-next,
+        .active.carousel-item-right {
+            -webkit-transform: translate3d(-100%, 0, 0);
+            transform: translate3d(-100%, 0, 0);
+        }
+
+        .carousel-item-prev,
+        .active.carousel-item-left {
+            -webkit-transform: translate3d(+100%, 0, 0);
+            transform: translate3d(+100%, 0, 0);
         }
     </style>
 </head>
@@ -256,7 +275,18 @@
         <div id="carouselHomeHeader" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <div class="home-slider-slide" style="background-image:url('/images/tournoments/fornite-cover-for-home-slider.jpg')">
+                    <div class="home-slider-slide" style="background-image:url('/images/home-app-slide.jpg')">
+                        <div class="container text-center text-white" style="padding-top:85px;">
+                            <h1 style="font-size:3rem;" class="text-shadow">برنامه آندروید واج</h1>
+                            <p class="text-shadow">دانلود برنامه آندروید واج (نسخه آزمایشی)</p>
+                            <a href="{{#SITE_URL}}/storage/mobile-app/wog-app-1.apk{{/SITE_URL}}" class="btn btn-md btn-warning"
+                                style="font-size:0.7rem;font-weight: bold;min-width: 150px">دانلود برنامه</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item ">
+                    <div class="home-slider-slide"
+                        style="background-image:url('/images/tournoments/fornite-cover-for-home-slider.jpg')">
                         <div class="container text-center text-white" style="padding-top:85px;">
                             <h1 style="font-size:3rem;" class="text-shadow">مسابقات فورتنایت</h1>
                             <p class="text-shadow"><span style="color:orange">(به زودی)</span></p>
@@ -291,11 +321,11 @@
                     </div>
                 </div>
             </div>
-            <a class="carousel-control-prev" href="#carouselHomeHeader" role="button" data-slide="prev">
+            <a class="carousel-control-prev" href="#carouselHomeHeader" role="button" data-slide="next">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
             </a>
-            <a class="carousel-control-next" href="#carouselHomeHeader" role="button" data-slide="next">
+            <a class="carousel-control-next" href="#carouselHomeHeader" role="button" data-slide="prev">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
             </a>
@@ -307,7 +337,7 @@
             <div class="row">
                 <div class="col-md-3 col-6 text-center">
                     <div class="wog-card khori-card">
-                        <img  src="/images/Guide.png" />
+                        <img src="/images/Guide.png" />
                         <div class="khori-content">
                             <h2>آموزش تخصصی بازی</h2>
                             <p>داستان بازی، مشخصات کامل شخصیت ها،آموزش و تکنیک ها</p>
@@ -316,7 +346,7 @@
                 </div>
                 <div class="col-md-3 col-6 text-center">
                     <div class="wog-card khori-card">
-                        <img  src="/images/Hemayat.png" />
+                        <img src="/images/Hemayat.png" />
                         <div class="khori-content">
                             <h2>حمایت از گیمر‌ها</h2>
                             <p>تاسیس باشگاه بازیکنان جوان برای ورود به مسابقات جهانی</p>
@@ -325,7 +355,7 @@
                 </div>
                 <div class="col-md-3 col-6 text-center">
                     <div class="wog-card khori-card">
-                        <img  src="/images/Tournaments.png" />
+                        <img src="/images/Tournaments.png" />
                         <div class="khori-content">
                             <h2>مسابقات</h2>
                             <p>برگزاری مسابقات مختلف ورزش‌های الکترونیک در کشور</p>
@@ -334,7 +364,7 @@
                 </div>
                 <div class="col-md-3 col-6 text-center">
                     <div class="wog-card khori-card">
-                        <img  src="/images/Stream.png" />
+                        <img src="/images/Stream.png" />
                         <div class="khori-content">
                             <h2>استریم و تولید محتوا</h2>
                             <p>حمایت از استریمر‌ها و تولیدکنندگان محتوای تصویری</p>

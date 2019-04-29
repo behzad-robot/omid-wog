@@ -2,6 +2,24 @@
 
 <head>
     {{{head}}}
+    <title>تماس با ما-{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
     <style>
         .contact-us {
             background-color: white;
@@ -85,7 +103,8 @@
                             placeholder="نام و نام‌‌ خانوادگی">
                         <input type="email" name="email" class="form-control contact-input" placeholder="آدرس ایمیل">
                         <input type="text" name="subject" class="form-control contact-input" placeholder="موضوع">
-                        <textarea name="body" class="form-control contact-input" style="height:150px;" placeholder="متن پیام"></textarea>
+                        <textarea name="body" class="form-control contact-input" style="height:150px;"
+                            placeholder="متن پیام"></textarea>
                         <input type="submit" class="btn btn-md btn-warning" value="ارسال"
                             style="display:block;margin:10px auto;min-width:100px;" />
                         <p class="error" id="error-contactUs"></p>
@@ -120,7 +139,7 @@
                         $("#error-contactUs").html("موضوع پیام نمی تواند خالی باشد.");
                         return false;
                     }
-                    if(isEmptyString(body))
+                    if (isEmptyString(body))
                     {
                         $("#error-contactUs").html("متن پیام نمی تواند خالی باشد.");
                         return false;

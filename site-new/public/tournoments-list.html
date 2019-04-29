@@ -79,25 +79,35 @@
             font-weight: bold;
         }
 
-        .side-post-box{
+        .side-post-box {
             display: block;
-            color:#2e2e2e;
-            margin-bottom:10px;
+            color: #2e2e2e;
+            margin-bottom: 10px;
             text-decoration: none !important;
         }
-        .side-post-box:hover{
-            color:orange;
+
+        .side-post-box:hover {
+            color: orange;
         }
-        .side-post-box .post-thumbnail{
+
+        .side-post-box .post-thumbnail {
             display: block;
             width: 100%;
             height: auto;
-            margin:0 auto;
-            margin-bottom:5px;
+            margin: 0 auto;
+            margin-bottom: 5px;
         }
-        .side-post-box .post-title{
-            font-size:18px;
+
+        .side-post-box .post-title {
+            font-size: 18px;
             font-weight: bold;
+        }
+
+        @media (max-width: 576px) {
+            .tournoment-card .tournoment-date {
+                width: 100px;
+                padding: 35px 15px;
+            }
         }
     </style>
 </head>
@@ -114,15 +124,14 @@
                         style="background-image:url('/images/tournoments/fornite-cover.jpg')"></div>
                     <div class="tournoment-content">
                         <h1>مسابقات Fortnite</h1>
-                        <a class="tournoment-signup" href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}">ثبت نام</a>
+                        <a class="tournoment-signup">به زودی</a>
                     </div>
-                    <div class="tournoment-date">
-                        سه شنبه <br>
-                        21 اردیبهشت 97
+                    <div class="tournoment-date">به زودی</div>
+                    <div class="no-mobile">
+                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                        </svg>
                     </div>
-                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                    </svg>
                 </div>
                 <div class="tournoment-card">
                     <div class="tournoment-thumbnail"
@@ -132,9 +141,11 @@
                         <a class="tournoment-signup" href="#">به زودی</a>
                     </div>
                     <div class="tournoment-date">به زودی</div>
-                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                    </svg>
+                    <div class="no-mobile">
+                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                        </svg>
+                    </div>
                 </div>
                 <div class="tournoment-card">
                     <div class="tournoment-thumbnail"
@@ -144,13 +155,15 @@
                         <a class="tournoment-signup" href="#">به زودی</a>
                     </div>
                     <div class="tournoment-date">به زودی</div>
-                    <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                        <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                    </svg>
+                    <div class="no-mobile">
+                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                        </svg>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3 float-right">
-                
+
                 <h6 class="orange-title">اخبار مسابقات:</h6>
                 {{#posts}}
                 <a href="#" class="side-post-box">
