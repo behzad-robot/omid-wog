@@ -49,8 +49,9 @@
             background-color: #2c414b;
 
         }
-        .form-control.login-input.login-input-with-icon{
-            display:inline-block;
+
+        .form-control.login-input.login-input-with-icon {
+            display: inline-block;
             width: 85%;
         }
 
@@ -144,14 +145,15 @@
                             <h1 class="tittle">مشخصات حساب</h1>
                             <input type="text" name="username" class="form-control login-input"
                                 placeholder="نام کاربری">
-                            <input type="email" name="email" class="form-control login-input" placeholder="ایمیل">
+                            <input type="text" name="email" class="form-control login-input" placeholder="ایمیل">
                             <input type="password" name="password" class="form-control login-input"
                                 placeholder="رمز عبور">
                             <input type="password" name="confirmPassword" class="form-control login-input"
                                 placeholder="رمز عبور مجدد">
                             <div>
-                                <img src="/images/epic-games-icon.png" width="36px"/>
-                                <input type="text" name="epicGamesID" class="form-control login-input login-input-with-icon" placeholder="آیدی EpicGames">
+                                <img src="/images/epic-games-icon.png" width="36px" />
+                                <input type="text" name="epicGamesID"
+                                    class="form-control login-input login-input-with-icon" placeholder="آیدی EpicGames">
                             </div>
                             <div class="text-center" style="padding:10px 0">
                                 <div class="btn btn-md btn-warning" id="accountDetails-submit-btn"
@@ -386,6 +388,11 @@
             if (confirmPassword != password)
             {
                 $("#error-accountDetails").html("رمز عبور و تایید رمز عبور یکسان نیست.");
+                return false;
+            }
+            if (email.indexOf('@') == -1)
+            {
+                $("#error-accountDetails").html("ایمیل صحیح نمی باشد.");
                 return false;
             }
 

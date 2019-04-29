@@ -11,10 +11,10 @@ export default class SiteAuthRouter extends SiteRouter
         this.router.get('/login', (req, res) =>
         {
             let error = req.query.msg;
-            if(error == 'User Not found')
+            if (error == 'User Not found')
                 error = 'کاربری با این مشخصات یافت نشد.';
             this.renderTemplate(req, res, 'login.html', {
-                error : error,
+                error: error,
             });
         });
         this.router.post('/login', (req, res) =>
@@ -97,6 +97,15 @@ export default class SiteAuthRouter extends SiteRouter
         {
             //req.query may containt email AND OR username AND OR phoneNumber
             console.log(req.query);
+            if (req.query.email)
+            {
+                req.query = {
+                    '$or': [
+                        { email: req.query.email },
+                        { username: req.query.username },
+                    ]
+                };
+            }
             siteModules.User.find(req.query).then((users) =>
             {
                 if (users == null || users.length == 0)
@@ -150,7 +159,7 @@ export default class SiteAuthRouter extends SiteRouter
                 city: req.body.city ? req.body.city : '',
                 age: req.body.age ? req.body.age : '',
                 sex: req.body.sex ? req.body.sex : '',
-                epicGamesID : req.body.epicGamesID ? req.body.epicGamesID : '',
+                epicGamesID: req.body.epicGamesID ? req.body.epicGamesID : '',
             };
             siteModules.User.apiCall('signup', data).then((user) =>
             {
@@ -237,7 +246,7 @@ export default class SiteAuthRouter extends SiteRouter
                 else
                 {
                     let user = users[0];
-                    let pass = 'wog' + (2000+Math.floor(Math.random() * 100)).toString();
+                    let pass = 'wog' + (2000 + Math.floor(Math.random() * 100)).toString();
                     siteModules.User.edit(user._id, { resetPassToken: '', password: pass }).then((result) =>
                     {
                         this.renderTemplate(req, res, 'reset-password.html', {
