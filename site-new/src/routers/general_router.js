@@ -68,6 +68,10 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, 'coming-soon.html', {});
         });
+        this.router.get('/about-us', (req, res) =>
+        {
+            this.renderTemplate(req, res, 'about-us.html', {});
+        });
 
         // this.router.get('/sms', (req, res) =>
         // {
