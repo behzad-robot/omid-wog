@@ -164,6 +164,9 @@ navbar .navbar-logo{
 navbar .navbar-beta{
     width: 96px;
     margin-left:20px;
+    position: absolute;
+    bottom:28px;
+    right:10px;
 }
 .navbar-dropdown{
    width:100vw;
@@ -265,6 +268,8 @@ navbar .navbar-beta{
     navbar .navbar-beta{
         padding-top:18px;
         width: 72px;
+        bottom:5px;
+        right:80px;
     }
     navbar .navbar-links-container{
         display: none;
@@ -307,6 +312,17 @@ navbar .navbar-beta{
     navbar .search-card{
         width: 160px;
         left:0;
+    }
+    .navbar-user-box img{
+        width:27px;
+        height:27px;
+        display: inline-block;
+        margin:0 2px;
+    }
+    .navbar-user-box .navbar-item{
+        min-width: 15px;
+        font-size:10px;
+        padding:30px 10px;
     }
 }
 
