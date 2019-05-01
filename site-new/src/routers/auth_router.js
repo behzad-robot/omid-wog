@@ -10,6 +10,11 @@ export default class SiteAuthRouter extends SiteRouter
         super(siteModules);
         this.router.get('/login', (req, res) =>
         {
+            if(req.session.currentUser != undefined)
+            {
+                res.redirect('/users/'+req.session.currentUser.username);
+                return;
+            }
             let error = req.query.msg;
             if (error == 'User Not found')
                 error = 'کاربری با این مشخصات یافت نشد.';
@@ -83,6 +88,11 @@ export default class SiteAuthRouter extends SiteRouter
         });
         this.router.get('/signup', (req, res) =>
         {
+            if(req.session.currentUser != undefined)
+            {
+                res.redirect('/users/'+req.session.currentUser.username);
+                return;
+            }
             let error = req.query.msg;
             this.renderTemplate(req, res, 'signup.html', {
                 msg: error ? { error: error } : undefined,
@@ -160,6 +170,7 @@ export default class SiteAuthRouter extends SiteRouter
                 age: req.body.age ? req.body.age : '',
                 sex: req.body.sex ? req.body.sex : '',
                 epicGamesID: req.body.epicGamesID ? req.body.epicGamesID : '',
+                psnID: req.body.psnID ? req.body.psnID : '',
             };
             siteModules.User.apiCall('signup', data).then((user) =>
             {

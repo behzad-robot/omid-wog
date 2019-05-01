@@ -228,6 +228,7 @@ export class UsersAuthHandler
                 firstName: params.firstName,
                 lastName: params.lastName,
                 epicGamesID : params.epicGamesID ? params.epicGamesID : '',
+                psnID : params.psnID ? params.psnID : '',
                 sex: params.sex,
                 followingGames: [],
                 createdAt: moment_now(),

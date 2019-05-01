@@ -21,49 +21,84 @@
     <meta name="twitter:title" content="{{_wogSEO.title}}">
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
     <style>
-        .author-box {}
-
-        .author-box .author-cover {
-            position: relative;
-            width: 100%;
+        .author-card {
+            display: block;
+            padding-bottom: 15px;
         }
 
-        .author-box .author-cover .cover-image {
+        .author-card .user-cover {
+            display: block;
             width: 100%;
-            height: 250px;
-            position: relative;
-            top: 0;
-            left: 0;
+            height: 420px;
             background-size: cover;
             background-position: center;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            position: relative;
         }
 
-        .author-box .author-cover .profile-image-wrapper {
+        .author-card .user-cover .cover-overlay {
             position: absolute;
-            bottom: -32px;
-            left: 0;
             width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
         }
 
-        .author-box .author-cover .profile-image-wrapper img {
-            width: 64px;
-            height: 64px;
+        .author-card .user-profile-image-wrapper {
+            display: block;
+            position: absolute;
+            bottom: -64px;
+            width: 100%;
+            text-align: center;
+            z-index: 15;
+        }
+
+        .author-card .user-profile-image-wrapper .user-profile-image {
+            width: 128px;
+            height: 128px;
             border-radius: 50%;
         }
 
-        .author-box .author-info {
-            padding-top: 40px;
-            padding-right: 20px;
-            padding-left: 20px;
-            padding-bottom: 20px;
+        .author-card .user-profile-image-filler {
+            display: block;
+            width: 100%;
+            height: 70px;
         }
 
-        .author-box .username {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 10px;
+        .author-card .user-username {
+            font-size: 32px;
+            font-weight: bolder;
+            padding: 10px 0;
         }
 
+        .author-card .user-bio {
+            font-size: 18px;
+            color: #4e4e4e;
+            padding: 0 15px;
+        }
+
+        .author-card .user-badges {
+            padding: 10px 20px;
+        }
+
+        .fortnite-box {
+            display: block;
+            width: 100%;
+            height: 180px;
+            background-image: url('/images/fortnite-2019/fortnite-button-bg.png');
+            background-size: cover;
+            background-position: center;
+            margin: 10px 0;
+            border-radius: 10px;
+            position: relative;
+            color: white;
+            padding: 25px 0;
+            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+    <style>
         .post-box {
             background-color: white;
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
@@ -114,28 +149,59 @@
     <section>
         <div class="container" style="padding-top:20px;min-height:80vh;">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="wog-card">
-                        <div class="author-box">
-                            <div class="author-cover">
-                                <div class="cover-image" style="background-image:url('{{user.cover}}')"></div>
-                                <div class="profile-image-wrapper text-center">
-                                    <img src="{{user.profileImage}}" auth="{{user.username}} Profile Image" />
-                                </div>
+                <div class="col-md-12">
+                    <div class="wog-card author-card">
+                        <div class="user-cover" style="background-image:url('{{user.cover}}')">
+                            <div class="cover-overlay"></div>
+                            <div class="user-profile-image-wrapper">
+                                <img class="user-profile-image" src="{{user.profileImage}}"
+                                    alt="{{user.username}} profile image" />
                             </div>
-                            <div class="author-info">
-                                <h1 class="text-center username">{{user.username}}</h1>
-                                <p class="text-center">{{{user.aboutMe}}}</p>
-                                <b>پست ها:</b>&nbsp;{{postsCount}}
-                                {{#isCurrentUser}}
-                                    <a href="/users/{{currentUser.username}}/edit" class="btn btn-md btn-light">ویرایش اطلاعات کاربری</a>
-                                {{/isCurrentUser}}
+                        </div>
+                        <div class="user-profile-image-filler"></div>
+                        <h1 class="user-username text-center">{{user.username}}</h1>
+                        <div class="user-bio text-center">{{{user.aboutMe}}}</div>
+                        {{#isCurrentUser}}
+                        <div class="text-center">
+                            <a href="/users/{{user.username}}/edit" class="btn btn-md btn-secondary">ویرایش اطلاعات
+                                کاربری</a>
+                        </div>
+                        {{/isCurrentUser}}
+                        <div class="user-badges">
+                            {{#user.accessLevel.isAdmin}}
+                            <div class="btn btn-md btn-dark"><span class="fas fa-hat-wizard"></span>&nbsp;نویسنده واج
                             </div>
+                            {{/user.accessLevel.isAdmin}}
+                            {{#user.fortnite2019.hasJoined}}
+                            <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}"
+                                class="btn btn-md btn-warning">
+                                <img src="/images/fortnite-2019/fortnite-logo.png" width="72px" />
+                                شرکت کننده مسابقه فورنتایت واج</a>
+                            {{/user.fortnite2019.hasJoined}}
                         </div>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <h2 class="orange-title" style="font-size:1.2rem;">مطالب  نوشته شده:</h2>
+
+            </div>
+            <!-- end of author-card -->
+            {{#isCurrentUser}}
+            <div class="fortnite-box text-center">
+                <h2
+                    style="text-shadow:2px 3px 3px rgba(0,0,0,0.3);font-size:36px;font-weight: bold;padding-bottom:15px;">مسابقات فورتنایت واج</h2>
+                {{^user.fortnite2019.hasJoined}}
+                <a href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}" class="btn btn-md btn-warning">شرکت در مسابقات</a>
+                {{/user.fortnite2019.hasJoined}}
+                {{#user.fortnite2019.hasJoined}}
+                <a href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}" class="btn btn-md btn-danger" style="margin-bottom:5px;">شما شرکت می کنید! مشاهده صفحه مسابقه</a><br>
+                <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}" class="btn btn-sm btn-primary">مشاهده لیست شرکت کنندگان</a>
+                {{/user.fortnite2019.hasJoined}}
+
+            </div>
+            {{/isCurrentUser}}
+            {{#user.accessLevel.isAdmin}}
+            <h2 class="orange-title" style="font-size:1.2rem;margin-top:15px;">مطالب نوشته شده:</h2>
+            <div class="row">
+                <div class="col-md-8 col-12">
                     {{#posts}}
                     {{#extras.bigBox}}
                     <div class="post-box">
@@ -148,11 +214,9 @@
                             </a>
                             <p>{{{intro}}}</p>
                             <div class="date">
-                                <span class="fas fa-calendar"></span>&nbsp;
-                                {{{createdAt_persian}}}
+                                <span class="fas fa-calendar"></span>&nbsp;{{{createdAt_persian}}}
                             </div>
                         </div>
-
                     </div>
                     {{/extras.bigBox}}
                     {{^extras.bigBox}}
@@ -175,9 +239,9 @@
                     </div>
                     {{/extras.bigBox}}
                     {{/posts}}
-
                 </div>
             </div>
+            {{/user.accessLevel.isAdmin}}
         </div>
     </section>
 </body>

@@ -1,0 +1,67 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title></title>
+    <style>
+        body {
+            background-image: url('/images/fortnite-2019/fortnite-top-cover.png');
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
+</head>
+{{{navbar}}}
+<section>
+    <div class="container" style="margin-top:120px;min-height:60vh;">
+        <div class="row">
+            <div class="col-md-2 col-12"></div>
+            <div class="col-md-8 col-12">
+                <div class="wog-card" style="padding:10px 20px;">
+                    <h1 style="font-size:1.8rem;font-weight: bold;margin-bottom:10px;">ثبت نام در مسابقات فورتنایت</h1>
+                    <p style="font-size:0.8rem">
+                        <b>وضعیت ثبت نام:</b>&nbsp;
+                        {{#error}}
+                        <span style="color:#a00">ناموفق</span>
+                        {{/error}}
+                        {{^error}}
+                        <span style="color:green">موفق</span>
+                        {{/error}}
+                    </p>
+                    {{#error}}
+                    <div class="alert alert-danger" style="font-size:0.8rem">خطا : {{error}}</div>
+                    {{/error}}
+                    {{^error}}
+                    <div class="alert alert-success" style="font-size:0.8rem">ثبت نام با موفقیت انجام شد.</div>
+                    {{/error}}
+                    {{#currentUser.fortnite2019.hasJoined}}
+                    {{/currentUser.fortnite2019.hasJoined}}
+                    <div style="direction: ltr;text-align:left">
+                        {{#currentUser.psnID}}
+                        <h3 style="font-size:1.2rem"><b class="text-english">Epic Games
+                                ID</b>&nbsp;{{currentUser.epicGamesID}}</h3>
+                        {{/currentUser.psnID}}
+                        {{#currentUser.psnID}}
+                        <h3 style="font-size:1.2rem"><b>PSN:</b>&nbsp;{{currentUser.psnID}}</h3>
+                        {{/currentUser.psnID}}
+                    </div>
+                    <div class="text-center">
+                        {{#error}}
+                        <a class="btn btn-md btn-secondary" style="font-size:0.8rem"
+                            href="{{#SITE_URL}}/users/{{currentUser.username}}/edit{{/SITE_URL}}">ویرایش مشخصات کاربری</a>
+                        {{/error}}
+                        {{^error}}
+                        <a class="btn btn-md btn-primary" style="font-size:0.8rem"
+                            href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}">مشاهده لیست شرکت
+                            کنندگان</a>
+                        {{/error}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+{{{footer}}}
+
+</html>

@@ -29,6 +29,7 @@ export const UserSchema = new mongoose.Schema({
 
     //games and outsource:
     epicGamesID: { type: String, default: '' },
+    psnID: { type: String, default: '' },
 
     _draft: Boolean,
     createdAt: { type: String, default: '?' },
@@ -57,6 +58,13 @@ export const UserSchema = new mongoose.Schema({
              */
         }
     },
+    fortnite2019: {
+        type: Object,
+        default: {
+            hasJoined: false,
+            joinedAt : "",
+        }
+    }
 }, {
         toObject: {
             virtuals: true

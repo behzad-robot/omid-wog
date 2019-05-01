@@ -38,6 +38,21 @@
             max-width: 100%;
         }
 
+        .fortnite-box {
+            display: block;
+            width: 100%;
+            height: 180px;
+            background-image: url('/images/fortnite-2019/fortnite-button-bg.png');
+            background-size: cover;
+            background-position: center;
+            margin: 10px 0;
+            border-radius: 10px;
+            position: relative;
+            color: white;
+            padding: 25px 0;
+            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+        }
+
         footer {
             margin-top: 0;
         }
@@ -49,6 +64,11 @@
     <navfiller></navfiller>
     <section style="background-image:url('/images/rick-bg.png')">
         <div class="container" style="padding-top:20px;min-height:80vh;">
+            {{#success}}
+            <div class="alert alert-success">
+                ویرایش اطلاعات کاربری با موفقیت انجام شد.
+            </div>
+            {{/success}}
             <div class="row">
                 <div class="col-md-8 col-12">
                     <form action="/users/{{currentUser.username}}/submit-edit/" method="POST"
@@ -149,6 +169,11 @@
                                     <input type="text" class="form-control m" name="epicGamesID"
                                         value="{{currentUser.epicGamesID}}" />
                                 </div>
+                                <div class="form-row">
+                                    <b>آیدی <span class="text-english">PSN:</span></b>
+                                    <input type="text" class="form-control m" name="psnID"
+                                        value="{{currentUser.psnID}}" />
+                                </div>
                             </div>
                             <div class="text-center" style="padding:10px 0">
                                 <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
@@ -175,7 +200,7 @@
                                 var reader = new FileReader();
                                 reader.onload = function (e)
                                 {
-                                    $('#cover-preview').css('background-image',`url('${e.target.result}')`);
+                                    $('#cover-preview').css('background-image', `url('${e.target.result}')`);
                                 };
                                 reader.readAsDataURL(input.files[0]);
                             }
@@ -261,8 +286,27 @@
 
 
                 </div>
+                <div class="fortnite-box text-center">
+                    <h2
+                        style="text-shadow:2px 3px 3px rgba(0,0,0,0.3);font-size:36px;font-weight: bold;padding-bottom:15px;">
+                        مسابقات فورتنایت واج</h2>
+                    {{^currentUser.fortnite2019.hasJoined}}
+                    <a href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}"
+                        class="btn btn-md btn-warning">شرکت در
+                        مسابقات</a>
+                    {{/currentUser.fortnite2019.hasJoined}}
+                    {{#currentUser.fortnite2019.hasJoined}}
+                    <a href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}" class="btn btn-md btn-danger"
+                        style="margin-bottom:5px;">شما شرکت می کنید! مشاهده صفحه مسابقه</a><br>
+                    <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}"
+                        class="btn btn-sm btn-primary">مشاهده
+                        لیست شرکت کنندگان</a>
+                    {{/currentUser.fortnite2019.hasJoined}}
+                </div>
             </div>
+
         </div>
+
         </div>
     </section>
 </body>

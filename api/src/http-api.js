@@ -29,6 +29,7 @@ import { OTPHandler } from './routers/otp_handler';
 import { PostsHandler } from './routers/posts_router';
 import { CommentsHandler } from './routers/comments_handler';
 import { AdminLog } from './models/admin_log';
+import { FortniteTournomentHandler } from './routers/users_fortnite_handler';
 
 const morgan = require('morgan');
 
@@ -60,8 +61,11 @@ express.expressApp.use('/api/', new AppInfoHttpRouter().router);
 express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsEvent, { apiTokenRequired: true }).router);
 //users:
 const usersAuthHandler = new UsersAuthHandler(User);
+const fortniteHandler = new FortniteTournomentHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
+express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
+
 //otpObjects:
 const otpHandler = new OTPHandler(OTPObject);
 express.expressApp.use('/api/otpObjects/', new PublicMongooseAPIRouter(OTPObject, { apiTokenRequired: true }).router);
@@ -100,6 +104,7 @@ const WSRouters = [
     //users:
     new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
     usersAuthHandler.socketRouter,
+    fortniteHandler.socketRouter,
     //otp objects:
     new PublicMongooseWSRouter('otpObjects', OTPObject, { apiTokenRequired: true }),
     otpHandler.socketRouter,

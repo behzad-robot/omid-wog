@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title></title>
+    <style>
+    </style>
+</head>
+{{{navbar}}}
+<navfiller></navfiller>
+<section>
+    <div class="container">
+        <h1>Fortnite People List:</h1>
+        <h2>Player Count:{{players.length}}</h2>
+        <div class="row">
+            {{#players}}
+            <div class="col-md-12" style="direction: ltr;text-align: left;">
+                <b>{{username}}</b>&nbsp;
+                <b>epicGamesID: {{epicGamesID}} </b>&nbsp;
+                <b>psnID: {{psnID}} </b>&nbsp;
+            </div>
+            {{/players}}
+        </div>
+    </div>
+</section>
+{{{footer}}}
+
+</html>

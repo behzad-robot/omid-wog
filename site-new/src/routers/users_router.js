@@ -45,10 +45,13 @@ export default class SiteUsersRouter extends SiteRouter
                 res.status(400).send('access denied');
                 return;
             }
-            this.renderTemplate(req, res, 'edit-profile.html', {});
+            this.renderTemplate(req, res, 'edit-profile.html', {
+                success : req.query.msg == 'success',
+            });
         });
         this.router.post('/:username/submit-edit', (req, res) =>
         {
+
             if (isEmptyString(req.body._id))
             {
                 res.send({ success: false, error: "parameters missing" });
@@ -89,6 +92,7 @@ export default class SiteUsersRouter extends SiteRouter
                     age: req.body.age,
                     sex: req.body.sex,
                     epicGamesID : req.body.epicGamesID,
+                    psnID : req.body.psnID,
                 };
                 if (!isEmptyString(req.body.profileImage))
                     data.profileImage = req.body.profileImage;
