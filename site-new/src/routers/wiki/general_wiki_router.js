@@ -1,5 +1,5 @@
 import SiteRouter from "../site_router";
-import { SITE_URL } from "../../constants";
+import { SITE_URL } from "../../constants"
 
 export class GeneralWikiRouter extends SiteRouter
 {
