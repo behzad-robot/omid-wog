@@ -133,11 +133,13 @@
     <navfiller></navfiller>
     <section class="parallax-section-fixed-height header-section">
         <div class="container text-center">
+            {{#currentUser}}
             {{^currentUser.fortnite2019.hasJoined}}
-            <h1 class="header-title">به جمع <span id="player-count" class="text-fortnite">{{players.length}}</span> شرکت
+            <h1 class="header-title">به جمع <span id="player-count" class="text-fortnite">{{players.length}}</span>
+                شرکت
                 کننده مسابقه
                 بپیوندید!</h1>
-            <a href="{{#SITE_URL}}/signup{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت نام</a>
+            <a  href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت نام</a>
             {{/currentUser.fortnite2019.hasJoined}}
             {{#currentUser.fortnite2019.hasJoined}}
             <h1 class="header-title">شما&nbsp;<span id="player-count"
@@ -146,6 +148,14 @@
             <a href="{{#SITE_URL}}/tournaments/fortnite-2019/{{/SITE_URL}}" class="btn btn-md btn-danger">مشاهده صفحه
                 مسابقه</a>
             {{/currentUser.fortnite2019.hasJoined}}
+            {{/currentUser}}
+            {{^currentUser}}
+            <h1 class="header-title">به جمع <span id="player-count" class="text-fortnite">{{players.length}}</span>
+                شرکت
+                کننده مسابقه
+                بپیوندید!</h1>
+            <a href="{{#SITE_URL}}/signup{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت نام</a>
+            {{/currentUser}}
         </div>
     </section>
     <section class="list-section">
@@ -208,13 +218,15 @@
                 $(players[i]).html(j);
             }
             let playerCount = parseInt($("#player-count").html());
+            if(playerCount == undefined || isNaN(playerCount))
+                playerCount = parseInt(`{{players.length}}`);
             updatePlayerCount(0, playerCount);
         });
         function updatePlayerCount(number, max)
         {
+            $("#player-count").html(number);
             if (number == max)
                 return;
-            $("#player-count").html(number);
             let delay = (max - number) / max;
             setTimeout(() =>
             {
