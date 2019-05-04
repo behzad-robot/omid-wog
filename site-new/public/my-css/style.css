@@ -26,6 +26,9 @@ section{display:block;width:100%;}
 .text-mortal{
     font-family: mkserif !important;
 }
+.text-fortnite{
+    font-family: fortnite !important;
+}
 .text-ltr{
     direction: ltr;
 }
@@ -437,3 +440,11 @@ footer .footer-social{
     transform: translate(19px, 0);
   }
 }
+
+.parallax-section-fixed-height {   
+    /* Create the parallax scrolling effect */
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }

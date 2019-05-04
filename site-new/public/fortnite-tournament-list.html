@@ -2,27 +2,230 @@
 
 <head>
     {{{head}}}
-    <title></title>
     <style>
+        .header-section {
+            height: 400px;
+            background-image: url('/images/fortnite-2019/fortnite-top-cover.png');
+        }
+
+        .header-section .header-title {
+            color: white;
+            padding-top: 55px;
+            padding-bottom: 25px;
+            font-size: 64px;
+            text-shadow: 4px 3px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .header-section .header-title #player-count {
+            background-color: orange;
+            color: #2e2e2e;
+            border-radius: 50%;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            text-align: center;
+            padding-top: 15px;
+            text-shadow: none;
+        }
+
+        .list-section {
+            background-image: url('/images/fortnite-2019/pattern-purple.png');
+            background-size: 100% auto;
+            background-position: center;
+            min-height: 300px;
+            padding-top: 20px;
+        }
+
+        footer {
+            margin: 0;
+        }
+
+        .player-card {
+            background-color: #284c8e;
+            display: block;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        .player-card .number-card {
+            display: inline-block;
+            position: relative;
+            width: 96px;
+            color: white;
+            float: right;
+        }
+
+        .player-card .number-card .number-card-triangle {
+            position: absolute;
+            top: 0;
+            right: -32px;
+        }
+
+        .player-card .number-card .number-card-number {
+            position: relative;
+            z-index: 2;
+            right: 0px;
+            background-color: #283593;
+            font-size: 26px;
+            display: inline-block;
+            height: 64px;
+            text-align: center;
+            vertical-align: middle;
+            padding-top: 15px;
+            width: 64px;
+            border-left: 4px solid #183263;
+        }
+
+        .player-card .name-part {
+            display: inline-block;
+            color: white;
+            font-size: 28px;
+            height: 64px;
+            /* width: calc(100%-128px); */
+            position: relative;
+            padding: 10px 20px;
+        }
+
+        .player-card .id-part {
+            background-color: #f46e4e;
+            float: left;
+            padding: 6px;
+            height: 64px;
+            width: 160px;
+            text-align: left;
+            color: #3e3e3e;
+        }
+
+        .player-card .id-part.id-psn {
+            background-color: #f2cb51;
+        }
+
+        .player-card .id-part img {
+            width: 48px;
+        }
+
+        @media (max-width: 576px) {
+            .player-card .number-card {
+                width: 64px;
+            }
+
+            .player-card .name-part {
+                text-align: right;
+                font-size: 16px;
+            }
+
+            .player-card .id-part {
+                width: 100px;
+                padding: 3px;
+                padding-top: 16px;
+                font-size: 11px;
+            }
+
+            .player-card .id-part img {
+                width: 32px;
+            }
+        }
     </style>
 </head>
-{{{navbar}}}
-<navfiller></navfiller>
-<section>
-    <div class="container">
-        <h1>Fortnite People List:</h1>
-        <h2>Player Count:{{players.length}}</h2>
-        <div class="row">
-            {{#players}}
-            <div class="col-md-12" style="direction: ltr;text-align: left;">
-                <b>{{username}}</b>&nbsp;
-                <b>epicGamesID: {{epicGamesID}} </b>&nbsp;
-                <b>psnID: {{psnID}} </b>&nbsp;
-            </div>
-            {{/players}}
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="parallax-section-fixed-height header-section">
+        <div class="container text-center">
+            {{^currentUser.fortnite2019.hasJoined}}
+            <h1 class="header-title">به جمع <span id="player-count" class="text-fortnite">{{players.length}}</span> شرکت
+                کننده مسابقه
+                بپیوندید!</h1>
+            <a href="{{#SITE_URL}}/signup{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت نام</a>
+            {{/currentUser.fortnite2019.hasJoined}}
+            {{#currentUser.fortnite2019.hasJoined}}
+            <h1 class="header-title">شما&nbsp;<span id="player-count"
+                    class="text-fortnite">{{players.length}}</span>&nbsp;رقیب دارید.
+            </h1>
+            <a href="{{#SITE_URL}}/tournaments/fortnite-2019/{{/SITE_URL}}" class="btn btn-md btn-danger">مشاهده صفحه
+                مسابقه</a>
+            {{/currentUser.fortnite2019.hasJoined}}
         </div>
-    </div>
-</section>
-{{{footer}}}
+    </section>
+    <section class="list-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <h1 class="list-title text-white">شرکت کنندگان:</h1>
+                    {{#players}}
+                    <div class="player-card text-fortnite">
+                        <div class="number-card">
+                            <svg height="64" width="32" class="number-card-triangle no-mobile">
+                                <polygon points="0,0 0,64 32,0" style="fill:#283593" />
+                            </svg>
+                            <span class="number-card-number">#001</span>
+                        </div>
+                        <div class="name-part">
+                            <span>{{username}}</span>
+                        </div>
+                        <div class="id-part  {{^epicGamesID}}id-psn{{/epicGamesID}}">
+                            {{#epicGamesID}}
+                            <span>{{epicGamesID}}</span>
+                            <img src="/images/fortnite-2019/epic-games-logo.png" />
+                            {{/epicGamesID}}
+                            {{^epicGamesID}}
+                            {{#psnID}}
+                            <span>{{psnID}}</span>
+                            <img src="/images/fortnite-2019/psn.png" />
+                            {{/psnID}}
+                            {{/epicGamesID}}
+                        </div>
+                    </div>
+                    {{/players}}
+                </div>
+                <div class="col-md-4 col-12">
+                    <iframe src="https://discordapp.com/widget?id=574128756373848064&theme=dark" width="100%"
+                        height="350" allowtransparency="true" frameborder="0"></iframe>
+                    <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
+                        <img src="/images/fortnite-2019/telegram-channel.png" width="100%" />
+                    </a>
+                    <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
+                        <img src="/images/fortnite-2019/telegram-channel.png" width="100%" />
+                    </a>
+                    <a href="https://t.me/WOG_support" target="_blank" style="display:block;margin:10px 0;">
+                        <img src="/images/fortnite-2019/wog-support.png" width="100%" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(() =>
+        {
+            let players = $(".player-card .number-card-number");
+            for (var i = 0; i < players.length; i++)
+            {
+                let j = i + 1;
+                if (j < 10)
+                    j = "#00" + j.toString();
+                else if (j < 100)
+                    j = "#0" + j.toString();
+                else
+                    j = "#" + j.toString();
+                $(players[i]).html(j);
+            }
+            let playerCount = parseInt($("#player-count").html());
+            updatePlayerCount(0, playerCount);
+        });
+        function updatePlayerCount(number, max)
+        {
+            if (number == max)
+                return;
+            $("#player-count").html(number);
+            let delay = (max - number) / max;
+            setTimeout(() =>
+            {
+                updatePlayerCount(number + 1, max);
+            }, delay * 80);
+        }
+    </script>
+    {{{footer}}}
+</body>
 
 </html>
