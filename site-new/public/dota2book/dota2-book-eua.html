@@ -9,6 +9,9 @@
     <navfiller></navfiller>
     <section>
         <div class="container">
+            {{#currentUser.dota2Book2019.initPayment}}
+            <div class="alert alert-warning">شما قبلا شرایط را پذیرفته اید و عضو ایونت هستید.<a href="/dota2-book">بازگشت به صفحه ایونت</a></div>
+            {{/currentUser.dota2Book2019.initPayment}}
             {{#msg}}
             <div class="alert alert-warning">{{msg}}</div>
             {{/msg}}

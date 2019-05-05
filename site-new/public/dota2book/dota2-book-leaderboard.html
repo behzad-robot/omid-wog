@@ -7,9 +7,14 @@
         <navfiller></navfiller>
         <section>
             <div class="container">
-                <h1>Imagine Fateme's Landing page here</h1>
-                <p>page that has usefull info about the event and how to get to it and such shit!</p>
-                <a href="/dota2-book/leaderboard">View LeaderBoard</a>
+                <h1>LeaderBoard</h1>
+                <p>This is players leaderboard</p>
+                {{#players}}
+                <div class="wog-card" style="padding:10px 20px;margin-bottom:10px;">
+                    <b>{{username}}</b>&nbsp;&nbsp;&nbsp;
+                    <span>coins:{{dota2Book2019.coins}}</span>
+                </div>
+                {{/players}}
             </div>
         </section>
         {{{footer}}}

@@ -30,6 +30,7 @@ import { PostsHandler } from './routers/posts_router';
 import { CommentsHandler } from './routers/comments_handler';
 import { AdminLog } from './models/admin_log';
 import { FortniteTournomentHandler } from './routers/users_fortnite_handler';
+import { DotaBookHandler } from './routers/dota_book_handler';
 
 const morgan = require('morgan');
 
@@ -62,9 +63,11 @@ express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsE
 //users:
 const usersAuthHandler = new UsersAuthHandler(User);
 const fortniteHandler = new FortniteTournomentHandler(User);
+const dota2BookHandler = new DotaBookHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/dota2-book/',dota2BookHandler.httpRouter.router);
 
 //otpObjects:
 const otpHandler = new OTPHandler(OTPObject);
@@ -105,6 +108,7 @@ const WSRouters = [
     new PublicMongooseWSRouter('users', User, { apiTokenRequired: true }),
     usersAuthHandler.socketRouter,
     fortniteHandler.socketRouter,
+    dota2BookHandler.socketRouter,
     //otp objects:
     new PublicMongooseWSRouter('otpObjects', OTPObject, { apiTokenRequired: true }),
     otpHandler.socketRouter,
