@@ -244,13 +244,29 @@ navbar .navbar-beta{
 .no-mobile{
     display:block;
 }
+.no-tablet{
+    display: initial;
+}
 .mobile-only{
     display:none;
+}
+@media (max-width:1024px){
+    .no-tablet{
+        display: none;
+    }
+    navbar .navbar-item{
+        min-width:60px;
+        padding:25px 10px;
+        font-size:14px;
+    }
 }
 @media (max-width: 576px)
 { 
     .no-mobile{
         display:none;
+    }
+    .no-tablet{
+        display:initial;
     }
     .mobile-only{
         display: block;
