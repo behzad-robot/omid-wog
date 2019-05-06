@@ -31,17 +31,19 @@ export default class PostsPanelRouter extends AdminRouter
                 let action = 'posts-?';
                 if (req.url.indexOf('edit') != -1)
                     action = 'posts-edit';
-                else if(req.url.indexOf('delete') != -1)
+                else if (req.url.indexOf('delete') != -1)
                     action = 'posts-delete';
                 AdminLog.insert({
                     userId: req.session.admin._id,
-                    title: action ,
-                    url : req.baseUrl+req.url,
-                    postBody : req.method == 'POST' ? req.body : {}, 
-                }).then((result)=>{
+                    title: action,
+                    url: req.baseUrl + req.url,
+                    postBody: req.method == 'POST' ? req.body : {},
+                }).then((result) =>
+                {
                     console.log(result);
                     console.log('=======');
-                }).catch((err)=>{
+                }).catch((err) =>
+                {
                     console.log(err);
                 });
             }
@@ -52,11 +54,13 @@ export default class PostsPanelRouter extends AdminRouter
             var postsGrid = fs.readFileSync(path.resolve('../storage/caches/posts-grid.json')).toString();
             var postsRecommended = fs.readFileSync(path.resolve('../storage/caches/posts-recommended-ids.json')).toString();
             var upComingGames = fs.readFileSync(path.resolve('../storage/caches/upcoming-games.json')).toString();
+            var dota2TopChampions = fs.readFileSync(path.resolve('../storage/caches/dota2-top-champions.json')).toString();
             res.send(this.renderTemplate('collections.html', {
                 admin: req.session.admin,
                 postsGrid: postsGrid,
                 postsRecommended: postsRecommended,
                 upComingGames: upComingGames,
+                dota2TopChampions: dota2TopChampions,
             }));
         });
         this.router.post('/collections/save', (req, res) =>
@@ -64,6 +68,7 @@ export default class PostsPanelRouter extends AdminRouter
             var postsGridFilePath = path.resolve('../storage/caches/posts-grid.json');
             var postsRecommendedFilePath = path.resolve('../storage/caches/posts-recommended-ids.json');
             var upcomingGamesFilePath = path.resolve('../storage/caches/upcoming-games.json');
+            var dota2TopChampionsPath = path.resolve('../storage/caches/dota2-top-champions.json');
             var str = '';
             fs.writeFile(postsGridFilePath, req.body.postsGrid, (err) =>
             {
@@ -77,10 +82,15 @@ export default class PostsPanelRouter extends AdminRouter
                     {
                         if (err)
                             str += err + '\n';
-                        if (str != '')
-                            res.status(500).send('Error:' + str);
-                        else
-                            res.redirect('/admin/posts/collections');
+                        fs.writeFile(dota2TopChampionsPath, req.body.dota2TopChampions, (err) =>
+                        {
+                            if (err)
+                                str += err + '\n';
+                            if (str != '')
+                                res.status(500).send('Error:' + str);
+                            else
+                                res.redirect('/admin/posts/collections');
+                        });
                     });
                 });
             });

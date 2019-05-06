@@ -2,23 +2,101 @@
 
 <head>
     {{{head}}}
+    <style>
+        .title-section {
+            display: block;
+            background-image: url('/dota2book/images/title-bg.jpg');
+            background-position: center;
+            background-size: 100% auto;
+            padding: 15px 0;
+        }
+
+        .rules-section h1 {
+            color: #f0f1f2;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000000;
+            font-weight: normal;
+        }
+
+        .rules-section {
+            display: block;
+            background-image: url('/dota2book/images/eua-bg-clouds.jpg');
+            background-position: center;
+            background-size: cover;
+            min-height: 670px;
+            color: white;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .corner-thing {
+            position: absolute;
+            bottom: 0px;
+            left: 10px;
+            width: 256px;
+            height: auto;
+        }
+        .corner-thing2 {
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            width: 450px;
+            height: auto;
+        }
+        footer{
+            margin:0;
+        }
+    </style>
 </head>
 
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <section>
+    <section class="rules-section">
         <div class="container">
-            {{#currentUser.dota2Book2019.initPayment}}
-            <div class="alert alert-warning">شما قبلا شرایط را پذیرفته اید و عضو ایونت هستید.<a href="/dota2-book">بازگشت به صفحه ایونت</a></div>
-            {{/currentUser.dota2Book2019.initPayment}}
+            
             {{#msg}}
             <div class="alert alert-warning">{{msg}}</div>
             {{/msg}}
-            <h1>Dota 2 Book EUA</h1>
-            <p>you are going to sell your soul to us!</p>
-            <a href="/dota2-book/payment">Accept And Continue</a>
+            <div class="text-center">
+                <h1>شرایط و قوانین ایونت</h1>
+            </div>
+            <p class="text-center">
+                You are going to sell your soul to us, visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account. <br>
+                You are going to sell your soul to us, visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.You are going to sell your soul to us,
+                visit the ticketing FAQ to learn how to pick up
+                your badge and link it to your Steam account.
+            </p>
+            <div class="text-center" style="padding:20px 0">
+                {{^currentUser.dota2Book2019.initPayment}}
+                <a href="/dota2-book/payment" class="btn btn-md btn-warning">شرایط را پذیرفته ام</a>
+                {{/currentUser.dota2Book2019.initPayment}}
+                {{#currentUser.dota2Book2019.initPayment}}
+                <div class="alert alert-warning">شما قبلا شرایط را پذیرفته اید و عضو ایونت هستید.<a
+                    href="/dota2-book">بازگشت به صفحه ایونت</a></div>
+                {{/currentUser.dota2Book2019.initPayment}}
+            </div>
         </div>
+        <img src="/dota2book/images/skeleton-thing.png" class="corner-thing no-mobile" />
+        <img src="/dota2book/images/butcher-thing.png" class="corner-thing2 no-mobile" />
     </section>
     {{{footer}}}
 </body>
