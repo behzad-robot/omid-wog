@@ -37,6 +37,7 @@ import { SiteGalleryRouter } from "./routers/gallery_router";
 import { GeneralWikiRouter } from "./routers/wiki/general_wiki_router";
 import SiteTournamentRouter from "./routers/tournament_router";
 import { Dota2BookRouter } from "./routers/dota2book/dota2_book_router";
+import { Dota2WikiRouter } from "./routers/wiki/dota2_wiki_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -300,6 +301,7 @@ express.expressApp.use('/', new SiteMapRouter(SiteModules).router);
 express.expressApp.use('/gallery', new SiteGalleryRouter(SiteModules).router);
 express.expressApp.use('/wiki/', new GeneralWikiRouter(SiteModules).router);
 express.expressApp.use('/wiki/mortal-kombat', new MortalWikiRouter(SiteModules).router);
+express.expressApp.use('/wiki/dota2', new Dota2WikiRouter(SiteModules).router);
 express.expressApp.use('/dota2-book', new Dota2BookRouter(SiteModules).router);
 
 

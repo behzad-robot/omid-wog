@@ -21,13 +21,18 @@ export default class AdminPanelRouter extends AdminRouter
         {
             res.send(this.renderTemplate('file-explorer.html', {
                 admin: req.session.admin,
-                fileUploadURL:  ADMIN_FILE_UPLOAD
+                fileUploadURL: ADMIN_FILE_UPLOAD
             }));
         });
         this.router.get('/file-load', (req, res) =>
         {
-            fs.readdir('../storage/' + (req.query.folder ? req.query.folder : ''), (err, items) =>
+            const dir = '../storage/' + (req.query.folder ? req.query.folder : '');
+            fs.readdir(dir, (err, items) =>
             {
+                items.sort(function (a, b)
+                {
+                    return fs.statSync(dir +'/'+ b).mtime.getTime() - fs.statSync(dir+'/' + a).mtime.getTime();
+                });
                 for (var i = 0; i < items.length; i++)
                     items[i] = '/storage/' + (req.query.folder ? req.query.folder + '/' : '') + items[i];
                 res.send(items);
