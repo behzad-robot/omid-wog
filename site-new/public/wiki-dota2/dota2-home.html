@@ -1,4 +1,532 @@
-<h1>This is {{game.name}} Home</h1>
-<p>We have {{champions.length}} champions</p>
-<p>We have {{topChampions.length}} top champions</p>
-<p>We have {{posts.length}} posts</p>
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .header-section {
+            background-image: url('/wiki-dota2/images/cover3.jpg');
+            background-position: 50% 70%;
+            background-size: cover;
+            height: 600px;
+            padding-top: 150px;
+            position: relative;
+        }
+
+        .header-section .header-section-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.05);
+            top: 0;
+            left: 0;
+        }
+
+        footer {
+            margin: 0;
+        }
+
+        body {
+            background-color: #171b26;
+        }
+
+        .topChampions-section {
+            padding: 20px 0;
+        }
+
+        .topChampion-card {
+            display: block;
+            position: relative;
+            pointer-events: all;
+            background-image: url('/wiki-dota2/images/goh.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 5px;
+            height: 200px;
+            border-radius: 10px;
+            margin-top: 30px
+        }
+
+        .topChampion-card .img-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: 0.3s all;
+            z-index: 10;
+        }
+
+        .topChampion-card .img-wrapper img {
+            width: 100%;
+            pointer-events: none;
+            transition: 0.3s all;
+        }
+
+        .topChampion-card:hover .img-wrapper {
+            top: -40px;
+        }
+
+        .topChampion-card:hover .img-wrapper img {
+            width: 80%;
+        }
+
+        .topChampion-card:hover .patch-hero-description {
+            display: block;
+        }
+
+        .topChampion-card .patch-hero-description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+        }
+
+        .topChampion-card .see-more-text {
+            color: white;
+            font-size: 12px;
+            margin-top: -15px;
+            color: lightgrey
+        }
+
+        .topChampion-card .details {
+            font-size: 12px;
+        }
+
+        .topChampion-card .roledetails {
+            font-size: 14px;
+            color: skyblue;
+            margin-top: 5px;
+        }
+
+        .topChampion-card .hero-page-link {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .btn.btn-dota {
+            border-radius: 50px;
+            background-color: #091123;
+        }
+
+        .dota-box {
+            display: block;
+        }
+
+        .dota-box .dota-box-title {
+            background-color: #38486D;
+            color: white;
+            padding: 10px 20px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            border-bottom: 3px solid #0D1830;
+            overflow: hidden;
+        }
+
+        .dota-box .dota-box-content {
+            background-color: #202D4F;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .dota-box .dota-box-title h1,
+        .dota-box .dota-box-title h2,
+        .dota-box .dota-box-title h3,
+        .dota-box .dota-box-title h4,
+        .dota-box .dota-box-title h5,
+        .dota-box .dota-box-title h6 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .small-build-box {
+            display: block;
+            padding: 7px 5px;
+        }
+
+        .small-build-box img {
+            display: inline-block;
+            width: 72px;
+            height: auto;
+            vertical-align: top;
+
+        }
+
+        .small-build-box .text-wrapper {
+            display: inline-block;
+            color: white;
+        }
+
+        .small-build-box .small-build-box-title {
+            font-size: 14px;
+        }
+
+        .small-build-box .small-build-box-author {
+            font-size: 10px;
+        }
+
+        .heroes-section {
+            padding: 20px 0;
+            background-image: url('/wiki-dota2/images/dotamap.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .champ-box {
+            margin-bottom: 5px;
+            border-radius: 10px;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .champ-box .zoom {
+            transition: transform 0.2s;
+            transform: scale(0);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .champ-box:hover .zoom {
+            transform: scale(1.5);
+            z-index: 9999;
+            border-radius: 5px;
+            border: 1px solid #000;
+            box-shadow: 1px 2px 10px #000;
+        }
+
+        .all-heroes-links {
+            display: inline-block;
+            width: 8.5%;
+        }
+
+        .all-heroes-background {
+            background-image: url('/wiki-dota2/images/dotamap.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 10px;
+        }
+    </style>
+    <style>
+        .newslinks {
+            text-decoration: none;
+        }
+
+        .newslinks:hover {
+            text-decoration: none;
+        }
+
+        .news-text {
+            color: white;
+            padding: 15px 0;
+            float: right;
+            font-size: 32px;
+        }
+
+        .news-more-text {
+            color: orange;
+            padding: 15px 0;
+            float: left;
+            font-size: 32px;
+        }
+
+        .news-image {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .news-background {
+            background-color: white;
+        }
+
+        .news-title {
+            font-size: 17px;
+            display: inline-block;
+            margin-right: 7px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .date-context {
+            font-size: 11px;
+            color: rgb(114, 114, 114);
+            margin-right: 7px;
+            padding-bottom: 10px
+        }
+        @media (max-width: 576px) {
+            .header-section{
+                padding-top:30px;
+                height:500px;
+            }
+            .topChampion-card .img-wrapper {
+                top: -40px;
+                width: 75%;
+            }
+
+            .topChampion-card .patch-hero-description {
+                display: block;
+            }
+            .all-heroes-links {
+                display: inline-block;
+                width: 23.5%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .topChampion-card .img-wrapper {
+                top: -40px;
+                width: 75%;
+            }
+
+            .topChampion-card .patch-hero-description {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="header-section">
+        <div class="header-section-overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 col-12"></div>
+                <div class="col-md-8 col-12 text-center">
+                    <h1 style="color: white;text-shadow: 10px 10px 10px black">{{game.name}}</h1>
+                    <div style="color: white;text-shadow: 10px 10px 10px black">{{{game.description}}}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="topChampions-section">
+        <div class="container">
+            <h4 style="color: white; margin-top: 10px;margin-bottom: 10px; ">قهرمان های محبوب این Patch</h4>
+            <div class="row">
+                <div class="col-md-2 col-6">
+                    <div class="topChampion-card">
+                        <div class="text-center img-wrapper">
+                            <img src="/wiki-dota2/images/bloodseeker.png" alt="">
+                        </div>
+                        <div class="patch-hero-description text-center">
+                            <h6 style="color:orange;padding-top:100px">bloodseeker</h6>
+                            <div class="roledetails">carry,nuker,supporter</div>
+                            <a href="#" class="btn btn-sm btn-dota hero-page-link">مشاهده قهرمان</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="builds-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-12">
+                    <div class="dota-box" style="margin-bottom:5px">
+                        <div class="dota-box-title">
+                            <h2 style="font-size:16px;float:right;">پربازدیدترین‌ آموزش‌‌ها</h2>
+                            <a class="float-left orange-link" href="#" style="font-size:13px;">بیشتر</a>
+                        </div>
+                        <div class="dota-box-content">
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="dota-box" style="margin-bottom:5px">
+                        <div class="dota-box-title">
+                            <h2 style="font-size:16px;float:right;">پربازدیدترین‌ آموزش‌‌ها</h2>
+                            <a class="float-left orange-link" href="#" style="font-size:13px;">بیشتر</a>
+                        </div>
+                        <div class="dota-box-content">
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png" />
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">Butcher Mid</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
+                                            class="orange-link">lucker</a></span>
+                                </div>
+                            </div>
+                            <!--small-build-box-->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <img src="/wiki-dota2/images/join-wog-discord.png" width="100%" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="heroes-section">
+        <div class="container">
+            <h1 style="color: white;font-size: 32px">قهرمان ها</h1>
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;">Strength:</h3>
+            <div id="heros-list">
+                <a class="all-heroes-links" href="#">
+                    <div class="champ-box text-center">
+                        <img src="/wiki-dota2/images/juggernaut.png" style="width: 100%">
+                        <video src="/wiki-dota2/images/kunha.mp4" autoplay muted class="zoom" width="100%"></video>
+                    </div>
+                </a>
+            </div>
+            <script>
+                $(() =>
+                {
+                    let str = $("#heros-list").html();
+                    for (var i = 0; i < 50; i++)
+                    {
+                        $("#heros-list").append(str);
+                    }
+                });
+            </script>
+        </div>
+    </section>
+    <section class="news-section">
+        <div class="container">
+            <div style="overflow:hidden;">
+                <h1 class="news-text">اخبار:</h1>
+                <a href="#">
+                    <h1 class="news-more-text" style="font-size:16px;padding-top:25px;"> بیشتر</h1>
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-6">
+                    <a href="#" class="newslinks">
+                        <div class="news-background">
+                            <img src="/images/quan-chi.png" alt="" class="news-image">
+                            <h1 class="news-title">quan chi خشتک میدرد</h1>
+                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="streamers-section">
+        <div class="container">
+            <h1 style="color:white;font-size: 32px">استریمر ها</h1>
+            <div class="row">
+                <div class="col-md-3">
+                    <a href="#" class="streamer-links">
+                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
+                        <p style="color: white">استریمر جماعت</p>
+                    </a>
+                </div>
+                <div class="col-md-3">
+                    <a href="#" class="streamer-links">
+                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
+                        <p style="color: white">استریمر جماعت</p>
+                    </a>
+                </div>
+                <div class="col-md-3" class="streamer-links">
+                    <a href="#">
+                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
+                        <p style="color: white">استریمر جماعت</p>
+                    </a>
+                </div>
+
+                <div class="col-md-3" class="streamer-links">
+                    <a href="#">
+                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
+                        <p style="color: white">استریمر جماعت</p>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>
