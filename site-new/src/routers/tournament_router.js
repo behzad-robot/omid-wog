@@ -31,7 +31,7 @@ export default class SiteTournamentRouter extends SiteRouter
         });
         this.router.get('/fortnite-2019-list', (req, res) =>
         {
-            siteModules.User.find({ 'fortnite2019.hasJoined': true }).then((players) =>
+            siteModules.User.find({ 'fortnite2019.hasJoined': true , limit : 50000 }).then((players) =>
             {
                 this.renderTemplate(req, res, 'fortnite-tournament-list.html', {
                     players: players,
