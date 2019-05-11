@@ -2,7 +2,7 @@ import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
 import { isEmptyString, moment_now } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
-import { API_ENCODE_KEY, SITE_URL } from "../constants";
+import { API_ENCODE_KEY, SITE_URL, ADMIN_TOKEN } from "../constants";
 import moment from 'moment';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
@@ -74,6 +74,23 @@ class UsersAuthHttpRouter extends APIRouter
             }).catch((err) =>
             {
                 this.handleError(req, res, err.toString(), 500);
+            });
+        });
+        this.router.get('/get-admins', (req, res) =>
+        {
+            console.log(req.header('admin-token'));
+            if (isEmptyString(req.header('admin-token')) || req.header('admin-token') != ADMIN_TOKEN)
+            {
+                console.log(req.header('admin-token')+'=>'+ADMIN_TOKEN);
+                this.handleError(req, res, 'access denied', 400);
+                return;
+            }
+            this.handler.getAllAdmins().then((admins) =>
+            {
+                this.sendResponse(req, res, admins);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
             });
         });
     }
@@ -152,6 +169,7 @@ export class UsersAuthHandler
         this.checkToken = this.checkToken.bind(this);
         this.editProfile = this.editProfile.bind(this);
         this.checkUserFolder = this.checkUserFolder.bind(this);
+        this.getAllAdmins = this.getAllAdmins.bind(this);
     }
     login(params = { username: '', email: '', password: '' })
     {
@@ -192,9 +210,9 @@ export class UsersAuthHandler
                         reject({ code: 500, error: err.toString() });
                         return;
                     }
-                    if(user == null)
+                    if (user == null)
                     {
-                        reject({ code: 404, error: "user not found"});
+                        reject({ code: 404, error: "user not found" });
                         return;
                     }
                     user = user.toObject();
@@ -227,8 +245,8 @@ export class UsersAuthHandler
                 phoneNumber: params.phoneNumber,
                 firstName: params.firstName,
                 lastName: params.lastName,
-                epicGamesID : params.epicGamesID ? params.epicGamesID : '',
-                psnID : params.psnID ? params.psnID : '',
+                epicGamesID: params.epicGamesID ? params.epicGamesID : '',
+                psnID: params.psnID ? params.psnID : '',
                 sex: params.sex,
                 followingGames: [],
                 createdAt: moment_now(),
@@ -343,7 +361,7 @@ export class UsersAuthHandler
                             reject(err);
                             return;
                         }
-                        if(result != undefined)
+                        if (result != undefined)
                             reject("user with this username already exists");
                         else
                             editUser();
@@ -352,6 +370,24 @@ export class UsersAuthHandler
                 else
                     editUser();
             });
+        });
+    }
+    getAllAdmins()
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.User
+                .find({ 'accessLevel.isAdmin': true })
+                .limit(50)
+                .exec((err, results) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(results);
+                });
         });
     }
     // sendOTP(params)

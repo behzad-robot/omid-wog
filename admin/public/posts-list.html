@@ -53,9 +53,10 @@
             $(document).ready(() =>
             {
                 $("#list").html("<h3>در حال بارگذاری...</h3>");
-                findObjects('users', (us) =>
+                getAdmins((us) =>
                 {
                     users = us;
+                    console.log(users);
                     findObjects('posts', (ps) =>
                     {
                         posts = ps;
@@ -107,6 +108,7 @@
                         alertStr += 'عنوان شامل کلمه فارسی نیست.<br>';
                     if (post.intro.length >= 2000)
                         alertStr += 'متن پیش نمایش  طولانی می باشد.<br>';
+                    console.log(post.title);
                     $("#list").append(
                         `<div class="post-row">
                                 <div class="row">
