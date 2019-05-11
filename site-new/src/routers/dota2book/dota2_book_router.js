@@ -44,10 +44,31 @@ export class Dota2BookRouter extends SiteRouter
         });
         this.router.get('/eua', (req, res) =>
         {
-            if (req.query.msg == 'payFirst')
-                req.query.msg = 'برای ورود به ایونت ابتدا پرداخت کنید!';
+            if (req.query.msg == 'acceptFirst')
+                req.query.msg = 'ابتدا شرایط و قوانین ایونت را بپذیرید';
             this.renderTemplate(req, res, 'dota2book/dota2-book-eua.html', {
                 msg: req.query.msg,
+            });
+        });
+        this.router.get('/enter-event', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            if (currentUser.dota2Book2019.enterEvent)
+            {
+                res.redirect(SLUG + '/?msg=alreadyEntered');
+                return;
+            }
+            siteModules.User.apiCall('dota2-book-enter-event', { _id: currentUser._id, userToken: currentUser.token }).then((user) =>
+            {
+                console.log(user);
+                req.session.currentUser = user;
+                req.session.save(() =>
+                {
+                    res.redirect(SLUG);
+                });
+            }).catch((err) =>
+            {
+                this.show500(req, res, err);
             });
         });
         this.router.get('/payment', (req, res) =>
@@ -71,9 +92,9 @@ export class Dota2BookRouter extends SiteRouter
         this.router.get('/', (req, res) =>
         {
             let currentUser = req.session.currentUser;
-            if (currentUser.dota2Book2019 == undefined || !currentUser.dota2Book2019.initPayment)
+            if (currentUser.dota2Book2019 == undefined || !currentUser.dota2Book2019.enterEvent)
             {
-                res.redirect(SLUG + '/eua/?msg=payFirst');
+                res.redirect(SLUG + '/eua/?msg=acceptFirst');
                 return;
             }
             currentUser.dota2Book2019._bets = {};
@@ -107,7 +128,7 @@ export class Dota2BookRouter extends SiteRouter
             siteModules.User.find({ 'dota2Book2019.initPayment': true, sort: '-dota2Book2019.coins' }).then((players) =>
             {
                 this.renderTemplate(req, res, 'dota2book/dota2-book-leaderboard.html', {
-                    players : players,
+                    players: players,
                 });
             });
         });

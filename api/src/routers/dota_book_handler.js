@@ -28,6 +28,10 @@ class Dota2BookHttpRouter extends APIRouter
     {
         super();
         this.handler = handler;
+        this.router.post('/enter-event', (req, res) =>
+        {
+            this.handleError(req, res, 'HTTP not allowed');
+        });
         this.router.post('/do-payment', (req, res) =>
         {
             this.handleError(req, res, 'HTTP not allowed');
@@ -60,6 +64,16 @@ class Dota2BookSocketRouter extends SocketRouter
             return;
         if (request.model != 'users')
             return;
+        if (request.method == 'dota2-book-enter-event')
+        {
+            this.handler.enterEvent(request.params).then((user) =>
+            {
+                this.sendResponse(socket, request, user);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err.toString());
+            });
+        }
         if (request.method == 'dota2-book-do-payment')
         {
             this.handler.doPayment(request.params).then((user) =>
@@ -102,6 +116,7 @@ export class DotaBookHandler
         this.socketRouter = new Dota2BookSocketRouter(this);
         //bind functions:
         this.checkAndFixUser = this.checkAndFixUser.bind(this);
+        this.enterEvent = this.enterEvent.bind(this);
         this.doPayment = this.doPayment.bind(this);
         this.addAction = this.addAction.bind(this);
     }
@@ -113,12 +128,58 @@ export class DotaBookHandler
                 initPayment: false,
                 initPaymentToken: "",
                 initPaymentDate: "",
+                freeActions: 3,
                 coins: 0,
                 actions: [], // { token : string , reward : int , createdAt : string }
                 bets: [], // { token : string , value : int , status : string , createdAt : string } // status : pending , win , loose
             };
         }
         return user;
+    }
+    enterEvent(params) // params is : { _id : string , userToken : string (user.token )}
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userToken))
+            {
+                reject('missing parameter userToken');
+                return;
+            }
+            if (isEmptyString(params._id))
+            {
+                reject('missing parameter _id');
+                return;
+            }
+            this.User.findOne({ _id: params._id }).exec((err, player) =>
+            {
+                if (err)
+                {
+                    reject(err.toString());
+                    return;
+                }
+                if (player.token != params.userToken)
+                {
+                    reject('invalid token! access denied.');
+                    return;
+                }
+                if (player.dota2Book2019.enterEvent)
+                {
+                    reject('already entered event.');
+                    return;
+                }
+                player = this.checkAndFixUser(player);
+                player.dota2Book2019.enterEvent = true;
+                this.User.findByIdAndUpdate(player._id, { $set: { dota2Book2019: player.dota2Book2019 } }, { new: true }, (err, user) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(user);
+                });
+            });
+        });
     }
     doPayment(params) // params is : { _id : string initPaymentToken : string , userToken : string (user.token )}
     {
@@ -139,30 +200,29 @@ export class DotaBookHandler
                 reject('missing parameter _id');
                 return;
             }
-            let player = this.checkAndFixUser({ _id: params._id });
-            delete (params._id);
-            this.User.findOne({ _id: player._id }).exec((err, result) =>
+            this.User.findOne({ _id: params._id }).exec((err, player) =>
             {
                 if (err)
                 {
                     reject(err.toString());
                     return;
                 }
-                if (result.token != params.userToken)
+                if (player.token != params.userToken)
                 {
                     reject('invalid token! access denied.');
                     return;
                 }
-                if (result.initPayment)
+                if (player.dota2Book2019.initPayment)
                 {
-                    reject('user has already payed.');
+                    reject('already payed for event!');
                     return;
                 }
+                player = this.checkAndFixUser(player);
+                player.dota2Book2019.enterEvent = true;
                 player.dota2Book2019.initPayment = true;
                 player.dota2Book2019.initPaymentToken = params.initPaymentToken;
                 player.dota2Book2019.initPaymentDate = moment_now();
                 player.dota2Book2019.coins = INIT_COINS;
-                player.dota2Book2019.actions.push({ token: 'init_payment', reward: INIT_COINS, createdAt: moment_now() });
                 this.User.findByIdAndUpdate(player._id, { $set: { dota2Book2019: player.dota2Book2019 } }, { new: true }, (err, user) =>
                 {
                     if (err)

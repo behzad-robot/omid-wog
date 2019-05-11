@@ -47,6 +47,7 @@ export const UserSchema = new mongoose.Schema({
     dota2Book2019: {
         type: Object,
         default: {
+            enterEvent : false,
             initPayment: false,
             initPaymentToken: "",
             initPaymentDate: "",

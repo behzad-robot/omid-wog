@@ -38,6 +38,7 @@
             width: 256px;
             height: auto;
         }
+
         .corner-thing2 {
             position: absolute;
             bottom: 40px;
@@ -45,8 +46,9 @@
             width: 450px;
             height: auto;
         }
-        footer{
-            margin:0;
+
+        footer {
+            margin: 0;
         }
     </style>
 </head>
@@ -56,7 +58,7 @@
     <navfiller></navfiller>
     <section class="rules-section">
         <div class="container">
-            
+
             {{#msg}}
             <div class="alert alert-warning">{{msg}}</div>
             {{/msg}}
@@ -86,13 +88,17 @@
                 your badge and link it to your Steam account.
             </p>
             <div class="text-center" style="padding:20px 0">
+                {{^currentUser.dota2Book2019.enterEvent}}
+                <a href="/dota2-book/enter-event" class="btn btn-md btn-warning"> ورود رایگان بدون هزینه شرایط را پذیرفته ام</a>
+                {{/currentUser.dota2Book2019.enterEvent}}
                 {{^currentUser.dota2Book2019.initPayment}}
-                <a href="/dota2-book/payment" class="btn btn-md btn-warning">شرایط را پذیرفته ام</a>
+                <a href="/dota2-book/payment" class="btn btn-md btn-success">پرداخت هزینه و شرکت عین آدم</a>
                 {{/currentUser.dota2Book2019.initPayment}}
-                {{#currentUser.dota2Book2019.initPayment}}
+                <hr />
+                {{#currentUser.dota2Book2019.enterEvent}}
                 <div class="alert alert-warning">شما قبلا شرایط را پذیرفته اید و عضو ایونت هستید.<a
-                    href="/dota2-book">بازگشت به صفحه ایونت</a></div>
-                {{/currentUser.dota2Book2019.initPayment}}
+                        href="/dota2-book">بازگشت به صفحه ایونت</a></div>
+                {{/currentUser.dota2Book2019.enterEvent}}
             </div>
         </div>
         <img src="/dota2book/images/skeleton-thing.png" class="corner-thing no-mobile" />

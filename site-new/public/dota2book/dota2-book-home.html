@@ -18,9 +18,13 @@
     <navfiller></navfiller>
     <section>
         <div class="container">
+            {{^currentUser.dota2Book2019.initPayment}}
+            <div class="alert alert-danger">شما به صورت تستی تو ایونت هستی و نمی تونی خیلی کاری کنی.</div>
+            {{/currentUser.dota2Book2019.initPayment}}
             <h1 style="margin:10px 0;">Dota 2 Book Home Page</h1>
             <a href="/dota2-book/leaderboard">View LeaderBoard</a><br>
             <a href="/dota2-book/eua">View Rules And EUA</a>
+            <h2>Coins:<span class="badge badge-md badge-warning">{{currentUser.dota2Book2019.coins}}</span></h2>
             <h1 style="margin:10px 0;">Possible Actions:</h1>
             <div class="row">
                 <div class="col-md-4">
@@ -35,11 +39,17 @@
                     <div class="col-md-4">
                         <div class="wog-card card-padding">
                             <b>matchup_tashtak_vs_monster</b><br>
-                            <input type="radio" name="matchup_tashtak_vs_monster" value="tashtak_sazan" {{#user.dota2Book2019._bets.matchup_tashtak_vs_monster.tashtak_sazan}}checked{{/user.dota2Book2019._bets.matchup_tashtak_vs_monster.tashtak_sazan}} /> Tashtak
+                            <input type="radio" name="matchup_tashtak_vs_monster" value="tashtak_sazan"
+                                {{#user.dota2Book2019._bets.matchup_tashtak_vs_monster.tashtak_sazan}}checked{{/user.dota2Book2019._bets.matchup_tashtak_vs_monster.tashtak_sazan}} />
+                            Tashtak
                             Sazi<br>
-                            <input type="radio" name="matchup_tashtak_vs_monster" value="monster_gaming" {{#user.dota2Book2019._bets.matchup_tashtak_vs_monster.monster_gaming}}checked{{/user.dota2Book2019._bets.matchup_tashtak_vs_monster.monster_gaming}}/> Monster
+                            <input type="radio" name="matchup_tashtak_vs_monster" value="monster_gaming"
+                                {{#user.dota2Book2019._bets.matchup_tashtak_vs_monster.monster_gaming}}checked{{/user.dota2Book2019._bets.matchup_tashtak_vs_monster.monster_gaming}} />
+                            Monster
                             Gaming<br>
-                            coins:<input type="number" value="{{user.dota2Book2019._bets.matchup_tashtak_vs_monster.coins}}" name="matchup_tashtak_vs_monster-betCoins"/>
+                            coins:<input type="number"
+                                value="{{user.dota2Book2019._bets.matchup_tashtak_vs_monster.coins}}"
+                                name="matchup_tashtak_vs_monster-betCoins" />
                         </div>
                     </div>
                     <!-- <div class="col-md-4">
@@ -50,7 +60,7 @@
                         </div>
                     </div> -->
                 </div>
-                <input type="submit" value="Submit Bets" class="btn btn-md btn-warning" style="margin:10px 0;"/>
+                <input type="submit" value="Submit Bets" class="btn btn-md btn-warning" style="margin:10px 0;" />
             </form>
         </div>
     </section>
