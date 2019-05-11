@@ -83,20 +83,19 @@ express.expressApp.all('/api/*', (req, res) =>
     });
 });
 //routers:
-express.expressApp.use('/', new AdminGeneralRouter(AdminModules).router)
-express.expressApp.use('/admin', new AdminPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/media', new MediaPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/posts-cats', new PostsCatsPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/games', new GamesPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/comments', new CommentsPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/users', new UsersPanelRouter(AdminModules).router)
-express.expressApp.use('/admin/aparat', new AparatAdminRouter(AdminModules).router)
-express.expressApp.use('/admin/site-config', new SiteConfigAdminRouter(AdminModules).router)
-
-express.expressApp.use('/admin/files', new AdminFilesRouter(AdminModules).router)
+express.expressApp.use('/', new AdminGeneralRouter(AdminModules).router);
+express.expressApp.use('/admin', new AdminPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/media', new MediaPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/posts', new PostsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/posts-cats', new PostsCatsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/games', new GamesPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/comments', new CommentsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/users', new UsersPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/aparat', new AparatAdminRouter(AdminModules).router);
+express.expressApp.use('/admin/site-config', new SiteConfigAdminRouter(AdminModules).router);
+express.expressApp.use('/admin/files', new AdminFilesRouter(AdminModules).router);
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 
 //listen:

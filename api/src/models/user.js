@@ -51,6 +51,7 @@ export const UserSchema = new mongoose.Schema({
             initPaymentToken: "",
             initPaymentDate: "",
             coins: 0,
+            freeActions : 3,
             actions: [], // { token : string , reward : int , createdAt : string }
             bets: [], // { token : string , value : string ,coins : int , status : string , createdAt : string } // status : pending , win , loose
             /**

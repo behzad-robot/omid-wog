@@ -14,7 +14,7 @@
     <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
     <meta property="og:site_name" content="واج">
 
-    
+
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@wogcompany">
     <meta name="twitter:description" content="{{_wogSEO.description}}">
@@ -22,7 +22,7 @@
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
     <style>
         .faction-details {
-            background-color:rgba(10, 10, 10, 0.9);
+            background-color: rgba(10, 10, 10, 0.9);
             margin-bottom: 20px;
             margin-top: 20px;
             /* border: 3px solid; */
@@ -48,7 +48,7 @@
         }
 
         .faction-context {
-            background-color: rgba(0,0,0,0.2);
+            background-color: rgba(0, 0, 0, 0.2);
             border-radius: 5px;
             padding: 10px;
             margin-top: 20px;
@@ -60,34 +60,42 @@
             color: white;
             text-shadow: 10px 10px 10px rgba(0, 0, 0, 1)
         }
-        .faction-info-col{
+
+        .faction-info-col {
             direction: rtl;
             text-align: right;
         }
-        .faction-info-col table{
+
+        .faction-info-col table {
             direction: ltr;
             text-align: right;
-            border:none;
-            font-size:13px;
+            border: none;
+            font-size: 13px;
         }
-        .faction-info-col table a{
-            color:orange;
+
+        .faction-info-col table a {
+            color: orange;
         }
-        .faction-info-col table tr,.faction-info-col table td{
-            border:none;
+
+        .faction-info-col table tr,
+        .faction-info-col table td {
+            border: none;
         }
-        .faction-info-col table td{
-            color:orange;
+
+        .faction-info-col table td {
+            color: orange;
             font-weight: bold;
             vertical-align: top;
             direction: ltr;
         }
-        .faction-info-col table td:nth-child(1){
-            color:white;
+
+        .faction-info-col table td:nth-child(1) {
+            color: white;
             font-weight: normal;
-            padding-right:20px;
+            padding-right: 20px;
             direction: rtl;
         }
+
         table {
             color: white;
         }
@@ -123,8 +131,20 @@
                     </div>
                     <div>
                         <h4 style="color:white" class="text-center">مشخصات</h4>
-                        <div  class="faction-info-col">
-                        {{{faction.info}}}
+                        <div class="faction-info-col">
+                            <table border="1" cellpadding="1" cellspacing="1">
+                                <tbody>
+                                    {{#faction.info}}
+                                    <tr>
+                                        <td>{{{body}}}</td>
+                                        <td>{{{title}}}</td>
+
+                                    </tr>
+                                    {{/faction.info}}
+
+                                </tbody>
+                            </table>
+
                         </div>
                     </div>
                 </div>

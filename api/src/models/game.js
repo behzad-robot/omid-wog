@@ -47,7 +47,7 @@ export const GameSchema = new mongoose.Schema({
     runes: Array, // {tree , name , icon , description , depth , bonus}
     patchNotes: Array, // {title : string , body : string}
     //mortal only:
-    factions: Array, // {slug : string , name : string , icon : string ,cover : string , description : string , info : string }
+    factions: Array, // {slug : string , name : string , icon : string ,cover : string , description : string , info : Array }
     //pubg only:
     maps: [{
         _id: String,
