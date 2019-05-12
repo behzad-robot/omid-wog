@@ -3,6 +3,7 @@ import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
 import { S_IFREG } from "constants";
 import { updateCache } from "../utils/cache";
+import { isEmptyString } from "../utils/utils";
 export default class ChampionsPanelRouter extends AdminRouter
 {
     constructor(AdminModules)
@@ -123,28 +124,41 @@ export default class ChampionsPanelRouter extends AdminRouter
         {
             AdminModules.Champion.getOne(req.params._id).then((champ) =>
             {
-                AdminModules.Game.getOne(champ.gameId).then((game) =>
+                if (isEmptyString(champ.gameId))
                 {
-                    if (game.token.toString().indexOf('mortal') == -1)
-                    {
-                        res.send(this.renderTemplate('champ-moba-single.html', {
-                            admin: req.session.admin,
-                            _id: req.params._id,
-                            fileUploadURL: ADMIN_FILE_UPLOAD
-                        }));
-                    }
-                    else
-                    {
-                        res.send(this.renderTemplate('champ-mortal-single.html', {
-                            admin: req.session.admin,
-                            _id: req.params._id,
-                            fileUploadURL: ADMIN_FILE_UPLOAD
-                        }));
-                    }
-                }).catch((err) =>
+                    res.send(this.renderTemplate('champ-moba-single.html', {
+                        admin: req.session.admin,
+                        _id: req.params._id,
+                        fileUploadURL: ADMIN_FILE_UPLOAD
+                    }));
+                }
+                else
                 {
-                    res.status(500).send(`Internal Server error<br>${err.toString()}`);
-                });
+                    AdminModules.Game.getOne(champ.gameId).then((game) =>
+                    {
+                        if (game != undefined && game.token.toString().indexOf('mortal') == -1)
+                        {
+                            console.log('we are inside if!');
+                            res.send(this.renderTemplate('champ-moba-single.html', {
+                                admin: req.session.admin,
+                                _id: req.params._id,
+                                fileUploadURL: ADMIN_FILE_UPLOAD
+                            }));
+                        }
+                        else
+                        {
+                            res.send(this.renderTemplate('champ-mortal-single.html', {
+                                admin: req.session.admin,
+                                _id: req.params._id,
+                                fileUploadURL: ADMIN_FILE_UPLOAD
+                            }));
+                        }
+                    }).catch((err) =>
+                    {
+                        res.status(500).send(`Internal Server error<br>${err.toString()}`);
+                    });
+                }
+
             });
 
         });
