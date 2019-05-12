@@ -28,10 +28,8 @@ export class User extends SocketCollection
     }
     getOne(_id)
     {
-        console.log(':|');
         return new Promise((resolve, reject) =>
         {
-            console.log(":D");
             super.getOne(_id).then((result) =>
             {
                 result = this.fixOne(result);

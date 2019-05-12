@@ -43,6 +43,7 @@ export const ChampionSchema = new mongoose.Schema({
     abilities: Array,
     stats: Array, //{ name : string , value : string}
     talents: Array, //{level : int , a : string , b : string}
+    topBuilds : Array,
     //dota:
     attackType: {type:String,default:''},
     primaryAttr: {type:String,default:''},

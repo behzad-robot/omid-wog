@@ -38,7 +38,7 @@ export class ChampBuild extends SocketCollection
     }
     fixOne(b)
     {
-        b.siteUrl = SITE_URL('builds/' + b._id);
+        b.siteUrl = SITE_URL('/wiki/dota2/builds/' + b._id);
         return b;
     }
     fixAll(cs)

@@ -11,6 +11,7 @@ export class Champion extends SocketCollection
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.find = this.find.bind(this);
+        this.findOne = this.findOne.bind(this);
         this.getOne = this.getOne.bind(this);
     }
     find(params = {})
@@ -25,6 +26,19 @@ export class Champion extends SocketCollection
         });
 
     }
+    findOne(params = {})
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.find(params).then((cs) =>
+            {
+                if(cs == undefined || cs.length == 0)
+                    reject('not found');
+                else
+                    resolve(cs[0]);
+            }).catch(reject);
+        });
+    }
     getOne(_id)
     {
         return new Promise((resolve, reject) =>
@@ -38,7 +52,9 @@ export class Champion extends SocketCollection
     }
     fixOne(c)
     {
-        c.siteUrl = SITE_URL('champions/'+c.slug);
+        c.siteUrl = SITE_URL('champions/' + c.slug);
+        if (c.topBuilds == undefined)
+            c.topBuilds = [];
         return c;
     }
     fixAll(cs)

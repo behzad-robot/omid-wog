@@ -1,6 +1,5 @@
-<h1>This is {{game.name}} Home</h1>
-<p>We have {{champions.length}} champions</p>
-<p>We have {{topChampions.length}} top champions</p>
-<p>We have {{posts.length}} posts</p>
-<p>We have {{topBuilds.length}} topBuilds</p>
-<p>We have {{latestBuilds.length}} latestBuilds</p>
+<h1>{{game.name}}</h1>
+{{#builds}}
+    <a href="{{siteUrl}}">{{title}}</a>
+    <hr/>
+{{/builds}}
