@@ -11,6 +11,7 @@ export class Dota2WikiRouter extends SiteRouter
         super(siteModules);
         this.router.get('/', (req, res) =>
         {
+            //home
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
                 siteModules.Champion.find({ gameId: game._id, limit: 20000 }).then((champions) =>
@@ -38,13 +39,15 @@ export class Dota2WikiRouter extends SiteRouter
                         siteModules.Post.find({
                             '$or': [
                                 { tags: 'dota2' },
+                                { tags: 'Dota 2' },
                                 { gameId: game._id },
-                            ]
+                            ],
+                            limit: 4,
                         }).then((posts) =>
                         {
-                            siteModules.Build.find({ gameId: game._id, sort: '-views', limit: 6 }).then((topBuilds) =>
+                            siteModules.Build.find({ gameId: game._id, sort: '-views', limit: 4 }).then((topBuilds) =>
                             {
-                                siteModules.Build.find({ gameId: game._id, limit: 6 }).then((latestBuilds) =>
+                                siteModules.Build.find({ gameId: game._id, limit: 4 }).then((latestBuilds) =>
                                 {
                                     fixBuilds(siteModules, topBuilds, champions, game).then((topBuilds) =>
                                     {
@@ -87,6 +90,7 @@ export class Dota2WikiRouter extends SiteRouter
         });
         this.router.get('/builds', (req, res) =>
         {
+            //builds archive
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
                 let query = {
@@ -95,6 +99,11 @@ export class Dota2WikiRouter extends SiteRouter
                 };
                 if (req.query.champId)
                     query.champId = req.query.champId;
+                else if (req.query.filter)
+                {
+                    if (req.query.filter == 'top')
+                        query.sort = '-views';
+                }
                 siteModules.Build.find(query).then((builds) =>
                 {
                     siteModules.Champion.find({ gameId: game._id, limit: 2000 }).then((champions) =>
@@ -153,8 +162,8 @@ export class Dota2WikiRouter extends SiteRouter
                                                             build: build,
                                                             topBuilds: topBuilds,
                                                             otherBuilds: otherBuilds,
-                                                            topChampions : topChampions,
-                                                            comments : comments,
+                                                            topChampions: topChampions,
+                                                            comments: comments,
                                                         });
                                                     }).catch(fail);
                                                 });
@@ -263,38 +272,38 @@ function fixBuilds(siteModules, builds, champions, game)
             {
                 if (requiredUsersIds[j] == builds[i].userId)
                 {
-                    hasUser = false;
+                    hasUser = true;
                     break;
                 }
             }
             if (!hasUser && !isEmptyString(builds[i].userId))
                 requiredUsersIds.push(builds[i].userId);
-            siteModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+        }
+        siteModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+        {
+            for (var i = 0; i < builds.length; i++)
             {
-                for (var i = 0; i < builds.length; i++)
+                //assign user:
+                for (var j = 0; j < users.length; j++)
                 {
-                    //assign user:
-                    for (var j = 0; j < users.length; j++)
+                    if (builds[i].userId == users[j]._id)
                     {
-                        if (builds[i].userId == users[j].userId)
-                        {
-                            builds[i]._user = users[j];
-                            break;
-                        }
-                    }
-                    //assign champion:
-                    for (var j = 0; j < champions.length; j++)
-                    {
-                        if (builds[i].champId == champions[j]._id)
-                        {
-                            builds[i]._champion = champions[j];
-                            break;
-                        }
+                        builds[i]._user = users[j];
+                        break;
                     }
                 }
-                resolve(builds);
-            }).catch(reject);
-        }
+                //assign champion:
+                for (var j = 0; j < champions.length; j++)
+                {
+                    if (builds[i].champId == champions[j]._id)
+                    {
+                        builds[i]._champion = champions[j];
+                        break;
+                    }
+                }
+            }
+            resolve(builds);
+        }).catch(reject);
     });
 }
 function loadTopChampions(siteModules)

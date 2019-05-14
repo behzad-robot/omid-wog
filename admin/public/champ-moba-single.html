@@ -2,6 +2,7 @@
 
 <head>
     {{{head}}}
+    <title>Edit Champion</title>
     <style>
 
     </style>
@@ -57,6 +58,8 @@
                     //image fields:
                     imageInput('#single', 'icon', champion.icon, FILE_UPLOAD_URL,MY_DIR, [{ width: 128, height: -1 }]);
                     imageInput('#single', 'icon_tall', champion.icon_tall, FILE_UPLOAD_URL,MY_DIR, [{ width: 128, height: -1 }]);
+                    imageInput('#single', 'iconTransparent', champion.iconTransparent, FILE_UPLOAD_URL,MY_DIR, [{ width: 128, height: -1 }]);
+                    imageInput('#single', 'iconBlur', champion.iconBlur, FILE_UPLOAD_URL,MY_DIR, [{ width: 128, height: -1 }]);
                     // imageInput('#single', 'icon_gif', champion.icon_gif, FILE_UPLOAD_URL,MY_DIR);
                     $(`#single`).append(filePickTool(undefined,'icon_gif',champion.icon_gif));
                     imageInput('#single', 'cover', champion.cover, FILE_UPLOAD_URL,MY_DIR, [{ width: 640, height: -1 }, { width: 480, height: -1 }]);

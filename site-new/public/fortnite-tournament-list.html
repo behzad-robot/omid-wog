@@ -47,8 +47,9 @@
         }
 
         .list-section {
-            background-image: url('/images/fortnite-2019/pattern-purple.png');
-            background-size: 100% auto;
+            /* background-image: url('/images/fortnite-2019/pattern-purple.png'); */
+            background: rgb(110, 35, 174);
+            background-image: repeating-linear-gradient(180deg, rgba(110, 35, 174, 1) 0%, rgba(146, 31, 188, 1) 300px, rgba(136, 45, 187, 1) 100vh);
             background-position: center;
             min-height: 300px;
             padding-top: 20px;
@@ -157,7 +158,8 @@
                 شرکت
                 کننده مسابقه
                 بپیوندید!</h1>
-            <a  href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت نام</a>
+            <a href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}" class="btn btn-md btn-danger">ثبت
+                نام</a>
             {{/currentUser.fortnite2019.hasJoined}}
             {{#currentUser.fortnite2019.hasJoined}}
             <h1 class="header-title">شما&nbsp;<span id="player-count"
@@ -206,6 +208,9 @@
                         </div>
                     </div>
                     {{/players}}
+                    <div class="text-center" style="padding:10px 0">
+                        <div class="btn btn-md btn-warning" onclick="loadMorePlayers()" id="loadMore-btn">بیشتر</div>
+                    </div>
                 </div>
                 <div class="col-md-4 col-12">
                     <iframe src="https://discordapp.com/widget?id=574128756373848064&theme=dark" width="100%"
@@ -221,6 +226,8 @@
         </div>
     </section>
     <script>
+        let allPlayersCount = 0;
+        let offset = 0;
         $(() =>
         {
             let players = $(".player-card .number-card-number");
@@ -236,16 +243,32 @@
                 $(players[i]).html(j);
             }
             let playerCount = parseInt($("#player-count").html());
-            if(playerCount == undefined || isNaN(playerCount))
+            if (playerCount == undefined || isNaN(playerCount))
                 playerCount = parseInt(`{{players.length}}`);
             updatePlayerCount(0, playerCount);
+            //only show first 100 results:
+            let playerCards = $(".player-card");
+            allPlayersCount = playerCards.length;
+            $(".player-card").hide(0);
+            for(var i = 0 ; i < 100 && i < allPlayersCount;i++)
+                $(playerCards[i]).show(0);
         });
+        function loadMorePlayers()
+        {
+            offset += 100;
+            let playerCards = $(".player-card");
+            for(var i = offset ; i < (offset+100) && i < allPlayersCount;i++){
+                $(playerCards[i]).show();
+            }
+            if(offset >= allPlayersCount)
+                $("#loadMore-btn").hide();
+        }
         function updatePlayerCount(number, max)
         {
             $("#player-count").html(number);
             if (number == max)
                 return;
-            let delay = (max - number) / max;
+            let delay = number*0.0005;
             setTimeout(() =>
             {
                 updatePlayerCount(number + 1, max);

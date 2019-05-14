@@ -56,7 +56,8 @@ export default class SiteRouter extends Router
                 }
             };
             //add shared data:
-            data._wogSEO = this.modules.getConfig().seo;
+            data._siteConfig = this.modules.getConfig();
+            data._wogSEO = data._siteConfig.seo;
             data._wogSEO.fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
             data.navbarData = {
                 games: [],

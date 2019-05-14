@@ -18,6 +18,8 @@ export const ChampionSchema = new mongoose.Schema({
     icon_gif: {type:String,default:'?'},
     cover: {type:String,default:'?'},
     cover2: {type:String,default:'?'},
+    iconTransparent : {type:String,default:'?'},
+    iconBlur : {type:String,default:'?'},
     videoSpotlight: {type:String,default:'?'},
     description: {type:String,default:''},
     descriptionPersian: {type:String,default:''},

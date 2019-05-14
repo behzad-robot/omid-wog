@@ -210,6 +210,8 @@
     <style>
         .newslinks {
             text-decoration: none;
+            display: block;
+
         }
 
         .newslinks:hover {
@@ -237,6 +239,7 @@
 
         .news-background {
             background-color: white;
+            height: 290px;
         }
 
         .news-title {
@@ -253,11 +256,13 @@
             margin-right: 7px;
             padding-bottom: 10px
         }
+
         @media (max-width: 576px) {
-            .header-section{
-                padding-top:30px;
-                height:500px;
+            .header-section {
+                padding-top: 30px;
+                height: 500px;
             }
+
             .topChampion-card .img-wrapper {
                 top: -40px;
                 width: 75%;
@@ -266,6 +271,7 @@
             .topChampion-card .patch-hero-description {
                 display: block;
             }
+
             .all-heroes-links {
                 display: inline-block;
                 width: 23.5%;
@@ -327,96 +333,44 @@
                     <div class="dota-box" style="margin-bottom:5px">
                         <div class="dota-box-title">
                             <h2 style="font-size:16px;float:right;">پربازدیدترین‌ آموزش‌‌ها</h2>
-                            <a class="float-left orange-link" href="#" style="font-size:13px;">بیشتر</a>
+                            <a class="float-left orange-link" href="{{#SITE_URL}}/wiki/dota2/builds/?filter=top{{/SITE_URL}}" style="font-size:13px;">بیشتر</a>
                         </div>
                         <div class="dota-box-content">
+                            {{#topBuilds}}
                             <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
+                                <img src="{{_champion.icon}}" />
                                 <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
+                                    <h3 class="small-build-box-title">{{title}}</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                            class="orange-link">{{_user.username}}</a></span>
                                 </div>
                             </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
+                            {{/topBuilds}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
                     <div class="dota-box" style="margin-bottom:5px">
                         <div class="dota-box-title">
-                            <h2 style="font-size:16px;float:right;">پربازدیدترین‌ آموزش‌‌ها</h2>
-                            <a class="float-left orange-link" href="#" style="font-size:13px;">بیشتر</a>
+                            <h2 style="font-size:16px;float:right;">تازه های آموزش‌‌ها</h2>
+                            <a class="float-left orange-link" href="{{#SITE_URL}}/wiki/dota2/builds/{{/SITE_URL}}" style="font-size:13px;">بیشتر</a>
                         </div>
                         <div class="dota-box-content">
+                            {{#latestBuilds}}
                             <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
+                                <img src="{{_champion.icon}}" />
                                 <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
+                                    <h3 class="small-build-box-title">{{title}}</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                            class="orange-link">{{_user.username}}</a></span>
                                 </div>
                             </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
-                            <div class="small-build-box">
-                                <img src="/wiki-dota2/images/invoker.png" />
-                                <div class="text-wrapper">
-                                    <h3 class="small-build-box-title">Butcher Mid</h3>
-                                    <span class="small-build-box-author">نوشته شده توسط <a href="#"
-                                            class="orange-link">lucker</a></span>
-                                </div>
-                            </div>
-                            <!--small-build-box-->
+                            {{/latestBuilds}}
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <img src="/wiki-dota2/images/join-wog-discord.png" width="100%" />
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
                 </div>
             </div>
         </div>
@@ -426,22 +380,24 @@
             <h1 style="color: white;font-size: 32px">قهرمان ها</h1>
             <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;">Strength:</h3>
             <div id="heros-list">
-                <a class="all-heroes-links" href="#">
+                {{#champions}}
+                <a class="all-heroes-links" href="{{siteUrl}}">
                     <div class="champ-box text-center">
-                        <img src="/wiki-dota2/images/juggernaut.png" style="width: 100%">
-                        <video src="/wiki-dota2/images/kunha.mp4" autoplay muted class="zoom" width="100%"></video>
+                        <img src="{{icon_tall}}" style="width: 100%">
+                        <video src="{{icon_gif}}" autoplay muted class="zoom" width="100%"></video>
                     </div>
                 </a>
+                {{/champions}}
             </div>
             <script>
-                $(() =>
-                {
-                    let str = $("#heros-list").html();
-                    for (var i = 0; i < 50; i++)
-                    {
-                        $("#heros-list").append(str);
-                    }
-                });
+                // $(() =>
+                // {
+                //     let str = $("#heros-list").html();
+                //     for (var i = 0; i < 50; i++)
+                //     {
+                //         $("#heros-list").append(str);
+                //     }
+                // });
             </script>
         </div>
     </section>
@@ -449,83 +405,60 @@
         <div class="container">
             <div style="overflow:hidden;">
                 <h1 class="news-text">اخبار:</h1>
-                <a href="#">
+                <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">
                     <h1 class="news-more-text" style="font-size:16px;padding-top:25px;"> بیشتر</h1>
                 </a>
             </div>
             <div class="row">
+                {{#posts}}
                 <div class="col-md-3 col-6">
-                    <a href="#" class="newslinks">
+                    <a href="{{siteUrl}}" class="newslinks">
                         <div class="news-background">
-                            <img src="/images/quan-chi.png" alt="" class="news-image">
-                            <h1 class="news-title">quan chi خشتک میدرد</h1>
-                            <p class="date-context">پنج شنبه 1385/85/85</p>
+                            <img src="{{thumbnail_640x480}}" alt="" class="news-image">
+                            <h1 class="news-title">{{{title_formatted}}}</h1>
+                            <p class="date-context">{{{createdAt_persian}}}</p>
                         </div>
                     </a>
                 </div>
-                <div class="col-md-3 col-6">
-                    <a href="#" class="newslinks">
-                        <div class="news-background">
-                            <img src="/images/quan-chi.png" alt="" class="news-image">
-                            <h1 class="news-title">quan chi خشتک میدرد</h1>
-                            <p class="date-context">پنج شنبه 1385/85/85</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 col-6">
-                    <a href="#" class="newslinks">
-                        <div class="news-background">
-                            <img src="/images/quan-chi.png" alt="" class="news-image">
-                            <h1 class="news-title">quan chi خشتک میدرد</h1>
-                            <p class="date-context">پنج شنبه 1385/85/85</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-3 col-6">
-                    <a href="#" class="newslinks">
-                        <div class="news-background">
-                            <img src="/images/quan-chi.png" alt="" class="news-image">
-                            <h1 class="news-title">quan chi خشتک میدرد</h1>
-                            <p class="date-context">پنج شنبه 1385/85/85</p>
-                        </div>
-                    </a>
-                </div>
+                {{/posts}}
             </div>
         </div>
     </section>
     <section class="streamers-section">
         <div class="container">
-            <h1 style="color:white;font-size: 32px">استریمر ها</h1>
-            <div class="row">
-                <div class="col-md-3">
+            <h1 style="color:white;font-size: 32px;margin:10px 0;">استریمر ها</h1>
+            <div class="row" id="streams-row">
+                <!-- <div class="col-md-3">
                     <a href="#" class="streamer-links">
                         <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
                         <p style="color: white">استریمر جماعت</p>
                     </a>
                 </div>
-                <div class="col-md-3">
-                    <a href="#" class="streamer-links">
-                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
-                        <p style="color: white">استریمر جماعت</p>
-                    </a>
-                </div>
-                <div class="col-md-3" class="streamer-links">
-                    <a href="#">
-                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
-                        <p style="color: white">استریمر جماعت</p>
-                    </a>
-                </div>
-
-                <div class="col-md-3" class="streamer-links">
-                    <a href="#">
-                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
-                        <p style="color: white">استریمر جماعت</p>
-                    </a>
-                </div>
+                -->
 
             </div>
         </div>
     </section>
+    <script>
+        $(() =>
+        {
+            getTwitchStreamersFor(`{{game.twitchGameId}}`, (streams) =>
+            {
+                for (var i = 0; i < streams.length && i < 4; i++)
+                {
+                    let s = streams[i];
+                    $("#streams-row").append(`
+                        <div class="col-md-3 col-6">
+                            <a href="https://twitch.tv/${s.username}" class="streamer-links">
+                                <img src="${s.thumbnail}" style="width: 100%" alt="">
+                                <p style="color: white">${s.title}</p>
+                            </a>
+                        </div>
+                    `);
+                }
+            });
+        });
+    </script>
     {{{footer}}}
 </body>
 
