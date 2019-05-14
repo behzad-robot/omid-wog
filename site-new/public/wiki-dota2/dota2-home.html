@@ -92,7 +92,7 @@
         }
 
         .topChampion-card .roledetails {
-            font-size: 14px;
+            font-size: 8px;
             color: skyblue;
             margin-top: 5px;
         }
@@ -310,19 +310,20 @@
         <div class="container">
             <h4 style="color: white; margin-top: 10px;margin-bottom: 10px; ">قهرمان های محبوب این Patch</h4>
             <div class="row">
+                {{#topChampions}}
                 <div class="col-md-2 col-6">
                     <div class="topChampion-card">
                         <div class="text-center img-wrapper">
-                            <img src="/wiki-dota2/images/bloodseeker.png" alt="">
+                            <img src="{{iconTransparent}}" alt="{{name}}">
                         </div>
                         <div class="patch-hero-description text-center">
-                            <h6 style="color:orange;padding-top:100px">bloodseeker</h6>
-                            <div class="roledetails">carry,nuker,supporter</div>
-                            <a href="#" class="btn btn-sm btn-dota hero-page-link">مشاهده قهرمان</a>
+                            <h6 style="color:orange;padding-top:100px">{{name}}</h6>
+                            <div class="roledetails">{{rolesStr}}</div>
+                            <a href="{{siteUrl}}" class="btn btn-sm btn-dota hero-page-link">مشاهده قهرمان</a>
                         </div>
                     </div>
                 </div>
-
+                {{/topChampions}}
             </div>
         </div>
     </section>
@@ -333,7 +334,9 @@
                     <div class="dota-box" style="margin-bottom:5px">
                         <div class="dota-box-title">
                             <h2 style="font-size:16px;float:right;">پربازدیدترین‌ آموزش‌‌ها</h2>
-                            <a class="float-left orange-link" href="{{#SITE_URL}}/wiki/dota2/builds/?filter=top{{/SITE_URL}}" style="font-size:13px;">بیشتر</a>
+                            <a class="float-left orange-link"
+                                href="{{#SITE_URL}}/wiki/dota2/builds/?filter=top{{/SITE_URL}}"
+                                style="font-size:13px;">بیشتر</a>
                         </div>
                         <div class="dota-box-content">
                             {{#topBuilds}}
@@ -353,7 +356,8 @@
                     <div class="dota-box" style="margin-bottom:5px">
                         <div class="dota-box-title">
                             <h2 style="font-size:16px;float:right;">تازه های آموزش‌‌ها</h2>
-                            <a class="float-left orange-link" href="{{#SITE_URL}}/wiki/dota2/builds/{{/SITE_URL}}" style="font-size:13px;">بیشتر</a>
+                            <a class="float-left orange-link" href="{{#SITE_URL}}/wiki/dota2/builds/{{/SITE_URL}}"
+                                style="font-size:13px;">بیشتر</a>
                         </div>
                         <div class="dota-box-content">
                             {{#latestBuilds}}
@@ -370,7 +374,8 @@
                     </div>
                 </div>
                 <div class="col-md-4 col-12">
-                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%" /></a>
                 </div>
             </div>
         </div>
@@ -378,17 +383,33 @@
     <section class="heroes-section">
         <div class="container">
             <h1 style="color: white;font-size: 32px">قهرمان ها</h1>
-            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;">Strength:</h3>
-            <div id="heros-list">
-                {{#champions}}
-                <a class="all-heroes-links" href="{{siteUrl}}">
-                    <div class="champ-box text-center">
-                        <img src="{{icon_tall}}" style="width: 100%">
-                        <video src="{{icon_gif}}" autoplay muted class="zoom" width="100%"></video>
-                    </div>
-                </a>
-                {{/champions}}
-            </div>
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Strength:</h3>
+            {{#strengthChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/strengthChampions}}
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Agility:</h3>
+            {{#agilityChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/agilityChampions}}
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Intelligence:</h3>
+            {{#intelligenceChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/intelligenceChampions}}
             <script>
                 // $(() =>
                 // {

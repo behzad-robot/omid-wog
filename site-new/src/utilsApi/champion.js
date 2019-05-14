@@ -32,7 +32,7 @@ export class Champion extends SocketCollection
         {
             this.find(params).then((cs) =>
             {
-                if(cs == undefined || cs.length == 0)
+                if (cs == undefined || cs.length == 0)
                     reject('not found');
                 else
                     resolve(cs[0]);
@@ -53,6 +53,12 @@ export class Champion extends SocketCollection
     fixOne(c)
     {
         c.siteUrl = SITE_URL('champions/' + c.slug);
+        c.rolesStr = '';
+        for (var i = 0; i < c.roles.length; i++)
+        {
+            c.rolesStr += (c.roles[i].name + ',');
+        }
+        c.rolesStr = c.rolesStr.substring(0, c.rolesStr.length - 2);
         if (c.topBuilds == undefined)
             c.topBuilds = [];
         return c;

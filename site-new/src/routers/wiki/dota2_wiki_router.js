@@ -16,6 +16,17 @@ export class Dota2WikiRouter extends SiteRouter
             {
                 siteModules.Champion.find({ gameId: game._id, limit: 20000 }).then((champions) =>
                 {
+                    let strengthChampions = [],agilityChampions = [] , intelligenceChampions = [];
+                    for(var i = 0 ; i < champions.length;i++)
+                    {
+                        let c = champions[i];
+                        if(c.primaryAttr == 'Strength')
+                            strengthChampions.push(c);
+                        else if(c.primaryAttr == 'Agility')
+                            agilityChampions.push(c);
+                        else if(c.primaryAttr == 'Intelligence')
+                            intelligenceChampions.push(c);
+                    }
                     fs.readFile(TOP_CHAMPS_PATH, (err, data) =>
                     {
                         if (err)
@@ -56,6 +67,9 @@ export class Dota2WikiRouter extends SiteRouter
                                             this.renderTemplate(req, res, 'wiki-dota2/dota2-home.html', {
                                                 game: game,
                                                 champions, champions,
+                                                strengthChampions : strengthChampions,
+                                                intelligenceChampions : intelligenceChampions,
+                                                agilityChampions : agilityChampions,
                                                 topChampions: topChampions,
                                                 topBuilds: topBuilds,
                                                 latestBuilds: latestBuilds,
@@ -93,6 +107,7 @@ export class Dota2WikiRouter extends SiteRouter
             //builds archive
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
+                let title = 'تازه های آموزش ها';
                 let query = {
                     limit: 20,
                     gameId: game._id,
@@ -111,6 +126,7 @@ export class Dota2WikiRouter extends SiteRouter
                         fixBuilds(siteModules, builds, champions, game).then((builds) =>
                         {
                             this.renderTemplate(req, res, 'wiki-dota2/dota2-builds-archive.html', {
+                                title : title,
                                 game: game,
                                 builds: builds,
                             });
