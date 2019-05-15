@@ -8,79 +8,7 @@
             background-color: #171b26;
             color: white;
         }
-        body.dota2-body navbar{
-            background-color:#0D1830;
-            border-bottom: 2px solid #38486D;
-        }
-
-        .build-box {
-            display: block;
-            width: 100%;
-            position: relative;
-            background: linear-gradient(0deg, rgba(30, 35, 45, 1) 0%, rgba(38, 46, 59, 1) 100%);
-            border-radius: 5px;
-            margin-bottom: 5px;
-            padding: 10px 10px;
-            min-height: 120px;
-        }
-        .build-box .build-link{
-            color: white !important;
-        }
-
-        .build-box .img-wrapper {
-            display: inline-block;
-            width: 128px;
-        }
-
-        .build-box .title-wrapper {
-            display: inline-block;
-            vertical-align: top;
-            margin-right: 5px;
-            max-width: 320px;
-        }
-
-        .build-box .title-wrapper h2 {
-            font-size: 16px;
-            vertical-align: top;
-            font-weight: bold;
-        }
-
-        .build-box .title-wrapper .author {
-            font-size: 12px;
-            color: #e0e1e2;
-        }
-
-        .build-box .stats-wrapper {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-        }
-
-        .build-box .date-wrapper {
-            position: absolute;
-            bottom: 10px;
-            left: 10px;
-            font-size: 10px;
-            color: #d0d1d2;
-        }
-
-        .build-box .stats-wrapper .stat-item {
-            display: block;
-            font-size: 13px;
-            direction: ltr;
-            text-align: left;
-        }
-
-        .build-box .stats-wrapper .stat-item .fas {
-            margin-right: 2px;
-        }
-
-        .build-box .stats-wrapper .stat-item .stat-value {
-            position: relative;
-            top: 1px;
-            display: inline-block;
-        }
-
+        
         .streamer-box {
             display: block;
             color: white !important;
@@ -97,14 +25,7 @@
             margin-bottom: 5px;
         }
 
-        @media (max-width: 576px) {
-            .build-box .img-wrapper {
-                width: 64px;
-            }
-            .build-box .title-wrapper h2 {
-                font-size:13px;
-            }
-        }
+       
     </style>
 </head>
     <body class="dota2-body">
@@ -116,13 +37,14 @@
                 <h1 style="margin:10px 0;">{{title}}:</h1>
                 {{#builds}}
                 <div class="build-box">
-                    <div class="img-wrapper">
-                        <a href="{{siteUrl}}"><img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /></a>
-                    </div>
+                    <a href="{{siteUrl}}" class="img-wrapper" style="background-image:url('{{_champion.icon}}')">
+                                <!-- <img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /> -->
+                    </a>
                     <div class="title-wrapper">
                         <a href="{{siteUrl}}" class="build-link"><h2>{{title}}</h2></a>
-                        <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}"
-                                class="orange-link">{{_user.username}}</a></span>
+                        <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}" class="orange-link">{{_user.username}}</a></span>
+                        <br>
+                        <span class="badge badge-md badge-warning text-english">Patch {{patch}}</span>
                     </div>
                     <div class="stats-wrapper">
                         <div class="stat-item">

@@ -1,0 +1,154 @@
+body.dota2-body navbar{
+    background-color:#0D1830;
+    border-bottom: 2px solid #38486D;
+}
+
+.dota-box {
+    display: block;
+}
+
+.dota-box .dota-box-title {
+    background-color: #38486D;
+    color: white;
+    padding: 10px 20px;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom: 3px solid #0D1830;
+    overflow: hidden;
+}
+
+.dota-box .dota-box-content {
+    background-color: #202D4F;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.dota-box .dota-box-title h1, .dota-box .dota-box-title h2, .dota-box .dota-box-title h3, .dota-box .dota-box-title h4, .dota-box .dota-box-title h5, .dota-box .dota-box-title h6 {
+    margin: 0;
+    padding: 0;
+}
+
+.dota2-bg-light{
+    background-color: #38486D;
+}
+/* shortcuts dota2*/
+.dota2-shortcuts{
+    position: fixed;
+    top:250px;
+    left:0;
+    overflow: hidden;
+}
+.dota2-shortcuts .shortcut-btn{
+    float:right;
+    vertical-align: top;
+    width:64px;
+    background-color:#202D4F;
+    padding:5px;
+    z-index: 9999999999999999;
+    border-right:1px solid #38486D;
+    border-top:1px solid #38486D;
+    border-bottom:1px solid #38486D;
+}
+.dota2-shortcuts .shortcuts-wrapper{
+    float:right;
+    vertical-align: top;
+    width:128px;
+    background-color:#202D4F;
+    border-top:1px solid #38486D;
+}
+.dota2-shortcuts .shortcuts-wrapper a{
+    display: block;
+    width: 100%;
+    padding:10px 0;
+    text-align: center;
+    color:white;
+    font-size:13px;
+    border-bottom:1px solid #38486D;
+    border-right:1px solid #38486D;
+    text-decoration: none !important;
+}
+.dota2-shortcuts .shortcuts-wrapper a:hover{
+    background-color:#38486D;
+}
+/* ENDOF dota2 shortcuts*/
+/* builds box */
+.build-box {
+    display: block;
+    width: 100%;
+    position: relative;
+    background: linear-gradient(0deg, rgba(30, 35, 45, 1) 0%, rgba(38, 46, 59, 1) 100%);
+    border-radius: 5px;
+    margin-bottom: 5px;
+    padding: 10px 10px;
+    min-height: 120px;
+    color:white;
+}
+.build-box .build-link{
+    color: white !important;
+}
+
+.build-box .img-wrapper {
+    display: inline-block;
+    width: 128px;
+    height:128px;
+    background-size: cover;
+    background-position: center;
+}
+
+.build-box .title-wrapper {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5px;
+    max-width: 320px;
+}
+
+.build-box .title-wrapper h2 {
+    font-size: 16px;
+    vertical-align: top;
+    font-weight: bold;
+}
+
+.build-box .title-wrapper .author {
+    font-size: 12px;
+    color: #e0e1e2;
+}
+
+.build-box .stats-wrapper {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.build-box .date-wrapper {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    font-size: 10px;
+    color: #d0d1d2;
+}
+
+.build-box .stats-wrapper .stat-item {
+    display: block;
+    font-size: 13px;
+    direction: ltr;
+    text-align: left;
+}
+
+.build-box .stats-wrapper .stat-item .fas {
+    margin-right: 2px;
+}
+
+.build-box .stats-wrapper .stat-item .stat-value {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+}
+@media (max-width: 576px) {
+    .build-box .img-wrapper {
+        width: 64px;
+    }
+    .build-box .title-wrapper h2 {
+        font-size:13px;
+    }
+}
+/* ENDOF builds box */

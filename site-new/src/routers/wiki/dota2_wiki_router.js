@@ -16,15 +16,15 @@ export class Dota2WikiRouter extends SiteRouter
             {
                 siteModules.Champion.find({ gameId: game._id, limit: 20000 }).then((champions) =>
                 {
-                    let strengthChampions = [],agilityChampions = [] , intelligenceChampions = [];
-                    for(var i = 0 ; i < champions.length;i++)
+                    let strengthChampions = [], agilityChampions = [], intelligenceChampions = [];
+                    for (var i = 0; i < champions.length; i++)
                     {
                         let c = champions[i];
-                        if(c.primaryAttr == 'Strength')
+                        if (c.primaryAttr == 'Strength')
                             strengthChampions.push(c);
-                        else if(c.primaryAttr == 'Agility')
+                        else if (c.primaryAttr == 'Agility')
                             agilityChampions.push(c);
-                        else if(c.primaryAttr == 'Intelligence')
+                        else if (c.primaryAttr == 'Intelligence')
                             intelligenceChampions.push(c);
                     }
                     fs.readFile(TOP_CHAMPS_PATH, (err, data) =>
@@ -67,9 +67,9 @@ export class Dota2WikiRouter extends SiteRouter
                                             this.renderTemplate(req, res, 'wiki-dota2/dota2-home.html', {
                                                 game: game,
                                                 champions, champions,
-                                                strengthChampions : strengthChampions,
-                                                intelligenceChampions : intelligenceChampions,
-                                                agilityChampions : agilityChampions,
+                                                strengthChampions: strengthChampions,
+                                                intelligenceChampions: intelligenceChampions,
+                                                agilityChampions: agilityChampions,
                                                 topChampions: topChampions,
                                                 topBuilds: topBuilds,
                                                 latestBuilds: latestBuilds,
@@ -109,7 +109,7 @@ export class Dota2WikiRouter extends SiteRouter
             {
                 let title = 'تازه های آموزش ها';
                 let query = {
-                    limit: 20,
+                    limit: 50,
                     gameId: game._id,
                 };
                 if (req.query.champId)
@@ -126,7 +126,7 @@ export class Dota2WikiRouter extends SiteRouter
                         fixBuilds(siteModules, builds, champions, game).then((builds) =>
                         {
                             this.renderTemplate(req, res, 'wiki-dota2/dota2-builds-archive.html', {
-                                title : title,
+                                title: title,
                                 game: game,
                                 builds: builds,
                             });
@@ -215,6 +215,7 @@ export class Dota2WikiRouter extends SiteRouter
         });
         this.router.get('/champions/:slug', (req, res) =>
         {
+            //champion-single champ-single
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
                 console.log(req.params.slug);
@@ -235,6 +236,11 @@ export class Dota2WikiRouter extends SiteRouter
                                         ], limit: 12
                                     }).then((media) =>
                                     {
+                                        champion._stats = {};
+                                        for (var i = 0; i < champion.stats.length; i++)
+                                        {
+                                            champion._stats[champion.stats[i].name] = champion.stats[i].value;
+                                        }                                        
                                         this.renderTemplate(req, res, 'wiki-dota2/dota2-champion-single.html', {
                                             game: game,
                                             champion: champion,

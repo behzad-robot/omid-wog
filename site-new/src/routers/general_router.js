@@ -11,6 +11,9 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             res.redirect('/');
         });
+        this.router.get('/163110.txt',(req,res)=>{
+            res.send('');
+        });
         this.router.get('/', (req, res) =>
         {
             siteModules.Post.find({ limit: 5 }).then((latestPosts) =>

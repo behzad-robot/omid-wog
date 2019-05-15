@@ -52,7 +52,7 @@ export class Champion extends SocketCollection
     }
     fixOne(c)
     {
-        c.siteUrl = SITE_URL('champions/' + c.slug);
+        c.siteUrl = SITE_URL('wiki/dota2/champions/' + c.slug);
         c.rolesStr = '';
         for (var i = 0; i < c.roles.length; i++)
         {

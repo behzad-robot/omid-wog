@@ -1,4 +1,639 @@
-<h1>{{game.name}}</h1>
-<h2>{{champion.name}}</h2>
-<h3>Top Builds : {{topBuilds.length}}</h3>
-<h3>Builds : {{builds.length}}</h3>
+<html>
+
+<head>
+    {{{head}}}
+    <title>{{champion.name}}</title>
+    <style>
+        .intro {
+            background-image: url('/wiki-dota2/images/trax.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 600px;
+            margin-top: 80px;
+        }
+
+        .typography {
+            margin-top: 100px;
+        }
+
+        .about-hero {
+            color: white;
+        }
+
+        .hero-image {
+            width: 100%;
+            border: 1.5px solid orange;
+        }
+
+        .lore-section {
+            background-image: url('/wiki-dota2/images/dota-ice-logo-blur.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding-bottom: 20px;
+        }
+
+        .attributes {
+            width: 100%;
+            margin-top: 20px
+        }
+
+        .attributes td {
+            height: 40px;
+            padding: 10px 20px;
+        }
+
+        .attributes tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        .attributes tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        .hero-attributes {
+            color: orange;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hero-attributes-fields {
+            font-size: 14px;
+            color: white
+        }
+
+        .stats {
+            width: 100%;
+        }
+
+        .stats td {
+            height: 40px;
+            padding: 10px 20px;
+        }
+
+        .stats tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        .stats tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        .hero-stats {
+            color: orange;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .hero-stats-fields {
+            font-size: 14px;
+            color: white;
+            direction: ltr;
+            text-align: right;
+        }
+
+        .talents-box {
+            width: 100%;
+        }
+
+        .talents-box td {
+            height: 60px;
+            padding: 10px 20px;
+        }
+
+        .talents-box tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        .talents-box tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        .orange-circles {
+            background-color: orange;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 5px;
+            font-size: 18px;
+            margin-top: 7px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .talents-title {
+            font-size: 12px;
+            padding-top: 7px;
+            padding-bottom: 7px;
+            direction: ltr;
+            text-align: right;
+        }
+
+        .small-build-box {
+            display: block;
+            padding: 7px 5px;
+            height: 80px;
+        }
+
+        .small-build-box img {
+            display: inline-block;
+            width: 72px;
+            height: 70px;
+            vertical-align: top;
+
+        }
+
+        .small-build-box .text-wrapper {
+            display: inline-block;
+            color: white;
+        }
+
+        .small-build-box .small-build-box-title {
+            font-size: 14px;
+        }
+
+        .small-build-box .small-build-box-author {
+            font-size: 10px;
+        }
+
+        .builds-details {
+            float: left;
+        }
+
+        hr {
+            border-width: 5px;
+            color: #070d1a;
+            margin-top: 0px;
+            margin-bottom: 0px
+        }
+
+        .date {
+            color: grey;
+            font-size: 10px;
+            margin-top: 10px
+        }
+
+        .build-logos {
+            font-size: 12px;
+            color: white
+        }
+
+        .build-counts {
+            display: inline-block;
+            font-size: 12px;
+            color: white
+        }
+
+        .build-archive {
+            background-color: #1c2641;
+            padding-top: 15px;
+            padding-bottom: 10px;
+        }
+
+        .single-build-box {
+            background: rgb(29, 34, 44);
+            background: linear-gradient(0deg, rgba(29, 34, 44, 1) 0%, rgba(60, 73, 91, 1) 100%);
+            padding: 5px 5px;
+            margin-top: 10px;
+            margin-bottom: 10px
+        }
+
+        .single-build-box .small-build-box img {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            vertical-align: top;
+
+        }
+
+        .single-build-box .small-build-box {
+            display: block;
+            padding: 7px 5px;
+            height: 120px;
+        }
+
+        .single-build-box .small-build-box-title {
+            margin-top: 5px;
+            font-size: 20px;
+        }
+
+        .single-build-box .small-build-box-author {
+            font-size: 16px;
+        }
+
+        .single-build-box .build-logos {
+            font-size: 16px;
+        }
+
+        .single-build-box .build-counts {
+            font-size: 16px;
+        }
+
+        .single-build-box .date {
+            font-size: 14px;
+        }
+
+        .gallery-section {
+            background-image: url('/wiki-dota2/images/drowleft.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            padding-bottom: 10px;
+            margin-bottom: -20px
+        }
+
+        .gallery-text {
+            color: white;
+            padding: 15px 0;
+            font-size: 32px;
+        }
+
+        .grid-box-small {
+            width: 100%;
+            height: 144px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .more-button {
+            margin-top: 40px;
+            border-radius: 20px;
+            margin: 0px auto;
+            width: 10%;
+            display: block;
+            font-weight: bold;
+        }
+
+        .more-button-builds {
+            margin-top: 40px;
+            border-radius: 20px;
+            margin: 0px auto;
+            width: 20%;
+            display: block;
+            font-weight: bold;
+        }
+
+        .abilities-background {
+            padding: 15px 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            background-color: #212733;
+            border-radius: 20px;
+        }
+
+        .abilities-section {
+            background-color: #171b26;
+        }
+
+        .abilities {
+            width: 100%;
+        }
+
+        .abilities td {
+            padding: 10px 20px;
+        }
+
+        .abilities tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        .abilities tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        .hero-abilities {
+            color: orange;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .hero-abilities-fields {
+            font-size: 12px;
+            color: white
+        }
+
+        .abilities-text {
+            color: white;
+            font-size: 12px
+        }
+
+        .abilities-text .wog-statsbox {
+            display: block;
+            width: 100%;
+            direction: ltr;
+            text-align: left;
+            font-family: Roboto;
+        }
+
+        .abilities-text .wog-statsbox strong {
+            color: orange;
+            display: inline-block;
+            margin-right: 5px;
+
+        }
+
+        .abilities-image {
+            width: 100%;
+            border: 1px solid orange;
+            margin-bottom: 10px;
+            padding: 5px 5px
+        }
+
+        @media (max-width: 576px) {
+            .hero-image {
+                width: 100%
+            }
+
+            .more-button-builds {
+                width: 40%;
+            }
+
+            .more-button {
+                width: 25%;
+            }
+
+            .grid-box-small {
+                width: 100%;
+                height: 144px;
+            }
+
+            .gallery-text {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body class="dota2-body">
+    {{{navbar}}}
+    <section class="intro" style="background-image:url('{{champion.cover}}')">
+        <div class="container text-center text-english" style="padding-top:200px;">
+            <h1 style="color: white;font-size:64px;text-shadow:5px 4px 6px rgba(0, 0, 0, 0.3);font-weight: bold;">
+                {{champion.name}}</h1>
+        </div>
+    </section>
+    <section class="lore-section" style="background-image:url('{{champion.iconBlur}}')">
+        <div class="container">
+            <div class="row" style="padding-top: 10px">
+                <div class="col-md-4">
+                    <img class="hero-image" src="{{{champion.icon}}}" alt="">
+                    <table class="attributes">
+                        <tr>
+                            <td class="hero-attributes">Faction</td>
+                            <td class="hero-attributes-fields">{{champion.faction}}</td>
+                        </tr>
+                        <tr>
+                            <td class="hero-attributes">Primary Attribute</td>
+                            <td class="hero-attributes-fields">{{champion.primaryAttr}}</td>
+                        </tr>
+                        <tr>
+                            <td class="hero-attributes">Attack Type</td>
+                            <td class="hero-attributes-fields">{{champion.attackType}}</td>
+                        </tr>
+                        <tr>
+                            <td class="hero-attributes">Roles</td>
+                            <td class="hero-attributes-fields" style="font-size:10px;text-overflow: ellipsis">
+                                <div>{{champion.rolesStr}}</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-6">
+                    <h4 style="color: white;margin-top: 10px;font-size:26px; ">داستان {{champion.name}}</h4>
+                    <div
+                        style="color: white;text-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);direction:ltr;text-align:left;">
+                        {{{champion.lore}}}</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="dota-box" style="margin-top: 20px">
+                        <div class="dota-box-title">
+                            <h2 style="font-size:16px;float:right;">{{champion.name}} Status</h2>
+                        </div>
+                        <div class="dota-box-content text-english">
+                            <table class="stats">
+                                <tr>
+                                    <td class="hero-stats">Strength</td>
+                                    <td class="hero-stats-fields text-english">{{champion._stats.Strength}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Agility</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Agility}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Intelligence</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Intelligence}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Health</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Health}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Mana</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Mana}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Damage</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Damage}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Range</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Range}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Armor</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Armor}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="hero-stats">Movement</td>
+                                    <td class="hero-stats-fields">{{champion._stats.Movement}}</td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="dota-box" style="margin-top: 20px">
+                        <div class="dota-box-title">
+                            <h2 style="font-size:16px;float:right;">Talents</h2>
+                        </div>
+                        <div class="dota-box-content text-english text-white" id="talents-row">
+                            {{#champion.talents}}
+                            <div class="dota2-talent-row">
+                                <div class="row" style="padding:0px 0;">
+                                    <div class="col-md-5 talents-title text-center">{{a}}</div>
+                                    <div class="col-md-2 text-center">
+                                        <span class="orange-circles text-center">{{level}}</span>
+                                    </div>
+                                    <div class="col-md-5 talents-title text-center">{{b}}</div>
+                                </div>
+                            </div>
+                            {{/champion.talents}}
+                        </div>
+                    </div>
+                    <div class="dota-box" style="margin-top:10px;margin-bottom: 20px">
+                        <div class="dota-box-title">
+                            <h2 style="font-size:16px;float:right">آموزش های منتخب:</h2>
+                            <a class="float-left orange-link"
+                                href="{{#SITE_URL}}/wiki/dota2/builds/?champId={{champion._id}}{{/SITE_URL}}"
+                                style="font-size:13px;">مشاهده همه</a>
+                        </div>
+                        <div class="dota-box-content">
+                            {{#topBuilds}}
+                            <div class="small-build-box">
+                                <img src="/wiki-dota2/images/invoker.png">
+                                <div class="text-wrapper">
+                                    <h3 class="small-build-box-title">{{title}}</h3>
+                                    <span class="small-build-box-author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                            class="orange-link">{{_user.username}}</a></span>
+                                    <h3 class="date">{{createdAt_persian}}</h3>
+                                </div>
+                                <div class="builds-details">
+                                    <div style="direction: ltr;height: 20px;">
+                                        <i class="fas fa-eye build-logos"></i>
+                                        <p class="build-counts text-english">{{views}}</p>
+                                    </div>
+                                    <div style="direction: ltr;height: 20px;">
+                                        <i class="fas fa-thumbs-down build-logos"></i>
+                                        <p class="build-counts text-english">{{upVotes.length}}</p>
+                                    </div>
+                                    <div style="direction: ltr;height: 20px;">
+                                        <i class="fas fa-thumbs-up build-logos"></i>
+                                        <p class="build-counts text-english">{{downVotes.length}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            {{/topBuilds}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="abilities-section">
+        <div class="container">
+            <h3 class="gallery-text">قابلیت های {{champion.name}}</h3>
+            <div class="row">
+                {{#champion.abilities}}
+                <div class="col-md-6">
+                    <div class="abilities-background">
+                        <div class="image">
+                            <div class="row">
+                                <div class="col-md-3 col-4"><img src="{{icon}}" class="abilities-image" alt="">
+                                </div>
+                                <div class="col-md-9 col-8">
+                                    <h6 style="color:white">{{title}}</h6>
+                                    <div class="abilities-text">{{{descriptionPersian}}}</div>
+                                    <div class="abilities-text text-english" style="direction:ltr;text-align:left;">
+                                        {{{description}}}</div>
+                                    <div class="abilities-text">
+                                        <span class="wog-statsbox"><strong>Damage Type:</strong>{{dmgType}}</span>
+                                        <span class="wog-statsbox"><strong>Casting
+                                                Method:</strong>{{castingMethod}}</span>
+                                        {{#targetingMethod}}
+                                        <span class="wog-statsbox"><strong>Targeting
+                                                Method:</strong>{{targetingMethod}}</span>
+                                        {{/targetingMethod}}
+                                        {{#allowedTargets}}
+                                        <span class="wog-statsbox"><strong>Allowed
+                                                Targets:</strong>{{allowedTargets}}</span>
+                                        {{/allowedTargets}}
+                                        <span class="wog-statsbox"><strong>Pierces Spell Immunity:</strong><span
+                                                style="font-family:iransans">{{#psi}}دارد{{/psi}}{{^psi}}ندارد{{/psi}}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end of col-6 ability-->
+                {{/champion.abilities}}
+                <script>
+                    $(() =>
+                    {
+                        var abilityBoxes = $(".abilities-background");
+                        var maxHeight = -1;
+                        for (var i = 0; i < abilityBoxes.length; i++)
+                        {
+                            var h = $(abilityBoxes[i]).height();
+                            if (maxHeight < h)
+                                maxHeight = h;
+                        }
+                        maxHeight = parseInt(maxHeight) + 10;
+                        $(".abilities-background").css('height', maxHeight + 'px');
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+    <section class="build-archive">
+        <div class="container">
+            <h3 class="gallery-text">آخرین آموزش های {{champion.name}}</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    {{#builds}}
+                    <div class="build-box">
+                        <a href="{{siteUrl}}" class="img-wrapper" style="background-image:url('{{_champion.icon}}')">
+                            <!-- <img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /> -->
+                        </a>
+                        <div class="title-wrapper">
+                            <a href="{{siteUrl}}" class="build-link">
+                                <h2>{{title}}</h2>
+                            </a>
+                            <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                    class="orange-link">{{_user.username}}</a></span>
+                            <br>
+                            <span class="badge badge-md badge-warning text-english">Patch {{patch}}</span>
+                        </div>
+                        <div class="stats-wrapper">
+                            <div class="stat-item">
+                                <span class="fas fa-eye"></span>
+                                <span class="stat-value text-english">200</span>
+
+                            </div>
+                            <div class="stat-item">
+                                <span class="fas fa-thumbs-up"></span>
+                                <span class="stat-value text-english">10</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="fas fa-thumbs-down"></span>
+                                <span class="stat-value text-english">10</span>
+                            </div>
+                        </div>
+                        <div class="date-wrapper">
+                            <span>{{createdAt_persian}}</span>
+                        </div>
+                    </div>
+                    {{/builds}}
+                    <a href="{{#SITE_URL}}/wiki/dota/builds/?champId={{champion._id}}{{/SITE_URL}}" class="more-button-builds btn btn-success text-center">مشاهده همه</a>
+                </div> <!-- end of col-8 -->
+                <div class="col-md-4" style="color:white">
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="gallery-section" style="background-image:url('{{champion.iconBlur}}')">
+        <div class="container">
+            <h1 class="gallery-text">گالری تصاویر {{champion.name}}:</h1>
+            <div class="row" style="margin-bottom: 10px">
+                {{#media}}
+                <div class="col-md-3 col-4" style="padding:0">
+                    <a href="{{siteUrl}}">
+                        <div class="grid-box-small" style="background-image:url('{{thumbnail}}');"></div>
+                    </a>
+                </div>
+                {{/media}}
+            </div>
+            <a href="{{#SITE_URL}}/gallery/?champId={{champion._id}}{{/SITE_URL}}" class="more-button btn btn-success text-center">بیشتر</a>
+        </div>
+    </section>
+
+    {{{footer}}}
+</body>
+
+</html>
