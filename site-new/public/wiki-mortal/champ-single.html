@@ -217,8 +217,8 @@
 
         .move-box .move-buttons-list .move-button {
             display: inline-block;
-            margin: 0 5px;
-            width: 32px;
+            margin: 0 2px;
+            height: 32px;
         }
 
         .side-bar-variations {
@@ -543,7 +543,14 @@
             $(".variation-circle-wrapper").click(function ()
             {
                 let variation = $(this).attr('variation');
-                let t = $(`.moves-section[variation=${variation}]`).offset().top;
+                let options = $(`.moves-section[variation=${variation}]`);
+                let goodOption = undefined;
+                for(var i = 0 ; i < options.length;i++){
+                    let display = $(options[i]).css('display');
+                    if(display != 'none')
+                        goodOption = $(options[i]);
+                }
+                let t = goodOption.offset().top;
                 $('html, body').animate({
                     scrollTop: t - 130,
                 }, 600);

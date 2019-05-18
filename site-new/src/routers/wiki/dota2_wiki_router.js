@@ -153,13 +153,87 @@ export class Dota2WikiRouter extends SiteRouter
             {
                 siteModules.Build.getOne(req.params._id).then((build) =>
                 {
+                    //fix if user has voted for this build:
+                    build._currentUserHasUpVoted = false;
+                    build._currentUserHasDownVoted = false;
+                    if (this.isLoggedIn(req))
+                    {
+                        for (var i = 0; i < build.upVotes.length; i++)
+                        {
+                            if(build.upVotes[i] == req.session.currentUser._id)
+                            {
+                                build._currentUserHasUpVoted = true;
+                                break;
+                            }
+                        }
+                        for (var i = 0; i < build.downVotes.length; i++)
+                        {
+                            if(build.downVotes[i] == req.session.currentUser._id)
+                            {
+                                build._currentUserHasDownVoted = true;
+                                break;
+                            }
+                        }
+
+                    }
+                    //fix the build for _items:
+                    build._itemRows = [];
+                    for (var i = 0; i < build.itemRows.length; i++)
+                    {
+                        build._itemRows.push({
+                            _index: i,
+                            title: build.itemRows[i].title,
+                            notes: build.itemRows[i].notes,
+                            items: [],
+                        });
+                        var row = build.itemRows[i];
+                        for (var j = 0; j < row.items.length; j++)
+                        {
+                            for (var k = 0; k < game.items.length; k++)
+                            {
+                                if (game.items[k]._id == row.items[j])
+                                {
+                                    build._itemRows[i].items.push(game.items[k]);
+                                    build._itemRows[i].items[j]._index = j;
+                                    break;
+                                }
+                            }
+                        }
+                    }
                     siteModules.Champion.getOne(build.champId).then((champion) =>
                     {
+                        //fix the build _abilities:
+                        build._abilities = [];
+                        for (var i = 0; i < champion.abilities.length; i++)
+                        {
+                            if (isEmptyString(champion.abilities[i].btn))
+                                continue;
+                            let a = champion.abilities[i];
+                            build._abilities.push(a);
+                            a.levels = [];
+                            for (var j = 0; j < 18; j++)
+                            {
+                                a.levels.push({
+                                    level: j + 1,
+                                    isLevel: (build.abilities[j] == a.btn),
+                                });
+                            }
+                            console.log(a);
+                        }
+                        //fix the build _talents:
+                        build._talents = [];
+                        for (var i = 0; i < champion.talents.length; i++)
+                        {
+                            let t = champion.talents[i];
+                            build._talents.push(t);
+                            t.isA = build.talents[i].pick == 'a';
+                            t.isB = build.talents[i].pick == 'b';
+                        }
                         build._champion = champion;
                         siteModules.User.getOne(build.userId).then((user) =>
                         {
                             build._user = user;
-                            siteModules.Build.find({ _ids: champion.topBuilds }).then((topBuilds) =>
+                            siteModules.Build.find({ champId: champion._id, sort: '-views' }).then((topBuilds) =>
                             {
                                 fixBuilds(siteModules, topBuilds, [champion], game).then((topBuilds) =>
                                 {
@@ -193,6 +267,33 @@ export class Dota2WikiRouter extends SiteRouter
                     }).catch(fail);
                 }).catch(fail);
             }).catch(fail);
+        });
+        this.router.post('/builds/:_id/vote', (req, res) =>
+        {
+            if (isEmptyString(req.body.userId))
+            {
+                res.send({ code: 500, error: 'missing user id' });
+                return;
+            }
+            siteModules.User.find({ _id: req.body.userId }).then((users) =>
+            {
+                if (users == null || users.length == 0)
+                {
+                    res.send({ code: 500, error: 'invalid user id' });
+                    return;
+                }
+                let user = users[0];
+                if (user.token != req.body.token)
+                {
+                    res.send({ code: 400, error: 'invalid token' });
+                    return;
+                }
+                //req.body.vote => up / down
+                siteModules.Build.apiCall('vote', { _id: req.body.buildId, vote: req.body.vote, userId: req.body.userId }).then((build) =>
+                {
+                    res.send({ code: 200, error: undefined, build: build });
+                });
+            });
         });
         this.router.get('/champions', (req, res) =>
         {
@@ -240,7 +341,7 @@ export class Dota2WikiRouter extends SiteRouter
                                         for (var i = 0; i < champion.stats.length; i++)
                                         {
                                             champion._stats[champion.stats[i].name] = champion.stats[i].value;
-                                        }                                        
+                                        }
                                         this.renderTemplate(req, res, 'wiki-dota2/dota2-champion-single.html', {
                                             game: game,
                                             champion: champion,

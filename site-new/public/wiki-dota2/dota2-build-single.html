@@ -1,1113 +1,529 @@
 <html>
 
 <head>
-
     {{{head}}}
-    <title>Butcher</title>
-
+    <script src="/my-js/my-tooltip.js"></script>
     <style>
-        body {
-            background-color: #171b26;
+        h1 {
+            font-size: 36px;
         }
 
-        .divimg1 {
+        h2 {
+            font-size: 24px;
+        }
+
+        h3 {
+            font-size: 18px;
+            color: #e0e1e2;
+        }
+
+        .main-section {
+            padding-top: 20px;
+        }
+
+        .top-part {
+            display: block;
             width: 100%;
-            border: 1px solid orange;
-
+            overflow: hidden;
         }
 
-        .divimg2 {
-            width: 100%;
-            border: 4px solid orange;
+        .top-part-wrapper {
+            float: right;
+            overflow: hidden;
         }
 
-        h5 {
-            color: #b3b3b3;
+        .top-part-img-wrapper {
+            float: left;
+            width: 300px;
+            padding: 1px;
+            border: 2px solid orange;
+            margin: 0 auto;
         }
 
-        .circle {
-            position: absolute;
-            left: 341px;
-            border-radius: 50%;
-            width: 8%;
+        .itemRow-wrapper {
+            display: block;
+            margin-bottom: 10px;
         }
 
-        .back {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: cover;
-            height: auto;
+        .itemRow-wrapper .itemRow-title {
+            margin-bottom: 10px;
         }
 
-        .imgcircle {
-            border-radius: 50%;
-            width: 119px;
-
-        }
-
-        .koli {
-            padding-left: 130px;
-            padding-right: 130px;
-        }
-
-        .like {
-            font-size: 10PX;
-            text-align: left;
-            direction: rtl;
-        }
-
-        .imgkocholo {
-            width: 111%;
-            height: 100px;
-        }
-
-        .divimgkocholo {
-            padding-right: 15px;
-            padding-top: 7px;
-            padding-left: 6px;
-            padding-bottom: 0px;
-        }
-
-        .aa {
-            font-size: 15px;
-        }
-
-        .nn {
-           
-        }
-
-        .div18 {
+        .item-box {
             display: inline-block;
-            height: 35px;
-            width: 35px;
-            background-color: #38486d;
-            border-radius: 13%;
+            width: 72px;
+            padding: 2px;
+            border: 1px solid orange;
+            margin: 0px 2px;
+        }
+
+        .item-tooltip {
+            width: 350px;
+            max-width: 100vw;
+        }
+        .item-tooltip .item-icon{
+            display: inline-block;
+            width: 64px;
             vertical-align: top;
+            float:right;
+        }
+        .item-tooltip .item-description{
+            display: inline-block;
+            vertical-align: top;
+            font-size:12px;
+            width: 250px;
+            padding-right:5px;
+            float:right;
+        }
+        .item-tooltip .item-description b{
+            color:orange;
+        }
+
+        .ability-wrapper {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .ability-wrapper .ability-icon {
+            float: right;
+            display: inline-block;
+            width: 32px;
+            margin-right: 2px;
+            vertical-align: top;
+
+        }
+
+        .ability-wrapper .ability-level-box {
+            display: inline-block;
+            float: right;
+            width: 32px;
+            height: 32px;
             text-align: center;
-            padding-top: 7px;
+            color: white;
+            margin-right: 2px;
+            margin-bottom: 3px;
+            background-color: #38486d;
+            vertical-align: top;
+            padding-top: 4px;
+            border-radius: 2px;
+
         }
 
-        .radiustl {
-            border-top-left-radius: 9px;
+        .ability-wrapper .ability-level-box.active {
+            background-color: #a00;
+            border: none;
         }
 
-        .radiustr {
-            border-top-right-radius: 9px;
+        .talent-row {
+            display: block;
+            background-color: #202d4f;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid orange;
         }
 
-        .radiusbl {
-            border-bottom-left-radius: 9px;
+        .talent-row .talent-part {
+            text-align: center;
+            width: 50%;
+            float: left;
+            padding: 20px 5px;
+            font-family: Roboto;
+            direction: ltr;
         }
 
-        .radiusbr {
-            border-bottom-right-radius: 9px;
+        .talent-row .talent-part.active {
+            background-color: #625549;
         }
-.boximg{
-    background-color: #202d4f;
-   
-    padding: 1px;
-    border-top: 2px solid black;
-    margin-top: 1px;
-    padding-top: 11px;
-    padding-bottom: 12px;
-}
-        @media (max-width: 460px) {
-            .col-0 {
-                display: none;
-            }
 
-            h4 {
-                font-size: 20px;
-            }
+        .talent-row .talent-level-wrapper {
+            position: absolute;
+            width: 100%;
+            z-index: 3;
+            text-align: center;
+        }
 
-            h5 {
-                font-size: 13px;
-            }
+        .talent-row .talent-level-wrapper .talent-level {
+            background-color: orange;
+            color: #202020;
+            text-align: center;
+            width: 64px;
+            height: 64px;
+            display: inline-block;
+            border-radius: 50%;
+            font-family: Roboto;
+            padding-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
 
-            h6 {
-                font-size: 12px
-            }
+        .stats-box .stat-wrapper {
+            display: block;
+            margin-bottom: 5px;
+        }
 
-            .aa {
-                font-size: 11px;
-            }
+        .stats-box .stat-icon {
+            background-color: #8cc63f;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+        }
 
-            .circle {
-                left: 43%;
+        .stats-box .stat-icon.stat-dislikes {
+            background-color: #c1272d;
+        }
 
-                width: 14%;
-            }
-.gg{
-    padding-left: 0px;
-    padding-right: 0px;
-}
-            .soton2 {
-                margin-top: 68px;
-                padding-left: 1px;
-                padding-right: 1px;
-            }
+        .stats-box .stat-icon.stat-views {
+            background-color: orange;
+        }
 
-            .koli {
-                padding-left: 34px;
-                padding-right: 33px;
-            }
+        #vote-loading {
+            background-color: #1e232d;
 
-            .like {
-                font-size: 5PX;
-            }
+            border-bottom-left-radius: 5px;
+            text-align: center;
+            padding: 20px 0;
+        }
 
-            .nn {
-                margin-left: 73px;
-                margin-right: -17px;
-            }
+        .vote-box {
+            display: block;
+            overflow: hidden;
+        }
 
-            .ss {
-                margin-right: 0px;
-            }
+        .vote-box .vote-text {
+            display: none;
+            font-size: 10px;
+        }
+        .vote-box .vote-text.active{
+            display: inline;
+        }
 
-            .ii {
-                margin-bottom: 10px;
-            }
+        .vote-box .vote-up,
+        .vote-box .vote-down {
+            float: right;
+            width: 50%;
+            display: inline-block;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+        }
 
-            .kk {
-                margin-right: -14px;
-               
-            }
+        .vote-box .vote-up {
+            border-bottom-right-radius: 5px;
+        }
 
-            .div18 {
-                height: 11px;
-    width: 11px;
-    padding-top: 2px;
-    font-size: 4px;
-            }
-            .greenpad{
-                padding: 5px;
-    padding-bottom: 3px;
-            }
-            .gg{
-                margin-left: 21px;
-    margin-right: 21px;
-            }
-            .imgcircle{
-                border-radius: 50%;
-    width: 34px;
-            }
+        .vote-box .vote-down {
+            border-bottom-left-radius: 5px;
+        }
+
+        .vote-box .vote-up:hover,.vote-box .vote-up.active {
+            background-color: #8cc63f;
+        }
+
+        .vote-box .vote-down:hover,.vote-box .vote-down.active {
+            background-color: #c1272d;
+        }
+
+        .build-box{
+            border-radius: 0;
+            background-color:#202D4F;
+        }
+        .build-box .title-wrapper h2 {
+            font-size: 12px;
+        }
+
+        .build-box .img-wrapper {
+            width: 72px;
+            height: 72px;
+        }
+
+        .author-section {
+            display: block;
+            padding: 30px 0;
+        }
+
+        .author-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            margin-bottom: 10px;
+        }
+
+        .author-box .author-img-wrapper {
+            display: inline-block;
+            width: 96px;
+
+        }
+
+        .author-box .author-img-wrapper img {
+            border-radius: 50%;
+            width: 100%;
+        }
+
+        .author-box .author-info-wrapper {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 10px;
+            padding-top: 5px;
+        }
+
+        .description-box {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+        }
+
+        .comment-box {
+            display: block;
+            background-color: #262e3b;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .comment-box .user-profile-img {
+            display: inline-block;
+            vertical-align: top;
+            width: 72px;
+            border-radius: 50%;
+        }
+
+        .comment-box .comment-content {
+            display: inline-block;
+            vertical-align: top;
+            padding-right: 5px;
         }
     </style>
 </head>
 
-
-<body>
+<body class="dota2-body">
     {{{navbar}}}
     <navfiller></navfiller>
-    <!-- koli -->
-    <div class="koli pt-5" style="color: white">
-        <!-- satr1 -->
-        <div class="row">
-
-            <!-- soton1 -->
-            <div class="col-md-8 col-12">
-                <div class="row">
-
-
-
-
-
-
-
-
-                    <div class="col-md-7 col-12 ">
-                        <h3>
-                            Draw Ranger Mid Game Carry
-                        </h3>
-                        <h4>
-                            قهرمان : <span style="color:#cd7e23 ">Drow Ranger </span>
-                        </h4>
-
-                        <h4 class="mt-5">
-                            آیتم ها :
-                        </h4>
-
-                        <div>
-                            <h5 class="mt-3">
-                                Starting Items:
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-3 col-3">
-                                    <img class="" src="/wiki-dota2/images/greenimg.jpg" width="100%"
-                                        style=" border: 1px solid orange;">
-                                </div>
-                                <div class="col-md-9 col-9">
-
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div>
-                            <h5 class="mt-3">
-                                Starting Items:
-                            </h5>
-
-                            <div class="row">
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h5 class="mt-3">
-                                Starting Items:
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                                <div class="col-md-3 col-3">
-                                    <img class="divimg1" src="/wiki-dota2/images/greenimg.jpg" alt="">
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-
-
-                    <div class="col-md-5 col-0 ">
-                        <div>
-                            <img class="divimg2" src="/wiki-dota2/images/dota-2-item-guide-970x570.png" alt="">
-                        </div>
-                    </div>
-
-
-
-                </div>
-
-                <div class="pt-4">
-                    <h4>قابلیت های قهرمان :</h4>
-
-                    <h5 class="pt-4">
-                        FORTUNE`S END
-                    </h5>
-                    <div>
-                        <div class="div18" style="padding-top: 0px">
-                            <img src="/wiki-dota2/images/images.jpg" width="100%">
-                        </div>
-                        <div class="div18" style="background-color: #c1272d"><span>1</span> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18" style="background-color: #c1272d">6 </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-
-
-                    </div>
-
-
-                    <h5 class="pt-4">
-                        FORTUNE`S END
-                    </h5>
-                    <div>
-                        <div class="div18" style="padding-top: 0px">
-                            <img src="/wiki-dota2/images/images.jpg" width="100%">
-                        </div>
-                        <div class="div18" style="background-color: #c1272d"><span>1</span> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18" style="background-color: #c1272d">6 </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-
-
-                    </div>
-
-
-
-
-
-                    <h5 class="pt-4">
-                        FORTUNE`S END
-                    </h5>
-                    <div>
-                        <div class="div18" style="padding-top: 0px">
-                            <img src="/wiki-dota2/images/images.jpg" width="100%">
-                        </div>
-                        <div class="div18" style="background-color: #c1272d"><span>1</span> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18" style="background-color: #c1272d">6 </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-
-
-                    </div>
-
-
-
-
-
-                    <h5 class="pt-4">
-                        FORTUNE`S END
-                    </h5>
-                    <div>
-                        <div class="div18" style="padding-top: 0px">
-                            <img src="/wiki-dota2/images/images.jpg" width="100%">
-                        </div>
-                        <div class="div18" style="background-color: #c1272d"><span>1</span> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18" style="background-color: #c1272d">6 </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-
-
-                    </div>
-
-
-
-
-
-                    <h5 class="pt-4">
-                        FORTUNE`S END
-                    </h5>
-                    <div>
-                        <div class="div18" style="padding-top: 0px">
-                            <img src="/wiki-dota2/images/images.jpg" width="100%">
-                        </div>
-                        <div class="div18" style="background-color: #c1272d"><span>1</span> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18" style="background-color: #c1272d">6 </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-                        <div class="div18"> </div>
-
-
-                    </div>
-
-                </div>
-
-
-
-
-                <div class="row">
-                    <div class="col-md-10">
-                        <div class="pt-5">
-                            <h4>
-                                Talents
-                            </h4>
-
-                            <div>
-                                <div class="row  " style="direction: ltr ">
-                                    <div class="col-md-6 col-6 p-3 text-center" style="background-color: #625549">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="col-md-6 col-6 p-3 text-center"
-                                        style="background-color: #202d4f ;text-align: left">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="text-center pt-3 p-2 pl-2 pr-2   circle"
-                                        style="background-color: #fbb03b">
-                                        <h4 class="text-body">
-                                            25
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div>
-                                <div class="row  " style="direction: ltr ">
-                                    <div class="col-md-6 col-6 p-3 text-center" style="background-color: #202d4f">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="col-md-6 col-6 p-3 text-center"
-                                        style="background-color: #625549 ;text-align: left">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="text-center pt-3 p-2 pl-2 pr-2   circle"
-                                        style="background-color: #fbb03b">
-                                        <h4 class="text-body">
-                                            25
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-
-
-                            <div>
-                                <div class="row  " style="direction: ltr ">
-                                    <div class="col-md-6 col-6 p-3 text-center" style="background-color: #625549">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="col-md-6 col-6 p-3 text-center"
-                                        style="background-color: #202d4f ;text-align: left">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="text-center pt-3 p-2 pl-2 pr-2   circle"
-                                        style="background-color: #fbb03b">
-                                        <h4 class="text-body">
-                                            25
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-
-                            <div>
-                                <div class="row  " style="direction: ltr ">
-                                    <div class="col-md-6 col-6 p-3 text-center" style="background-color: #202d4f">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="col-md-6 col-6 p-3 text-center"
-                                        style="background-color: #625549 ;text-align: left">
-                                        <h5>
-                                            -5s Fates Edict Cooldown
-                                        </h5>
-                                    </div>
-
-                                    <div class="text-center pt-3 p-2 pl-2 pr-2   circle"
-                                        style="background-color: #fbb03b">
-                                        <h4 class="text-body">
-                                            25
-                                        </h4>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
-            <!-- soton 2 -->
-            <div class="col-md-4 col-12 soton2">
-                <div style=" ">
-                    <div style="background-color: #202d4f ;border-radius: 17px">
-                        <div style="background-color: #38486d" class="p-3 radiustl radiustr">
-                            <h4>
-                                آمار این آموزش :
-                            </h4>
-                        </div>
-                        <div class="container ">
-                            <div class="row p-2 container">
-                                <div class="col-md-2 col-2 container text-center p-2"
-                                    style="background-color: #8cc63f ;     border-radius: 17%;">
-                                    <h4> <i class="fas fa-thumbs-up"></i></h4>
-                                </div>
-                                <div class="col-md-6 p-2 col-5">
-                                    <h5>
-                                        100 رای مثبت
-                                    </h5>
-                                </div>
-                                <div class="col-md-4 col-5">
-
-                                </div>
-                            </div>
-
-
-                            <div class="row p-2 container">
-                                <div class="col-md-2 col-2 container text-center p-2"
-                                    style="background-color: #c1272d ;     border-radius: 17%;">
-                                    <h4> <i class="fas fa-thumbs-down"></i></h4>
-                                </div>
-                                <div class="col-md-6 col-5 p-2">
-                                    <h5>
-                                        100 رای منفی
-                                    </h5>
-                                </div>
-                                <div class="col-md-4 col-5">
-
-                                </div>
-                            </div>
-
-
-
-
-                            <div class="row p-2 container">
-                                <div class="col-md-2 col-2 container text-center p-2"
-                                    style="background-color: #c1272d ;     border-radius: 17%;">
-                                    <h4> <i class="fas fa-eye"></i></h4>
-                                </div>
-                                <div class="col-md-6 col-5 p-2">
-                                    <h5>
-                                        3000 بازدید
-                                    </h5>
-                                </div>
-                                <div class="col-md-4 col-5">
-
-                                </div>
-                            </div>
-
-
-                            <div class="row">
-                                <div class="col-md-6 col-6 container text-center greenpad  radiusbr"
-                                    style="background-color:#8cc63f ;    padding-top: 8px;">
-                                    <h6 class="aa" style="">
-                                        <i class="fas fa-thumbs-up"></i>
-                                        <span>
-                                            شما به این آموزش رای مثبت داده اید .
-                                        </span>
-                                    </h6>
-                                </div>
-                                <div class="col-md-6 col-6 container text-center greenpad radiusbl"
-                                    style="background-color: #1e232d ;    padding-top: 15px;">
-                                    <h6 class="aa">
-                                        <i class="fas fa-thumbs-down"></i>
-                                    </h6>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="container ">
-
-
-                    <div style="background-color: #202d4f ; border-radius: 11px " class="mt-4 ">
-                        <div style="background-color:  #38486d ; direction: rtl ; text-align:  right ;"
-                            class="p-3 row radiustl radiustr">
-                            <div class="col-md-7 col-7 ">
-                                <h5 style="color: white">
-                                    آموزش های منتخب :
-                                </h5>
-                            </div>
-                            <div class="col-md-5 col-5" style="direction: ltr ; text-align: left">
-                                <h6>
-                                    <a href="#" style="color: #cd7e23">
-                                        مشاهده همه
-
-                                    </a>
-                                </h6>
-                            </div>
-                        </div>
-
-                        <div class="row boximg" style=" ">
-                            <div class="col-md-4 col-4">
-                                <img src="/wiki-dota2/images/pudge_vert.jpg" width="100%">
-                            </div>
-                            <div class="col-md-6 col-6 " style="    padding-right: 0px;">
-                                <h5>
-                                    Butcher Mid
-                                </h5>
-                                <h6>
-                                    توشته شده توسط
-                                    <a href="#" style="color: #cd7e23">
-                                        lucker
-                                    </a>
-                                </h6>
-                                <br />
-                                <br />
-                                <h6 style="color: #5e5b5b ;   margin-top: -13px;">
-                                    دوشنبه 4 اردیبهشت 1398
-                                </h6>
-                            </div>
-                            <div class="col-md-2 col-2 like">
-
-
-                                <div class="mb-2 mt-2">
-                                    <span class="ml-1">10</span>
-                                    <i class="fas fa-thumbs-up"></i>
-
-                                </div>
-
-                                <div class="mb-2">
-                                    <span class="ml-1">20</span>
-                                    <i class="fas fa-thumbs-down"></i>
-
-                                </div>
-                                <div class="mb-2">
-                                    <span class="ml-1">200</span>
-                                    <i class="fas fa-eye"></i>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-
-
-                        <hr style="" />
-
-
-
-                        <div class="row radiusbl radiusbr boximg"
-                            style="     margin-top: -34px;">
-                            <div class="col-md-4 col-4">
-                                <img src="/wiki-dota2/images/pudge_vert.jpg" width="100%">
-                            </div>
-                            <div class="col-md-6 col-6 " style="    padding-right: 0px;">
-                                <h5>
-                                    Butcher Mid
-                                </h5>
-                                <h6>
-                                    توشته شده توسط
-                                    <a href="#" style="color: #cd7e23">
-                                        lucker
-                                    </a>
-                                </h6>
-                                <br />
-                                <br />
-                                <h6 style="color: #5e5b5b ;    margin-top: -13px;">
-                                    دوشنبه 4 اردیبهشت 1398
-                                </h6>
-                            </div>
-                            <div class="col-md-2 col-2 like">
-
-
-                                <div class="mb-2 mt-2">
-                                    <span class="ml-1">10</span>
-                                    <i class="fas fa-thumbs-up"></i>
-
-                                </div>
-
-                                <div class="mb-2">
-                                    <span class="ml-1">20</span>
-                                    <i class="fas fa-thumbs-down"></i>
-
-                                </div>
-                                <div class="mb-2">
-                                    <span class="ml-1">200</span>
-                                    <i class="fas fa-eye"></i>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-
-
-
-
-                    </div>
-
-
-                </div>
-
-
-                <div style="background-color: #202d4f ;border-radius: 11px" class="mt-4 ">
-                    <div style="background-color:  #38486d ; direction: rtl ; text-align:  right ;"
-                        class="p-3 radiustl radiustr">
-
-                        <h5 style="color: white">
-                            قهرمان های محبوب این پیچ :
-                        </h5>
-
-                    </div>
-
-
-                    <div class="p-2">
-                        <div class="back" style="    height: 185px;background-image: url(/wiki-dota2/images/phantom-lancer-hero-guide-970x570.jpg)">
-                         
-                          <div style="    margin-right: 25px; padding-top: 20px;">
-                                <h4>
-                                        Mars
-                                        </h5>
-                                        <h6 style="color: #cd7e23">
-                                            God of war
-                                        </h6>
-                          </div>
-                        </div>
-
-                        <div class="row " style="    padding-left: 23px;">
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/dota-2-monkey-king-660x330.jpg" class="imgkocholo">
-                            </div>
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/live_user_dakotaz-400x225.jpg" class="imgkocholo">
-                            </div>
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/dota-2-item-guide-970x570.png" class="imgkocholo">
-                            </div>
-                        </div>
-
-                        <div class="row " style="    padding-left: 23px;">
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/dota-2-monkey-king-660x330.jpg" class="imgkocholo">
-                            </div>
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/live_user_dakotaz-400x225.jpg" class="imgkocholo">
-                            </div>
-                            <div class="col-md-4 col-4 divimgkocholo">
-                                <img src="/wiki-dota2/images/dota-2-item-guide-970x570.png" class="imgkocholo">
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-
-
-                <div class="container ">
-
-
-                        <div style="background-color: #202d4f ; border-radius: 11px " class="mt-4 ">
-                            <div style="background-color:  #38486d ; direction: rtl ; text-align:  right ;"
-                                class="p-3 row radiustl radiustr">
-                                <div class="col-md-7 col-7 ">
-                                    <h5 style="color: white">
-                                        آموزش های منتخب :
-                                    </h5>
-                                </div>
-                                <div class="col-md-5 col-5" style="direction: ltr ; text-align: left">
-                                    <h6>
-                                        <a href="#" style="color: #cd7e23">
-                                            مشاهده همه
-    
-                                        </a>
-                                    </h6>
-                                </div>
-                            </div>
-    
-                            <div class="row boximg" style=" ">
-                                <div class="col-md-4 col-4">
-                                    <img src="/wiki-dota2/images/pudge_vert.jpg" width="100%">
-                                </div>
-                                <div class="col-md-6 col-6 " style="    padding-right: 0px;">
-                                    <h5>
-                                        Butcher Mid
-                                    </h5>
-                                    <h6>
-                                        توشته شده توسط
-                                        <a href="#" style="color: #cd7e23">
-                                            lucker
-                                        </a>
-                                    </h6>
-                                    <br />
-                                    <br />
-                                    <h6 style="color: #5e5b5b ;   margin-top: -13px;">
-                                        دوشنبه 4 اردیبهشت 1398
-                                    </h6>
-                                </div>
-                                <div class="col-md-2 col-2 like">
-    
-    
-                                    <div class="mb-2 mt-2">
-                                        <span class="ml-1">10</span>
-                                        <i class="fas fa-thumbs-up"></i>
-    
-                                    </div>
-    
-                                    <div class="mb-2">
-                                        <span class="ml-1">20</span>
-                                        <i class="fas fa-thumbs-down"></i>
-    
-                                    </div>
-                                    <div class="mb-2">
-                                        <span class="ml-1">200</span>
-                                        <i class="fas fa-eye"></i>
-                                    </div>
-    
-    
-                                </div>
-                            </div>
-    
-    
-    
-                            <hr style="" />
-    
-    
-    
-                            <div class="row radiusbl radiusbr boximg"
-                                style="     margin-top: -34px;">
-                                <div class="col-md-4 col-4">
-                                    <img src="/wiki-dota2/images/pudge_vert.jpg" width="100%">
-                                </div>
-                                <div class="col-md-6 col-6 " style="    padding-right: 0px;">
-                                    <h5>
-                                        Butcher Mid
-                                    </h5>
-                                    <h6>
-                                        توشته شده توسط
-                                        <a href="#" style="color: #cd7e23">
-                                            lucker
-                                        </a>
-                                    </h6>
-                                    <br />
-                                    <br />
-                                    <h6 style="color: #5e5b5b ;    margin-top: -13px;">
-                                        دوشنبه 4 اردیبهشت 1398
-                                    </h6>
-                                </div>
-                                <div class="col-md-2 col-2 like">
-    
-    
-                                    <div class="mb-2 mt-2">
-                                        <span class="ml-1">10</span>
-                                        <i class="fas fa-thumbs-up"></i>
-    
-                                    </div>
-    
-                                    <div class="mb-2">
-                                        <span class="ml-1">20</span>
-                                        <i class="fas fa-thumbs-down"></i>
-    
-                                    </div>
-                                    <div class="mb-2">
-                                        <span class="ml-1">200</span>
-                                        <i class="fas fa-eye"></i>
-                                    </div>
-    
-    
-                                </div>
-                            </div>
-    
-    
-    
-    
-    
-                        </div>
-    
-    
-                    </div>
-
-                <div style="background-color: #5e5b5b ;border-radius: 11px ; height: 200px;" class="mt-4 text-center ">
-                    Dota2 Starter Guide
-                </div>
-
-            </div>
-        </div>
-
-
-    </div>
-
-
-
-    <div class="back pt-5 mt-4 pb-5" style="background-image: url('/wiki-dota2/images/Boston-Major-2.jpg')">
+    <section class="main-section">
         <div class="container">
-            <div class="container ">
-                <div class="row">
-
-
-                    <div class=" col-md-9 col-12 row p-3 ss kk" style="background-color: rgba(18,17,17,0.65)">
-                        <div class="col-md-2 col-2 col-2 nn">
-                            <img src="/wiki-dota2/images/greenimg.jpg" width="113px"  style="border-radius:50% ">
+            <div class="row">
+                <div class="col-md-8 col-12">
+                    <div class="top-part">
+                        <div class="top-part-img-wrapper">
+                            <img src="{{build._champion.icon}}" width="100%" />
                         </div>
-                       
-                        <div class="col-md-5 col-7 pt-2">
-                            <h5 style="color: white">
-                                نوشته شده توسط :
-                                <br />
-                                <a href="#" style="color: #cd7e23">laku22</a>
-                                <br />
-                                <br />
-                                <h6 style="color: white">
-                                    دوشنبه 4 اردیبهشت 1398
-                                </h6>
-
-
-                            </h5>
+                        <div class="top-part-wrapper">
+                            <h1 class="hero-name">{{build.title}}</h1>
+                            <h2>قهرمان:&nbsp;<a href="{{build._champion.siteUrl}}"
+                                    class="orange-link">{{build._champion.name}}</a></h2>
                         </div>
+
+                    </div>
+                    <h2>آیتم ها:</h2>
+                    {{#build._itemRows}}
+                    <div class="itemRow-wrapper">
+                        <h3 class="itemRow-title">{{title}}</h3>
+                        <div class="items-wrapper" rowIndex="{{_index}}">
+                            {{#items}}
+                            <div class="item-box my-tooltip" itemIndex="{{_index}}"
+                                data-tooltip-content="#itemId-{{_id}}" itemId="{{_id}}">
+                                <img src="{{icon}}" width="100%" />
+                            </div>
+                            {{/items}}
+
+                        </div>
+                    </div>
+                    {{/build._itemRows}}
+                    <div style="display: none">
+                        {{#game.items}}
+                        <div id="itemId-{{_id}}" class="item-tooltip text-english">
+                            <img src="{{icon}}" class="item-icon"/>
+                            <div class="item-description">
+                                <span style="color:orange">{{name}}</span>
+                                <div style="direction:ltr;text-align:left;">
+                                    <div><b>Category:</b>&nbsp;<span>{{category}}</span></div>
+                                    <div><b>Price:</b>&nbsp;<span>{{price}}</span></div>
+                                    {{#coolDown}}
+                                    <div><b>Cool Down:</b>&nbsp;<span>{{coolDown}}</span></div>
+                                    {{/coolDown}}
+                                    {{#manaCost}}
+                                    <div><b>Mana Cost:</b>&nbsp;<span>{{manaCost}}</span></div>
+                                    {{/manaCost}}
+                                    <div>{{{description}}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/game.items}}
+                    </div>
+                    <script>
+                        $(document).ready(function ()
+                        {
+                            $('.my-tooltip').tooltipster({
+                                contentCloning: true
+                            });
+                        });
+                    </script>
+                    <h2 style="margin:20px 0">قابلیت های قهرمان:</h2>
+                    {{#build._abilities}}
+                    <div class="ability-wrapper">
+                        <h3>{{title}}</h3>
+                        <img src="{{icon}}" class="ability-icon" />
+                        {{#levels}}
+                        <div class="ability-level-box text-english {{#isLevel}}active{{/isLevel}}">
+                            {{#isLevel}}{{level}}{{/isLevel}}{{^isLevel}}&nbsp;{{/isLevel}}</div>
+                        {{/levels}}
+                    </div>
+                    {{/build._abilities}}
+                    <h2 style="margin:20px 0;">Talents:</h2>
+                    <div style="margin-bottom:10px">
+                        {{#build._talents}}
+                        <div class="talent-row">
+                            <div class="talent-level-wrapper"><span class="talent-level">{{level}}</span></div>
+                            <div class="talent-part {{#isA}}active{{/isA}}">{{a}}</div>
+                            <div class="talent-part {{#isB}}active{{/isB}}">{{b}}</div>
+                        </div>
+                        {{/build._talents}}
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="dota-box stats-box" style="margin-bottom:10px">
+                        <div class="dota-box-title">
+                            <h3 style="color:white;">آمار این آموزش</h3>
+                        </div>
+                        <div class="dota-box-content">
+                            <div style="padding: 10px 10px;">
+                                <div class="stat-wrapper"><span
+                                        class="fas fa-eye stat-icon stat-views"></span>&nbsp;<span
+                                        class="text-english">{{build.views}}&nbsp;</span> بازدید</div>
+                                <div class="stat-wrapper"><span
+                                        class="fas fa-thumbs-up stat-icon stat-likes"></span>&nbsp;<span
+                                        class="text-english">{{build.upVotes.length}}&nbsp;</span> رای مثبت</div>
+                                <div class="stat-wrapper"><span
+                                        class="fas fa-thumbs-down stat-icon stat-dislikes"></span>&nbsp;<span
+                                        class="text-english">{{build.downVotes.length}}&nbsp;</span>رای منفی</div>
+                            </div>
+                            <div id="vote-loading">
+                                در حال بارگذاری...
+                            </div>
+                            <div class="vote-box text-center">
+                                <div class="vote-up"><span class="fas fa-thumbs-up"></span>&nbsp;<span
+                                        class="vote-text">شما
+                                        به این آموزش رای مثبت داده اید.</span></div>
+                                <div class="vote-down"><span class="fas fa-thumbs-down"></span>&nbsp;<span
+                                        class="vote-text">شما
+                                        به این آموزش رای منفی داده اید.</span></div>
+                            </div>
+                            <script>
+
+                            </script>
+                        </div>
+                    </div>
+                    <div class="dota-box stats-box" style="margin-bottom:10px">
+                        <div class="dota-box-title">
+                            <h3 style="color:white;">آموزش های محبوب:</h3>
+                        </div>
+                        <div class="dota-content-box">
+                            {{#topBuilds}}
+                            <div class="build-box">
+                                <a href="{{siteUrl}}" class="img-wrapper"
+                                    style="background-image:url('{{_champion.icon}}')">
+                                    <!-- <img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /> -->
+                                </a>
+                                <div class="title-wrapper">
+                                    <a href="{{siteUrl}}" class="build-link">
+                                        <h2>{{title}}</h2>
+                                    </a>
+                                    <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                            class="orange-link">{{_user.username}}</a></span>
+                                    <br>
+                                    <span class="badge badge-md badge-warning text-english">Patch {{patch}}</span>
+                                </div>
+                                <div class="stats-wrapper">
+                                    <div class="stat-item">
+                                        <span class="fas fa-eye"></span>
+                                        <span class="stat-value text-english">200</span>
+
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="fas fa-thumbs-up"></span>
+                                        <span class="stat-value text-english">10</span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <span class="fas fa-thumbs-down"></span>
+                                        <span class="stat-value text-english">10</span>
+                                    </div>
+                                </div>
+                                <div class="date-wrapper">
+                                    <span>{{createdAt_persian}}</span>
+                                </div>
+                            </div>
+                            {{/topBuilds}}
+                        </div>
+                    </div>
+                    <!--end of topBuilds dota-box-->
+                    <div>
+                        <a href="{{_siteConfig.discord}}" target="_blank"><img
+                                src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+    <section class="author-section" style="background-image:url('{{build._champion.iconBlur}}')">
+        <div class="container">
+            <div class="author-box">
+                <div class="author-img-wrapper"><img src="{{build._user.profileImage}}" /></div>
+                <div class="author-info-wrapper">
+                    <span style="color:#f0f1f2">نوشته شده توسط:<a href="{{build._user.siteUrl}}"
+                            class="orange-link">{{build._user.username}}</a></span><br>
+                    <span style="color:#e0e1e2">{{build.createdAt_persian}}</span>
+                </div>
+            </div>
+            <div class="description-box">
+                <h2>توضیحات:</h2>
+                <div>{{{build.description}}}</div>
+            </div>
+        </div>
+    </section>
+    <section class="comments-section">
+        <div class="container">
+            <h2>نظرات کاربران:</h2>
+            {{#currentUser}}
+            <div class="new-comment-box">
+                <form action="/comments/new" method="POST">
+                    <h3>ارسال نظر:</h3>
+                    <input name="objectType" value="builds" type="hidden" />
+                    <input name="objectId" value="{{build._id}}" type="hidden" />
+                    <textarea name="body" class="form-control"
+                        style="width:400px;max-width:100%;height:150px;"></textarea>
+                    <input type="submit" class="btn btn-md btn-warning" value="ثبت نظر" style="margin-top:5px;" />
+                </form>
+                <script>
+                    $(() =>
+                    {
+
+                    });
+                </script>
+            </div>
+            {{/currentUser}}
+            {{^currentUser}}
+            <span style="display:block;margin:20px 0;">برای ثبت نظر ابتدا باید <a href="/login" class="orange-link">وارد
+                    شوید</a></span>
+            {{/currentUser}}
             <div class="row">
-                <div class="mt-2 p-3" style="background-color: rgba(18,17,17,0.65);color: white">
-                    <h4>
-                        توضیحات :
-                    </h4>
-                    <h5 style="color: white">
-                        در حقیقت، مقاله علمي معمولاً در نتيجه پژوهش منطقي، ژرف و متمركز نظري، عملي يا مختلط، به كوشش يك
-                        يا
-                        چند نفر در يك موضوع تازه و با رويكردي جديد با جهت دستيابي به نتايجي تازه، تهيه و منتشر مي‏گردد.
-                        چنين
-                        مقاله ‏اي در واقع گزارشي است كه محقق از يافته‏ هاي علمي و نتايج اقدامات پژوهشي خود براي استفاده
-                        ساير
-                        پژوهشگران، متخصصان و علاقه ‏مندان به دست مي‏دهد.
-                        در حقیقت، مقاله علمي معمولاً در نتيجه پژوهش منطقي، ژرف و متمركز نظري، عملي يا مختلط، به كوشش يك
-                        يا
-                        چند نفر در يك موضوع تازه و با رويكردي جديد با جهت دستيابي به نتايجي تازه، تهيه و منتشر مي‏گردد.
-                        چنين
-                        مقاله ‏اي در واقع گزارشي است كه محقق از يافته‏ هاي علمي و نتايج اقدامات پژوهشي خود براي استفاده
-                        ساير
-                        پژوهشگران، متخصصان و علاقه ‏مندان به دست مي‏دهد.
-                        تهيه و منتشر مي‏گردد. در حقیقت، مقاله علمي معمولاً در نتيجه پژوهش منطقي، ژرف و متمركز نظري، عملي
-                        يا
-                        مختلط، به كوشش يك يا
-                        تهيه و منتشر مي‏گردد.
-                    </h5>
+                <div class="col-md-6 col-12">
+                    {{#comments}}
+                    <div class="comment-box">
+                        <img class="user-profile-img" src="{{_user.profileImage}}">
+                        <div class="comment-content">
+                            <a class="orange-link" href="{{_user.siteUrl}}"
+                                style="font-size:18px;color:white;display:block;margin-bottom:0px;">{{_user.username}}</a>
+                            <div>{{{body}}}</div>
+                            <span style="font-size:10px;color:#c0c1c2;">{{createdAt_persian}}</span>
+                        </div>
+                    </div>
+                    {{/comments}}
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <div class="container pt-3" style="color: white">
-        <h4>
-            نظرات کاربران :
-        </h4>
-        <div class="row mt-3">
-            <div class=" col-md-6 row p-3 gg" style="background-color: #262e3b ;    box-shadow: 1px 17px 32px black;">
-                <div class="col-md-2 col-1 ml-3 ii">
-                    <img src="/wiki-dota2/images/pudge_vert.jpg" class="imgcircle">
-                </div>
-                <div class="col-md-8 col-10">
-                    <h5 style="color: white">
-                        ali saqat
-                    </h5>
-                    <h6 style="font-size: 13px">
-                        در حقیقت، مقاله علمي معمولاً در نتيجه پژوهش منطقي، ژرف و متمركز نظري، عملي يا مختلط، به كوشش يك
-                        يا
-                        چند نفر در يك موضوع تازه و با رويكردي جديد با جهت دستيابي به نتايجي تازه، تهيه و منتشر مي‏گردد.
-                        چنين
-                        مقاله ‏اي در واقع گزارشي است كه محقق از يافته‏ هاي علمي و نتايج اقدامات پژوهشي خود براي استفاده
-                        ساير
-                        پژوهشگران، متخصصان و علاقه ‏مندان به دست مي‏دهد.
-
-                    </h6>
-                    <h6 style="color: #5e5b5b">
-                        دوشنبه 4 اردیبهشت 1398
-                    </h6>
-                </div>
-                <div class="col-md-2 col-1">
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-
-        <div class="row mt-3">
-            <div class=" col-md-6 row p-3 gg" style="background-color: #262e3b ;    box-shadow: 1px 17px 32px black;">
-                <div class="col-md-2 ml-3 col-1 ii">
-                    <img src="/wiki-dota2/images/pudge_vert.jpg" class="imgcircle">
-                </div>
-                <div class="col-md-8 col-10">
-                    <h5 style="color: white">
-                        ali saqat
-                    </h5>
-                    <h6 style="font-size: 13px">
-                        در حقیقت، مقاله علمي معمولاً در نتيجه پژوهش منطقي، ژرف و متمركز نظري، عملي يا مختلط، به كوشش يك
-                        يا
-                        چند نفر در يك موضوع تازه و با رويكردي جديد با جهت دستيابي به نتايجي تازه، تهيه و منتشر مي‏گردد.
-                        چنين
-                        مقاله ‏اي در واقع گزارشي است كه محقق از يافته‏ هاي علمي و نتايج اقدامات پژوهشي خود براي استفاده
-                        ساير
-                        پژوهشگران، متخصصان و علاقه ‏مندان به دست مي‏دهد.
-
-                    </h6>
-                    <h6 style="color: #5e5b5b">
-                        دوشنبه 4 اردیبهشت 1398
-                    </h6>
-                </div>
-                <div class="col-md-2 col-1">
-
-                </div>
-            </div>
-        </div>
-
-
-
-
-
-    </div>
-
+    </section>
     {{{footer}}}
-
 </body>
 
 </html>

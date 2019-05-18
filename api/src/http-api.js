@@ -31,6 +31,7 @@ import { CommentsHandler } from './routers/comments_handler';
 import { AdminLog } from './models/admin_log';
 import { FortniteTournomentHandler } from './routers/users_fortnite_handler';
 import { DotaBookHandler } from './routers/dota_book_handler';
+import { BuildsExtraHandler } from './routers/builds_extra_handler';
 
 const morgan = require('morgan');
 
@@ -76,7 +77,9 @@ express.expressApp.use('/api/otpObjects/', otpHandler.httpRouter.router);
 //games , champions , champBuilds:
 express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
+const buildsExtraHandler = new BuildsExtraHandler(ChampionBuild);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/builds/',buildsExtraHandler.httpRouter.router);
 //posts:
 const postsHandler = new PostsHandler(Post);
 express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
@@ -117,6 +120,7 @@ const WSRouters = [
     new PublicMongooseWSRouter('games', Game, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('champions', Champion, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('builds', ChampionBuild, { apiTokenRequired: true }),
+    buildsExtraHandler.socketRouter,
     //posts & comments:
     new PublicMongooseWSRouter('posts-cats', PostCategory, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('posts', Post, { apiTokenRequired: true }),

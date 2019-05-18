@@ -2,7 +2,10 @@ body.dota2-body navbar{
     background-color:#0D1830;
     border-bottom: 2px solid #38486D;
 }
-
+body.dota2-body{
+    background-color:#171b26;
+    color:white;
+}
 .dota-box {
     display: block;
 }
