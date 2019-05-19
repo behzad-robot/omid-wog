@@ -107,41 +107,83 @@ export class Dota2WikiRouter extends SiteRouter
             //builds archive
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
-                let title = 'تازه های آموزش ها';
+                let renderBuildsArchive = (query, title, loadMoreStr) =>
+                {
+                    siteModules.Build.find(query).then((builds) =>
+                    {
+                        siteModules.Champion.find({ gameId: game._id, limit: 2000 }).then((champions) =>
+                        {
+                            fixBuilds(siteModules, builds, champions, game).then((builds) =>
+                            {
+                                this.renderTemplate(req, res, 'wiki-dota2/dota2-builds-archive.html', {
+                                    title: title,
+                                    game: game,
+                                    builds: builds,
+                                    loadMoreStr: loadMoreStr,
+                                });
+                            });
+                        }).catch((err) =>
+                        {
+                            this.show500(req, res, err);
+                        });
+
+                    }).catch((err) =>
+                    {
+                        this.show500(req, res, err);
+                    });
+                };
                 let query = {
                     limit: 50,
                     gameId: game._id,
                 };
                 if (req.query.champId)
+                {
                     query.champId = req.query.champId;
+                    siteModules.Champion.getOne(req.query.champId).then((c) =>
+                    {
+                        renderBuildsArchive(query, c.name, '?champId=' + req.query.champId);
+                    });
+                }
                 else if (req.query.filter)
                 {
                     if (req.query.filter == 'top')
+                    {
                         query.sort = '-views';
+                        renderBuildsArchive(query, 'پربازدیدترین آموزش ها', '?sort=-views');
+                    }
+                    else
+                        this.show404(req, res);
                 }
+                else
+                {
+                    renderBuildsArchive(query, 'تازه های آموزش ها', '?none=true');
+                }
+            });
+        });
+        this.router.get('/builds/load-more', (req, res) =>
+        {
+            delete (req.query.none);
+            let fail = (err) =>
+            {
+                res.send({ code: 500, error: err });
+            }
+            siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
+            {
+                let query = req.query;
+                query.offset = parseInt(req.query.offset ? req.query.offset : 0);
+                query.limit = parseInt(req.query.limit ? req.query.limit : 50);
+                query.gameId = game._id;
                 siteModules.Build.find(query).then((builds) =>
                 {
                     siteModules.Champion.find({ gameId: game._id, limit: 2000 }).then((champions) =>
                     {
                         fixBuilds(siteModules, builds, champions, game).then((builds) =>
                         {
-                            this.renderTemplate(req, res, 'wiki-dota2/dota2-builds-archive.html', {
-                                title: title,
-                                game: game,
-                                builds: builds,
-                            });
+                            res.send({ code: 200, error: undefined, _data: builds });
                         });
-                    }).catch((err) =>
-                    {
-                        this.show500(req, res, err);
-                    });
-
-                }).catch((err) =>
-                {
-                    this.show500(req, res, err);
-                });
-
-            });
+                    }).catch(fail);
+                }).catch(fail);
+            }).catch(fail);
         });
         this.router.get('/builds/:_id', (req, res) =>
         {
@@ -160,7 +202,7 @@ export class Dota2WikiRouter extends SiteRouter
                     {
                         for (var i = 0; i < build.upVotes.length; i++)
                         {
-                            if(build.upVotes[i] == req.session.currentUser._id)
+                            if (build.upVotes[i] == req.session.currentUser._id)
                             {
                                 build._currentUserHasUpVoted = true;
                                 break;
@@ -168,7 +210,7 @@ export class Dota2WikiRouter extends SiteRouter
                         }
                         for (var i = 0; i < build.downVotes.length; i++)
                         {
-                            if(build.downVotes[i] == req.session.currentUser._id)
+                            if (build.downVotes[i] == req.session.currentUser._id)
                             {
                                 build._currentUserHasDownVoted = true;
                                 break;
@@ -218,7 +260,6 @@ export class Dota2WikiRouter extends SiteRouter
                                     isLevel: (build.abilities[j] == a.btn),
                                 });
                             }
-                            console.log(a);
                         }
                         //fix the build _talents:
                         build._talents = [];
@@ -247,6 +288,22 @@ export class Dota2WikiRouter extends SiteRouter
                                                 {
                                                     fixComments(siteModules, comments).then((comments) =>
                                                     {
+                                                        //check if we want to increase views count too or not:
+                                                        if (req.session.pageViews == undefined)
+                                                            req.session.pageViews = [];
+                                                        if (this.isFirstPageView(req))
+                                                        {
+                                                            build.views++;
+                                                            siteModules.Build.apiCall('increase-view', { _id: build._id }).then((result) =>
+                                                            {
+                                                                console.log(`increased build ${result._id} views => ${result.views}`);
+                                                            }).catch((err) =>
+                                                            {
+                                                                console.log('failed to increase views for build=>' + err.toString());
+                                                            });
+                                                        }
+                                                        this.viewPage(req);
+                                                        //render page:
                                                         this.renderTemplate(req, res, 'wiki-dota2/dota2-build-single.html', {
                                                             game: game,
                                                             build: build,
@@ -262,7 +319,6 @@ export class Dota2WikiRouter extends SiteRouter
                                     }).catch(fail);
                                 }).catch(fail);
                             }).catch(fail);
-
                         }).catch(fail);
                     }).catch(fail);
                 }).catch(fail);
@@ -283,26 +339,50 @@ export class Dota2WikiRouter extends SiteRouter
                     return;
                 }
                 let user = users[0];
+                console.log('user.token is =' + user.token);
+                console.log('req.body.token is =' + req.body.token);
                 if (user.token != req.body.token)
                 {
                     res.send({ code: 400, error: 'invalid token' });
                     return;
                 }
                 //req.body.vote => up / down
-                siteModules.Build.apiCall('vote', { _id: req.body.buildId, vote: req.body.vote, userId: req.body.userId }).then((build) =>
+                siteModules.Build.apiCall('vote', { buildId: req.params._id, vote: req.body.vote, userId: req.body.userId }).then((build) =>
                 {
                     res.send({ code: 200, error: undefined, build: build });
+                }).catch((err) =>
+                {
+                    res.send({ code: 500, error: err.toString() });
                 });
             });
         });
         this.router.get('/champions', (req, res) =>
         {
+            //champions-list champions-archive
             siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
             {
                 siteModules.Champion.find({ gameId: game._id, limit: 5000 }).then((champions) =>
                 {
+                    let strengthChampions = [], agilityChampions = [], intelligenceChampions = [];
+                    for (var i = 0; i < champions.length; i++)
+                    {
+                        let c = champions[i];
+                        if (c.primaryAttr == 'Strength')
+                            strengthChampions.push(c);
+                        else if (c.primaryAttr == 'Agility')
+                            agilityChampions.push(c);
+                        else if (c.primaryAttr == 'Intelligence')
+                            intelligenceChampions.push(c);
+                    }
+                    console.log(`champions count=${champions.length}`);
+                    console.log(`strengthChampions count=${champions.length}`);
+                    console.log(`agilityChampions count=${champions.length}`);
+                    console.log(`intelligenceChampions count=${champions.length}`);
                     this.renderTemplate(req, res, 'wiki-dota2/dota2-champions-list.html', {
                         game: game,
+                        strengthChampions: strengthChampions,
+                        agilityChampions: agilityChampions,
+                        intelligenceChampions: intelligenceChampions,
                         champions: champions,
                     });
                 }).catch((err) =>

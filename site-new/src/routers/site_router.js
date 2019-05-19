@@ -14,6 +14,8 @@ export default class SiteRouter extends Router
         this.renderTemplate = this.renderTemplate.bind(this);
         this.show404 = this.show404.bind(this);
         this.show500 = this.show500.bind(this);
+        this.viewPage = this.viewPage.bind(this);
+        this.isFirstPageView = this.isFirstPageView.bind(this);
     }
     requireLogin()
     {
@@ -39,6 +41,33 @@ export default class SiteRouter extends Router
         if (!login)
             res.redirect('/login/?msg=AccessDenied');
         return login;
+    }
+    viewPage(req) //there are pages we may wanna keep track of visiting them!
+    {
+        if (req.session.pageViews == undefined)
+            req.session.pageViews = [];
+        let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        for (var i = 0; i < req.session.pageViews.length; i++)
+        {
+            if (req.session.pageViews[i].url == fullUrl)
+            {
+                req.session.pageViews[i].views++;
+                return;
+            }
+        }
+        req.session.pageViews.push({ url: fullUrl, views: 1 });
+    }
+    isFirstPageView(req)
+    {
+        let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+        for (var i = 0; i < req.session.pageViews.length; i++)
+        {
+            if (req.session.pageViews[i].url == fullUrl)
+            {
+                return false;
+            }
+        }
+        return true;
     }
     renderTemplate(req, res, fileName, data = {}, statusCode = 200)
     {

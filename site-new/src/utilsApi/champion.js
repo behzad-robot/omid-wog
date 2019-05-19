@@ -1,5 +1,5 @@
 import { SocketCollection } from "../utils/socket-collection";
-import { isEmptyString, ICON_404 } from "../utils/utils";
+import { isEmptyString, ICON_404, replaceAll } from "../utils/utils";
 import { SITE_URL } from "../constants";
 
 
@@ -61,6 +61,11 @@ export class Champion extends SocketCollection
         c.rolesStr = c.rolesStr.substring(0, c.rolesStr.length - 2);
         if (c.topBuilds == undefined)
             c.topBuilds = [];
+        if(c.abilities != undefined)
+        {
+            for(var i = 0 ; i < c.abilities.length;i++)
+                c.abilities[i].token = replaceAll(c.abilities[i].title,' ','');
+        }
         return c;
     }
     fixAll(cs)

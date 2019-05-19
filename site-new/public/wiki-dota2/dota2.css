@@ -37,8 +37,10 @@ body.dota2-body{
 /* shortcuts dota2*/
 .dota2-shortcuts{
     position: fixed;
+    z-index: 9999999999999999;
     top:250px;
-    left:0;
+    left:-128px;
+    transition: 100ms left;
     overflow: hidden;
 }
 .dota2-shortcuts .shortcut-btn{
@@ -47,10 +49,10 @@ body.dota2-body{
     width:64px;
     background-color:#202D4F;
     padding:5px;
-    z-index: 9999999999999999;
     border-right:1px solid #38486D;
     border-top:1px solid #38486D;
     border-bottom:1px solid #38486D;
+    cursor: pointer;
 }
 .dota2-shortcuts .shortcuts-wrapper{
     float:right;

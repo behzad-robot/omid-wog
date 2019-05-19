@@ -2,7 +2,24 @@
 
 <head>
     {{{head}}}
-    <script src="/my-js/my-tooltip.js"></script>
+    <title>{{build.title}}</title>
+    <meta name="description" content="آموزش Dota 2 - {{build.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="{{_wogSEO.fullUrl}}">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{build.title}}">
+    <meta property="og:description" content="{{build.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="{{build._champion.iconTall}}">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{build.description}}">
+    <meta name="twitter:title" content="{{build.title}}">
+    <meta name="twitter:image" content="{{build._champion.iconTall}}">
     <style>
         h1 {
             font-size: 36px;
@@ -61,22 +78,25 @@
             width: 350px;
             max-width: 100vw;
         }
-        .item-tooltip .item-icon{
+
+        .item-tooltip .item-icon {
             display: inline-block;
             width: 64px;
             vertical-align: top;
-            float:right;
+            float: right;
         }
-        .item-tooltip .item-description{
+
+        .item-tooltip .item-description {
             display: inline-block;
             vertical-align: top;
-            font-size:12px;
+            font-size: 12px;
             width: 250px;
-            padding-right:5px;
-            float:right;
+            padding-right: 5px;
+            float: right;
         }
-        .item-tooltip .item-description b{
-            color:orange;
+
+        .item-tooltip .item-description b {
+            color: orange;
         }
 
         .ability-wrapper {
@@ -84,6 +104,11 @@
             width: 100%;
             overflow: hidden;
             margin-bottom: 10px;
+        }
+
+        .ability-wrapper .ability-btn {
+            float: left;
+            width: 22px;
         }
 
         .ability-wrapper .ability-icon {
@@ -181,6 +206,7 @@
         }
 
         #vote-loading {
+
             background-color: #1e232d;
 
             border-bottom-left-radius: 5px;
@@ -197,7 +223,8 @@
             display: none;
             font-size: 10px;
         }
-        .vote-box .vote-text.active{
+
+        .vote-box .vote-text.active {
             display: inline;
         }
 
@@ -207,8 +234,10 @@
             width: 50%;
             display: inline-block;
             padding: 10px;
+            padding-top: 20px;
             cursor: pointer;
             font-size: 18px;
+            height: 64px;
         }
 
         .vote-box .vote-up {
@@ -219,18 +248,26 @@
             border-bottom-left-radius: 5px;
         }
 
-        .vote-box .vote-up:hover,.vote-box .vote-up.active {
+        .vote-box .vote-up:hover,
+        .vote-box .vote-up.active {
             background-color: #8cc63f;
         }
 
-        .vote-box .vote-down:hover,.vote-box .vote-down.active {
+        .vote-box .vote-up.active,
+        .vote-box .vote-down.active {
+            padding-top: 10px;
+        }
+
+        .vote-box .vote-down:hover,
+        .vote-box .vote-down.active {
             background-color: #c1272d;
         }
 
-        .build-box{
+        .build-box {
             border-radius: 0;
-            background-color:#202D4F;
+            background-color: #202D4F;
         }
+
         .build-box .title-wrapper h2 {
             font-size: 12px;
         }
@@ -280,6 +317,7 @@
             padding: 10px 20px;
             border-radius: 5px;
             box-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
         }
 
         .comment-box .user-profile-img {
@@ -293,6 +331,29 @@
             display: inline-block;
             vertical-align: top;
             padding-right: 5px;
+        }
+
+        @media (max-width: 576px) {
+            h1{
+                font-size:30px;
+            }
+            .top-part-img-wrapper{
+                float:initial;
+                text-align: center;
+                margin-bottom:5px;
+            }
+            .talent-row .talent-part {
+                font-size: 10px;
+                padding: 10px 5px;
+            }
+
+            .talent-row .talent-level-wrapper .talent-level {
+                font-size: 12px;
+                width: 32px;
+                height: 32px;
+                padding-top: 8px;
+                margin-top: 2px;
+            }
         }
     </style>
 </head>
@@ -333,7 +394,7 @@
                     <div style="display: none">
                         {{#game.items}}
                         <div id="itemId-{{_id}}" class="item-tooltip text-english">
-                            <img src="{{icon}}" class="item-icon"/>
+                            <img src="{{icon}}" class="item-icon" />
                             <div class="item-description">
                                 <span style="color:orange">{{name}}</span>
                                 <div style="direction:ltr;text-align:left;">
@@ -362,7 +423,8 @@
                     <h2 style="margin:20px 0">قابلیت های قهرمان:</h2>
                     {{#build._abilities}}
                     <div class="ability-wrapper">
-                        <h3>{{title}}</h3>
+                        <h3>{{title}}<img src="{{#SITE_URL}}/wiki-dota2/images/key-{{btn}}.png{{/SITE_URL}}"
+                                class="ability-btn"></h3>
                         <img src="{{icon}}" class="ability-icon" />
                         {{#levels}}
                         <div class="ability-level-box text-english {{#isLevel}}active{{/isLevel}}">
@@ -389,28 +451,92 @@
                         <div class="dota-box-content">
                             <div style="padding: 10px 10px;">
                                 <div class="stat-wrapper"><span
-                                        class="fas fa-eye stat-icon stat-views"></span>&nbsp;<span
-                                        class="text-english">{{build.views}}&nbsp;</span> بازدید</div>
+                                        class="fas fa-eye stat-icon stat-views"></span>&nbsp;<span class="text-english"
+                                        id="stat-views-count">{{build.views}}&nbsp;</span> بازدید</div>
                                 <div class="stat-wrapper"><span
                                         class="fas fa-thumbs-up stat-icon stat-likes"></span>&nbsp;<span
-                                        class="text-english">{{build.upVotes.length}}&nbsp;</span> رای مثبت</div>
+                                        class="text-english"
+                                        id="stat-upVotes-count">{{build.upVotes.length}}&nbsp;</span> رای مثبت</div>
                                 <div class="stat-wrapper"><span
                                         class="fas fa-thumbs-down stat-icon stat-dislikes"></span>&nbsp;<span
-                                        class="text-english">{{build.downVotes.length}}&nbsp;</span>رای منفی</div>
+                                        class="text-english"
+                                        id="stat-downVotes-count">{{build.downVotes.length}}&nbsp;</span>رای منفی</div>
                             </div>
-                            <div id="vote-loading">
+                            <div id="vote-loading" style="display:none">
                                 در حال بارگذاری...
                             </div>
                             <div class="vote-box text-center">
-                                <div class="vote-up"><span class="fas fa-thumbs-up"></span>&nbsp;<span
-                                        class="vote-text">شما
+                                <div
+                                    class="vote-up {{#build._currentUserHasUpVoted}}active{{/build._currentUserHasUpVoted}}">
+                                    <span class="fas fa-thumbs-up"></span>&nbsp;<span
+                                        class="vote-text {{#build._currentUserHasUpVoted}}active{{/build._currentUserHasUpVoted}}">شما
                                         به این آموزش رای مثبت داده اید.</span></div>
-                                <div class="vote-down"><span class="fas fa-thumbs-down"></span>&nbsp;<span
-                                        class="vote-text">شما
+                                <div
+                                    class="vote-down {{#build._currentUserHasDownVoted}}active{{/build._currentUserHasDownVoted}}">
+                                    <span class="fas fa-thumbs-down"></span>&nbsp;<span
+                                        class="vote-text {{#build._currentUserHasDownVoted}}active{{/build._currentUserHasDownVoted}}">شما
                                         به این آموزش رای منفی داده اید.</span></div>
                             </div>
                             <script>
+                                let currentUserID = `{{currentUser._id}}`;
+                                $(() =>
+                                {
+                                    $(".vote-up").click(() => { sendVote('up'); });
+                                    $(".vote-down").click(() => { sendVote('down'); });
+                                });
+                                function sendVote(vote) // up , down
+                                {
+                                    if (isEmptyString(currentUserID))
+                                    {
+                                        alert('برای ارسال نظر ابتدا باید وارد حساب کاربری خود در سایت شوید.');
+                                        return;
+                                    }
+                                    if (vote == 'up' && $('.vote-up').hasClass('active'))
+                                        return;
+                                    if (vote == 'down' && $('.vote-down').hasClass('active'))
+                                        return;
+                                    $("#vote-loading").show();
+                                    $(".vote-box").hide();
+                                    fetch('/wiki/dota2/builds/{{build._id}}/vote', {
+                                        method: 'POST',
+                                        body: JSON.stringify({ userId: '{{currentUser._id}}', token: '{{{currentUser.token}}}', vote: vote }),
+                                        headers: {
+                                            Accept: 'application/json',
+                                            'Content-Type': 'application/json',
+                                        }
 
+                                    }).then((response) => response.json())
+                                        .then((result) =>
+                                        {
+                                            if (result.code != 200)
+                                            {
+                                                alert('خطا:' + result.error);
+                                                return;
+                                            }
+                                            $('.vote-up').removeClass('active');
+                                            $('.vote-up .vote-text').removeClass('active');
+                                            $('.vote-down').removeClass('active');
+                                            $('.vote-down .vote-text').removeClass('active');
+                                            if (vote == 'up')
+                                            {
+                                                $('.vote-up').addClass('active');
+                                                $('.vote-up .vote-text').addClass('active');
+                                            }
+                                            else if (vote == 'down')
+                                            {
+                                                $('.vote-down').addClass('active');
+                                                $('.vote-down .vote-text').addClass('active');
+                                            }
+                                            $("#vote-loading").hide();
+                                            $(".vote-box").show();
+                                            if (result.build.views == undefined)
+                                                result.build.views = 10;
+                                            $("#stat-views-count").html(result.build.views + '&nbsp;');
+                                            $("#stat-upVotes-count").html(result.build.upVotes.length + '&nbsp;');
+                                            $("#stat-downVotes-count").html(result.build.downVotes.length + '&nbsp;');
+                                            console.log(result.build);
+                                        });
+                                }
                             </script>
                         </div>
                     </div>
@@ -486,7 +612,7 @@
             <h2>نظرات کاربران:</h2>
             {{#currentUser}}
             <div class="new-comment-box">
-                <form action="/comments/new" method="POST">
+                <form action="/comments/new" method="POST" id="new-comment-form">
                     <h3>ارسال نظر:</h3>
                     <input name="objectType" value="builds" type="hidden" />
                     <input name="objectId" value="{{build._id}}" type="hidden" />
@@ -497,7 +623,59 @@
                 <script>
                     $(() =>
                     {
+                        $("#new-comment-form").ajaxForm({
+                            beforeSubmit: (formData, jqForm, options) =>
+                            {
+                                var str = $("#new-comment-form [name=body]").val();
+                                str = str.replaceAll(' ', '').replaceAll('\n', '').replaceAll('<br>', '');
+                                if (str == '')
+                                {
+                                    alert('لطفا متن نظر را وارد کنید.');
+                                    return false;
+                                }
+                                return true;
+                            },
+                            error: (xhr, text, err) =>
+                            {
+                                alert('خطا از سمت سرور');
+                                console.log(text);
+                                console.log(err);
+                            },
+                            success: (text, code, xhr, form) =>
+                            {
+                                if (typeof text == 'string')
+                                    text = JSON.parse(text);
+                                if (text.error)
+                                {
+                                    alert(text.error);
+                                    return;
+                                }
+                                var comment = text.comment;
+                                if (comment._draft == true)
+                                {
+                                    alert('با تشکر نظر شما با موفقیت ثبت شد و پس از بررسی مدیر سایت نمایش داده میشود.');
+                                }
+                                else
+                                {
+                                    alert('نظر شما با موفقیت ثبت شد.');
+                                    $("#comments-list").append(`
+                                    <div class="comment-box" id="comment-${comment._id}">
+                                        <img class="user-profile-img" src="{{currentUser.profileImage}}">
+                                        <div class="comment-content">
+                                            <a class="orange-link" href="{{currentUser.siteUrl}}"
+                                                style="font-size:18px;color:white;display:block;margin-bottom:0px;">{{currentUser.username}}</a>
+                                            <div>${comment.body}</div>
+                                            <span style="font-size:10px;color:#c0c1c2;">${comment.createdAt_persian}</span>
+                                        </div>
+                                    </div>
+                                    `);
+                                    scroll_to(`#comment-${comment._id}`);
+                                    $("#no-comments").hide();
 
+                                }
+                                $("#new-comment-form").clearForm();
+                            },
+                        });
                     });
                 </script>
             </div>
@@ -507,7 +685,7 @@
                     شوید</a></span>
             {{/currentUser}}
             <div class="row">
-                <div class="col-md-6 col-12">
+                <div class="col-md-6 col-12" id="comments-list">
                     {{#comments}}
                     <div class="comment-box">
                         <img class="user-profile-img" src="{{_user.profileImage}}">
@@ -517,6 +695,11 @@
                             <div>{{{body}}}</div>
                             <span style="font-size:10px;color:#c0c1c2;">{{createdAt_persian}}</span>
                         </div>
+                    </div>
+                    {{/comments}}
+                    {{^comments}}
+                    <div class="text-center" id="no-comments">
+                        <h3>برای این آموزش هیچ نظری ثبت نشده است.</h3>
                     </div>
                     {{/comments}}
                 </div>

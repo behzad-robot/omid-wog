@@ -117,3 +117,9 @@
         return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
     }
 </script>
+<script>
+    function toggleDota2Shortcut(){
+        let l = $(".dota2-shortcuts").css('left');
+        $(".dota2-shortcuts").css('left',(l == '0px' ? -128 : 0)+'px');
+    }
+</script>

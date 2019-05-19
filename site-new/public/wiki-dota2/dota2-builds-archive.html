@@ -8,7 +8,7 @@
             background-color: #171b26;
             color: white;
         }
-        
+
         .streamer-box {
             display: block;
             color: white !important;
@@ -24,48 +24,66 @@
             width: 100%;
             margin-bottom: 5px;
         }
-
-       
     </style>
 </head>
-    <body class="dota2-body">
+
+<body class="dota2-body">
     {{{navbar}}}
     <navfiller></navfiller>
     <div class="container">
         <div class="row">
             <div class="col-md-7 col-12">
                 <h1 style="margin:10px 0;">{{title}}:</h1>
-                {{#builds}}
-                <div class="build-box">
-                    <a href="{{siteUrl}}" class="img-wrapper" style="background-image:url('{{_champion.icon}}')">
-                                <!-- <img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /> -->
-                    </a>
-                    <div class="title-wrapper">
-                        <a href="{{siteUrl}}" class="build-link"><h2>{{title}}</h2></a>
-                        <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}" class="orange-link">{{_user.username}}</a></span>
-                        <br>
-                        <span class="badge badge-md badge-warning text-english">Patch {{patch}}</span>
-                    </div>
-                    <div class="stats-wrapper">
-                        <div class="stat-item">
-                            <span class="fas fa-eye"></span>
-                            <span class="stat-value text-english">200</span>
+                <div id="builds-list">
+                    {{#builds}}
+                    <div class="build-box">
+                        <a href="{{siteUrl}}" class="img-wrapper" style="background-image:url('{{_champion.icon}}')">
+                            <!-- <img src="{{_champion.icon}}" alt="{{_champion.name}}" width="100%" /> -->
+                        </a>
+                        <div class="title-wrapper">
+                            <a href="{{siteUrl}}" class="build-link">
+                                <h2>{{title}}</h2>
+                            </a>
+                            <span class="author">نوشته شده توسط <a href="{{_user.siteUrl}}"
+                                    class="orange-link">{{_user.username}}</a></span>
+                            <br>
+                            <span class="badge badge-md badge-warning text-english">Patch {{patch}}</span>
+                        </div>
+                        <div class="stats-wrapper">
+                            <div class="stat-item">
+                                <span class="fas fa-eye"></span>
+                                <span class="stat-value text-english">{{views}}</span>
 
+                            </div>
+                            <div class="stat-item">
+                                <span class="fas fa-thumbs-up"></span>
+                                <span class="stat-value text-english">{{upVotes.length}}</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="fas fa-thumbs-down"></span>
+                                <span class="stat-value text-english">{{downVotes.length}}</span>
+                            </div>
                         </div>
-                        <div class="stat-item">
-                            <span class="fas fa-thumbs-up"></span>
-                            <span class="stat-value text-english">10</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="fas fa-thumbs-down"></span>
-                            <span class="stat-value text-english">10</span>
+                        <div class="date-wrapper">
+                            <span>{{createdAt_persian}}</span>
                         </div>
                     </div>
-                    <div class="date-wrapper">
-                        <span>{{createdAt_persian}}</span>
+                    {{/builds}}
+                </div>
+                <div class="text-center" style="padding:10px 0">
+                    <div id="loadMoreBtn" class="btn btn-md btn-warning">بیشتر</div>
+                </div>
+                <div id="loading" class="text-center" style="display:none">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
                     </div>
                 </div>
-                {{/builds}}
+                <div id="error" style="color:#a00;">
+
+                </div>
             </div>
             <div class="col-md-5" style="padding-top:10px;">
                 <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
@@ -76,6 +94,82 @@
             </div>
         </div>
     </div>
+    <script>
+        let baseParams = `{{{loadMoreStr}}}`;
+        let offset = 50;
+        let allLoaded = false;
+        $("#loadMoreBtn").click(() =>
+        {
+            $("#loading").show();
+            $("#loadMoreBtn").hide();
+            let query = (baseParams != '' ? (baseParams + '&offset=' + offset) : (baseParams + '?offset=' + offset));
+            console.log('/wiki/dota2/builds/load-more/' + query);
+            fetch('/wiki/dota2/builds/load-more/' + query, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            }).then((response => response.json())).then((result) =>
+            {
+                $("#loading").hide();
+                $("#loadMoreBtn").show();
+                if (result.error != undefined)
+                {
+                    $("#error").html(result.error);
+                }
+                else
+                {
+                    offset += 50;
+                    let builds = result._data;
+                    console.log(builds);
+                    if (builds.length < 50)
+                    {
+                        allLoaded = true;
+                        $("#loadMoreBtn").hide();
+                    }
+                    for (var i = 0; i < builds.length; i++)
+                    {
+                        let b = builds[i];
+                        $("#builds-list").append(`
+                        <div class="build-box">
+                            <a href="${b.siteUrl}" class="img-wrapper" style="background-image:url('${b._champion.icon}')">
+                                <!-- <img src="${b._champion.icon}" alt="${b._champion.name}" width="100%" /> -->
+                            </a>
+                            <div class="title-wrapper">
+                                <a href="${b.siteUrl}" class="build-link">
+                                    <h2>${b.title}</h2>
+                                </a>
+                                <span class="author">نوشته شده توسط <a href="${b._user.siteUrl}"
+                                        class="orange-link">${b._user.username}</a></span>
+                                <br>
+                                <span class="badge badge-md badge-warning text-english">Patch ${b.patch}</span>
+                            </div>
+                            <div class="stats-wrapper">
+                                <div class="stat-item">
+                                    <span class="fas fa-eye"></span>
+                                    <span class="stat-value text-english">${b.views}</span>
+
+                                </div>
+                                <div class="stat-item">
+                                    <span class="fas fa-thumbs-up"></span>
+                                    <span class="stat-value text-english">${b.upVotes.length}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="fas fa-thumbs-down"></span>
+                                    <span class="stat-value text-english">${b.downVotes.length}</span>
+                                </div>
+                            </div>
+                            <div class="date-wrapper">
+                                <span>${b.createdAt_persian}</span>
+                            </div>
+                        </div>
+                        `);
+                    }
+                }
+            });
+        });
+    </script>
     {{{footer}}}
     <script>
         $(() =>

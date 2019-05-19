@@ -340,6 +340,46 @@
             padding: 5px 5px
         }
 
+        .dota-ability-card {
+            display: block;
+            width: 100%;
+            background-color: #212733;
+            border-radius: 5px;
+            box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .dota-ability-card .icon-wrapper {
+            display: inline-block;
+            float: right;
+            width: 15%;
+            border: 1px solid orange;
+            padding: 1px;
+        }
+
+        .dota-ability-card .info-wrapper {
+            display: inline-block;
+            float: right;
+            width: 85%;
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        .dota-ability-card .info-wrapper .dota-ability-title {
+            color: orange;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 2px;
+        }
+
+        .dota-ability-tooltip {
+            width: 350px;
+            max-width: 100vw;
+        }
+
         @media (max-width: 576px) {
             .hero-image {
                 width: 100%
@@ -366,6 +406,15 @@
 </head>
 
 <body class="dota2-body">
+    <div class="dota2-shortcuts">
+        <img src="/wiki-dota2/images/dota2-logo.png" class="shortcut-btn" onclick="toggleDota2Shortcut()" />
+        <div class="shortcuts-wrapper">
+            <a href="{{#SITE_URL}}/wiki/dota2{{/SITE_URL}}">خانه <span class="text-english">Dota2</span></a>
+            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2/builds{{/SITE_URL}}">آموزش ها</a>
+            <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">اخبار</a>
+        </div>
+    </div>
     {{{navbar}}}
     <section class="intro" style="background-image:url('{{champion.cover}}')">
         <div class="container text-center text-english" style="padding-top:200px;">
@@ -517,45 +566,86 @@
     <section class="abilities-section">
         <div class="container">
             <h3 class="gallery-text">قابلیت های {{champion.name}}</h3>
+            <p style="font-size:12px;">برای مشاهده اطلاعات بیشتر موس را بر روی قابلیت ببرید.</p>
             <div class="row">
                 {{#champion.abilities}}
                 <div class="col-md-6">
-                    <div class="abilities-background">
-                        <div class="image">
-                            <div class="row">
-                                <div class="col-md-3 col-4"><img src="{{icon}}" class="abilities-image" alt="">
-                                </div>
-                                <div class="col-md-9 col-8">
-                                    <h6 style="color:white">{{title}}</h6>
-                                    <div class="abilities-text">{{{descriptionPersian}}}</div>
-                                    <div class="abilities-text text-english" style="direction:ltr;text-align:left;">
-                                        {{{description}}}</div>
-                                    <div class="abilities-text">
-                                        <span class="wog-statsbox"><strong>Damage Type:</strong>{{dmgType}}</span>
-                                        <span class="wog-statsbox"><strong>Casting
-                                                Method:</strong>{{castingMethod}}</span>
-                                        {{#targetingMethod}}
-                                        <span class="wog-statsbox"><strong>Targeting
-                                                Method:</strong>{{targetingMethod}}</span>
-                                        {{/targetingMethod}}
-                                        {{#allowedTargets}}
-                                        <span class="wog-statsbox"><strong>Allowed
-                                                Targets:</strong>{{allowedTargets}}</span>
-                                        {{/allowedTargets}}
-                                        <span class="wog-statsbox"><strong>Pierces Spell Immunity:</strong><span
-                                                style="font-family:iransans">{{#psi}}دارد{{/psi}}{{^psi}}ندارد{{/psi}}</span></span>
+                    <!-- <div class="abilities-background">
+                                <div class="image">
+                                    <div class="row">
+                                        <div class="col-md-3 col-4"><img src="{{icon}}" class="abilities-image" alt="">
+                                        </div>
+                                        <div class="col-md-9 col-8">
+                                            <h6 style="color:white">{{title}}</h6>
+                                            <div class="abilities-text">{{{descriptionPersian}}}</div>
+                                            <div class="abilities-text text-english" style="direction:ltr;text-align:left;">
+                                                {{{description}}}</div>
+                                            <div class="abilities-text">
+                                                <span class="wog-statsbox"><strong>Damage Type:</strong>{{dmgType}}</span>
+                                                <span class="wog-statsbox"><strong>Casting
+                                                        Method:</strong>{{castingMethod}}</span>
+                                                {{#targetingMethod}}
+                                                <span class="wog-statsbox"><strong>Targeting
+                                                        Method:</strong>{{targetingMethod}}</span>
+                                                {{/targetingMethod}}
+                                                {{#allowedTargets}}
+                                                <span class="wog-statsbox"><strong>Allowed
+                                                        Targets:</strong>{{allowedTargets}}</span>
+                                                {{/allowedTargets}}
+                                                <span class="wog-statsbox"><strong>Pierces Spell Immunity:</strong><span
+                                                        style="font-family:iransans">{{#psi}}دارد{{/psi}}{{^psi}}ندارد{{/psi}}</span></span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> -->
+                    <div class="dota-ability-card my-tooltip" data-tooltip-content="#ability-{{token}}">
+                        <div class="icon-wrapper">
+                            <img src="{{icon}}" width="100%" alt="{{title}}" />
+                        </div>
+                        <div class="info-wrapper">
+                            <h6 class="dota-ability-title">{{title}}</h6>
+                            <div>{{{descriptionPersian}}}</div>
                         </div>
                     </div>
                 </div>
                 <!-- end of col-6 ability-->
                 {{/champion.abilities}}
+                <div style="display:none">
+                    {{#champion.abilities}}
+                    <div class="dota-ability-tooltip" id="ability-{{token}}">
+                        <div class="abilities-text text-english" style="direction:ltr;text-align:left;">
+                            {{{description}}}</div>
+                        <div class="abilities-text">
+                            <span class="wog-statsbox"><strong>Damage Type:</strong>{{dmgType}}</span>
+                            <span class="wog-statsbox"><strong>Casting
+                                    Method:</strong>{{castingMethod}}</span>
+                            {{#targetingMethod}}
+                            <span class="wog-statsbox"><strong>Targeting
+                                    Method:</strong>{{targetingMethod}}</span>
+                            {{/targetingMethod}}
+                            {{#allowedTargets}}
+                            <span class="wog-statsbox"><strong>Allowed
+                                    Targets:</strong>{{allowedTargets}}</span>
+                            {{/allowedTargets}}
+                            <span class="wog-statsbox"><strong>Pierces Spell Immunity:</strong><span
+                                    style="font-family:iransans">{{#psi}}دارد{{/psi}}{{^psi}}ندارد{{/psi}}</span></span>
+                        </div>
+                    </div>
+                    {{/champion.abilities}}
+                </div>
+                <script>
+                    $(document).ready(function ()
+                    {
+                        $('.my-tooltip').tooltipster({
+                            contentCloning: true
+                        });
+                    });
+                </script>
                 <script>
                     $(() =>
                     {
-                        var abilityBoxes = $(".abilities-background");
+                        var abilityBoxes = $(".dota-ability-card");
                         var maxHeight = -1;
                         for (var i = 0; i < abilityBoxes.length; i++)
                         {
@@ -564,7 +654,7 @@
                                 maxHeight = h;
                         }
                         maxHeight = parseInt(maxHeight) + 10;
-                        $(".abilities-background").css('height', maxHeight + 'px');
+                        $(".dota-ability-card").css('height', maxHeight + 'px');
                     });
                 </script>
             </div>
@@ -592,16 +682,16 @@
                         <div class="stats-wrapper">
                             <div class="stat-item">
                                 <span class="fas fa-eye"></span>
-                                <span class="stat-value text-english">200</span>
+                                <span class="stat-value text-english">{{views}}</span>
 
                             </div>
                             <div class="stat-item">
                                 <span class="fas fa-thumbs-up"></span>
-                                <span class="stat-value text-english">10</span>
+                                <span class="stat-value text-english">{{upVotes.length}}</span>
                             </div>
                             <div class="stat-item">
                                 <span class="fas fa-thumbs-down"></span>
-                                <span class="stat-value text-english">10</span>
+                                <span class="stat-value text-english">{{downVotes.length}}</span>
                             </div>
                         </div>
                         <div class="date-wrapper">
@@ -609,10 +699,12 @@
                         </div>
                     </div>
                     {{/builds}}
-                    <a href="{{#SITE_URL}}/wiki/dota/builds/?champId={{champion._id}}{{/SITE_URL}}" class="more-button-builds btn btn-success text-center">مشاهده همه</a>
+                    <a href="{{#SITE_URL}}/wiki/dota/builds/?champId={{champion._id}}{{/SITE_URL}}"
+                        class="more-button-builds btn btn-success text-center">مشاهده همه</a>
                 </div> <!-- end of col-8 -->
                 <div class="col-md-4" style="color:white">
-                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%" /></a>
                 </div>
             </div>
         </div>
@@ -629,7 +721,8 @@
                 </div>
                 {{/media}}
             </div>
-            <a href="{{#SITE_URL}}/gallery/?champId={{champion._id}}{{/SITE_URL}}" class="more-button btn btn-success text-center">بیشتر</a>
+            <a href="{{#SITE_URL}}/gallery/?champId={{champion._id}}{{/SITE_URL}}"
+                class="more-button btn btn-success text-center">بیشتر</a>
         </div>
     </section>
 

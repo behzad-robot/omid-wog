@@ -20,7 +20,17 @@ class BuildsExtraSocketRouter extends SocketRouter
         {
             this.handler.vote(request.params).then((build) =>
             {
-                this.sendResponse(socket, request, user);
+                this.sendResponse(socket, request, build);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        if (request.method == 'increase-view')
+        {
+            this.handler.increaseView(request.params._id).then((build) =>
+            {
+                this.sendResponse(socket, request, { success: true, buildId: build._id, views: build.views });
             }).catch((err) =>
             {
                 this.handleError(socket, request, err);
@@ -36,9 +46,19 @@ class BuildsExtraHttpRouter extends APIRouter
         this.handler = handler;
         this.router.post('/vote', (req, res) =>
         {
-            this.handler.joinTournament(req.body).then((build) =>
+            this.handler.vote(req.body).then((build) =>
             {
                 this.sendResponse(req, res, build);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            })
+        });
+        this.router.get('/:_id/increase-view', (req, res) =>
+        {
+            this.handler.increaseView(req.params._id).then((build) =>
+            {
+                this.sendResponse(req, res, { success: true, buildId: build._id, views: build.views });
             }).catch((err) =>
             {
                 this.handleError(req, res, err);
@@ -56,6 +76,7 @@ export class BuildsExtraHandler
         this.socketRouter = new BuildsExtraSocketRouter(this);
         //bind functions:
         this.vote = this.vote.bind(this);
+        this.increaseView = this.increaseView.bind(this);
     }
     vote(params)
     {
@@ -78,6 +99,7 @@ export class BuildsExtraHandler
                     reject(err.toString());
                     return;
                 }
+                console.log(params.vote);
                 if (params.vote == 'up')
                 {
                     for (var i = 0; i < build.upVotes.length; i++)
@@ -89,6 +111,14 @@ export class BuildsExtraHandler
                         }
                     }
                     build.upVotes.push(params.userId);
+                    for (var i = 0; i < build.downVotes.length; i++)
+                    {
+                        if (build.downVotes[i] == params.userId)
+                        {
+                            build.downVotes.splice(i, 1);
+                            break;
+                        }
+                    }
                 }
                 else if (params.vote == 'down')
                 {
@@ -101,16 +131,44 @@ export class BuildsExtraHandler
                         }
                     }
                     build.downVotes.push(params.userId);
+                    for (var i = 0; i < build.upVotes.length; i++)
+                    {
+                        if (build.upVotes[i] == params.userId)
+                        {
+                            build.upVotes.splice(i, 1);
+                            break;
+                        }
+                    }
                 }
                 this.Build.findByIdAndUpdate(build._id, { $set: { upVotes: build.upVotes, downVotes: build.downVotes } }, { new: true }, (err, build) =>
                 {
-                    if(err)
+                    if (err)
                     {
                         reject(err.toString());
                         return;
                     }
                     resolve(build);
                 });
+            });
+        });
+    }
+    increaseView(_id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(_id))
+            {
+                reject('parameter missing _id');
+                return;
+            }
+            this.Build.findByIdAndUpdate(_id, { $inc: { views: 1 } }, { new: true }, (err, build) =>
+            {
+                if (err)
+                {
+                    reject(err.toString());
+                    return;
+                }
+                resolve(build);
             });
         });
     }

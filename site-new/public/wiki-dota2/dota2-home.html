@@ -2,6 +2,24 @@
 
 <head>
     {{{head}}}
+    <title>ویکی Dota 2 - خانه</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
     <style>
         .header-section {
             background-image: url('/wiki-dota2/images/cover3.jpg');
@@ -295,10 +313,12 @@
     {{{navbar}}}
     <navfiller></navfiller>
     <div class="dota2-shortcuts">
-        <img src="/wiki-dota2/images/dota2-logo.png"  class="shortcut-btn"/>
+        <img src="/wiki-dota2/images/dota2-logo.png"  class="shortcut-btn" onclick="toggleDota2Shortcut()"/>
         <div class="shortcuts-wrapper">
-            <a href="#">خانه <span class="text-english">Dota2</span></a>
-            <a href="#">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2{{/SITE_URL}}">خانه <span class="text-english">Dota2</span></a>
+            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2/builds{{/SITE_URL}}">آموزش ها</a>
+            <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">اخبار</a>
         </div>
     </div>
     <section class="header-section">

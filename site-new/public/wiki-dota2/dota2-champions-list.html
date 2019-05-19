@@ -1,2 +1,404 @@
-<h1>{{game.name}}</h1>
-<h2>champions count = {{champions.length}}</h2>
+<html>
+
+<head>
+    {{{head}}}
+    <title>قهرمان های Dota 2</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-log.png">
+    <style>
+        .header-section {
+            background-image: url('/wiki-dota2/images/cover3.jpg');
+            background-position: 50% 70%;
+            background-size: cover;
+            height: 600px;
+            padding-top: 150px;
+            position: relative;
+        }
+
+        .header-section .header-section-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.05);
+            top: 0;
+            left: 0;
+        }
+
+        footer {
+            margin: 0;
+        }
+
+        body {
+            background-color: #171b26;
+        }
+
+        .topChampions-section {
+            padding: 20px 0;
+        }
+
+        .topChampion-card {
+            display: block;
+            position: relative;
+            pointer-events: all;
+            background-image: url('/wiki-dota2/images/goh.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 5px;
+            height: 200px;
+            border-radius: 10px;
+            margin-top: 30px
+        }
+
+        .topChampion-card .img-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: 0.3s all;
+            z-index: 10;
+        }
+
+        .topChampion-card .img-wrapper img {
+            width: 100%;
+            pointer-events: none;
+            transition: 0.3s all;
+        }
+
+        .topChampion-card:hover .img-wrapper {
+            top: -40px;
+        }
+
+        .topChampion-card:hover .img-wrapper img {
+            width: 80%;
+        }
+
+        .topChampion-card:hover .patch-hero-description {
+            display: block;
+        }
+
+        .topChampion-card .patch-hero-description {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: none;
+        }
+
+        .topChampion-card .see-more-text {
+            color: white;
+            font-size: 12px;
+            margin-top: -15px;
+            color: lightgrey
+        }
+
+        .topChampion-card .details {
+            font-size: 12px;
+        }
+
+        .topChampion-card .roledetails {
+            font-size: 8px;
+            color: skyblue;
+            margin-top: 5px;
+        }
+
+        .topChampion-card .hero-page-link {
+            color: white;
+            margin-top: 5px;
+        }
+
+        .btn.btn-dota {
+            border-radius: 50px;
+            background-color: #091123;
+        }
+
+        .dota-box {
+            display: block;
+        }
+
+        .dota-box .dota-box-title {
+            background-color: #38486D;
+            color: white;
+            padding: 10px 20px;
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            border-bottom: 3px solid #0D1830;
+            overflow: hidden;
+        }
+
+        .dota-box .dota-box-content {
+            background-color: #202D4F;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .dota-box .dota-box-title h1,
+        .dota-box .dota-box-title h2,
+        .dota-box .dota-box-title h3,
+        .dota-box .dota-box-title h4,
+        .dota-box .dota-box-title h5,
+        .dota-box .dota-box-title h6 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .small-build-box {
+            display: block;
+            padding: 7px 5px;
+        }
+
+        .small-build-box img {
+            display: inline-block;
+            width: 72px;
+            height: auto;
+            vertical-align: top;
+
+        }
+
+        .small-build-box .text-wrapper {
+            display: inline-block;
+            color: white;
+        }
+
+        .small-build-box .small-build-box-title {
+            font-size: 14px;
+        }
+
+        .small-build-box .small-build-box-author {
+            font-size: 10px;
+        }
+
+        .heroes-section {
+            padding: 20px 0;
+            background-image: url('/wiki-dota2/images/dotamap.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .champ-box {
+            margin-bottom: 5px;
+            border-radius: 10px;
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .champ-box .zoom {
+            transition: transform 0.2s;
+            transform: scale(0);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .champ-box:hover .zoom {
+            transform: scale(1.5);
+            z-index: 9999;
+            border-radius: 5px;
+            border: 1px solid #000;
+            box-shadow: 1px 2px 10px #000;
+        }
+
+        .all-heroes-links {
+            display: inline-block;
+            width: 8.5%;
+        }
+
+        .all-heroes-background {
+            background-image: url('/wiki-dota2/images/dotamap.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            padding: 10px;
+        }
+    </style>
+    <style>
+        .newslinks {
+            text-decoration: none;
+            display: block;
+
+        }
+
+        .newslinks:hover {
+            text-decoration: none;
+        }
+
+        .news-text {
+            color: white;
+            padding: 15px 0;
+            float: right;
+            font-size: 32px;
+        }
+
+        .news-more-text {
+            color: orange;
+            padding: 15px 0;
+            float: left;
+            font-size: 32px;
+        }
+
+        .news-image {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .news-background {
+            background-color: white;
+            height: 290px;
+        }
+
+        .news-title {
+            font-size: 17px;
+            display: inline-block;
+            margin-right: 7px;
+            color: black;
+            font-weight: bold;
+        }
+
+        .date-context {
+            font-size: 11px;
+            color: rgb(114, 114, 114);
+            margin-right: 7px;
+            padding-bottom: 10px
+        }
+
+        @media (max-width: 576px) {
+            .header-section {
+                padding-top: 30px;
+                height: 500px;
+            }
+
+            .topChampion-card .img-wrapper {
+                top: -40px;
+                width: 75%;
+            }
+
+            .topChampion-card .patch-hero-description {
+                display: block;
+            }
+
+            .all-heroes-links {
+                display: inline-block;
+                width: 23.5%;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .topChampion-card .img-wrapper {
+                top: -40px;
+                width: 75%;
+            }
+
+            .topChampion-card .patch-hero-description {
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body class="dota2-body">
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="dota2-shortcuts">
+        <img src="/wiki-dota2/images/dota2-logo.png"  class="shortcut-btn" onclick="toggleDota2Shortcut()"/>
+        <div class="shortcuts-wrapper">
+            <a href="{{#SITE_URL}}/wiki/dota2{{/SITE_URL}}">خانه <span class="text-english">Dota2</span></a>
+            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2/builds{{/SITE_URL}}">آموزش ها</a>
+            <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">اخبار</a>
+        </div>
+    </div>
+    <section class="heroes-section">
+        <div class="container">
+            <h1 style="color: white;font-size: 32px">قهرمان ها</h1>
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Strength:</h3>
+            {{#strengthChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/strengthChampions}}
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Agility:</h3>
+            {{#agilityChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/agilityChampions}}
+            <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Intelligence:</h3>
+            {{#intelligenceChampions}}
+            <a class="all-heroes-links" href="{{siteUrl}}">
+                <div class="champ-box text-center">
+                    <img src="{{icon_tall}}" style="width: 100%">
+                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
+                </div>
+            </a>
+            {{/intelligenceChampions}}
+            <script>
+                // $(() =>
+                // {
+                //     let str = $("#heros-list").html();
+                //     for (var i = 0; i < 50; i++)
+                //     {
+                //         $("#heros-list").append(str);
+                //     }
+                // });
+            </script>
+        </div>
+    </section>
+    <section class="streamers-section">
+        <div class="container">
+            <h1 style="color:white;font-size: 32px;margin:10px 0;">استریمر ها</h1>
+            <div class="row" id="streams-row">
+                <!-- <div class="col-md-3">
+                    <a href="#" class="streamer-links">
+                        <img src="/wiki-dota2/images/streamer.jpg" style="width: 100%" alt="">
+                        <p style="color: white">استریمر جماعت</p>
+                    </a>
+                </div>
+                -->
+
+            </div>
+        </div>
+    </section>
+    <script>
+        $(() =>
+        {
+            getTwitchStreamersFor(`{{game.twitchGameId}}`, (streams) =>
+            {
+                for (var i = 0; i < streams.length && i < 4; i++)
+                {
+                    let s = streams[i];
+                    $("#streams-row").append(`
+                        <div class="col-md-3 col-6">
+                            <a href="https://twitch.tv/${s.username}" class="streamer-links">
+                                <img src="${s.thumbnail}" style="width: 100%" alt="">
+                                <p style="color: white">${s.title}</p>
+                            </a>
+                        </div>
+                    `);
+                }
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>
