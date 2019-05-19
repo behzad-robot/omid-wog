@@ -334,14 +334,16 @@
         }
 
         @media (max-width: 576px) {
-            h1{
-                font-size:30px;
+            h1 {
+                font-size: 30px;
             }
-            .top-part-img-wrapper{
-                float:initial;
+
+            .top-part-img-wrapper {
+                float: initial;
                 text-align: center;
-                margin-bottom:5px;
+                margin-bottom: 5px;
             }
+
             .talent-row .talent-part {
                 font-size: 10px;
                 padding: 10px 5px;
@@ -359,6 +361,15 @@
 </head>
 
 <body class="dota2-body">
+    <div class="dota2-shortcuts">
+        <img src="/wiki-dota2/images/dota2-logo.png" class="shortcut-btn" onclick="toggleDota2Shortcut()" />
+        <div class="shortcuts-wrapper">
+            <a href="{{#SITE_URL}}/wiki/dota2{{/SITE_URL}}">خانه <span class="text-english">Dota2</span></a>
+            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2/builds{{/SITE_URL}}">آموزش ها</a>
+            <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">اخبار</a>
+        </div>
+    </div>
     {{{navbar}}}
     <navfiller></navfiller>
     <section class="main-section">
@@ -563,16 +574,16 @@
                                 <div class="stats-wrapper">
                                     <div class="stat-item">
                                         <span class="fas fa-eye"></span>
-                                        <span class="stat-value text-english">200</span>
+                                        <span class="stat-value text-english">{{views}}</span>
 
                                     </div>
                                     <div class="stat-item">
                                         <span class="fas fa-thumbs-up"></span>
-                                        <span class="stat-value text-english">10</span>
+                                        <span class="stat-value text-english">{{upVotes.length}}</span>
                                     </div>
                                     <div class="stat-item">
                                         <span class="fas fa-thumbs-down"></span>
-                                        <span class="stat-value text-english">10</span>
+                                        <span class="stat-value text-english">{{downVotes.length}}</span>
                                     </div>
                                 </div>
                                 <div class="date-wrapper">

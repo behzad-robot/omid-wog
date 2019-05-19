@@ -3,6 +3,23 @@
 <head>
     {{{head}}}
     <title>{{champion.name}}</title>
+    <meta name="description" content="{{champion.lore}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="{{_wogSEO.fullUrl}}">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{champion.name}}">
+    <meta property="og:description" content="{{champion.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="{{champion.icon}}">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{champion.lore}}">
+    <meta name="twitter:title" content="{{champion.name}}">
+    <meta name="twitter:image" content="{{champion.icon}}">
     <style>
         .intro {
             background-image: url('/wiki-dota2/images/trax.jpg');
