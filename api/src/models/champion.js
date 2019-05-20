@@ -25,6 +25,7 @@ export const ChampionSchema = new mongoose.Schema({
     descriptionPersian: {type:String,default:''},
 
     lore: {type:String,default:'?'},
+    lorePersian: {type:String,default:'?'},
     loreUrl: {type:String,default:'?'},
 
     //lol,dota:
@@ -45,7 +46,7 @@ export const ChampionSchema = new mongoose.Schema({
     abilities: Array,
     stats: Array, //{ name : string , value : string}
     talents: Array, //{level : int , a : string , b : string}
-    topBuilds : Array,
+    featuredBuilds : Array,
     //dota:
     attackType: {type:String,default:''},
     primaryAttr: {type:String,default:''},

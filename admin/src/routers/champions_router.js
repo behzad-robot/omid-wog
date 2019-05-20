@@ -104,6 +104,7 @@ export default class ChampionsPanelRouter extends AdminRouter
                 req.body.roles = JSON.parse(req.body.roles);
                 req.body.stats = JSON.parse(req.body.stats);
                 req.body.talents = JSON.parse(req.body.talents);
+                req.body.featuredBuilds = JSON.parse(req.body.featuredBuilds);
             }
             if (req.body.moves)
             {

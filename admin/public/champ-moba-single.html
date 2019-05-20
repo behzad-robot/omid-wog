@@ -36,6 +36,10 @@
                     c.abilities[i].coolDown = c.abilities[i].coolDown ? c.abilities[i].coolDown : '';
                     c.abilities[i].cost = c.abilities[i].cost ? c.abilities[i].cost : '';
                 }
+                if(c.featuredBuilds == undefined)
+                    c.featuredBuilds = [];
+                if(c.lorePersian == undefined)
+                    c.lorePersian = '';
                 champion = c;
                 console.log(champion);
                 getObject('games', champion.gameId, (g) => {
@@ -51,6 +55,7 @@
                     $("#single").append(textInput('nickname', champion.nickname));
                     $("#single").append(textInput('slug', champion.slug));
                     $("#single").append(bodyInput('lore', champion.lore));
+                    $("#single").append(bodyInput('lorePersian', champion.lorePersian));
                     $("#single").append(textInput('loreUrl', champion.loreUrl));
                     $("#single").append(bodyInput('description', champion.description));
                     $("#single").append(textInput('attackType', champion.attackType));
@@ -70,6 +75,7 @@
                     $("#single").append(jsonInput('roles', champion.roles));
                     $("#single").append(jsonInput('stats', champion.stats));
                     $("#single").append(jsonInput('talents', champion.talents));
+                    $("#single").append(jsonInput('featuredBuilds', champion.featuredBuilds));
                     $("#single").append(submitBtn());
                     $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                     //extras:
