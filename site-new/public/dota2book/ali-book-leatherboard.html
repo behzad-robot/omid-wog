@@ -1,0 +1,302 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .announcment {
+            margin-top: 80px;
+            background-image: url('/dota2book/images/hero-bg.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 1000px;
+        }
+
+        .block_headline {
+            font-size: 54px;
+            line-height: 68px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #F9ECFF;
+            position: relative;
+            background: linear-gradient(to bottom, #fff 0%, #c9a2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .player-card {
+            background: rgb(6, 6, 8);
+            background: linear-gradient(0deg, rgba(6, 6, 8, 1) 0%, rgba(70, 82, 97, 1) 100%);
+            display: block;
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px
+        }
+
+        .rank-part {
+            display: inline-block;
+            position: relative;
+            width: 96px;
+            color: white;
+            float: right;
+            top: 20;
+        }
+
+        .name-part {
+            display: inline-block;
+            color: white;
+            font-size: 28px;
+            height: 64px;
+            position: relative;
+            padding: 10px 20px;
+        }
+
+        .coin-part {
+            float: left;
+            padding: 6px;
+            height: 64px;
+            width: 300px;
+            text-align: left;
+            color: #3e3e3e;
+        }
+
+        .players-section {
+            background-image: url('/dota2book/images/immortals_bg.jpg');
+            background-position: center;
+            margin-bottom: -20px
+        }
+
+        .gold-crown {
+            position: absolute;
+            width: 15%;
+            z-index: 10;
+            top: 1080px;
+            right: 150px;
+            color: yellow;
+            transform: rotate(45deg);
+            font-size: 40px
+        }
+
+        .silver-crown {
+            position: absolute;
+            width: 15%;
+            z-index: 10;
+            top: 1160px;
+            right: 150px;
+            color: silver;
+            transform: rotate(45deg);
+            font-size: 40px
+        }
+
+        .bronze-crown {
+            position: absolute;
+            width: 15%;
+            z-index: 10;
+            top: 1230px;
+            right: 150px;
+            color: #cd7f32;
+            transform: rotate(45deg);
+            font-size: 40px
+        }
+
+        .demon {
+            position: absolute;
+            width: 13%;
+            z-index: 10;
+            top: 1050;
+            left: 650
+        }
+
+        .insta-link {
+            text-decoration: none;
+            color: white
+        }
+
+        .insta-link:hover {
+            text-decoration: none;
+            color: white
+        }
+
+        .coin-image {
+            width: 100%;
+            margin-top: -80px
+        }
+
+        .coin-text {
+            color: white;
+            display: inline-block;
+            font-weight: bold
+        }
+
+        .coins {
+            width: 15%
+        }
+
+        @media (max-width: 576px) {
+            .coin-image {
+                width: 100%;
+                margin-top: 1px;
+            }
+
+            .gold-crown {
+                top: 1200px;
+                right: 0px;
+            }
+
+            .silver-crown {
+                top: 1270px;
+                right: 0px;
+            }
+
+            .bronze-crown {
+                top: 1342px;
+                right: 0px;
+            }
+
+            .name-part {
+                text-align: right;
+                font-size: 16px;
+                padding-top: 15px
+            }
+
+            .rank-part {
+                width: 64px;
+            }
+
+            .coins {
+                width: 50%;
+            }
+
+            .name-part {
+                font-size: 20px;
+            }
+
+            .coin-part {
+                width: 100px;
+                padding: 3px;
+                padding-top: 8px;
+                font-size: 11px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section class="announcment">
+        <div class="container">
+            <div class="text-center" style="padding-top: 20px">
+                <img src="/dota2book/images/logo.png" style="width:50%" alt="">
+                <img src="/dota2book/images/hero.png" class="coin-image" alt="">
+            </div>
+            <div class="block_headline text-center">به رقابت بپیوندید</div>
+            <div class="row" style="margin-top:20px">
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/blue.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/grey.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/purple.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="players-section">
+        <div class="container">
+            <h1 style="padding-top: 20px;margin-bottom: 20px;color:white">خفن های لیدر بوردمون</h1>
+            <img src="/dota2book/images/demon.png" class="demon" alt="">
+            <i class="fas fa-crown gold-crown"></i>
+            <i class="fas fa-crown silver-crown"></i>
+            <i class="fas fa-crown bronze-crown"></i>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                    <div class="player-card">
+                        <div class="rank-part text-center text-english">#515</div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <p class="coin-text text-english">10</p>
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="tele-widget">
+                        <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/telegram-channel.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://t.me/WOG_support" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/wog-support.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://www.instagram.com/wogcompany" target="_blank"
+                            style="display:block;margin:10px 0;border-radius: 20px">
+                            <img src="/dota2book/images/instagram.png" width="100%;border-radius:10%">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+
+</body>
+
+</html>
