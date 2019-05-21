@@ -47,6 +47,8 @@ export class User extends SocketCollection
             u.cover = SITE_URL('/images/user-default-cover.jpg');
         else
             u.cover = SITE_URL(u.cover);
+        if(u.instagramID == undefined)
+            u.instagramID = '';
         u.siteUrl = SITE_URL('users/' + u.username);
         return u;
     }

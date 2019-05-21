@@ -1,11 +1,29 @@
 import { isEmptyString, moment_now } from "../utils/utils";
 import { SocketRouter } from "./socket_router";
 import APIRouter from "./api_router";
+const Instagram = require('instagram-web-api');
+
 const INIT_COINS = 40;
+const FOLLOW_INSTAGRAM_WOG = 'follow_instagram';
 const VALID_ACTIONS = [
-    { active: true, token: 'matchup_tashtak_vs_monster', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
-    { active: true, token: 'follow_instagram', reward: 10 },
+    { active: true, token: 'matchup_vici_gaming', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
+    { active: true, token: 'matchup_vici_gaming_vs_fox_gaming', reward: -1, isBet: true, maxCoins: 300, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
+    //group a:
+    { "active": true, "token": "matchup_vici_gaming_vs_team_liquid", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "team_liquid"] },
+    { "active": true, "token": "matchup_vici_gaming_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "ninjas_in_pyjamas"] },
+    { "active": true, "token": "matchup_vici_gaming_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "og"] },
+    { "active": true, "token": "matchup_vici_gaming_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "forward_gaming"] },
+    { "active": true, "token": "matchup_vici_gaming_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "tnc_predator"] },
+    { "active": true, "token": "matchup_team_liquid_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "ninjas_in_pyjamas"] },
+    { "active": true, "token": "matchup_team_liquid_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "og"] }, { "active": true, "token": "matchup_team_liquid_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "forward_gaming"] }, { "active": true, "token": "matchup_team_liquid_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "tnc_predator"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "og"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "forward_gaming"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "tnc_predator"] }, { "active": true, "token": "matchup_og_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "forward_gaming"] }, { "active": true, "token": "matchup_og_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "tnc_predator"] }, { "active": true, "token": "matchup_forward_gaming_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["forward_gaming", "tnc_predator"] },
+    //group b:
+    { "active": false, "token": "matchup_team_secret_vs_evil_geniuses", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "evil_geniuses"], answer: 'team_secret' },
+    { "active": false, "token": "matchup_team_secret_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "psg_lgd"], answer: 'team_secret' },
+    { "active": false, "token": "matchup_team_secret_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "keen_gaming"], answer: 'team_secret' },
+    { "active": true, "token": "matchup_team_secret_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "alliance"] }, { "active": true, "token": "matchup_team_secret_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "gambit_esports"] }, { "active": true, "token": "matchup_evil_geniuses_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "psg_lgd"] }, { "active": true, "token": "matchup_evil_geniuses_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "keen_gaming"] }, { "active": true, "token": "matchup_evil_geniuses_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "alliance"] }, { "active": true, "token": "matchup_evil_geniuses_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "gambit_esports"] }, { "active": true, "token": "matchup_psg_lgd_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "keen_gaming"] }, { "active": true, "token": "matchup_psg_lgd_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "alliance"] }, { "active": true, "token": "matchup_psg_lgd_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "gambit_esports"] }, { "active": true, "token": "matchup_keen_gaming_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "alliance"] }, { "active": true, "token": "matchup_keen_gaming_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "gambit_esports"] }, { "active": true, "token": "matchup_alliance_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["alliance", "gambit_esports"] },
+    { active: true, token: FOLLOW_INSTAGRAM_WOG, reward: 10 },
 ];
+
 function getAction(token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -45,6 +63,10 @@ class Dota2BookHttpRouter extends APIRouter
             this.handleError(req, res, 'HTTP not allowed');
         });
         this.router.all('/update-all-bets', (req, res) =>
+        {
+            this.handleError(req, res, 'HTTP not allowed');
+        });
+        this.router.post('/check-instgram-is-followed', (req, res) =>
         {
             this.handleError(req, res, 'HTTP not allowed');
         });
@@ -104,6 +126,16 @@ class Dota2BookSocketRouter extends SocketRouter
                 this.handleError(socket, request, err.toString());
             });
         }
+        else if (request.method == 'dota2-book-check-instagram')
+        {
+            this.handler.checkInstagram(request.params._id).then((user) =>
+            {
+                this.sendResponse(socket, request, user);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err.toString());
+            });
+        }
     }
 }
 export class DotaBookHandler 
@@ -119,6 +151,7 @@ export class DotaBookHandler
         this.enterEvent = this.enterEvent.bind(this);
         this.doPayment = this.doPayment.bind(this);
         this.addAction = this.addAction.bind(this);
+        this.checkInstagram = this.checkInstagram.bind(this);
     }
     checkAndFixUser(user)
     {
@@ -409,6 +442,52 @@ export class DotaBookHandler
                 {
 
                 };
+            });
+        });
+    }
+    checkInstagram(_id)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            this.User.findOne({ _id: _id }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err.toString());
+                    return;
+                }
+                //check if user already has this action:
+                for (var i = 0; i < user.dota2Book2019.actions.length; i++)
+                {
+                    if (user.dota2Book2019.actions[i].token == FOLLOW_INSTAGRAM_WOG)
+                    {
+                        reject('action already done');
+                        return;
+                    }
+                }
+                //check instagram api:
+                const client = new Instagram({ username: 'wogcompany', password: 'omid2019wog2019' });
+                client.login({ username: 'wogcompany', password: 'omid2019wog2019' }).then((authenticated, instaUser) =>
+                {
+                    console.log('login success');
+                    client.getProfile().then((profile)=>{
+                        console.log(profile);
+                    });
+                    client.getFollowers({ userId: 11042593044, first: 5000 }).then((followers) =>
+                    {
+                        console.log('followers count = '+followers.length);
+                        for (var i = 0; i < followers.length; i++)
+                        {
+                            console.log(followers[i].username);
+                            if (followers[i].username == user.instagramID)
+                            {
+                                this.addAction({ _id: user._id, userToken: user.token, token: FOLLOW_INSTAGRAM_WOG })
+                                    .then(resolve).catch(reject);
+                            }
+                        }
+                        reject('not following instagram');
+                    }).catch(reject);
+                }).catch(reject);
             });
         });
     }

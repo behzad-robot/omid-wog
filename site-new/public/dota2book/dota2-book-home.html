@@ -50,14 +50,27 @@
             border-radius: 10px;
             margin-bottom: 10px
         }
+
         .bet-box .first-team-row {
             /* background-color: #202d4f; */
             border-top-right-radius: 10px;
             border-top-left-radius: 10px;
         }
 
-        .bet-box .first-team-row-orange {
+        .bet-box .first-team-row.selected {
             background-color: orange;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px
+        }
+
+        .bet-box .first-team-row.correct {
+            background-color: greenyellow;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px
+        }
+
+        .bet-box .first-team-row.wrong {
+            background-color: #a00;
             border-top-right-radius: 10px;
             border-top-left-radius: 10px
         }
@@ -67,10 +80,22 @@
             border-top: 2px solid #38486d;
         }
 
-        .second-team-row-orange {
+        .second-team-row.selected {
             background-color: orange;
             border-top: 2px solid #38486d;
         }
+
+        .second-team-row.correct {
+            background-color: greenyellow;
+            border-top: 2px solid #38486d;
+        }
+
+        .second-team-row.wrong {
+            background-color: #a00;
+            border-top: 2px solid #38486d;
+        }
+
+
         .bet-box .team-images {
             width: 100%;
             padding: 6px
@@ -119,6 +144,10 @@
             background-color: orange;
         }
 
+        .book-radio-container .checkmark.selected {
+            background-color: orange;
+        }
+
         /* Create the indicator (the dot/circle - hidden when not checked) */
         .checkmark:after {
             content: "";
@@ -156,7 +185,7 @@
             border-bottom-right-radius: 10px;
             padding: 10px 20px;
         }
-        
+
 
         .bet-box .error {
             position: relative;
@@ -170,19 +199,25 @@
             padding: 5px 10px;
             color: crimson;
         }
-        .bet-box.not-active{
-            background-color:#bbb;
-            border-color:2px solid #ddd;
+
+        .bet-box.not-active {
+            background-color: #bbb;
+            border-color: 2px solid #ddd;
         }
-        .bet-box.not-active .second-team-row{
-            border-color:#ccc;
+
+        .bet-box.not-active .second-team-row {
+            border-color: #ccc;
         }
-        .bet-box.not-active  .coin-row{
-            border-color:#ccc;
+
+        .bet-box.not-active .coin-row {
+            border-color: #ccc;
         }
-        .bet-box  .form-control[readonly]{
-            background-color:#ddd;
+
+        .bet-box .form-control[readonly] {
+            background-color: #ccc;
+            border: 3px solid #aaa;
         }
+
         .social-box {
             background-color: #202d4f;
             border: 2px solid #38486d;
@@ -258,16 +293,19 @@
                 <b>هشدار:</b>&nbsp;
                 <span name="message">^_^</span>
             </div>
-            <div class="row" id="group-a"></div>
-            <h3 style="color:white">گروه B:</h3>
-            <div class="row" id="group-b"></div>
+            <form action="/dota2-book/submit-bets" method="POST">
+                <div class="row" id="group-a"></div>
+                <h3 style="color:white">گروه B:</h3>
+                <div class="row" id="group-b"></div>
+                <input type="submit" class="btn btn-md btn-warning" value="ثبت پیش بینی ها" />
+            </form>
             <script>
                 //create data , functions:
                 let coinsShowVal = 0;
                 const ESL_TEAMS = JSON.parse(`{{{ESL_TEAMS}}}`);
                 const GROUP_A_TOKENS = JSON.parse(`{{{GROUP_A}}}`);
                 const GROUP_B_TOKENS = JSON.parse(`{{{GROUP_B}}}`);
-                const GROUP_A = [] , GROUP_B = [];
+                const GROUP_A = [], GROUP_B = [];
                 for (var i = 0; i < GROUP_A_TOKENS.length; i++)
                     GROUP_A.push(getTeam(GROUP_A_TOKENS[i]));
                 for (var i = 0; i < GROUP_B_TOKENS.length; i++)
@@ -275,20 +313,24 @@
                 console.log(ESL_TEAMS);
                 const ALL_BETS = JSON.parse(`{{{ALL_BETS}}}`);
                 const currentUser = {
+                    _id: `{{currentUser._id}}`,
+                    username: `{{currentUser.username}}`,
+                    token: `{{{currentUser.token}}}`,
                     dota2Book2019: JSON.parse(`{{{DOTA2_BOOK_2019}}}`)
                 };
-                let actions = [];
-                for (var i = 0; i < GROUP_B.length-1; i++)
-                {
-                    for (var j = i + 1; j < GROUP_B.length; j++)
-                    {
-                        let a = GROUP_B[i];
-                        let b = GROUP_B[j];
-                        // console.log(a);
-                        actions.push({ active: true, token: 'matchup_'+a.token+'_vs_'+b.token, reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: [a.token,b.token] });
-                    }
-                }
-                console.log(JSON.stringify(actions));
+                console.log(currentUser);
+                // let actions = [];
+                // for (var i = 0; i < GROUP_B.length-1; i++)
+                // {
+                //     for (var j = i + 1; j < GROUP_B.length; j++)
+                //     {
+                //         let a = GROUP_B[i];
+                //         let b = GROUP_B[j];
+                //         // console.log(a);
+                //         actions.push({ active: true, token: 'matchup_'+a.token+'_vs_'+b.token, reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: [a.token,b.token] });
+                //     }
+                // }
+                // console.log(JSON.stringify(actions));
                 $(() =>
                 {
                     //render all group stage bets:
@@ -312,7 +354,7 @@
                         let val = parseInt($(this).val());
                         let betToken = $(this).attr('betToken');
                         let bet = getBet(betToken);
-                        if(val < 0)
+                        if (val < 0)
                         {
                             $(this).closest(".bet-box").find(".message-row span").html('مقدار منفی صحیح نمی باشد.');
                         }
@@ -331,13 +373,13 @@
                         //check if we are not passing max-coins:
                         let allBetBoxes = $(".bet-box input[type=number]");
                         let coinsSum = 0;
-                        for(var i = 0 ; i < allBetBoxes.length;i++)
+                        for (var i = 0; i < allBetBoxes.length; i++)
                         {
                             let v = parseInt($(allBetBoxes[i]).val());
-                            if(v > 0 && !isNaN(v))
+                            if (v > 0 && !isNaN(v))
                                 coinsSum += v;
-                        }                            
-                        if(coinsSum > currentUser.dota2Book2019.coins)
+                        }
+                        if (coinsSum > currentUser.dota2Book2019.coins)
                         {
                             $("#bets-warning").show();
                             $("#bets-warning [name=message]").html('بیشتر از سکه های موجودی خود وارد کرده اید.');
@@ -350,7 +392,7 @@
                         let betToken = $(this).attr('name');
                         let bet = getBet(betToken);
                         let coins = parseInt($(`.bet-box[betToken=${bet.token}] input[type=number]`).val());
-                        if(coins <= 0 || isNaN(coins))
+                        if (coins <= 0 || isNaN(coins))
                         {
                             $(this).closest(".bet-box").find(".message-row span").html('مقدار سکه ها را نیز وارد کنید.');
                         }
@@ -371,23 +413,117 @@
                             return ALL_BETS[i];
                     return undefined;
                 }
+                function getUserBet(token)
+                {
+                    for (var i = 0; i < currentUser.dota2Book2019.bets.length; i++)
+                    {
+                        if (currentUser.dota2Book2019.bets[i].token == token)
+                            return currentUser.dota2Book2019.bets[i];
+                    }
+                    return undefined;
+                }
                 //render functions:
                 function render_bet(parent, teamA, teamB)
                 {
-                    let bet = getBet('matchup_' + teamA.token + '_vs_' + teamB.token);
-                    console.log(bet);
+                    let betToken = 'matchup_' + teamA.token + '_vs_' + teamB.token;
+                    let bet = getBet(betToken);
+                    if(bet == undefined)
+                        return;
+                    let userBet = getUserBet(betToken);
+                    let optionA = ``, optionB = ``, optionAStatus = '', optionBStatus = '';
+                    if (bet.active)
+                    {
+                        if (userBet == undefined)
+                        {
+                            optionA = `<label class="book-radio-container">
+                                        <input type="radio"  value="${teamA.token}" name="${bet.token}">
+                                        <span class="checkmark"></span>
+                                    </label>`;
+                            optionB = `<label class="book-radio-container">
+                                        <input type="radio" value="${teamB.token}" name="${bet.token}">
+                                        <span class="checkmark"></span>
+                                    </label>`;
+                        }
+                        else
+                        {
+                            console.log('hey look we have this bet!');
+                            optionA = `<label class="book-radio-container">
+                                        <!--<input type="radio" readonly ${userBet.value == teamA.token ? 'selected' : ''}  value="${teamA.token}" name="${bet.token}">-->
+                                        <span class="checkmark ${userBet.value == teamA.token ? 'selected' : ''}"></span>
+                                    </label>`;
+                            optionB = `<label class="book-radio-container">
+                                        <!-- <input type="radio" readonly ${userBet.value == teamB.token ? 'selected' : ''} value="${teamB.token}" name="${bet.token}"> -->
+                                        <span class="checkmark ${userBet.value == teamB.token ? 'selected' : ''}"></span>
+                                    </label>`;
+                        }
+                    }
+                    else
+                    {
+                        if (userBet == undefined)
+                        {
+                            optionA = `<label class="book-radio-container">
+                                        <span class="checkmark"></span>
+                                    </label>`;
+                            optionB = `<label class="book-radio-container">
+                                        <span class="checkmark"></span>
+                                    </label>`;
+                        }
+                        else
+                        {
+                            console.log('hey look we have this  not active bet!');
+                            optionA = `<label class="book-radio-container">
+                                        <span class="checkmark ${userBet.value == teamA.token ? 'selected' : ''}"></span>
+                                    </label>`;
+                            optionB = `<label class="book-radio-container">
+                                        <span class="checkmark ${userBet.value == teamB.token ? 'selected' : ''}"></span>
+                                    </label>`;
+                        }
+                    }
+                    let message = '';
+                    if (!bet.active)
+                    {
+                        if (isEmptyString(bet.answer))
+                        {
+                            message = 'مهلت پیش بینی این مسابقه تمام شده است.';
+                            optionAStatus = userBet != undefined && userBet.value == teamA.token ? 'selected' : '';
+                            optionBStatus = userBet != undefined && userBet.value == teamB.token ? 'selected' : ''
+                        }
+                        else
+                        {
+                            if (userBet == undefined)
+                                message = 'مهلت پیش بینی این مسابقه تمام شده است.' + '<br>' + 'شما نتیجه این مسابقه را پیش بینی نکردید.';
+                            else
+                            {
+                                if (bet.answer == userBet.value)
+                                    message = '<span style="color:green">' + 'شما نتیجه این مسابقه را به درستی پیش بینی کردید.' + '</span>';
+                                else
+                                    message = 'شما نتیجه این مسابقه را به اشتباه پیش بینی کردید.';
+                                if (userBet.value == teamA.token)
+                                {
+                                    if (bet.answer == teamA.token)
+                                        optionAStatus = 'correct';
+                                    else
+                                        optionAStatus = 'wrong';
+                                }
+                                if (userBet.value == teamB.token)
+                                {
+                                    if (bet.answer == teamB.token)
+                                        optionBStatus = 'correct';
+                                    else
+                                        optionBStatus = 'wrong';
+                                }
+                            }
+                        }
+                    }
+
+
                     $(parent).append(`
                         <div class="col-md-4 col-12">
-                            <div class="bet-box ${bet.active ? '' :  'not-active'}" teamA="${teamA.token}" teamB="${teamB.token}" betToken="${bet.token}">
-                                <div class="first-team-row">
+                            <div class="bet-box ${bet.active ? '' : 'not-active'}" teamA="${teamA.token}" teamB="${teamB.token}" betToken="${bet.token}">
+                                <div class="first-team-row ${optionAStatus}">
                                     <div class="row">
                                         <div class="col-md-2 col-2">
-                                            <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
-                                            <!-- <input type="checkbox" name="${teamA.token}" betToken="${bet.token}" class="team-checkbox" /> -->
-                                            <label class="book-radio-container">
-                                                <input type="radio" name="${bet.token}">
-                                                <span class="checkmark"></span>
-                                            </label>
+                                            ${optionA}
                                         </div>
                                         <div class="col-md-3 col-3">
                                             <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="${teamA.name}">
@@ -397,14 +533,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="second-team-row">
+                                <div class="second-team-row ${optionBStatus}">
                                     <div class="row">
-                                        <div class="col-md-2 col-2">
-                                            <label class="book-radio-container">
-                                                <input type="radio" name="${bet.token}">
-                                                <span class="checkmark"></span>
-                                            </label>
-                                        </div>
+                                        <div class="col-md-2 col-2">${optionB}</div>
                                         <div class="col-md-3 col-3">
                                             <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="${teamB.name}">
                                         </div>
@@ -416,7 +547,7 @@
                                 <div class="coin-row">
                                     <div style="position: relative;display:inline-block;width: 40%">
                                         <img style="position: absolute;width: 25%" src="/dota2book/images/coins.png" />
-                                        <input type="number" class="form-control" style="padding-right:30px;padding-bottom:3px;width: 100%;border-radius: 5px" placeholder="سکه‌ها" betToken="${bet.token}" ${bet.active ? '' : 'readonly'} />
+                                        <input type="number" name="${bet.token}-betCoins"  value="${userBet != undefined ? userBet.coins : ''}" placeholder="سکه‌ها" betToken="${bet.token}" ${bet.active ? '' : 'readonly'} ${userBet != undefined ? 'readonly' : ''} class="form-control" style="padding-right:30px;padding-bottom:3px;width: 100%;border-radius: 5px" />
                                     </div>
                                     <div class="error">
                                         <img style="width: 20%;display: inline-block;" src="/dota2book/images/error.png" />
@@ -424,7 +555,7 @@
                                     </div>
                                 </div>
                                 <div class="message-row">
-                                    <span></span>    
+                                    <span>${message}</span>    
                                 </div>
                             </div>
                         `);
@@ -447,8 +578,8 @@
                             style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 100 سکه</button>
                     </div>
                     <div style="position: relative;display:inline-block;width: 40%">
-                        <button type="button" class="btn btn-warning"
-                            style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</button>
+                        <a  href="/dota2-book/check-instagram"type="button" class="btn btn-warning"
+                            style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</a>
                     </div>
                 </div>
             </div>

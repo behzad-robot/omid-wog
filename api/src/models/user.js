@@ -30,6 +30,7 @@ export const UserSchema = new mongoose.Schema({
     //games and outsource:
     epicGamesID: { type: String, default: '' },
     psnID: { type: String, default: '' },
+    instagramID : {type:String,  default : ''},
 
     _draft: Boolean,
     createdAt: { type: String, default: '?' },

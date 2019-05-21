@@ -16,8 +16,10 @@ const VALID_ACTIONS = [
     { "active": true, "token": "matchup_team_liquid_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "ninjas_in_pyjamas"] },
     { "active": true, "token": "matchup_team_liquid_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "og"] }, { "active": true, "token": "matchup_team_liquid_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "forward_gaming"] }, { "active": true, "token": "matchup_team_liquid_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "tnc_predator"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "og"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "forward_gaming"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "tnc_predator"] }, { "active": true, "token": "matchup_og_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "forward_gaming"] }, { "active": true, "token": "matchup_og_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "tnc_predator"] }, { "active": true, "token": "matchup_forward_gaming_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["forward_gaming", "tnc_predator"] },
     //group b:
-    {"active":false,"token":"matchup_team_secret_vs_evil_geniuses","reward":-1,"isBet":true,"maxCoins":100,"options":["team_secret","evil_geniuses"]},
-    {"active":true,"token":"matchup_team_secret_vs_psg_lgd","reward":-1,"isBet":true,"maxCoins":100,"options":["team_secret","psg_lgd"]},{"active":true,"token":"matchup_team_secret_vs_keen_gaming","reward":-1,"isBet":true,"maxCoins":100,"options":["team_secret","keen_gaming"]},{"active":true,"token":"matchup_team_secret_vs_alliance","reward":-1,"isBet":true,"maxCoins":100,"options":["team_secret","alliance"]},{"active":true,"token":"matchup_team_secret_vs_gambit_esports","reward":-1,"isBet":true,"maxCoins":100,"options":["team_secret","gambit_esports"]},{"active":true,"token":"matchup_evil_geniuses_vs_psg_lgd","reward":-1,"isBet":true,"maxCoins":100,"options":["evil_geniuses","psg_lgd"]},{"active":true,"token":"matchup_evil_geniuses_vs_keen_gaming","reward":-1,"isBet":true,"maxCoins":100,"options":["evil_geniuses","keen_gaming"]},{"active":true,"token":"matchup_evil_geniuses_vs_alliance","reward":-1,"isBet":true,"maxCoins":100,"options":["evil_geniuses","alliance"]},{"active":true,"token":"matchup_evil_geniuses_vs_gambit_esports","reward":-1,"isBet":true,"maxCoins":100,"options":["evil_geniuses","gambit_esports"]},{"active":true,"token":"matchup_psg_lgd_vs_keen_gaming","reward":-1,"isBet":true,"maxCoins":100,"options":["psg_lgd","keen_gaming"]},{"active":true,"token":"matchup_psg_lgd_vs_alliance","reward":-1,"isBet":true,"maxCoins":100,"options":["psg_lgd","alliance"]},{"active":true,"token":"matchup_psg_lgd_vs_gambit_esports","reward":-1,"isBet":true,"maxCoins":100,"options":["psg_lgd","gambit_esports"]},{"active":true,"token":"matchup_keen_gaming_vs_alliance","reward":-1,"isBet":true,"maxCoins":100,"options":["keen_gaming","alliance"]},{"active":true,"token":"matchup_keen_gaming_vs_gambit_esports","reward":-1,"isBet":true,"maxCoins":100,"options":["keen_gaming","gambit_esports"]},{"active":true,"token":"matchup_alliance_vs_gambit_esports","reward":-1,"isBet":true,"maxCoins":100,"options":["alliance","gambit_esports"]},
+    { "active": false, "token": "matchup_team_secret_vs_evil_geniuses", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "evil_geniuses"], answer: 'team_secret' },
+    { "active": false, "token": "matchup_team_secret_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "psg_lgd"], answer: 'team_secret' },
+    { "active": false, "token": "matchup_team_secret_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "keen_gaming"], answer: 'team_secret' },
+    { "active": true, "token": "matchup_team_secret_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "alliance"] }, { "active": true, "token": "matchup_team_secret_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "gambit_esports"] }, { "active": true, "token": "matchup_evil_geniuses_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "psg_lgd"] }, { "active": true, "token": "matchup_evil_geniuses_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "keen_gaming"] }, { "active": true, "token": "matchup_evil_geniuses_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "alliance"] }, { "active": true, "token": "matchup_evil_geniuses_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "gambit_esports"] }, { "active": true, "token": "matchup_psg_lgd_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "keen_gaming"] }, { "active": true, "token": "matchup_psg_lgd_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "alliance"] }, { "active": true, "token": "matchup_psg_lgd_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "gambit_esports"] }, { "active": true, "token": "matchup_keen_gaming_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "alliance"] }, { "active": true, "token": "matchup_keen_gaming_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "gambit_esports"] }, { "active": true, "token": "matchup_alliance_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["alliance", "gambit_esports"] },
     { active: true, token: 'follow_instagram', reward: 10 },
 ];
 function getAction(token)
@@ -140,7 +142,7 @@ export class Dota2BookRouter extends SiteRouter
 
                 }
             }
-            console.log(ESL_TEAMS);
+            // console.log(ESL_TEAMS);
             //the event page contains current bets,actions +link to other pages + ways to earn more shit this page is quite a lot!
             this.renderTemplate(req, res, 'dota2book/dota2-book-home.html', {
                 user: currentUser,
@@ -179,13 +181,13 @@ export class Dota2BookRouter extends SiteRouter
                 let betToken = tokens[index];
                 let betCoins = parseInt(req.body[betToken + '-betCoins']);
                 let betValue = req.body[betToken];
-                console.log(betValue + 'is bet value!');
-                console.log(betToken + 'is being passed to webservice');
-                if (isEmptyString(betValue))
+                let bet = getAction(betToken);
+                if (isEmptyString(betValue) || isNaN(betCoins) || !bet.active)
                 {
                     handleBet(tokens, index + 1, finish);
                     return;
                 }
+                console.log(`${betToken} is being passed to webservice value ${betValue}`);
                 siteModules.User.apiCall('dota2-book-add-bet', {
                     _id: currentUser._id,
                     userToken: currentUser.token,
@@ -195,6 +197,7 @@ export class Dota2BookRouter extends SiteRouter
                     betCoins: betCoins,
                 }).then((user) =>
                 {
+                    console.log(betToken + ' was submitted successfully!');
                     req.session.currentUser = user;
                     req.session.save(() =>
                     {
@@ -205,16 +208,39 @@ export class Dota2BookRouter extends SiteRouter
                     err = err.toString();
                     if (err == 'bet already done')
                     {
-                        res.redirect('/dota2-book/');
+                        res.redirect('/dota2-book/?msg=bet-already-done');
                         return;
                     }
                     res.status(500).send(err);
                 });
             };
-            let bets = ['matchup_tashtak_vs_monster'];
-            handleBet(bets, 0, () =>
+            let bets = getAllBets();
+            let betTokens = [];
+            for (var i = 0; i < bets.length; i++)
+                betTokens.push(bets[i].token)
+            handleBet(betTokens, 0, () =>
             {
                 res.redirect('/dota2-book/');
+            });
+        });
+        this.router.get('/check-instagram', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            if (isEmptyString(currentUser.instagramID))
+            {
+                res.send({ code: 500, error: 'instagramID is empty' });
+                return;
+            }
+            siteModules.User.apiCall('dota2-book-check-instagram', { _id: currentUser._id }).then((user) =>
+            {
+                req.session.currentUser = user;
+                req.session.save(() =>
+                {
+                    res.send(':) ok u can get ur coins now!');
+                });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err });
             });
         });
     }
