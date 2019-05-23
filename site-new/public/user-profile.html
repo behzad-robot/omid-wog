@@ -97,6 +97,20 @@
             padding: 25px 0;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
         }
+        .dota-book-box{
+            display: block;
+            width: 100%;
+            height: 180px;
+            background-image: url('/dota2book/images/dota2-cover.jpg');
+            background-size: cover;
+            background-position: center;
+            margin: 10px 0;
+            border-radius: 10px;
+            position: relative;
+            color: white;
+            padding: 25px 0;
+            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+        }
     </style>
     <style>
         .post-box {
@@ -197,6 +211,15 @@
                 {{/user.fortnite2019.hasJoined}}
 
             </div>
+            {{/isCurrentUser}}
+            {{#isCurrentUser}}
+            {{#currentUser.accessLevel.isAdmin}}
+            <div class="dota-book-box text-center">
+                <h2
+                    style="text-shadow:2px 3px 3px rgba(0,0,0,0.3);font-size:36px;font-weight: bold;padding-bottom:15px;">پیش بینی بازی های گروهی <span class="text-english">ESL One Birmingham 2019</span></h2>
+                <a href="{{#SITE_URL}}/dota2-book/{{/SITE_URL}}" class="btn btn-md btn-warning">مشاهده</a>
+            </div>
+            {{/currentUser.accessLevel.isAdmin}}
             {{/isCurrentUser}}
             {{#user.accessLevel.isAdmin}}
             <h2 class="orange-title" style="font-size:1.2rem;margin-top:15px;">مطالب نوشته شده:</h2>

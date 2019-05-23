@@ -2,15 +2,36 @@
 
 <head>
     {{{head}}}
+    <title>بازی های گروهی ESL One Birmingham 2019</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
 
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="بازی های گروهی ESL One Birmingham 2019">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="بازی های گروهی ESL One Birmingham 2019">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
     <style>
-        .section-background {
+        footer {
+            margin: 0;
+        }
+
+        .section-main {
             background-image: url('/dota2book/images/immortals_bg.jpg');
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            margin-top: 80px;
-            margin-bottom: -20px;
+            padding-top: 20px;
+            padding-bottom: 20px;
         }
 
         .player-details {
@@ -45,219 +66,91 @@
         }
 
         .bet-box {
-            background-color: #202d4f;
-            border: 2px solid #38486d;
-            border-radius: 10px;
-            margin-bottom: 10px
-        }
-
-        .bet-box .first-team-row {
-            /* background-color: #202d4f; */
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px;
-        }
-
-        .bet-box .first-team-row.selected {
-            background-color: orange;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px
-        }
-
-        .bet-box .first-team-row.correct {
-            background-color: greenyellow;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px
-        }
-
-        .bet-box .first-team-row.wrong {
-            background-color: #a00;
-            border-top-right-radius: 10px;
-            border-top-left-radius: 10px
-        }
-
-        .bet-box .second-team-row {
-            /* background-color: #202d4f; */
-            border-top: 2px solid #38486d;
-        }
-
-        .second-team-row.selected {
-            background-color: orange;
-            border-top: 2px solid #38486d;
-        }
-
-        .second-team-row.correct {
-            background-color: greenyellow;
-            border-top: 2px solid #38486d;
-        }
-
-        .second-team-row.wrong {
-            background-color: #a00;
-            border-top: 2px solid #38486d;
-        }
-
-
-        .bet-box .team-images {
+            display: block;
             width: 100%;
-            padding: 6px
-        }
-
-        .book-radio-container {
-            display: block;
             position: relative;
-            margin-top: 20px;
-            margin-right: 10px;
-            padding-left: 35px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            font-size: 22px;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+            min-height: 200px;
+            border: 2px solid #d8064f;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            background: linear-gradient(160deg, #0d2740 0%, #d8064f 100%);
         }
 
-        /* Hide the browser's default radio button */
-        .book-radio-container input {
+        .bet-box.disabled {
+            position: relative;
+        }
+
+        .bet-box.disabled .overlay {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(120, 120, 120, 0.5);
+            z-index: 2;
             position: absolute;
-            opacity: 0;
-            cursor: pointer;
         }
 
-        /* Create a custom radio button */
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 25px;
-            width: 25px;
-            background-color: #eee;
-            border-radius: 50%;
+        .bet-box .content {
+            position: relative;
+            z-index: 1;
         }
 
-        /* On mouse-over, add a grey background color */
-        .book-radio-container:hover input~.checkmark {
-            background-color: #ccc;
-        }
-
-        /* When the radio button is checked, add a blue background */
-        .book-radio-container input:checked~.checkmark {
-            background-color: orange;
-        }
-
-        .book-radio-container .checkmark.selected {
-            background-color: orange;
-        }
-
-        /* Create the indicator (the dot/circle - hidden when not checked) */
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-
-        /* Show the indicator (dot/circle) when checked */
-        .book-radio-container input:checked~.checkmark:after {
+        .bet-box .team-row {
             display: block;
+            width: 100%;
+            height: 140px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
         }
 
-        /* Style the indicator (dot/circle) */
-        .book-radio-container .checkmark:after {
-            top: 9px;
-            left: 9px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: white;
+        .bet-box .team-row:nth-of-type(1) {
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            border-bottom: 1px solid #d8064f;
         }
 
-
-        .bet-box .team-names {
+        .bet-box .team-row .team-overlay {
+            position: absolute;
             color: white;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            text-align: center;
+            opacity: 0;
+            transition: all 300ms;
+            padding-top: 50px;
             font-weight: bold;
+            text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.6);
             font-size: 18px;
-            margin-top: 22px;
         }
 
-        .bet-box .coin-row {
-            /* background-color: #202d4f; */
-            border-top: 2px solid #38486d;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            padding: 10px 20px;
+        .bet-box .team-row:hover .team-overlay {
+            opacity: 1;
         }
 
-
-        .bet-box .error {
-            position: relative;
-            display: inline-block;
-            width: 50%;
-            margin-right: 20px;
-
+        .bet-box .team-row .team-selected-mark {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            color: white;
+            text-align: center;
         }
-
-        .bet-box .message-row {
-            padding: 5px 10px;
-            color: crimson;
+        .bet-box .team-row.not-selected .team-overlay{
+            opacity: 1;
         }
-
-        .bet-box.not-active {
-            background-color: #bbb;
-            border-color: 2px solid #ddd;
+        .bet-box .team-row.not-selected .team-overlay span{
+            display:none;
         }
-
-        .bet-box.not-active .second-team-row {
-            border-color: #ccc;
-        }
-
-        .bet-box.not-active .coin-row {
-            border-color: #ccc;
-        }
-
-        .bet-box .form-control[readonly] {
-            background-color: #ccc;
-            border: 3px solid #aaa;
-        }
-
-        .social-box {
-            background-color: #202d4f;
-            border: 2px solid #38486d;
-            border-radius: 10px;
-            padding-bottom: 10px;
-            width: 30%;
-            height: 310px;
-            display: inline-block;
-        }
-
-        .profile-link {
-            color: orange;
-            font-size: 12px
-        }
-
-        .profile-link:hover {
-            color: rgb(201, 147, 47);
-            text-decoration: none
-        }
-
-        .check-and-coins-row {
-            border-top: 2px solid #38486d;
-            padding: 10px 10px;
-        }
-
-        @media (max-width: 576px) {
-            .section-background {
-                height: 1800px
-            }
-
-            .social-box {
-                width: 100%;
-            }
+        .bet-box .team-row.not-selected .team-selected-mark{
+            display:none;
         }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
-    <section class="section-background">
+    <navfiller></navfiller>
+    <section class="section-main">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-12">
@@ -268,7 +161,7 @@
                             </div>
                             <div class="col-md-8 col-8">
                                 <h2 style="color:white;font-weight: bold">{{currentUser.username}}</h2>
-                                <h6 style="color: white">رتبه:??</h6>
+                                <h6 style="color: white">رتبه:{{rank}}</h6>
                                 <h6 style="color:orange">سکه:&nbsp;<span>{{currentUser.dota2Book2019.coins}}</span></h6>
                             </div>
                         </div>
@@ -280,24 +173,19 @@
                         <span class="see-rankings-text" href="#">مشاهده رتبه بندی‌ها</span>
                     </a>
                 </div>
-            </div>
+            </div><!-- end of row-->
             <h2 style="color:white;margin-bottom: 10px">بازی های گروهی&nbsp;<span class="text-english">ESL One
                     Birmingham 2019</span></h2>
             <p style="color:white">به مرحله بازی های گروهی خوش آمدید برای هر مسابقه نتیجه را پیش بینی کنید در صورتی که
                 پیش بینی شما درست
                 باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد سکه ای از دست نمی دهید دقت داشته باشید که پس
                 از ثبت امکان تغییر انتخاب ها وجود ندارد.</p>
-            <h3 style="color:white">گروه A:</h3>
-            <div class="alert alert-warning" id="bets-warning" style="display:none">
-                <span class="fas fa-exclamation-circle"></span>
-                <b>هشدار:</b>&nbsp;
-                <span name="message">^_^</span>
-            </div>
-            <form action="/dota2-book/submit-bets" method="POST">
+            <!-- start form -->
+            <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
+                <h3 style="color:white">گروه A:</h3>
                 <div class="row" id="group-a"></div>
                 <h3 style="color:white">گروه B:</h3>
                 <div class="row" id="group-b"></div>
-                <input type="submit" class="btn btn-md btn-warning" value="ثبت پیش بینی ها" />
             </form>
             <script>
                 //create data , functions:
@@ -316,21 +204,9 @@
                     _id: `{{currentUser._id}}`,
                     username: `{{currentUser.username}}`,
                     token: `{{{currentUser.token}}}`,
-                    dota2Book2019: JSON.parse(`{{{DOTA2_BOOK_2019}}}`)
+                    dota2Book2019: JSON.parse(`{{{DOTA2_BOOK_2019}}}`),
                 };
                 console.log(currentUser);
-                // let actions = [];
-                // for (var i = 0; i < GROUP_B.length-1; i++)
-                // {
-                //     for (var j = i + 1; j < GROUP_B.length; j++)
-                //     {
-                //         let a = GROUP_B[i];
-                //         let b = GROUP_B[j];
-                //         // console.log(a);
-                //         actions.push({ active: true, token: 'matchup_'+a.token+'_vs_'+b.token, reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: [a.token,b.token] });
-                //     }
-                // }
-                // console.log(JSON.stringify(actions));
                 $(() =>
                 {
                     //render all group stage bets:
@@ -348,55 +224,6 @@
                             render_bet('#group-b', GROUP_B[i], GROUP_B[j]);
                         }
                     }
-                    //check all of coin inputs:
-                    $(".bet-box input[type=number]").change(function ()
-                    {
-                        let val = parseInt($(this).val());
-                        let betToken = $(this).attr('betToken');
-                        let bet = getBet(betToken);
-                        if (val < 0)
-                        {
-                            $(this).closest(".bet-box").find(".message-row span").html('مقدار منفی صحیح نمی باشد.');
-                        }
-                        else if (val > bet.maxCoins)
-                        {
-                            $(this).closest(".bet-box").find(".message-row span").html('خطا بیش از حد مجاز سکه وارد کرده اید.');
-                        }
-                        else if (val > currentUser.dota2Book2019.coins)
-                        {
-                            $(this).closest(".bet-box").find(".message-row span").html('خطا بیش از موجودی خود سکه وارد کرده اید.');
-                        }
-                        else
-                        {
-                            $(this).closest(".bet-box").find(".message-row span").html('');
-                        }
-                        //check if we are not passing max-coins:
-                        let allBetBoxes = $(".bet-box input[type=number]");
-                        let coinsSum = 0;
-                        for (var i = 0; i < allBetBoxes.length; i++)
-                        {
-                            let v = parseInt($(allBetBoxes[i]).val());
-                            if (v > 0 && !isNaN(v))
-                                coinsSum += v;
-                        }
-                        if (coinsSum > currentUser.dota2Book2019.coins)
-                        {
-                            $("#bets-warning").show();
-                            $("#bets-warning [name=message]").html('بیشتر از سکه های موجودی خود وارد کرده اید.');
-                        }
-                        else
-                            $("#bets-warning").hide();
-                    });
-                    $(".bet-box input[type=radio]").change(function ()
-                    {
-                        let betToken = $(this).attr('name');
-                        let bet = getBet(betToken);
-                        let coins = parseInt($(`.bet-box[betToken=${bet.token}] input[type=number]`).val());
-                        if (coins <= 0 || isNaN(coins))
-                        {
-                            $(this).closest(".bet-box").find(".message-row span").html('مقدار سکه ها را نیز وارد کنید.');
-                        }
-                    });
                 });
                 //data functions:
                 function getTeam(token)
@@ -427,186 +254,58 @@
                 {
                     let betToken = 'matchup_' + teamA.token + '_vs_' + teamB.token;
                     let bet = getBet(betToken);
-                    if(bet == undefined)
+                    if (bet == undefined)
                         return;
                     let userBet = getUserBet(betToken);
-                    let optionA = ``, optionB = ``, optionAStatus = '', optionBStatus = '';
-                    if (bet.active)
+                    let disabledOverlay = '', hiddenInput = '';
+                    if (!bet.active)
                     {
-                        if (userBet == undefined)
-                        {
-                            optionA = `<label class="book-radio-container">
-                                        <input type="radio"  value="${teamA.token}" name="${bet.token}">
-                                        <span class="checkmark"></span>
-                                    </label>`;
-                            optionB = `<label class="book-radio-container">
-                                        <input type="radio" value="${teamB.token}" name="${bet.token}">
-                                        <span class="checkmark"></span>
-                                    </label>`;
-                        }
-                        else
-                        {
-                            console.log('hey look we have this bet!');
-                            optionA = `<label class="book-radio-container">
-                                        <!--<input type="radio" readonly ${userBet.value == teamA.token ? 'selected' : ''}  value="${teamA.token}" name="${bet.token}">-->
-                                        <span class="checkmark ${userBet.value == teamA.token ? 'selected' : ''}"></span>
-                                    </label>`;
-                            optionB = `<label class="book-radio-container">
-                                        <!-- <input type="radio" readonly ${userBet.value == teamB.token ? 'selected' : ''} value="${teamB.token}" name="${bet.token}"> -->
-                                        <span class="checkmark ${userBet.value == teamB.token ? 'selected' : ''}"></span>
-                                    </label>`;
-                        }
+                        disabledOverlay = `<div class="overlay"></div>`;
                     }
                     else
                     {
                         if (userBet == undefined)
                         {
-                            optionA = `<label class="book-radio-container">
-                                        <span class="checkmark"></span>
-                                    </label>`;
-                            optionB = `<label class="book-radio-container">
-                                        <span class="checkmark"></span>
-                                    </label>`;
+                            hiddenInput = `<input type="hidden" name="${bet.token}" value=""/>`;
                         }
                         else
                         {
-                            console.log('hey look we have this  not active bet!');
-                            optionA = `<label class="book-radio-container">
-                                        <span class="checkmark ${userBet.value == teamA.token ? 'selected' : ''}"></span>
-                                    </label>`;
-                            optionB = `<label class="book-radio-container">
-                                        <span class="checkmark ${userBet.value == teamB.token ? 'selected' : ''}"></span>
-                                    </label>`;
+
                         }
                     }
-                    let message = '';
-                    if (!bet.active)
-                    {
-                        if (isEmptyString(bet.answer))
-                        {
-                            message = 'مهلت پیش بینی این مسابقه تمام شده است.';
-                            optionAStatus = userBet != undefined && userBet.value == teamA.token ? 'selected' : '';
-                            optionBStatus = userBet != undefined && userBet.value == teamB.token ? 'selected' : ''
-                        }
-                        else
-                        {
-                            if (userBet == undefined)
-                                message = 'مهلت پیش بینی این مسابقه تمام شده است.' + '<br>' + 'شما نتیجه این مسابقه را پیش بینی نکردید.';
-                            else
-                            {
-                                if (bet.answer == userBet.value)
-                                    message = '<span style="color:green">' + 'شما نتیجه این مسابقه را به درستی پیش بینی کردید.' + '</span>';
-                                else
-                                    message = 'شما نتیجه این مسابقه را به اشتباه پیش بینی کردید.';
-                                if (userBet.value == teamA.token)
-                                {
-                                    if (bet.answer == teamA.token)
-                                        optionAStatus = 'correct';
-                                    else
-                                        optionAStatus = 'wrong';
-                                }
-                                if (userBet.value == teamB.token)
-                                {
-                                    if (bet.answer == teamB.token)
-                                        optionBStatus = 'correct';
-                                    else
-                                        optionBStatus = 'wrong';
-                                }
-                            }
-                        }
-                    }
-
-
                     $(parent).append(`
                         <div class="col-md-4 col-12">
-                            <div class="bet-box ${bet.active ? '' : 'not-active'}" teamA="${teamA.token}" teamB="${teamB.token}" betToken="${bet.token}">
-                                <div class="first-team-row ${optionAStatus}">
-                                    <div class="row">
-                                        <div class="col-md-2 col-2">
-                                            ${optionA}
-                                        </div>
-                                        <div class="col-md-3 col-3">
-                                            <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="${teamA.name}">
-                                        </div>
-                                        <div class="col-md-7 col-7">
-                                            <h4 class="team-names">${teamA.name}</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="second-team-row ${optionBStatus}">
-                                    <div class="row">
-                                        <div class="col-md-2 col-2">${optionB}</div>
-                                        <div class="col-md-3 col-3">
-                                            <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="${teamB.name}">
-                                        </div>
-                                        <div class="col-md-7 col-7">
-                                            <h4 class="team-names">${teamB.name}</h4>
+                            <div class="bet-box ${bet.active ? '' : 'disabled'}" betToken="${bet.token}" teamA="${teamA.token}" teamB="${teamB.token}">
+                                ${disabledOverlay}
+                                ${hiddenInput}
+                                <div class="content">
+                                    <div class="team-row ${userBet != undefined && userBet.value == teamA.token ? 'selected' : 'not-selected'}" style="background-image:url('/dota2book/images/team-secret-cover.jpg')" team="${teamA.token}">
+                                        <div class="team-overlay"><span>انتخاب ${teamA.name}</span></div>
+                                        <div class="team-selected-mark">
+                                            <span class="badge badge-warning">
+                                                <span class="fas fa-check"></span>&nbsp;انتخاب شما
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="coin-row">
-                                    <div style="position: relative;display:inline-block;width: 40%">
-                                        <img style="position: absolute;width: 25%" src="/dota2book/images/coins.png" />
-                                        <input type="number" name="${bet.token}-betCoins"  value="${userBet != undefined ? userBet.coins : ''}" placeholder="سکه‌ها" betToken="${bet.token}" ${bet.active ? '' : 'readonly'} ${userBet != undefined ? 'readonly' : ''} class="form-control" style="padding-right:30px;padding-bottom:3px;width: 100%;border-radius: 5px" />
+                                    <div class="team-row ${userBet != undefined && userBet.value == teamB.token ? 'selected' : 'not-selected'}" style="background-image:url('/dota2book/images/team-secret-cover.jpg')" team="${teamB.token}">
+                                        <div class="team-overlay"><span>انتخاب ${teamB.name}</span></div>
+                                        <div class="team-selected-mark">
+                                            <span class="badge badge-warning">
+                                                <span class="fas fa-check"></span>&nbsp;انتخاب شما
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="error">
-                                        <img style="width: 20%;display: inline-block;" src="/dota2book/images/error.png" />
-                                        <h6 style="display: inline-block;color: white">حداکثر ${bet.maxCoins} سکه</h6>
-                                    </div>
-                                </div>
-                                <div class="message-row">
-                                    <span>${message}</span>    
                                 </div>
                             </div>
-                        `);
+                        </div>
+                    `);
                 }
             </script>
-            <h1 style="color:white">سکه میخوای؟</h1>
-            <div class="social-box">
-                <div class="text-center">
-                    <img src="/dota2book/images/ig-logo.png" style="width:40%;padding-top: 10px" alt="">
-                    <h6 style="color:white;margin-top: 10px">صفحه اینستاگرام واج را دنبال کنید</h6>
-                </div>
-                <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a href="#"
-                            class="profile-link"> ویرایش مشخصات
-                            کاربری </a></span>رفته و آیدی اینستاگرام
-                    خود را وارد کنید و صفحه اینستاگرام مارا دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
-                <div class="check-and-coins-row">
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />
-                        <button type="button" class="btn btn-success"
-                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 100 سکه</button>
-                    </div>
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <a  href="/dota2-book/check-instagram"type="button" class="btn btn-warning"
-                            style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</a>
-                    </div>
-                </div>
-            </div>
-            <div class="social-box" style="margin-top: 10px">
-                <div class="text-center">
-                    <img src="/dota2book/images/twitch-logo.png" style="width:40%;padding-top: 10px" alt="">
-                    <h6 style="color:white;margin-top: 10px">صفحه اینستاگرام واج را دنبال کنید</h6>
-                </div>
-                <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a href="#"
-                            class="profile-link"> ویرایش مشخصات
-                            کاربری </a></span>رفته و آیدی اینستاگرام
-                    خود را وارد کنید و صفحه اینستاگرام مارا دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
-                <div class="check-and-coins-row">
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />
-                        <button type="button" class="btn btn-success"
-                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 100 سکه</button>
-                    </div>
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <button type="button" class="btn btn-warning"
-                            style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</button>
-                    </div>
-                </div>
-            </div>
+            <!-- end form logic -->
+            <!-- other ways of earning money -->
+
         </div>
     </section>
-
     {{{footer}}}
 </body>
 

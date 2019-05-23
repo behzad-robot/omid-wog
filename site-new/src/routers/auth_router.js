@@ -20,6 +20,7 @@ export default class SiteAuthRouter extends SiteRouter
                 error = 'کاربری با این مشخصات یافت نشد.';
             this.renderTemplate(req, res, 'login.html', {
                 error: error,
+                redirect : req.query.redirect,
             });
         });
         this.router.post('/login', (req, res) =>
@@ -58,7 +59,10 @@ export default class SiteAuthRouter extends SiteRouter
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
                     {
-                        res.redirect(`/users/${user.username}`);
+                        if(isEmptyString(req.query.redirect))
+                            res.redirect(`/users/${user.username}`);
+                        else
+                            res.redirect(req.query.redirect);
                     });
                 }
                 else

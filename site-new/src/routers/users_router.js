@@ -94,6 +94,7 @@ export default class SiteUsersRouter extends SiteRouter
                     epicGamesID : req.body.epicGamesID,
                     psnID : req.body.psnID,
                     instagramID : req.body.instagramID,
+                    twitchID : req.body.twitchID,
                 };
                 if (!isEmptyString(req.body.profileImage))
                     data.profileImage = req.body.profileImage;

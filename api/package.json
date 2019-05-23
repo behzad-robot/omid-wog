@@ -41,6 +41,7 @@
     "persian-date": "^1.0.5",
     "request": "^2.87.0",
     "socket.io": "^2.1.0",
+    "twitch-api-v5": "^2.0.4",
     "websocket": "^1.0.28",
     "ws": "^6.0.0"
   },

@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container">
+            {{^currentUser.dota2Book2019.initPayment}}
+            <div class="alert alert-danger">شما به صورت تستی تو ایونت هستی و نمی تونی خیلی کاری کنی.</div>
+            {{/currentUser.dota2Book2019.initPayment}}
+            <h1>LeaderBoard</h1>
+            <p>This is players leaderboard</p>
+            {{#players}}
+            <div class="wog-card" style="padding:10px 20px;margin-bottom:10px;">
+                <b>{{username}}</b>&nbsp;&nbsp;&nbsp;
+                <span>coins:{{dota2Book2019.totalCoins}}</span>
+            </div>
+            {{/players}}
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

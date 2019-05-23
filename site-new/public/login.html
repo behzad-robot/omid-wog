@@ -136,8 +136,9 @@
                 <img class="wogLogo" src="/images/wog-logo.png" alt="wog-logo">
             </div>
             <h1 class="login-text">ورود به حساب کاربری</h1>
-            <form id="loginForm" action="/login" method="POST">
+            <form id="loginForm" action="/login/?redirect={{{redirect}}}" method="POST">
                 <div class="inputs">
+                    <input type="hidden" name="redirect" value="{{{redirect}}}"/>
                     <input type="text" name="username" class="form-control login-input" placeholder="نام کاربری/ایمیل">
                     <input type="password" name="password" class="form-control login-input" placeholder="رمز عبور">
                 </div>

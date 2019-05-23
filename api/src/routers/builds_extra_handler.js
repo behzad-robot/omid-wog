@@ -140,6 +140,25 @@ export class BuildsExtraHandler
                         }
                     }
                 }
+                else if(params.vote == 'cancel')
+                {
+                    for(var i = 0 ; i < build.upVotes.length;i++)
+                    {
+                        if(build.upVotes[i] == params.userId)
+                        {
+                            build.upVotes.splice(i,1);
+                            break;
+                        }
+                    }
+                    for(var i = 0 ; i < build.downVotes.length ; i++)
+                    {
+                        if(build.downVotes[i] == params.userId)
+                        {
+                            build.downVotes.splice(i,1);
+                            break;
+                        }
+                    }
+                }
                 this.Build.findByIdAndUpdate(build._id, { $set: { upVotes: build.upVotes, downVotes: build.downVotes } }, { new: true }, (err, build) =>
                 {
                     if (err)

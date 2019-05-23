@@ -2,27 +2,309 @@
 
 <head>
     {{{head}}}
+    <style>
+        .announcment {
+            margin-top: 80px;
+            background-image: url('/dota2book/images/hero-bg.jpg');
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 1000px;
+        }
+
+        .block_headline {
+            font-size: 54px;
+            line-height: 68px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #F9ECFF;
+            position: relative;
+            background: linear-gradient(to bottom, #fff 0%, #c9a2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .player-card {
+            background: rgb(6, 6, 8);
+            background: linear-gradient(0deg, rgba(6, 6, 8, 1) 0%, rgba(70, 82, 97, 1) 100%);
+            border-radius: 5px;
+            margin-bottom: 10px
+        }
+
+        .rank-part {
+            /* display: inline-block; 
+             position: relative;
+             width: 96px;
+            float: right; */
+            color: white;
+            top: 6;
+        }
+
+        .name-part {
+            /* display: inline-block; */
+            /* height: 64px;
+            position: relative; */
+            color: white;
+            font-size: 18px;
+            padding-top: 10px
+        }
+
+        .coin-part {
+            /* float: left; 
+            height: 64px;
+            text-align: left;*/
+            padding-top: 15px;
+            padding-left: 5px;
+            color: #3e3e3e;
+        }
+
+        .players-section {
+            background-image: url('/dota2book/images/immortals_bg.jpg');
+            background-position: center;
+            margin-bottom: -20px
+        }
+
+        .insta-link {
+            text-decoration: none;
+            color: white
+        }
+
+        .insta-link:hover {
+            text-decoration: none;
+            color: white
+        }
+
+        .coin-image {
+            width: 100%;
+            margin-top: -80px
+        }
+
+        .coin-text {
+            color: white;
+            display: inline-block;
+            font-size: 15px;
+            padding-top: 15px
+        }
+
+        .coins {
+            display: inline-block;
+            width: 15%
+        }
+
+        .number-rank {
+            padding-top: 10px;
+            color: white;
+            padding-right: 5px
+        }
+
+        .first-three-images {
+            width: 100%;
+        }
+
+        @media (max-width: 576px) {
+            .coin-image {
+                width: 100%;
+                margin-top: 1px;
+            }
+
+            .rank-part {
+                top: 6;
+            }
+
+            .name-part {
+                font-size: 10px;
+                padding-top: 10px
+            }
+
+            .coin-part {
+                padding-top: 15px;
+                padding-left: 5px;
+            }
+
+            .coin-text {
+                display: inline-block;
+                font-size: 10px;
+                padding-top: 15px
+            }
+
+            .coins {
+                display: inline-block;
+                width: 15%
+            }
+
+            .number-rank {
+                padding-top: 10px;
+                font-size: 10px;
+                padding-right: 5px
+            }
+
+            .first-three-images {
+                width: 100%
+            }
+        }
+    </style>
 </head>
 
 <body>
     {{{navbar}}}
-    <navfiller></navfiller>
-    <section>
+    <section class="announcment">
         <div class="container">
-            {{^currentUser.dota2Book2019.initPayment}}
-            <div class="alert alert-danger">شما به صورت تستی تو ایونت هستی و نمی تونی خیلی کاری کنی.</div>
-            {{/currentUser.dota2Book2019.initPayment}}
-            <h1>LeaderBoard</h1>
-            <p>This is players leaderboard</p>
-            {{#players}}
-            <div class="wog-card" style="padding:10px 20px;margin-bottom:10px;">
-                <b>{{username}}</b>&nbsp;&nbsp;&nbsp;
-                <span>coins:{{dota2Book2019.coins}}</span>
+            <div class="text-center" style="padding-top: 20px">
+                <img src="/dota2book/images/logo.png" style="width:50%" alt="">
+                <img src="/dota2book/images/hero.png" class="coin-image" alt="">
             </div>
-            {{/players}}
+            <div class="block_headline text-center">به رقابت بپیوندید</div>
+            <div class="row" style="margin-top:20px">
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/blue.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/grey.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="text-center"
+                        style="background-image: url('/dota2book/images/purple.png');padding: 5px 10px;margin-top: 10px">
+                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
+                        buy some shit
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="players-section">
+        <div class="container">
+            <h1 style="padding-top: 20px;margin-bottom: 20px;color:white">خفن های لیدر بوردمون</h1>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row player-card">
+                        <div class="col-md-1 col-1" style="padding: 5">
+                            <img src="/images/gold.png" class="first-three-images">
+                        </div>
+                        <div class="col-md-5 col-5" style="padding: 5">
+                            <p class="name-part">mmd gholi bache alvandie asl</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:10</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:1000</p>
+                        </div>
+                    </div>
+
+                    <div class="row player-card">
+                        <div class="col-md-1 col-1" style="padding: 5">
+                            <img src="/images/silver.png" class="first-three-images">
+                        </div>
+                        <div class="col-md-5 col-5" style="padding: 5">
+                            <p class="name-part">mmd gholi bache alvandie asl</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:10</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:1000</p>
+                        </div>
+                    </div>
+
+                    <div class="row player-card">
+                        <div class="col-md-1 col-1" style="padding: 5">
+                            <img src="/images/bronze.png" class="first-three-images">
+                        </div>
+                        <div class="col-md-5 col-5" style="padding: 5">
+                            <p class="name-part">mmd gholi bache alvandie asl</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:10</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:1000</p>
+                        </div>
+                    </div>
+
+                    <div class="row player-card">
+                        <div class="col-md-1 col-1" style="padding: 5">
+                            <p class="number-rank">#004</p>
+                        </div>
+                        <div class="col-md-5 col-5" style="padding: 5">
+                            <p class="name-part">mmd gholi bache alvandie asl</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:10</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:1000</p>
+                        </div>
+                    </div>
+                    <div class="row player-card">
+                        <div class="col-md-1 col-1" style="padding: 5">
+                            <p class="number-rank">#005</p>
+                        </div>
+                        <div class="col-md-5 col-5" style="padding: 5">
+                            <p class="name-part">mmd gholi bache alvandie asl</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:1000</p>
+                        </div>
+                        <div class="col-md-3 col-3" style="padding: 0">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:1000</p>
+                        </div>
+                    </div>
+                    <!--<div class="player-card">
+                        <div class="rank-part text-center text-english">
+                            <img src="/images/gold.png" class="first-three-images"> </div>
+                        <div class="name-part">mmd gholi</div>
+                        <div class="coin-part">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های موجود:10</p>
+                        </div>
+                        <div class="coin-part">
+                            <img src="/dota2book/images/coins.png" class="coins" alt="">
+                            <p class="coin-text text-english">سکه‌های کل:10</p>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="col-md-4">
+                    <div class="tele-widget">
+                        <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/telegram-channel.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://t.me/WOG_support" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/wog-support.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://www.instagram.com/wogcompany" target="_blank"
+                            style="display:block;margin:10px 0;border-radius: 20px">
+                            <img src="/dota2book/images/instagram.png" width="100%;border-radius:10%">
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     {{{footer}}}
+
 </body>
 
 </html>
