@@ -73,7 +73,7 @@
             border: 2px solid #d8064f;
             border-radius: 5px;
             margin-bottom: 10px;
-            background: linear-gradient(160deg, #0d2740 0%, #d8064f 100%);
+            background: linear-gradient(160deg, #0d2740 0%, #1d203d 100%);
         }
 
         .bet-box.disabled {
@@ -83,9 +83,13 @@
         .bet-box.disabled .overlay {
             width: 100%;
             height: 100%;
-            background-color: rgba(120, 120, 120, 0.5);
+            background-color: rgba(20, 20, 20, 0.7);
             z-index: 2;
             position: absolute;
+            color: white;
+            text-align: center;
+            padding-top: 10px;
+            font-size: 20px;
         }
 
         .bet-box .content {
@@ -128,21 +132,150 @@
             opacity: 1;
         }
 
+        .bet-box .team-row:hover .team-overlay span {
+            display: inline;
+        }
+
         .bet-box .team-row .team-selected-mark {
+            display: none;
             position: absolute;
             top: 2px;
             left: 2px;
             color: white;
             text-align: center;
         }
-        .bet-box .team-row.not-selected .team-overlay{
+
+        .bet-box .coins-row {
+            display: block;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .bet-box .coins-row .coins-input-wrapper {
+            position: relative;
+            display: block;
+            padding: 5px 10px;
+        }
+
+        .bet-box .coins-row .coins-input-wrapper .coins-icon {
+            width: 32px;
+            height: 32px;
+            top: 10px;
+            right: 15px;
+            position: absolute;
+        }
+
+        .bet-box .coins-row .coins-input-wrapper .coins-input {
+            padding-right: 40px;
+            display: inline-block;
+            width: 120px;
+        }
+
+        .bet-box .coins-row .coins-input-wrapper .warning-icon {
+            display: inline-block;
+            vertical-align: top;
+            width: 32px;
+            float: left;
+        }
+
+        .bet-box .coins-row .coins-input-wrapper .warning-text {
+            display: inline;
+            color: white;
+            font-size: 14px;
+            float: left;
+            padding-top: 8px;
+            padding-right: 5px;
+        }
+
+        .bet-box .form-control[readonly] {
+            background-color: #ccc;
+            border: 3px solid #aaa;
+        }
+
+        .bet-box .message-row {
+            color: #a00;
+            padding: 10px 20px;
+        }
+
+        /* selected behaviour */
+        .bet-box .team-row.selected {
+            border: 1px solid greenyellow;
+        }
+
+        .bet-box .team-row.selected .team-overlay {
+            display: none !important;
+            opacity: 0 !important;
+        }
+
+        .bet-box .team-row.selected .team-selected-mark {
+            display: block;
+        }
+
+        /* not-selected behaviour */
+        .bet-box .team-row.not-selected .team-overlay {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        .bet-box .team-row.not-selected .team-overlay span {
+            display: none !important;
+        }
+
+        .bet-box .team-row.not-selected .team-selected-mark {
+            display: none !important;
+        }
+
+        /* picked behaviour */
+        .bet-box .team-row.picked {
+            border: 1px solid greenyellow;
+        }
+
+        .bet-box .team-row.picked .team-selected-mark {
+            display: block;
+        }
+
+        /* not-picked behaviour */
+        .bet-box .team-row.not-picked .team-overlay {
             opacity: 1;
         }
-        .bet-box .team-row.not-selected .team-overlay span{
-            display:none;
+
+        .bet-box .team-row.not-picked .team-overlay span {
+            display: none;
         }
-        .bet-box .team-row.not-selected .team-selected-mark{
-            display:none;
+
+        .bet-box .team-row.not-picked:hover .team-overlay span {
+            display: inline;
+        }
+
+        .social-box {
+            background-color: #202d4f;
+            border: 2px solid #38486d;
+            border-radius: 10px;
+            padding-bottom: 10px;
+            width: 30%;
+            height: 310px;
+            display: inline-block;
+        }
+
+        .profile-link {
+            color: orange;
+            font-size: 12px
+        }
+
+        .profile-link:hover {
+            color: rgb(201, 147, 47);
+            text-decoration: none
+        }
+
+        .check-and-coins-row {
+            border-top: 2px solid #38486d;
+            padding: 10px 10px;
+        }
+
+        @media (max-width: 576px) {
+            .social-box {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -180,12 +313,17 @@
                 پیش بینی شما درست
                 باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد سکه ای از دست نمی دهید دقت داشته باشید که پس
                 از ثبت امکان تغییر انتخاب ها وجود ندارد.</p>
+            <!-- warning sign -->
+            <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
             <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
                 <h3 style="color:white">گروه A:</h3>
                 <div class="row" id="group-a"></div>
                 <h3 style="color:white">گروه B:</h3>
                 <div class="row" id="group-b"></div>
+                <div name="submit-wrapper" style="color:white;">
+                    <input type="submit" class="btn btn-md btn-warning" value="ثبت پیش بینی ها" />
+                </div>
             </form>
             <script>
                 //create data , functions:
@@ -209,6 +347,20 @@
                 console.log(currentUser);
                 $(() =>
                 {
+                    //check if all bets are already done:
+                    // let allBetsDone = true;
+                    // for (var i = 0; i < ALL_BETS.length; i++)
+                    // {
+                    //     let bet = ALL_BETS[i];
+                    //     let userBet = getBet(bet.token);
+                    //     if (bet.active && userBet == undefined)
+                    //     {
+                    //         allBetsDone = false;
+                    //         break;
+                    //     }
+                    // }
+                    // if (allBetsDone)
+                    //     $("#bets-form [name=submit-wrapper]").html('با تشکر از مشارکت شما به زودی پیش بینی های بیشتری اضافه می شود.');
                     //render all group stage bets:
                     for (var i = 0; i < GROUP_A.length; i++)
                     {
@@ -224,6 +376,128 @@
                             render_bet('#group-b', GROUP_B[i], GROUP_B[j]);
                         }
                     }
+                    $(".bet-box .team-row").click(function ()
+                    {
+                        let betBox = $(this).closest('.bet-box');
+                        let betToken = $(betBox).attr('betToken');
+                        let bet = getBet(betToken);
+                        let team = getTeam($(this).attr('team'));
+                        let userBet = getUserBet(betToken);
+                        if (userBet != undefined)
+                        {
+                            console.log('have userBet for this bet!');
+                            return;
+                        }
+                        //update views:
+                        let hiddenInput = $(betBox).find('input[type=hidden]');
+                        $(hiddenInput).val(team.token);
+                        let teamRows = $(betBox).find('.team-row');
+                        $(teamRows).removeClass('picked');
+                        $(teamRows).removeClass('not-picked');
+                        for (var i = 0; i < teamRows.length; i++)
+                        {
+                            let t = $(teamRows[i]).attr('team');
+                            if (t == team.token)
+                                $(teamRows[i]).addClass('picked');
+                            else
+                                $(teamRows[i]).addClass('not-picked');
+                        }
+                        //check coins input:
+                        let messageRow = $(betBox).find('.message-row');
+                        let coinsVal = parseInt($(betBox).find('input[type=number]').val());
+                        if (isNaN(coinsVal))
+                        {
+                            $(messageRow).html('مقدار سکه ها را نیز وارد کنید.');
+                        }
+                        else if (coinsVal <= 0)
+                        {
+                            $(messageRow).html('مقدار سکه ها صحیح نیست.');
+                        }
+                        else if (coinsVal > bet.maxCoins)
+                        {
+                            $(messageRow).html('مقدار سکه ها بیشتر از حداکثر مجاز است.');
+                        }
+                        else
+                            $(messageRow).html('');
+                    });
+                    $(".bet-box input[type=number]").change(function ()
+                    {
+                        let betBox = $(this).closest('.bet-box');
+                        let betToken = $(betBox).attr('betToken');
+                        let bet = getBet(betToken);
+                        let team = getTeam($(this).attr('team'));
+                        let userBet = getUserBet(betToken);
+                        let coinsVal = $(this).val();
+                        let hiddenInputVal = $(betBox).find('input[type=hidden]').val();
+                        let messageRow = $(betBox).find('.message-row');
+                        if (isEmptyString(hiddenInputVal))
+                        {
+                            $(messageRow).html('تیم برنده را نیز مشحخص کنید.');
+                        }
+                        else if (isNaN(coinsVal))
+                        {
+                            $(messageRow).html('مقدار سکه ها را نیز وارد کنید.');
+                        }
+                        else if (coinsVal <= 0)
+                        {
+                            $(messageRow).html('مقدار سکه ها صحیح نیست.');
+                        }
+                        else if (coinsVal > bet.maxCoins)
+                        {
+                            $(messageRow).html('مقدار سکه ها بیشتر از حداکثر مجاز است.');
+                        }
+                        else
+                            $(messageRow).html('');
+                    });
+                    $("#bets-form").submit(() =>
+                    {
+                        let betBoxes = $(".bet-box");
+                        let coinsSum = 0;
+                        for (var i = 0; i < betBoxes.length; i++)
+                        {
+                            let box = $(betBoxes[i]);
+                            let betToken = $(betBoxes[i]).attr('betToken');
+                            let bet = getBet(betToken);
+                            let userBet = getUserBet(betToken);
+                            if (!bet.active)
+                                continue;
+                            if (userBet != undefined)
+                                continue;
+                            let betPick = $(box).find('input[type=hidden]').val();
+                            let betCoins = parseInt($(box).find('input[type=number]').val());
+                            let teamA = getTeam($(box).attr('teamA'));
+                            let teamB = getTeam($(box).attr('teamB'));
+                            if (isEmptyString(betPick))
+                            {
+                                if (!isNaN(betCoins))
+                                {
+                                    alert('برنده مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' را مشخص کنید.');
+                                    return false;
+                                }
+                            }
+                            else
+                            {
+                                if (isNaN(betCoins) || betCoins <= 0)
+                                {
+                                    alert('سکه ها را برای مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' وارد کنید.');
+                                    return false;
+                                }
+                                else if (betCoins > bet.maxCoins)
+                                {
+                                    alert('سکه ها برای مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' بیش از حد مجاز می باشد.');
+                                    return false;
+                                }
+                                else
+                                    coinsSum += betCoins;
+                            }
+                        }
+                        if(coinsSum > currentUser.dota2Book2019.coins)
+                        {
+                            alert('بیش از موجودی خود سکه وارد کرده اید.');
+                            return false;
+                        }
+                        return true;
+                    });
                 });
                 //data functions:
                 function getTeam(token)
@@ -257,20 +531,24 @@
                     if (bet == undefined)
                         return;
                     let userBet = getUserBet(betToken);
-                    let disabledOverlay = '', hiddenInput = '';
+                    let disabledOverlay = '', hiddenInput = '', aRowSelected = '', bRowSelected = '';
                     if (!bet.active)
                     {
-                        disabledOverlay = `<div class="overlay"></div>`;
+                        disabledOverlay = `<div class="overlay">مهلت پیش بینی این مورد گذشته است.</div>`;
                     }
                     else
                     {
                         if (userBet == undefined)
                         {
                             hiddenInput = `<input type="hidden" name="${bet.token}" value=""/>`;
+                            aRowSelected = '';
+                            bRowSelected = '';
                         }
                         else
                         {
-
+                            hiddenInput = '';
+                            aRowSelected = userBet.value == teamA.token ? 'selected' : 'not-selected';
+                            bRowSelected = userBet.value == teamB.token ? 'selected' : 'not-selected';
                         }
                     }
                     $(parent).append(`
@@ -279,21 +557,32 @@
                                 ${disabledOverlay}
                                 ${hiddenInput}
                                 <div class="content">
-                                    <div class="team-row ${userBet != undefined && userBet.value == teamA.token ? 'selected' : 'not-selected'}" style="background-image:url('/dota2book/images/team-secret-cover.jpg')" team="${teamA.token}">
-                                        <div class="team-overlay"><span>انتخاب ${teamA.name}</span></div>
+                                    <div class="team-row ${aRowSelected}" style="background-image:url('${teamA.logo}')" team="${teamA.token}">
+                                        <div class="team-overlay"><span>${(aRowSelected != 'selected') ? ('انتخاب ' + teamA.name) : (teamA.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
                                             <span class="badge badge-warning">
-                                                <span class="fas fa-check"></span>&nbsp;انتخاب شما
+                                                <span class="fas fa-${aRowSelected != 'selected' ? 'check' : 'lock'}"></span>&nbsp;انتخاب شما
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="team-row ${userBet != undefined && userBet.value == teamB.token ? 'selected' : 'not-selected'}" style="background-image:url('/dota2book/images/team-secret-cover.jpg')" team="${teamB.token}">
-                                        <div class="team-overlay"><span>انتخاب ${teamB.name}</span></div>
+                                    <div class="team-row ${bRowSelected}" style="background-image:url('${teamB.logo}')" team="${teamB.token}">
+                                        <div class="team-overlay"><span>${(bRowSelected != 'selected') ? ('انتخاب ' + teamB.name) : (teamB.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
                                             <span class="badge badge-warning">
-                                                <span class="fas fa-check"></span>&nbsp;انتخاب شما
+                                                <span class="fas fa-${bRowSelected != 'selected' ? 'check' : 'lock'}"></span>&nbsp;انتخاب شما
                                             </span>
                                         </div>
+                                    </div>
+                                    <div class="coins-row">
+                                        <div class="coins-input-wrapper">
+                                            <img class="coins-icon" src="/dota2book/images/coins.png"/>
+                                            <input type="number" name="${bet.token}-betCoins" value="${userBet != undefined ? userBet.coins : ''}" ${userBet != undefined ? 'readonly' : ''} placeholder="سکه ها" class="form-control coins-input "/> 
+                                            <span class="warning-text">حداکثر ${bet.maxCoins} سکه</span>
+                                            <img class="warning-icon" src="/dota2book/images/error.png"/>
+                                        </div>
+                                    </div>
+                                    <div class="message-row">
+
                                     </div>
                                 </div>
                             </div>
@@ -303,8 +592,91 @@
             </script>
             <!-- end form logic -->
             <!-- other ways of earning money -->
-
-        </div>
+            <h1 style="color:white">سکه میخوای؟</h1>
+            <div class="social-box" style="margin-top: 10px">
+                <div class="text-center">
+                    <img src="/dota2book/images/twitch-logo.png" style="width:40%;padding-top: 10px" alt="">
+                    <h6 style="color:white;margin-top: 10px">صفحه تویتچ واج را دنبال کنید</h6>
+                </div>
+                <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a
+                            href="/users/{{currentUser.username}}/edit" class="profile-link"> ویرایش مشخصات
+                            کاربری </a></span>رفته و آیدی تویتچ
+                    خود را وارد کنید و صفحه تویتچ <a href="https://twitch.tv/Gosu" class="text-english orange-link"
+                        target="_blank">Gosu</a> را دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
+                <div class="check-and-coins-row">
+                    <div style="position: relative;display:inline-block;width: 40%">
+                        <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />
+                        <button type="button" class="btn btn-success"
+                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 100 سکه</button>
+                    </div>
+                    <div style="position: relative;display:inline-block;width: 40%">
+                        <div onclick="checkTwitchFollower('Gosu',this)" id="btn_follow_twitch" type="button"
+                            class="btn btn-warning" style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</div>
+                        <div id="label_follow_twitch" type="button" class="btn btn-success"
+                            style="width: 100%;font-size: 14px;margin-right: 50px;display:none;">انجام شده
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                let twitchLoading = false;
+                $(() =>
+                {
+                    let hasFollowedTwitch = false;
+                    for (var i = 0; i < currentUser.dota2Book2019.actions.length; i++)
+                    {
+                        let a = currentUser.dota2Book2019.actions[i];
+                        if (a.token == 'follow_twitch')
+                        {
+                            $("#btn_follow_twitch").hide();
+                            $("#label_follow_twitch").show();
+                            hasFollowedTwitch = true;
+                            break;
+                        }
+                    }
+                    if(!hasFollowedTwitch)
+                    {
+                        $("#warning-alert").html('شما می توانید با دنبال کردن تویتچ سکه بیشتری کسب کنید برای پیش بینی ها.');
+                        $("#warning-alert").show();
+                    }
+                });
+                function checkTwitchFollower(channelName, btn)
+                {
+                    if (twitchLoading)
+                        return;
+                    $(btn).html('در حال بارگذاری...');
+                    twitchLoading = true;
+                    fetch('/dota2-book/check-twitch/?channelName=' + channelName, {
+                        method: 'GET',
+                    }).then((response) => response.json()).then((result) =>
+                    {
+                        if (result.code == 400)
+                        {
+                            twitchLoading = false;
+                            $(btn).html('بررسی مجدد');
+                            alert('به بخش ویرایش اطلاعات کاربری رفته و آیدی تویتچ خود را وارد کنید.');
+                            return;
+                        }
+                        if (result.code == 500)
+                        {
+                            twitchLoading = false;
+                            $(btn).html('بررسی مجدد');
+                            alert('خطای سرور:' + result.error.toString());
+                            return;
+                        }
+                        alert('با موفقیت انجام شد.');
+                        $(btn).html('انجام شده');
+                        location.reload();
+                    }).catch((err) =>
+                    {
+                        twitchLoading = false;
+                        $(btn).html('بررسی مجدد');
+                        alert('خطای سرور:' + err.toString());
+                    });
+                }
+            </script>
+            <!-- end of other ways of earning money-->
+        </div> <!-- end of container -->
     </section>
     {{{footer}}}
 </body>

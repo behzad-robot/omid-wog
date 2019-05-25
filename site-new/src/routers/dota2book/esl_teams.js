@@ -34,7 +34,7 @@ export const ESL_TEAMS = [
     {
         token: 'gambit_esports',
         name: 'Gambit Esports',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/gambit.jpg',
         players: [
             {
                 id: 'Daxak',
@@ -66,7 +66,7 @@ export const ESL_TEAMS = [
     {
         token: 'ninjas_in_pyjamas',
         name: 'Ninjas in Pyjamas',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/ninjas-in-pajamas.jpg',
         players: [
             {
                 id: 'Ace',
@@ -98,7 +98,7 @@ export const ESL_TEAMS = [
     {
         token: 'psg_lgd',
         name: 'PSG.LGD',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/lgd.jpg',
         players: [
             {
                 id: 'Ame',
@@ -130,7 +130,7 @@ export const ESL_TEAMS = [
     {
         token: 'og',
         name: 'OG',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/og.jpg',
         players: [
             {
                 id: 'ana',
@@ -162,7 +162,7 @@ export const ESL_TEAMS = [
     {
         token: 'team_liquid',
         name: 'Team Liquid',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/team-liquid.jpg',
         players: [
             {
                 id: 'MATUMBAMAN',
@@ -194,7 +194,7 @@ export const ESL_TEAMS = [
     {
         token: 'evil_geniuses',
         name: 'Evil Geniuses',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/evil_geniuses.jpg',
         players: [
             {
                 id: 'Arteezy',
@@ -226,7 +226,7 @@ export const ESL_TEAMS = [
     {
         token: 'team_secret',
         name: 'Team Secret',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/team-secret.jpg',
         players: [
             {
                 id: 'Nisha',
@@ -258,7 +258,7 @@ export const ESL_TEAMS = [
     {
         token: 'alliance',
         name: 'Alliance',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/alliance.jpg',
         players: [
             {
                 id: ' Madara',
@@ -290,7 +290,7 @@ export const ESL_TEAMS = [
     {
         token: 'forward_gaming',
         name: 'Forward Gaming',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/forward-gaming.jpg',
         players: [
             {
                 id: 'YawaR',
@@ -322,7 +322,7 @@ export const ESL_TEAMS = [
     {
         token : 'keen_gaming',
         name : 'Keen Gaming',
-        logo : '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo : '/storage/esl-one-birmingham-2019/teams/keen-gaming.jpg',
         players : [
             {
                 id : 'old chicken',
@@ -354,7 +354,7 @@ export const ESL_TEAMS = [
     {
         token : 'tnc_predator',
         name : 'TNC Predator',
-        logo : '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo : '/storage/esl-one-birmingham-2019/teams/tnc.jpg',
         players : [
             {
                 id : 'Gabbi',
