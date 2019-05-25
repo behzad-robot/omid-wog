@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon -I src/posts-hanie-editor.js --exec babel-node --presets es2015,stage-2",
+    "test": "nodemon -I src/sms-fortnite.js --exec babel-node --presets es2015,stage-2",
     "admin": "nodemon -I src/http-admin.js --exec babel-node --presets es2015,stage-2",
     "build": "babel src -d dist --presets es2015,stage-2",
     "serve": "node dist/http-admin.js",
@@ -29,6 +29,7 @@
     "jalaali-js": "^1.1.0",
     "jimp": "^0.6.0",
     "jsonwebtoken": "^8.3.0",
+    "kavenegar": "^1.1.4",
     "moment": "^2.22.2",
     "mongodb": "^3.0.7",
     "mongoose": "^5.3.12",
