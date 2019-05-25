@@ -2,12 +2,14 @@ import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants"
 import { isEmptyString } from "../../utils/utils";
 import { ESL_TEAMS, GROUP_A, GROUP_B } from "./esl_teams";
+const fs =require('fs');
+const path = require('path');
 const SLUG = '/dota2-book';
 //actions :
 const FOLLOW_INSTAGRAM_WOG = 'follow_instagram';
 const FOLLOW_TWITCH = 'follow_twitch';
-
-const VALID_ACTIONS = [
+const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/esl-one-birmingham-2019/valid-actions.json');
+/*const VALID_ACTIONS = [
     { active: true, token: 'matchup_vici_gaming', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     { active: true, token: 'matchup_vici_gaming_vs_fox_gaming', reward: -1, isBet: true, maxCoins: 300, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     //group a:
@@ -26,24 +28,15 @@ const VALID_ACTIONS = [
     //  { "active": true, "token": "matchup_team_secret_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "gambit_esports"] }, { "active": true, "token": "matchup_evil_geniuses_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "psg_lgd"] }, { "active": true, "token": "matchup_evil_geniuses_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "keen_gaming"] }, { "active": true, "token": "matchup_evil_geniuses_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "alliance"] }, { "active": true, "token": "matchup_evil_geniuses_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "gambit_esports"] }, { "active": true, "token": "matchup_psg_lgd_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "keen_gaming"] }, { "active": true, "token": "matchup_psg_lgd_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "alliance"] }, { "active": true, "token": "matchup_psg_lgd_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "gambit_esports"] }, { "active": true, "token": "matchup_keen_gaming_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "alliance"] }, { "active": true, "token": "matchup_keen_gaming_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "gambit_esports"] }, { "active": true, "token": "matchup_alliance_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["alliance", "gambit_esports"] },
     { active: true, token: FOLLOW_INSTAGRAM_WOG , reward: 10 },
     { active: true, token: FOLLOW_TWITCH, reward: 100 },
-];
-function getAction(token)
+];*/
+function getAction(VALID_ACTIONS,token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
         if (VALID_ACTIONS[i].token == token)
             return VALID_ACTIONS[i];
     return undefined;
 }
-function getRewardForAction(token)
-{
-    for (var i = 0; i < VALID_ACTIONS.length; i++)
-    {
-        if (token == VALID_ACTIONS[i].token)
-            return VALID_ACTIONS[i].reward;
-    }
-    return 0;
-}
-function getAllBets()
+function getAllBets(VALID_ACTIONS)
 {
     let results = [];
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -127,26 +120,7 @@ export class Dota2BookRouter extends SiteRouter
                 res.redirect(SLUG + '/eua/?msg=acceptFirst');
                 return;
             }
-            currentUser.dota2Book2019._bets = {};
-            for (var i = 0; i < currentUser.dota2Book2019.bets.length; i++)
-            {
-                let t = currentUser.dota2Book2019.bets[i].token;
-                currentUser.dota2Book2019._bets[t] = currentUser.dota2Book2019.bets[i];
-                let b = currentUser.dota2Book2019._bets[t];
-                let bet = getAction(t);
-                for (var j = 0; j < bet.options.length; j++)
-                {
-                    let o = bet.options[j];
-                    // console.log('bet value is =>'+b.value);
-                    // console.log('options is =>'+o);
-                    if (b.value == o)
-                    {
-                        b[o] = true;
-                        break;
-                    }
-
-                }
-            }
+            let VALID_ACTIONS = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
             siteModules.User.apiCall('dota2-book-leaderboard', { _id: currentUser._id }).then((resp) =>
             {
                 let rank = resp.rank;
@@ -156,7 +130,7 @@ export class Dota2BookRouter extends SiteRouter
                     ESL_TEAMS: JSON.stringify(ESL_TEAMS),
                     GROUP_A: JSON.stringify(GROUP_A),
                     GROUP_B: JSON.stringify(GROUP_B),
-                    ALL_BETS: JSON.stringify(getAllBets()),
+                    ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
                     DOTA2_BOOK_2019: JSON.stringify(currentUser.dota2Book2019),
                 });
             }).catch((err) =>
