@@ -1,6 +1,10 @@
 import { isEmptyString, moment_now } from "../utils/utils";
 import { SocketRouter } from "./socket_router";
 import APIRouter from "./api_router";
+const fs = require('fs');
+const path = require('path');
+const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/esl-one-birmingham-2019/valid-actions.json');
+
 const Instagram = require('instagram-web-api');
 const TWITCH_API = require('twitch-api-v5');
 TWITCH_API.clientID = '3j5qf1r09286hluj7rv4abqkbqosk3';
@@ -12,7 +16,7 @@ const VALID_ACTIONS = [
     { active: true, token: 'matchup_vici_gaming', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     { active: true, token: 'matchup_vici_gaming_vs_fox_gaming', reward: -1, isBet: true, maxCoins: 300, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     //group a:
-    { "active": true, "token": "matchup_vici_gaming_vs_team_liquid", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "team_liquid"] },
+    { "active": true, "token": "matchup_vici_gaming_vs_team_liquid", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "team_liquid"] , "answer" : "vici_gaming" },
     { "active": true, "token": "matchup_vici_gaming_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "ninjas_in_pyjamas"] },
     { "active": true, "token": "matchup_vici_gaming_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "og"] },
     { "active": true, "token": "matchup_vici_gaming_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "forward_gaming"] },
@@ -35,7 +39,7 @@ function getAction(token)
         if (VALID_ACTIONS[i].token == token)
             return VALID_ACTIONS[i];
     }
-    
+
     return undefined;
 }
 function getRewardForAction(token)
@@ -141,6 +145,21 @@ class Dota2BookSocketRouter extends SocketRouter
                 this.handleError(socket, request, err.toString());
             });
         }
+        else if (request.method == 'dota2-book-update-all-bets')
+        {
+            if (request.params['pass-token'] != 'dota2-ride')
+            {
+                this.handleError(socket, request, 'access denied provide password');
+                return;
+            }
+            this.handler.updateAllBets().then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err.toString());
+            });
+        }
         else if (request.method == 'dota2-book-check-instagram')
         {
             this.handler.checkInstagram(request.params._id).then((user) =>
@@ -189,6 +208,7 @@ export class DotaBookHandler
         this.checkInstagram = this.checkInstagram.bind(this);
         this.checkTwitch = this.checkTwitch.bind(this);
         this.getLeaderboard = this.getLeaderboard.bind(this);
+        this.updateAllBets = this.updateAllBets.bind(this);
     }
     checkAndFixUser(user)
     {
@@ -469,17 +489,90 @@ export class DotaBookHandler
     {
         return new Promise((resolve, reject) =>
         {
-            this.User.find({}, (err, users) =>
+            this.User.find({ 'dota2Book2019.enterEvent': true}).limit(20000).exec((err, users) =>
             {
+                console.log('Users of event=>'+users.length);
                 if (err)
                 {
                     reject(err.toString());
                     return;
                 }
-                let editUser = function (index, finish)
-                {
-
+                let usersAffected = 0;
+                const validActionsFromFile = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
+                console.log('actions from file='+validActionsFromFile.length);
+                let getBetFromFile = (token)=>{
+                    for(var i = 0 ; i < validActionsFromFile.length;i++){
+                        if(validActionsFromFile[i].token == token)
+                            return validActionsFromFile[i];
+                    }
+                    return undefined;
                 };
+                let editUser = (index, finish)=>
+                {
+                    if (index >= users.length)
+                    {
+                        finish();
+                        return;
+                    }
+                    let u = users[index];
+                    for (var i = 0; i < u.dota2Book2019.bets.length; i++)
+                    {
+                        let userBet = u.dota2Book2019.bets[i];
+                        if (userBet.status == 'pending')
+                        {
+                            let bet = getBetFromFile(userBet.token);
+                            if(bet == undefined)
+                            {
+                                console.log(userBet.token+' bet not found!');
+                                continue;
+                            }
+                            if (!isEmptyString(bet.answer))
+                            {
+                                if (bet.answer == userBet.value)
+                                {
+                                    u.dota2Book2019.coins += userBet.coins * 2;
+                                    userBet.status = "win";
+                                    //if win also add action:
+                                    let hasAction = false;
+                                    for(var i = 0 ; i < u.dota2Book2019.actions.length;i++){
+                                        if(u.dota2Book2019.actions[i].token == bet.token){
+                                            hasAction = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!hasAction)
+                                    {
+                                        u.dota2Book2019.actions.push({
+                                            token : bet.token,
+                                            reward : userBet.coins*2,
+                                            createdAt : moment_now(),
+                                        });
+                                    }
+                                }
+                                else
+                                {
+                                    u.dota2Book2019.coins += userBet.coins;
+                                    userBet.status = "loose";
+                                }
+                            }
+                        }
+                    }
+                    this.User.findByIdAndUpdate(u._id, { $set: { dota2Book2019: u.dota2Book2019 } }, { new: true }, (err, result) =>
+                    {
+                        if (err)
+                        {
+                            console.log('FATAL ERROR UPDATING USER dota2Book2019=>' + u._id);
+                            editUser(index + 1, finish);
+                            return;
+                        }
+                        usersAffected++;
+                        editUser(index + 1, finish);
+                    });
+                };
+                editUser(0, () =>
+                {
+                    resolve({ usersAffected: usersAffected });
+                });
             });
         });
     }
@@ -565,7 +658,7 @@ export class DotaBookHandler
             });
         });
     }
-    checkTwitch(params = { _id: '', userToken: '', channelName: '' , twitchFollowerUsername : ''})
+    checkTwitch(params = { _id: '', userToken: '', channelName: '', twitchFollowerUsername: '' })
     {
         return new Promise((resolve, reject) =>
         {
@@ -574,17 +667,17 @@ export class DotaBookHandler
                 reject('missing parameter _id');
                 return;
             }
-            if(isEmptyString(params.userToken))
+            if (isEmptyString(params.userToken))
             {
                 reject('missing parameter userToken');
                 return;
             }
-            if(isEmptyString(params.channelName))
+            if (isEmptyString(params.channelName))
             {
                 reject('missing parameter channelName');
                 return;
             }
-            if(isEmptyString(params.twitchFollowerUsername))
+            if (isEmptyString(params.twitchFollowerUsername))
             {
                 reject('missing parameter twitchFollowerUsername');
                 return;
@@ -614,7 +707,7 @@ export class DotaBookHandler
                         let channel = response.follows[i].channel;
                         if (channel.display_name == params.channelName)
                         {
-                            this.addAction({_id : params._id , userToken : params.userToken , token : FOLLOW_TWITCH})
+                            this.addAction({ _id: params._id, userToken: params.userToken, token: FOLLOW_TWITCH })
                                 .then(resolve).catch(reject);
                             return;
                         }

@@ -171,7 +171,7 @@ export class Dota2BookRouter extends SiteRouter
                 let betToken = tokens[index];
                 let betCoins = parseInt(req.body[betToken + '-betCoins']);
                 let betValue = req.body[betToken];
-                let bet = getAction(VALID_ACTIONS,betToken);
+                let bet = getAction(VALID_ACTIONS, betToken);
                 if (isEmptyString(betValue) || isNaN(betCoins) || !bet.active)
                 {
                     handleBet(tokens, index + 1, finish);
@@ -308,6 +308,37 @@ export class Dota2BookRouter extends SiteRouter
             }
             fs.writeFileSync(VALID_ACTIONS_FILE_PATH, req.body.valid_actions);
             res.redirect('/dota2-book/admin/?save=success');
+        });
+        this.router.get('/admin/update-all-bets', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            if (!currentUser.accessLevel.isAdmin)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            //check is has super access:
+            let ok = false;
+            for (var i = 0; i < currentUser.accessLevel.permissions.length; i++)
+            {
+                if (currentUser.accessLevel.permissions == 'super')
+                {
+                    ok = true;
+                    break;
+                }
+            }
+            if (!ok)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            siteModules.User.apiCall('dota2-book-update-all-bets', {'pass-token':'dota2-ride'}).then((result) =>
+            {
+                res.send(result);
+            }).catch((err) =>
+            {
+                res.status(500).send("ERROR:"+err.toString());
+            });
         });
     }
 }

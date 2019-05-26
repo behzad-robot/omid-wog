@@ -546,10 +546,25 @@
                     if (bet == undefined)
                         return;
                     let userBet = getUserBet(betToken);
-                    let disabledOverlay = '', hiddenInput = '', aRowSelected = '', bRowSelected = '';
+                    let disabledOverlay = '', hiddenInput = '', aRowSelected = '', bRowSelected = '', message = '';
                     if (!bet.active)
                     {
-                        disabledOverlay = `<div class="overlay">مهلت پیش بینی این مورد گذشته است.</div>`;
+                        if (!isEmptyString(bet.answer) && bet.answer != "undefined")
+                        {
+                            if (userBet == undefined)
+                            {
+                                message = 'مهلت پیش بینی این بازی تمام شده و شما شرکت نکردید.';
+                            }
+                            else
+                            {
+                                console.log(bet.token + '=>' + bet.answer);
+                                if (userBet.value == bet.answer)
+                                    message = '<span style="color:greenyellow">' + 'مهلت پیش بینی این بازی تمام شده و شما نتیجه بازی را به درستی پیش بینی کردید.' + '</span>';
+                                else
+                                    message = 'مهلت پیش بینی این بازی تمام شده و شما نتیجه بازی را به درستی پیش بینی نکردید.';
+                            }
+                        }
+                        disabledOverlay = `<div class="overlay">${message == '' ? 'مهلت پیش بینی این مورد گذشته است.' : message}</div>`;
                     }
                     else
                     {
@@ -598,7 +613,7 @@
                                         </div>
                                     </div>
                                     <div class="message-row">
-
+                                        ${message}
                                     </div>
                                 </div>
                             </div>
