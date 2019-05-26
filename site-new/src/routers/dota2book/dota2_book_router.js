@@ -2,7 +2,7 @@ import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants"
 import { isEmptyString } from "../../utils/utils";
 import { ESL_TEAMS, GROUP_A, GROUP_B } from "./esl_teams";
-const fs =require('fs');
+const fs = require('fs');
 const path = require('path');
 const SLUG = '/dota2-book';
 //actions :
@@ -29,7 +29,7 @@ const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/esl-one-birmingham-2019
     { active: true, token: FOLLOW_INSTAGRAM_WOG , reward: 10 },
     { active: true, token: FOLLOW_TWITCH, reward: 100 },
 ];*/
-function getAction(VALID_ACTIONS,token)
+function getAction(VALID_ACTIONS, token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
         if (VALID_ACTIONS[i].token == token)
@@ -160,6 +160,7 @@ export class Dota2BookRouter extends SiteRouter
                 res.redirect(SLUG + '/eua/?msg=payFirst');
                 return;
             }
+            const VALID_ACTIONS = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
             let handleBet = (tokens, index, finish) =>
             {
                 if (index >= tokens.length)
@@ -170,7 +171,7 @@ export class Dota2BookRouter extends SiteRouter
                 let betToken = tokens[index];
                 let betCoins = parseInt(req.body[betToken + '-betCoins']);
                 let betValue = req.body[betToken];
-                let bet = getAction(betToken);
+                let bet = getAction(VALID_ACTIONS,betToken);
                 if (isEmptyString(betValue) || isNaN(betCoins) || !bet.active)
                 {
                     handleBet(tokens, index + 1, finish);
@@ -203,7 +204,7 @@ export class Dota2BookRouter extends SiteRouter
                     res.status(500).send(err);
                 });
             };
-            let bets = getAllBets();
+            let bets = getAllBets(VALID_ACTIONS);
             let betTokens = [];
             for (var i = 0; i < bets.length; i++)
                 betTokens.push(bets[i].token)
@@ -253,6 +254,60 @@ export class Dota2BookRouter extends SiteRouter
                 {
                     res.send({ code: 500, error: err.toString() });
                 });
+        });
+        this.router.get('/admin', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            if (!currentUser.accessLevel.isAdmin)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            //check is has super access:
+            let ok = false;
+            for (var i = 0; i < currentUser.accessLevel.permissions.length; i++)
+            {
+                if (currentUser.accessLevel.permissions == 'super')
+                {
+                    ok = true;
+                    break;
+                }
+            }
+            if (!ok)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            const VALID_ACTIONS_STR = (fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
+            this.renderTemplate(req, res, 'dota2book/dota2-book-admin.html', {
+                VALID_ACTIONS_STR: VALID_ACTIONS_STR,
+            });
+        });
+        this.router.post('/admin/save-file', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            if (!currentUser.accessLevel.isAdmin)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            //check is has super access:
+            let ok = false;
+            for (var i = 0; i < currentUser.accessLevel.permissions.length; i++)
+            {
+                if (currentUser.accessLevel.permissions == 'super')
+                {
+                    ok = true;
+                    break;
+                }
+            }
+            if (!ok)
+            {
+                res.status(400).send('access denied');
+                return;
+            }
+            fs.writeFileSync(VALID_ACTIONS_FILE_PATH, req.body.valid_actions);
+            res.redirect('/dota2-book/admin/?save=success');
         });
     }
 }

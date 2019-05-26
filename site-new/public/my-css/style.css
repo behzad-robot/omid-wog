@@ -13,6 +13,10 @@ h1,h2,h3,h4,h5,h6{
     font-weight: initial;
 }
 section{display:block;width:100%;}
+.form-control.m{
+    display: inline-block;
+    width:300px;
+}
 
 .text-white{
     color:white !important;

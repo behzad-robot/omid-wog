@@ -2,7 +2,7 @@ export const ESL_TEAMS = [
     {
         token: 'vici_gaming',
         name: 'Vici Gaming',
-        logo: '/storage/esl-one-birmingham-2019/teams/VICI_Gaming.png',
+        logo: '/storage/esl-one-birmingham-2019/teams/vici_gaming.jpg',
         players: [
             {
                 id: 'Paparazi',
@@ -194,7 +194,7 @@ export const ESL_TEAMS = [
     {
         token: 'evil_geniuses',
         name: 'Evil Geniuses',
-        logo: '/storage/esl-one-birmingham-2019/teams/evil_geniuses.jpg',
+        logo: '/storage/esl-one-birmingham-2019/teams/evil_genious.jpg',
         players: [
             {
                 id: 'Arteezy',

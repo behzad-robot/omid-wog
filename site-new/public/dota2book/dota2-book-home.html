@@ -376,6 +376,21 @@
                             render_bet('#group-b', GROUP_B[i], GROUP_B[j]);
                         }
                     }
+                    let allInActive = true;
+                    for (var i = 0; i < ALL_BETS.length; i++)
+                    {
+                        if (ALL_BETS[i].active)
+                        {
+                            allInActive = false;
+                            break;
+                        }
+                    }
+                    if (allInActive)
+                    {
+                        $("#group-a").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                        $("#group-b").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                        $("#bets-form input[type=submit]").hide();
+                    }
                     $(".bet-box .team-row").click(function ()
                     {
                         let betBox = $(this).closest('.bet-box');
@@ -491,7 +506,7 @@
                                     coinsSum += betCoins;
                             }
                         }
-                        if(coinsSum > currentUser.dota2Book2019.coins)
+                        if (coinsSum > currentUser.dota2Book2019.coins)
                         {
                             alert('بیش از موجودی خود سکه وارد کرده اید.');
                             return false;
@@ -551,6 +566,7 @@
                             bRowSelected = userBet.value == teamB.token ? 'selected' : 'not-selected';
                         }
                     }
+                    console.log(bet);
                     $(parent).append(`
                         <div class="col-md-4 col-12">
                             <div class="bet-box ${bet.active ? '' : 'disabled'}" betToken="${bet.token}" teamA="${teamA.token}" teamB="${teamB.token}">
@@ -634,7 +650,7 @@
                             break;
                         }
                     }
-                    if(!hasFollowedTwitch)
+                    if (!hasFollowedTwitch)
                     {
                         $("#warning-alert").html('شما می توانید با دنبال کردن تویتچ سکه بیشتری کسب کنید برای پیش بینی ها.');
                         $("#warning-alert").show();
