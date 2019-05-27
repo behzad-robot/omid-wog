@@ -9,10 +9,10 @@ const Instagram = require('instagram-web-api');
 const TWITCH_API = require('twitch-api-v5');
 TWITCH_API.clientID = '3j5qf1r09286hluj7rv4abqkbqosk3';
 
-const INIT_COINS = 40;
+const INIT_COINS = 300;
 const FOLLOW_INSTAGRAM_WOG = 'follow_instagram';
 const FOLLOW_TWITCH = 'follow_twitch';
-const VALID_ACTIONS = [
+/*const VALID_ACTIONS = [
     { active: true, token: 'matchup_vici_gaming', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     { active: true, token: 'matchup_vici_gaming_vs_fox_gaming', reward: -1, isBet: true, maxCoins: 300, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
     //group a:
@@ -30,10 +30,11 @@ const VALID_ACTIONS = [
     { "active": true, "token": "matchup_team_secret_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "alliance"] }, { "active": true, "token": "matchup_team_secret_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "gambit_esports"] }, { "active": true, "token": "matchup_evil_geniuses_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "psg_lgd"] }, { "active": true, "token": "matchup_evil_geniuses_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "keen_gaming"] }, { "active": true, "token": "matchup_evil_geniuses_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "alliance"] }, { "active": true, "token": "matchup_evil_geniuses_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "gambit_esports"] }, { "active": true, "token": "matchup_psg_lgd_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "keen_gaming"] }, { "active": true, "token": "matchup_psg_lgd_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "alliance"] }, { "active": true, "token": "matchup_psg_lgd_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "gambit_esports"] }, { "active": true, "token": "matchup_keen_gaming_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "alliance"] }, { "active": true, "token": "matchup_keen_gaming_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "gambit_esports"] }, { "active": true, "token": "matchup_alliance_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["alliance", "gambit_esports"] },
     { active: true, token: FOLLOW_INSTAGRAM_WOG, reward: 10 },
     { active: true, token: FOLLOW_TWITCH, reward: 100 },
-];
+];*/
 
-function getAction(token)
+function getAction(VALID_ACTIONS,token)
 {
+
     for (var i = 0; i < VALID_ACTIONS.length; i++)
     {
         if (VALID_ACTIONS[i].token == token)
@@ -42,14 +43,8 @@ function getAction(token)
 
     return undefined;
 }
-function getRewardForAction(token)
-{
-    for (var i = 0; i < VALID_ACTIONS.length; i++)
-    {
-        if (token == VALID_ACTIONS[i].token)
-            return VALID_ACTIONS[i].reward;
-    }
-    return 0;
+function loadValidActionsFromFile(){
+    return JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
 }
 class Dota2BookHttpRouter extends APIRouter
 {
@@ -348,7 +343,8 @@ export class DotaBookHandler
                 return;
             }
             //check if token is valid
-            let action = getAction(params.token);
+            const VALID_ACTIONS = loadValidActionsFromFile();
+            let action = getAction(VALID_ACTIONS,params.token);
             if (action == undefined)
             {
                 reject('invalid action token');
@@ -385,7 +381,7 @@ export class DotaBookHandler
                         return;
                     }
                 }
-                let reward = getRewardForAction(params.token);
+                let reward = action.reward;
                 player.dota2Book2019.actions.push({ token: params.token, reward: reward, createdAt: moment_now() });
                 if (reward > 0)
                     player.dota2Book2019.coins += reward;
@@ -433,7 +429,8 @@ export class DotaBookHandler
                 return;
             }
             //check if token is valid
-            let bet = getAction(params.token);
+            const VALID_ACTIONS = loadValidActionsFromFile();
+            let bet = getAction(VALID_ACTIONS,params.token);
             if (bet == undefined)
             {
                 reject('invalid bet token');
@@ -660,6 +657,7 @@ export class DotaBookHandler
     }
     checkTwitch(params = { _id: '', userToken: '', channelName: '', twitchFollowerUsername: '' })
     {
+        // console.log(params);
         return new Promise((resolve, reject) =>
         {
             if (isEmptyString(params._id))
@@ -695,6 +693,7 @@ export class DotaBookHandler
                     return;
                 }
                 let user = response.users[0];
+                // console.log(user);
                 TWITCH_API.users.follows({ userID: user._id, limit: 100, offset: 0, direction: "desc", sortby: "created_at" }, (err, response) =>
                 {
                     if (err)
@@ -705,6 +704,7 @@ export class DotaBookHandler
                     for (var i = 0; i < response.follows.length; i++)
                     {
                         let channel = response.follows[i].channel;
+                        // console.log(channel.display_name);
                         if (channel.display_name == params.channelName)
                         {
                             this.addAction({ _id: params._id, userToken: params.userToken, token: FOLLOW_TWITCH })
@@ -712,6 +712,7 @@ export class DotaBookHandler
                             return;
                         }
                     }
+                    reject('not following the required channel');
                 });
             });
         });

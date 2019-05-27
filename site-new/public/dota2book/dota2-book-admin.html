@@ -13,11 +13,15 @@
     <navfiller></navfiller>
     <section>
         <div class="container">
-            <a href="/dota2-book/admin/update-all-bets" class="btn btn-md btn-danger" target="_blank">Update All User Bets!</a>
+            <a href="/dota2-book/admin/update-all-bets" class="btn btn-md btn-danger" target="_blank">Update All User
+                Bets!</a>
             <form action="/dota2-book/admin/save-file" method="POST">
                 <b>Valid Actions:</b>
                 <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
                     name="valid_actions"></textarea>
+                <b>Twitch Code:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="twitch_code">{{{TWITCH_CODE_STR}}}</textarea>
                 <input type="submit" value="Save" class="btn btn-md btn-success" />
             </form>
             <div class="btn btn-md btn-secondary" onclick="add_action()">+Add Action</div>
@@ -30,6 +34,13 @@
         $(() =>
         {
             validActions = JSON.parse(`{{{VALID_ACTIONS_STR}}}`);
+            for (var i = 0; i < validActions.length; i++)
+            {
+                if (validActions[i].title == undefined)
+                    validActions[i].title = '';
+                if(validActions[i].category == undefined)
+                    validActions[i].category = '';
+            }
             recreate_actions();
         });
         function recreate_actions()
@@ -45,6 +56,8 @@
                         <input type="checkbox" name="active" ${action.active ? 'checked' : ''}/><b>active</b><br>
                         <input type="checkbox" name="isBet" ${action.isBet ? 'checked' : ''}/><b>isBet</b><br>
                         ${textInput('token', action.token)}
+                        ${textInput('title', action.title)}
+                        ${textInput('category', action.category)}
                         ${numberInput('reward', action.reward)}
                         ${numberInput('maxCoins', action.maxCoins)}
                         ${textInput('answer', action.answer)}
@@ -66,6 +79,8 @@
             validActions.push({
                 active: false,
                 token: '',
+                title : '',
+                category : '',
                 reward: 0,
                 isBet: false,
                 maxCoins: 0,
@@ -85,6 +100,8 @@
                 active: $(`.action-card[index=${i}] [name=active]`).is(':checked'),
                 isBet: $(`.action-card[index=${i}] [name=isBet]`).is(':checked'),
                 token: $(`.action-card[index=${i}] [name=token]`).val(),
+                title: $(`.action-card[index=${i}] [name=title]`).val(),
+                category: $(`.action-card[index=${i}] [name=category]`).val(),
                 reward: parseInt($(`.action-card[index=${i}] [name=reward]`).val()),
                 maxCoins: parseInt($(`.action-card[index=${i}] [name=maxCoins]`).val()),
                 answer: ($(`.action-card[index=${i}] [name=answer]`).val()),

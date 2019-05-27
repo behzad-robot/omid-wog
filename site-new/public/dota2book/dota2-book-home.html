@@ -96,7 +96,12 @@
             position: relative;
             z-index: 1;
         }
-
+        .bet-box .match-title-row{
+            padding:10px 20px;
+            color:white;
+            border-bottom:1px solid #d8064f;
+            font-size:18px;
+        }
         .bet-box .team-row {
             display: block;
             width: 100%;
@@ -313,6 +318,9 @@
                 پیش بینی شما درست
                 باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد سکه ای از دست نمی دهید دقت داشته باشید که پس
                 از ثبت امکان تغییر انتخاب ها وجود ندارد.</p>
+            <div class="text-center">
+                {{{TWITCH_CODE_STR}}}
+            </div>
             <!-- warning sign -->
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
@@ -362,35 +370,46 @@
                     // if (allBetsDone)
                     //     $("#bets-form [name=submit-wrapper]").html('با تشکر از مشارکت شما به زودی پیش بینی های بیشتری اضافه می شود.');
                     //render all group stage bets:
-                    for (var i = 0; i < GROUP_A.length; i++)
+                    // for (var i = 0; i < GROUP_A.length; i++)
+                    // {
+                    //     for (var j = i + 1; j < GROUP_A.length; j++)
+                    //     {
+                    //         render_bet('#group-a', GROUP_A[i], GROUP_A[j]);
+                    //     }
+                    // }
+                    for(var i = 0 ; i < ALL_BETS.length;i++)
                     {
-                        for (var j = i + 1; j < GROUP_A.length; j++)
+                        let b = ALL_BETS[i];
+                        if(b.category == 'group-a' || b.category == 'group-b')
                         {
-                            render_bet('#group-a', GROUP_A[i], GROUP_A[j]);
+                            let t = b.token.replace('_1','').replace('_2','').replace('matchup_','');
+                            let parts = t.split('_vs_');
+                            /*console.log(b);
+                            console.log(t);
+                            console.log(parts);*/
+                            let teamA = getTeam(parts[0]);
+                            let teamB = getTeam(parts[1]);
+                            render_bet('#'+b.category,b,teamA,teamB);
                         }
                     }
-                    for (var i = 0; i < GROUP_B.length; i++)
-                    {
-                        for (var j = i + 1; j < GROUP_B.length; j++)
-                        {
-                            render_bet('#group-b', GROUP_B[i], GROUP_B[j]);
-                        }
-                    }
-                    let allInActive = true;
+                    let noGroupA = true,noGroupB = true;
                     for (var i = 0; i < ALL_BETS.length; i++)
                     {
                         if (ALL_BETS[i].active)
                         {
-                            allInActive = false;
-                            break;
+                            if(ALL_BETS[i].category == 'group-a')
+                                noGroupA = false;
+                            if(ALL_BETS[i].category == 'group-b')
+                                noGroupB = false;                            
                         }
                     }
-                    if (allInActive)
-                    {
-                        $("#group-a").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    if(noGroupA)
+                            $("#group-a").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    if(noGroupB)
                         $("#group-b").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    if(noGroupA && noGroupB)
                         $("#bets-form input[type=submit]").hide();
-                    }
+                    
                     $(".bet-box .team-row").click(function ()
                     {
                         let betBox = $(this).closest('.bet-box');
@@ -539,10 +558,11 @@
                     return undefined;
                 }
                 //render functions:
-                function render_bet(parent, teamA, teamB)
+                function render_bet(parent,bet,teamA, teamB)
                 {
-                    let betToken = 'matchup_' + teamA.token + '_vs_' + teamB.token;
-                    let bet = getBet(betToken);
+                    // let betToken = 'matchup_' + teamA.token + '_vs_' + teamB.token;
+                    let betToken = bet.token;
+                    // let bet = getBet(betToken);
                     if (bet == undefined)
                         return;
                     let userBet = getUserBet(betToken);
@@ -588,6 +608,7 @@
                                 ${disabledOverlay}
                                 ${hiddenInput}
                                 <div class="content">
+                                    <div class="match-title-row text-english">${bet.title}</div>
                                     <div class="team-row ${aRowSelected}" style="background-image:url('${teamA.logo}')" team="${teamA.token}">
                                         <div class="team-overlay"><span>${(aRowSelected != 'selected') ? ('انتخاب ' + teamA.name) : (teamA.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
@@ -627,21 +648,21 @@
             <div class="social-box" style="margin-top: 10px">
                 <div class="text-center">
                     <img src="/dota2book/images/twitch-logo.png" style="width:40%;padding-top: 10px" alt="">
-                    <h6 style="color:white;margin-top: 10px">صفحه تویتچ واج را دنبال کنید</h6>
+                    <h6 style="color:white;margin-top: 10px">صفحه توییچ واج را دنبال کنید</h6>
                 </div>
                 <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a
                             href="/users/{{currentUser.username}}/edit" class="profile-link"> ویرایش مشخصات
-                            کاربری </a></span>رفته و آیدی تویتچ
-                    خود را وارد کنید و صفحه تویتچ <a href="https://twitch.tv/Gosu" class="text-english orange-link"
-                        target="_blank">Gosu</a> را دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
+                            کاربری </a></span>رفته و آیدی توییچ
+                    خود را وارد کنید و صفحه توییچ <a href="https://twitch.tv/Amirphanthom" class="text-english orange-link"
+                        target="_blank">Amirphanthom</a> را دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
                 <div class="check-and-coins-row">
                     <div style="position: relative;display:inline-block;width: 40%">
                         <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />
                         <button type="button" class="btn btn-success"
-                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 100 سکه</button>
+                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 300 سکه</button>
                     </div>
                     <div style="position: relative;display:inline-block;width: 40%">
-                        <div onclick="checkTwitchFollower('Gosu',this)" id="btn_follow_twitch" type="button"
+                        <div onclick="checkTwitchFollower('AmirPhanThom',this)" id="btn_follow_twitch" type="button"
                             class="btn btn-warning" style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</div>
                         <div id="label_follow_twitch" type="button" class="btn btn-success"
                             style="width: 100%;font-size: 14px;margin-right: 50px;display:none;">انجام شده
@@ -667,7 +688,7 @@
                     }
                     if (!hasFollowedTwitch)
                     {
-                        $("#warning-alert").html('شما می توانید با دنبال کردن تویتچ سکه بیشتری کسب کنید برای پیش بینی ها.');
+                        $("#warning-alert").html('شما می توانید با دنبال کردن توییچ سکه بیشتری کسب کنید برای پیش بینی ها.');
                         $("#warning-alert").show();
                     }
                 });
@@ -685,7 +706,7 @@
                         {
                             twitchLoading = false;
                             $(btn).html('بررسی مجدد');
-                            alert('به بخش ویرایش اطلاعات کاربری رفته و آیدی تویتچ خود را وارد کنید.');
+                            alert('به بخش ویرایش اطلاعات کاربری رفته و آیدی توییچ خود را وارد کنید.');
                             return;
                         }
                         if (result.code == 500)
