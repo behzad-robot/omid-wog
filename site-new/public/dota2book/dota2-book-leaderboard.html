@@ -28,12 +28,12 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .player-card {
+        /* .player-card {
             background: rgb(6, 6, 8);
             background: linear-gradient(0deg, rgba(6, 6, 8, 1) 0%, rgba(70, 82, 97, 1) 100%);
             border-radius: 5px;
             margin-bottom: 10px
-        }
+        } */
 
         .rank-part {
             /* display: inline-block; 
@@ -144,9 +144,7 @@
             }
 
             .number-rank {
-                padding-top: 10px;
                 font-size: 10px;
-                padding-right: 5px
             }
 
             .first-three-images {
@@ -209,6 +207,27 @@
             }
         }
     </style>
+    <style>
+        table {
+              width: 100%;
+            }
+            
+            td, th {
+              text-align: center;
+              border-bottom: 1px solid #0e1527;
+              padding: 8px;
+            }
+            
+            tr:nth-child(even) {
+              background-color: #38486d;
+            }
+            tr:nth-child(odd) {
+              background-color: #202d4f;
+            }
+            td {
+                text-align: center;
+            }
+            </style>
 </head>
 
 <body>
@@ -219,29 +238,26 @@
             <source src="/assets/esl.mp4" type="video/mp4">
         </video>
         <div class="container" style="padding-top:50px;">
-            <div class="text-center" style="width: 100%">
+            <div class="text-center" style="width: 100%;margin-bottom:20px;">
                 <img src="/dota2book/images/ESL-One-new.png" alt="">
                 <h1 class="text-white text-english">BIRMINGHAM 2019</h1>
                 <div class="block_headline text-center">به رقابت بپیوندید</div>
             </div>
             <div class="row" style="margin-top:20px;margin-bottom: 20px;display:none;">
                 <div class="col-md-4">
-                    <div class="text-center"
-                        style="background-image: url('/dota2book/images/blue.png');padding: 5px 10px;margin-top: 10px">
+                    <div class="text-center" style="background-image: url('/dota2book/images/blue.png');padding: 5px 10px;margin-top: 10px">
                         <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
                         buy some shit
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center"
-                        style="background-image: url('/dota2book/images/grey.png');padding: 5px 10px;margin-top: 10px">
+                    <div class="text-center" style="background-image: url('/dota2book/images/grey.png');padding: 5px 10px;margin-top: 10px">
                         <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
                         buy some shit
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center"
-                        style="background-image: url('/dota2book/images/purple.png');padding: 5px 10px;margin-top: 10px">
+                    <div class="text-center" style="background-image: url('/dota2book/images/purple.png');padding: 5px 10px;margin-top: 10px">
                         <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
                         buy some shit
                     </div>
@@ -253,8 +269,29 @@
         <div class="container">
             <h1 class="leaderBoard-header">لیدر بورد شرکت کنندگان:</h1>
             <div class="row">
-                <div class="col-md-8">
-                    {{#players}}
+                <div class="col-md-8 ">
+                    <div class="player-card">
+                        <table class="text-white" style="margin-bottom: 20px">
+                            <tr>
+                                <th style="text-align:center">رتبه</th>
+                                <th style="text-align:center">نام</th>
+                                <th style="text-align:center">کل سکه‌ها</th>
+                                <th style="text-align:center">سکه‌های موجود</th>
+                            </tr>
+                            {{#players}}
+                            <tr>
+                                <td width="10%">
+                                    <p class="number-rank text-english">#004</p>
+                                    <img style="display:none;" src="/dota2book/images/gold.png" class="first-three-images">
+                                </td>
+                                <td width="45%">{{username}}</td>
+                                <td width="15%">{{dota2Book2019.coins}}</td>
+                                <td width="20%">&nbsp;{{dota2Book2019.coins}}</td>
+                            </tr>
+                            {{/players}}
+                        </table>
+                    </div>
+                    <!-- {{#players}}
                     <div class="row player-card">
                         <div class="col-md-1 col-1" style="padding: 5">
                             <p class="number-rank">#004</p>
@@ -272,37 +309,40 @@
                             <p class="coin-text">سکه‌های کل:&nbsp;{{dota2Book2019.totalCoins}}</p>
                         </div>
                     </div>
-                    {{/players}}
+                    {{/players}} -->
                 </div>
                 <script>
-                    $(()=>{
-                        let playerCards = $(".player-card");
-                        $(playerCards[0]).find('.number-rank').hide();
-                        $(playerCards[0]).find('.first-three-images').show();
-                        $(playerCards[0]).find('.first-three-images').attr('src','/dota2book/images/gold.png');
-                        //================
+                    $(() =>
+                    {
+                        let playerCards = $("table tr");
                         $(playerCards[1]).find('.number-rank').hide();
                         $(playerCards[1]).find('.first-three-images').show();
-                        $(playerCards[1]).find('.first-three-images').attr('src','/dota2book/images/silver.png');
+                        $(playerCards[1]).find('.first-three-images').attr('src', '/dota2book/images/gold.png');
                         //================
                         $(playerCards[2]).find('.number-rank').hide();
                         $(playerCards[2]).find('.first-three-images').show();
-                        $(playerCards[2]).find('.first-three-images').attr('src','/dota2book/images/bronze.png');
+                        $(playerCards[2]).find('.first-three-images').attr('src', '/dota2book/images/silver.png');
                         //================
-                        for(var i = 3 ; i < playerCards.length;i++){
+                        $(playerCards[3]).find('.number-rank').hide();
+                        $(playerCards[3]).find('.first-three-images').show();
+                        $(playerCards[3]).find('.first-three-images').attr('src', '/dota2book/images/bronze.png');
+                        //================
+                        for (var i = 4; i < playerCards.length; i++)
+                        {
                             let rankStr = '';
-                            if(i < 10)
-                                rankStr = '#00'+(i+1).toString();
-                            else if(i < 100 )
-                                rankStr = '#0'+(i+1).toString();
+                            if (i < 10)
+                                rankStr = '#00' + (i + 1).toString();
+                            else if (i < 100)
+                                rankStr = '#0' + (i + 1).toString();
                             else
-                                rankStr = '#'+(i+1).toString();
+                                rankStr = '#' + (i + 1).toString();
                             $(playerCards[i]).find('.number-rank').html(rankStr);
                         }
                     });
                 </script>
                 <div class="col-md-4">
-                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%" /></a>
                     <div class="tele-widget">
                         <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
                             <img src="/dota2book/images/telegram-channel.png" width="100%">
@@ -314,8 +354,7 @@
                         </a>
                     </div>
                     <div class="tele-widget">
-                        <a href="https://www.instagram.com/wogcompany" target="_blank"
-                            style="display:block;margin:10px 0;border-radius: 20px">
+                        <a href="https://www.instagram.com/wogcompany" target="_blank" style="display:block;margin:10px 0;border-radius: 20px">
                             <img src="/dota2book/images/instagram.png" width="100%;border-radius:10%">
                         </a>
                     </div>

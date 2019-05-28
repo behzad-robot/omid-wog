@@ -23,7 +23,7 @@
     <style>
         .home-slider-slide {
             width: 100%;
-            height: 420px;
+            height: 550px;
             display: block;
             background-size: cover;
             background-position: center;
@@ -49,7 +49,7 @@
         }
 
         #carouselHomeHeader {
-            height: 420px;
+            height: 550px;
         }
 
         .khori-card {
@@ -252,6 +252,7 @@
             transform: translate3d(+100%, 0, 0);
         }
     </style>
+
 </head>
 
 <body>
@@ -275,9 +276,27 @@
         <div id="carouselHomeHeader" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
+                    <div class="home-slider-slide" style="position: relative;">
+                        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"
+                            style="display:block;width:100%;">
+                            <source src="/assets/esl.mp4" type="video/mp4">
+                        </video>
+                        <div
+                            style="position: absolute;width:100%;height:100%;top:0;left:0;background-color: rgba(0, 0, 0, 0.4);">
+                        </div>
+                        <div style="position: absolute;width:100%;top:120px;text-align: center">
+                            <img src="/dota2book/images/ESL-One-logo.png" width="128px"/>
+                            <h1 style="color:white;font-size:46px;text-shadow:3px 4px 4px rgba(0,0,0,0.6);">پیش بینی
+                                مسابقات <br><span class="text-english">ESL One BIRMINGHAM 2019</span></h1>
+                            <a href="/dota2-book" class="btn btn-md btn-warning"
+                                style="width:160px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">مشاهده</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item ">
                     <div class="home-slider-slide"
                         style="background-image:url('/images/tournoments/fornite-cover-for-home-slider.jpg')">
-                        <div class="container text-center text-white" style="padding-top:85px;">
+                        <div class="container text-center text-white" style="padding-top:185px;">
                             <h1 style="font-size:3rem;" class="text-shadow">مسابقات فورتنایت</h1>
                             <p class="text-shadow">شرکت در مسابقات فورنتایت واج</p>
                             <a href="tournaments/fortnite-2019" class="btn btn-md btn-warning"
@@ -287,11 +306,12 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="carousel-item ">
                     <div class="home-slider-slide" style="background-image:url('/images/home-app-slide.jpg')">
-                        <div class="container text-center text-white" style="padding-top:85px;">
-                            <h1 style="font-size:3rem;" class="text-shadow">برنامه آندروید واج</h1>
-                            <p class="text-shadow">دانلود برنامه آندروید واج (نسخه آزمایشی)</p>
+                        <div class="container text-center text-white" style="padding-top:185px;">
+                            <h1 style="font-size:3rem;" class="text-shadow">برنامه اندروید واج</h1>
+                            <p class="text-shadow">دانلود برنامه اندروید واج (نسخه آزمایشی)</p>
                             <a href="{{#SITE_URL}}/storage/mobile-app/wog-app-1.apk{{/SITE_URL}}"
                                 class="btn btn-md btn-warning"
                                 style="font-size:0.7rem;font-weight: bold;min-width: 150px" target="_blank">دانلود
@@ -302,7 +322,7 @@
 
                 <div class="carousel-item">
                     <div class="home-slider-slide" style="background-image:url('/images/frejlord.jpg')">
-                        <div class="container text-center text-white" style="padding-top:85px;">
+                        <div class="container text-center text-white" style="padding-top:185px;">
                             <h1 style="font-size:3rem;" class="text-shadow">ویکی واج</h1>
                             <p class="text-shadow">داستان بازی، مشخصات کامل شخصیت‌ها،آموزش و تکنیک‌ها<span
                                     style="color:orange">(به زودی)</span></p>
@@ -316,7 +336,7 @@
                         style="background-position:50% 40%;;background-image:url('/images/apex_legends_bloodhound_wallpaper.jpg')">
                         <div class="overlay"></div>
                         <div class="content">
-                            <div class="container text-center text-white" style="padding-top:85px;">
+                            <div class="container text-center text-white" style="padding-top:185px;">
                                 <h1 style="font-size:3rem;" class="text-shadow">اخبار و مقالات</h1>
                                 <p class="text-shadow">تازه‌های اخبار بازی‌ها</p>
                                 <a href="/posts/categories/news" class="btn btn-md btn-warning"

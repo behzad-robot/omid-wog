@@ -100,7 +100,7 @@
             padding:10px 20px;
             color:white;
             border-bottom:1px solid #d8064f;
-            font-size:18px;
+            font-size:15px;
         }
         .bet-box .team-row {
             display: block;
@@ -602,13 +602,15 @@
                         }
                     }
                     console.log(bet);
+                    let title = bet.title;
+                    title = title.replace('Match 1','<b style="color:orange">Match 1</span>').replace('Match 2','<b style="color:orange">Match 2</span>');
                     $(parent).append(`
                         <div class="col-md-4 col-12">
                             <div class="bet-box ${bet.active ? '' : 'disabled'}" betToken="${bet.token}" teamA="${teamA.token}" teamB="${teamB.token}">
                                 ${disabledOverlay}
                                 ${hiddenInput}
                                 <div class="content">
-                                    <div class="match-title-row text-english">${bet.title}</div>
+                                    <div class="match-title-row text-english">${title}</div>
                                     <div class="team-row ${aRowSelected}" style="background-image:url('${teamA.logo}')" team="${teamA.token}">
                                         <div class="team-overlay"><span>${(aRowSelected != 'selected') ? ('انتخاب ' + teamA.name) : (teamA.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
