@@ -55,7 +55,7 @@ export class Dota2BookRouter extends SiteRouter
         this.router.use((req, res, next) =>
         {
             //check if user can visit this page:
-            if (!this.isLoggedIn(req))
+            if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1)
             {
                 res.redirect('/login?redirect=/dota2-book');
                 return;

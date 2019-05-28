@@ -100,6 +100,7 @@ export default class SiteAuthRouter extends SiteRouter
             let error = req.query.msg;
             this.renderTemplate(req, res, 'signup.html', {
                 msg: error ? { error: error } : undefined,
+                redirect : req.query.redirect,
             });
         });
         this.router.get('/signup-success', (req, res) =>
@@ -187,7 +188,10 @@ export default class SiteAuthRouter extends SiteRouter
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
                     {
-                        res.redirect('/signup-success');
+                        if(!isEmptyString(req.query.redirect))
+                            res.redirect(req.query.redirect);
+                        else
+                            res.redirect('/signup-success');
                     });
                 }
                 else

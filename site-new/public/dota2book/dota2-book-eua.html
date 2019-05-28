@@ -89,10 +89,15 @@
                 <p>چه کسی طرفدار پر و پا قرص تر دوتا 2 است ؟ همین حالا پیش بینی کنید . . .</p>
             </div>
             <div class="text-center" style="padding:20px 0">
-                {{^currentUser.dota2Book2019.enterEvent}}
-                <a href="/dota2-book/enter-event" class="btn btn-md btn-warning"> ورود رایگان بدون هزینه شرایط را
-                    پذیرفته ام</a>
+                {{#currentUser}}
+                {{^currentUser.dota2Book2019.enterEvent}} 
+                    <a href="/dota2-book/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a>
                 {{/currentUser.dota2Book2019.enterEvent}}
+                {{/currentUser}}
+                {{^currentUser}}
+                    <a href="/signup/?redirect=/dota2-book/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a><br>
+                    <a href="/login/?redirect=/dota2-book/eua" class="orange-link" style="display:block;margin:20px 0;">حساب کاربری دارید؟ ورود به سایت و ایونت.</a>
+                {{/currentUser}}
                 <!-- {{^currentUser.dota2Book2019.initPayment}}
                 <a href="/dota2-book/payment" class="btn btn-md btn-success">پرداخت هزینه و شرکت عین آدم</a>
                 {{/currentUser.dota2Book2019.initPayment}} -->
