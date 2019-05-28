@@ -11,7 +11,8 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             res.redirect('/');
         });
-        this.router.get('/163110.txt',(req,res)=>{
+        this.router.get('/163110.txt', (req, res) =>
+        {
             res.send('');
         });
         this.router.get('/', (req, res) =>
@@ -48,15 +49,23 @@ export default class SiteGeneralRouter extends SiteRouter
                             var aparatVideos = [];
                             for (var i = 0; i < aparatVideosFull.length && i < 5; i++)
                                 aparatVideos.push(aparatVideosFull[i]);
-                            this.renderTemplate(req, res, 'wog-home.html', {
-                                latestPosts: latestPosts,
-                                aparatVideos: aparatVideos,
-                                gridPosts0: gridPosts[0],
-                                gridPosts1: gridPosts[1],
-                                gridPosts2: gridPosts[2],
-                                gridPosts3: gridPosts[3],
-                                gridPosts4: gridPosts[4],
+                            siteModules.User.find({ limit: 20000 }).then((users) =>
+                            {
+                                this.renderTemplate(req, res, 'wog-home.html', {
+                                    latestPosts: latestPosts,
+                                    aparatVideos: aparatVideos,
+                                    gridPosts0: gridPosts[0],
+                                    gridPosts1: gridPosts[1],
+                                    gridPosts2: gridPosts[2],
+                                    gridPosts3: gridPosts[3],
+                                    gridPosts4: gridPosts[4],
+                                    usersCount : users.length+1,
+                                });
+                            }).catch((err) =>
+                            {
+                                this.show500(req, res, err.toString());
                             });
+
                         });
                     });
                 });

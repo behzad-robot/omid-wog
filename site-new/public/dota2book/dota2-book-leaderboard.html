@@ -354,11 +354,11 @@
                         {
                             let rankStr = '';
                             if (i < 10)
-                                rankStr = '#00' + (i + 1).toString();
+                                rankStr = '#00' + (i).toString();
                             else if (i < 100)
-                                rankStr = '#0' + (i + 1).toString();
+                                rankStr = '#0' + (i).toString();
                             else
-                                rankStr = '#' + (i + 1).toString();
+                                rankStr = '#' + (i).toString();
                             $(playerCards[i]).find('.number-rank').html(rankStr);
                         }
                     });
