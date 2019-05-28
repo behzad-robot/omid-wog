@@ -1,0 +1,91 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Dota2 Question single {{{_id}}}</title>
+    <style>
+        .option-card{
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>
+            Dota2 Quiz Question {{{_id}}}:
+            <a href="/admin/dota2-questions/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a>
+        </h2>
+        <hr />
+        <p>Use [img]URL[/img] to add image options/body.And [sound]URL[/sound] for sound options/body.</p>
+        <p>Press Save to update preview.</p>
+        <form id="single" action="/admin/dota2-questions/{{{_id}}}/edit" method="POST"></form>
+        <div id="extra"></div>
+        <script>
+            let question = null;
+            getObject('dota2-questions', `{{{_id}}}`, (m) =>
+            {
+                question =m;
+                console.log(question);
+                $("#single").append(idInput('_id', question._id));
+                $("#single").append(draftInput(question._draft));
+                $("#single").append(idInput('createdAt', question.createdAt));
+                $("#single").append(idInput('updatedAt', question.updatedAt));
+                $("#single").append(numberInput('level', question.level));
+                $("#single").append(numberInput('answer', question.answer));
+                $("#single").append(textInput('question', question.question));
+                $("#single").append(jsonInput('options', question.options));
+                // $("#single").append(submitBtn());
+                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                $("#extra").append(`<div id="options"></div>`);
+                recreate_options();
+            });
+            function recreate_options()
+            {
+                $("[name=options]").val(JSON.stringify(question.options));
+                $("#options").html(`<h2>Options</h2><div class="btn btn-md btn-secondary" onclick="add_option()">+Add Question</div>`);
+                for(var i = 0 ; i < question.options.length;i++){
+                    let o = question.options[i];
+                    $("#options").append(`
+                        <div class="card option-card" actualIndex="${i}">
+                            ${numberInput('index',o.index)}
+                            ${textInput('body',o.body)}
+                            <div class="btn btn-sm btn-danger" onclick="remove_option(${i})">Remove</div>
+                        </div>
+                    `);
+                }
+                $("#options input").change(function(){
+                    let actualIndex = $(this).attr('actualIndex');
+                    update_option(actualIndex);
+                });
+            }
+            function add_option()
+            {
+                question.options.push({
+                    index : question.options.length,
+                    body : "",
+                });
+                recreate_options();
+            }
+            function remove_option(i)
+            {
+                question.options.splice(i,1);
+                recreate_options();
+            }
+            function update_option(i)
+            {
+                question.options[i] = {
+                    index : parseInt($(`.option-card[actualIndex=${i}] [name=index]`).val()),
+                    body :  ($(`.option-card[actualIndex=${i}] [name=body]`).val()),
+                };
+                $("[name=options]").val(JSON.stringify(question.options));
+            }
+        </script>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

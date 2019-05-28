@@ -96,12 +96,14 @@
             position: relative;
             z-index: 1;
         }
-        .bet-box .match-title-row{
-            padding:10px 20px;
-            color:white;
-            border-bottom:1px solid #d8064f;
-            font-size:15px;
+
+        .bet-box .match-title-row {
+            padding: 10px 20px;
+            color: white;
+            border-bottom: 1px solid #d8064f;
+            font-size: 15px;
         }
+
         .bet-box .team-row {
             display: block;
             width: 100%;
@@ -325,10 +327,15 @@
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
             <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
-                <h3 style="color:white">گروه A:</h3>
-                <div class="row" id="group-a"></div>
-                <h3 style="color:white">گروه B:</h3>
-                <div class="row" id="group-b"></div>
+                <h3 class="text-english" style="color:white">Series A1</h3>
+                <div class="row" id="series-a1"></div>
+                <h3 class="text-english" style="color:white">Series A2</h3>
+                <div class="row" id="series-a2"></div>
+                <h3 class="text-english" style="color:white">Series B1</h3>
+                <div class="row" id="series-b1"></div>
+
+                <h3 class="text-english" style="color:white">Series B2</h3>
+                <div class="row" id="series-b2"></div>
                 <div name="submit-wrapper" style="color:white;">
                     <input type="submit" class="btn btn-md btn-warning" value="ثبت پیش بینی ها" />
                 </div>
@@ -377,39 +384,47 @@
                     //         render_bet('#group-a', GROUP_A[i], GROUP_A[j]);
                     //     }
                     // }
-                    for(var i = 0 ; i < ALL_BETS.length;i++)
+                    for (var i = 0; i < ALL_BETS.length; i++)
                     {
                         let b = ALL_BETS[i];
-                        if(b.category == 'group-a' || b.category == 'group-b')
+                        if (b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
                         {
-                            let t = b.token.replace('_1','').replace('_2','').replace('matchup_','');
+                            let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
                             let parts = t.split('_vs_');
                             /*console.log(b);
                             console.log(t);
                             console.log(parts);*/
                             let teamA = getTeam(parts[0]);
                             let teamB = getTeam(parts[1]);
-                            render_bet('#'+b.category,b,teamA,teamB);
+                            render_bet('#' + b.category, b, teamA, teamB);
                         }
                     }
-                    let noGroupA = true,noGroupB = true;
+                    let noGroupA1 = true, noGroupA2 = true, noGroupB1 = true, noGroupB2 = true;
                     for (var i = 0; i < ALL_BETS.length; i++)
                     {
                         if (ALL_BETS[i].active)
                         {
-                            if(ALL_BETS[i].category == 'group-a')
-                                noGroupA = false;
-                            if(ALL_BETS[i].category == 'group-b')
-                                noGroupB = false;                            
+                            if (ALL_BETS[i].category == 'series-a1')
+                                noGroupA1 = false;
+                            if (ALL_BETS[i].category == 'series-b1')
+                                noGroupB1 = false;
+                            if (ALL_BETS[i].category == 'series-a2')
+                                noGroupA2 = false;
+                            if (ALL_BETS[i].category == 'series-b2')
+                                noGroupB2 = false;
                         }
                     }
-                    if(noGroupA)
-                            $("#group-a").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    if(noGroupB)
-                        $("#group-b").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    if(noGroupA && noGroupB)
+                    // if(noGroupA1)
+                    //         $("#series-a1").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    // if(noGroupB1)
+                    //     $("#series-b1").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    // if(noGroupA2)
+                    //         $("#series-a2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    // if(noGroupB2)
+                    //     $("#series-b2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
+                    if (noGroupA1 && noGroupB2 && noGroupA2 && noGroupB2)
                         $("#bets-form input[type=submit]").hide();
-                    
+
                     $(".bet-box .team-row").click(function ()
                     {
                         let betBox = $(this).closest('.bet-box');
@@ -558,7 +573,7 @@
                     return undefined;
                 }
                 //render functions:
-                function render_bet(parent,bet,teamA, teamB)
+                function render_bet(parent, bet, teamA, teamB)
                 {
                     // let betToken = 'matchup_' + teamA.token + '_vs_' + teamB.token;
                     let betToken = bet.token;
@@ -584,7 +599,7 @@
                                     message = 'مهلت پیش بینی این بازی تمام شده و شما نتیجه بازی را به درستی پیش بینی نکردید.';
                             }
                         }
-                        disabledOverlay = `<div class="overlay">${message == '' ? 'مهلت پیش بینی این مورد گذشته است.' : message}</div>`;
+                        disabledOverlay = `<div class="overlay">${message == '' ? 'فرصت پیش بینی برای این بازی به پایان رسیده است،منتظر نتیجه بازی باشید.' : message}</div>`;
                     }
                     else
                     {
@@ -603,7 +618,7 @@
                     }
                     console.log(bet);
                     let title = bet.title;
-                    title = title.replace('Match 1','<b style="color:orange">Match 1</span>').replace('Match 2','<b style="color:orange">Match 2</span>');
+                    title = title.replace('Match 1', '<b style="color:orange">Match 1</span>').replace('Match 2', '<b style="color:orange">Match 2</span>');
                     $(parent).append(`
                         <div class="col-md-4 col-12">
                             <div class="bet-box ${bet.active ? '' : 'disabled'}" betToken="${bet.token}" teamA="${teamA.token}" teamB="${teamB.token}">
@@ -655,8 +670,9 @@
                 <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a
                             href="/users/{{currentUser.username}}/edit" class="profile-link"> ویرایش مشخصات
                             کاربری </a></span>رفته و آیدی توییچ
-                    خود را وارد کنید و صفحه توییچ <a href="https://twitch.tv/Amirphanthom" class="text-english orange-link"
-                        target="_blank">Amirphanthom</a> را دنبال کنید،سپس دکمه بررسی را فشار دهید.</p>
+                    خود را وارد کنید و صفحه توییچ <a href="https://twitch.tv/Amirphanthom"
+                        class="text-english orange-link" target="_blank">Amirphanthom</a> را دنبال کنید،سپس دکمه بررسی
+                    را فشار دهید.</p>
                 <div class="check-and-coins-row">
                     <div style="position: relative;display:inline-block;width: 40%">
                         <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />

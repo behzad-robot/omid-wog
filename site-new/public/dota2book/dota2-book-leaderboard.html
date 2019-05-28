@@ -2,6 +2,7 @@
 
 <head>
     {{{head}}}
+    <title>لیست شرکت کنندگان پیش بینی مسابقات ESL One 2019</title>
     <style>
         .announcment {
             margin-top: 80px;
@@ -152,7 +153,7 @@
             }
 
             .leaderBoard-header {
-                font-size:20px
+                font-size: 20px
             }
         }
     </style>
@@ -209,25 +210,44 @@
     </style>
     <style>
         table {
-              width: 100%;
-            }
-            
-            td, th {
-              text-align: center;
-              border-bottom: 1px solid #0e1527;
-              padding: 8px;
-            }
-            
-            tr:nth-child(even) {
-              background-color: #38486d;
-            }
-            tr:nth-child(odd) {
-              background-color: #202d4f;
-            }
-            td {
-                text-align: center;
-            }
-            </style>
+            width: 100%;
+        }
+
+        td,
+        th {
+            text-align: center;
+            border-bottom: 1px solid #0e1527;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <style>
+        .dark-box {
+            background-image: url('/dota2book/images/grey.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            height: 377px;
+            border-radius: 10px
+        }
+
+        .blue-box {
+            background-image: url('/dota2book/images/blue.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            border-radius: 10px
+        }
+    </style>
 </head>
 
 <body>
@@ -241,27 +261,48 @@
             <div class="text-center" style="width: 100%;margin-bottom:20px;">
                 <img src="/dota2book/images/ESL-One-new.png" alt="">
                 <h1 class="text-white text-english">BIRMINGHAM 2019</h1>
-                <div class="block_headline text-center">به رقابت بپیوندید</div>
+                <div class="block_headline text-center">به رقابت با {{{players.length}}} شرکت کننده بپیوندید</div>
             </div>
-            <div class="row" style="margin-top:20px;margin-bottom: 20px;display:none;">
+            <div class="row" style="margin-top:20px;margin-bottom: 20px">
+                <div class="col-md-2"></div>
                 <div class="col-md-4">
-                    <div class="text-center" style="background-image: url('/dota2book/images/blue.png');padding: 5px 10px;margin-top: 10px">
-                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
-                        buy some shit
+                    <div class="dark-box">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جزئیات مسابقه</h3>
+                        </div>
+                        <ul class="text-white" style="list-style-type:disc">
+                            <li>شروع رقابت : هفتم خرداد</li>
+                            <li>پایان مسابقات : شانزدهم خرداد</li>
+                            <li>تاریخ اهداء جوایز : هجدهم خرداد</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="text-center" style="background-image: url('/dota2book/images/grey.png');padding: 5px 10px;margin-top: 10px">
-                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
-                        buy some shit
+                    <div class="blue-box">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جایزه نفرات برتر</h3>
+                        </div>
+                        <ol class="text-white">
+                            <li>500 هزار تومان وجه نقد</li>
+                            <li>200 هزار تومان وجه نقد</li>
+                            <li>75 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                        </ol>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="text-center" style="background-image: url('/dota2book/images/purple.png');padding: 5px 10px;margin-top: 10px">
-                        <img src="/dota2book/images/logo-sm.png" style="width:100%" alt="">
-                        buy some shit
-                    </div>
-                </div>
+                <div class="col-md-2"></div>
             </div>
         </div>
     </section>
@@ -282,34 +323,16 @@
                             <tr>
                                 <td width="10%">
                                     <p class="number-rank text-english">#004</p>
-                                    <img style="display:none;" src="/dota2book/images/gold.png" class="first-three-images">
+                                    <img style="display:none;" src="/dota2book/images/gold.png"
+                                        class="first-three-images">
                                 </td>
                                 <td width="45%">{{username}}</td>
-                                <td width="15%">{{dota2Book2019.coins}}</td>
+                                <td width="15%">{{dota2Book2019.totalCoins}}</td>
                                 <td width="20%">&nbsp;{{dota2Book2019.coins}}</td>
                             </tr>
                             {{/players}}
                         </table>
                     </div>
-                    <!-- {{#players}}
-                    <div class="row player-card">
-                        <div class="col-md-1 col-1" style="padding: 5">
-                            <p class="number-rank">#004</p>
-                            <img style="display:none;" src="/dota2book/images/gold.png" class="first-three-images">
-                        </div>
-                        <div class="col-md-5 col-5" style="padding: 5">
-                            <p class="name-part">{{username}}</p>
-                        </div>
-                        <div class="col-md-3 col-3" style="padding: 0">
-                            <img src="/dota2book/images/coins.png" class="coins" alt="">
-                            <p class="coin-text">سکه‌های موجود:&nbsp;{{dota2Book2019.coins}}</p>
-                        </div>
-                        <div class="col-md-3 col-3" style="padding: 0">
-                            <img src="/dota2book/images/coins.png" class="coins" alt="">
-                            <p class="coin-text">سکه‌های کل:&nbsp;{{dota2Book2019.totalCoins}}</p>
-                        </div>
-                    </div>
-                    {{/players}} -->
                 </div>
                 <script>
                     $(() =>
@@ -354,7 +377,8 @@
                         </a>
                     </div>
                     <div class="tele-widget">
-                        <a href="https://www.instagram.com/wogcompany" target="_blank" style="display:block;margin:10px 0;border-radius: 20px">
+                        <a href="https://www.instagram.com/wogcompany" target="_blank"
+                            style="display:block;margin:10px 0;border-radius: 20px">
                             <img src="/dota2book/images/instagram.png" width="100%;border-radius:10%">
                         </a>
                     </div>

@@ -32,6 +32,7 @@ import { AdminLog } from './models/admin_log';
 import { FortniteTournomentHandler } from './routers/users_fortnite_handler';
 import { DotaBookHandler } from './routers/dota_book_handler';
 import { BuildsExtraHandler } from './routers/builds_extra_handler';
+import { DotaQuestion } from './models/dota_question';
 
 const morgan = require('morgan');
 
@@ -68,7 +69,7 @@ const dota2BookHandler = new DotaBookHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
-express.expressApp.use('/api/dota2-book/',dota2BookHandler.httpRouter.router);
+express.expressApp.use('/api/dota2-book/', dota2BookHandler.httpRouter.router);
 
 //otpObjects:
 const otpHandler = new OTPHandler(OTPObject);
@@ -79,7 +80,7 @@ express.expressApp.use('/api/games/', new PublicMongooseAPIRouter(Game, { apiTok
 express.expressApp.use('/api/champions/', new PublicMongooseAPIRouter(Champion, { apiTokenRequired: true }).router);
 const buildsExtraHandler = new BuildsExtraHandler(ChampionBuild);
 express.expressApp.use('/api/builds/', new PublicMongooseAPIRouter(ChampionBuild, { apiTokenRequired: true }).router);
-express.expressApp.use('/api/builds/',buildsExtraHandler.httpRouter.router);
+express.expressApp.use('/api/builds/', buildsExtraHandler.httpRouter.router);
 //posts:
 const postsHandler = new PostsHandler(Post);
 express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
@@ -98,6 +99,8 @@ express.expressApp.use('/api/contact-us-forms/', new PublicMongooseAPIRouter(Con
 express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam, { apiTokenRequired: true }).router);
 //admin logs:
 express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog, { apiTokenRequired: true }).router);
+//dota 2 quiz questions:
+express.expressApp.use('/api/dota2-questions/', new PublicMongooseAPIRouter(DotaQuestion, { apiTokenRequired: true }).router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 //listen:
@@ -134,6 +137,8 @@ const WSRouters = [
     //extras:
     new AppInfoSocketRouter(),
     new PublicMongooseWSRouter('pubg-teams', PubGTeam, { apiTokenRequired: true }),
+    //dota 2 quiz questions:
+    new PublicMongooseWSRouter('dota2-questions', DotaQuestion, { apiTokenRequired: true }),
 ];
 const easySocket = new EasySocket({
     httpServer: express.http,

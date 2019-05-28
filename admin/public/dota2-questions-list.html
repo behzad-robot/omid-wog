@@ -1,0 +1,49 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Dota 2 Questions Admin</title>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h1>Dota2 Quiz Questions:</h1>
+        <a href="/admin/dota2-questions/new" class="btn btn-md btn-secondary">+New Dota 2 Question</a>
+        <div class="row" id="list">
+            
+        </div>
+        <script>
+            let questions = [];
+            $(() =>
+            {
+                findObjects('dota2-questions', (ms) =>
+                {
+                    questions = ms;
+                    for(var i = 0 ; i < questions.length;i++)
+                    {
+                        let q = questions[i];
+                        let options = JSON.stringify(q.options);
+                        $("#list").append(`
+                            <div class="col-md-6 col-12">
+                                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                                    <b>${q._id}</b>
+                                    <div><b>_draft:</b>${q._draft.toString()}</div>
+                                    <div><b>question:</b><br>${q.question}</div>
+                                    <div>options:${options}</div>
+                                    <hr>
+                                    <a href="/admin/dota2-questions/${q._id}/" class="btn btn-md btn-info">Edit</a>
+                                    <div><b>createdAt:</b>${q.createdAt}</div>
+                                    <div><b>updatedAt:</b>${q.updatedAt}</div>
+                                </div>
+                            </div>
+                        `);   
+                    }
+                });
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -18,6 +18,7 @@ import AdminFilesRouter from "./routers/files_router";
 import UsersPanelRouter from "./routers/users_router";
 import AparatAdminRouter from "./routers/aparat_router";
 import SiteConfigAdminRouter from "./routers/siteConfig_router";
+import Dota2QuestionsPanelRouter from "./routers/dota2_questions_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -29,6 +30,7 @@ const ChampBuild = new APICollection('builds', { apiToken: API_TOKEN, adminToken
 const Comment = new APICollection('comments', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Media = new APICollection('media', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminLog = new APICollection('admin-logs', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const Dota2Question = new APICollection('dota2-questions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
     User: User,
@@ -41,6 +43,7 @@ const AdminModules = {
     Media: Media,
     Comment: Comment,
     AdminLog: AdminLog,
+    Dota2Question : Dota2Question,
     proxyAPI: proxyAPI,
 }
 //express:
@@ -93,6 +96,7 @@ express.expressApp.use('/admin/champions', new ChampionsPanelRouter(AdminModules
 express.expressApp.use('/admin/builds', new ChampionBuildsPanelRouter(AdminModules).router);
 express.expressApp.use('/admin/comments', new CommentsPanelRouter(AdminModules).router);
 express.expressApp.use('/admin/users', new UsersPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/dota2-questions', new Dota2QuestionsPanelRouter(AdminModules).router);
 express.expressApp.use('/admin/aparat', new AparatAdminRouter(AdminModules).router);
 express.expressApp.use('/admin/site-config', new SiteConfigAdminRouter(AdminModules).router);
 express.expressApp.use('/admin/files', new AdminFilesRouter(AdminModules).router);
