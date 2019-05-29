@@ -340,9 +340,12 @@
                 <div class="row" id="series-a4"></div>
                 <h3 class="text-english" style="color:white">Series B3 - 20:30 Tehran</h3>
                 <div class="row" id="series-b3"></div>
-
                 <h3 class="text-english" style="color:white">Series B4 - 22:50 Tehran</h3>
                 <div class="row" id="series-b4"></div>
+                <h3 class="text-english" style="color:white">Series A5 - 15:30 Tehran</h3>
+                <div class="row" id="series-a5"></div>
+                <h3 class="text-english" style="color:white">Series B5 - 18:10 Tehran </h3>
+                <div class="row" id="series-b5"></div>
                 <hr />
                 <div class="btn btn-md btn-info" id="old-games-btn" style="margin:20px 0;">مشاهده بازی های گذشته</div>
                 <div id="old-games" style="display:none;">
@@ -417,7 +420,8 @@
                     {
                         let b = ALL_BETS[i];
                         if ((b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
-                            || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4'))
+                            || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4') ||
+                            (b.category == 'series-a5' || b.category == 'series-b5'))
                         {
                             let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
                             let parts = t.split('_vs_');

@@ -1,0 +1,165 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .question-card {
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="padding-top:20px;">
+        <div class="container">
+            <h3>Session {{session._id}}</h3>
+            <div><b>createdAt:</b>{{session.createdAt}}</div>
+            <div><b>questions:</b>{{session.questions.length}}</div>
+            <div><b>status:</b>{{session.status}}</div>
+            <div><b>goal:</b>{{session.goal}}</div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="wog-card question-card">
+                        <div id="loading" class="text-center" style="display:none">
+                            <div class="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="text-center" style="direction:ltr;" id="loading-text">Loading..</div>
+                        <div class="question-body">
+
+                        </div>
+                        <div class="question-options row">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                let currentQuestion = undefined, session = undefined;
+                $(() =>
+                {
+                    session = JSON.parse(`{{{session_str}}}`);
+                    if (session.status == 'loose')
+                    {
+                        $(".question-card").html('<h3 class="text-center" style="color:red">This Session is Over!</h3>');
+                        $("#loading").hide();
+                    }
+                    else
+                    {
+                        loadQuestion();
+                    }
+                });
+                function loadQuestion()
+                {
+                    $("#loading").show();
+                    $("#loading-text").html('Finding a question....');
+                    fetch('/dota2-quiz/get-questions', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: `{{{currentUser._id}}}`,
+                            userToken: `{{{currentUser.token}}}`,
+                            sessionId: `{{{session._id}}}`,
+                            limit: 1,
+                        }),
+                    }).then((response) => response.json()).then((response) =>
+                    {
+                        $("#loading").hide();
+                        $("#loading-text").hide();
+                        $(".question-body").html('');
+                        $(".question-options").html('');
+                        console.log(response);
+                        if (response.code != 200)
+                        {
+                            $(".question-card").html('ERROR:' + response.error.toString());
+                        }
+                        else
+                        {
+                            response = response._data;
+                            let question = response.questions[0];
+                            currentQuestion = question;
+                            //shuffle options:
+                            for (var i = 0; i < 20; i++)
+                            {
+                                let a = parseInt(Math.random() * question.options.length);
+                                let b = parseInt(Math.random() * question.options.length);
+                                let temp = question.options[a];
+                                question.options[a] = question.options[b];
+                                question.options[b] = temp;
+                            }
+                            //render body:
+                            let str = '';
+                            if (question.question.indexOf('[img') != -1)
+                            {
+                                let src = question.question.replace('[img]', '').replace('[/img]', '');
+                                str = `<img src="${src}" width="100%" />`
+                            }
+                            else if (question.question.indexOf('[audio') != -1)
+                            {
+                                let src = question.question.replace('[audio]', '').replace('[/audio]', '');
+                                str = `<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
+                            }
+                            else
+                            {
+                                str = question.question;
+                            }
+                            $(".question-body").html(str);
+                            //render options:
+                            for (var i = 0; i < question.options.length; i++)
+                            {
+                                let str = ``;
+                                let o = question.options[i];
+                                if (o.body.indexOf('[img') != -1)
+                                {
+                                    let src = o.body.replace('[img]', '').replace('[/img]', '');
+                                    str = `<img src="${src}" width="100%" />`
+                                }
+                                else if (o.body.indexOf('[audio') != -1)
+                                {
+                                    let src = o.body.replace('[audio]', '').replace('[/audio]', '');
+                                    str = `<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
+                                }
+                                else
+                                {
+                                    str = o.body;
+                                }
+                                $(".question-options").append(`
+                                    <div class="col-md-6">
+                                        <div class="btn btn-md btn-primary option-btn" index="${o.index}" style="display:block;margin-bottom:10px;">${str}</div>
+                                    </div>
+                                `);
+                            }
+                            //set onclicks:
+                            $(".option-btn").click(function ()
+                            {
+                                let index = $(this).attr('index');
+                                $(this).removeClass('btn-primary').addClass('btn-info');
+                                $(".option-btn").click(function () { });
+                                $("#loading").show();
+                            });
+                        }
+                    }).catch((err) =>
+                    {
+                        $(".question-card").html('ERROR:' + err.toString());
+                    });
+                }
+                function submitAnswer(index){
+                    // fetch()
+                }
+            </script>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

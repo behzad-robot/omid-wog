@@ -30,7 +30,7 @@ export default class Dota2QuestionsPanelRouter extends AdminRouter
                 if (result._id)
                 {
                     fs.mkdirSync(path.resolve('../storage/dota2-quiz/'+result._id));
-                    res.redirect('/admin/dota2-questions/');
+                    res.redirect('/admin/dota2-questions/'+result._id);
                 }
                 else
                     res.send(result);

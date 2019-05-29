@@ -33,6 +33,7 @@ import { FortniteTournomentHandler } from './routers/users_fortnite_handler';
 import { DotaBookHandler } from './routers/dota_book_handler';
 import { BuildsExtraHandler } from './routers/builds_extra_handler';
 import { DotaQuestion } from './models/dota_question';
+import { Dota2QuizHandler } from './routers/dota_quiz_handler';
 
 const morgan = require('morgan');
 
@@ -66,10 +67,12 @@ express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsE
 const usersAuthHandler = new UsersAuthHandler(User);
 const fortniteHandler = new FortniteTournomentHandler(User);
 const dota2BookHandler = new DotaBookHandler(User);
+const dota2QuizHandler = new Dota2QuizHandler(User,DotaQuestion);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/dota2-book/', dota2BookHandler.httpRouter.router);
+express.expressApp.use('/api/dota2-quiz/', dota2QuizHandler.httpRouter.router);
 
 //otpObjects:
 const otpHandler = new OTPHandler(OTPObject);
@@ -115,6 +118,7 @@ const WSRouters = [
     usersAuthHandler.socketRouter,
     fortniteHandler.socketRouter,
     dota2BookHandler.socketRouter,
+    dota2QuizHandler.socketRouter,
     //otp objects:
     new PublicMongooseWSRouter('otpObjects', OTPObject, { apiTokenRequired: true }),
     otpHandler.socketRouter,
