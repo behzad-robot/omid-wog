@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .quiz-card{
+            padding:10px 20px;
+            margin-bottom:10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container">
+            <h3>Quiz Archive History:</h3>
+            <div class="row">
+                {{#currentUser.dotaQuiz.sessions}}
+                <div class="col-12">
+                    <div class="wog-card quiz-card">
+                        <h3>_id: {{_id}}</h3>
+                        <h3>goal: {{goal}}</h3>
+                        <div><b>status: </b><span>{{status}}</span></div>
+                        <div><b>createdAt: </b><span>{{createdAt}}</span></div>
+                        <div><b>questions answered: </b><span>{{questions.length}}</span></div>
+                    </div>
+                </div>
+                {{/currentUser.dotaQuiz.sessions}}
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

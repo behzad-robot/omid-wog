@@ -37,17 +37,25 @@
                     $("#single").append(textInput('sex', user.sex));
                     $("#single").append(textInput('city', user.city));
                     $("#single").append(numberInput('age', user.age));
-                    
-                    var optionsStr = '<option></option>';
-                    for (var i = 0; i < allusers.length; i++)
+                    if (user.dota2Book2019 != undefined)
                     {
-                        optionsStr += `<option value="${allusers[i]._id}"  ${allusers[i]._id == user.parent ? 'selected' : ''} >${allusers[i].name}</option>`;
+                        $("#single").append('<hr><h3>Dota 2 Book 2019</h3>');
+                        $("#single").append(infoRow('enterEvent',user.dota2Book2019.enterEvent));
+                        $("#single").append(infoRow('initPayment',user.dota2Book2019.initPayment));
+                        $("#single").append(infoRow('initPaymentToken',user.dota2Book2019.initPaymentToken));
+                        $("#single").append(infoRow('initPaymentDate',user.dota2Book2019.initPaymentDate));
+                        $("#single").append(infoRow('coins',user.dota2Book2019.coins));
+                        $("#single").append(infoRow('actions',JSON.stringify(user.dota2Book2019.actions)));
+                        $("#single").append(infoRow('bets',JSON.stringify(user.dota2Book2019.bets)));
+                        $("#single").append('<hr>');
                     }
-                    $("#single").append(`<div class="form-row"><b>parent:</b><select name="parent" class="form-control m">${optionsStr}</select></div>`);
-                    $("#single").append(submitBtn());
-                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    // $("#single").append(submitBtn());
+                    // $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                 });
             })
+            function infoRow(name,value){
+                return `<div><b>${name}: </b><span>${value.toString()}</span></div>`;
+            }
         </script>
     </div>
     {{{footer}}}

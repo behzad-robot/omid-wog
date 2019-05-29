@@ -40,6 +40,8 @@
                     validActions[i].title = '';
                 if(validActions[i].category == undefined)
                     validActions[i].category = '';
+                if(validActions[i].time == undefined)
+                    validActions[i].time = '';
             }
             recreate_actions();
         });
@@ -57,6 +59,7 @@
                         <input type="checkbox" name="isBet" ${action.isBet ? 'checked' : ''}/><b>isBet</b><br>
                         ${textInput('token', action.token)}
                         ${textInput('title', action.title)}
+                        ${textInput('time', action.time)}
                         ${textInput('category', action.category)}
                         ${numberInput('reward', action.reward)}
                         ${numberInput('maxCoins', action.maxCoins)}

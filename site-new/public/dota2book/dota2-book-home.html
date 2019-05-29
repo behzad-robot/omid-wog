@@ -28,8 +28,7 @@
         .section-main {
             background-image: url('/dota2book/images/immortals_bg.jpg');
             background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
+            background-size: 100% auto;
             padding-top: 20px;
             padding-bottom: 20px;
         }
@@ -101,7 +100,7 @@
             padding: 10px 20px;
             color: white;
             border-bottom: 1px solid #d8064f;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .bet-box .team-row {
@@ -320,6 +319,14 @@
                 پیش بینی شما درست
                 باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد سکه ای از دست نمی دهید دقت داشته باشید که پس
                 از ثبت امکان تغییر انتخاب ها وجود ندارد.</p>
+            <div class="text-center" style="padding:10px 0;">
+                <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram"
+                        style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://www.instagram.com/wogcompany/" target="_blank"><span class="fab fa-instagram"
+                        style="font-size:36px;color:orange;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://discord.gg/PXG96F3" target="_blank"><span class="fab fa-discord"
+                        style="font-size:36px;color:#673AB7;"></span></a>
+            </div>
             <div class="text-center">
                 {{{TWITCH_CODE_STR}}}
             </div>
@@ -327,15 +334,37 @@
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
             <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
-                <h3 class="text-english" style="color:white">Series A1</h3>
-                <div class="row" id="series-a1"></div>
-                <h3 class="text-english" style="color:white">Series A2</h3>
-                <div class="row" id="series-a2"></div>
-                <h3 class="text-english" style="color:white">Series B1</h3>
-                <div class="row" id="series-b1"></div>
+                <h3 class="text-english" style="color:white">Series A3 - 15:30 Tehran</h3>
+                <div class="row" id="series-a3"></div>
+                <h3 class="text-english" style="color:white">Series A4 - 17:50 Tehran</h3>
+                <div class="row" id="series-a4"></div>
+                <h3 class="text-english" style="color:white">Series B3 - 20:30 Tehran</h3>
+                <div class="row" id="series-b3"></div>
 
-                <h3 class="text-english" style="color:white">Series B2</h3>
-                <div class="row" id="series-b2"></div>
+                <h3 class="text-english" style="color:white">Series B4 - 22:50 Tehran</h3>
+                <div class="row" id="series-b4"></div>
+                <hr />
+                <div class="btn btn-md btn-info" id="old-games-btn" style="margin:20px 0;">مشاهده بازی های گذشته</div>
+                <div id="old-games" style="display:none;">
+                    <h3 class="text-english" style="color:white">Series A1</h3>
+                    <div class="row" id="series-a1"></div>
+                    <h3 class="text-english" style="color:white">Series A2</h3>
+                    <div class="row" id="series-a2"></div>
+                    <h3 class="text-english" style="color:white">Series B1</h3>
+                    <div class="row" id="series-b1"></div>
+                    <h3 class="text-english" style="color:white">Series B2</h3>
+                    <div class="row" id="series-b2"></div>
+                </div>
+                <script>
+                    $(() =>
+                    {
+                        $("#old-games-btn").click(() =>
+                        {
+                            $("#old-games").toggle();
+                        });
+                    });
+                </script>
+
                 <div name="submit-wrapper" style="color:white;">
                     <input type="submit" class="btn btn-md btn-warning" value="ثبت پیش بینی ها" />
                 </div>
@@ -387,7 +416,8 @@
                     for (var i = 0; i < ALL_BETS.length; i++)
                     {
                         let b = ALL_BETS[i];
-                        if (b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
+                        if ((b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
+                            || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4'))
                         {
                             let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
                             let parts = t.split('_vs_');
@@ -396,6 +426,7 @@
                             console.log(parts);*/
                             let teamA = getTeam(parts[0]);
                             let teamB = getTeam(parts[1]);
+                            console.log(b.token);
                             render_bet('#' + b.category, b, teamA, teamB);
                         }
                     }
@@ -422,8 +453,8 @@
                     //         $("#series-a2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
                     // if(noGroupB2)
                     //     $("#series-b2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    if (noGroupA1 && noGroupB2 && noGroupA2 && noGroupB2)
-                        $("#bets-form input[type=submit]").hide();
+                    // if (noGroupA1 && noGroupB2 && noGroupA2 && noGroupB2)
+                    //     $("#bets-form input[type=submit]").hide();
 
                     $(".bet-box .team-row").click(function ()
                     {

@@ -4,8 +4,13 @@
     {{{head}}}
     <title>Dota2 Question single {{{_id}}}</title>
     <style>
-        .option-card{
+        .option-card {
             padding: 10px 20px;
+            margin-bottom: 5px;
+        }
+        #preview-options .btn{
+            margin-bottom:5px;
+            display: block;
         }
     </style>
 </head>
@@ -21,13 +26,22 @@
         <hr />
         <p>Use [img]URL[/img] to add image options/body.And [sound]URL[/sound] for sound options/body.</p>
         <p>Press Save to update preview.</p>
-        <form id="single" action="/admin/dota2-questions/{{{_id}}}/edit" method="POST"></form>
-        <div id="extra"></div>
+        <div class="row">
+            <div class="col-md-6">
+                <form id="single" action="/admin/dota2-questions/{{{_id}}}/edit" method="POST"></form>
+                <div id="extra"></div>
+            </div>
+            <div class="col-md-6">
+                <h3>Preview:</h3>
+                <div id="preview-body"></div>
+                <div id="preview-options"></div>
+            </div>
+        </div>
         <script>
             let question = null;
             getObject('dota2-questions', `{{{_id}}}`, (m) =>
             {
-                question =m;
+                question = m;
                 console.log(question);
                 $("#single").append(idInput('_id', question._id));
                 $("#single").append(draftInput(question._draft));
@@ -41,44 +55,86 @@
                 $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
                 $("#extra").append(`<div id="options"></div>`);
                 recreate_options();
+                update_preview();
             });
+            function update_preview(){
+                if(question.question.indexOf('[img') != -1)
+                {
+                    let src = question.question.replace('[img]','').replace('[/img]','');
+                    $("#preview-body").append(`<img src="${src}" width="100%"/>`);
+                }
+                else if(question.question.indexOf('[audio') != -1)
+                {
+                    let src = question.question.replace('[audio]','').replace('[/audio]','');
+                    $("#preview-body").append(`<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`);
+                }
+                else
+                {
+                    $("#preview-body").html(question.question);
+                }
+                for(var i = 0 ; i < question.options.length;i++){
+                    let str = '';
+                    let o = question.options[i];
+                    if(o.body.indexOf('[img') != -1)
+                    {
+                        let src = o.body.replace('[img]','').replace('[/img]','');
+                        str = `<div class="btn btn-md btn-primary"><img src="${src}" width="128px"/></div>`;
+                    }
+                    else if(o.body.indexOf('[audio') != -1)
+                    {
+                        let src = o.body.replace('[audio]','').replace('[/audio]','');
+                        str = `<div class="btn btn-md btn-primary"><audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio></div>`;
+                    }
+                    else
+                    {
+                        str = `<div class="btn btn-md btn-primary">${o.body}</div>`;
+                    }
+                    if(o.index == question.answer)
+                        str = str.replace('btn-primary','btn-success');
+                    $("#preview-options").append(str);
+                }
+            }
             function recreate_options()
             {
                 $("[name=options]").val(JSON.stringify(question.options));
-                $("#options").html(`<h2>Options</h2><div class="btn btn-md btn-secondary" onclick="add_option()">+Add Question</div>`);
-                for(var i = 0 ; i < question.options.length;i++){
+                $("#options").html(`<h2>Options</h2><div class="btn btn-md btn-secondary" onclick="add_option()">+Add Option</div><div class="row"></div>`);
+                for (var i = 0; i < question.options.length; i++)
+                {
                     let o = question.options[i];
-                    $("#options").append(`
+                    $("#options .row").append(`
+                        <div class="col-md-12 col-12">
                         <div class="card option-card" actualIndex="${i}">
-                            ${numberInput('index',o.index)}
-                            ${textInput('body',o.body)}
+                            ${numberInput('index', o.index)}
+                            ${textInput('body', o.body)}
                             <div class="btn btn-sm btn-danger" onclick="remove_option(${i})">Remove</div>
+                        </div>
                         </div>
                     `);
                 }
-                $("#options input").change(function(){
-                    let actualIndex = $(this).attr('actualIndex');
+                $("#options input").change(function ()
+                {
+                    let actualIndex = $(this).closest('.option-card').attr('actualIndex');
                     update_option(actualIndex);
                 });
             }
             function add_option()
             {
                 question.options.push({
-                    index : question.options.length,
-                    body : "",
+                    index: question.options.length,
+                    body: "",
                 });
                 recreate_options();
             }
             function remove_option(i)
             {
-                question.options.splice(i,1);
+                question.options.splice(i, 1);
                 recreate_options();
             }
             function update_option(i)
             {
                 question.options[i] = {
-                    index : parseInt($(`.option-card[actualIndex=${i}] [name=index]`).val()),
-                    body :  ($(`.option-card[actualIndex=${i}] [name=body]`).val()),
+                    index: parseInt($(`.option-card[actualIndex=${i}] [name=index]`).val()),
+                    body: ($(`.option-card[actualIndex=${i}] [name=body]`).val()),
                 };
                 $("[name=options]").val(JSON.stringify(question.options));
             }

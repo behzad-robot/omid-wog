@@ -58,12 +58,13 @@ export default class Dota2QuestionsPanelRouter extends AdminRouter
             }
             // console.log(req.body);
             req.body._draft = req.body._draft == 'on' ? true : false;
-            req.body.tags = JSON.parse(req.body.tags);
+            req.body.options = JSON.parse(req.body.options);
             const _id = req.body._id;
             delete (req.body._id);
             Dota2Question.edit(_id, req.body).then((result) =>
             {
-                res.send({code : 200 ,error : null , _data : result});
+                // res.send({code : 200 ,error : null , _data : result});
+                res.redirect('/admin/dota2-questions/'+result._id+'/?edit=success');
             }).catch((err) =>
             {
                 res.send({code : 500 ,error : err.toString() , _data :null});

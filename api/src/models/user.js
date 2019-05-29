@@ -68,6 +68,16 @@ export const UserSchema = new mongoose.Schema({
             hasJoined: false,
             joinedAt : "",
         }
+    },
+    dota2Quiz:{
+        type : Object,
+        default : {
+            sessions : [], // {_id , createdAt , goal , questions , status} each question is {qId : string  , answer : int} status : ongoing , loose
+        }
+        /**
+         * api's quiz handler doesnt check if you can enter this quiz or not another handler/router is supposed to check those things
+         * api's quiz handler will let u enter a new session / answer a question in that session / etc.
+         */
     }
 }, {
         toObject: {
