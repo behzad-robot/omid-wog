@@ -32,7 +32,7 @@ const FOLLOW_TWITCH = 'follow_twitch';
     { active: true, token: FOLLOW_TWITCH, reward: 100 },
 ];*/
 
-function getAction(VALID_ACTIONS,token)
+function getAction(VALID_ACTIONS, token)
 {
 
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -43,7 +43,8 @@ function getAction(VALID_ACTIONS,token)
 
     return undefined;
 }
-function loadValidActionsFromFile(){
+function loadValidActionsFromFile()
+{
     return JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
 }
 class Dota2BookHttpRouter extends APIRouter
@@ -344,7 +345,7 @@ export class DotaBookHandler
             }
             //check if token is valid
             const VALID_ACTIONS = loadValidActionsFromFile();
-            let action = getAction(VALID_ACTIONS,params.token);
+            let action = getAction(VALID_ACTIONS, params.token);
             if (action == undefined)
             {
                 reject('invalid action token');
@@ -430,7 +431,7 @@ export class DotaBookHandler
             }
             //check if token is valid
             const VALID_ACTIONS = loadValidActionsFromFile();
-            let bet = getAction(VALID_ACTIONS,params.token);
+            let bet = getAction(VALID_ACTIONS, params.token);
             if (bet == undefined)
             {
                 reject('invalid bet token');
@@ -486,9 +487,9 @@ export class DotaBookHandler
     {
         return new Promise((resolve, reject) =>
         {
-            this.User.find({ 'dota2Book2019.enterEvent': true}).limit(20000).exec((err, users) =>
+            this.User.find({ 'dota2Book2019.enterEvent': true }).limit(20000).exec((err, users) =>
             {
-                console.log('Users of event=>'+users.length);
+                console.log('Users of event=>' + users.length);
                 if (err)
                 {
                     reject(err.toString());
@@ -496,15 +497,17 @@ export class DotaBookHandler
                 }
                 let usersAffected = 0;
                 const validActionsFromFile = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
-                console.log('actions from file='+validActionsFromFile.length);
-                let getBetFromFile = (token)=>{
-                    for(var i = 0 ; i < validActionsFromFile.length;i++){
-                        if(validActionsFromFile[i].token == token)
+                console.log('actions from file=' + validActionsFromFile.length);
+                let getBetFromFile = (token) =>
+                {
+                    for (var i = 0; i < validActionsFromFile.length; i++)
+                    {
+                        if (validActionsFromFile[i].token == token)
                             return validActionsFromFile[i];
                     }
                     return undefined;
                 };
-                let editUser = (index, finish)=>
+                let editUser = (index, finish) =>
                 {
                     if (index >= users.length)
                     {
@@ -512,15 +515,24 @@ export class DotaBookHandler
                         return;
                     }
                     let u = users[index];
+                    let minCoins = 300;
+                    for (var i = 0; i < u.dota2Book2019.actions.length; i++)
+                    {
+                        if (u.dota2Book2019.actions[i].token == FOLLOW_TWITCH)
+                        {
+                            minCoins = 600;
+                            break;
+                        }
+                    }
                     for (var i = 0; i < u.dota2Book2019.bets.length; i++)
                     {
                         let userBet = u.dota2Book2019.bets[i];
                         if (userBet.status == 'pending')
                         {
                             let bet = getBetFromFile(userBet.token);
-                            if(bet == undefined)
+                            if (bet == undefined)
                             {
-                                console.log(userBet.token+' bet not found!');
+                                console.log(userBet.token + ' bet not found!');
                                 continue;
                             }
                             if (!isEmptyString(bet.answer))
@@ -531,29 +543,35 @@ export class DotaBookHandler
                                     userBet.status = "win";
                                     //if win also add action:
                                     let hasAction = false;
-                                    for(var i = 0 ; i < u.dota2Book2019.actions.length;i++){
-                                        if(u.dota2Book2019.actions[i].token == bet.token){
+                                    for (var i = 0; i < u.dota2Book2019.actions.length; i++)
+                                    {
+                                        if (u.dota2Book2019.actions[i].token == bet.token)
+                                        {
                                             hasAction = true;
                                             break;
                                         }
                                     }
-                                    if(!hasAction)
+                                    if (!hasAction)
                                     {
                                         u.dota2Book2019.actions.push({
-                                            token : bet.token,
-                                            reward : userBet.coins*2,
-                                            createdAt : moment_now(),
+                                            token: bet.token,
+                                            reward: userBet.coins * 2,
+                                            createdAt: moment_now(),
                                         });
                                     }
                                 }
                                 else
                                 {
-                                    u.dota2Book2019.coins += userBet.coins;
+                                    if (bet.reward != -1398)
+                                        u.dota2Book2019.coins += userBet.coins;
+                                    //otherwise u will loose coins if u were wrong
                                     userBet.status = "loose";
                                 }
                             }
                         }
                     }
+                    if (u.dota2Book2019.coins < minCoins)
+                        u.dota2Book2019.coins = minCoins;
                     this.User.findByIdAndUpdate(u._id, { $set: { dota2Book2019: u.dota2Book2019 } }, { new: true }, (err, result) =>
                     {
                         if (err)

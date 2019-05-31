@@ -2,14 +2,14 @@
 
 <head>
     {{{head}}}
-    <title>بازی های گروهی ESL One Birmingham 2019</title>
+    <title>بازی های Playoffs ESL One Birmingham 2019</title>
     <meta name="description" content="{{_wogSEO.description}}">
     <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
     <link rel="canonical" href="http://worldofgamers.ir/">
 
     <meta property="og:locale" content="fa_IR">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="بازی های گروهی ESL One Birmingham 2019">
+    <meta property="og:title" content="بازی های Playoffs ESL One Birmingham 2019">
     <meta property="og:description" content="{{_wogSEO.description}}">
     <meta property="og:url" content="{{_wogSEO.fullUrl}}">
     <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@wogcompany">
     <meta name="twitter:description" content="{{_wogSEO.description}}">
-    <meta name="twitter:title" content="بازی های گروهی ESL One Birmingham 2019">
+    <meta name="twitter:title" content="بازی های Playoffs ESL One Birmingham 2019">
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
     <style>
         footer {
@@ -313,12 +313,12 @@
                     </a>
                 </div>
             </div><!-- end of row-->
-            <h2 style="color:white;margin-bottom: 10px">بازی های گروهی&nbsp;<span class="text-english">ESL One
+            <h2 style="color:white;margin-bottom: 10px">بازی های Playoffs&nbsp;<span class="text-english">ESL One
                     Birmingham 2019</span></h2>
-            <p style="color:white">به مرحله بازی های گروهی خوش آمدید برای هر مسابقه نتیجه را پیش بینی کنید در صورتی که
+            <p style="color:white">به مرحله بازی های <b style="color:orange">Playoffs</b> خوش آمدید برای هر مسابقه نتیجه را پیش بینی کنید در صورتی که
                 پیش بینی شما درست
-                باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد سکه ای از دست نمی دهید دقت داشته باشید که پس
-                از ثبت امکان تغییر انتخاب ها وجود ندارد.</p>
+                باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد <b style="color:orange">همان تعداد سکه ای از دست می دهید</b> دقت داشته باشید که پس
+                از ثبت امکان تغییر انتخاب ها وجود ندارد.همچنین سکه های شما کمتر از مقدار اولیه ای که در شروع مسابقات داشتید نخواهد شد.(300 یا  600 سکه اولیه)</p>
             <div class="text-center" style="padding:10px 0;">
                 <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram"
                         style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
@@ -330,25 +330,39 @@
             <div class="text-center">
                 {{{TWITCH_CODE_STR}}}
             </div>
+            <div class="alert alert-danger">دقت داشته باشید! در مرحله حذفی(Playoffs)  در صورتی که پیش بینی شما اشتباه باشد سکه از دست می دهید!</div>
             <!-- warning sign -->
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
             <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
-                <h3 class="text-english" style="color:white">Series A3 - 15:30 Tehran</h3>
-                <div class="row" id="series-a3"></div>
-                <h3 class="text-english" style="color:white">Series A4 - 17:50 Tehran</h3>
-                <div class="row" id="series-a4"></div>
-                <h3 class="text-english" style="color:white">Series B3 - 20:30 Tehran</h3>
-                <div class="row" id="series-b3"></div>
-                <h3 class="text-english" style="color:white">Series B4 - 22:50 Tehran</h3>
-                <div class="row" id="series-b4"></div>
-                <h3 class="text-english" style="color:white">Series A5 - 15:30 Tehran</h3>
-                <div class="row" id="series-a5"></div>
-                <h3 class="text-english" style="color:white">Series B5 - 18:10 Tehran </h3>
-                <div class="row" id="series-b5"></div>
+                <h3 class="text-english" style="color:white">Lower R1 - 10 Khordad 15:30/19:20 Tehran</h3>
+                <div class="row" id="lower-bracket-r1"></div>
+                <h3 class="text-english" style="color:white">Upper Bracket Finals - 11 Khordad 19:20 Tehran</h3>
+                <div class="row" id="upper-bracket-finals"></div>
+                <h3 class="text-english" style="color:white">Lower Bracket R2 - 10 Khordad 23:10 Tehran / 11 Khordad 15:30 Tehran</h3>
+                <div class="row" id="lower-bracket-r2"><div class="col-12 text-center text-white"  style="padding:10px 0">به زودی اعلام می شود.</div></div>
+                <h3 class="text-english" style="color:white">Lower Bracket R3 - 11 Khordad 23:15 Tehran</h3>
+                <div class="row" id="lower-bracket-r3"><div class="col-12 text-center text-white"  style="padding:10px 0">به زودی اعلام می شود.</div></div>
+                <h3 class="text-english" style="color:white">Lower Bracket Finals - 12 Khordad 15:30 Tehran</h3>
+                <div class="row" id="lower-bracket-finals"><div class="col-12 text-center text-white"  style="padding:10px 0">به زودی اعلام می شود.</div></div>
+                <h3 class="text-english" style="color:white">Grand Finals - 12 Khordad 19:30 Tehran</h3>
+                <div class="row" id="grand-finals"><div class="col-12 text-center text-white" style="padding:10px 0">به زودی اعلام می شود.</div></div>
+
                 <hr />
                 <div class="btn btn-md btn-info" id="old-games-btn" style="margin:20px 0;">مشاهده بازی های گذشته</div>
                 <div id="old-games" style="display:none;">
+                    <h3 class="text-english" style="color:white">Series A3 - 15:30 Tehran</h3>
+                    <div class="row" id="series-a3"></div>
+                    <h3 class="text-english" style="color:white">Series A4 - 17:50 Tehran</h3>
+                    <div class="row" id="series-a4"></div>
+                    <h3 class="text-english" style="color:white">Series B3 - 20:30 Tehran</h3>
+                    <div class="row" id="series-b3"></div>
+                    <h3 class="text-english" style="color:white">Series B4 - 22:50 Tehran</h3>
+                    <div class="row" id="series-b4"></div>
+                    <h3 class="text-english" style="color:white">Series A5 - 15:30 Tehran</h3>
+                    <div class="row" id="series-a5"></div>
+                    <h3 class="text-english" style="color:white">Series B5 - 18:10 Tehran </h3>
+                    <div class="row" id="series-b5"></div>
                     <h3 class="text-english" style="color:white">Series A1</h3>
                     <div class="row" id="series-a1"></div>
                     <h3 class="text-english" style="color:white">Series A2</h3>
@@ -421,7 +435,8 @@
                         let b = ALL_BETS[i];
                         if ((b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
                             || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4') ||
-                            (b.category == 'series-a5' || b.category == 'series-b5'))
+                            (b.category == 'series-a5' || b.category == 'series-b5')
+                            || (b.category == 'lower-bracket-r1' || b.category == 'upper-bracket-finals'))
                         {
                             let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
                             let parts = t.split('_vs_');
