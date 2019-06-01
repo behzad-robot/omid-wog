@@ -241,7 +241,6 @@ export class Dota2QuizHandler
                         questions[a] = questions[b];
                         questions[b] = temp;
                     }
-                    console.log(questions[0]._id);
                     //provide results:
                     let results = [];
                     for (var i = 0; i < questions.length && i < params.limit; i++)
@@ -302,7 +301,7 @@ export class Dota2QuizHandler
                 reject('missing parameter questionId.');
                 return;
             }
-            if (isEmptyString(params.answer) || isNaN(params.answer) || params.answer < 0)
+            if (isEmptyString(params.answer.toString()) || isNaN(params.answer) || params.answer < 0)
             {
                 reject('missing parameter answer.');
                 return;
@@ -357,7 +356,7 @@ export class Dota2QuizHandler
                     }
                     session.questions.push({ qId: question._id, answer: params.answer });
                     let result = { correctAnswer: question.answer, answer: params.answer, question: question };
-                    if (quesion.answer != params.answer)
+                    if (question.answer != params.answer)
                         session.status = 'loose';
                     result.session = session;
                     this.User.findByIdAndUpdate(user._id, { $set: { dota2Quiz: user.dota2Quiz } }, { new: true }, (err, user) =>

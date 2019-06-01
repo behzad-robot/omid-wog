@@ -18,7 +18,7 @@
             <h3>Quiz Archive History:</h3>
             <a class="btn btn-md btn-primary" href="/dota2-quiz/new-dummy-quiz">Enter New Dummy Quiz</a>
             <div class="row">
-                {{#currentUser.dotaQuiz.sessions}}
+                {{#currentUser.dota2Quiz.sessions}}
                 <div class="col-12">
                     <div class="wog-card quiz-card">
                         <h3>_id: {{_id}}</h3>
@@ -26,9 +26,10 @@
                         <div><b>status: </b><span>{{status}}</span></div>
                         <div><b>createdAt: </b><span>{{createdAt}}</span></div>
                         <div><b>questions answered: </b><span>{{questions.length}}</span></div>
+                        <a href="/dota2-quiz/quiz/{{_id}}" target="_blank" class="btn btn-md btn-info">Resume</a>
                     </div>
                 </div>
-                {{/currentUser.dotaQuiz.sessions}}
+                {{/currentUser.dota2Quiz.sessions}}
             </div>
         </div>
     </section>

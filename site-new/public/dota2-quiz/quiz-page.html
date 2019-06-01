@@ -15,10 +15,10 @@
     <section style="padding-top:20px;">
         <div class="container">
             <h3>Session {{session._id}}</h3>
-            <div><b>createdAt:</b>{{session.createdAt}}</div>
-            <div><b>questions:</b>{{session.questions.length}}</div>
-            <div><b>status:</b>{{session.status}}</div>
-            <div><b>goal:</b>{{session.goal}}</div>
+            <div><b>createdAt:</b><span id="session-createdAt">{{session.createdAt}}</span></div>
+            <div><b>questions:</b><span id="session-questions">{{session.questions.length}}</span></div>
+            <div><b>status:</b><span id="session-status">{{session.status}}</span></div>
+            <div><b>goal:</b><span id="session-goal">{{session.goal}}</span></div>
             <div class="row">
                 <div class="col-md-3"></div>
                 <div class="col-md-6">
@@ -56,6 +56,13 @@
                         loadQuestion();
                     }
                 });
+                function renderSession()
+                {
+                    $("#session-createdAt").html(session.createdAt);
+                    $("#session-questions").html(session.questions.length);
+                    $("#session-status").html(session.status);
+                    $("#session-goal").html(session.goal);
+                }
                 function loadQuestion()
                 {
                     $("#loading").show();
@@ -146,6 +153,7 @@
                                 $(this).removeClass('btn-primary').addClass('btn-info');
                                 $(".option-btn").click(function () { });
                                 $("#loading").show();
+                                submitAnswer(index);
                             });
                         }
                     }).catch((err) =>
@@ -153,8 +161,59 @@
                         $(".question-card").html('ERROR:' + err.toString());
                     });
                 }
-                function submitAnswer(index){
-                    // fetch()
+                function submitAnswer(index)
+                {
+                    // alert(index);
+                    fetch('/dota2-quiz/answer-question', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: `{{{currentUser._id}}}`,
+                            userToken: `{{{currentUser.token}}}`,
+                            sessionId: `{{{session._id}}}`,
+                            questionId : currentQuestion._id,
+                            answer : parseInt(index),
+                        }),
+                    }).then((response) => response.json()).then((response) =>
+                    {
+                        console.log('submitAnswer response');
+                        console.log(response);
+                        if(response.code != 200)
+                        {
+                            alert('Error Submitting Answer');
+                            return;
+                        }
+                        let data = response._data;
+                        
+                        if(data.correctAnswer != data.answer)
+                        {
+                            console.log('wrong answer');
+                            $(`.option-btn[index=${data.answer}]`).removeClass('btn-info').addClass('btn-danger');
+                            $(`.option-btn[index=${data.correctAnswer}]`).removeClass('btn-info').removeClass('btn-primary').addClass('btn-success');
+                            session = data.session;
+                            renderSession();
+                        }
+                        else
+                        {
+                            console.log('correct answer');
+                            session = data.session;
+                            console.log($(`.option-btn[index=${data.correctAnswer}]`));
+                            $(`.option-btn[index=${data.correctAnswer}]`)
+                                .removeClass('btn-info')
+                                .removeClass('btn-primary')
+                                .addClass('btn-success');
+                            renderSession();
+                            setTimeout(()=>{
+                                loadQuestion();
+                            },500);
+                        }
+                    }).catch((err) =>
+                    {
+                        alert(err.toString());
+                    });
                 }
             </script>
         </div>

@@ -32,26 +32,28 @@ export default class MyExpressApp
         }
         //body parse:
         const bodyParser = require('body-parser');
+        // to support JSON-encoded bodies
         this.expressApp.use(bodyParser.json({
-            limit : '50mb'
-        }));       // to support JSON-encoded bodies
+            limit: '50mb'
+        }));
+        
         this.expressApp.use(bodyParser.urlencoded({     // to support URL-encoded bodies
             extended: true,
-            limit : '50mb'
+            limit: '50mb'
         }));
         //serve static files:
         if (settings.serveFiles != undefined)
         {
-            if(typeof settings.serveFiles == 'string')
+            if (typeof settings.serveFiles == 'string')
                 this.expressApp.use(express.static(settings.serveFiles));
             else
             {
-                for(var i = 0 ; i < settings.serveFiles.length;i++)
+                for (var i = 0; i < settings.serveFiles.length; i++)
                 {
-                    if(typeof settings.serveFiles[i] == 'string')
+                    if (typeof settings.serveFiles[i] == 'string')
                         this.expressApp.use(express.static(settings.serveFiles[i]));
                     else
-                        this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
+                        this.expressApp.use(settings.serveFiles[i].prefix, express.static(settings.serveFiles[i].path));
                 }
             }
         }

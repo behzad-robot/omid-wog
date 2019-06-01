@@ -6,9 +6,27 @@ export class Dota2QuizRouter extends SiteRouter
     constructor(siteModules)
     {
         super(siteModules);
+        this.router.use((req, res, next) =>
+        {
+            if (!this.isLoggedIn(req))
+            {
+                res.redirect('/login/?redirect=' + req.baseUrl + req.url);
+                return;
+            }
+            next();
+        });
         this.router.get('/', (req, res) =>
         {
-            this.renderTemplate(req, res, 'dota2-quiz/quiz-archive.html', {});
+            siteModules.User.find({ _id: req.session.currentUser._id }).then((users) =>
+            {
+                let user = users[0];
+                req.session.currentUser = user;
+                this.renderTemplate(req, res, 'dota2-quiz/quiz-archive.html', {});
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
+            });
+
         });
         this.router.get('/new-dummy-quiz', (req, res) =>
         {
@@ -30,37 +48,51 @@ export class Dota2QuizRouter extends SiteRouter
         });
         this.router.get('/quiz/:_id', (req, res) =>
         {
-            let session = undefined;
-            for (var i = 0; i < req.session.currentUser.dota2Quiz.sessions.length; i++)
+            siteModules.User.find({ _id: req.session.currentUser._id }).then((users) =>
             {
-                if (req.session.currentUser.dota2Quiz.sessions[i]._id == req.params._id)
+                let user = users[0];
+                req.session.currentUser = user;
+                let session = undefined;
+                for (var i = 0; i < req.session.currentUser.dota2Quiz.sessions.length; i++)
                 {
-                    session = req.session.currentUser.dota2Quiz.sessions[i];
-                    break;
+                    if (req.session.currentUser.dota2Quiz.sessions[i]._id == req.params._id)
+                    {
+                        session = req.session.currentUser.dota2Quiz.sessions[i];
+                        break;
+                    }
                 }
-            }
-            if (session == undefined)
+                if (session == undefined)
+                {
+                    res.status(404).send('Session not found!');
+                    return;
+                }
+                this.renderTemplate(req, res, '/dota2-quiz/quiz-page.html', {
+                    session: session,
+                    session_str: JSON.stringify(session),
+                });
+            }).catch((err) =>
             {
-                res.status(404).send('Session not found!');
-                return;
-            }
-            this.renderTemplate(req, res, '/dota2-quiz/quiz-page.html', {
-                session: session,
-                session_str : JSON.stringify(session),
+                this.show500(req, res, err);
             });
         });
-        this.router.post('/get-questions',(req,res)=>{
-            siteModules.User.apiCall('dota2-quiz-get-questions',req.body).then((response)=>{
-                res.send({code : 200 , error : null , _data : response});
-            }).catch((err)=>{
-                res.send({code : 500 , error : err.toString() , _data : null});
+        this.router.post('/get-questions', (req, res) =>
+        {
+            siteModules.User.apiCall('dota2-quiz-get-questions', req.body).then((response) =>
+            {
+                res.send({ code: 200, error: null, _data: response });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err.toString(), _data: null });
             });
         });
-        this.router.post('/answer-question',(req,res)=>{
-            siteModules.User.apiCall('dota2-quiz-answer-question',req.body).then((response)=>{
-                res.send({code : 200 , error : null , _data : response});
-            }).catch((err)=>{
-                res.send({code : 500 , error : err.toString() , _data : null});
+        this.router.post('/answer-question', (req, res) =>
+        {
+            siteModules.User.apiCall('dota2-quiz-answer-question', req.body).then((response) =>
+            {
+                res.send({ code: 200, error: null, _data: response });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err.toString(), _data: null });
             });
         });
     }
