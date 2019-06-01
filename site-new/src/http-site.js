@@ -320,13 +320,14 @@ express.expressApp.use('/', new SiteErrorRouter(SiteModules).router);
 
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
-apiSocket.connect(() =>
+//listen:
+const PORT = IS_LOCALHOST() ? 80 : 8080;
+express.http.listen(PORT, function ()
 {
-    log.success("api socket connected.");
-    //listen:
-    const PORT = IS_LOCALHOST() ? 80 : 8080;
-    express.http.listen(PORT, function ()
+    log.success('http server listening on port ' + PORT);
+    apiSocket.connect(() =>
     {
-        log.success('http server listening on port ' + PORT);
+        log.success("api socket connected.");
     });
 });
+

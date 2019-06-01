@@ -331,6 +331,7 @@
                 {{{TWITCH_CODE_STR}}}
             </div>
             <div class="alert alert-danger">دقت داشته باشید! در مرحله حذفی(Playoffs)  در صورتی که پیش بینی شما اشتباه باشد سکه از دست می دهید!</div>
+            <div class="alert alert-warning">مسابقه Vici Gaming در برابر Gambit Esports به دلیل مشکل فنی حذف شد به شرکت کنندگان این مسابقه سکه هایشان پس داده شد.</div>
             <!-- warning sign -->
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
@@ -340,7 +341,7 @@
                 <h3 class="text-english" style="color:white">Upper Bracket Finals - 11 Khordad 19:20 Tehran</h3>
                 <div class="row" id="upper-bracket-finals"></div>
                 <h3 class="text-english" style="color:white">Lower Bracket R2 - 10 Khordad 23:10 Tehran / 11 Khordad 15:30 Tehran</h3>
-                <div class="row" id="lower-bracket-r2"><div class="col-12 text-center text-white"  style="padding:10px 0">به زودی اعلام می شود.</div></div>
+                <div class="row" id="lower-bracket-r2"></div>
                 <h3 class="text-english" style="color:white">Lower Bracket R3 - 11 Khordad 23:15 Tehran</h3>
                 <div class="row" id="lower-bracket-r3"><div class="col-12 text-center text-white"  style="padding:10px 0">به زودی اعلام می شود.</div></div>
                 <h3 class="text-english" style="color:white">Lower Bracket Finals - 12 Khordad 15:30 Tehran</h3>
@@ -436,7 +437,8 @@
                         if ((b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
                             || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4') ||
                             (b.category == 'series-a5' || b.category == 'series-b5')
-                            || (b.category == 'lower-bracket-r1' || b.category == 'upper-bracket-finals'))
+                            || (b.category == 'lower-bracket-r1' || b.category == 'upper-bracket-finals') || (b.category == 'lower-bracket-r2'
+                            || b.category == 'lower-bracket-r3' || b.category=='upper-bracket-finals' || b.category == 'grand-finals'))
                         {
                             let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
                             let parts = t.split('_vs_');
