@@ -138,9 +138,35 @@
             .pic1 {
                 margin-top: 100px
             }
-            .pic2{
+
+            .pic2 {
                 margin-top: 200px
             }
+        }
+
+        .player-card {
+            display: block;
+            background-color: white;
+            padding: 10px 20px;
+            box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .player-card img {
+            display: inline-block;
+        }
+
+        .player-card .player-content {
+            display: inline-block;
+            vertical-align: top;
+            width: 300px;
+            padding-right: 5px;
+        }
+
+        .wog-is-good li {
+            text-decoration: none;
+        }
+        .wog-good{
+            padding:5px 10px;
         }
     </style>
 </head>
@@ -153,7 +179,7 @@
             <div class="row">
                 <div class="col-md-4 col-2">
                     <div style="margin-top: 20px">
-                        <a class="signup-link" href="/signup">ثبت نام</a>
+                        <a class="signup-link" href="/signup" style="border:2px solid white;border-radius:5px;padding:5px 20px;">ثبت نام</a>
                     </div>
                 </div>
                 <div class="col-md-4 col-8">
@@ -163,7 +189,8 @@
                         بازی کن!</h1>
                 </div>
                 <div class="col-md-4 col-2">
-                    <a href="/home"><img src="/images/wog-logo-big-white.png" style="width: 80%;right: 0;top: 0" alt="wog logo"></a>
+                    <a href="/home"><img src="/images/wog-logo-big-white.png" style="width: 80%;right: 0;top: 0"
+                            alt="wog logo"></a>
                 </div>
             </div>
         </div>
@@ -180,7 +207,7 @@
                         <br>
                         - حمایت از بازیکنان حرفه‌ای <br>
                         - برگزاری مسابقات منظم و هدفمند <br>
-                        - تاسیس مکان تخصصی جهت تمرین ورزش‌های الکترونیک در این زمینه، فعالیت می‌کند. <br>
+                        - تاسیس مکان تخصصی جهت تمرین ورزش‌های الکترونیک. <br>
                         <br>
                 </div>
                 <div class="col-md-5 col-5">
@@ -190,7 +217,7 @@
         </div>
     </section>
 
-    <section>
+    <section style="padding:20px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-md-5 col-4">
@@ -198,27 +225,90 @@
                 </div>
                 <div class="col-md-7 col-7">
                     <p class="typo2">
-                        لازمه‌ی هر سرمایه‌گذاری بحث استعدادیابی می‌باشد، ما در سدد هستیم با یک استعدادیابی بزرگ و گسترده
+                        لازمه‌ی هر سرمایه‌گذاری بحث استعدادیابی می‌باشد، ما در صدد هستیم با یک استعدادیابی بزرگ و گسترده
                         بتوانیم از گیمرهای این کشور حمایت‌های لازم را به عمل بیاوریم و بتوانیم ثابت کنیم که بازی کردن به
                         صورت حرفه‌ای یک شغل است. <br>
-                        فارغ از گیمی که بازی می‌کنید، در هر زمینه‌ای مرتبط با گیم اگر استعدادی دارید اون رو با ما در
+                        فارغ از هر گیمی که بازی می‌کنید، در هر زمینه‌ای مرتبط با گیم اگر استعدادی دارید اون رو با ما در
                         میون بگذارید. <br>
                         بدین منظور داخل سایت ثبت‌نام کنید و فرم استعدادیابی را کامل کنید و همینطور رزومه‌ی خود را برای
                         ما ارسال کنید.</p>
-                    <a href="/signup" class="btn btn-warning fkbtn">ثبت نام</a>
+                    <p>پس از ثبت نام در سایت می توانید در بخش ویرایش مشخصات کاربری رزومه خود را برای ما آپلود کنید.</p>
+                    <a href="/signup" class="btn btn-warning fkbtn" style="font-size:16px;font-weight: bold;">ثبت نام</a>
+                    
                 </div>
-                <div>
+
+                <!-- <div>
                     <h1 class="  games-title">بازی های تخصصی ما</h1>
-                    <a href="" class="games-links">
-                        <img class="dota-logo" src="/wiki-dota2/images/dota2-logo.png" alt="">
-                    </a>
-                    <a href="" class="games-links">
-                        <img class="fortnite-logo" src="/images/fortnite-2019/fortnite-logo.png" alt="">
-                    </a>
-                    <a href="" class="games-links">
-                        <img class="mk-logo" src="/images/logo-mk-black.png" alt="">
-                    </a>
+                    <div class="text-center">
+                        <a href="" class="games-links">
+                            <img class="dota-logo" src="/wiki-dota2/images/dota2-logo.png" alt="">
+                        </a>
+                        <a href="" class="games-links">
+                            <img class="fortnite-logo" src="/images/fortnite-2019/fortnite-logo.png" alt="">
+                        </a>
+                        <a href="" class="games-links">
+                            <img class="mk-logo" src="/images/logo-mk-black.png" alt="">
+                        </a>
+                    </div>
+                </div> -->
+            </div>
+            <div>
+                <h1 class="  games-title">مزایای پیوستن به واج:</h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class=" wog-good text-center">
+                            <div style="padding:25px 5px;text-align: center"><i class="fas fa-money-bill-alt" style="font-size:126px;color:#E67E22;"></i></div>
+                            <span>پرداخت حقوق ماهیانه</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="wog-good text-center">
+                            <div style="padding:25px 5px;text-align: center"><i class="fas fa-desktop" style="font-size:126px;color:#E67E22;"></i></div>
+                            <span>در اختیار قراردادن تجهیزات گیمینگ</span>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="wog-good text-center">
+                            <div style="padding:25px 5px;text-align: center">
+                                <img src="/trashpage/trumpet-thing.png" width="128px"/>
+                            </div>
+                            <span>پوشش کامل رسانه ای گیمر</span>
+                        </div>
+                    </div>
+                    
+                    
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="introduction" style="padding:30px 0;">
+        <div class="container">
+            <h1 class="  games-title" style="margin-bottom:20px;">گیمرهایی که به واج پیوسته اند:</h1>
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="player-card">
+                        <img src="/images/amir-phantom-banner.jpg" style="width:128px;border-radius:50%" />
+                        <div class="player-content">
+                            <h3 style="font-size:18px;font-weight: bold;">امیر حسین محبوبی</h3>
+                            <div>نیاز هر گیمری اینه که یک تیم گیمینگ ازش حمایت کنه و من خیلی خوشحالم که تونستم به مجموعه
+                                واج بپیوندم.</div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="player-card">
+                        <img src="/images/abbas-streamer.jpg" style="width:128px;border-radius:50%" />
+                        <div class="player-content">
+                            <h3 style="font-size:18px;font-weight: bold;">عباس وهاب زاده</h3>
+                            <div>خیلی خوشحالم که بالاخره مجموعه ای پیدا شده که از گیمرهای مستعد حمایت میکنه و خوشحالم که
+                                به این تیم پیوستم.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center" style="padding:20px 0;">
+                <a href="/signup" class="btn btn-md btn-warning" style="font-size:24px;font-weight: bold;min-width:160px;border:1px solid #202020;">ثبت نام</a>
             </div>
         </div>
     </section>
