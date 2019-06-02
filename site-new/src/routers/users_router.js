@@ -46,7 +46,7 @@ export default class SiteUsersRouter extends SiteRouter
                 return;
             }
             this.renderTemplate(req, res, 'edit-profile.html', {
-                success : req.query.msg == 'success',
+                success: req.query.msg == 'success',
             });
         });
         this.router.post('/:username/submit-edit', (req, res) =>
@@ -91,10 +91,11 @@ export default class SiteUsersRouter extends SiteRouter
                     lastName: req.body.lastName,
                     age: req.body.age,
                     sex: req.body.sex,
-                    epicGamesID : req.body.epicGamesID,
-                    psnID : req.body.psnID,
-                    instagramID : req.body.instagramID,
-                    twitchID : req.body.twitchID,
+                    epicGamesID: req.body.epicGamesID,
+                    psnID: req.body.psnID,
+                    instagramID: req.body.instagramID,
+                    twitchID: req.body.twitchID,
+                    resume: req.body.resume,
                 };
                 if (!isEmptyString(req.body.profileImage))
                     data.profileImage = req.body.profileImage;
@@ -133,8 +134,27 @@ export default class SiteUsersRouter extends SiteRouter
                 {
                     if (coverImage)
                         req.body.cover = coverImage.path;
-                    console.log('handle file done');
-                    doEditUser();
+                    if (req.files.resume)
+                    {
+                        let fileName = req.files.resume.name.toString().toLowerCase();
+                        if (fileName.indexOf('.pdf') == -1 && fileName.indexOf('.txt') == -1 && fileName.indexOf('.doc') == -1
+                            && fileName.indexOf('.docx') == -1 && fileName.indexOf('.jpeg') == -1 && fileName.indexOf('.jpg') == -1
+                             && fileName.indexOf('.png') == -1)
+                        {
+                            res.send({ success: false, error: 'resume file format must be pdf/txt/doc/docx/jpg/jpeg/png ' });
+                            return;
+                        }
+                        console.log(req.files.resume);
+                    }
+                    this.handleFile(req, res, 'resume', userPath).then((resumeFile) =>
+                    {
+                        if (resumeFile)
+                            req.body.resume = resumeFile.path;
+                        doEditUser();
+                    }).catch((err) =>
+                    {
+                        res.send({ success: false, error: err.toString() });
+                    });
                 }).catch((err) =>
                 {
                     res.send({ success: false, error: err.toString() });

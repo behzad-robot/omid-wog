@@ -184,6 +184,16 @@
                                     <input type="text" class="form-control m" name="twitchID"
                                         value="{{currentUser.twitchID}}" />
                                 </div>
+                                <div class="form-row">
+                                    <b>رزومه گیمر:</b>
+                                    <input type="file" class="form-control m" name="resume" />
+                                </div>
+                                {{#currentUser.resume}}
+                                <div class="form-row">
+                                    <b>رزومه شما:</b>
+                                    <a href="{{{currentUser.resume}}}">{{{currentUser.resume}}}</a>
+                                </div>
+                                {{/currentUser.resume}}
                             </div>
                             <div class="text-center" style="padding:10px 0">
                                 <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />

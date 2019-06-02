@@ -169,19 +169,15 @@
         .home-aparat-card {
             display: block;
             position: relative;
-            padding-bottom: 5px;
+            margin-bottom: 5px;
             color: #2e2e2e !important;
             text-decoration: none !important;
         }
 
         .home-aparat-card h1 {
             padding: 10px 20px;
-            font-size: 0.8rem;
-            height: 40px;
-            overflow: hidden;
-            text-overflow: clip;
+            font-size: 10px;
             text-align: center;
-            max-lines: 2;
         }
 
         .home-aparat-card .thumbnail {
@@ -251,6 +247,95 @@
             -webkit-transform: translate3d(+100%, 0, 0);
             transform: translate3d(+100%, 0, 0);
         }
+
+        .post-box {
+            background-color: white;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+
+        .post-box a {
+            color: initial !important;
+            text-decoration: none !important;
+        }
+
+        .post-box .post-box-content {
+            padding: 10px 20px;
+        }
+
+        .post-box.post-box-small h1 {
+            font-size: 1.2rem;
+            font-weight: bolder;
+        }
+
+        .post-box.post-box-small p {
+            font-size: 0.95rem;
+        }
+
+        .post-box .date {
+            color: #455A64;
+            font-size: 0.8rem;
+        }
+
+        .post-box a.author {
+            color: #455A64 !important;
+            font-size: 0.8rem;
+        }
+
+        .post-box a.author:hover {
+            color: orange !important;
+        }
+
+        .post-box .date .fas {
+            position: relative;
+            top: 2px;
+        }
+
+        .upcoming-game-box {
+            background-size: cover;
+            background-position: center;
+            height: 100px;
+            display: block;
+            width: 100%;
+            position: relative;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            text-decoration: none !important;
+            color: white !important;
+
+        }
+
+        .upcoming-game-box .overlay {
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .upcoming-game-box .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .upcoming-game-box .title {
+            font-size: 17px;
+        }
+
+        .upcoming-game-box .subtitle {
+            font-size: 14px;
+        }
+
+        .upcoming-game-box .icon {
+            height: 64px;
+        }
     </style>
 
 </head>
@@ -285,13 +370,15 @@
                             style="position: absolute;width:100%;height:100%;top:0;left:0;background-color: rgba(0, 0, 0, 0.4);">
                         </div>
                         <div style="position: absolute;width:100%;top:120px;text-align: center">
-                            <img src="/dota2book/images/ESL-One-logo.png" width="128px"/>
+                            <img src="/dota2book/images/ESL-One-logo.png" width="128px" />
                             <h1 style="color:white;font-size:46px;text-shadow:3px 4px 4px rgba(0,0,0,0.6);">پیش بینی
                                 مسابقات <br><span class="text-english">ESL One BIRMINGHAM 2019</span></h1>
                             <a href="/dota2-book/eua" class="btn btn-md btn-warning"
-                                style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">ورود به  ایونت</a>
+                                style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">ورود
+                                به ایونت</a>
                             <a href="/dota2-book/leaderboard" class="btn btn-md btn-danger"
-                                style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">لیست شرکت کنندگان</a>
+                                style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">لیست
+                                شرکت کنندگان</a>
                         </div>
                     </div>
                 </div>
@@ -483,7 +570,7 @@
         </section>
         <!-- END posts grid-->
     </section>
-    <section style="padding:10px 0">
+    <!-- <section style="padding:10px 0">
         <div class="container">
             <div style="overflow: hidden;">
                 <h2 class="orange-title" style="font-size:1.2rem;">تازه های سایت:</h2>
@@ -500,11 +587,11 @@
                 {{/latestPosts}}
             </div>
         </div>
-    </section>
-    <section>
+    </section> -->
+    <!-- <section>
         <div class="container">
             <div style="overflow: hidden;">
-                <h2 class="orange-title" style="font-size:1.2rem;">تازه های آپارات:</h2>
+                <h2 style="font-size:12px;">تازه های آپارات:</h2>
                 <a href="https://www.aparat.com/wogcompany" target="_blank" class="btn float-left">بیشتر</a>
             </div>
             <div class="row">
@@ -523,15 +610,98 @@
                 {{/aparatVideos}}
             </div>
         </div>
-    </section>
+    </section> -->
     <section style="padding-top:10px;">
         <div class="container">
             <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <h2 class="orange-title" style="font-size:1.2rem;">تازه های سایت:</h2>
+                <div class="col-md-2 col-12">
+                    <h2 style="font-size:16px;font-weight: bold;">تازه های آپارات:</h2>
+                    {{#aparatVideos}}
+                    <a class="wog-card home-aparat-card" href="{{url}}" target="_blank">
+                        <img src="/images/aparat-icon.png" class="aparat" />
+                        <div class="thumbnail" style="background-image:url('{{thumbnail}}')">
+                            <div class="overlay text-center">
+                                <span class="fas fa-play playBtn"></span>
+                            </div>
+                        </div>
+                        <h1>{{title}}</h1>
+                    </a>
+                    {{/aparatVideos}}
+                    <a href="{{_siteConfig.aparat}}" target="_blank">
+                        <img src="/images/aparat-banner.jpg" width="100%"
+                            style="border-radius:5px;box-shadow:3px 4px 3px rgba(0,0,0,0.3);display:block;margin-bottom:5px;" />
+                    </a>
                 </div>
-                <div class="col-md-2"></div>
+                <div class="col-md-7 col-12">
+                    <h2 class="orange-title" style="font-size:1.2rem;">تازه های سایت:</h2>
+                    <div id="posts-list">
+                        {{#latestPosts}}
+                        {{#extras.bigBox}}
+                        <div class="post-box">
+                            <a href="{{siteUrl}}">
+                                <img src="{{thumbnail_800x600}}" alt="" style="width:100%;padding:5px;">
+                            </a>
+                            <div class="post-box-content">
+                                <a href="{{siteUrl}}">
+                                    <h1>{{{title_formatted}}}</h1>
+                                </a>
+                                <p>{{{intro}}}</p>
+                                <div class="date">
+                                    <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
+                                        {{{_author.username}}}</a>&nbsp;&nbsp;
+                                    <span class="fas fa-calendar"></span>&nbsp;
+                                    {{{createdAt_persian}}}
+                                </div>
+                            </div>
+
+                        </div>
+                        {{/extras.bigBox}}
+                        {{^extras.bigBox}}
+                        <div class="post-box post-box-small" style="padding:10px 10px;">
+                            <div class="row">
+                                <div class="col-md-4 col-6">
+                                    <a href="{{siteUrl}}"><img src="{{thumbnail_800x600}}" alt=""
+                                            style="width:100%"></a>
+                                </div>
+                                <div class="col-md-8 col-6" style="padding-right:0px;">
+                                    <a href="{{siteUrl}}">
+                                        <h1>{{{title_formatted}}}</h1>
+                                    </a>
+                                    <p>{{{intro}}}</p>
+                                    <div class="date">
+                                        <a href="{{_author.siteUrl}}" class="author">
+                                            <span class="fas fa-user"></span>&nbsp;{{{_author.username}}}
+                                        </a>
+                                        &nbsp;&nbsp;
+                                        <span class="fas fa-calendar"></span>&nbsp;
+                                        {{createdAt_persian}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/extras.bigBox}}
+                        {{/latestPosts}}
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
+                    <h2 style="font-size:16px;font-weight: bold;">بازی های مورد انتظار:</h2>
+                    {{#upComingGames}}
+                    <a class="upcoming-game-box" style="background-image:url('{{thumbnail}}')" href="{{url}}"
+                        target="_blank">
+                        <div class="overlay"></div>
+                        <div class="content">
+                            {{#icon}}
+                            <img src="{{icon}}" class="icon" />
+                            {{/icon}}
+                            <h1 class="title text-white text-shadow">{{title}}</h1>
+                            <h2 class="subtitle text-white text-shadow text-english">{{date}}</h2>
+                        </div>
+                    </a>
+                    {{/upComingGames}}
+                    <h2 style="font-size:16px;font-weight: bold;">استریمر‌ها:</h2>
+                    <a href="https://twitch.tv/Amirphanthom" target="_blank"><img src="/images/amir-phantom-banner.jpg" width="100%" style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
+                </div>
             </div>
         </div>
     </section>

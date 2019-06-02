@@ -275,6 +275,36 @@
             padding-bottom: 10px
         }
 
+        .item-box {
+            display: inline-block;
+            width: 96px;
+            margin-bottom: 5px;
+            vertical-align: top;
+        }
+
+        .item-box .item-icon {
+            display: block;
+            width: 100%;
+            height: 96px;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .item-box .item-title {
+            background-color: #38486D;
+            color: white;
+            display: block;
+            border-bottom-right-radius: 3px;
+            border-bottom-left-radius: 3px;
+            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+            font-size: 10px;
+            height: 32px;
+            padding: 5px 5px;
+            text-align: center;
+        }
+
         @media (max-width: 576px) {
             .header-section {
                 padding-top: 30px;
@@ -313,10 +343,10 @@
     {{{navbar}}}
     <navfiller></navfiller>
     <div class="dota2-shortcuts">
-        <img src="/wiki-dota2/images/dota2-logo.png"  class="shortcut-btn" onclick="toggleDota2Shortcut()"/>
+        <img src="/wiki-dota2/images/dota2-logo.png" class="shortcut-btn" onclick="toggleDota2Shortcut()" />
         <div class="shortcuts-wrapper">
             <a href="{{#SITE_URL}}/wiki/dota2{{/SITE_URL}}">خانه <span class="text-english">Dota2</span></a>
-            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها</a>
+            <a href="{{#SITE_URL}}/wiki/dota2/champions{{/SITE_URL}}">قهرمان ها و آیتم ها</a>
             <a href="{{#SITE_URL}}/wiki/dota2/builds{{/SITE_URL}}">آموزش ها</a>
             <a href="{{#SITE_URL}}/posts/tags/Dota 2{{/SITE_URL}}">اخبار</a>
         </div>
@@ -360,6 +390,39 @@
                 //         $("#heros-list").append(str);
                 //     }
                 // });
+            </script>
+        </div>
+    </section>
+    <section class="heroes-section">
+        <div class="container">
+            <h1 style="color: white;font-size: 32px">آیتم ها</h1>
+            <div id="items-list">
+                {{#game.items}}
+                <a class="item-box" href="{{#SITE_URL}}/wiki/dota2/items/{{slug}}{{/SITE_URL}}">
+                    <div class="item-icon" style="background-image:url('{{icon}}')"></div>
+                    <span class="item-title">{{name}}</span>
+                </a>
+                {{/game.items}}
+                <div class="text-center">
+                    <div class="btn btn-md btn-warning" onclick="showAllItemsBoxes(this)">مشاهده همه</div>
+                </div>
+            </div>
+            <script>
+                $(() =>
+                {
+                    $(".item-box").hide(0);
+                    let itemBoxes = $(".item-box");
+                    for (var i = 0; i < itemBoxes.length && i < 20; i++)
+                    {
+                        $(itemBoxes[i]).show();
+                    }
+
+                });
+                function showAllItemsBoxes(elm)
+                {
+                    $(elm).hide();
+                    $(".item-box").show();
+                }
             </script>
         </div>
     </section>

@@ -11,6 +11,7 @@ export const UserSchema = new mongoose.Schema({
     profileImage: { type: String, default: '' },
     cover: { type: String, default: '' },
     email: { type: String, default: '' },
+    resume: { type: String, default: '' },
     aboutMe: { type: String, default: '' },
     phoneNumber: { type: String, default: '' },
     firstName: { type: String, default: '' },

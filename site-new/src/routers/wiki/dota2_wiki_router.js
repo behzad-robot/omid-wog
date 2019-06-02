@@ -456,6 +456,31 @@ export class Dota2WikiRouter extends SiteRouter
                 this.show500(req, res, err);
             });
         });
+        this.router.get('/items/:slug', (req, res) =>
+        {
+            siteModules.Cache.getGame({ token: 'dota2' }).then((game) =>
+            {
+                let item = undefined;
+                for (var i = 0; i < game.items.length; i++)
+                {
+                    if (req.params.slug == game.items[i].slug)
+                    {
+                        item = game.items[i];
+                        break;
+                    }
+                }
+                if (item == undefined)
+                {
+                    console.log('item not found!!');
+                    this.show404(req, res);
+                    return;
+                }
+                this.renderTemplate(req, res, 'wiki-dota2/dota2-item-single.html', {
+                    item: item,
+                    game: game,
+                });
+            });
+        });
     }
 }
 function fixBuilds(siteModules, builds, champions, game)
