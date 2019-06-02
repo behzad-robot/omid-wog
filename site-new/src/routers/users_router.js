@@ -134,7 +134,7 @@ export default class SiteUsersRouter extends SiteRouter
                 {
                     if (coverImage)
                         req.body.cover = coverImage.path;
-                    if (req.files.resume)
+                    if (req.files && req.files.resume != undefined && !isEmptyString(req.files.resume.name))
                     {
                         let fileName = req.files.resume.name.toString().toLowerCase();
                         if (fileName.indexOf('.pdf') == -1 && fileName.indexOf('.txt') == -1 && fileName.indexOf('.doc') == -1
