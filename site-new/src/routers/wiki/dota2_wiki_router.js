@@ -475,9 +475,27 @@ export class Dota2WikiRouter extends SiteRouter
                     this.show404(req, res);
                     return;
                 }
+                item._children = [];
+                for (var i = 0; i < item.children.length; i++)
+                {
+                    for (var j = 0; j < game.items.length; j++)
+                    {
+                        if (item.children[i] == game.items[j]._id)
+                        {
+                            item._children.push(game.items[j]);
+                            break;
+                        }
+                    }
+                }
+                console.log(item._children.length);
                 this.renderTemplate(req, res, 'wiki-dota2/dota2-item-single.html', {
                     item: item,
                     game: game,
+                    noChild : item._children.length == 0,
+                    oneChild : item._children.length == 1,
+                    twoChild : item._children.length == 2,
+                    threeChild : item._children.length == 3,
+                    fourChild : item._children.length == 4,
                 });
             });
         });
