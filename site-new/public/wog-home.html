@@ -12,14 +12,14 @@
     <meta property="og:title" content="{{_wogSEO.title}}">
     <meta property="og:description" content="{{_wogSEO.description}}">
     <meta property="og:url" content="{{_wogSEO.fullUrl}}">
-    <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
     <meta property="og:site_name" content="واج">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@wogcompany">
     <meta name="twitter:description" content="{{_wogSEO.description}}">
     <meta name="twitter:title" content="{{_wogSEO.title}}">
-    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         .home-slider-slide {
             width: 100%;
@@ -361,6 +361,14 @@
         <div id="carouselHomeHeader" class="carousel slide" data-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
+                    <div class="home-slider-slide" style="background-image:url('/trashpage/Pic1Trans.png')">
+                        <div class="container text-center text-white" style="padding-top:185px;">
+                            <h1 style="font-size:3rem;margin-bottom:20px;" class="text-shadow">زندگی خرج داره بیشتر بازی کن!</h1>
+                            <a href="{{#SITE_URL}}/landing-page{{/SITE_URL}}" class="btn btn-md btn-warning" style="font-weight: bold;min-width: 150px" target="_blank">کسب اطلاعات بیشتر</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
                     <div class="home-slider-slide" style="position: relative;">
                         <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"
                             style="display:block;width:100%;">
@@ -373,9 +381,9 @@
                             <img src="/dota2book/images/ESL-One-logo.png" width="128px" />
                             <h1 style="color:white;font-size:46px;text-shadow:3px 4px 4px rgba(0,0,0,0.6);">پیش بینی
                                 مسابقات <br><span class="text-english">ESL One BIRMINGHAM 2019</span></h1>
-                            <a href="/dota2-book/eua" class="btn btn-md btn-warning"
+                            <!-- <a href="/dota2-book/eua" class="btn btn-md btn-warning"
                                 style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">ورود
-                                به ایونت</a>
+                                به ایونت</a> -->
                             <a href="/dota2-book/leaderboard" class="btn btn-md btn-danger"
                                 style="min-width:80px;font-weight:bold;box-shadow:4px 3px 4px rgba(0, 0, 0, 0.3);">لیست
                                 شرکت کنندگان</a>
@@ -684,7 +692,9 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-12">
-                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png" width="100%" style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%"
+                            style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
                     <h2 style="font-size:16px;font-weight: bold;">بازی های مورد انتظار:</h2>
                     {{#upComingGames}}
                     <a class="upcoming-game-box" style="background-image:url('{{thumbnail}}')" href="{{url}}"
@@ -700,7 +710,9 @@
                     </a>
                     {{/upComingGames}}
                     <h2 style="font-size:16px;font-weight: bold;">استریمر‌ها:</h2>
-                    <a href="https://twitch.tv/Amirphanthom" target="_blank"><img src="/images/amir-phantom-banner.jpg" width="100%" style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
+                    <a href="https://twitch.tv/Amirphanthom" target="_blank"><img src="/images/amir-phantom-banner.jpg"
+                            width="100%"
+                            style="border-radius:2px;box-shadow:2px 3px 3px rgba(0,0,0,0.3);display:block;margin-bottom:10px;" /></a>
                 </div>
             </div>
         </div>
