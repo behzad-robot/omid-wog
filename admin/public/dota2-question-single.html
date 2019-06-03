@@ -34,6 +34,7 @@
             <div class="col-md-6">
                 <h3>Preview:</h3>
                 <div id="preview-body"></div>
+                <div id="preview-body2"></div>
                 <div id="preview-options"></div>
             </div>
         </div>
@@ -50,6 +51,7 @@
                 $("#single").append(numberInput('level', question.level));
                 $("#single").append(numberInput('answer', question.answer));
                 $("#single").append(textInput('question', question.question));
+                $("#single").append(textInput('question2', question.question2));
                 $("#single").append(jsonInput('options', question.options));
                 // $("#single").append(submitBtn());
                 $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
@@ -71,6 +73,21 @@
                 else
                 {
                     $("#preview-body").html(question.question);
+                }
+
+                if(question.question2.indexOf('[img') != -1)
+                {
+                    let src = question.question2.replace('[img]','').replace('[/img]','');
+                    $("#preview-body2").append(`<img src="${src}" width="100%"/>`);
+                }
+                else if(question.question2.indexOf('[audio') != -1)
+                {
+                    let src = question.question2.replace('[audio]','').replace('[/audio]','');
+                    $("#preview-body2").append(`<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`);
+                }
+                else
+                {
+                    $("#preview-body2").html(question.question);
                 }
                 for(var i = 0 ; i < question.options.length;i++){
                     let str = '';

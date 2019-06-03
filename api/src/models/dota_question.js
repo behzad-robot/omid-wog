@@ -5,6 +5,7 @@ export const DotaQuestionSchema = new mongoose.Schema({
     _draft : {type : Boolean , default : true},
     level : {type : Number , default : 0},
     question : {type : String , default : ''},
+    question2 : {type : String , default : ''},
     answer : {type: Number , default : -1},
     options : {type : Array , default : []}, // {index : int , body : string}
     createdAt: String,

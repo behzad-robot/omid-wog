@@ -35,6 +35,9 @@
                         <div class="question-body">
 
                         </div>
+                        <div class="question-body2">
+
+                        </div>
                         <div class="question-options row">
 
                         </div>
@@ -121,6 +124,22 @@
                                 str = question.question;
                             }
                             $(".question-body").html(str);
+                            let str = '';
+                            if (question.question2.indexOf('[img') != -1)
+                            {
+                                let src = question.question2.replace('[img]', '').replace('[/img]', '');
+                                str = `<img src="${src}" width="100%" />`
+                            }
+                            else if (question.question2.indexOf('[audio') != -1)
+                            {
+                                let src = question.question2.replace('[audio]', '').replace('[/audio]', '');
+                                str = `<audio controls><source src="${src}" type="audio/mpeg">Your browser does not support the audio element.</audio>`;
+                            }
+                            else
+                            {
+                                str = question.question2;
+                            }
+                            $(".question-body2").html(str);
                             //render options:
                             for (var i = 0; i < question.options.length; i++)
                             {
