@@ -66,7 +66,7 @@
 
         .typo {
             font-size: 20px;
-            line-height: 36px;
+            line-height: 40px;
         }
 
         .typo2 {
@@ -76,9 +76,8 @@
         }
 
         .fkbtn {
-            margin-top: 10px;
-            margin-bottom: 10px;
-            width: 20%
+            margin: 0 auto;
+            width: 10%
         }
 
         .pic1 {
@@ -90,6 +89,20 @@
             width: 100%;
             border-radius: 10px;
             margin-top: 30px
+        }
+
+        .abbas {
+            width: 128px;
+            border-radius: 50%;
+            margin-top: 10px;
+            margin-bottom: 10px
+        }
+
+        .phantom {
+            width: 128px;
+            border-radius: 50%;
+            margin-top: 10px;
+            margin-bottom: 10px
         }
 
         @media (max-width: 576px) {
@@ -132,12 +145,12 @@
             }
 
             .fkbtn {
-                width: 50%
+                width: 30%;
+                margin-bottom: 10px
             }
 
-
             .pic2 {
-                margin-top: 200px
+                margin-top: 0px
             }
         }
 
@@ -209,11 +222,9 @@
     <section class="introduction">
         <div class="container">
             <h1 class="  title">واج حامی گیمر‌ها</h1>
-            <div class="row">
-                <div class="col-md-5 col-12 float-left">
-                    <img src="/trashpage/Pic 3.jpg" class="pic1" style="vertical-align: top;" alt="">
-                </div>
-                <div class="col-md-7 col-12 float-right">
+            <div class="row flex-column-reverse flex-md-row">
+
+                <div class="col-md-7">
                     <p class="typo">
                         مجموعه واج با توجه به
                         نبود بستر حمایتی جدی از ورزش‌های الکترونیک در کشور، از تاریخ دی ماه 1397 کار خود را آغاز کرده
@@ -225,7 +236,9 @@
                         - تاسیس مکان تخصصی جهت تمرین ورزش‌های الکترونیک. <br>
                         <br>
                 </div>
-
+                <div class="col-md-5">
+                    <img src="/trashpage/Pic 3.jpg" class="pic1" style="vertical-align: top;" alt="">
+                </div>
             </div>
         </div>
     </section>
@@ -233,10 +246,10 @@
     <section style="padding:20px 0;">
         <div class="container">
             <div class="row">
-                <div class="col-md-5 col-4">
-                    <img src="/trashpage/Pic 2.jpg" class="pic2" alt="">
+                <div class="col-md-5 col-12">
+                    <img src="/trashpage/pic2.png" class="pic2" alt="">
                 </div>
-                <div class="col-md-7 col-7">
+                <div class="col-md-7 col-12">
                     <p class="typo2">
                         لازمه‌ی هر سرمایه‌گذاری بحث استعدادیابی می‌باشد، ما در صدد هستیم با یک استعدادیابی بزرگ و گسترده
                         بتوانیم از گیمرهای این کشور حمایت‌های لازم را به عمل بیاوریم و بتوانیم ثابت کنیم که بازی کردن به
@@ -246,11 +259,11 @@
                         بدین منظور داخل سایت ثبت‌نام کنید و فرم استعدادیابی را کامل کنید و همینطور رزومه‌ی خود را برای
                         ما ارسال کنید.</p>
                     <p>پس از ثبت نام در سایت می توانید در بخش ویرایش مشخصات کاربری رزومه خود را برای ما آپلود کنید.</p>
-                    <a href="/signup" class="btn btn-warning fkbtn" style="font-size:16px;font-weight: bold;">ثبت
-                        نام</a>
+
 
                 </div>
-
+                <a href="/signup" class="btn btn-warning fkbtn" style="font-size:16px;font-weight: bold;">ثبت
+                    نام</a>
                 <!-- <div>
                     <h1 class="  games-title">بازی های تخصصی ما</h1>
                     <div class="text-center">
@@ -303,7 +316,7 @@
             <div class="row">
                 <div class="col-md-6 col-12">
                     <div class="player-card">
-                        <img src="/images/amir-phantom-banner.jpg" style="width:128px;border-radius:50%" />
+                        <img src="/images/amir-phantom-banner.jpg" class="phantom" />
                         <div class="player-content">
                             <h3 style="font-size:18px;font-weight: bold;">امیر حسین محبوبی</h3>
                             <div>نیاز هر گیمری اینه که یک تیم گیمینگ ازش حمایت کنه و من خیلی خوشحالم که تونستم به مجموعه
@@ -314,7 +327,7 @@
                 </div>
                 <div class="col-md-6 col-12">
                     <div class="player-card">
-                        <img src="/images/abbas-streamer.jpg" style="width:128px;border-radius:50%" />
+                        <img src="/images/abbas-streamer.jpg" class="abbas" />
                         <div class="player-content">
                             <h3 style="font-size:18px;font-weight: bold;">عباس وهاب زاده</h3>
                             <div>خیلی خوشحالم که بالاخره مجموعه ای پیدا شده که از گیمرهای مستعد حمایت میکنه و خوشحالم که
