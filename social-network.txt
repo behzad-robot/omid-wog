@@ -1,0 +1,42 @@
+SocialPost{
+    userId : string,
+    tags : [],
+    body : string,  //[post]http://worldofgamers.ir/posts/slug[/post]
+    gameId : string,
+    likes : string [] ,
+    createdAt : string,
+    updatedAt : string ,
+    //REMOVE : game tags => instead generate gameId field10
+}
+Comment => objectType => socialPosts
+Challenge {
+    tags : string[],
+    title : string,
+    body : string ,
+    createdAt : string,
+    updatedAt : string ,
+}
+SocialHashTags{
+    tag : string,
+    thumbnail : string,
+}
+User{
+    coins : int,
+}
+/signup/?refferer=INFINITY
+Community{
+    title : string,
+    icon : string,
+    members : string[],
+    createdAt , updatedAt
+}
+CommunityChatArchive{
+    communityId : string,
+    messages : ChatMessage[],
+}
+ChatMessage{
+    userId : string,
+    communityId : string,
+    body : string,
+    createdAt , updatedAt
+}

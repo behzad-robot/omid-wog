@@ -1,0 +1,393 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>لیست شرکت کنندگان پیش بینی مسابقات ESL One 2019</title>
+    <style>
+        .announcment {
+            margin-top: 80px;
+        }
+
+        .video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%
+        }
+
+        .block_headline {
+            font-size: 54px;
+            line-height: 68px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #F9ECFF;
+            position: relative;
+            background: linear-gradient(to bottom, #fff 0%, #c9a2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* .player-card {
+            background: rgb(6, 6, 8);
+            background: linear-gradient(0deg, rgba(6, 6, 8, 1) 0%, rgba(70, 82, 97, 1) 100%);
+            border-radius: 5px;
+            margin-bottom: 10px
+        } */
+
+        .rank-part {
+            /* display: inline-block; 
+             position: relative;
+             width: 96px;
+            float: right; */
+            color: white;
+            top: 6;
+        }
+
+        .name-part {
+            /* display: inline-block; */
+            /* height: 64px;
+            position: relative; */
+            color: white;
+            font-size: 18px;
+            padding-top: 10px
+        }
+
+        .coin-part {
+            /* float: left; 
+            height: 64px;
+            text-align: left;*/
+            padding-top: 15px;
+            padding-left: 5px;
+            color: #3e3e3e;
+        }
+
+        .players-section {
+            background-image: url('/dota2book/images/immortals_bg.jpg');
+            background-position: center;
+            margin-bottom: -20px
+        }
+
+        .insta-link {
+            text-decoration: none;
+            color: white
+        }
+
+        .insta-link:hover {
+            text-decoration: none;
+            color: white
+        }
+
+        .coin-image {
+            width: 100%;
+            margin-top: -80px
+        }
+
+        .coin-text {
+            color: white;
+            display: inline-block;
+            font-size: 15px;
+            padding-top: 15px
+        }
+
+        .coins {
+            display: inline-block;
+            width: 15%
+        }
+
+        .number-rank {
+            padding-top: 10px;
+            color: white;
+            padding-right: 5px
+        }
+
+        .first-three-images {
+            width: 100%;
+        }
+
+        .leaderBoard-header {
+            padding-top: 20px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 40px
+        }
+
+        @media (max-width: 576px) {
+            .coin-image {
+                width: 100%;
+                margin-top: 1px;
+            }
+
+            .rank-part {
+                top: 6;
+            }
+
+            .name-part {
+                font-size: 10px;
+                padding-top: 10px
+            }
+
+            .coin-part {
+                padding-top: 15px;
+                padding-left: 5px;
+            }
+
+            .coin-text {
+                display: inline-block;
+                font-size: 10px;
+                padding-top: 15px
+            }
+
+            .coins {
+                display: inline-block;
+                width: 15%
+            }
+
+            .number-rank {
+                font-size: 10px;
+            }
+
+            .first-three-images {
+                width: 100%
+            }
+
+            .leaderBoard-header {
+                font-size: 20px
+            }
+        }
+    </style>
+    <style>
+        #videoSection {
+            position: relative;
+            background-color: black;
+            /* height: 100vh; */
+            /* min-height: 25rem; */
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #videoSection video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        #videoSection .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        #videoSection .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        @media (pointer: coarse) and (hover: none) {
+            #videoSection {
+                background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+            }
+
+            #videoSection video {
+                display: none;
+            }
+        }
+    </style>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        td,
+        th {
+            text-align: center;
+            border-bottom: 1px solid #0e1527;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <style>
+        .dark-box {
+            background-image: url('/dota2book/images/grey.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            height: 377px;
+            border-radius: 10px
+        }
+
+        .blue-box {
+            background-image: url('/dota2book/images/blue.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            border-radius: 10px
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section id="videoSection" style="position:relative;margin-top:80px">
+        <div class="overlay"></div>
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <source src="/storage/esl-one-birmingham-2019/ESL.mp4" type="video/mp4">
+        </video>
+        <div class="container" style="padding-top:50px;">
+            <div class="text-center" style="width: 100%;margin-bottom:20px;">
+                <img src="/dota2book/images/ESL-One-new.png" alt="">
+                <h1 class="text-white text-english">BIRMINGHAM 2019</h1>
+                <div class="block_headline text-center">به رقابت با {{{players.length}}} شرکت کننده بپیوندید</div>
+            </div>
+            <div class="row" style="margin-top:20px;margin-bottom: 20px">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                    <div class="dark-box">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جزئیات مسابقه</h3>
+                        </div>
+                        <ul class="text-white" style="list-style-type:disc">
+                            <li>شروع رقابت : هفتم خرداد</li>
+                            <li>پایان مسابقات : شانزدهم خرداد</li>
+                            <li>تاریخ اهداء جوایز : هجدهم خرداد</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="blue-box">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جایزه نفرات برتر</h3>
+                        </div>
+                        <ol class="text-white">
+                            <li>500 هزار تومان وجه نقد</li>
+                            <li>200 هزار تومان وجه نقد</li>
+                            <li>75 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </section>
+    <section class="players-section">
+        <div class="container">
+            <h1 class="leaderBoard-header">لیدر بورد شرکت کنندگان:</h1>
+            <div class="row">
+                <div class="col-md-8 ">
+                    <div class="player-card">
+                        <table class="text-white" style="margin-bottom: 20px">
+                            <tr>
+                                <th style="text-align:center">رتبه</th>
+                                <th style="text-align:center">نام</th>
+                                <th style="text-align:center">کل سکه‌ها</th>
+                                <th style="text-align:center">سکه‌های موجود</th>
+                            </tr>
+                            {{#players}}
+                            <tr>
+                                <td width="10%">
+                                    <p class="number-rank text-english">#004</p>
+                                    <img style="display:none;" src="/dota2book/images/gold.png"
+                                        class="first-three-images">
+                                </td>
+                                <td width="45%">{{username}}</td>
+                                <td width="15%">{{dota2Book2019.totalCoins}}</td>
+                                <td width="20%">&nbsp;{{dota2Book2019.coins}}</td>
+                            </tr>
+                            {{/players}}
+                        </table>
+                    </div>
+                </div>
+                <script>
+                    $(() =>
+                    {
+                        let playerCards = $("table tr");
+                        $(playerCards[1]).find('.number-rank').hide();
+                        $(playerCards[1]).find('.first-three-images').show();
+                        $(playerCards[1]).find('.first-three-images').attr('src', '/dota2book/images/gold.png');
+                        //================
+                        $(playerCards[2]).find('.number-rank').hide();
+                        $(playerCards[2]).find('.first-three-images').show();
+                        $(playerCards[2]).find('.first-three-images').attr('src', '/dota2book/images/silver.png');
+                        //================
+                        $(playerCards[3]).find('.number-rank').hide();
+                        $(playerCards[3]).find('.first-three-images').show();
+                        $(playerCards[3]).find('.first-three-images').attr('src', '/dota2book/images/bronze.png');
+                        //================
+                        for (var i = 4; i < playerCards.length; i++)
+                        {
+                            let rankStr = '';
+                            if (i < 10)
+                                rankStr = '#00' + (i).toString();
+                            else if (i < 100)
+                                rankStr = '#0' + (i).toString();
+                            else
+                                rankStr = '#' + (i).toString();
+                            $(playerCards[i]).find('.number-rank').html(rankStr);
+                        }
+                    });
+                </script>
+                <div class="col-md-4">
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%" /></a>
+                    <div class="tele-widget">
+                        <a href="https://t.me/wogcompany" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/telegram-channel.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://t.me/WOG_support" target="_blank" style="display:block;margin:10px 0;">
+                            <img src="/dota2book/images/wog-support.png" width="100%">
+                        </a>
+                    </div>
+                    <div class="tele-widget">
+                        <a href="https://www.instagram.com/wogcompany" target="_blank"
+                            style="display:block;margin:10px 0;border-radius: 20px">
+                            <img src="/dota2book/images/instagram.png" width="100%;border-radius:10%">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+
+</body>
+
+</html>

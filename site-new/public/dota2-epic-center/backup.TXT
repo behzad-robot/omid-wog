@@ -1,0 +1,123 @@
+ <div class="col-md-4 col-12">
+                    <div class="bet-box">
+                        <div class="first-team-row">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="second-team-row-orange">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coin-row">
+                            <div style="position: relative;display:inline-block;width: 40%">
+                                <img style="position: absolute;width: 25%" src="/dota2book/images/coins.png" />
+                                <input style="padding-right:30px;width: 100%;border-radius: 5px" placeholder="سکه‌ها" />
+                            </div>
+                            <div class="error">
+                                <img style="width: 20%;display: inline-block;" src="/dota2book/images/error.png" />
+                                <h6 style="display: inline-block;color: white">حداکثر 100 سکه</h6>
+                            </div>
+                        </div>
+                        <div class="message-row">
+                            <span>خطا: بیش از حد سکه مجاز شرط بندی انجام میدهید.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="bet-box">
+                        <div class="first-team-row-orange">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="second-team-row">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coin-row">
+                            <div style="position: relative;display:inline-block;width: 40%">
+                                <img style="position: absolute;width: 25%" src="/dota2book/images/coins.png" />
+                                <input style="padding-right:30px;width: 100%;border-radius: 5px" placeholder="سکه‌ها" />
+                            </div>
+                            <div class="error">
+                                <img style="width: 20%;display: inline-block;" src="/dota2book/images/error.png" />
+                                <h6 style="display: inline-block;color: white">حداکثر 100 سکه</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="bet-box">
+                        <div class="first-team-row">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="second-team-row">
+                            <div class="row">
+                                <div class="col-md-2 col-2">
+                                    <!-- BEHZZZZZZAAAAAAAAD TO DO CHECK LIST-->
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <img src="/dota2book/images/team-secret-circle.png" class="team-images" alt="">
+                                </div>
+                                <div class="col-md-7 col-7">
+                                    <h4 class="team-names">Team Secret</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="coin-row">
+                            <div style="position: relative;display:inline-block;width: 40%">
+                                <img style="position: absolute;width: 25%" src="/dota2book/images/coins.png" />
+                                <input style="padding-right:30px;width: 100%;border-radius: 5px" placeholder="سکه‌ها" />
+                            </div>
+                            <div class="error">
+                                <img style="width: 20%;display: inline-block;" src="/dota2book/images/error.png" />
+                                <h6 style="display: inline-block;color: white">حداکثر 100 سکه</h6>
+                            </div>
+                        </div>
+                    </div>
+                </div>

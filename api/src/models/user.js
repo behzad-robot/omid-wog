@@ -63,6 +63,16 @@ export const UserSchema = new mongoose.Schema({
              */
         }
     },
+    dota2EpicCenter2019:{
+        type:Object,
+        default:{
+            enterEvent : false,
+            coins : 0,
+            joinedAt : "",
+            actions : [],
+            bets : [],
+        }
+    },
     fortnite2019: {
         type: Object,
         default: {
