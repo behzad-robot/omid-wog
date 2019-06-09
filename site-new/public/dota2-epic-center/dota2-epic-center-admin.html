@@ -1,0 +1,223 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Dota 2 Book Admin</title>
+    <style>
+        body{
+            background-color:#d0d1d2;
+        }
+        .team-card{
+            margin-bottom:5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container">
+            <a href="/dota2-book/admin/update-all-bets" class="btn btn-md btn-danger" target="_blank">Update All User
+                Bets!</a>
+            <form action="/dota2-book/admin/save-file" method="POST">
+                <b>Valid Actions:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="valid_actions"></textarea>
+                <b>Action Categories:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="action_cats"></textarea>
+                <b>Teams:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="teams"></textarea>
+                <b>Twitch Code:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="twitch_code">{{{TWITCH_CODE_STR}}}</textarea>
+                <input type="submit" value="Save" class="btn btn-md btn-success" />
+            </form>
+            <h3>Actions:</h3>
+            <div class="btn btn-md btn-secondary" onclick="add_action()">+Add Action</div>
+            <div id="valid-actions" class="row text-english" style="direction:ltr;text-align: left;"></div>
+            <h3>Action Cats:</h3>
+            <div class="btn btn-md btn-secondary" onclick="add_actionCat()">+Add Action Category</div>
+            <div id="actionCats" class="row text-english" style="direction:ltr;text-align: left;"></div>
+            <h3>Teams:</h3>
+            <div class="btn btn-md btn-secondary" onclick="add_team()">+Add Team</div>
+            <div id="teams" class="row text-english" style="direction:ltr;text-align: left;"></div>
+        </div>
+        </div>
+    </section>
+    <script>
+        let actions = [] , teams = [] , actionCats = [];
+        $(() =>
+        {
+            actions = JSON.parse(`{{{VALID_ACTIONS_STR}}}`);
+            teams = JSON.parse(`{{{TEAMS_STR}}}`);
+            actionCats = JSON.parse(`{{{ACTION_CATEGORIES_STR}}}`);
+            for (var i = 0; i < actions.length; i++)
+            {
+                if (actions[i].title == undefined)
+                    actions[i].title = '';
+                if(actions[i].category == undefined)
+                    actions[i].category = '';
+                if(actions[i].time == undefined)
+                    actions[i].time = '';
+            }
+            recreate_actions();
+        });
+        function recreate_actions()
+        {
+            $("#valid-actions").html('');
+            $(`textarea[name=valid_actions]`).val(JSON.stringify(actions));
+            $(".action-card input,.action-card textarea").change(function ()
+            {
+                let index = $(this).closest(".action-card").attr('index');
+                update_action(index);
+            });
+        }
+        function add_action()
+        {
+            actions.push({
+                active: false,
+                token: '',
+                title : '',
+                category : '',
+                reward: 0,
+                isBet: false,
+                maxCoins: 0,
+                answer: "",
+                options: [],
+            });
+            recreate_actions();
+        }
+        function remove_action(index)
+        {
+            actions.splice(index, 1);
+            recreate_actions();
+        }
+        function update_action(i)
+        {
+            actions[i] = {
+                active: $(`.action-card[index=${i}] [name=active]`).is(':checked'),
+                isBet: $(`.action-card[index=${i}] [name=isBet]`).is(':checked'),
+                token: $(`.action-card[index=${i}] [name=token]`).val(),
+                title: $(`.action-card[index=${i}] [name=title]`).val(),
+                category: $(`.action-card[index=${i}] [name=category]`).val(),
+                reward: parseInt($(`.action-card[index=${i}] [name=reward]`).val()),
+                maxCoins: parseInt($(`.action-card[index=${i}] [name=maxCoins]`).val()),
+                answer: ($(`.action-card[index=${i}] [name=answer]`).val()),
+                options: JSON.parse($(`.action-card[index=${i}] [name=options]`).val()),
+            };
+            $(`textarea[name=valid_actions]`).val(JSON.stringify(actions));
+        }
+        function recreate_actionCats()
+        {
+            $("#actionCats").html('');
+            $("[name=action_cats]").val(JSON.stringify(actionCats));
+            for(var i = 0 ; i < actionCats.length;i++){
+                let cat = actionCats[i];
+                $("#actionCats").append(`
+                    <div class="col-12">
+                        <div class="actionCat-card card" style="padding:10px 20px;margin-bottom:5px;" index="${i}">
+                            <div><input type="checkbox" name="active" ${cat.active ? 'checked' : ''} style="display:inline;" /><span>active?</span></div>
+                            ${textInput('token',cat.token)}
+                            ${textInput('title',cat.title)}
+                            <div>
+                                <div class="btn btn-md btn-info" style="display:inline-block;width:300px" onclick="swap_actionCat(${i},-1)">Move Up</div>
+                                <div class="btn btn-md btn-info" style="display:inline-block;width:300px" onclick="swap_actionCat(${i},1)">Move Down</div>
+                                <div class="btn btn-sm btn-danger" style="display:inline-block;width:300px" onclick="remove_actionCat(${i})">Remove</div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+            }
+            $("#actionCats input").change(function(){
+                let index = $(this).closest(".actionCat-card").attr('index');
+                update_actionCat(index);
+            });
+        }
+        function add_actionCat()
+        {
+            actionCats.push({
+                active : true,
+                token : '',
+                title : '',
+            });
+            recreate_actionCats();
+        }
+        function remove_actionCat(i)
+        {
+            actionCats.splice(i,1);
+            recreate_actionCats();
+        }
+        function update_actionCat(i)
+        {
+            actionCats[i] = {
+                active : $(`#actionCats .actionCat-card[index=${i}] input[name=active]`).is(':checked'),
+                token : $(`#actionCats .actionCat-card[index=${i}] input[name=token]`).val(),
+                title : $(`#actionCats .actionCat-card[index=${i}] input[name=title]`).val(),
+            };
+            $("[name=action_cats]").val(JSON.stringify(actionCats));
+        }
+        function swap_actionCat(i,dir)
+        {
+            if((i == actionCats.length-1 && dir == 1) || (i == 0 && dir == -1))
+            {
+                alert('Not Valid!');
+                return;
+            }
+            let temp = actionCats[i];
+            actionCats[i] = actionCats[i+dir];
+            actionCats[i+dir] = temp;
+            recreate_actionCats();
+        }
+        function recreate_teams()
+        {
+            $("#teams").html('');
+            $(`textarea[name=teams]`).val(JSON.stringify(teams));
+            for(var i = 0 ; i < teams.length;i++){
+                let t = teams[i];
+                $("#teams").append(`
+                <div class="col-md-6 col-12">
+                    <div class="team-card card" style="padding:10px 20px" index="${i}">
+                        ${textInput('token',t.token)}
+                        ${textInput('name',t.name)}
+                        ${textInput('cover',t.cover)}
+                        <hr><div class="btn btn-sm btn-danger" onclick="remove_team(${i})">Remove</div>
+                    </div>
+                </div>
+                `);
+            }
+        }
+        function add_team()
+        {
+            teams.push({
+                token : 'team_name',
+                name : 'Team Name',
+                cover : '',
+            });
+            recreate_teams();
+        }
+        function remove_team(index){
+            teams.splice(index,1);
+            recreate_teams();
+        }
+        function update_team(i){
+            teams[i] = {
+                token : $(`#teams .team-card[index=${i}] input[name=token]`).val(),
+                name : $(`#teams .team-card[index=${i}] input[name=name]`).val(),
+                cover : $(`#teams .team-card[index=${i}] input[name=cover]`).val(),
+            };
+            $(`textarea[name=teams]`).val(JSON.stringify(teams));
+        }
+        
+        function textInput(name, value)
+        {
+            return `<b>${name}:</b><input type="text" class="form-control m" name="${name}" value="${value}"/><br>`
+        }
+        function numberInput(name, value)
+        {
+            return `<b>${name}:</b><input type="number" class="form-control m" name="${name}" value="${value}"/><br>`
+        }
+    </script>
+    {{{footer}}}
+
+</body>
+
+</html>

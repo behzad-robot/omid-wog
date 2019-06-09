@@ -10,27 +10,8 @@ const FOLLOW_INSTAGRAM_WOG = 'follow_instagram';
 const FOLLOW_TWITCH = 'follow_twitch';
 const TEAMS_FILE_PATH = path.resolve('../storage/epic-center-2019/teams.json');
 const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/epic-center-2019/valid-actions.json');
+const ACTION_CATEGORIES_FILE_PATH = path.resolve('../storage/epic-center-2019/action-categories.json');
 const TWITCH_CODE_FILE_PATH = path.resolve('../storage/epic-center-2019/twitch-code.txt');
-/*const VALID_ACTIONS = [
-    { active: true, token: 'matchup_vici_gaming', reward: -1, isBet: true, maxCoins: 100, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
-    { active: true, token: 'matchup_vici_gaming_vs_fox_gaming', reward: -1, isBet: true, maxCoins: 300, answer: undefined, options: ['tashtak_sazan', 'monster_gaming'] },
-    //group a:
-    { "active": true, "token": "matchup_vici_gaming_vs_team_liquid", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "team_liquid"] },
-    { "active": true, "token": "matchup_vici_gaming_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "ninjas_in_pyjamas"] },
-    { "active": true, "token": "matchup_vici_gaming_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "og"] },
-    // { "active": true, "token": "matchup_vici_gaming_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "forward_gaming"] },
-    // { "active": true, "token": "matchup_vici_gaming_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["vici_gaming", "tnc_predator"] },
-    // { "active": true, "token": "matchup_team_liquid_vs_ninjas_in_pyjamas", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "ninjas_in_pyjamas"] },
-    // { "active": true, "token": "matchup_team_liquid_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "og"] }, { "active": true, "token": "matchup_team_liquid_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "forward_gaming"] }, { "active": true, "token": "matchup_team_liquid_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_liquid", "tnc_predator"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_og", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "og"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "forward_gaming"] }, { "active": true, "token": "matchup_ninjas_in_pyjamas_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["ninjas_in_pyjamas", "tnc_predator"] }, { "active": true, "token": "matchup_og_vs_forward_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "forward_gaming"] }, { "active": true, "token": "matchup_og_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["og", "tnc_predator"] }, { "active": true, "token": "matchup_forward_gaming_vs_tnc_predator", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["forward_gaming", "tnc_predator"] },
-    //group b:
-    { "active": false, "token": "matchup_team_secret_vs_evil_geniuses", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "evil_geniuses"], answer: 'team_secret' },
-    { "active": false, "token": "matchup_team_secret_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "psg_lgd"], answer: 'team_secret' },
-    { "active": false, "token": "matchup_team_secret_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "keen_gaming"], answer: 'team_secret' },
-    { "active": true, "token": "matchup_team_secret_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "alliance"] },
-    //  { "active": true, "token": "matchup_team_secret_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["team_secret", "gambit_esports"] }, { "active": true, "token": "matchup_evil_geniuses_vs_psg_lgd", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "psg_lgd"] }, { "active": true, "token": "matchup_evil_geniuses_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "keen_gaming"] }, { "active": true, "token": "matchup_evil_geniuses_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "alliance"] }, { "active": true, "token": "matchup_evil_geniuses_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["evil_geniuses", "gambit_esports"] }, { "active": true, "token": "matchup_psg_lgd_vs_keen_gaming", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "keen_gaming"] }, { "active": true, "token": "matchup_psg_lgd_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "alliance"] }, { "active": true, "token": "matchup_psg_lgd_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["psg_lgd", "gambit_esports"] }, { "active": true, "token": "matchup_keen_gaming_vs_alliance", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "alliance"] }, { "active": true, "token": "matchup_keen_gaming_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["keen_gaming", "gambit_esports"] }, { "active": true, "token": "matchup_alliance_vs_gambit_esports", "reward": -1, "isBet": true, "maxCoins": 100, "options": ["alliance", "gambit_esports"] },
-    { active: true, token: FOLLOW_INSTAGRAM_WOG , reward: 10 },
-    { active: true, token: FOLLOW_TWITCH, reward: 100 },
-];*/
 function getAction(VALID_ACTIONS, token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -56,11 +37,17 @@ export class Dota2EpicCenterRouter extends SiteRouter
         this.router.use((req, res, next) =>
         {
             //check if user can visit this page:
-            if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1 && req.url.indexOf('leaderboard') == -1)
+            if (!this.isLoggedIn(req))
             {
-                res.redirect('/login?redirect=/dota2-epic-center');
+                console.log('WE ARE NOT FUCKING LOGGED IN!');
+                res.redirect('/login/?redirect=/dota2-epic-center');
                 return;
             }
+            // if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1 && req.url.indexOf('leaderboard') == -1)
+            // {
+            //     res.redirect('/login?redirect=/dota2-epic-center');
+            //     return;
+            // }
             next();
         });
         this.router.get('/landing', (req, res) =>
@@ -78,7 +65,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
         this.router.get('/enter-event', (req, res) =>
         {
             let currentUser = req.session.currentUser;
-            if (currentUser.dota2EpicCenter2019.enterEvent)
+            if (currentUser.dota2EpicCenter2019 != undefined && currentUser.dota2EpicCenter2019.enterEvent)
             {
                 res.redirect(SLUG + '/?msg=alreadyEntered');
                 return;
@@ -120,52 +107,50 @@ export class Dota2EpicCenterRouter extends SiteRouter
             {
                 this.show500(req, res, err);
             }
-            siteModules.User.find({ _id: req.session.currentUser._id }).then((user) =>
+            let currentUser = req.session.currentUser;
+            if (currentUser.dota2EpicCenter2019 == undefined || !currentUser.dota2EpicCenter2019.enterEvent)
             {
-                req.session.currentUser = user;
-                let currentUser = req.session.currentUser;
-                if (currentUser.dota2EpicCenter2019 == undefined || !currentUser.dota2EpicCenter2019.enterEvent)
+                res.redirect(SLUG + '/eua/?msg=acceptFirst');
+                return;
+            }
+            res.send('Imagine Bet Home Page Here!');
+            return;
+            fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
+            {
+                if (err)
                 {
-                    res.redirect(SLUG + '/eua/?msg=acceptFirst');
+                    fail(err);
                     return;
                 }
-                fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
+                let VALID_ACTIONS = JSON.parse(data.toString());
+                fs.readFile(TEAMS_FILE_PATH, (err, data) =>
                 {
                     if (err)
                     {
                         fail(err);
                         return;
                     }
-                    let VALID_ACTIONS = JSON.parse(data.toString());
-                    fs.readFile(TEAMS_FILE_PATH, (err, data) =>
+                    let TEAMS = JSON.parse(data.toString());
+                    fs.readFile(TWITCH_CODE_FILE_PATH, (err, data) =>
                     {
                         if (err)
                         {
                             fail(err);
                             return;
                         }
-                        let TEAMS = JSON.parse(data.toString());
-                        fs.readFile(TWITCH_CODE_FILE_PATH, (err, data) =>
+                        let TWITCH_CODE_STR = data.toString();
+                        siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
                         {
-                            if (err)
-                            {
-                                fail(err);
-                                return;
-                            }
-                            let TWITCH_CODE_STR = data.toString();
-                            siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
-                            {
-                                let rank = resp.rank;
-                                this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
-                                    rank: rank + 1,
-                                    user: currentUser,
-                                    ESL_TEAMS: JSON.stringify(TEAMS),
-                                    ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
-                                    DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
-                                    TWITCH_CODE_STR: TWITCH_CODE_STR,
-                                });
-                            }).catch(fail);
-                        });
+                            let rank = resp.rank;
+                            this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
+                                rank: rank + 1,
+                                user: currentUser,
+                                ESL_TEAMS: JSON.stringify(TEAMS),
+                                ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
+                                DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
+                                TWITCH_CODE_STR: TWITCH_CODE_STR,
+                            });
+                        }).catch(fail);
                     });
                 });
             });
@@ -311,10 +296,14 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 return;
             }
             const VALID_ACTIONS_STR = (fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
-            const TWITCH_CODE_STR = (fs.readFileSync(TWITCH_CODE_FILE_PATH).toString());;
+            const TWITCH_CODE_STR = (fs.readFileSync(TWITCH_CODE_FILE_PATH).toString());
+            const TEAMS_STR = (fs.readFileSync(TEAMS_FILE_PATH).toString());
+            const ACTION_CATEGORIES_STR = (fs.readFileSync(ACTION_CATEGORIES_FILE_PATH).toString());
             this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-admin.html', {
                 VALID_ACTIONS_STR: VALID_ACTIONS_STR,
                 TWITCH_CODE_STR: TWITCH_CODE_STR,
+                TEAMS_STR : TEAMS_STR,
+                ACTION_CATEGORIES_STR : ACTION_CATEGORIES_STR,
             });
         });
         this.router.post('/admin/save-file', (req, res) =>

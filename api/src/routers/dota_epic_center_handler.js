@@ -102,6 +102,7 @@ class DotaEpicCenterSocketRouter extends SocketRouter
         }
         else if (request.method == 'dota2-epic-center-enter-event')
         {
+            console.log('dota2-epic-center enter fucking event!');
             this.handler.enterEvent(request.params).then((user) =>
             {
                 this.sendResponse(socket, request, user);

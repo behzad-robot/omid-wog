@@ -69,7 +69,7 @@ const usersAuthHandler = new UsersAuthHandler(User);
 const fortniteHandler = new FortniteTournomentHandler(User);
 const dota2BookHandler = new DotaBookHandler(User);
 const dota2QuizHandler = new Dota2QuizHandler(User,DotaQuestion);
-const dota2EpicCenterHandler = new DotaEpicCenterHandler(User,DotaQuestion);
+const dota2EpicCenterHandler = new DotaEpicCenterHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
 express.expressApp.use('/api/users/', new PublicMongooseAPIRouter(User, { apiTokenRequired: true }).router);

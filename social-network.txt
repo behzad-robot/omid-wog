@@ -9,7 +9,7 @@ SocialPost{
     //REMOVE : game tags => instead generate gameId field10
 }
 Comment => objectType => socialPosts
-Challenge {
+Challenge{
     tags : string[],
     title : string,
     body : string ,

@@ -90,22 +90,22 @@
             </div>
             <div class="text-center" style="padding:20px 0">
                 {{#currentUser}}
-                {{^currentUser.dota2Book2019.enterEvent}} 
+                {{^currentUser.dota2EpicCenter2019.enterEvent}} 
                     <a href="/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a>
-                {{/currentUser.dota2Book2019.enterEvent}}
+                {{/currentUser.dota2EpicCenter2019.enterEvent}}
                 {{/currentUser}}
                 {{^currentUser}}
                     <a href="/signup/?redirect=/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a><br>
                     <a href="/login/?redirect=/dota2-epic-center/eua" class="orange-link" style="display:block;margin:20px 0;">حساب کاربری دارید؟ ورود به سایت و ایونت.</a>
                 {{/currentUser}}
-                <!-- {{^currentUser.dota2Book2019.initPayment}}
+                <!-- {{^currentUser.dota2EpicCenter2019.initPayment}}
                 <a href="/dota2-epic-center/payment" class="btn btn-md btn-success">پرداخت هزینه و شرکت عین آدم</a>
-                {{/currentUser.dota2Book2019.initPayment}} -->
+                {{/currentUser.dota2EpicCenter2019.initPayment}} -->
                 <hr />
-                {{#currentUser.dota2Book2019.enterEvent}}
+                {{#currentUser.dota2EpicCenter2019.enterEvent}}
                 <div class="alert alert-warning">شما قبلا شرایط را پذیرفته اید و عضو ایونت هستید.<a
-                        href="/dota2-book">بازگشت به صفحه ایونت</a></div>
-                {{/currentUser.dota2Book2019.enterEvent}}
+                        href="/dota2-epic-center">بازگشت به صفحه ایونت</a></div>
+                {{/currentUser.dota2EpicCenter2019.enterEvent}}
             </div>
             <div class="text-center" style="padding:10px 0;">
                 <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram" style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
