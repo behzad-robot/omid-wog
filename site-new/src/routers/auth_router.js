@@ -2,6 +2,7 @@ import SiteRouter from "./site_router";
 import { isEmptyString } from '../utils/utils';
 import { resolveSoa } from "dns";
 import { SITE_URL } from "../constants";
+import { updateCache } from "../utils/cache";
 const nodemailer = require('nodemailer');
 export default class SiteAuthRouter extends SiteRouter
 {
@@ -183,6 +184,7 @@ export default class SiteAuthRouter extends SiteRouter
                     user = JSON.parse(user);
                 if (user.error == undefined)
                 {
+                    updateCache('users-count');
                     user = siteModules.User.fixOne(user);
                     req.session.currentUser = user;
                     req.session.currentUserToken = user.token;

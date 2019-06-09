@@ -53,16 +53,19 @@ export default class SiteGeneralRouter extends SiteRouter
                                     return;
                                 }
                                 var upComingGames = JSON.parse(upComingGamesFile.toString());
-                                this.renderTemplate(req, res, 'wog-home.html', {
-                                    latestPosts: latestPosts,
-                                    aparatVideos: aparatVideos,
-                                    upComingGames: upComingGames,
-                                    gridPosts0: gridPosts[0],
-                                    gridPosts1: gridPosts[1],
-                                    gridPosts2: gridPosts[2],
-                                    gridPosts3: gridPosts[3],
-                                    gridPosts4: gridPosts[4],
-                                    usersCount: 1200,
+                                siteModules.Cache.usersCount.getData((err, usersCount) =>
+                                {
+                                    this.renderTemplate(req, res, 'wog-home.html', {
+                                        latestPosts: latestPosts,
+                                        aparatVideos: aparatVideos,
+                                        upComingGames: upComingGames,
+                                        gridPosts0: gridPosts[0],
+                                        gridPosts1: gridPosts[1],
+                                        gridPosts2: gridPosts[2],
+                                        gridPosts3: gridPosts[3],
+                                        gridPosts4: gridPosts[4],
+                                        usersCount: usersCount,
+                                    });
                                 });
                             });
                         });
@@ -82,7 +85,8 @@ export default class SiteGeneralRouter extends SiteRouter
         {
             this.renderTemplate(req, res, 'about-us.html', {});
         });
-        this.router.get('/landing-page',(req,res)=>{
+        this.router.get('/landing-page', (req, res) =>
+        {
             this.renderTemplate(req, res, 'ad-landing-page.html', {});
         });
 

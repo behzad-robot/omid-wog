@@ -221,7 +221,19 @@ const recommendedPostsCache = new CacheReader('posts-recommended', (cb) =>
         }
     });
 });
+const usersCountCache = new CacheReader('users-count', (cb) =>
+{
+    console.log('updating users-count cache');
+    SiteModules.User.find({ limit: 200000 }).then((users) =>
+    {
+        cb(undefined, users.length + 1);
+    }).catch((err) =>
+    {
+        cb(err, undefined);
+    });
+});
 SiteModules.Cache = {
+    usersCount : usersCountCache,
     //game related:
     allGames: allGamesCache,
     getGame: function (query)
