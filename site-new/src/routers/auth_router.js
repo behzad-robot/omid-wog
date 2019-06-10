@@ -1,6 +1,5 @@
 import SiteRouter from "./site_router";
 import { isEmptyString } from '../utils/utils';
-import { resolveSoa } from "dns";
 import { SITE_URL } from "../constants";
 import { updateCache } from "../utils/cache";
 const nodemailer = require('nodemailer');
@@ -11,9 +10,9 @@ export default class SiteAuthRouter extends SiteRouter
         super(siteModules);
         this.router.get('/login', (req, res) =>
         {
-            if(req.session.currentUser != undefined)
+            if (req.session.currentUser != undefined)
             {
-                res.redirect('/users/'+req.session.currentUser.username);
+                res.redirect('/users/' + req.session.currentUser.username);
                 return;
             }
             let error = req.query.msg;
@@ -21,7 +20,7 @@ export default class SiteAuthRouter extends SiteRouter
                 error = 'کاربری با این مشخصات یافت نشد.';
             this.renderTemplate(req, res, 'login.html', {
                 error: error,
-                redirect : req.query.redirect,
+                redirect: req.query.redirect,
             });
         });
         this.router.post('/login', (req, res) =>
@@ -60,7 +59,7 @@ export default class SiteAuthRouter extends SiteRouter
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
                     {
-                        if(isEmptyString(req.query.redirect))
+                        if (isEmptyString(req.query.redirect))
                             res.redirect(`/users/${user.username}`);
                         else
                             res.redirect(req.query.redirect);
@@ -93,15 +92,16 @@ export default class SiteAuthRouter extends SiteRouter
         });
         this.router.get('/signup', (req, res) =>
         {
-            if(req.session.currentUser != undefined)
+            if (req.session.currentUser != undefined)
             {
-                res.redirect('/users/'+req.session.currentUser.username);
+                res.redirect('/users/' + req.session.currentUser.username);
                 return;
             }
             let error = req.query.msg;
             this.renderTemplate(req, res, 'signup.html', {
                 msg: error ? { error: error } : undefined,
-                redirect : req.query.redirect,
+                redirect: req.query.redirect,
+                refferer: req.query.refferer ? req.query.refferer : '',
             });
         });
         this.router.get('/signup-success', (req, res) =>
@@ -177,6 +177,7 @@ export default class SiteAuthRouter extends SiteRouter
                 sex: req.body.sex ? req.body.sex : '',
                 epicGamesID: req.body.epicGamesID ? req.body.epicGamesID : '',
                 psnID: req.body.psnID ? req.body.psnID : '',
+                refferer: req.body.refferer ? req.body.refferer : '',
             };
             siteModules.User.apiCall('signup', data).then((user) =>
             {
@@ -190,7 +191,7 @@ export default class SiteAuthRouter extends SiteRouter
                     req.session.currentUserToken = user.token;
                     req.session.save(() =>
                     {
-                        if(!isEmptyString(req.query.redirect))
+                        if (!isEmptyString(req.query.redirect))
                             res.redirect(req.query.redirect);
                         else
                             res.redirect('/signup-success');

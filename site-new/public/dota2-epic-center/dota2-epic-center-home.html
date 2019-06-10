@@ -26,7 +26,7 @@
         }
 
         .section-main {
-            background-image: url('/dota2book/images/immortals_bg.jpg');
+            background-image: url('/dota2-epic-center/images/immortals_bg.jpg');
             background-position: center;
             background-size: 100% auto;
             padding-top: 20px;
@@ -43,7 +43,7 @@
 
         .see-rankings {
             display: block;
-            background-image: url('/dota2book/images/green-book-logo.png');
+            background-image: url('/dota2-epic-center/images/green-book-logo.png');
             height: 130px;
             margin-top: 10px;
             margin-bottom: 10px;
@@ -253,35 +253,15 @@
             display: inline;
         }
 
-        .social-box {
+        .get-coin-box {
             background-color: #202d4f;
             border: 2px solid #38486d;
             border-radius: 10px;
-            padding-bottom: 10px;
-            width: 30%;
-            height: 310px;
             display: inline-block;
         }
-
-        .profile-link {
-            color: orange;
-            font-size: 12px
-        }
-
-        .profile-link:hover {
-            color: rgb(201, 147, 47);
-            text-decoration: none
-        }
-
-        .check-and-coins-row {
-            border-top: 2px solid #38486d;
-            padding: 10px 10px;
-        }
-
-        @media (max-width: 576px) {
-            .social-box {
-                width: 100%;
-            }
+        .get-coin-box-footer{
+            border-top:2px solid #38486d;
+            padding:10px 5px;
         }
     </style>
 </head>
@@ -296,32 +276,26 @@
                     <div class="player-details">
                         <div class="row">
                             <div class="col-md-4 col-4">
-                                <img src="/dota2book/images/Ti9_battle_pass.png" style="width:100%" alt="">
+                                <img src="/dota2-epic-center/images/Ti9_battle_pass.png" style="width:100%" alt="">
                             </div>
                             <div class="col-md-8 col-8">
                                 <h2 style="color:white;font-weight: bold">{{currentUser.username}}</h2>
                                 <h6 style="color: white">رتبه:{{rank}}</h6>
-                                <h6 style="color:orange">سکه:&nbsp;<span>{{currentUser.dota2Book2019.coins}}</span></h6>
+                                <h6 style="color:orange">
+                                    سکه:&nbsp;<span>{{currentUser.dota2EpicCenter2019.coins}}</span></h6>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4 col-12">
-                    <a class="see-rankings text-center" href="{{#SITE_URL}}/dota2-book/leaderboard{{/SITE_URL}}">
+                    <a class="see-rankings text-center" href="{{#SITE_URL}}/dota2-epic-center/leaderboard{{/SITE_URL}}">
                         <span class="see-rankings-text" href="#">مشاهده رتبه بندی‌ها</span>
                     </a>
                 </div>
             </div><!-- end of row-->
-            <h2 style="color:white;margin-bottom: 10px">بازی های Playoffs&nbsp;<span class="text-english">ESL One
-                    Birmingham 2019</span></h2>
-            <p style="color:white">به مرحله بازی های <b style="color:orange">Playoffs</b> خوش آمدید برای هر مسابقه نتیجه
-                را پیش بینی کنید در صورتی که
-                پیش بینی شما درست
-                باشد همان تعداد سکه برنده می شوید در صورتی که اشتباه باشد <b style="color:orange">همان تعداد سکه ای از
-                    دست می دهید</b> دقت داشته باشید که پس
-                از ثبت امکان تغییر انتخاب ها وجود ندارد.همچنین سکه های شما کمتر از مقدار اولیه ای که در شروع مسابقات
-                داشتید نخواهد شد.(300 یا 600 سکه اولیه)</p>
+            <h2 style="color:white;margin-bottom: 10px">{{{PAGE_CONFIG.title}}}</h2>
+            <p style="color:white">{{{PAGE_CONFIG.description}}}</p>
             <div class="text-center" style="padding:10px 0;">
                 <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram"
                         style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
@@ -333,58 +307,16 @@
             <div class="text-center">
                 {{{TWITCH_CODE_STR}}}
             </div>
-            <div class="alert alert-danger">دقت داشته باشید! در مرحله حذفی(Playoffs) در صورتی که پیش بینی شما اشتباه
-                باشد سکه از دست می دهید!</div>
-            <div class="alert alert-warning">مسابقه Vici Gaming در برابر Gambit Esports به دلیل مشکل فنی حذف شد به شرکت
-                کنندگان این مسابقه سکه هایشان پس داده شد.</div>
+            <!-- <div class="alert alert-danger">دقت داشته باشید! در مرحله حذفی(Playoffs) در صورتی که پیش بینی شما اشتباه
+                باشد سکه از دست می دهید!</div> -->
             <!-- warning sign -->
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
-            <form id="bets-form" action="/dota2-book/submit-bets" method="POST">
-                <h3 class="text-english" style="color:white">Grand Finals - 12 Khordad 19:30 Tehran</h3>
-                <div class="row" id="grand-finals">
-                </div>
-                <h3 class="text-english" style="color:white">Lower Bracket Finals - 12 Khordad 15:30 Tehran</h3>
-                <div class="row" id="lower-bracket-finals">
-                </div>
-
-                <h3 class="text-english" style="color:white">Lower R1 - 10 Khordad 15:30/19:20 Tehran</h3>
-                <div class="row" id="lower-bracket-r1"></div>
-                <h3 class="text-english" style="color:white">Lower Bracket R2 - 10 Khordad 23:10 Tehran / 11 Khordad
-                    15:30 Tehran</h3>
-                <div class="row" id="lower-bracket-r2"></div>
-                <h3 class="text-english" style="color:white">Upper Bracket Finals - 11 Khordad 19:20 Tehran</h3>
-                <div class="row" id="upper-bracket-finals"></div>
-
-                <h3 class="text-english" style="color:white">Lower Bracket R3 - 11 Khordad 23:15 Tehran</h3>
-                <div class="row" id="lower-bracket-r3">
-                </div>
-
-
+            <form id="bets-form" action="/dota2-epic-center/submit-bets" method="POST">
+                <div id="active-games"></div>
                 <hr />
                 <div class="btn btn-md btn-info" id="old-games-btn" style="margin:20px 0;">مشاهده بازی های گذشته</div>
-                <div id="old-games" style="display:none;">
-                    <h3 class="text-english" style="color:white">Series A3 - 15:30 Tehran</h3>
-                    <div class="row" id="series-a3"></div>
-                    <h3 class="text-english" style="color:white">Series A4 - 17:50 Tehran</h3>
-                    <div class="row" id="series-a4"></div>
-                    <h3 class="text-english" style="color:white">Series B3 - 20:30 Tehran</h3>
-                    <div class="row" id="series-b3"></div>
-                    <h3 class="text-english" style="color:white">Series B4 - 22:50 Tehran</h3>
-                    <div class="row" id="series-b4"></div>
-                    <h3 class="text-english" style="color:white">Series A5 - 15:30 Tehran</h3>
-                    <div class="row" id="series-a5"></div>
-                    <h3 class="text-english" style="color:white">Series B5 - 18:10 Tehran </h3>
-                    <div class="row" id="series-b5"></div>
-                    <h3 class="text-english" style="color:white">Series A1</h3>
-                    <div class="row" id="series-a1"></div>
-                    <h3 class="text-english" style="color:white">Series A2</h3>
-                    <div class="row" id="series-a2"></div>
-                    <h3 class="text-english" style="color:white">Series B1</h3>
-                    <div class="row" id="series-b1"></div>
-                    <h3 class="text-english" style="color:white">Series B2</h3>
-                    <div class="row" id="series-b2"></div>
-                </div>
+                <div id="old-games" style="display:none;"></div>
                 <script>
                     $(() =>
                     {
@@ -401,239 +333,70 @@
             </form>
             <script>
                 //create data , functions:
-                let coinsShowVal = 0;
-                const ESL_TEAMS = JSON.parse(`{{{ESL_TEAMS}}}`);
-                const GROUP_A_TOKENS = JSON.parse(`{{{GROUP_A}}}`);
-                const GROUP_B_TOKENS = JSON.parse(`{{{GROUP_B}}}`);
-                const GROUP_A = [], GROUP_B = [];
-                for (var i = 0; i < GROUP_A_TOKENS.length; i++)
-                    GROUP_A.push(getTeam(GROUP_A_TOKENS[i]));
-                for (var i = 0; i < GROUP_B_TOKENS.length; i++)
-                    GROUP_B.push(getTeam(GROUP_B_TOKENS[i]));
-                console.log(ESL_TEAMS);
-                const ALL_BETS = JSON.parse(`{{{ALL_BETS}}}`);
+                const TEAMS = JSON.parse(`{{{TEAMS}}}`);
+                const ACTIONS = JSON.parse(`{{{ACTIONS}}}`);
+                const ACTIONS_CATS = JSON.parse(`{{{ACTIONS_CATS}}}`);
+                console.log(TEAMS);
+                console.log(ACTIONS);
+                console.log(ACTIONS_CATS);
                 const currentUser = {
                     _id: `{{currentUser._id}}`,
                     username: `{{currentUser.username}}`,
                     token: `{{{currentUser.token}}}`,
-                    dota2Book2019: JSON.parse(`{{{DOTA2_BOOK_2019}}}`),
+                    dota2EpicCenter2019: JSON.parse(`{{{DOTA2_EPIC_CENTER_2019}}}`),
                 };
                 console.log(currentUser);
                 $(() =>
                 {
-                    //check if all bets are already done:
-                    // let allBetsDone = true;
-                    // for (var i = 0; i < ALL_BETS.length; i++)
-                    // {
-                    //     let bet = ALL_BETS[i];
-                    //     let userBet = getBet(bet.token);
-                    //     if (bet.active && userBet == undefined)
-                    //     {
-                    //         allBetsDone = false;
-                    //         break;
-                    //     }
-                    // }
-                    // if (allBetsDone)
-                    //     $("#bets-form [name=submit-wrapper]").html('با تشکر از مشارکت شما به زودی پیش بینی های بیشتری اضافه می شود.');
-                    //render all group stage bets:
-                    // for (var i = 0; i < GROUP_A.length; i++)
-                    // {
-                    //     for (var j = i + 1; j < GROUP_A.length; j++)
-                    //     {
-                    //         render_bet('#group-a', GROUP_A[i], GROUP_A[j]);
-                    //     }
-                    // }
-                    for (var i = 0; i < ALL_BETS.length; i++)
+                    let hasInActiveCat = false;
+                    for (var i = 0; i < ACTIONS_CATS.length; i++)
                     {
-                        let b = ALL_BETS[i];
-                        if ((b.category == 'series-a1' || b.category == 'series-b1' || b.category == 'series-a2' || b.category == 'series-b2')
-                            || (b.category == 'series-a3' || b.category == 'series-b3' || b.category == 'series-a4' || b.category == 'series-b4') ||
-                            (b.category == 'series-a5' || b.category == 'series-b5')
-                            || (b.category == 'lower-bracket-r1' || b.category == 'upper-bracket-finals') || (b.category == 'lower-bracket-r2'
-                                || b.category == 'lower-bracket-r3' || b.category == 'upper-bracket-finals' || b.category == 'grand-finals' || b.category == 'lower-bracket-finals'))
+                        let cat = ACTIONS_CATS[i];
+                        let parent = cat.active ? '#active-games' : '#old-games';
+                        let bets = get_actions_for_category(cat.token);
+                        console.log(cat.token + '=>' + bets.length);
+                        if (!cat.active)
+                            hasInActiveCat = true;
+                        if (bets.length == 0)
+                            $(parent).append(`<h3 class="text-english" style="color:white">${cat.title}</h3><div class="row" id="${cat.token}"><div class="col-12 text-center">به زودی اعلام می شود.</div></div></div>`);
+                        else                            
                         {
-                            let t = b.token.replace('_1', '').replace('_2', '').replace('matchup_', '');
-                            let parts = t.split('_vs_');
-                            /*console.log(b);
-                            console.log(t);
-                            console.log(parts);*/
-                            let teamA = getTeam(parts[0]);
-                            let teamB = getTeam(parts[1]);
-                            console.log(b.token);
-                            render_bet('#' + b.category, b, teamA, teamB);
+                            $(parent).append(`<h3 class="text-english" style="color:white">${cat.title}</h3><div class="row" id="${cat.token}"></div>`);
+                            for (var j = 0; j < bets.length; j++)
+                            {
+                                render_bet("#" + cat.token, bets[j], get_team(bets[j].options[0]), get_team(bets[j].options[1]));
+                            }
                         }
                     }
-                    let noGroupA1 = true, noGroupA2 = true, noGroupB1 = true, noGroupB2 = true;
-                    for (var i = 0; i < ALL_BETS.length; i++)
-                    {
-                        if (ALL_BETS[i].active)
-                        {
-                            if (ALL_BETS[i].category == 'series-a1')
-                                noGroupA1 = false;
-                            if (ALL_BETS[i].category == 'series-b1')
-                                noGroupB1 = false;
-                            if (ALL_BETS[i].category == 'series-a2')
-                                noGroupA2 = false;
-                            if (ALL_BETS[i].category == 'series-b2')
-                                noGroupB2 = false;
-                        }
-                    }
-                    // if(noGroupA1)
-                    //         $("#series-a1").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    // if(noGroupB1)
-                    //     $("#series-b1").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    // if(noGroupA2)
-                    //         $("#series-a2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    // if(noGroupB2)
-                    //     $("#series-b2").html('<div class="col-12 text-center" style="padding:20px 0;color:white;">به زودی مسابقات اعلام می شود دوباره به ما سر بزنید.</div>')
-                    // if (noGroupA1 && noGroupB2 && noGroupA2 && noGroupB2)
-                    //     $("#bets-form input[type=submit]").hide();
+                    if (!hasInActiveCat)
+                        $("#old-games-btn").hide();
 
-                    $(".bet-box .team-row").click(function ()
-                    {
-                        let betBox = $(this).closest('.bet-box');
-                        let betToken = $(betBox).attr('betToken');
-                        let bet = getBet(betToken);
-                        let team = getTeam($(this).attr('team'));
-                        let userBet = getUserBet(betToken);
-                        if (userBet != undefined)
-                        {
-                            console.log('have userBet for this bet!');
-                            return;
-                        }
-                        //update views:
-                        let hiddenInput = $(betBox).find('input[type=hidden]');
-                        $(hiddenInput).val(team.token);
-                        let teamRows = $(betBox).find('.team-row');
-                        $(teamRows).removeClass('picked');
-                        $(teamRows).removeClass('not-picked');
-                        for (var i = 0; i < teamRows.length; i++)
-                        {
-                            let t = $(teamRows[i]).attr('team');
-                            if (t == team.token)
-                                $(teamRows[i]).addClass('picked');
-                            else
-                                $(teamRows[i]).addClass('not-picked');
-                        }
-                        //check coins input:
-                        let messageRow = $(betBox).find('.message-row');
-                        let coinsVal = parseInt($(betBox).find('input[type=number]').val());
-                        if (isNaN(coinsVal))
-                        {
-                            $(messageRow).html('مقدار سکه ها را نیز وارد کنید.');
-                        }
-                        else if (coinsVal <= 0)
-                        {
-                            $(messageRow).html('مقدار سکه ها صحیح نیست.');
-                        }
-                        else if (coinsVal > bet.maxCoins)
-                        {
-                            $(messageRow).html('مقدار سکه ها بیشتر از حداکثر مجاز است.');
-                        }
-                        else
-                            $(messageRow).html('');
-                    });
-                    $(".bet-box input[type=number]").change(function ()
-                    {
-                        let betBox = $(this).closest('.bet-box');
-                        let betToken = $(betBox).attr('betToken');
-                        let bet = getBet(betToken);
-                        let team = getTeam($(this).attr('team'));
-                        let userBet = getUserBet(betToken);
-                        let coinsVal = $(this).val();
-                        let hiddenInputVal = $(betBox).find('input[type=hidden]').val();
-                        let messageRow = $(betBox).find('.message-row');
-                        if (isEmptyString(hiddenInputVal))
-                        {
-                            $(messageRow).html('تیم برنده را نیز مشحخص کنید.');
-                        }
-                        else if (isNaN(coinsVal))
-                        {
-                            $(messageRow).html('مقدار سکه ها را نیز وارد کنید.');
-                        }
-                        else if (coinsVal <= 0)
-                        {
-                            $(messageRow).html('مقدار سکه ها صحیح نیست.');
-                        }
-                        else if (coinsVal > bet.maxCoins)
-                        {
-                            $(messageRow).html('مقدار سکه ها بیشتر از حداکثر مجاز است.');
-                        }
-                        else
-                            $(messageRow).html('');
-                    });
-                    $("#bets-form").submit(() =>
-                    {
-                        let betBoxes = $(".bet-box");
-                        let coinsSum = 0;
-                        for (var i = 0; i < betBoxes.length; i++)
-                        {
-                            let box = $(betBoxes[i]);
-                            let betToken = $(betBoxes[i]).attr('betToken');
-                            let bet = getBet(betToken);
-                            let userBet = getUserBet(betToken);
-                            if (!bet.active)
-                                continue;
-                            if (userBet != undefined)
-                                continue;
-                            let betPick = $(box).find('input[type=hidden]').val();
-                            let betCoins = parseInt($(box).find('input[type=number]').val());
-                            let teamA = getTeam($(box).attr('teamA'));
-                            let teamB = getTeam($(box).attr('teamB'));
-                            if (isEmptyString(betPick))
-                            {
-                                if (!isNaN(betCoins))
-                                {
-                                    alert('برنده مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' را مشخص کنید.');
-                                    return false;
-                                }
-                            }
-                            else
-                            {
-                                if (isNaN(betCoins) || betCoins <= 0)
-                                {
-                                    alert('سکه ها را برای مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' وارد کنید.');
-                                    return false;
-                                }
-                                else if (betCoins > bet.maxCoins)
-                                {
-                                    alert('سکه ها برای مسابقه ' + teamA.name + ' در برابر ' + teamB.name + ' بیش از حد مجاز می باشد.');
-                                    return false;
-                                }
-                                else
-                                    coinsSum += betCoins;
-                            }
-                        }
-                        if (coinsSum > currentUser.dota2Book2019.coins)
-                        {
-                            alert('بیش از موجودی خود سکه وارد کرده اید.');
-                            return false;
-                        }
-                        return true;
-                    });
                 });
                 //data functions:
-                function getTeam(token)
+                function get_actions_for_category(catToken)
                 {
-                    for (var i = 0; i < ESL_TEAMS.length; i++)
-                        if (ESL_TEAMS[i].token == token)
-                            return ESL_TEAMS[i];
-                    return undefined;
-                }
-                function getBet(token)
-                {
-                    for (var i = 0; i < ALL_BETS.length; i++)
-                        if (ALL_BETS[i].token == token)
-                            return ALL_BETS[i];
-                    return undefined;
-                }
-                function getUserBet(token)
-                {
-                    for (var i = 0; i < currentUser.dota2Book2019.bets.length; i++)
+                    let results = [];
+                    for (var i = 0; i < ACTIONS.length; i++)
                     {
-                        if (currentUser.dota2Book2019.bets[i].token == token)
-                            return currentUser.dota2Book2019.bets[i];
+                        if (ACTIONS[i].category == catToken)
+                            results.push(ACTIONS[i]);
                     }
+                    return results;
+                }
+                function get_team(token)
+                {
+                    for (var i = 0; i < TEAMS.length; i++)
+                    {
+                        if (TEAMS[i].token == token)
+                            return TEAMS[i];
+                    }
+                    return undefined;
+                }
+                function getUserBet(betToken)
+                {
+                    for (var i = 0; i < currentUser.dota2EpicCenter2019.bets.length; i++)
+                        if (currentUser.dota2EpicCenter2019.bets[i].token == betToken)
+                            return currentUser.dota2EpicCenter2019.bets[i];
                     return undefined;
                 }
                 //render functions:
@@ -690,7 +453,7 @@
                                 ${hiddenInput}
                                 <div class="content">
                                     <div class="match-title-row text-english">${title}</div>
-                                    <div class="team-row ${aRowSelected}" style="background-image:url('${teamA.logo}')" team="${teamA.token}">
+                                    <div class="team-row ${aRowSelected}" style="background-image:url('${teamA.cover}')" team="${teamA.token}">
                                         <div class="team-overlay"><span>${(aRowSelected != 'selected') ? ('انتخاب ' + teamA.name) : (teamA.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
                                             <span class="badge badge-warning">
@@ -698,7 +461,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="team-row ${bRowSelected}" style="background-image:url('${teamB.logo}')" team="${teamB.token}">
+                                    <div class="team-row ${bRowSelected}" style="background-image:url('${teamB.cover}')" team="${teamB.token}">
                                         <div class="team-overlay"><span>${(bRowSelected != 'selected') ? ('انتخاب ' + teamB.name) : (teamB.name + ' انتخاب شده است.')}</span></div>
                                         <div class="team-selected-mark">
                                             <span class="badge badge-warning">
@@ -708,10 +471,10 @@
                                     </div>
                                     <div class="coins-row">
                                         <div class="coins-input-wrapper">
-                                            <img class="coins-icon" src="/dota2book/images/coins.png"/>
+                                            <img class="coins-icon" src="/dota2-epic-center/images/coins.png"/>
                                             <input type="number" name="${bet.token}-betCoins" value="${userBet != undefined ? userBet.coins : ''}" ${userBet != undefined ? 'readonly' : ''} placeholder="سکه ها" class="form-control coins-input "/> 
                                             <span class="warning-text">حداکثر ${bet.maxCoins} سکه</span>
-                                            <img class="warning-icon" src="/dota2book/images/error.png"/>
+                                            <img class="warning-icon" src="/dota2-epic-center/images/error.png"/>
                                         </div>
                                     </div>
                                     <div class="message-row">
@@ -726,40 +489,80 @@
             <!-- end form logic -->
             <!-- other ways of earning money -->
             <h1 style="color:white">سکه میخوای؟</h1>
-            <div class="social-box" style="margin-top: 10px">
-                <div class="text-center">
-                    <img src="/dota2book/images/twitch-logo.png" style="width:40%;padding-top: 10px" alt="">
-                    <h6 style="color:white;margin-top: 10px">صفحه توییچ واج را دنبال کنید</h6>
-                </div>
-                <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a
-                            href="/users/{{currentUser.username}}/edit" class="profile-link"> ویرایش مشخصات
-                            کاربری </a></span>رفته و آیدی توییچ
-                    خود را وارد کنید و صفحه توییچ <a href="https://twitch.tv/Amirphanthom"
-                        class="text-english orange-link" target="_blank">Amirphanthom</a> را دنبال کنید،سپس دکمه بررسی
-                    را فشار دهید.</p>
-                <div class="check-and-coins-row">
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <img style="position: absolute;width: 25%;padding-top: 4px" src="/dota2book/images/coins.png" />
-                        <button type="button" class="btn btn-success"
-                            style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 300 سکه</button>
+            <div class="row">
+                <div class="col-md-4 col-6">
+                    <div class="get-coin-box">
+                        <div class="text-center">
+                            <img src="/dota2-epic-center/images/twitch-logo.png" style="width:40%;padding-top: 10px"
+                                alt="">
+                            <h6 style="color:white;margin-top: 10px">صفحه توییچ واج را دنبال کنید</h6>
+                        </div>
+                        <p style="color:lightgrey;font-size: 12px;padding-right: 10px">به بخش <span><a
+                                    href="/users/{{currentUser.username}}/edit" class="profile-link"> ویرایش مشخصات
+                                    کاربری </a></span>رفته و آیدی توییچ
+                            خود را وارد کنید و صفحه توییچ <a href="https://twitch.tv/Amirphanthom"
+                                class="text-english orange-link" target="_blank">Amirphanthom</a> را دنبال کنید،سپس دکمه
+                            بررسی
+                            را فشار دهید.</p>
+                        <div class="get-coin-box-footer">
+                            <div style="position: relative;display:inline-block;width: 40%">
+                                <img style="position: absolute;width: 25%;padding-top: 4px"
+                                    src="/dota2-epic-center/images/coins.png" />
+                                <button type="button" class="btn btn-success"
+                                    style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 300 سکه</button>
+                            </div>
+                            <div style="position: relative;display:inline-block;width: 40%">
+                                <div onclick="checkTwitchFollower('AmirPhanThom',this)" id="btn_follow_twitch"
+                                    type="button" class="btn btn-warning"
+                                    style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</div>
+                                <div id="label_follow_twitch" type="button" class="btn btn-success"
+                                    style="width: 100%;font-size: 14px;margin-right: 50px;display:none;">انجام شده
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div style="position: relative;display:inline-block;width: 40%">
-                        <div onclick="checkTwitchFollower('AmirPhanThom',this)" id="btn_follow_twitch" type="button"
-                            class="btn btn-warning" style="width: 100%;font-size: 14px;margin-right: 50px">بررسی</div>
-                        <div id="label_follow_twitch" type="button" class="btn btn-success"
-                            style="width: 100%;font-size: 14px;margin-right: 50px;display:none;">انجام شده
+                </div>
+                <div class="col-md-4 col-6">
+                    <div class="get-coin-box">
+                        <div class="text-center">
+                            <img src="/images/Hemayat.png" style="width:40%;padding-top: 10px"
+                                alt="">
+                            <h6 style="color:white;margin-top: 10px">واج را به دوستان خود معرفی کنید</h6>
+                        </div>
+                        <p style="color:lightgrey;font-size: 12px;padding-right: 10px">
+                            لینک زیر را با دوستان خود به اشتراک بگذارید پس از اینکه آنها با کد معرفی شما عضو واج شوند سکه کسب می کنید.
+                            <a class="orange-link" href="http://worldofgamers.ir/signup/?refferer={{{currentUser.username}}}">http://worldofgamers.ir/signup/?refferer={{{currentUser.username}}}</a>
+                        </p>
+                        <div class="get-coin-box-footer">
+                            <div type="button" class="btn btn-md btn-success"
+                                style="padding-right: 30px;width: 100%;font-size: 14px">جایزه 50 سکه به ازای هر کاربر</div>
+                            <div type="button" class="btn btn-md btn-info"
+                                style="padding-right: 30px;width: 100%;font-size: 14px">1000 سکه جایزه به ازای معرفی 10 کاربر</div>
                         </div>
                     </div>
                 </div>
             </div>
+            <h1 style="color:white;margin:10px 0;">کاربر های معرفی شده توسط شما:</h1>
+            <div id="invited-users-list">
+                {{#currentUser.dota2EpicCenter2019._invites}}
+                <div class="btn btn-md btn-info invited-user-btn"><img src="{{{profileImage}}}" style="width:48px;height:48px;border-radius:50%;"/>&nbsp;{{{username}}}</div>
+                {{/currentUser.dota2EpicCenter2019._invites}}
+            </div>
+            <script>
+                $(()=>{
+                    let invitedUsersButtons = $(".invited-user-btn");
+                    if(invitedUsersButtons.length == 0)
+                        $("#invited-users-list").html(`<div class="text-center text-white">`+'شما هنوز کسی را معرفی نکردید.'+`</div>`);
+                });
+            </script>
             <script>
                 let twitchLoading = false;
                 $(() =>
                 {
                     let hasFollowedTwitch = false;
-                    for (var i = 0; i < currentUser.dota2Book2019.actions.length; i++)
+                    for (var i = 0; i < currentUser.dota2EpicCenter2019.actions.length; i++)
                     {
-                        let a = currentUser.dota2Book2019.actions[i];
+                        let a = currentUser.dota2EpicCenter2019.actions[i];
                         if (a.token == 'follow_twitch')
                         {
                             $("#btn_follow_twitch").hide();
@@ -780,7 +583,7 @@
                         return;
                     $(btn).html('در حال بارگذاری...');
                     twitchLoading = true;
-                    fetch('/dota2-book/check-twitch/?channelName=' + channelName, {
+                    fetch('/dota2-epic-center/check-twitch/?channelName=' + channelName, {
                         method: 'GET',
                     }).then((response) => response.json()).then((result) =>
                     {

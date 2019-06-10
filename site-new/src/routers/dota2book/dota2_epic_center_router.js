@@ -12,6 +12,7 @@ const TEAMS_FILE_PATH = path.resolve('../storage/epic-center-2019/teams.json');
 const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/epic-center-2019/valid-actions.json');
 const ACTION_CATEGORIES_FILE_PATH = path.resolve('../storage/epic-center-2019/action-categories.json');
 const TWITCH_CODE_FILE_PATH = path.resolve('../storage/epic-center-2019/twitch-code.txt');
+const PAGE_CONFIG_FILE_PATH = path.resolve('../storage/epic-center-2019/page-config.json');
 function getAction(VALID_ACTIONS, token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -113,8 +114,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 res.redirect(SLUG + '/eua/?msg=acceptFirst');
                 return;
             }
-            res.send('Imagine Bet Home Page Here!');
-            return;
+
             fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
             {
                 if (err)
@@ -122,7 +122,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                     fail(err);
                     return;
                 }
-                let VALID_ACTIONS = JSON.parse(data.toString());
+                let ACTIONS = JSON.parse(data.toString());
                 fs.readFile(TEAMS_FILE_PATH, (err, data) =>
                 {
                     if (err)
@@ -139,18 +139,46 @@ export class Dota2EpicCenterRouter extends SiteRouter
                             return;
                         }
                         let TWITCH_CODE_STR = data.toString();
-                        siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
+                        fs.readFile(ACTION_CATEGORIES_FILE_PATH, (err, data) =>
                         {
-                            let rank = resp.rank;
-                            this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
-                                rank: rank + 1,
-                                user: currentUser,
-                                ESL_TEAMS: JSON.stringify(TEAMS),
-                                ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
-                                DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
-                                TWITCH_CODE_STR: TWITCH_CODE_STR,
+                            if (err)
+                            {
+                                fail(err);
+                                return;
+                            }
+                            let ACTIONS_CATS = JSON.parse(data.toString());
+                            fs.readFile(PAGE_CONFIG_FILE_PATH, (err, data) =>
+                            {
+                                if (err)
+                                {
+                                    fail(err);
+                                    return;
+                                }
+                                const PAGE_CONFIG = JSON.parse(data.toString());
+                                let invites = [];
+                                for (var k = 0; k < currentUser.dota2EpicCenter2019.invites.length; k++)
+                                    invites.push(currentUser.dota2EpicCenter2019.invites[k].userId);
+                                siteModules.User.find({ _ids: invites }).then((invitedUsers) =>
+                                {
+                                    currentUser.dota2EpicCenter2019._invites = invitedUsers;
+                                    siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
+                                    {
+                                        let rank = resp.rank;
+                                        this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
+                                            rank: rank + 1,
+                                            user: currentUser,
+                                            PAGE_CONFIG: PAGE_CONFIG,
+                                            TWITCH_CODE_STR: TWITCH_CODE_STR,
+                                            TEAMS: JSON.stringify(TEAMS),
+                                            ACTIONS: JSON.stringify(ACTIONS),
+                                            ACTIONS_CATS: JSON.stringify(ACTIONS_CATS),
+                                            DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
+                                        });
+                                    }).catch(fail);
+                                }).catch(fail);
+
                             });
-                        }).catch(fail);
+                        });
                     });
                 });
             });
@@ -299,11 +327,13 @@ export class Dota2EpicCenterRouter extends SiteRouter
             const TWITCH_CODE_STR = (fs.readFileSync(TWITCH_CODE_FILE_PATH).toString());
             const TEAMS_STR = (fs.readFileSync(TEAMS_FILE_PATH).toString());
             const ACTION_CATEGORIES_STR = (fs.readFileSync(ACTION_CATEGORIES_FILE_PATH).toString());
+            const PAGE_CONFIG = JSON.parse(fs.readFileSync(PAGE_CONFIG_FILE_PATH).toString())
             this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-admin.html', {
                 VALID_ACTIONS_STR: VALID_ACTIONS_STR,
                 TWITCH_CODE_STR: TWITCH_CODE_STR,
-                TEAMS_STR : TEAMS_STR,
-                ACTION_CATEGORIES_STR : ACTION_CATEGORIES_STR,
+                TEAMS_STR: TEAMS_STR,
+                ACTION_CATEGORIES_STR: ACTION_CATEGORIES_STR,
+                PAGE_CONFIG: PAGE_CONFIG,
             });
         });
         this.router.post('/admin/save-file', (req, res) =>
@@ -330,7 +360,10 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 return;
             }
             fs.writeFileSync(VALID_ACTIONS_FILE_PATH, req.body.valid_actions);
+            fs.writeFileSync(TEAMS_FILE_PATH, req.body.teams);
+            fs.writeFileSync(ACTION_CATEGORIES_FILE_PATH, req.body.action_cats);
             fs.writeFileSync(TWITCH_CODE_FILE_PATH, req.body.twitch_code);
+            fs.writeFileSync(PAGE_CONFIG_FILE_PATH, JSON.stringify({ title: req.body.page_config_title, description: req.body.page_config_description }));
             res.redirect('/dota2-epic-center/admin/?save=success');
         });
         this.router.get('/admin/update-all-bets', (req, res) =>

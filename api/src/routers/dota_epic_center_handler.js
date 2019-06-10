@@ -265,6 +265,7 @@ export class DotaEpicCenterHandler
                 player.dota2EpicCenter2019.coins = INIT_COINS;
                 player.dota2EpicCenter2019.actions = [];
                 player.dota2EpicCenter2019.bets = [];
+                player.dota2EpicCenter2019.invites = [];
                 player.dota2EpicCenter2019.joinedAt = moment_now();
                 this.User.findByIdAndUpdate(player._id, { $set: { dota2EpicCenter2019: player.dota2EpicCenter2019 } }, { new: true }, (err, user) =>
                 {

@@ -29,6 +29,7 @@ export const UserSchema = new mongoose.Schema({
     personelCategory: { type: String, default: '' },
 
     //games and outsource:
+    refferer:{type:String,default:''},
     epicGamesID: { type: String, default: '' },
     psnID: { type: String, default: '' },
     instagramID : {type:String,  default : ''},
@@ -71,6 +72,7 @@ export const UserSchema = new mongoose.Schema({
             joinedAt : "",
             actions : [],
             bets : [],
+            invites : [],
         }
     },
     fortnite2019: {

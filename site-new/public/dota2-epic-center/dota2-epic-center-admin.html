@@ -2,13 +2,18 @@
 
 <head>
     {{{head}}}
-    <title>Dota 2 Book Admin</title>
+    <title>Dota 2 Epic Center Admin</title>
     <style>
-        body{
-            background-color:#d0d1d2;
+        body {
+            background-color: #d0d1d2;
         }
-        .team-card{
-            margin-bottom:5px;
+
+        .team-card {
+            margin-bottom: 5px;
+        }
+        .action-option-btn{
+            display: inline-block;
+            margin:2px;
         }
     </style>
 </head>
@@ -18,17 +23,29 @@
     <navfiller></navfiller>
     <section>
         <div class="container">
-            <a href="/dota2-book/admin/update-all-bets" class="btn btn-md btn-danger" target="_blank">Update All User
+            <a href="/dota2-epic-center/admin/update-all-bets" class="btn btn-md btn-danger" target="_blank">Update All
+                User
                 Bets!</a>
-            <form action="/dota2-book/admin/save-file" method="POST">
-                <b>Valid Actions:</b>
-                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="valid_actions"></textarea>
-                <b>Action Categories:</b>
-                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="action_cats"></textarea>
-                <b>Teams:</b>
-                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="teams"></textarea>
+            <div  class="btn btn-md btn-success" onclick="toggle_debug()">Toggle Debug Mode</div>
+            <form action="/dota2-epic-center/admin/save-file" method="POST">
+                <b debug="true">Valid Actions:</b>
+                <textarea debug="true" class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="valid_actions"></textarea>
+                <b debug="true">Action Categories:</b>
+                <textarea debug="true" class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="action_cats"></textarea>
+                <b debug="true">Teams:</b>
+                <textarea debug="true" class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="teams"></textarea>
                 <b>Twitch Code:</b>
-                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;" name="twitch_code">{{{TWITCH_CODE_STR}}}</textarea>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="twitch_code">{{{TWITCH_CODE_STR}}}</textarea>
+                <b>Page Config title:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="page_config_title">{{{PAGE_CONFIG.title}}}</textarea>
+                <b>Page Config description:</b>
+                <textarea class="form-control text-english" style="direction:ltr;text-align:left;height:300px;"
+                    name="page_config_description">{{{PAGE_CONFIG.description}}}</textarea>
                 <input type="submit" value="Save" class="btn btn-md btn-success" />
             </form>
             <h3>Actions:</h3>
@@ -40,11 +57,19 @@
             <h3>Teams:</h3>
             <div class="btn btn-md btn-secondary" onclick="add_team()">+Add Team</div>
             <div id="teams" class="row text-english" style="direction:ltr;text-align: left;"></div>
+            <div id="teams-screen"
+                style="position:fixed;top:0;left:0;width:100vw;height:100vh;background-color:rgba(0, 0, 0, 0.6);z-index:999999;display:none;">
+                <div class="container" style="padding-top:10px;">
+                    <div name="cancel-btn" class="btn btn-md btn-danger">Close Window</div>
+                    <h3 class="text-center text-white">Select A Team:</h3>
+                    <div name="teams-list" class="card" style="padding:10px 20px;height:80vh;overflow-y:scroll;"></div>
+                </div>
+            </div>
         </div>
         </div>
     </section>
     <script>
-        let actions = [] , teams = [] , actionCats = [];
+        let actions = [], teams = [], actionCats = [], teamsScreenActionIndex = -1;
         $(() =>
         {
             actions = JSON.parse(`{{{VALID_ACTIONS_STR}}}`);
@@ -54,30 +79,115 @@
             {
                 if (actions[i].title == undefined)
                     actions[i].title = '';
-                if(actions[i].category == undefined)
+                if (actions[i].category == undefined)
                     actions[i].category = '';
-                if(actions[i].time == undefined)
+                if (actions[i].time == undefined)
                     actions[i].time = '';
             }
+            $("#teams-screen [name=cancel-btn]").click(() =>
+            {
+                $("#teams-screen").fadeToggle(200);
+            });
             recreate_actions();
+            recreate_teams();
+            recreate_actionCats();
+            $("#teams-screen .team-screen-btn").click(function ()
+            {
+                let token = $(this).attr('token');
+                actions[teamsScreenActionIndex].options.push(token);
+                $("#teams-screen").hide();
+                recreate_actions();
+            });
+            $("#valid-actions .action-option-btn").click(function(){
+                let actionIndex = $(this).attr('actionIndex');
+                let optionIndex = $(this).attr('index');
+                actions[actionIndex].options.splice(optionIndex,1);
+                recreate_actions();
+            });
+            $("[debug=true]").hide();
         });
+        function toggle_debug(){
+            $("[debug=true]").toggle();
+        }
         function recreate_actions()
         {
             $("#valid-actions").html('');
             $(`textarea[name=valid_actions]`).val(JSON.stringify(actions));
+            for (var i = 0; i < actions.length; i++)
+            {
+                let a = actions[i];
+                let optionsStr = ``;
+                for (var j = 0; j < a.options.length; j++)
+                {
+                    optionsStr += `<div class="btn btn-md btn-dark action-option-btn" actionIndex="${i}" index="${j}"><span class="fas fa-trash"></span>&nbsp;${a.options[j]}</div>`;
+                }
+                $("#valid-actions").append(`
+                    <div class="col-md-4">
+                        <div class="card action-card" style="padding:10px 20px" index="${i}">
+                            <div><input type="checkbox" name="active" ${a.active ? 'checked' : ''} style="display:inline;" /><b>active?</b></div>
+                            <div><input type="checkbox" name="isBet" ${a.isBet ? 'checked' : ''} style="display:inline;" /><b>isBet?</b></div>
+                            ${textInput('title', a.title)}
+                            ${textInput('token', a.token, { readonly: true })}
+                            ${categories_optionBox('category', a.category)}
+                            ${numberInput('reward', a.reward)}
+                            <p>Enter Reward:-1398 for bets that will make user loose coins and -1 for no loose bets.</p>
+                            ${numberInput('maxCoins', a.maxCoins)}
+                            <b>options:</b><textarea name="options">${JSON.stringify(a.options)}</textarea>
+                            ${textInput('answer', a.answer)}
+                            <div><div class="btn btn-sm btn-secondary" onclick="show_teams_screen(${i})">+Add Option</div></div>
+                            <div name="action-options-preview"><b>Options:</b><br>${optionsStr}</div>
+                            <hr>
+                            <div>
+                                <div class="btn btn-sm btn-info" onclick="swap_action(${i},-1)">Move Up</div>
+                                <div class="btn btn-sm btn-info" onclick="swap_action(${i},1)">Move Down</div>
+                            </div>
+                            <hr>
+                            <div class="btn btn-md btn-danger" onclick="remove_action(${i})">Remove</div>
+                        </div>
+                    </div>
+                `);
+            }
             $(".action-card input,.action-card textarea").change(function ()
             {
                 let index = $(this).closest(".action-card").attr('index');
                 update_action(index);
             });
         }
+        function swap_action(i,dir)
+        {
+            if ((i == actions.length - 1 && dir == 1) || (i == 0 && dir == -1))
+            {
+                alert('Not Valid!');
+                return;
+            }
+            let temp = actions[i];
+            actions[i] = actions[i + dir];
+            actions[i + dir] = temp;
+            recreate_actions();
+        }
+        function show_teams_screen(actionIndex)
+        {
+            teamsScreenActionIndex = actionIndex;
+            $("#teams-screen").show();
+        }
+        function categories_optionBox(name, value)
+        {
+            let str = `<div><b>${name}</b><select name="${name}" class="form-control m">`;
+            str += `<option></option>`;
+            for (var i = 0; i < actionCats.length; i++)
+            {
+                str += `<option value="${actionCats[i].token}" ${value == actionCats[i].token ? 'selected' : ''}>${actionCats[i].title}</option>`;
+            }
+            str += '</select></div>';
+            return str;
+        }
         function add_action()
         {
             actions.push({
                 active: false,
-                token: '',
-                title : '',
-                category : '',
+                token: ID(),
+                title: '',
+                category: '',
                 reward: 0,
                 isBet: false,
                 maxCoins: 0,
@@ -88,6 +198,9 @@
         }
         function remove_action(index)
         {
+            let ok = confirm('Are you sure? Note:You must not remove actions which were once active!');
+            if(!ok)
+                return;
             actions.splice(index, 1);
             recreate_actions();
         }
@@ -110,14 +223,15 @@
         {
             $("#actionCats").html('');
             $("[name=action_cats]").val(JSON.stringify(actionCats));
-            for(var i = 0 ; i < actionCats.length;i++){
+            for (var i = 0; i < actionCats.length; i++)
+            {
                 let cat = actionCats[i];
                 $("#actionCats").append(`
                     <div class="col-12">
                         <div class="actionCat-card card" style="padding:10px 20px;margin-bottom:5px;" index="${i}">
                             <div><input type="checkbox" name="active" ${cat.active ? 'checked' : ''} style="display:inline;" /><span>active?</span></div>
-                            ${textInput('token',cat.token)}
-                            ${textInput('title',cat.title)}
+                            ${textInput('token', cat.token)}
+                            ${textInput('title', cat.title)}
                             <div>
                                 <div class="btn btn-md btn-info" style="display:inline-block;width:300px" onclick="swap_actionCat(${i},-1)">Move Up</div>
                                 <div class="btn btn-md btn-info" style="display:inline-block;width:300px" onclick="swap_actionCat(${i},1)">Move Down</div>
@@ -127,93 +241,113 @@
                     </div>
                 `);
             }
-            $("#actionCats input").change(function(){
+            $("#actionCats input").change(function ()
+            {
                 let index = $(this).closest(".actionCat-card").attr('index');
                 update_actionCat(index);
             });
+            recreate_actions();
         }
         function add_actionCat()
         {
             actionCats.push({
-                active : true,
-                token : '',
-                title : '',
+                active: true,
+                token: '',
+                title: '',
             });
             recreate_actionCats();
         }
         function remove_actionCat(i)
         {
-            actionCats.splice(i,1);
+            actionCats.splice(i, 1);
             recreate_actionCats();
         }
         function update_actionCat(i)
         {
             actionCats[i] = {
-                active : $(`#actionCats .actionCat-card[index=${i}] input[name=active]`).is(':checked'),
-                token : $(`#actionCats .actionCat-card[index=${i}] input[name=token]`).val(),
-                title : $(`#actionCats .actionCat-card[index=${i}] input[name=title]`).val(),
+                active: $(`#actionCats .actionCat-card[index=${i}] input[name=active]`).is(':checked'),
+                token: $(`#actionCats .actionCat-card[index=${i}] input[name=token]`).val(),
+                title: $(`#actionCats .actionCat-card[index=${i}] input[name=title]`).val(),
             };
             $("[name=action_cats]").val(JSON.stringify(actionCats));
         }
-        function swap_actionCat(i,dir)
+        function swap_actionCat(i, dir)
         {
-            if((i == actionCats.length-1 && dir == 1) || (i == 0 && dir == -1))
+            if ((i == actionCats.length - 1 && dir == 1) || (i == 0 && dir == -1))
             {
                 alert('Not Valid!');
                 return;
             }
             let temp = actionCats[i];
-            actionCats[i] = actionCats[i+dir];
-            actionCats[i+dir] = temp;
+            actionCats[i] = actionCats[i + dir];
+            actionCats[i + dir] = temp;
             recreate_actionCats();
         }
         function recreate_teams()
         {
             $("#teams").html('');
             $(`textarea[name=teams]`).val(JSON.stringify(teams));
-            for(var i = 0 ; i < teams.length;i++){
+            for (var i = 0; i < teams.length; i++)
+            {
                 let t = teams[i];
                 $("#teams").append(`
                 <div class="col-md-6 col-12">
                     <div class="team-card card" style="padding:10px 20px" index="${i}">
-                        ${textInput('token',t.token)}
-                        ${textInput('name',t.name)}
-                        ${textInput('cover',t.cover)}
+                        ${textInput('token', t.token)}
+                        ${textInput('name', t.name)}
+                        ${textInput('cover', t.cover)}
                         <hr><div class="btn btn-sm btn-danger" onclick="remove_team(${i})">Remove</div>
                     </div>
                 </div>
                 `);
+                $("#teams-screen [name=teams-list]").append(`
+                    <div class="btn btn-md btn-dark team-screen-btn" token="${t.token}">
+                        <img src="${t.cover}" width="300px"/><br>
+                        ${t.name}
+                    </div>
+                `);
             }
+            $("#teams input").change(function ()
+            {
+                let index = $(this).closest(".team-card").attr('index');
+                update_team(index);
+            });
+
         }
         function add_team()
         {
             teams.push({
-                token : 'team_name',
-                name : 'Team Name',
-                cover : '',
+                token: 'team_name',
+                name: 'Team Name',
+                cover: '',
             });
             recreate_teams();
         }
-        function remove_team(index){
-            teams.splice(index,1);
+        function remove_team(index)
+        {
+            teams.splice(index, 1);
             recreate_teams();
         }
-        function update_team(i){
+        function update_team(i)
+        {
             teams[i] = {
-                token : $(`#teams .team-card[index=${i}] input[name=token]`).val(),
-                name : $(`#teams .team-card[index=${i}] input[name=name]`).val(),
-                cover : $(`#teams .team-card[index=${i}] input[name=cover]`).val(),
+                token: $(`#teams .team-card[index=${i}] input[name=token]`).val(),
+                name: $(`#teams .team-card[index=${i}] input[name=name]`).val(),
+                cover: $(`#teams .team-card[index=${i}] input[name=cover]`).val(),
             };
             $(`textarea[name=teams]`).val(JSON.stringify(teams));
         }
-        
-        function textInput(name, value)
+
+        function textInput(name, value, settings = { readonly: false })
         {
-            return `<b>${name}:</b><input type="text" class="form-control m" name="${name}" value="${value}"/><br>`
+            return `<b>${name}:</b><input type="text" class="form-control m" name="${name}" value="${value}" ${settings.readonly ? 'readonly' : ''}/><br>`
         }
         function numberInput(name, value)
         {
             return `<b>${name}:</b><input type="number" class="form-control m" name="${name}" value="${value}"/><br>`
+        }
+        function ID(){
+            return '_' + Math.random().toString(36).substr(2, 9);
         }
     </script>
     {{{footer}}}

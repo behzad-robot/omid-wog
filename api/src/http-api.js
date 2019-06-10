@@ -9,7 +9,7 @@ import { AnalyticsEvent } from './models/analytics';
 import MongooseDB from './libs/mongoose-db';
 
 
-import { UsersAuthHandler } from './routers/users_auth_router';
+import { UsersAuthHandler } from './routers/users_auth_handler';
 import { PublicMongooseAPIRouter } from './routers/public-http-mongoose';
 import { AppInfoHttpRouter, AppInfoSocketRouter } from './routers/app_info_router';
 import { IS_LOCALHOST, GetMongoDBURL, ADMIN_TOKEN, API_TOKEN } from './constants';
