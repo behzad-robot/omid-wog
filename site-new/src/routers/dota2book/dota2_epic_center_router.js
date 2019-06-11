@@ -1,6 +1,6 @@
 import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants"
-import { isEmptyString } from "../../utils/utils";
+import { isEmptyString, moment_now } from "../../utils/utils";
 // import { ESL_TEAMS, GROUP_A, GROUP_B } from "./esl_teams";
 const fs = require('fs');
 const path = require('path');
@@ -13,6 +13,8 @@ const VALID_ACTIONS_FILE_PATH = path.resolve('../storage/epic-center-2019/valid-
 const ACTION_CATEGORIES_FILE_PATH = path.resolve('../storage/epic-center-2019/action-categories.json');
 const TWITCH_CODE_FILE_PATH = path.resolve('../storage/epic-center-2019/twitch-code.txt');
 const PAGE_CONFIG_FILE_PATH = path.resolve('../storage/epic-center-2019/page-config.json');
+const QUIZ_SESSION_GOAL = 'dota2-epic-center-2019';
+const QUIZ_REWARD = 10;
 function getAction(VALID_ACTIONS, token)
 {
     for (var i = 0; i < VALID_ACTIONS.length; i++)
@@ -299,6 +301,140 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 {
                     res.send({ code: 500, error: err.toString() });
                 });
+        });
+        this.router.get('/enter-quiz', (req, res) =>
+        {
+            let currentUser = req.session.currentUser;
+            let nowDate = moment_now();
+            let date = nowDate.split(' ')[0];
+            let nowParts = date.split('-');
+            let nowMonth = nowParts[1], nowDay = nowParts[2];
+            //check if session for today exists:
+            for (var i = 0; i < currentUser.dota2Quiz.sessions.length; i++)
+            {
+                let session = currentUser.dota2Quiz.sessions[i];
+                if (session.goal != QUIZ_SESSION_GOAL)
+                    continue;
+                let sessionDate = session.createdAt.split(' ')[0];
+                let sessionParts = sessionDate.split('-');
+                let sessionMonth = sessionParts[1], sessionDay = sessionParts[2];
+                // if (sessionMonth == nowMonth && sessionDay == nowDay)
+                // {
+                //     console.log(session);
+                //     if (session.status == 'loose')
+                //     {
+                //         session.reward = (session.questions.length - 1) * QUIZ_REWARD;
+                //         this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-quiz-error.html', {
+                //             session
+                //         });
+                //     }
+                //     else
+                //     {
+                //         res.redirect('/dota2-epic-center/quiz/' + session._id);
+                //     }
+                //     return;
+                // }
+            }
+            siteModules.User.apiCall('dota2-quiz-new-session', {
+                userId: req.session.currentUser._id,
+                userToken: req.session.currentUser.token,
+                goal: QUIZ_SESSION_GOAL,
+            }).then((response) =>
+            {
+                req.session.currentUser = response.user;
+                req.session.save(() =>
+                {
+                    res.redirect('/dota2-epic-center/quiz/' + response.session._id);
+                });
+            }).catch((err) =>
+            {
+                this.show500(req, res, err);
+            });
+        });
+        this.router.get('/quiz/:_id', (req, res) =>
+        {
+            siteModules.User.find({ _id: req.session.currentUser._id }).then((users) =>
+            {
+                let user = users[0];
+                req.session.currentUser = user;
+                let session = undefined;
+                for (var i = 0; i < req.session.currentUser.dota2Quiz.sessions.length; i++)
+                {
+                    if (req.session.currentUser.dota2Quiz.sessions[i]._id == req.params._id)
+                    {
+                        session = req.session.currentUser.dota2Quiz.sessions[i];
+                        break;
+                    }
+                }
+                if (session == undefined)
+                {
+                    res.status(404).send('Session not found!');
+                    return;
+                }
+                this.renderTemplate(req, res, '/dota2-epic-center/dota2-epic-center-quiz-page.html', {
+                    session: session,
+                    session_str: JSON.stringify(session),
+                });
+            }).catch((err) =>
+            {
+                this.show500(req, res, err);
+            });
+        });
+        this.router.post('/finish-quiz', (req, res) =>
+        {
+            if (isEmptyString(req.body.userToken))
+            {
+                res.send({ code: 500, error: 'userToken is missing' });
+                return;
+            }
+            if (isEmptyString(req.body.userId))
+            {
+                res.send({ code: 500, error: 'userId is missing' });
+                return;
+            }
+            if (isEmptyString(req.body.sessionId))
+            {
+                res.send({ code: 500, error: 'sessionId is missing' });
+                return;
+            }
+            siteModules.User.find({ _id: req.body._id  }).then((users) =>
+            {
+                let user = users[0];
+                console.log(user);
+                console.log(req.body.userToken);
+                // if (user.token != req.body.userToken)
+                // {
+                //     res.send({ code: 500, error: 'invalid token' });
+                //     return;
+                // }
+                let session = undefined;
+                console.log('target sessionId='+req.body.sessionId);
+                for (var i = 0; i < user.dota2Quiz.sessions.length; i++)
+                {
+                    console.log(user.dota2Quiz.sessions[i]._id);
+                    if (user.dota2Quiz.sessions[i]._id == req.body.sessionId)
+                    {
+                        session = user.dota2Quiz.sessions[i];
+                        break;
+                    }
+                }
+                if(session == undefined)
+                {
+                    res.send({code : 500 , error :'session not found'});
+                    return;
+                }
+                user.dota2EpicCenter2019.coins += (session.questions.length-1)*QUIZ_REWARD;
+                siteModules.User.apiCall('edit-profile',{
+                    _id : req.body.userId,
+                    token : req.body.token,
+                    dota2EpicCenter2019 : user.dota2EpicCenter2019,
+                }).then((user)=>{
+                    res.send({code : 200 , _data : {dota2EpicCenter2019 : user.dota2EpicCenter2019}});
+                }).catch((err)=>{
+                    res.send({code :500 , error : err.toString()});
+                });
+            });
+
         });
         this.router.get('/admin', (req, res) =>
         {

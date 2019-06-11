@@ -299,13 +299,30 @@
                                 <div id="answer-container">
                                 </div>
                                 <div class="text-center" id="wrongAnswerText">
+                                </div>
+                                <div id="end-game-box" style="display:none">
+                                    <div id="end-game-loading">
+                                        <div id="loading" class="text-center">
+                                            <div class="lds-ellipsis">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-center text-white" style="direction:ltr;"
+                                            id="end-game-loading-text">اعمال سکه های جایزه لطفا صبر کنید...</div>
+                                        <div class="text-center" style="color:greenyellow;" id="end-game-loading-done">
+                                            سکه های شما اعمال شد.</div>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="coin-box">
                             <p class="coin-text" style="display: inline">جایزه فعلی شما: </p><i class="fas fa-coins"
-                                style="color: gold;padding: 10px ;display: inline;direction:rtl;padding: 10px"></i><span>10</span>
+                                style="color: gold;padding: 10px ;display: inline;direction:rtl;padding: 10px"></i><span
+                                id="coin-rewards">0</span>
                         </div>
                     </div>
                     <div class="col-md-3"></div>
@@ -350,6 +367,7 @@
                     else
                     {
                         startQuiz();
+                        $("#coin-rewards").html((session.questions.length - 1) * 10);
                         // let hasUnAnsweredQuestion = false;
                         // for (var i = 0; i < session.questions.length; i++)
                         // {
@@ -397,7 +415,7 @@
                         userToken: `{{{currentUser.token}}}`,
                         sessionId: `{{{session._id}}}`,
                         limit: 1,
-                        level : (session.questions.length%5),
+                        // level : (session.questions.length%5),
                     }),
                 }).then((response) => response.json()).then((response) =>
                 {
@@ -545,9 +563,38 @@
                         session = data.session;
                         if ($(`.answer-boxes[index=${data.answer}]`))
                         {
-                            $("#wrongAnswerText").append(`
-                        <h3 class="wrong-answer-error-text" style="color:red">جواب شما اشتباه بود :) <br style=""> فردا مجدداََ تلاش کنید</h3>
-                        `);
+                            $("#wrongAnswerText").append(`<h3 class="wrong-answer-error-text" style="color:red">جواب شما اشتباه بود :) <br style=""> فردا مجدداََ تلاش کنید</h3>`);
+                            $("#coin-rewards").html((session.questions.length - 1) * 10);
+                            $("#end-game-box").show();
+                            fetch('/dota2-epic-center/finish-quiz', {
+                                method: 'POST',
+                                headers: {
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    userId : `{{{currentUser._id}}}`,
+                                    userToken : `{{{currentUser.token}}}`,
+                                    sessionId : session._id,
+                                }),
+                            })
+                                .then((response) => (response.json()))
+                                .then((response) =>
+                                {
+                                    if(response.code != 200)
+                                    {
+                                        alert(response.error);
+                                    }
+                                    else
+                                    {
+                                        $("#end-game-loading").hide();
+                                        $("#end-game-loading-text").hide();
+                                        $("#end-game-loading-done").show();
+                                    }
+                                }).catch((err) =>
+                                {
+                                    alert(err);
+                                });
                         }
                     }
                     else
@@ -558,6 +605,7 @@
                         $(`.answer-boxes[index=${data.correctAnswer}]`)
                             .removeClass('choosen-answer')
                             .addClass('correct-answer');
+                        $("#coin-rewards").html((session.questions.length) * 10);
                         setTimeout(() =>
                         {
                             loadQuestion();

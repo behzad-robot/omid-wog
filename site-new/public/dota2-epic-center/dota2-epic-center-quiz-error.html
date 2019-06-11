@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .title-section {
+            display: block;
+            background-image: url('/dota2book/images/title-bg.jpg');
+            background-position: center;
+            background-size: 100% auto;
+            padding: 15px 0;
+        }
+
+        .rules-section h1 {
+            color: #f0f1f2;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 1px 1px 2px #000000;
+            font-weight: normal;
+        }
+
+        .rules-section {
+            display: block;
+            background-image: url('/dota2book/images/eua-bg-clouds.jpg');
+            background-position: center;
+            background-size: cover;
+            min-height: 670px;
+            color: white;
+            padding: 15px 0;
+            position: relative;
+        }
+
+        .corner-thing {
+            position: absolute;
+            bottom: 0px;
+            left: 10px;
+            width: 256px;
+            height: auto;
+        }
+
+        .corner-thing2 {
+            position: absolute;
+            bottom: 40px;
+            right: 10px;
+            width: 450px;
+            height: auto;
+        }
+
+        footer {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="rules-section">
+        <div class="container">
+
+            {{#msg}}
+            <div class="alert alert-warning">{{msg}}</div>
+            {{/msg}}
+            <div class="text-center">
+                <h1>شما دیگه خسته نباشید.</h1>
+            </div>
+            <div>
+                <p>شما سهمیه امروزت رو فتی بسه دیگه.</p>
+                <p><b>سوالات پاسخ داده شده:</b>&nbsp;<span>{{{session.questions.length}}}</span></p>
+                <p><b>سکه به دست آمده:</b>&nbsp;<span>{{{session.reward}}}</span></p>
+            </div>
+            <div class="alert alert-warning">شما سهمیه امروزت رو فتی بسه دیگه.<a
+                href="/dota2-epic-center">بازگشت به صفحه ایونت</a></div>
+            <div class="text-center" style="padding:10px 0;">
+                <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram" style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://www.instagram.com/wogcompany/" target="_blank"><span class="fab fa-instagram" style="font-size:36px;color:orange;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://discord.gg/PXG96F3" target="_blank"><span class="fab fa-discord" style="font-size:36px;color:#673AB7;"></span></a>
+            </div>
+        </div>
+        <img src="/dota2book/images/skeleton-thing.png" class="corner-thing no-mobile" />
+        <img src="/dota2book/images/butcher-thing.png" class="corner-thing2 no-mobile" />
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

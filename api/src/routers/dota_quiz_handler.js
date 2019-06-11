@@ -221,59 +221,108 @@ export class Dota2QuizHandler
                     reject('invalid sessionId');
                     return;
                 }
-                let query = {};
-                if (params.level != -1)
-                    query.level = params.level;
-                this.Dota2Question.find(query).limit(20000).lean().exec((err, questions) =>
+                //check has not-answered questions:
+                let notAnsweredIndex = -1;
+                for (var i = 0; i < session.questions.length; i++)
                 {
-                    if (err)
+                    if (session.questions[i].answer == -1)
                     {
-                        reject(err);
-                        return;
+                        notAnsweredIndex = i;
+                        break;
                     }
-                    //shuffle questions:
-                    console.log(questions[0]._id);
-                    for (var i = 0; i < questions.length * 2; i++)
+                }
+                console.log(session);
+                if (notAnsweredIndex != -1)
+                {
+                    console.log('this session has not answered QUESTIONS!');
+                    //load previously loaded quetsions case:
+                    let qIds = [];
+                    for (var i = notAnsweredIndex; i < session.questions.length; i++)
                     {
-                        let a = parseInt(Math.random() * questions.length);
-                        let b = parseInt(Math.random() * questions.length);
-                        let temp = questions[a];
-                        questions[a] = questions[b];
-                        questions[b] = temp;
+                        qIds.push(session.questions[i].qId);
                     }
-                    //provide results:
-                    let results = [];
-                    for (var i = 0; i < questions.length && i < params.limit; i++)
+                    this.Dota2Question.where('_id').in(qIds).lean().exec((err, questions) =>
                     {
-                        let has = false;
-                        //check not in session questions:
-                        for (var j = 0; j < session.questions.length; j++)
+                        if (err)
                         {
-                            if (session.questions[j].qId == questions[i]._id)
+                            reject(err);
+                            return;
+                        }
+                        for (var i = 0; i < questions.length; i++)
+                        {
+                            delete (questions[i].answer)
+                        }
+                        resolve({ questions: questions, hasDuplicates: false, resume: true, session });
+                    });
+                }
+                else
+                {
+                    //get new questions case:
+                    let query = {};
+                    if (params.level != -1)
+                        query.level = params.level;
+                    this.Dota2Question.find(query).limit(20000).lean().exec((err, questions) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        //shuffle questions:
+                        console.log(questions[0]._id);
+                        for (var i = 0; i < questions.length * 2; i++)
+                        {
+                            let a = parseInt(Math.random() * questions.length);
+                            let b = parseInt(Math.random() * questions.length);
+                            let temp = questions[a];
+                            questions[a] = questions[b];
+                            questions[b] = temp;
+                        }
+                        //provide results:
+                        let results = [];
+                        for (var i = 0; i < questions.length && i < params.limit; i++)
+                        {
+                            let has = false;
+                            //check not in session questions:
+                            for (var j = 0; j < session.questions.length; j++)
                             {
-                                has = true;
-                                break;
+                                if (session.questions[j].qId == questions[i]._id)
+                                {
+                                    has = true;
+                                    break;
+                                }
+                            }
+                            if (!has)
+                                results.push(questions[i]);
+                        }
+                        let hasDuplicates = false;
+                        if (results.length < params.limit)
+                        {
+                            hasDuplicates = true;
+                            for (var i = 0; i < questions.length && i < (params.limit - results.length); i++)
+                            {
+                                results.push(questions[i]);
                             }
                         }
-                        if (!has)
-                            results.push(questions[i]);
-                    }
-                    let hasDuplicates = false;
-                    if (results.length < params.limit)
-                    {
-                        hasDuplicates = true;
-                        for (var i = 0; i < questions.length && i < (params.limit - results.length); i++)
+                        for (var i = 0; i < results.length; i++)
                         {
-                            results.push(questions[i]);
+                            results[i] = Object.assign({}, results[i]);
+                            delete (results[i].answer);
                         }
-                    }
-                    for (var i = 0; i < results.length; i++)
-                    {
-                        results[i] = Object.assign({}, results[i]);
-                        delete (results[i].answer);
-                    }
-                    resolve({ questions: results, hasDuplicates });
-                });
+                        for (var i = 0; i < results.length; i++)
+                            session.questions.push({ qId: results[i]._id.toString(), answer: -1 });
+                        this.User.findByIdAndUpdate(user._id, { $set: { dota2Quiz: user.dota2Quiz } }, { new: true }, (err, user) =>
+                        {
+                            if (err)
+                            {
+                                reject(err);
+                                return;
+                            }
+                            resolve({ questions: results, resume: false, hasDuplicates, session });
+                        });
+                    });
+                }
+
             });
         });
     }
@@ -354,7 +403,15 @@ export class Dota2QuizHandler
                         reject('question not found');
                         return;
                     }
-                    session.questions.push({ qId: question._id, answer: params.answer });
+                    for (var i = 0; i < session.questions.length; i++)
+                    {
+                        if (session.questions[i].qId == question._id.toString() && session.questions[i].answer == -1)
+                        {
+                            session.questions[i].answer = params.answer;
+                            break;
+                        }
+                    }
+                    // session.questions.push({ qId: question._id, answer: params.answer });
                     let result = { correctAnswer: question.answer, answer: params.answer, question: question };
                     if (question.answer != params.answer)
                         session.status = 'loose';

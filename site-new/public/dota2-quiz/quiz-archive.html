@@ -3,30 +3,105 @@
 <head>
     {{{head}}}
     <style>
-        .quiz-card{
-            padding:10px 20px;
-            margin-bottom:10px;
+        span[target=loose] {
+  color: red;
+}
+span[target=ongoing] {
+  color: gray;
+}
+span[target=win] {
+  color: green;
+}
+        .quiz-card {
+            padding: 10px 20px;
+            margin-bottom: 10px;
+            background: rgb(17,7,23);
+background: radial-gradient(circle,rgba(36,18,87,1)0% ,rgba(17,7,23,1)  100%);    }
+
+
+        .card {
+            width: 500 px;
         }
+
+        /* On mouse-over, add a deeper shadow */
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        /* Add some padding inside the card container */
+        .container {
+            padding: 2px 16px;
+        }
+
+        body {
+  counter-reset: section;
+}
+
+h4::before {
+  counter-increment: section;
+  content:  counter(section)"." ;
+
+}
+
     </style>
 </head>
 
-<body>
+<body >
     {{{navbar}}}
     <navfiller></navfiller>
-    <section>
+    <section style="margin-bottom: -20px; background: url('/wiki-dota2/images/immortals_bg.jpg');background-position: center;background-size: cover;background-repeat: no-repeat">
         <div class="container">
-            <h3>Quiz Archive History:</h3>
-            <a class="btn btn-md btn-primary" href="/dota2-quiz/new-dummy-quiz">Enter New Dummy Quiz</a>
+            
+
+            <div class="text-center" style="margin-top:20px; margin-bottom:20px">
+                    <h3 class="text-white" style="text-shadow:5px 5px black">آرشیو کوییزها</h3>
+
+                    <a class="btn btn-md text-white " href="/dota2-quiz/new-dummy-quiz" style="background-color:rgba(36,18,87,1)" >Enter New Dummy Quiz</a>
+        
+            </div>
+
             <div class="row">
+
+
                 {{#currentUser.dota2Quiz.sessions}}
                 <div class="col-12">
                     <div class="wog-card quiz-card">
-                        <h3>_id: {{_id}}</h3>
-                        <h3>goal: {{goal}}</h3>
-                        <div><b>status: </b><span>{{status}}</span></div>
-                        <div><b>createdAt: </b><span>{{createdAt}}</span></div>
-                        <div><b>questions answered: </b><span>{{questions.length}}</span></div>
-                        <a href="/dota2-quiz/quiz/{{_id}}" target="_blank" class="btn btn-md btn-info">Resume</a>
+
+                        <div class="row">
+                            <div class="col-md-2 text-white" align="center" style="margin-top:14px">
+                                <h4></h4>
+                            
+                            </div>
+                            <div class="col-md-2 text-white" align="center"  style="margin-top:14px">
+                                {{goal}}   
+                                </div>
+                                <div class="col-md-3 text-white" align="center"  style="margin-top:14px" >
+                                        <b>وضعیت: </b><span target={{status}} >{{status}}</span>
+        
+        
+        
+                                    </div>
+                                   
+                                        <div class="col-md-3 text-white" align="center" style="margin-top:14px">
+                                                <b>تعداد پاسخ ها :
+                                                </b><span>{{questions.length}}
+                
+                
+                
+                                            </div>
+                                            <div class="col-md-2 text-white" align="center"  style="margin-top:5px">
+                                                    <a href="/dota2-quiz/quiz/{{_id}}" target="_blank" style="background-color: #ffffff00 ;border-color: #ffffff" class="btn btn-md text-white"  >ادامه</a>
+                    
+                    
+                    
+                                                </div>
+                           
+
+
+                            <h1> {{currentUser.dota2Quiz.section}}</h1>
+
+                        </div>
+
                     </div>
                 </div>
                 {{/currentUser.dota2Quiz.sessions}}

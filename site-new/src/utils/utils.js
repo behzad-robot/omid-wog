@@ -1,3 +1,4 @@
+import moment from 'moment';
 export function isEmptyString(str) {
     return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
 }
@@ -15,4 +16,8 @@ export function getResizedFileName(filePath,width,height)
 export function replaceAll(target, search, replacement)
 {
     return target.split(search).join(replacement);
+}
+export function moment_now()
+{
+    return moment().format('YYYY-MM-DD hh:mm:ss');
 }
