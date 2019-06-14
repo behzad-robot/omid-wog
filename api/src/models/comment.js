@@ -13,6 +13,7 @@ export const CommentSchema = new mongoose.Schema({
     userId: String,
 
     body: String,
+    likes : Array,
 
     createdAt: String,
     updatedAt: String,
@@ -55,6 +56,8 @@ Comment.Helpers = {
     public: (doc) =>
     {
         doc = doc.toObject();
+        if(doc.likes == undefined)
+            doc.likes = [];
         return doc;
     },
 }

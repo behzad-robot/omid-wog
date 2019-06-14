@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        <h1>New Social Post Page:</h1>
+        <h2>Media:</h2>
+        <div id="media"></div>
+        <div>
+            <b>+Add Media:</b><input id="file-uploader" type="file" name="media" class="form-control m" data-url="${fileUploadURL}"/>
+        </div>
+        <form action="/social/posts/new-save" method="POST">
+            <textarea name="media">[]</textarea>
+            <hr>
+            <b>body:</b><br><textarea class="form-control m" name="body"></textarea><br>
+            <input type="submit" class="btn btn-md btn-success" value="Save"/>
+        </form>
+        <script>
+            $("#file-uploader").fileupload({
+                
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>
