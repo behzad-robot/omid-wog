@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon -I src/check-vg-gambit.js --exec babel-node --presets es2015,stage-2",
+    "test": "nodemon -I src/users-phone-number.js --exec babel-node --presets es2015,stage-2",
     "admin": "nodemon -I src/http-admin.js --exec babel-node --presets es2015,stage-2",
     "build": "babel src -d dist --presets es2015,stage-2",
     "serve": "node dist/http-admin.js",

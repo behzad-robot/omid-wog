@@ -45,6 +45,16 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/set-like-social-post', (req, res) =>
+        {
+            this.handler.setSocialPostLiked(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
     }
 }
 class SocialSocketRouter extends SocketRouter
@@ -82,6 +92,26 @@ class SocialSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
+        else if (request.method == 'delete-social-post')
+        {
+            this.handler.deleteSocialPost(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'set-like-social-post')
+        {
+            this.handler.setSocialPostLiked(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
     }
 
 }
@@ -99,6 +129,7 @@ export class SocialHandler
         this.newSocialPost = this.newSocialPost.bind(this);
         this.editSocialPost = this.editSocialPost.bind(this);
         this.deleteSocialPost = this.deleteSocialPost.bind(this);
+        this.setSocialPostLiked = this.setSocialPostLiked.bind(this);
     }
     newSocialPost(params) //{ userId , userToken , body , media}
     {
@@ -170,26 +201,26 @@ export class SocialHandler
                                 post.media[i] = newDir.replace('../', '/');
                             }
                             const fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
-                            let resized150x150 = post.media[0].replace(fileFormat,'-resize-150x150'+fileFormat);
-                            let resized512x512 = post.media[0].replace(fileFormat,'-resize-512x512'+fileFormat);
-                            Jimp.read('..'+post.media[0], (err, img) =>
+                            let resized150x150 = post.media[0].replace(fileFormat, '-resize-150x150' + fileFormat);
+                            let resized512x512 = post.media[0].replace(fileFormat, '-resize-512x512' + fileFormat);
+                            Jimp.read('..' + post.media[0], (err, img) =>
                             {
-                                if(err)
+                                if (err)
                                     console.log(err);
                                 img
-                                    .cover(150,150)
+                                    .cover(150, 150)
                                     .quality(60)
-                                    .write('..'+resized150x150);
+                                    .write('..' + resized150x150);
                                 console.log(resized150x150);
                             });
-                            Jimp.read('..'+post.media[0], (err, img) =>
+                            Jimp.read('..' + post.media[0], (err, img) =>
                             {
-                                if(err)
+                                if (err)
                                     console.log(err);
                                 img
-                                    .cover(512,512)
+                                    .cover(512, 512)
                                     .quality(60)
-                                    .write('..'+resized512x512);
+                                    .write('..' + resized512x512);
                                 console.log(resized512x512);
                             });
                         } catch (err)
@@ -312,7 +343,55 @@ export class SocialHandler
             });
         });
     }
-
+    setSocialPostLiked(params) //{userId , userToken , _id , like : boolean}
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userId) || isEmptyString(params.userToken) || isEmptyString(params._id) || params.like == undefined)
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.SocialPost.findOne({ _id: params._id }).exec((err, post) =>
+            {
+                if (err)
+                {
+                    reject(err.toString());
+                    return;
+                }
+                if (post == undefined)
+                {
+                    reject('post not found');
+                    return;
+                }
+                for (var i = 0; i < post.likes.length; i++)
+                {
+                    if (post.likes[i] == params.userId)
+                    {
+                        if (like)
+                        {
+                            resolve(post);
+                            return;
+                        }
+                        else
+                        {
+                            post.likes.splice(i, 1);
+                        }
+                        break;
+                    }
+                }
+                this.SocialPost.findByIdAndUpdate(post._id, { $set: { likes: post.likes } }, { new: true }, (err, post) =>
+                {
+                    if (err)
+                    {
+                        reject(err.toString());
+                        return;
+                    }
+                    resolve(post);
+                });
+            });
+        });
+    }
 }
 function hasTag(hashTag, targetTag)
 {

@@ -42,6 +42,7 @@ import { Dota2QuizRouter } from "./routers/dota2quiz/dota2_quiz_router";
 import { Dota2EpicCenterRouter } from "./routers/dota2book/dota2_epic_center_router";
 import { SocialMainRouter } from "./routers/social/social_router";
 import { SocialPostsRouter } from "./routers/social/social_posts_router";
+import { SocialPost } from "./utilsApi/social_post";
 
 const fs = require('fs');
 const path = require('path');
@@ -74,6 +75,7 @@ const SiteModules = {
     ContactUsForm: new ContactUsForm(apiSocket),
     PubGTeam: new PubGTeam(apiSocket),
     OTPObject: new OTPObject(apiSocket),
+    SocialPost : new SocialPost(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());

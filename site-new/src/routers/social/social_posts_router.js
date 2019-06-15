@@ -36,7 +36,19 @@ export class SocialPostsRouter extends SiteRouter
                 res.redirect('/social/posts/new/?msg=empty-media');
                 return;
             }
-            
+            siteModules.SocialPost.apiCall('new-social-post', {
+                userId: req.session.currentUser._id,
+                userToken: req.session.currentUser.token,
+                body: req.body.body,
+                media : JSON.parse(req.body.media),
+
+            }).then((post) =>
+            {
+                res.redirect('/social/posts/edit/' + post._id);
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
+            });
 
         });
         this.router.post('/uploader', (req, res) =>
@@ -47,6 +59,48 @@ export class SocialPostsRouter extends SiteRouter
             }).catch((err) =>
             {
                 res.send({ code: 500, error: err.toString() });
+            });
+        });
+        this.router.get('/edit/:_id', (req, res) =>
+        {
+            siteModules.SocialPost.getOne(req.params._id).then((post) =>
+            {
+                this.renderTemplate(req, res, 'social/social-edit-post.html', {
+                    post: post,
+                });
+            }).catch((err) =>
+            {
+                this.show500(req, res, err);
+            });
+        });
+        this.router.post('/edit-save/:_id', (req, res) =>
+        {
+            siteModules.SocialPost.apiCall('edit-social-post', {
+                userId: req.session.currentUser._id,
+                userToken: req.session.currentUser.token,
+                _id: req.params._id,
+                body: req.body.body,
+
+            }).then((post) =>
+            {
+                res.redirect('/social/posts/edit/' + post._id);
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
+            });
+        });
+        this.router.get('/delete/:_id', (req, res) =>
+        {
+            siteModules.SocialPost.apiCall('delete-social-post', {
+                userId: req.session.currentUser._id,
+                userToken: req.session.currentUser.token,
+                _id: req.params._id,
+            }).then((result) =>
+            {
+                res.redirect('/social/');
+            }).catch((err) =>
+            {
+                this.show500(req, res, err.toString());
             });
         });
     }
