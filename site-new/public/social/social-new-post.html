@@ -10,9 +10,11 @@
     <div class="container">
         <h1>New Social Post Page:</h1>
         <h2>Media:</h2>
-        <div id="media"></div>
+        <div id="media-preview"></div>
         <div>
-            <b>+Add Media:</b><input id="file-uploader" type="file" name="media" class="form-control m" data-url="${fileUploadURL}"/>
+            <b>+Add Media:</b><input id="file-uploader" type="file" name="media" class="form-control m" data-url="/social/posts/uploader"/>
+            <br>
+            <span id="file-uploader-status"></span>
         </div>
         <form action="/social/posts/new-save" method="POST">
             <textarea name="media">[]</textarea>
@@ -21,9 +23,32 @@
             <input type="submit" class="btn btn-md btn-success" value="Save"/>
         </form>
         <script>
+            let media = [];
             $("#file-uploader").fileupload({
-                
+                dataType: 'json',
+                progressall: function (e, data){
+                    $("#file-uploader-status").html('Uploading...');
+                },
+                done: function (e, data){
+                    $("#file-uploader-status").html('Uploaded');
+                    console.log(e);
+                    console.log(data);
+                    console.log(data.result);
+                    if(data.result.code == 200)
+                    {
+                        media.push(data.result.file.path);
+                        render_media();
+                    }
+                    else
+                        alert(data.result.error);
+                },
             });
+            function render_media(){
+                $("form [name=media]").html(JSON.stringify(media));
+                $("#media-preview").html('');
+                for(var i = 0 ; i < media.length;i++)
+                    $("#media-preview").append(`<img src="${media[i]}" width="300px"/>`);
+            }
         </script>
     </div>
     {{{footer}}}

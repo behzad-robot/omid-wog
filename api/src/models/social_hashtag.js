@@ -8,7 +8,7 @@ export const SocialHashTagSchema = new mongoose.Schema({
     name : String,
     icon : String,
     tags : Array,
-
+    gameId : String,
     createdAt: String,
     updatedAt: String,
     _draft: Boolean,

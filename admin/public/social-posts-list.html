@@ -1,0 +1,70 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Admin Social Posts</title>
+    <style>
+        .post-box {
+            background-color: white;
+            border: 1px solid #ccc;
+            border-radius: 2px;
+            padding: 5px 10px;
+            margin-bottom:10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Social Posts:</h2>
+        <!-- <a href="/admin/social-posts/new" class="btn btn-md btn-info">+New Post</a> -->
+        <hr />
+        <div id="list" class="row"></div>
+        <script>
+            let posts = [];
+            findObjects('social-posts', (cs) =>
+            {
+                posts = cs;
+                console.log((posts));
+                for (var i = 0; i < posts.length; i++)
+                {
+                    var post = posts[i];
+                    let mediaStr = ``;
+                    for (var j = 0; j< post.media.length; j++)
+                    {
+                        if (post.media[j].indexOf('.mp4') != -1 || post.media[j].indexOf('.avi') != -1)
+                        {
+                            mediaStr += `<div class="col-6"><video src="${post.media[j]}" width="100%"></video></div>`;
+                        }
+                        else
+                            mediaStr += `<div class="col-6"><img src="${post.media[j]}" width="100%"></div>`;
+                    }
+                    $("#list").append(
+                        `
+                            <div class="col-md-4 col-6">
+                                <div class="post-box">
+                                    <div class="text-center"><img src="${post.thumbnail_150x150}"/></div>
+                                    <div class="row">${mediaStr}</div>
+                                    <div>${post.body}</div>
+                                    <hr>
+                                    <small><b>createdAt:</b>${post.createdAt}</small>
+                                    <small><b>updatedAt:</b>${post.updatedAt}</small>
+                                    <hr>
+                                    <small><b>gameId:</b>${post.gameId}</small>
+                                    <small><b>userId:</b>${post.userId}</small>
+                                    <hr>
+                                    <a href="/admin/social-posts/${post._id}/" target="_blank" class="btn btn-sm btn-info">Edit</a>
+                                    <a href="/admin/social-posts/${post._id}/delete" target="_blank" class="btn btn-xs btn-danger float-right">delete</a>
+                                </div>
+                            </div>
+                        `
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

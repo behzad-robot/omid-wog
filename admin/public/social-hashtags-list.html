@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .box-row {
+            background-color: white;
+            border: none;
+            border-bottom: none;
+            box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 5px;
+            overflow: hidden;
+        }
+
+        .box-row b {
+            display: inline-block;
+            margin: 0 10px;
+            width: 100px;
+        }
+
+        .box-row span {
+            display: inline-block;
+            margin: 0 10px;
+            width: 120px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Social HashTags:</h2>
+        <a href="/admin/social-hashtags/new" class="btn btn-md btn-info">+New Social Hashtag</a>
+        <hr />
+        <div class="box-row" style="background-color:#ccc;margin-bottom:0;padding:20px 10px;border-bottom:1px solid #999999;">
+            <b>name</b>
+            <span>icon</span>
+            <span>tags</span>
+            <span>createdAt</span>
+            <span>updatedAt</span>
+        </div>
+        <div id="list"></div>
+        <script>
+            let tags = [];
+            findObjects('social-hashtags', (cs) =>
+            {
+                tags = cs;
+                console.log((tags));
+                for (var i = 0; i < tags.length; i++)
+                {
+                    var tag = tags[i];
+                    $("#list").append(
+                        `<div class="box-row">
+                            <b>${tag.name}</b>
+                            <span>${tag.icon}</span>
+                            <span>${JSON.stringify(tag.tags)}</span>
+                            <span><small>${tag.createdAt}</small></span>
+                            <span><small>${tag.updatedAt}</small></span>
+                            <a class="btn btn-md btn-info float-right" href="/admin/social-hashtags/${tag._id}">Edit</a>
+                        </div>`
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -52,11 +52,11 @@ SocialPostSchema.virtual('createdAt_persian').get(function ()
 });
 SocialPostSchema.virtual('thumbnail_150x150').get(function ()
 {
-    return getResizedFileName(this.thumbnail, 150, 150);
+    return getResizedFileName(this.media[0], 150, 150);
 });
 SocialPostSchema.virtual('thumbnail_512x512').get(function ()
 {
-    return getResizedFileName(this.thumbnail, 640, 480);
+    return getResizedFileName(this.media[0], 512, 512);
 });
 export const SocialPost = mongoose.model('SocialPost', SocialPostSchema);
 SocialPost.Helpers = {

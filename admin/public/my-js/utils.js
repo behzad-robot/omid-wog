@@ -33,6 +33,22 @@ const textInput = (name, value, settings = false) =>
     // console.log(settings);
     return `<div class='form-row' label="${name}"><b>${name}:</b><input type='text' class='form-control m' name='${name}' value='${value}' ${readonly}/>${after}</div>`;
 };
+const textAreaInput = (name, value, settings = false) =>
+{
+    //return ":|";
+    if (typeof settings == 'boolean')
+    {
+        var v = settings;
+        settings = {};
+        settings.readonly = v;
+    }
+    else
+        settings.readonly = settings.readonly ? settings.readonly : false;
+    var after = settings.after ? settings.after : '';
+    var readonly = readonly ? "readonly" : "";
+    // console.log(settings);
+    return `<div class='form-row' label="${name}"><b>${name}:</b><textarea class='form-control m' name='${name}'>${value}</textarea>${after}</div>`;
+};
 const numberInput = (name, value, readonly = false) =>
 {
     //return ":|";

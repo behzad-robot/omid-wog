@@ -15,6 +15,8 @@ import { AppInfoHttpRouter, AppInfoSocketRouter } from './routers/app_info_route
 import { IS_LOCALHOST, GetMongoDBURL, ADMIN_TOKEN, API_TOKEN } from './constants';
 //media:
 import { Post } from './models/post';
+import { SocialPost } from './models/social_post';
+import { SocialHashTag } from './models/social_hashtag';
 import { Champion } from './models/champion';
 import { ChampionBuild } from './models/champBuild';
 import { ContactUsForm } from './models/contactUsForm';
@@ -35,6 +37,7 @@ import { BuildsExtraHandler } from './routers/builds_extra_handler';
 import { DotaQuestion } from './models/dota_question';
 import { Dota2QuizHandler } from './routers/dota_quiz_handler';
 import { DotaEpicCenterHandler } from './routers/dota_epic_center_handler';
+import { SocialHandler } from './routers/social_handler';
 
 const morgan = require('morgan');
 
@@ -107,8 +110,14 @@ express.expressApp.use('/api/pubg-teams/', new PublicMongooseAPIRouter(PubGTeam,
 express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog, { apiTokenRequired: true }).router);
 //dota 2 quiz questions:
 express.expressApp.use('/api/dota2-questions/', new PublicMongooseAPIRouter(DotaQuestion, { apiTokenRequired: true }).router);
+//social:
+const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag);
+express.expressApp.use('/api/social-posts/', new PublicMongooseAPIRouter(SocialPost, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/social-hashtags/', new PublicMongooseAPIRouter(SocialHashTag, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/social/',socialHandler.httpRouter.router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
+
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
@@ -147,6 +156,10 @@ const WSRouters = [
     new PublicMongooseWSRouter('pubg-teams', PubGTeam, { apiTokenRequired: true }),
     //dota 2 quiz questions:
     new PublicMongooseWSRouter('dota2-questions', DotaQuestion, { apiTokenRequired: true }),
+    //social posts:
+    new PublicMongooseWSRouter('social-posts', SocialPost, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('social-hashtags', SocialHashTag, { apiTokenRequired: true }),
+    socialHandler.socketRouter,
 ];
 const easySocket = new EasySocket({
     httpServer: express.http,
