@@ -38,6 +38,7 @@ import { DotaQuestion } from './models/dota_question';
 import { Dota2QuizHandler } from './routers/dota_quiz_handler';
 import { DotaEpicCenterHandler } from './routers/dota_epic_center_handler';
 import { SocialHandler } from './routers/social_handler';
+import { SocialChallenge } from './models/social_challenge';
 
 const morgan = require('morgan');
 
@@ -96,7 +97,7 @@ express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
 //comments:
-var commentsHandler = new CommentsHandler(Comment);
+var commentsHandler = new CommentsHandler(Comment,User);
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/comments/', commentsHandler.httpRouter.router);
 
@@ -111,9 +112,10 @@ express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog,
 //dota 2 quiz questions:
 express.expressApp.use('/api/dota2-questions/', new PublicMongooseAPIRouter(DotaQuestion, { apiTokenRequired: true }).router);
 //social:
-const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag);
+const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag,SocialChallenge);
 express.expressApp.use('/api/social-posts/', new PublicMongooseAPIRouter(SocialPost, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-hashtags/', new PublicMongooseAPIRouter(SocialHashTag, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/social-challenges/', new PublicMongooseAPIRouter(SocialChallenge, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social/',socialHandler.httpRouter.router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
@@ -159,6 +161,7 @@ const WSRouters = [
     //social posts:
     new PublicMongooseWSRouter('social-posts', SocialPost, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-hashtags', SocialHashTag, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('social-challenges', SocialChallenge, { apiTokenRequired: true }),
     socialHandler.socketRouter,
 ];
 const easySocket = new EasySocket({

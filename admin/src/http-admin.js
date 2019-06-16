@@ -21,6 +21,7 @@ import SiteConfigAdminRouter from "./routers/siteConfig_router";
 import Dota2QuestionsPanelRouter from "./routers/dota2_questions_router";
 import SocialHashTagsPanelRouter from "./routers/social_hashtags_router";
 import SocialPostsPanelRouter from "./routers/social_posts_router";
+import SocialChallengesPanelRouter from "./routers/social_challenges_router";
 //db:
 const User = new APICollection('users', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const Post = new APICollection('posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
@@ -35,6 +36,7 @@ const AdminLog = new APICollection('admin-logs', { apiToken: API_TOKEN, adminTok
 const Dota2Question = new APICollection('dota2-questions', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const SocialPost = new APICollection('social-posts', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const SocialHashTag = new APICollection('social-hashtags', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
+const SocialChallenge = new APICollection('social-challenges', { apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const proxyAPI = new APIProxy({ apiToken: API_TOKEN, adminToken: ADMIN_TOKEN });
 const AdminModules = {
     User: User,
@@ -50,6 +52,7 @@ const AdminModules = {
     Dota2Question : Dota2Question,
     SocialHashTag : SocialHashTag,
     SocialPost : SocialPost,
+    SocialChallenge : SocialChallenge,
     proxyAPI: proxyAPI,
 }
 //express:
@@ -105,6 +108,7 @@ express.expressApp.use('/admin/users', new UsersPanelRouter(AdminModules).router
 express.expressApp.use('/admin/dota2-questions', new Dota2QuestionsPanelRouter(AdminModules).router);
 
 express.expressApp.use('/admin/social-hashtags', new SocialHashTagsPanelRouter(AdminModules).router);
+express.expressApp.use('/admin/social-challenges', new SocialChallengesPanelRouter(AdminModules).router);
 express.expressApp.use('/admin/social-posts', new SocialPostsPanelRouter(AdminModules).router);
 
 express.expressApp.use('/admin/aparat', new AparatAdminRouter(AdminModules).router);

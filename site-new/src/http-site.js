@@ -43,6 +43,9 @@ import { Dota2EpicCenterRouter } from "./routers/dota2book/dota2_epic_center_rou
 import { SocialMainRouter } from "./routers/social/social_router";
 import { SocialPostsRouter } from "./routers/social/social_posts_router";
 import { SocialPost } from "./utilsApi/social_post";
+import { SocialHashTag } from "./utilsApi/social_hashtag";
+import { SocialChallenge } from "./utilsApi/social_challenge";
+import { SocialChallengesRouter } from "./routers/social/social_challenges_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -76,6 +79,8 @@ const SiteModules = {
     PubGTeam: new PubGTeam(apiSocket),
     OTPObject: new OTPObject(apiSocket),
     SocialPost : new SocialPost(apiSocket),
+    SocialHashtag : new SocialHashTag(apiSocket),
+    SocialChallenge : new SocialChallenge(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -326,6 +331,7 @@ express.expressApp.use('/dota2-quiz', new Dota2QuizRouter(SiteModules).router);
 //social routers:
 express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/posts', new SocialPostsRouter(SiteModules).router);
+express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModules).router);
 
 
 

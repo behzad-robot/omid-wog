@@ -1,0 +1,239 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .comment-box {
+            padding: 5px 10px;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        <div class="card post-card" href="{{post.siteUrl}}" style="padding:10px 20px;margin-bottom:10px;"
+            postId="{{_id}}">
+            <div>
+                <img src="{{post._user.profileImage}}" style="border-radius:50%;width:48px;height:48px;" />
+                <b>{{post._user.username}}</b>
+            </div>
+            <hr />
+            <img src="{{post.media.0}}" width="100%" />
+            <div>{{{post.body}}}</div>
+            <hr />
+            <div>
+                <span name="like-count">Likes:{{post.likes.length}}</span>
+                <div class="btn btn-md btn-info btn-like" liked="{{post._isLiked}}" loading="false"
+                    postId="{{post._id}}">
+                    {{#post._isLiked}}Un-Like{{/post._isLiked}}{{^post._isLiked}}Like{{/post._isLiked}}</div>
+            </div>
+            <hr />
+            {{#post._isMine}}
+            <div>
+                <a href="{{#SITE_URL}}/social/posts/edit/{{post._id}}{{/SITE_URL}}" target="_blank"
+                    class="btn btn-md btn-info">Edit</a>
+                <a href="{{#SITE_URL}}/social/posts/delete/{{post._id}}{{/SITE_URL}}"
+                    class="btn btn-md btn-danger">Delete</a>
+            </div>
+            {{/post._isMine}}
+
+        </div>
+        <h3>Comments:</h3>
+        <form action="/comments/new" method="POST" id="new-comment-form">
+            <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
+                placeholder="دیدگاه خود را وارد کنید"></textarea>
+            <input type="hidden" name="objectType" value="social-posts" />
+            <input type="hidden" name="objectId" value="{{post._id}}" />
+            <input type="submit" class="btn btn-md btn-warning" style="margin:10px 0;" value="ارسال دیدگاه" />
+        </form>
+        <div id="comments-list">
+            {{#post._comments}}
+            <div class="card comment-box" commentId="{{_id}}" id="comment-{{_id}}">
+                <div>
+                    <img src="{{_user.profileImage}}" style="border-radius:50%;width:48px;height:48px;" />
+                    <b>{{_user.username}}</b>
+                    <div>{{{body}}}</div>
+                    <small>{{createdAt}}</small>
+                    <span>Likes:<span name="comment-like-count">{{likes.length}}</span></span>
+                    <div class="btn btn-sm btn-info comment-btn-like" commentId="{{{_id}}}" liked="{{{_isLiked}}}"
+                        loading="false">{{#_isLiked}}Un-Like{{/_isLiked}}{{^_isLiked}}Like{{/_isLiked}}</div>
+                    {{#_isMine}}
+                    <div class="btn btn-sm btn-danger comment-delete-btn">Delete</div>
+                    {{/_isMine}}
+                </div>
+            </div>
+            {{/post._comments}}
+        </div>
+    </div>
+    <script>
+        $(() =>
+        {
+            $("#new-comment-form").ajaxForm({
+
+                beforeSubmit: (formData, jqForm, options) =>
+                {
+
+                },
+                success: (text, code, xhr, form) =>
+                {
+                    if (typeof text == 'string')
+                        text = JSON.parse(text);
+                    if (text.error)
+                    {
+                        alert(text.error);
+                        return;
+                    }
+                    var comment = text.comment;
+                    if (comment._draft == true)
+                    {
+                        alert('با تشکر نظر شما با موفقیت ثبت شد و پس از بررسی مدیر سایت نمایش داده میشود.');
+                    }
+                    else
+                    {
+                        alert('نظر شما با موفقیت ثبت شد.');
+                        $("#comments-list").append(`
+                        <div class="card comment-box" id="comment-${comment._id}" commentId="${comment._id}">
+                            <div>
+                                <img src="{{{currentUser.profileImage}}}" style="border-radius:50%;width:48px;height:48px;" />
+                                <b>{{{currentUser.username}}}</b>
+                                <div>${comment.body}</div>
+                                <small>${comment.createdAt}</small>
+                                <span>Likes:<span name="comment-like-count">${comment.likes.length}</span></span>
+                                <div class="btn btn-sm btn-info comment-btn-like" commentId="${comment._id}" liked="false" loading="false">Like</div>
+                                <div class="btn btn-sm btn-danger comment-delete-btn">Delete</div>
+                            </div>
+                        </div>
+                        `);
+                        scroll_to(`#comment-${comment._id}`);
+                        $("#no-comments").hide();
+                        $("#new-comment-form").clearForm();
+                    }
+                },
+            });
+            $(".btn-like").click(function ()
+            {
+                let loading = $(this).attr('loading') == 'true';
+                let postId = $(this).attr('postId');
+                let liked = $(this).attr('liked') == 'true';
+                if (loading)
+                    return;
+                $(this).html('Loading...');
+                fetch('/social/set-post-like/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: postId,
+                        like: !liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then(response => response.json()).then((response) =>
+                {
+                    if (response.code != 200)
+                    {
+                        console.log(response.error);
+                        alert(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('loading', false);
+                        $(this).attr('liked', !liked);
+                        $(this).html(liked ? 'Like' : 'Un-Like');
+                        let post = response._data;
+                        console.log(post);
+                        $(`[name=like-count]`).html(post.likes.length);
+                    }
+                }).catch((err) =>
+                {
+                    console.log(err);
+                    alert(err);
+                });
+            });
+            $(".comment-delete-btn").click(function ()
+            {
+                $(this).html('Loading');
+                let commentId = $(this).closest('.comment-box').attr('commentId');
+                alert(commentId);
+                fetch('/comments/delete/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: commentId,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then(response => response.json()).then((response) =>
+                {
+                    console.log(response);
+                    if (response.code != 200)
+                    {
+                        console.log(response.error);
+                        alert(response.error);
+                    }
+                    else
+                    {
+                        $(`[commentId=${commentId}]`).remove();
+                    }
+                }).catch((err) =>
+                {
+                    console.log(err);
+                    alert(err);
+                });
+            });
+            $(".comment-btn-like").click(function ()
+            {
+                let loading = $(this).attr('loading') == 'true';
+                let commentId = $(this).attr('commentId');
+                let liked = $(this).attr('liked') == 'true';
+                if (loading)
+                    return;
+                $(this).html('Loading...');
+                fetch('/comments/like/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: commentId,
+                        like: !liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then(response => response.json()).then((response) =>
+                {
+                    if (response.code != 200)
+                    {
+                        console.log(response.error);
+                        alert(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('loading', false);
+                        $(this).attr('liked', !liked);
+                        $(this).html(liked ? 'Like' : 'Un-Like');
+                        let comment = response.comment;
+                        console.log(comment);
+                        $(`[commentId=${commentId}] [name=comment-like-count]`).html(comment.likes.length);
+                    }
+                }).catch((err) =>
+                {
+                    console.log(err);
+                    alert(err);
+                });
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

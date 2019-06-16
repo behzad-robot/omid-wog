@@ -2,6 +2,14 @@
 
 <head>
     {{{head}}}
+    <style>
+        .post-card {
+            display: block;
+            background-color: white;
+        }
+
+        .post-card:hover {}
+    </style>
 </head>
 
 <body>
@@ -16,13 +24,16 @@
             <div class="col-md-8">
                 <h4>Posts:</h4>
                 {{#posts}}
-                <div class="card post-card" style="padding:10px 20px;margin-bottom:10px;" postId="{{_id}}">
+                <div class="card post-card" href="{{siteUrl}}" style="padding:10px 20px;margin-bottom:10px;"
+                    postId="{{_id}}">
                     <div>
                         <img src="{{_user.profileImage}}" style="border-radius:50%;width:48px;height:48px;" />
                         <b>{{_user.username}}</b>
                     </div>
                     <hr />
-                    <img src="{{media.0}}" width="100%" />
+                    <a href="{{siteUrl}}">
+                        <img src="{{media.0}}" width="100%" />
+                    </a>
                     <div>{{{body}}}</div>
                     <hr />
                     <div>
@@ -39,12 +50,56 @@
                             class="btn btn-md btn-danger">Delete</a>
                     </div>
                     {{/_isMine}}
+                    <hr>
+                    <div>
+                        <b>Comments:</b><br>
+                        {{#_comments}}
+                        <div style="direction: ltr;text-align:left;"><b>{{_user.username}}:</b> {{{body}}}</div>
+                        {{/_comments}}
+                    </div>
                 </div>
                 {{/posts}}
             </div>
             <div class="col-md-4">
+                {{#hasSuggestedHashtags}}
                 <h4>Recommended HashTags:</h4>
+                {{#suggestedHashtags}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div>
+                        <img src="{{icon}}" style="width:48px;height:48px;border-radius:50%">
+                        <span>{{name}}</span>
+                        <a href="{{#SITE_URL}}/social/follow-hashtag/?tagId={{_id}}&redirect=/social{{/SITE_URL}}"
+                            class="btn btn-sm btn-primary">Follow</a>
+                    </div>
+                </div>
+                {{/suggestedHashtags}}
+                {{/hasSuggestedHashtags}}
+                {{#hasSuggestedUsers}}
                 <h4>Recommended Users:</h4>
+                {{#suggestedUsers}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div>
+                        <img src="{{profileImage}}" style="width:48px;height:48px;border-radius:50%">
+                        <span>{{username}}</span>
+                        <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
+                            class="btn btn-sm btn-primary">Follow</a>
+                    </div>
+                </div>
+                {{/suggestedUsers}}
+                {{/hasSuggestedUsers}}
+                {{#hasChallenges}}
+                <h4>Challenges:</h4>
+                {{#challenges}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div class="text-center">
+                        <img src="{{cover}}" width="100%">
+                        <span>{{title}}</span>
+                        <a href="{{siteUrl}}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+                {{/challenges}}
+                {{/hasChallenges}}
+
             </div>
         </div>
     </div>

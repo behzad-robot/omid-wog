@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>
+            Social Challenge {{{_id}}}:
+            <a href="/admin/social-challenges/{{{_id}}}/delete/" class="btn btn-md btn-danger"
+                style="float:right;margin-top:5px;">Delete</a>
+        </h2>
+        <hr />
+        <form id="single" action="/admin/social-challenges/{{{_id}}}/edit" method="POST"></form>
+        <h3>Users: <span id="challenge-users-count"></span></h3>
+        <div id="challenge-users"></div>
+        <script>
+            const FILE_UPLOAD_URL = `{{{fileUploadURL}}}?my-dir=posts`
+            getObject('social-challenges', `{{{_id}}}`, (challenge) =>
+            {
+                console.log(challenge);
+                $("#single").append(idInput('_id', challenge._id));
+                $("#single").append(boolInput('_draft', challenge._draft));
+                $("#single").append(boolInput('active', challenge.active));
+                $("#single").append(idInput('createdAt', challenge.createdAt));
+                $("#single").append(idInput('updatedAt', challenge.updatedAt));
+                $("#single").append(textInput('title', challenge.title));
+                $("#single").append(textInput('slug', challenge.slug));
+                $("#single").append(textInput('tag', challenge.tag));
+                $("#single").append(numberInput('entranceFee', challenge.entranceFee));
+                $("#single").append(filePickTool(undefined, 'cover', challenge.cover));
+                $("#single").append(bodyInput('description', challenge.description));
+                $("#single").append(submitBtn());
+                $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                $("#challenge-users-count").html(challenge.users.length);
+                for (var i = 0; i < challenge.users.length; i++)
+                {
+                    $("#challenge-users").append(`<div class="btn btn-md btn-info">${challenge.users[i]}</div>`);
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+    {{{file_screen}}}
+</body>
+
+</html>

@@ -203,7 +203,22 @@ export class UsersAuthHandler
                     return;
                 }
                 result.token = encoder.encode({ _id: result._id, username: result.username, expiresIn: Date.now() + 14400000 }); //14400000
-                this.User.findByIdAndUpdate(result._id, { $set: { token: result.token, lastLogin: moment().format('YYYY-MM-DD hh:mm:ss') } }, { new: true }, (err, user) =>
+                let d = { token: result.token, lastLogin: moment().format('YYYY-MM-DD hh:mm:ss') };
+                // if (result.social == undefined)
+                // {
+                //     d.social = {
+                //         followers: [],
+                //         followings: [],
+                //         coins: 0,
+                //         followedHashtags: [],
+                //     };
+                    
+                // }
+                // else
+                // {
+                    
+                // }
+                this.User.findByIdAndUpdate(result._id, { $set: d }, { new: true }, (err, user) =>
                 {
                     if (err)
                     {

@@ -22,6 +22,26 @@ class CommentsHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/delete-comment', (req, res) =>
+        {
+            this.handler.deleteComment(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
+        this.router.post('/set-like', (req, res) =>
+        {
+            this.handler.setLike(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
     }
 }
 class CommentsSocketRouter extends SocketRouter
@@ -49,19 +69,43 @@ class CommentsSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
+        else if (request.method == 'set-like')
+        {
+            this.handler.setLike(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'delete-comment')
+        {
+            this.handler.deleteComment(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
     }
 
 }
 export class CommentsHandler
 {
-    constructor(Comment)
+    constructor(Comment, User)
     {
         this.Comment = Comment;
+        this.User = User;
         //routers:
         this.httpRouter = new CommentsHttpRouter(this);
         this.socketRouter = new CommentsSocketRouter(this);
         //bind functions:
         this.newComment = this.newComment.bind(this);
+        this.deleteComment = this.deleteComment.bind(this);
+        this.setLike = this.setLike.bind(this);
+
     }
     newComment(params)
     {
@@ -87,5 +131,116 @@ export class CommentsHandler
             });
         });
     }
+    deleteComment(params)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params._id) || isEmptyString(params.userToken) || isEmptyString(params.userId))
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user.token == params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                this.Comment.findOne({ _id: params._id }).exec((err, comment) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    if(comment == undefined)
+                    {
+                        reject('comment not found');
+                        return;
+                    }
+                    if (comment.userId != user._id)
+                    {
+                        reject('comment is not yours');
+                        return;
+                    }
+                    this.Comment.deleteOne({ _id: params._id }, (err) =>
+                    {
+                        if (err)
+                        {
+                            reject(err.toString());
+                            return;
+                        }
+                        resolve({ success: true, _id: params._id });
+                    });
+                });
+            });
 
+        });
+    }
+    setLike(params)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params._id) || params.like == undefined || isEmptyString(params.userToken) || isEmptyString(params.userId))
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user.token == params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                this.Comment.findOne({ _id: params._id }).exec((err, comment) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    for (var i = 0; i < comment.likes.length; i++)
+                    {
+                        if (comment.likes[i] == params.userId)
+                        {
+                            if (params.like)
+                            {
+                                resolve(comment);
+                                return;
+                            }
+                            else
+                            {
+                                comment.likes.splice(i, 1);
+                            }
+                            break;
+                        }
+                    }
+                    if (params.like)
+                        comment.likes.push(params.userId);
+                    this.Comment.findByIdAndUpdate(comment._id, { $set: { likes: comment.likes } }, { new: true }, (err, comment) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        resolve(comment);
+                    });
+                });
+            });
+
+        });
+    }
 }

@@ -29,11 +29,11 @@ export const UserSchema = new mongoose.Schema({
     personelCategory: { type: String, default: '' },
 
     //games and outsource:
-    refferer:{type:String,default:''},
+    refferer: { type: String, default: '' },
     epicGamesID: { type: String, default: '' },
     psnID: { type: String, default: '' },
-    instagramID : {type:String,  default : ''},
-    twitchID : {type:String,default : ''},
+    instagramID: { type: String, default: '' },
+    twitchID: { type: String, default: '' },
 
     _draft: Boolean,
     createdAt: { type: String, default: '?' },
@@ -51,12 +51,12 @@ export const UserSchema = new mongoose.Schema({
     dota2Book2019: {
         type: Object,
         default: {
-            enterEvent : false,
+            enterEvent: false,
             initPayment: false,
             initPaymentToken: "",
             initPaymentDate: "",
             coins: 0,
-            freeActions : 3,
+            freeActions: 3,
             actions: [], // { token : string , reward : int , createdAt : string }
             bets: [], // { token : string , value : string ,coins : int , status : string , createdAt : string } // status : pending , win , loose
             /**
@@ -64,33 +64,43 @@ export const UserSchema = new mongoose.Schema({
              */
         }
     },
-    dota2EpicCenter2019:{
-        type:Object,
-        default:{
-            enterEvent : false,
-            coins : 0,
-            joinedAt : "",
-            actions : [],
-            bets : [],
-            invites : [],
+    dota2EpicCenter2019: {
+        type: Object,
+        default: {
+            enterEvent: false,
+            coins: 0,
+            joinedAt: "",
+            actions: [],
+            bets: [],
+            invites: [],
         }
     },
     fortnite2019: {
         type: Object,
         default: {
             hasJoined: false,
-            joinedAt : "",
+            joinedAt: "",
         }
     },
-    dota2Quiz:{
-        type : Object,
-        default : {
-            sessions : [], // {_id , createdAt , goal , questions , status} each question is {qId : string  , answer : int} status : ongoing , loose
+    dota2Quiz: {
+        type: Object,
+        default: {
+            sessions: [], // {_id , createdAt , goal , questions , status} each question is {qId : string  , answer : int} status : ongoing , loose
         }
         /**
          * api's quiz handler doesnt check if you can enter this quiz or not another handler/router is supposed to check those things
          * api's quiz handler will let u enter a new session / answer a question in that session / etc.
          */
+    },
+    social: {
+        type: Object,
+        default: {
+            coins: 0,
+            followers: [], //_ids of users
+            followings: [], //_ids of users
+            followedHashtags: [], //_ids of social_hashtag
+            challenges : [],
+        }
     }
 }, {
         toObject: {

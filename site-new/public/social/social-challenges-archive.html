@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .challenge-card{
+            padding:10px 20px;
+            background-color:white;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        <h1>Challenges:</h1>
+        {{#challenges}}
+        <div class="challenge-card">
+            <img src="{{cover}}" width="100%"/>
+            <b>active:{{active}}</b>
+            <h2>{{title}}</h2>
+            <div>{{{description}}}</div>
+            <div>Hashtag:{{{tag}}}</div>
+            <div><small>createdAt:{{createdAt}}</small></div>
+            <a href="{{siteUrl}}" class="btn btn-md btn-info">View</a>
+            <a href="{{postsUrl}}" class="btn btn-md btn-warning">View Posts</a>
+        </div>
+        {{/challenges}}
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

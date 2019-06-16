@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .challenge-card{
+            display: block;
+            width: 100%;
+            background-color:white;
+            border:1px solid #ccc;
+            border-radius:5px;
+            padding:10px 20px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container">
+        <h2>Social Challenges:</h2>
+        <a href="/admin/social-challenges/new" class="btn btn-md btn-info">+New Social Challenge</a>
+        <hr />
+        <div id="list" class="row"></div>
+        <script>
+            let challenges = [];
+            findObjects('social-challenges', (cs) =>
+            {
+                challenges = cs;
+                console.log((challenges));
+                for (var i = 0; i < challenges.length; i++)
+                {
+                    var c = challenges[i];
+                    $("#list").append(
+                        `
+                        <div class="col-md-6 col-12">
+                        <div class="challenge-card">
+                            <img src="${c.cover}" width="100%"/>
+                            <h3>${c.title}</h3>
+                            <div>${c.description}</div>
+                            <div><b>active:</b>${c.active.toString()}</div>
+                            <div><b>_draft:</b>${c._draft.toString()}</div>
+                            <div><b>entranceFee:</b>${c.entranceFee.toString()}</div>
+                            <span>Users: ${c.users.length}</span>
+                            <hr>
+                            <span><small>${c.createdAt}</small></span>
+                            <span><small>${c.updatedAt}</small></span>
+                            <a class="btn btn-md btn-info float-right" href="/admin/social-challenges/${c._id}">Edit</a>
+                        </div>
+                        </div>
+                        `
+                    );
+                }
+            });
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

@@ -55,6 +55,36 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/set-follow-user', (req, res) =>
+        {
+            this.handler.setFollowUser(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
+        this.router.post('/set-follow-hashtag', (req, res) =>
+        {
+            this.handler.setFollowHashtag(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
+        this.router.post('/enter-challenge', (req, res) =>
+        {
+            this.handler.enterChallenge(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
     }
 }
 class SocialSocketRouter extends SocketRouter
@@ -69,7 +99,8 @@ class SocialSocketRouter extends SocketRouter
     {
         if (!this.isValidRequest(request))
             return;
-        if (request.model != 'social-posts' && request.model != 'social-hashtags')
+        if (request.model != 'social-posts' && request.model != 'social-hashtags' && request.model != 'social-challenges'
+            && request.model != 'users')
             return;
         //logic comes here:
         if (request.method == 'new-social-post')
@@ -112,16 +143,47 @@ class SocialSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
+        else if (request.method == 'set-follow-user')
+        {
+            this.handler.setFollowUser(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'set-follow-hashtag')
+        {
+            this.handler.setFollowHashtag(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'enter-challenge')
+        {
+            this.handler.enterChallenge(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
     }
 
 }
 export class SocialHandler
 {
-    constructor(User, SocialPost, SocialHashTag)
+    constructor(User, SocialPost, SocialHashTag, SocialChallenge)
     {
         this.User = User;
         this.SocialPost = SocialPost;
         this.SocialHashTag = SocialHashTag;
+        this.SocialChallenge = SocialChallenge;
         //routers:
         this.httpRouter = new SocialHttpRouter(this);
         this.socketRouter = new SocialSocketRouter(this);
@@ -130,6 +192,9 @@ export class SocialHandler
         this.editSocialPost = this.editSocialPost.bind(this);
         this.deleteSocialPost = this.deleteSocialPost.bind(this);
         this.setSocialPostLiked = this.setSocialPostLiked.bind(this);
+        this.setFollowUser = this.setFollowUser.bind(this);
+        this.setFollowHashtag = this.setFollowHashtag.bind(this);
+        this.enterChallenge = this.enterChallenge.bind(this);
     }
     newSocialPost(params) //{ userId , userToken , body , media}
     {
@@ -380,7 +445,7 @@ export class SocialHandler
                         break;
                     }
                 }
-                if(params.like)
+                if (params.like)
                     post.likes.push(params.userId);
                 this.SocialPost.findByIdAndUpdate(post._id, { $set: { likes: post.likes } }, { new: true }, (err, post) =>
                 {
@@ -390,6 +455,248 @@ export class SocialHandler
                         return;
                     }
                     resolve(post);
+                });
+            });
+        });
+    }
+    setFollowUser(params) //{userToken , userId , target , follow }
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userToken) || isEmptyString(params.userId) || isEmptyString(params.target) || params.follow == undefined)
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, currentUser) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (currentUser == undefined)
+                {
+                    reject('currentUser not found');
+                    return;
+                }
+                if (currentUser.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                //check already following:
+                for (var i = 0; i < currentUser.social.followings.length; i++)
+                {
+                    if (currentUser.social.followings[i] == params.target)
+                    {
+                        if (params.follow)
+                        {
+                            resolve(currentUser)
+                            return;
+                        }
+                        else
+                        {
+                            currentUser.social.followings.splice(i, 1);
+                        }
+                        break;
+                    }
+                }
+                //add to followings:
+                if (params.follow)
+                    currentUser.social.followings.push(params.target);
+                //get target user:
+                this.User.findOne({ _id: params.target }).exec((err, targetUser) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    if (targetUser == undefined)
+                    {
+                        reject('targetUser not found');
+                        return;
+                    }
+                    let has = false;
+                    for (var i = 0; i < targetUser.social.followers.length; i++)
+                    {
+                        if (targetUser.social.followers[i] == currentUser._id.toString())
+                        {
+                            if (!params.follow)
+                            {
+                                targetUser.social.followers.splice(i, 1);
+                            }
+                            has = true;
+                            break;
+                        }
+                    }
+                    //add to followers:
+                    if (!has && params.follow)
+                        targetUser.social.followers.push(currentUser._id.toString());
+                    //update both users:
+                    this.User.findByIdAndUpdate(currentUser._id, { $set: { social: currentUser.social } }, { new: true }, (err, currentUser) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        this.User.findByIdAndUpdate(targetUser._id, { $set: { social: targetUser.social } }, { new: true }, (err, targetUser) =>
+                        {
+                            if (err)
+                            {
+                                reject(err);
+                                return;
+                            }
+                            resolve(currentUser);
+                        });
+                    });
+                });
+            });
+        });
+    }
+    setFollowHashtag(params) //{userToken , userId , tagId , follow : boolean }
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userId) || isEmptyString(params.userToken) || isEmptyString(params.tagId) || params.follow == undefined)
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                for (var i = 0; i < user.social.followedHashtags.length; i++)
+                {
+                    if (user.social.followedHashtags[i] == params.userId)
+                    {
+                        if (params.follow)
+                        {
+                            resolve(user);
+                            return;
+                        }
+                        else
+                        {
+                            user.social.followedHashtags.push(params.tagId);
+                            break;
+                        }
+                    }
+                }
+                if (params.follow)
+                    user.social.followedHashtags.push(params.tagId);
+                this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(user);
+                });
+            });
+        });
+    }
+    enterChallenge(params) //{userToken , userId , challengeId}
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userToken) || isEmptyString(params.userId) || isEmptyString(params.challengeId))
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, currentUser) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (currentUser == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (currentUser.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                if (currentUser.social.challenges == undefined)
+                    currentUser.social.challenges = [];
+                this.SocialChallenge.findOne({ _id: params.challengeId }).exec((err, challenge) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    if (challenge == undefined)
+                    {
+                        reject('challenge not found');
+                        return;
+                    }
+                    for (var i = 0; i < currentUser.social.challenges.length; i++)
+                    {
+                        if (currentUser.social.challenges[i] == params.challengeId)
+                        {
+                            resolve({ user: currentUser, challenge: challenge });
+                            return;
+                        }
+                    }
+                    let hasUser = false;
+                    for (var i = 0; i < challenge.users.length; i++)
+                    {
+                        if (challenge.users[i] == params.userId)
+                        {
+                            hasUser = true;
+                            break;
+                        }
+                    }
+                    if (!hasUser)
+                    {
+                        if (currentUser.social.coins < challenge.entranceFee)
+                        {
+                            reject('not enough coins');
+                            return;
+                        }
+                        challenge.users.push(params.userId);
+                        currentUser.social.coins -= challenge.entranceFee;
+                        currentUser.social.challenges.push(challenge._id);
+                    }
+                    this.SocialChallenge.findByIdAndUpdate(challenge._id, { $set: { users: challenge.users } }, { new: true }, (err, challenge) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        this.User.findByIdAndUpdate(currentUser._id, { $set: { social: currentUser.social } }, { new: true }, (err, currentUser) =>
+                        {
+                            if (err)
+                            {
+                                reject(err);
+                                return;
+                            }
+                            resolve({ user: currentUser, challenge: challenge });
+                        });
+                    });
                 });
             });
         });

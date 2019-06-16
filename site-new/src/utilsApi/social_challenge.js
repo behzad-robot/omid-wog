@@ -3,11 +3,11 @@ import { isEmptyString, ICON_404 } from "../utils/utils";
 import { SITE_URL } from "../constants";
 
 
-export class SocialPost extends SocketCollection
+export class SocialChallenge extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('social-posts', apiSocket);
+        super('social-challenges', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.public = this.public.bind(this);
@@ -39,7 +39,7 @@ export class SocialPost extends SocketCollection
     }
     fixOne(u)
     {
-        u.siteUrl = SITE_URL('/social/posts/' + u._id);
+        u.siteUrl = SITE_URL('/social/challenges/' + u.slug);
         return u;
     }
     fixAll(cs)

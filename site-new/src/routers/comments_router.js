@@ -34,5 +34,36 @@ export default class SiteCommentsRouter extends SiteRouter
                 res.send({ error: err.toString() });
             });
         });
+        this.router.post('/like', (req, res) =>
+        {
+            siteModules.Comment.apiCall('set-like', {
+                _id: req.body._id,
+                like: req.body.like,
+                userId: req.body.userId,
+                userToken: req.body.userToken,
+            }).then((comment) =>
+            {
+                res.send({ code: 200, comment: comment });
+            }).catch((err) =>
+            {
+                console.log("like comment error=" + err.toString());
+                res.send({ code: 500, error: err.toString() });
+            });
+        });
+        this.router.post('/delete', (req, res) =>
+        {
+            siteModules.Comment.apiCall('delete-comment', {
+                _id: req.body._id,
+                userId: req.body.userId,
+                userToken: req.body.userToken,
+            }).then((result) =>
+            {
+                res.send({ code: 200, _data: result });
+            }).catch((err) =>
+            {
+                console.log("delete comment error=" + err.toString());
+                res.send({ code: 500, error: err.toString() });
+            });
+        });
     }
 }
