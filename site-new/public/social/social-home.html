@@ -84,6 +84,7 @@
                         $(this).attr('liked', !liked);
                         $(this).html(liked ? 'Like' : 'Un-Like');
                         let post = response._data;
+                        console.log(post);
                         $(`.post-card[postId=${post._id}] [name=like-count]`).html(post.likes.length);
                     }
                 }).catch((err) =>

@@ -368,7 +368,7 @@ export class SocialHandler
                 {
                     if (post.likes[i] == params.userId)
                     {
-                        if (like)
+                        if (params.like)
                         {
                             resolve(post);
                             return;
@@ -380,6 +380,8 @@ export class SocialHandler
                         break;
                     }
                 }
+                if(params.like)
+                    post.likes.push(params.userId);
                 this.SocialPost.findByIdAndUpdate(post._id, { $set: { likes: post.likes } }, { new: true }, (err, post) =>
                 {
                     if (err)
