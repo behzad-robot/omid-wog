@@ -212,11 +212,11 @@ export class UsersAuthHandler
                 //         coins: 0,
                 //         followedHashtags: [],
                 //     };
-                    
+
                 // }
                 // else
                 // {
-                    
+
                 // }
                 this.User.findByIdAndUpdate(result._id, { $set: d }, { new: true }, (err, user) =>
                 {
@@ -301,7 +301,7 @@ export class UsersAuthHandler
                         doc.profileImage = SITE_URL('/images/mario-gamer.jpg');
                     if (isEmptyString(doc.cover))
                         doc.cover = SITE_URL('/images/user-default-cover.jpg');
-                    if (!isEmptyString(params.refferer))
+                    if (!isEmptyString(params.refferer) && !isEmptyString(params.refferer.replace(' ','')))
                     {
                         this.User.findOne({ username: params.refferer }).exec((err, otherUser) =>
                         {
@@ -310,8 +310,10 @@ export class UsersAuthHandler
                                 console.log('refferer FAILED:' + err.toString());
                                 return;
                             }
-                            if (otherUser.dota2EpicCenter2019 == undefined)
+                            if (otherUser == undefined)
+                            {
                                 return;
+                            }
                             otherUser.dota2EpicCenter2019.invites.push({ userId: doc._id.toString(), createdAt: moment_now() });
                             otherUser.dota2EpicCenter2019.coins += 50;
                             this.User.findByIdAndUpdate(otherUser._id, { $set: { dota2EpicCenter2019: otherUser.dota2EpicCenter2019 } }, { new: true }).then((result) =>
