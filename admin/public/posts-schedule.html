@@ -1,0 +1,117 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Admin Posts List</title>
+    <style>
+        #contentContainer {
+            direction: rtl;
+            text-align: right;
+            font-family: Tahoma;
+        }
+
+        .post-row {
+            background-color: white;
+            /* border-bottom: 1px solid #aaaaaa; */
+            padding: 5px 10px;
+            margin-bottom: 5px;
+            box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{actionbar}}}
+    <div class="container" id="contentContainer">
+        <h2>
+            برنامه انتشار پست:
+        </h2>
+
+        <hr />
+        <div id="loading" class="text-center">
+            <div class="lds-ripple">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <form action="/admin/posts/schedule/save" method="POST">
+            <div class="form-row">
+                <b>post:</b>
+                <select name="postId" class="form-control m">
+                    <option></option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <b>minutes:</b>
+                <input class="form-control m" name="time" type="number" />
+            </div>
+            <input type="submit" class="btn btn-md btn-success" value="Submit" />
+        </form>
+        <hr>
+        <div class="row">
+            <div class="col-md-2 text-center">Remove
+            </div>
+            <div class="col-md-2" style="direction: ltr;text-align:center;">_draft</div>
+            <div class="col-md-5 text-center">title</div>
+            <div class="col-md-2 text-center" style="direction:ltr;text-align:left">timeRemaining minutes</div>
+
+        </div>
+        <div id="list">
+
+        </div>
+        <script>
+            let posts = [];
+            $(document).ready(() =>
+            {
+                $("#list").html("<h3>در حال بارگذاری...</h3>");
+                findObjects('posts', (ps) =>
+                {
+                    $("#loading").hide();
+                    posts = ps;
+                    console.log(posts);
+                    $("#list").html("");
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        if (!posts[i]._draft)
+                            continue;
+                        $("select[name=postId]").append(`<option value="${posts[i]._id}">${posts[i].title}</option>`);
+                    }
+                    let schedule = JSON.parse(`{{{scheduleFile}}}`);
+                    console.log(schedule);
+                    for (var i = 0; i < schedule.length; i++)
+                    {
+                        let s = schedule[i];
+                        let post = undefined;
+                        for (var j = 0; j < posts.length; j++)
+                        {
+                            if (posts[j]._id == s.postId)
+                            {
+                                post = posts[j];
+                                break;
+                            }
+                        }
+                        let timeRemaining = s.done ? 'DONE' : (s.timeRemaining+' seconds') ;
+                        $("#list").append(`
+                            <div class="card" style="padding:10px 20px">
+                                <div class="row text-center">
+                                    <div class="col-md-2"><a href="/admin/posts/schedule/remove/${i}" class="btn btn-sm btn-danger">Remove</a></div>
+                                    <div class="col-md-2">${post._draft}</div>
+                                    <div class="col-md-5">${post.title}</div>
+                                    <div class="col-md-2" style="direction:ltr;text-align:left">${timeRemaining}</div>
+                                    
+                                </div>
+                            </div>
+                        `)
+                    }
+                });
+
+            });
+
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

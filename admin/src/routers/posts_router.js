@@ -2,6 +2,7 @@
 import { AdminRouter } from "./admin_router";
 import { API_URL, ADMIN_FILE_UPLOAD } from "../constants";
 import { updateCache } from "../utils/cache";
+import { isEmptyString } from "../utils/utils";
 const fs = require('fs');
 const path = require('path');
 export default class PostsPanelRouter extends AdminRouter
@@ -95,6 +96,61 @@ export default class PostsPanelRouter extends AdminRouter
                 });
             });
         });
+        this.router.get('/schedule', (req, res) =>
+        {
+            const scheduleFile = JSON.parse(fs.readFileSync(path.resolve('../storage/posts/schedule.json')).toString());
+            for (var i = 0; i < scheduleFile.length; i++)
+            {
+                scheduleFile[i].timeRemaining = (scheduleFile[i].time-Date.now())/1000;
+            }
+            res.send(this.renderTemplate('posts-schedule.html', {
+                admin: req.session.admin,
+                scheduleFile: JSON.stringify(scheduleFile),
+            }));
+        });
+        this.router.post('/schedule/save', (req, res) =>
+        {
+            if (isEmptyString(req.body.postId))
+            {
+                res.status(500).send('Missing PostId!');
+                return;
+            }
+            const scheduleFile = JSON.parse(fs.readFileSync(path.resolve('../storage/posts/schedule.json')).toString());
+            scheduleFile.push({
+                postId: req.body.postId,
+                time: (parseInt(req.body.time) * 60*1000) + Date.now(),
+            })
+            fs.writeFileSync(path.resolve('../storage/posts/schedule.json'), JSON.stringify(scheduleFile));
+            res.redirect('/admin/posts/schedule');
+        });
+        this.router.get('/schedule/remove/:index', (req, res) =>
+        {
+            const scheduleFile = JSON.parse(fs.readFileSync(path.resolve('../storage/posts/schedule.json')).toString());
+            scheduleFile.splice(req.params.index, 1);
+            fs.writeFileSync(path.resolve('../storage/posts/schedule.json'), JSON.stringify(scheduleFile));
+            res.redirect('/admin/posts/schedule');
+        });
+        setInterval(() =>
+        {
+            const scheduleFile = JSON.parse(fs.readFileSync(path.resolve('../storage/posts/schedule.json')).toString());
+            for (var i = 0; i < scheduleFile.length; i++)
+            {
+                if (scheduleFile[i].done == undefined && Date.now() > scheduleFile[i].time)
+                {
+                    Post.edit(scheduleFile[i].postId, { _draft: false }).then((post) =>
+                    {
+                        if (post != undefined)
+                            console.log(`post ${post.title} is not _draft anymore!`);
+                    }).catch((err) =>
+                    {
+                        console.log(err);
+                    });
+                    scheduleFile[i].done = true;
+                }
+            }
+            fs.writeFileSync(path.resolve('../storage/posts/schedule.json'), JSON.stringify(scheduleFile));
+            console.log('schedule file updated');
+        }, 1000 * 30 * 1);
         this.router.get('/', (req, res) =>
         {
             if (!this.hasPermission(req, 'posts') && !this.hasPermission(req, 'posts-super'))
