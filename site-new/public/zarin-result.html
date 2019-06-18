@@ -33,11 +33,11 @@
                 <div class="col-md-2"></div>
                 <div class="col-md-8">
                     <div class="card" style="padding:10px 20px;min-height:200px;">
-                        {{#response.success}}
+                        {{^response.success}}
                         <h2 style="color:red">پرداخت ناموفق!</h2>
                         <p>کد پیگیری:{{response.code}}</p>
                         {{/response.success}}
-                        {{^response.success}}
+                        {{#response.success}}
                         <h2 style="color:green">پرداخت موفق!</h2>
                         <p>کد پیگیری:{{response.code}}</p>
                         {{/response.success}}
