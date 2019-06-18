@@ -357,7 +357,7 @@ export class DotaEpicCenterHandler
     }
     addBet(params) // params is : { _id : string , token : string ,betCoins : int , userToken : string (user.token )}
     {
-        return new Promise((resolve, reject) =>
+        return new Promise(async (resolve, reject)  =>
         {
             //check user required params:
             if (isEmptyString(params.userToken))
@@ -387,7 +387,9 @@ export class DotaEpicCenterHandler
                 return;
             }
             //check if token is valid
-            const VALID_ACTIONS = this.getActions();
+            const VALID_ACTIONS = await this.getActions();
+            console.log(VALID_ACTIONS);
+            console.log(params.token);
             let bet = getAction(VALID_ACTIONS, params.token);
             if (bet == undefined)
             {

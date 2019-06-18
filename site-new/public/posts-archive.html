@@ -284,7 +284,7 @@
             border-radius: 5px;
             margin-bottom: 5px;
             text-decoration: none !important;
-            color : white !important;
+            color: white !important;
 
         }
 
@@ -409,51 +409,52 @@
                 <div class="col-md-8">
                     <h3 class="orange-title">{{title}}:</h3>
                     <div id="posts-list">
-                    {{#posts}}
-                    {{#extras.bigBox}}
-                    <div class="post-box">
-                        <a href="{{siteUrl}}">
-                            <img src="{{thumbnail_800x600}}" alt="" style="width:100%;padding:5px;">
-                        </a>
-                        <div class="post-box-content">
+                        {{#posts}}
+                        {{#extras.bigBox}}
+                        <div class="post-box">
                             <a href="{{siteUrl}}">
-                                <h1>{{{title_formatted}}}</h1>
+                                <img src="{{thumbnail_800x600}}" alt="" style="width:100%;padding:5px;">
                             </a>
-                            <p>{{{intro}}}</p>
-                            <div class="date">
-                                <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
-                                    {{{_author.username}}}</a>&nbsp;&nbsp;
-                                <span class="fas fa-calendar"></span>&nbsp;
-                                {{{createdAt_persian}}}
-                            </div>
-                        </div>
-
-                    </div>
-                    {{/extras.bigBox}}
-                    {{^extras.bigBox}}
-                    <div class="post-box post-box-small" style="padding:10px 10px;">
-                        <div class="row">
-                            <div class="col-md-4 col-6">
-                                <a href="{{siteUrl}}"><img src="{{thumbnail_800x600}}" alt="" style="width:100%"></a>
-                            </div>
-                            <div class="col-md-8 col-6" style="padding-right:0px;">
+                            <div class="post-box-content">
                                 <a href="{{siteUrl}}">
-                                    <h1>{{{title_formatted}}}</h1>
+                                    <h1 style="font-size:1.2rem;font-weight:bold;">{{{title_formatted}}}</h1>
                                 </a>
                                 <p>{{{intro}}}</p>
                                 <div class="date">
-                                    <a href="{{_author.siteUrl}}" class="author">
-                                        <span class="fas fa-user"></span>&nbsp;{{{_author.username}}}
-                                    </a>
-                                    &nbsp;&nbsp;
+                                    <a href="{{_author.siteUrl}}" class="author"><span class="fas fa-user"></span>&nbsp;
+                                        {{{_author.username}}}</a>&nbsp;&nbsp;
                                     <span class="fas fa-calendar"></span>&nbsp;
-                                    {{createdAt_persian}}
+                                    {{{createdAt_persian}}}
+                                </div>
+                            </div>
+
+                        </div>
+                        {{/extras.bigBox}}
+                        {{^extras.bigBox}}
+                        <div class="post-box post-box-small" style="padding:10px 10px;">
+                            <div class="row">
+                                <div class="col-md-4 col-6">
+                                    <a href="{{siteUrl}}"><img src="{{thumbnail_800x600}}" alt=""
+                                            style="width:100%"></a>
+                                </div>
+                                <div class="col-md-8 col-6" style="padding-right:0px;">
+                                    <a href="{{siteUrl}}">
+                                        <h1>{{{title_formatted}}}</h1>
+                                    </a>
+                                    <p>{{{intro}}}</p>
+                                    <div class="date">
+                                        <a href="{{_author.siteUrl}}" class="author">
+                                            <span class="fas fa-user"></span>&nbsp;{{{_author.username}}}
+                                        </a>
+                                        &nbsp;&nbsp;
+                                        <span class="fas fa-calendar"></span>&nbsp;
+                                        {{createdAt_persian}}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {{/extras.bigBox}}
-                    {{/posts}}
+                        {{/extras.bigBox}}
+                        {{/posts}}
                     </div>
                     {{#hasLoadMore}}
                     <div class="text-center" style="padding:10px 0">
@@ -474,7 +475,7 @@
                     <script>
                         let baseParams = `{{{loadMoreParams}}}`;
                         let offset = 20;
-                        let allLoaded  = false;
+                        let allLoaded = false;
                         $(() =>
                         {
                             $("#loadMoreBtn").click(() =>
@@ -503,7 +504,7 @@
                                     {
                                         offset += 20;
                                         let posts = result._data;
-                                        if(posts.length < 20)
+                                        if (posts.length < 20)
                                         {
                                             allLoaded = true;
                                             $("#loadMoreBtn").hide();
@@ -582,7 +583,8 @@
                     {{/aparatVideos}}
                     <h6 class="orange-title">بازی های مورد انتظار</h6>
                     {{#upComingGames}}
-                    <a class="upcoming-game-box" style="background-image:url('{{thumbnail}}')" href="{{url}}" target="_blank">
+                    <a class="upcoming-game-box" style="background-image:url('{{thumbnail}}')" href="{{url}}"
+                        target="_blank">
                         <div class="overlay"></div>
                         <div class="content">
                             {{#icon}}

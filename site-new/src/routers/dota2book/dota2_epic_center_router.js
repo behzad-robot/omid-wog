@@ -219,6 +219,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 let betCoins = parseInt(req.body[betToken + '-betCoins']);
                 let betValue = req.body[betToken];
                 let bet = getAction(VALID_ACTIONS, betToken);
+                console.log(betToken+'=>'+betValue+'=>'+betCoins);
                 if (isEmptyString(betValue) || isNaN(betCoins) || !bet.active)
                 {
                     handleBet(tokens, index + 1, finish);
