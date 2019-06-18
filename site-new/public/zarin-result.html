@@ -1,0 +1,52 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
+    
+
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container" style="padding-top:10px;">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="card" style="padding:10px 20px;min-height:200px;">
+                        {{#response.success}}
+                        <h2 style="color:red">پرداخت ناموفق!</h2>
+                        <p>کد پیگیری:{{response.code}}</p>
+                        {{/response.success}}
+                        {{^response.success}}
+                        <h2 style="color:green">پرداخت موفق!</h2>
+                        <p>کد پیگیری:{{response.code}}</p>
+                        {{/response.success}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+{{{footer}}}
+
+</html>
