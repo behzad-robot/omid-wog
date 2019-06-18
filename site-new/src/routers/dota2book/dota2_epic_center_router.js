@@ -55,7 +55,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
         });
         this.router.get('/landing', (req, res) =>
         {
-            this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-landing.html', {});
+            this.renderTemplate(req, res, 'epicenter-landing/landing.html', {});
         });
         this.router.get('/eua', (req, res) =>
         {
