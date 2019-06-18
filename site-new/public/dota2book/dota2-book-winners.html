@@ -1,0 +1,403 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>لیست شرکت کنندگان پیش بینی مسابقات ESL One 2019</title>
+    <style>
+        .announcment {
+            margin-top: 80px;
+        }
+
+        .video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%
+        }
+
+        .block_headline {
+            font-size: 54px;
+            line-height: 68px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #F9ECFF;
+            position: relative;
+            background: linear-gradient(to bottom, #fff 0%, #c9a2ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* .player-card {
+            background: rgb(6, 6, 8);
+            background: linear-gradient(0deg, rgba(6, 6, 8, 1) 0%, rgba(70, 82, 97, 1) 100%);
+            border-radius: 5px;
+            margin-bottom: 10px
+        } */
+
+        .rank-part {
+            /* display: inline-block; 
+             position: relative;
+             width: 96px;
+            float: right; */
+            color: white;
+            top: 6;
+        }
+
+        .name-part {
+            /* display: inline-block; */
+            /* height: 64px;
+            position: relative; */
+            color: white;
+            font-size: 18px;
+            padding-top: 10px
+        }
+
+        .coin-part {
+            /* float: left; 
+            height: 64px;
+            text-align: left;*/
+            padding-top: 15px;
+            padding-left: 5px;
+            color: #3e3e3e;
+        }
+
+        .players-section {
+            background-image: url('/dota2book/images/immortals_bg.jpg');
+            background-position: center;
+            margin-bottom: -20px
+        }
+
+        .insta-link {
+            text-decoration: none;
+            color: white
+        }
+
+        .insta-link:hover {
+            text-decoration: none;
+            color: white
+        }
+
+        .coin-image {
+            width: 100%;
+            margin-top: -80px
+        }
+
+        .coin-text {
+            color: white;
+            display: inline-block;
+            font-size: 15px;
+            padding-top: 15px
+        }
+
+        .coins {
+            display: inline-block;
+            width: 15%
+        }
+
+        .number-rank {
+            padding-top: 10px;
+            color: white;
+            padding-right: 5px
+        }
+
+        .first-three-images {
+            width: 100%;
+        }
+
+        .leaderBoard-header {
+            padding-top: 20px;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 40px
+        }
+
+        @media (max-width: 576px) {
+            .coin-image {
+                width: 100%;
+                margin-top: 1px;
+            }
+
+            .rank-part {
+                top: 6;
+            }
+
+            .name-part {
+                font-size: 10px;
+                padding-top: 10px
+            }
+
+            .coin-part {
+                padding-top: 15px;
+                padding-left: 5px;
+            }
+
+            .coin-text {
+                display: inline-block;
+                font-size: 10px;
+                padding-top: 15px
+            }
+
+            .coins {
+                display: inline-block;
+                width: 15%
+            }
+
+            .number-rank {
+                font-size: 10px;
+            }
+
+            .first-three-images {
+                width: 100%
+            }
+
+            .leaderBoard-header {
+                font-size: 20px
+            }
+        }
+    </style>
+    <style>
+        #videoSection {
+            position: relative;
+            background-color: black;
+            /* height: 100vh; */
+            /* min-height: 25rem; */
+            width: 100%;
+            overflow: hidden;
+        }
+
+        #videoSection video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: 0;
+            -ms-transform: translateX(-50%) translateY(-50%);
+            -moz-transform: translateX(-50%) translateY(-50%);
+            -webkit-transform: translateX(-50%) translateY(-50%);
+            transform: translateX(-50%) translateY(-50%);
+        }
+
+        #videoSection .container {
+            position: relative;
+            z-index: 2;
+        }
+
+        #videoSection .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            background-color: black;
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        @media (pointer: coarse) and (hover: none) {
+            #videoSection {
+                background: url('https://source.unsplash.com/XT5OInaElMw/1600x900') black no-repeat center center scroll;
+            }
+
+            #videoSection video {
+                display: none;
+            }
+        }
+    </style>
+    <style>
+        table {
+            width: 100%;
+        }
+
+        td,
+        th {
+            text-align: center;
+            border-bottom: 1px solid #0e1527;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #38486d;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #202d4f;
+        }
+
+        td {
+            text-align: center;
+        }
+    </style>
+    <style>
+        .dark-box {
+            background-image: url('/dota2book/images/grey.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            height: 377px;
+            border-radius: 10px
+        }
+
+        .blue-box {
+            background-image: url('/dota2book/images/blue.png');
+            padding: 5px 10px;
+            margin-top: 10px;
+            border-radius: 10px
+        }
+
+        .winner-row {
+            margin-bottom: 10px;
+        }
+
+        footer {
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <section id="videoSection" style="position:relative;margin-top:80px">
+        <div class="overlay"></div>
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <source src="/storage/esl-one-birmingham-2019/ESL.mp4" type="video/mp4">
+        </video>
+        <div class="container" style="padding-top:50px;">
+            <div class="text-center" style="width: 100%;margin-bottom:20px;">
+                <img src="/dota2book/images/ESL-One-new.png" alt="">
+                <h1 class="text-white text-english">BIRMINGHAM 2019</h1>
+                <div class="block_headline text-center">460 شرکت کننده به رقابت با هم پرداختند.</div>
+            </div>
+            <div class="row" style="margin-top:20px;margin-bottom: 20px">
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="dark-box" style="height:auto;">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جزئیات مسابقه</h3>
+                        </div>
+                        <ul class="text-white" style="list-style-type:disc">
+                            <li>شروع رقابت : هفتم خرداد</li>
+                            <li>پایان مسابقات : شانزدهم خرداد</li>
+                            <li>تاریخ اهداء جوایز : هجدهم خرداد</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                    <div class="blue-box">
+                        <div class="text-center text-white">
+                            <i class="fas fa-users" style="font-size: 70px"></i>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="text-white">جایزه نفرات برتر</h3>
+                        </div>
+                        <ol class="text-white">
+                            <li>500 هزار تومان وجه نقد</li>
+                            <li>200 هزار تومان وجه نقد</li>
+                            <li>75 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>50 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                            <li>25 هزار تومان وجه نقد</li>
+                        </ol>
+                    </div>
+                </div> -->
+                <div class="col-md-4"></div>
+            </div>
+        </div>
+    </section>
+    <section
+        style="background-image:url('/dota2book/images/teams-all-bg.jpg');background-size:100% auto;background-position:50% 0;background-repeat: repeat-y;min-height:60vh;padding-top:20px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-1 col-12"></div>
+                <div class="col-md-10 col-12">
+                    <div style="background-color:#1A1A1A;">
+                        <div style="background-color:#F7931E;padding:10px 20px;color:white;text-align: center">
+                            <h1 style="font-size:28px;">اسامی برندگان مسابقات پیش بینی <span class="text-english">ESL
+                                    One Brimingham 2019</span></h1>
+                        </div>
+                        <div style="padding:20px 20px;font-size:14px;" id="winners-row">
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">1. محمد اسماعیلی</div>
+                                <div class="col-md-3">esimamad</div>
+                                <div class="col-md-3">12650 سکه</div>
+                                <div class="col-md-3">500 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">2. میلاد ؟؟؟</div>
+                                <div class="col-md-3">miladask</div>
+                                <div class="col-md-3">11400 سکه</div>
+                                <div class="col-md-3">200 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">3. حمید لطفعلیان</div>
+                                <div class="col-md-3">silence</div>
+                                <div class="col-md-3">11000 سکه</div>
+                                <div class="col-md-3">75 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">4. محمد علی عسگری</div>
+                                <div class="col-md-3">mammadcloner1377</div>
+                                <div class="col-md-3">10600 سکه</div>
+                                <div class="col-md-3">50 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">5. مهدی کوشان</div>
+                                <div class="col-md-3">mitternacht</div>
+                                <div class="col-md-3">10600 سکه</div>
+                                <div class="col-md-3">50 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">6. آریا ترشیزی</div>
+                                <div class="col-md-3">Airyaman</div>
+                                <div class="col-md-3">10400 سکه</div>
+                                <div class="col-md-3">50 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">7. سجاد کوهستانی</div>
+                                <div class="col-md-3">Sajjadmk1</div>
+                                <div class="col-md-3">9900 سکه</div>
+                                <div class="col-md-3">50 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">8. علیرضا شعبانی</div>
+                                <div class="col-md-3">Bangi</div>
+                                <div class="col-md-3">9800 سکه</div>
+                                <div class="col-md-3">25 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">9. بهنام محمد حسنی زاده</div>
+                                <div class="col-md-3">cruel_preacher</div>
+                                <div class="col-md-3">8600 سکه</div>
+                                <div class="col-md-3">25 هزار تومان</div>
+                            </div>
+                            <div class="row winner-row text-center text-white">
+                                <div class="col-md-3 text-right">10. علی نوری</div>
+                                <div class="col-md-3">alinoori_1</div>
+                                <div class="col-md-3">7900 سکه</div>
+                                <div class="col-md-3">25 هزار تومان</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center" style="padding:10px 0;">
+                        <a href="/dota2-book/leaderboard" class="btn btn-md btn-warning">مشاهده لیست کامل شرکت
+                            کنندگان</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+
+</body>
+
+</html>

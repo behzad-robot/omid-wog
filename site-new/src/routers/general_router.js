@@ -19,7 +19,7 @@ export default class SiteGeneralRouter extends SiteRouter
         });
         this.router.get('/zarin-test', (req, res) =>
         {
-            let z = new Zarinpal('6ffee292-90be-11e9-a17f-000c29344814', false);
+            let z = new Zarinpal('6ffee292-90be-11e9-a17f-000c29344814', true);
             z.PaymentRequest({ Amount: 500, CallbackURL: SITE_URL('/zarin-result'), Description: 'Test Behzad', Email: 'behzad.robot@gmail.com', Mobile: '09375801307' }).then((response) =>
             {
                 console.log(response);

@@ -55,96 +55,104 @@ export class Dota2BookRouter extends SiteRouter
         this.router.use((req, res, next) =>
         {
             //check if user can visit this page:
-            if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1 && req.url.indexOf('leaderboard') == -1)
+            if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1 && req.url.indexOf('leaderboard') == -1
+            && req.url.indexOf('winners') == -1)
             {
                 res.redirect('/login?redirect=/dota2-book');
                 return;
             }
             next();
         });
-        this.router.get('/landing', (req, res) =>
+        // this.router.get('/landing', (req, res) =>
+        // {
+        //     this.renderTemplate(req, res, 'dota2book/dota2-book-landing.html', {});
+        // });
+        this.router.get('/winners', (req, res) =>
         {
-            this.renderTemplate(req, res, 'dota2book/dota2-book-landing.html', {});
-        });
-        this.router.get('/eua', (req, res) =>
-        {
-            if (req.query.msg == 'acceptFirst')
-                req.query.msg = 'ابتدا شرایط و قوانین ایونت را بپذیرید';
-            this.renderTemplate(req, res, 'dota2book/dota2-book-eua.html', {
-                msg: req.query.msg,
+            this.renderTemplate(req, res, 'dota2book/dota2-book-winners.html', {
+                
             });
         });
-        this.router.get('/enter-event', (req, res) =>
-        {
-            let currentUser = req.session.currentUser;
-            if (currentUser.dota2Book2019.enterEvent)
-            {
-                res.redirect(SLUG + '/?msg=alreadyEntered');
-                return;
-            }
-            siteModules.User.apiCall('dota2-book-enter-event', { _id: currentUser._id, userToken: currentUser.token }).then((user) =>
-            {
-                console.log(user);
-                req.session.currentUser = user;
-                req.session.save(() =>
-                {
-                    res.redirect(SLUG);
-                });
-            }).catch((err) =>
-            {
-                this.show500(req, res, err);
-            });
-        });
-        this.router.get('/payment', (req, res) =>
-        {
-            let currentUser = req.session.currentUser;
-            siteModules.User.apiCall('dota2-book-do-payment', { _id: currentUser._id, initPaymentToken: 'random-token-doki-doki', userToken: currentUser.token }).then((user) =>
-            {
-                req.session.currentUser = user;
-                req.session.save(() =>
-                {
-                    this.renderTemplate(req, res, 'dota2book/dota2-book-payment-done.html', {
-                        msg: req.query.msg,
-                    });
-                });
-            }).catch((err) =>
-            {
-                this.show500(req, res, err.toString());
-            });
 
-        });
-        this.router.get('/', (req, res) =>
-        {
-            siteModules.User.apiCall('login',{ username: req.session.currentUser.username, password: req.session.currentUser.password }).then((user) =>
-            {
-                req.session.currentUser = user;
-                let currentUser = req.session.currentUser;
-                if (currentUser.dota2Book2019 == undefined || !currentUser.dota2Book2019.enterEvent)
-                {
-                    res.redirect(SLUG + '/eua/?msg=acceptFirst');
-                    return;
-                }
-                let VALID_ACTIONS = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
-                let TWITCH_CODE_STR = fs.readFileSync(TWITCH_CODE_FILE_PATH).toString();
-                siteModules.User.apiCall('dota2-book-leaderboard', { _id: currentUser._id }).then((resp) =>
-                {
-                    let rank = resp.rank;
-                    this.renderTemplate(req, res, 'dota2book/dota2-book-home.html', {
-                        rank: rank + 1,
-                        user: currentUser,
-                        ESL_TEAMS: JSON.stringify(ESL_TEAMS),
-                        GROUP_A: JSON.stringify(GROUP_A),
-                        GROUP_B: JSON.stringify(GROUP_B),
-                        ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
-                        DOTA2_BOOK_2019: JSON.stringify(currentUser.dota2Book2019),
-                        TWITCH_CODE_STR: TWITCH_CODE_STR,
-                    });
-                }).catch((err) =>
-                {
-                    this.show500(req, res, err);
-                })
-            });
-        });
+        // this.router.get('/eua', (req, res) =>
+        // {
+        //     if (req.query.msg == 'acceptFirst')
+        //         req.query.msg = 'ابتدا شرایط و قوانین ایونت را بپذیرید';
+        //     this.renderTemplate(req, res, 'dota2book/dota2-book-eua.html', {
+        //         msg: req.query.msg,
+        //     });
+        // });
+        // this.router.get('/enter-event', (req, res) =>
+        // {
+        //     let currentUser = req.session.currentUser;
+        //     if (currentUser.dota2Book2019.enterEvent)
+        //     {
+        //         res.redirect(SLUG + '/?msg=alreadyEntered');
+        //         return;
+        //     }
+        //     siteModules.User.apiCall('dota2-book-enter-event', { _id: currentUser._id, userToken: currentUser.token }).then((user) =>
+        //     {
+        //         console.log(user);
+        //         req.session.currentUser = user;
+        //         req.session.save(() =>
+        //         {
+        //             res.redirect(SLUG);
+        //         });
+        //     }).catch((err) =>
+        //     {
+        //         this.show500(req, res, err);
+        //     });
+        // });
+        // this.router.get('/payment', (req, res) =>
+        // {
+        //     let currentUser = req.session.currentUser;
+        //     siteModules.User.apiCall('dota2-book-do-payment', { _id: currentUser._id, initPaymentToken: 'random-token-doki-doki', userToken: currentUser.token }).then((user) =>
+        //     {
+        //         req.session.currentUser = user;
+        //         req.session.save(() =>
+        //         {
+        //             this.renderTemplate(req, res, 'dota2book/dota2-book-payment-done.html', {
+        //                 msg: req.query.msg,
+        //             });
+        //         });
+        //     }).catch((err) =>
+        //     {
+        //         this.show500(req, res, err.toString());
+        //     });
+
+        // });
+        // this.router.get('/', (req, res) =>
+        // {
+        //     siteModules.User.apiCall('login',{ username: req.session.currentUser.username, password: req.session.currentUser.password }).then((user) =>
+        //     {
+        //         req.session.currentUser = user;
+        //         let currentUser = req.session.currentUser;
+        //         if (currentUser.dota2Book2019 == undefined || !currentUser.dota2Book2019.enterEvent)
+        //         {
+        //             res.redirect(SLUG + '/eua/?msg=acceptFirst');
+        //             return;
+        //         }
+        //         let VALID_ACTIONS = JSON.parse(fs.readFileSync(VALID_ACTIONS_FILE_PATH).toString());
+        //         let TWITCH_CODE_STR = fs.readFileSync(TWITCH_CODE_FILE_PATH).toString();
+        //         siteModules.User.apiCall('dota2-book-leaderboard', { _id: currentUser._id }).then((resp) =>
+        //         {
+        //             let rank = resp.rank;
+        //             this.renderTemplate(req, res, 'dota2book/dota2-book-home.html', {
+        //                 rank: rank + 1,
+        //                 user: currentUser,
+        //                 ESL_TEAMS: JSON.stringify(ESL_TEAMS),
+        //                 GROUP_A: JSON.stringify(GROUP_A),
+        //                 GROUP_B: JSON.stringify(GROUP_B),
+        //                 ALL_BETS: JSON.stringify(getAllBets(VALID_ACTIONS)),
+        //                 DOTA2_BOOK_2019: JSON.stringify(currentUser.dota2Book2019),
+        //                 TWITCH_CODE_STR: TWITCH_CODE_STR,
+        //             });
+        //         }).catch((err) =>
+        //         {
+        //             this.show500(req, res, err);
+        //         })
+        //     });
+        // });
         this.router.get('/leaderboard', (req, res) =>
         {
             //list of dota2book gamblers!
