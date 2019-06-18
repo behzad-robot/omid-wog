@@ -1,5 +1,6 @@
 import SiteRouter from "./site_router";
 import { isEmptyString } from '../utils/utils';
+import { SITE_URL } from "../constants";
 const fs = require('fs');
 const path = require('path');
 const Zarinpal = require('../utils/zarinpal/zarinpal').create;
@@ -18,8 +19,8 @@ export default class SiteGeneralRouter extends SiteRouter
         });
         this.router.get('/zarin-test', (req, res) =>
         {
-            let z = new Zarinpal('6ffee292-90be-11e9-a17f-000c29344814', false);
-            z.PaymentRequest({ Amount: 500, CallbackURL: 'http://worldofgamers.ir/', Description: 'Test Behzad', Email: 'behzad.robot@gmail.com', Mobile: '09375801307' }).then((response) =>
+            let z = new Zarinpal('6ffee292-90be-11e9-a17f-000c29344814', true);
+            z.PaymentRequest({ Amount: 500, CallbackURL: SITE_URL('/zarin-result'), Description: 'Test Behzad', Email: 'behzad.robot@gmail.com', Mobile: '09375801307' }).then((response) =>
             {
                 console.log(response);
                 res.redirect(response.url);
@@ -27,6 +28,10 @@ export default class SiteGeneralRouter extends SiteRouter
             {
                 res.send(err);
             });
+        });
+        this.router.get('/zarin-result', (req, res) =>
+        {
+            res.send(req.query);
         });
         this.router.get('/', (req, res) =>
         {
