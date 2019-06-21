@@ -116,74 +116,84 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 res.redirect(SLUG + '/eua/?msg=acceptFirst');
                 return;
             }
-
-            fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
+            siteModules.User.find({ _id: currentUser._id }).then((users) =>
             {
-                if (err)
+                let user = users[0];
+                console.log(user);
+                req.session.currentUser = user;
+                currentUser = user;
+                req.session.save(() =>
                 {
-                    fail(err);
-                    return;
-                }
-                let ACTIONS = JSON.parse(data.toString());
-                fs.readFile(TEAMS_FILE_PATH, (err, data) =>
-                {
-                    if (err)
-                    {
-                        fail(err);
-                        return;
-                    }
-                    let TEAMS = JSON.parse(data.toString());
-                    fs.readFile(TWITCH_CODE_FILE_PATH, (err, data) =>
+                    fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
                     {
                         if (err)
                         {
                             fail(err);
                             return;
                         }
-                        let TWITCH_CODE_STR = data.toString();
-                        fs.readFile(ACTION_CATEGORIES_FILE_PATH, (err, data) =>
+                        let ACTIONS = JSON.parse(data.toString());
+                        fs.readFile(TEAMS_FILE_PATH, (err, data) =>
                         {
                             if (err)
                             {
                                 fail(err);
                                 return;
                             }
-                            let ACTIONS_CATS = JSON.parse(data.toString());
-                            fs.readFile(PAGE_CONFIG_FILE_PATH, (err, data) =>
+                            let TEAMS = JSON.parse(data.toString());
+                            fs.readFile(TWITCH_CODE_FILE_PATH, (err, data) =>
                             {
                                 if (err)
                                 {
                                     fail(err);
                                     return;
                                 }
-                                const PAGE_CONFIG = JSON.parse(data.toString());
-                                let invites = [];
-                                for (var k = 0; k < currentUser.dota2EpicCenter2019.invites.length; k++)
-                                    invites.push(currentUser.dota2EpicCenter2019.invites[k].userId);
-                                siteModules.User.find({ _ids: invites }).then((invitedUsers) =>
+                                let TWITCH_CODE_STR = data.toString();
+                                fs.readFile(ACTION_CATEGORIES_FILE_PATH, (err, data) =>
                                 {
-                                    currentUser.dota2EpicCenter2019._invites = invitedUsers;
-                                    siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
+                                    if (err)
                                     {
-                                        let rank = resp.rank;
-                                        this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
-                                            rank: rank + 1,
-                                            user: currentUser,
-                                            PAGE_CONFIG: PAGE_CONFIG,
-                                            TWITCH_CODE_STR: TWITCH_CODE_STR,
-                                            TEAMS: JSON.stringify(TEAMS),
-                                            ACTIONS: JSON.stringify(ACTIONS),
-                                            ACTIONS_CATS: JSON.stringify(ACTIONS_CATS),
-                                            DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
-                                        });
-                                    }).catch(fail);
-                                }).catch(fail);
+                                        fail(err);
+                                        return;
+                                    }
+                                    let ACTIONS_CATS = JSON.parse(data.toString());
+                                    fs.readFile(PAGE_CONFIG_FILE_PATH, (err, data) =>
+                                    {
+                                        if (err)
+                                        {
+                                            fail(err);
+                                            return;
+                                        }
+                                        const PAGE_CONFIG = JSON.parse(data.toString());
+                                        let invites = [];
+                                        for (var k = 0; k < currentUser.dota2EpicCenter2019.invites.length; k++)
+                                            invites.push(currentUser.dota2EpicCenter2019.invites[k].userId);
+                                        siteModules.User.find({ _ids: invites }).then((invitedUsers) =>
+                                        {
+                                            currentUser.dota2EpicCenter2019._invites = invitedUsers;
+                                            siteModules.User.apiCall('dota2-epic-center-leaderboard', { _id: currentUser._id }).then((resp) =>
+                                            {
+                                                let rank = resp.rank;
+                                                this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-home.html', {
+                                                    rank: rank + 1,
+                                                    user: currentUser,
+                                                    PAGE_CONFIG: PAGE_CONFIG,
+                                                    TWITCH_CODE_STR: TWITCH_CODE_STR,
+                                                    TEAMS: JSON.stringify(TEAMS),
+                                                    ACTIONS: JSON.stringify(ACTIONS),
+                                                    ACTIONS_CATS: JSON.stringify(ACTIONS_CATS),
+                                                    DOTA2_EPIC_CENTER_2019: JSON.stringify(currentUser.dota2EpicCenter2019),
+                                                });
+                                            }).catch(fail);
+                                        }).catch(fail);
 
+                                    });
+                                });
                             });
                         });
                     });
                 });
-            });
+            }).catch(fail);
+
         });
         this.router.get('/leaderboard', (req, res) =>
         {
@@ -219,7 +229,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 let betCoins = parseInt(req.body[betToken + '-betCoins']);
                 let betValue = req.body[betToken];
                 let bet = getAction(VALID_ACTIONS, betToken);
-                console.log(betToken+'=>'+betValue+'=>'+betCoins);
+                console.log(betToken + '=>' + betValue + '=>' + betCoins);
                 if (isEmptyString(betValue) || isNaN(betCoins) || !bet.active)
                 {
                     handleBet(tokens, index + 1, finish);
@@ -398,7 +408,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 res.send({ code: 500, error: 'sessionId is missing' });
                 return;
             }
-            siteModules.User.find({ _id: req.body._id  }).then((users) =>
+            siteModules.User.find({ _id: req.body._id }).then((users) =>
             {
                 let user = users[0];
                 console.log(user);
@@ -409,7 +419,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 //     return;
                 // }
                 let session = undefined;
-                console.log('target sessionId='+req.body.sessionId);
+                console.log('target sessionId=' + req.body.sessionId);
                 for (var i = 0; i < user.dota2Quiz.sessions.length; i++)
                 {
                     console.log(user.dota2Quiz.sessions[i]._id);
@@ -419,20 +429,22 @@ export class Dota2EpicCenterRouter extends SiteRouter
                         break;
                     }
                 }
-                if(session == undefined)
+                if (session == undefined)
                 {
-                    res.send({code : 500 , error :'session not found'});
+                    res.send({ code: 500, error: 'session not found' });
                     return;
                 }
-                user.dota2EpicCenter2019.coins += (session.questions.length-1)*QUIZ_REWARD;
-                siteModules.User.apiCall('edit-profile',{
-                    _id : req.body.userId,
-                    token : req.body.token,
-                    dota2EpicCenter2019 : user.dota2EpicCenter2019,
-                }).then((user)=>{
-                    res.send({code : 200 , _data : {dota2EpicCenter2019 : user.dota2EpicCenter2019}});
-                }).catch((err)=>{
-                    res.send({code :500 , error : err.toString()});
+                user.dota2EpicCenter2019.coins += (session.questions.length - 1) * QUIZ_REWARD;
+                siteModules.User.apiCall('edit-profile', {
+                    _id: req.body.userId,
+                    token: req.body.token,
+                    dota2EpicCenter2019: user.dota2EpicCenter2019,
+                }).then((user) =>
+                {
+                    res.send({ code: 200, _data: { dota2EpicCenter2019: user.dota2EpicCenter2019 } });
+                }).catch((err) =>
+                {
+                    res.send({ code: 500, error: err.toString() });
                 });
             });
 
