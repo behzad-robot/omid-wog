@@ -111,11 +111,6 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 this.show500(req, res, err);
             }
             let currentUser = req.session.currentUser;
-            if (currentUser.dota2EpicCenter2019 == undefined || !currentUser.dota2EpicCenter2019.enterEvent)
-            {
-                res.redirect(SLUG + '/eua/?msg=acceptFirst');
-                return;
-            }
             siteModules.User.find({ _id: currentUser._id }).then((users) =>
             {
                 let user = users[0];
@@ -124,6 +119,11 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 currentUser = user;
                 req.session.save(() =>
                 {
+                    if (currentUser.dota2EpicCenter2019 == undefined || !currentUser.dota2EpicCenter2019.enterEvent)
+                    {
+                        res.redirect(SLUG + '/eua/?msg=acceptFirst');
+                        return;
+                    }
                     fs.readFile(VALID_ACTIONS_FILE_PATH, (err, data) =>
                     {
                         if (err)
