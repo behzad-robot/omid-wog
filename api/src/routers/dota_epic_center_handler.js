@@ -302,11 +302,11 @@ export class DotaEpicCenterHandler
                 return;
             }
             //check if token is valid
-            console.log(params.token);
+            // console.log(params.token);
             const VALID_ACTIONS = await this.getActions();
-            console.log(VALID_ACTIONS);
+            // console.log(VALID_ACTIONS);
             let action = getAction(VALID_ACTIONS, params.token);
-            console.log(action);
+            // console.log(action);
             if (action == undefined)
             {
                 reject('invalid action token');
