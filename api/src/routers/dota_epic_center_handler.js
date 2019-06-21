@@ -11,6 +11,7 @@ const TWITCH_API = require('twitch-api-v5');
 TWITCH_API.clientID = '3j5qf1r09286hluj7rv4abqkbqosk3';
 
 const INIT_COINS = 300;
+const FOLLOW_TWITCH = 'follow_twitch';
 function getAction(VALID_ACTIONS, token)
 {
 
@@ -281,7 +282,7 @@ export class DotaEpicCenterHandler
     }
     addAction(params) // params is : { _id : string , token : string , userToken : string (user.token )}
     {
-        return new Promise((resolve, reject) =>
+        return new Promise(async (resolve, reject) =>
         {
             //check user required params:
             if (isEmptyString(params.userToken))
@@ -301,8 +302,11 @@ export class DotaEpicCenterHandler
                 return;
             }
             //check if token is valid
-            const VALID_ACTIONS = this.getActions();
+            console.log(params.token);
+            const VALID_ACTIONS = await this.getActions();
+            console.log(VALID_ACTIONS);
             let action = getAction(VALID_ACTIONS, params.token);
+            console.log(action);
             if (action == undefined)
             {
                 reject('invalid action token');
