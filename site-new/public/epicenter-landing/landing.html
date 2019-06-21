@@ -11,7 +11,7 @@
   <meta name="description" content="boltex">
   <!-- keywords -->
   <meta name="keywords" content="">
-  <title>epicenter</title>
+  <title>پیش بینی مسابقات Epicenter 2019</title>
   <link
     href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700%7CRoboto%7CJosefin+Sans:100,300,400,500"
     rel="stylesheet" type="text/css">
@@ -25,7 +25,9 @@
   <link rel="stylesheet" href="/epicenter-landing/css/cubeportfolio.min.css">
   <link rel="stylesheet" type="text/css" href="/epicenter-landing/css/component.css" />
   <style>
-      footer{margin:0;}
+    footer {
+      margin: 0;
+    }
   </style>
 </head>
 
@@ -55,18 +57,33 @@
       </a>
     </div>
   </nav>
-
-
+  <!-- 
+  <section style="background-image:url('/epicenter-landing/img/showcasebg.jpg');position:relative">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="features-section-2-col-2__content text-white">
+            <h3>Tournoment</h3>
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and type setting industry when an unknown printer
+              took
+              a galley of type and scrambled it to make a type specimen book It has survived not only five
+              centuries.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section> -->
   <!--================ Showcase section ===================-->
-  <div id="showcase" style="
-    /* padding: 0px; */">
+  <div id="showcase" style="height:auto;margin:0;">
     <div class="showcase" style="">
       <div class="full-width showcase-caption mt-30 mm " style="visibility: visible;">
         <div class="container-fluid">
           <div class="row">
             <div class="col-md-6">
               <div class="features-section-2-col-2__content text-white">
-                <h3>Tournoment</h3>
+                <h3>پیش بینی مسابقات <span class="text-english">Epicenter 2019</span></h3>
                 <p>
                   Lorem Ipsum is simply dummy text of the printing and type setting industry when an unknown printer
                   took
@@ -79,7 +96,8 @@
 
             <div class="col-md-6">
               <video width="100%" loop autoplay muted class="divvideo">
-                <source src="http://worldofgamers.ir/storage/fortnite-2019/teaser.mp4" type="video/mp4">
+                <source src="{{#SITE_URL}}/storage/epic-center-2019/epic-center-teaser.mp4{{/SITE_URL}}"
+                  type="video/mp4">
 
               </video>
             </div>
@@ -228,7 +246,7 @@
 
 
   <!--================== Blog section =====================-->
-  <div id="blog" class="blog">
+  <div id="blog" class="blog" style="margin:0;margin-top:-15px;">
     <div id="teams">
       <div class="container-fluid">
         <div class="teams-heading container col-md-8 offset-md-2 col-sm-12 text-center">
@@ -241,41 +259,35 @@
         <div class="row dd" style="">
           <div class="col-sm m-2">
             <div class="teams-item-box">
-              <div class=" divvideo ">
+              <div class=" divvideo " style="background-color:rgba(0,0,0,0.6);">
 
 
                 <video width="100%" controls>
-                  <source src="movie.mp4" type="video/mp4">
-
+                  <source src="/storage/epic-center-2019/follow-twitch.webm" type="video/mp4">
                 </video>
-
+                <h3 class="text-center">روش اول:امیر فانتوم را در توئتچ دنبال کنید.</h3>
               </div>
 
             </div>
           </div>
           <div class="col-sm m-2">
             <div class="teams-item-box">
-              <div class=" divvideo">
-
-
-                <video width="100%" controls>
+              <div class=" divvideo" style="background-color:rgba(0,0,0,0.6);">
+                <video width="100%" loop muted poster="/storage/epic-center-2019/follow-quiz.png" style="height:411px;">
                   <source src="movie.mp4" type="video/mp4">
 
                 </video>
-
+                <h3 class="text-center">روش دوم:شرکت در کوئیز روزانه اطلاعات Dota.( به زودی)</h3>
               </div>
             </div>
           </div>
           <div class="col-sm m-2">
             <div class="teams-item-box">
-              <div class=" divvideo">
-
-
-                <video width="100%" controls>
+              <div class=" divvideo" style="background-color:rgba(0,0,0,0.6);">
+                <video width="100%" loop muted poster="/storage/epic-center-2019/invite-users.jpg">
                   <source src="movie.mp4" type="video/mp4">
-
                 </video>
-
+                <h3 class="text-center">روش سوم: معرفی دوستان</h3>
               </div>
             </div>
           </div>
@@ -318,7 +330,7 @@
               </div>
               <figcaption style="font-family: iransans">
                 <h5>جایزه نفر سوم</h5>
-                <p>یک ست بازی arcana تعلق میکیرد</p>
+                <p style="direction: rtl;">Arcana Juggernaut</p>
 
               </figcaption>
             </figure>
@@ -334,7 +346,7 @@
               </div>
               <figcaption style="font-family: iransans">
                 <h5>جایزه نفر دوم</h5>
-                <p>یک headsetاهدا میشود</p>
+                <p style="direction: rtl;">هدست Rapo VH150</p>
 
               </figcaption>
             </figure>
@@ -350,8 +362,7 @@
               </div>
               <figcaption style="font-family: iransans">
                 <h5>جایزه نفر اول</h5>
-                <p>یک دستگاه xbox اهدا میشود</p>
-
+                <p style="direction: rtl;">یک دستگاه Xbox One S</p>
               </figcaption>
             </figure>
           </div>
@@ -362,21 +373,21 @@
 
 
     <div class="container mt-5 mb-4">
-      <h2 style="color: white;direction: rtl ;text-align: right">
+      <!-- <h2 style="color: white;direction: rtl ;text-align: right">
         آموزش کلی:
       </h2>
       <h5 style="color: white">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, molestias eius. A quidem quo dolor minima
         quibusdam ipsa? Harum nemo sit dignissimos minus iste. Porro tenetur eveniet quod similique aliquid?
-      </h5>
+      </h5> -->
     </div>
-    <div class="container divvideo">
+    <div class="container divvideo222">
 
 
-      <video width="100%" controls>
+      <!-- <video width="100%" controls>
         <source src="movie.mp4" type="video/mp4">
 
-      </video>
+      </video> -->
     </div>
   </div>
 
@@ -388,7 +399,8 @@
       </a>
       {{/currentUser}}
       {{#currentUser}}
-      <a href="{{#SITE_URL}}/dota2-epic-center{{/SITE_URL}}" class="asignupbtn button-style showcase-btn" style="width:250px !important;">
+      <a href="{{#SITE_URL}}/dota2-epic-center{{/SITE_URL}}" class="asignupbtn button-style showcase-btn"
+        style="width:250px !important;">
         ورود به ایونت
       </a>
       {{/currentUser}}

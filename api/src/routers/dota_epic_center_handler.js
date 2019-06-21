@@ -10,7 +10,7 @@ const Instagram = require('instagram-web-api');
 const TWITCH_API = require('twitch-api-v5');
 TWITCH_API.clientID = '3j5qf1r09286hluj7rv4abqkbqosk3';
 
-const INIT_COINS = 300;
+const INIT_COINS = 500;
 const FOLLOW_TWITCH = 'follow_twitch';
 function getAction(VALID_ACTIONS, token)
 {

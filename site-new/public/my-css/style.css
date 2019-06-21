@@ -18,6 +18,12 @@ section{display:block;width:100%;}
     width:300px;
 }
 
+.text-right{
+    text-align: right;
+}
+.text-left{
+    text-align: left;
+}
 .text-white{
     color:white !important;
 }
