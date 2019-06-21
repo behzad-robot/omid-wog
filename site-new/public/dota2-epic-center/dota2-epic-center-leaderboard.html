@@ -2,6 +2,7 @@
 
 <head>
     {{{head}}}
+    <title>لیست شرکت کنندگان مسابقات پیش بینی</title>
     <style>
         .intro {
             background-image: url('/dota2-epic-center/images/epi1.jpg');
@@ -271,7 +272,10 @@
                                 for (var i = 0;i < playerRows.length; i++)
                                 {
                                     let td = ($(playerRows[i]).find("td"))[0];
-                                    if (i == 1)
+                                    if(i == 0){
+                                        //as is :))
+                                    }
+                                    else if (i == 1)
                                     {
                                         $(td).html(`<img style="width: 80%" src="/dota2-epic-center/images/headphone.png">`);
                                     }
