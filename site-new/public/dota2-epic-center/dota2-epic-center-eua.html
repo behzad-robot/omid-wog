@@ -63,25 +63,27 @@
             {{#msg}}
             <div class="alert alert-warning">{{msg}}</div>
             {{/msg}}
-            <div class="text-center">
-                <h1>شرایط و قوانین ایونت</h1>
-            </div>
             <div>
+                <h1>شرایط و قوانین ایونت</h1>
                 <p>مسابقات دوتا2 همیشه یکی از جذاب ترین مسابقات در حوزه ورزش‌های الکترونیکی بوده است. واج با ایجاد بستری
-                برای پیش‌بینی مسابقات در صدد آن است تا بیش از پیش به دنیای ورزش‌های الکترونیکی پرداخته و با پیش‌بینی
-                کردن مسابقات در قالب یک مسابقه به کاربران خود جوایزی اهدا کند.</p>
+                    برای پیش‌بینی مسابقات در صدد آن است تا بیش از پیش به دنیای ورزش‌های الکترونیکی پرداخته و با پیش‌بینی
+                    کردن مسابقات در قالب یک مسابقه به کاربران خود جوایزی اهدا کند.</p>
 
-                <p>لازم به ذکر است که برای ورود به این مسابقه می‌بایست در سایت ثبت نام کنید. مسابقه رایگان بوده و در مجموعه
-                10.000.000 ریال جایزه نقدی به برندگان اهدا خواهد شد.</p>
+                <p>لازم به ذکر است که برای ورود به این مسابقه می‌بایست در سایت ثبت نام کنید. مسابقه رایگان بوده و در
+                    مجموعه 40.000.000 ریال جایزه نقدی و غیرنقدی به برندگان اهدا خواهد شد.</p>
 
-                <h2>روند پیش‌بینی:</h2>
-
-                <p>پس از ورود به ایونت، 300 سکه به عنوان هدیه به شما داده خواهد شد.</p>
-                <p>با دنبال کردن تویتچ می توانید 300 سکه دیگه به دست بیارید.</p>
-
-                <p>در هر مرحله از بازی‌های گروهی تا سقف 100 سکه بر روی هر بازی پیش‌بینی کنید و در صورت پیش‌بینی درست دو
-                برابر مبلغ پیش‌بینی شده را برداشت کنید. لازم به ذکر است که در صورت پیش‌بینی اشتباه سکه‌ای را از دست
-                نخواهید داد.</p>
+                <h3>روند پیش‌بینی:</h3>
+                <p>پس از ورود به ایونت، 500 سکه به عنوان هدیه به شما داده خواهد شد. <br>
+                    تیم مورد نظر خود را انتخاب کنید، سکه‌های مشخصی را برای برد پیشبینی کنید و با برد تعداد سکه‌های خود
+                    را دو برابر کنید.
+                    بازی‌های مرحله گروهی با سقف 500 سکه برای هربازی دنبال می‌شوند. <br>
+                    * در هر مرحله سقف تعداد سکه‌ها افزایش پیدا خواهد کرد.<br>
+                    * سکه‌های شما در صورت باخت در مرحله گروهی کم نخواهد شد.<br>
+                    روش‌های به دست آوردن سکه : <br>
+                    1- فالو کردن تویتچ ( در صفحه پیشبینی ) <br>
+                    2- دعوت کردن از دوستان <br>
+                    3- شرکت در مسابقه ( بازی ) کوییز.
+                </p>
 
                 <p>· سکه‌ها قابل خریدن نیستند و تنها از طریق پیش‌بینی به دست می‌آیند.</p>
 
@@ -89,15 +91,20 @@
 
                 <p>چه کسی طرفدار پر و پا قرص تر دوتا 2 است ؟ همین حالا پیش بینی کنید . . .</p>
             </div>
+            <div>
+
+            </div>
             <div class="text-center" style="padding:20px 0">
                 {{#currentUser}}
-                {{^currentUser.dota2EpicCenter2019.enterEvent}} 
-                    <a href="/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a>
+                {{^currentUser.dota2EpicCenter2019.enterEvent}}
+                <a href="/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a>
                 {{/currentUser.dota2EpicCenter2019.enterEvent}}
                 {{/currentUser}}
                 {{^currentUser}}
-                    <a href="/signup/?redirect=/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود به ایونت</a><br>
-                    <a href="/login/?redirect=/dota2-epic-center/eua" class="orange-link" style="display:block;margin:20px 0;">حساب کاربری دارید؟ ورود به سایت و ایونت.</a>
+                <a href="/signup/?redirect=/dota2-epic-center/enter-event" class="btn btn-md btn-warning">ثبت نام و ورود
+                    به ایونت</a><br>
+                <a href="/login/?redirect=/dota2-epic-center/eua" class="orange-link"
+                    style="display:block;margin:20px 0;">حساب کاربری دارید؟ ورود به سایت و ایونت.</a>
                 {{/currentUser}}
                 <!-- {{^currentUser.dota2EpicCenter2019.initPayment}}
                 <a href="/dota2-epic-center/payment" class="btn btn-md btn-success">پرداخت هزینه و شرکت عین آدم</a>
@@ -109,9 +116,12 @@
                 {{/currentUser.dota2EpicCenter2019.enterEvent}}
             </div>
             <div class="text-center" style="padding:10px 0;">
-                <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram" style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
-                <a href="https://www.instagram.com/wogcompany/" target="_blank"><span class="fab fa-instagram" style="font-size:36px;color:orange;"></span></a>&nbsp;&nbsp;&nbsp;
-                <a href="https://discord.gg/PXG96F3" target="_blank"><span class="fab fa-discord" style="font-size:36px;color:#673AB7;"></span></a>
+                <a href="https://t.me/wogCompany" target="_blank"><span class="fab fa-telegram"
+                        style="font-size:36px;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://www.instagram.com/wogcompany/" target="_blank"><span class="fab fa-instagram"
+                        style="font-size:36px;color:orange;"></span></a>&nbsp;&nbsp;&nbsp;
+                <a href="https://discord.gg/PXG96F3" target="_blank"><span class="fab fa-discord"
+                        style="font-size:36px;color:#673AB7;"></span></a>
             </div>
         </div>
         <img src="/dota2book/images/skeleton-thing.png" class="corner-thing no-mobile" />
