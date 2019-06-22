@@ -1,6 +1,7 @@
 import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants"
 import { isEmptyString, moment_now } from "../../utils/utils";
+import { url } from "inspector";
 // import { ESL_TEAMS, GROUP_A, GROUP_B } from "./esl_teams";
 const fs = require('fs');
 const path = require('path');
@@ -42,9 +43,12 @@ export class Dota2EpicCenterRouter extends SiteRouter
             //check if user can visit this page:
             if (!this.isLoggedIn(req))
             {
-                console.log('WE ARE NOT FUCKING LOGGED IN!');
-                res.redirect('/login/?redirect=/dota2-epic-center');
-                return;
+                if (req.url.indexOf('landing') == -1)
+                {
+                    console.log('WE ARE NOT FUCKING LOGGED IN!');
+                    res.redirect('/login/?redirect=/dota2-epic-center');
+                    return;
+                }
             }
             // if (!this.isLoggedIn(req) && req.url.indexOf('eua') == -1 && req.url.indexOf('leaderboard') == -1)
             // {
