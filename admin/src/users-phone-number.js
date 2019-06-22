@@ -8,25 +8,16 @@ const fs = require('fs');
 const path = require('path');
 User.find({}, 5000).then((users) =>
 {
-    let results = [];
+    let results = '';
     for (var i = 0; i < users.length; i++)
     {
-        if (users[i].fortnite2019 != undefined && users[i].fortnite2019.hasJoined)
+        if (users[i].phoneNumber.indexOf('?') == -1)
         {
-            // if(users[i].phoneNumber.indexOf('?') == -1)
-            // results += users[i].username + '\t' + users[i].phoneNumber + '\t' + users[i].epicGamesID + '\t' + users[i].psnID + '\n';
-            let d ={
-                _id : users[i]._id,
-                username : users[i].username,
-                phoneNumber : users[i].phoneNumber,
-                epicGamesID : users[i].epicGamesID,
-                psnID : users[i].psnID,
-            };
-            console.log(d);
-            results.push(d);
+            console.log(users[i].phoneNumber);
+            results += users[i].phoneNumber+'\n';
         }
         console.log(results);
-        fs.writeFileSync(path.resolve('fortnite-info.txt'), JSON.stringify(results));
+        fs.writeFileSync(path.resolve('all-phonenumbers.txt'), results);
         console.log('DONE!');
     }
 });
