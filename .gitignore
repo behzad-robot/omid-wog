@@ -9,3 +9,5 @@ admin/package-lock.json
 api/package-lock.json
 site/.localhost
 site-new/.localhost
+chat/.localhost
+chat/node_modules

@@ -254,7 +254,7 @@
         }
 
         .get-coin-box {
-            display:block;
+            display: block;
             width: 100%;
             background-color: #202d4f;
             border: 2px solid #38486d;
@@ -577,6 +577,14 @@
                     console.log(bet);
                     let title = bet.title;
                     title = title.replace('Match 1', '<b style="color:orange">Match 1</span>').replace('Match 2', '<b style="color:orange">Match 2</span>');
+                    let penalty = '';
+                    if (bet.reward == -1398)
+                    {
+
+                        penalty = `<div style="padding:5px">
+                                        <div class="alert alert-warning"><small>پیش بینی اشتباه این مسابقه باعث از دست دادن سکه میشود.</small></div>
+                                    </div>`;
+                    }
                     $(parent).append(`
                         <div class="col-md-4 col-12">
                             <div class="bet-box ${bet.active ? '' : 'disabled'}" betToken="${bet.token}" teamA="${teamA.token}" teamB="${teamB.token}">
@@ -611,6 +619,7 @@
                                     <div class="message-row">
                                         ${message}
                                     </div>
+                                    ${penalty}
                                 </div>
                             </div>
                         </div>
@@ -690,8 +699,7 @@
                                 style="padding-right: 30px;width: 100%;font-size: 14px">
                                 <img style="width:32px;" src="/dota2-epic-center/images/coins.png" />
                                 جایزه 10 سکه به ازای هر پاسخ صحیح</div>
-                            <a target="_blank" type="button"
-                                class="btn btn-md btn-secondary"
+                            <a target="_blank" type="button" class="btn btn-md btn-secondary"
                                 style="padding-right: 30px;width: 100%;font-size: 14px">شرکت در کوئیز امروز(به زودی)</a>
                         </div>
                     </div>
@@ -780,6 +788,43 @@
         </div> <!-- end of container -->
     </section>
     {{{footer}}}
+    <div style="position:fixed;height:100vh;width:100vw;top:0;left:0;z-index:9999999;display:none;" id="friends-popup">
+        <div style="position: absolute;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.8)"
+            onclick="closeFriendsPopUp()"></div>
+        <div class="container" style="padding-top:100px;">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div style="background-color:#414141;border-radius:5px;box-shadow:2px 2px 3px rgba(0, 0, 0, 0.3);">
+                        <div style="width: 100%;position: relative">
+                            <img src="/dota2-epic-center/images/bring-friends.jpg" width="100%" />
+                            <div
+                                style="position:absolute;top:50px;left:0;background-color:rgba(255, 110, 0, 0.8);color:white;padding:5px 10px">
+                                چهل میلیون ریال جایزه برای 10 نفر</div>
+                            <div style="padding:10px 20px" class="text-center text-white">
+                                <h2>دوستات رو معرفی کن سکه بگیر!</h2>
+                                <p>با معرفی دوستان خود شانس خود را برای برنده شدن بالا ببرید. کافیست در سایت واج عضو
+                                    شوند!</p>
+                                <div class="btn btn-md btn-warning" onclick="closeFriendsPopUp()"
+                                    style="font-size:14px;min-width:150px;background-color:orange !important;">ادامه به
+                                    صفحه پیش بینی</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(()=>{
+            if(currentUser.dota2EpicCenter2019.invites.length == 0)
+                $("#friends-popup").show();    
+        });
+        function closeFriendsPopUp()
+        {
+            $("#friends-popup").hide();
+        }
+    </script>
 </body>
 
 </html>

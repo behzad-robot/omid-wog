@@ -11,7 +11,8 @@ User.find({}, 5000).then((users) =>
     let results = '';
     for (var i = 0; i < users.length; i++)
     {
-        if (users[i].phoneNumber.indexOf('?') == -1)
+        if (users[i].phoneNumber.indexOf('?') == -1
+        && users[i].phoneNumber.startsWith('09'))
         {
             console.log(users[i].phoneNumber);
             results += users[i].phoneNumber+'\n';

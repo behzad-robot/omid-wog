@@ -1,0 +1,47 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="padding-top:20px">
+        <div class="container">
+
+        </div>
+        <script>
+            let ws = undefined;
+            $(() =>
+            {
+                ws = new WebSocket('ws://localhost:7575');
+                ws.onopen = () =>
+                {
+                    console.log('connected');
+                    sendPacket('join',{});
+                };
+                ws.onclose = (code, reason) =>
+                {
+                    console.log('disconnected => ' + code + '=>' + reason);
+                };
+                ws.onmessage = (ev)=>{
+                    const response = JSON.parse(ev.data);
+                    console.log(response);
+                };
+            });
+            function sendPacket(method,parameters){
+                ws.send(JSON.stringify({
+                    _headers : {
+                        'chat-token' :'yaboo',
+                    },
+                    method : method,
+                    parameters : parameters,
+                }));
+            }
+        </script>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

@@ -10,6 +10,7 @@ export const ADMIN_TOKEN = "hamunhamishegi";
 export const ADMIN_URL = "http://localhost:6565/";
 export const SERVER_FILES_URL = IS_LOCALHOST() ? "http://localhost:8081" : "http://worldofgamers.ir:8080";
 export const STORAGE_BASE_URL = IS_LOCALHOST() ? "http://localhost" : "http://worldofgamers.ir";
+export const CHAT_TOKEN = "yaboo";
 export function SITE_URL(path)
 {
     if (path.indexOf("http://") != -1 || path.indexOf("https://") != -1)

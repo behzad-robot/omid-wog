@@ -39,6 +39,8 @@ import { Dota2QuizHandler } from './routers/dota_quiz_handler';
 import { DotaEpicCenterHandler } from './routers/dota_epic_center_handler';
 import { SocialHandler } from './routers/social_handler';
 import { SocialChallenge } from './models/social_challenge';
+import { SocialChatGroup } from './models/social_chat_group';
+import { SocialChatArchive } from './models/social_chat_archive';
 
 const morgan = require('morgan');
 
@@ -117,6 +119,8 @@ express.expressApp.use('/api/social-posts/', new PublicMongooseAPIRouter(SocialP
 express.expressApp.use('/api/social-hashtags/', new PublicMongooseAPIRouter(SocialHashTag, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-challenges/', new PublicMongooseAPIRouter(SocialChallenge, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social/',socialHandler.httpRouter.router);
+express.expressApp.use('/api/social-chat-groups/', new PublicMongooseAPIRouter(SocialChatGroup, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/social-chat-archives/', new PublicMongooseAPIRouter(SocialChatArchive, { apiTokenRequired: true }).router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 
