@@ -79,7 +79,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
             }
             siteModules.User.apiCall('dota2-epic-center-enter-event', { _id: currentUser._id, userToken: currentUser.token }).then((user) =>
             {
-                console.log(user);
+                // console.log(user);
                 req.session.currentUser = user;
                 req.session.save(() =>
                 {
@@ -317,6 +317,7 @@ export class Dota2EpicCenterRouter extends SiteRouter
                     res.send({ code: 500, error: err.toString() });
                 });
         });
+
         this.router.get('/enter-quiz', (req, res) =>
         {
             let currentUser = req.session.currentUser;
@@ -550,5 +551,44 @@ export class Dota2EpicCenterRouter extends SiteRouter
                 res.status(500).send("ERROR:" + err.toString());
             });
         });
+        this.router.get('/admin/users', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                this.show500(req, res);
+            }
+            siteModules.User.find({ 'dota2EpicCenter2019.enterEvent': true, limit: 5000 }).then((users) =>
+            {
+                let assignChildren = (index, finish) =>
+                {
+                    if (index >= users.length)
+                    {
+                        finish();
+                        return;
+                    }
+                    let user = users[index];
+                    if (user.dota2EpicCenter2019.invites == [])
+                    {
+                        user._invites = [];
+                        assignChildren(index + 1, finish);
+                    }
+                    let ids = [];
+                    for (var i = 0; i < user.dota2EpicCenter2019.invites.length; i++)
+                        ids.push(user.dota2EpicCenter2019.invites[i].userId);
+                    siteModules.User.find({ _ids: ids }).then((children) =>
+                    {
+                        user._invites = children;
+                        assignChildren(index + 1, finish);
+                    }).catch(fail);
+                };
+                assignChildren(0, () =>
+                {
+                    this.renderTemplate(req, res, 'dota2-epic-center/dota2-epic-center-admin-users.html', {
+                        users: users
+                    });
+                });
+            }).catch(fail);
+        });
     }
+
 }

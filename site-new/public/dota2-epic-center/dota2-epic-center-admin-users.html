@@ -1,0 +1,41 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>Dota 2 Epic Center Users Tree</title>
+    <style>
+        body {
+            background-color: #d0d1d2;
+        }
+        .user-card{
+            display: block;
+            background-color:white;
+            border:1px solid #ccc;
+            border-radius:3px;
+            padding:10px 20px;
+            margin-bottom:10px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section>
+        <div class="container">
+            {{#users}}
+            <div class="user-card">
+                <img src="{{profileImage}}" width="64px"/><b>{{username}}</b>
+                <hr>
+                {{#_invites}}
+                <div class="btn btn-md btn-info"><img src="{{profileImage}}" width="64px"/><b>{{username}}</b></div>
+                {{/_invites}}
+            </div>
+            {{/users}}
+        </div>
+    </section>
+    {{{footer}}}
+
+</body>
+
+</html>
