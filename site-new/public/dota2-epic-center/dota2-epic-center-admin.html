@@ -123,26 +123,31 @@
                 }
                 $("#valid-actions").append(`
                     <div class="col-md-4">
-                        <div class="card action-card" style="padding:10px 20px" index="${i}">
+                        <div class="card action-card" style="padding:10px 20px;margin-bottom:5px;" index="${i}">
+                            
                             <div><input type="checkbox" name="active" ${a.active ? 'checked' : ''} style="display:inline;" /><b>active?</b></div>
                             <div><input type="checkbox" name="isBet" ${a.isBet ? 'checked' : ''} style="display:inline;" /><b>isBet?</b></div>
                             ${textInput('title', a.title)}
-                            ${textInput('token', a.token, { readonly: true })}
-                            ${categories_optionBox('category', a.category)}
-                            ${numberInput('reward', a.reward)}
-                            <p>Enter Reward:-1398 for bets that will make user loose coins and -1 for no loose bets.</p>
-                            ${numberInput('maxCoins', a.maxCoins)}
-                            <b>options:</b><textarea name="options">${JSON.stringify(a.options)}</textarea>
-                            ${textInput('answer', a.answer)}
-                            <div><div class="btn btn-sm btn-secondary" onclick="show_teams_screen(${i})">+Add Option</div></div>
-                            <div name="action-options-preview"><b>Options:</b><br>${optionsStr}</div>
-                            <hr>
-                            <div>
-                                <div class="btn btn-sm btn-info" onclick="swap_action(${i},-1)">Move Up</div>
-                                <div class="btn btn-sm btn-info" onclick="swap_action(${i},1)">Move Down</div>
+                            <div class="btn btn-md btn-info" onclick="toggle_action(${i})">Toggle Expand</div>
+                            <div class="action-content" style="display:${!a.active && !isEmptyString(a.answer) ? 'none' : 'block'}">
+                                ${textInput('token', a.token, { readonly: true })}
+                                ${categories_optionBox('category', a.category)}
+                                ${numberInput('reward', a.reward)}
+                                <p>Enter Reward:-1398 for bets that will make user loose coins and -1 for no loose bets.</p>
+                                ${numberInput('maxCoins', a.maxCoins)}
+                                <div><b>options:</b><textarea name="options">${JSON.stringify(a.options)}</textarea></div>
+                                <div>${textInput('answer', a.answer)}</div>
+                                <div><div class="btn btn-sm btn-secondary" onclick="show_teams_screen(${i})">+Add Option</div></div>
+                                <div name="action-options-preview"><b>Options:</b><br>${optionsStr}</div>
+                            
+                                <hr>
+                                <div class="btn btn-md btn-danger" onclick="remove_action(${i})">Remove</div>
                             </div>
                             <hr>
-                            <div class="btn btn-md btn-danger" onclick="remove_action(${i})">Remove</div>
+                            <div>
+                                    <div class="btn btn-sm btn-info" onclick="swap_action(${i},-1)">Move Up</div>
+                                    <div class="btn btn-sm btn-info" onclick="swap_action(${i},1)">Move Down</div>
+                            </div>
                         </div>
                     </div>
                 `);
@@ -152,6 +157,9 @@
                 let index = $(this).closest(".action-card").attr('index');
                 update_action(index);
             });
+        }
+        function toggle_action(i){
+            $(`.action-card[index=${i}] .action-content`).toggle();
         }
         function swap_action(i,dir)
         {

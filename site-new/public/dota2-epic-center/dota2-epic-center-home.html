@@ -309,8 +309,7 @@
             <div class="text-center">
                 {{{TWITCH_CODE_STR}}}
             </div>
-            <!-- <div class="alert alert-danger">دقت داشته باشید! در مرحله حذفی(گروهی) در صورتی که پیش بینی شما اشتباه
-                باشد سکه از دست می دهید!</div> -->
+            <div class="alert alert-info">در روز دوم بازی های Alliance Vs Virtus Pro و NIP vs PSG.LGD به دلیل مشکلی فنی حذف شدند.</div>
             <!-- warning sign -->
             <div class="alert alert-warning" id="warning-alert" style="display:none">^_^</div>
             <!-- start form -->
@@ -502,7 +501,7 @@
                     let results = [];
                     for (var i = 0; i < ACTIONS.length; i++)
                     {
-                        if (ACTIONS[i].category == catToken)
+                        if (ACTIONS[i].category == catToken && ACTIONS[i].isBet)
                             results.push(ACTIONS[i]);
                     }
                     return results;

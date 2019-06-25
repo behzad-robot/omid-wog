@@ -28,6 +28,28 @@
     footer {
       margin: 0;
     }
+
+    .landing-first-section {
+      background-image: url('/epicenter-landing/img/shining-bg.jpg');
+      background-size: cover;
+      background-position: center;
+      padding-top: 150px;
+      padding-bottom: 50px;
+    }
+    .section-1-video{
+      width: 80%;
+      display: block;
+      margin:0 auto;
+    }
+    @media (max-width: 576px){
+      .landing-first-section{
+        padding-top:70px;
+      }
+      .section-1-video{
+        width:100%;
+        margin-top:5px;
+      }
+    }
   </style>
 </head>
 
@@ -76,10 +98,37 @@
     </div>
   </section> -->
   <!--================ Showcase section ===================-->
-  <section>
+  <section class="landing-first-section">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1 col-12"></div>
+        <div class="col-md-5 col-12">
+          <div
+            style="background-color: rgba(0,0,0,0.4);padding:5px 10px;color:white;box-shadow:0px 8px 30px rgba(0, 0, 0, 0.08)">
+            <h3>پیش بینی مسابقات <span class="text-english">Epicenter 2019</span></h3>
+            <p style="font-size:16px;line-height:42px;">
+              پیش بینی مسابقات Epicenter 2019
+              قراره از یکم تا هشتم تیر ماه ۱۶ تیم برتر دوتا ۲ تو مسابقات epicenter، یکی از مهم‌ترین مسابقات e-sports
+              و اخرین Major قبل از <span class="text-english">International 2019</span> در شهر مسکو برای قهرمانی و کسب
+              مجوز ورود به <span class="text-english">International 2019</span>
+              برای کسب 1.000.000 میلیون دلار با هم رقابت کنند. اگه تو هم با این بازی آشنایی داری و فکر می‌کنی از خم
+              و چم تاکتیکاش سر در میاری ولی هیچوقت فرصتشو نداشتی از مهارتت استفاده کنی، می‌تونی تو مسابقه بزرگ واج
+              شرکت کنی و با قرار دادن سکه‌هات روی پیش بینی‌های دقیق و حساب شده هم با به چالش کشیدن خودت هیجان
+              مسابقات رو چند برابر تجربه کنی و هم جایزه ببری. البته یادت نره دوستای دوتا بازت رو هم به ثبت نام تو
+              مسابقه‌ی واج دعوت کنی و اطلاعاتتو به رخشون بکشی.
+            </p>
+          </div>
+        </div>
+        <div class="col-md-5 col-12">
+          <video class="section-1-video" width="80%" loop autoplay muted class="divvideo">
+            <source src="{{#SITE_URL}}/storage/epic-center-2019/epic-center-teaser-lq.m4v{{/SITE_URL}}" type="video/mp4">
 
+          </video>
+        </div>
+      </div>
+    </div>
   </section>
-  <div id="showcase" style="margin:0;">
+  <!-- <div id="showcase" style="margin:0;">
     <div class="showcase" style="">
       <div class="full-width showcase-caption mt-30 mm " style="visibility: visible;">
         <div class="container-fluid">
@@ -87,18 +136,11 @@
             <div class="col-md-6">
               <div class="features-section-2-col-2__content text-white">
                 <h3>پیش بینی مسابقات <span class="text-english">Epicenter 2019</span></h3>
-                <!-- <p>
-                  قراره از یکم تا هشتم تیر ماه ۱۶ تیم برتر دوتا ۲ قراره تو مسابقات epicenter، یکی از مهم‌ترین مسابقات
-                  e-sports، تو شهر مسکو باهم سر قهرمانی و جوایز چندصد دلاری رقابت کنن، اگه تو هم با این بازی آشنایی داری
-                  و فکر می‌کنی از خم و چم تاکتیکاش سر در میاری ولی هیچوقت فرصتشو نداشتی از مهارتت استفاده کنی، می‌تونی
-                  تو مسابقه بزرگ واج شرکت کنی و با قرار دادن سکه‌هات روی پیش بینی‌های دقیق و حساب شده هم با به چالش
-                  کشیدن خودت هیجان مسابقات رو چند برابر تجربه کنی و هم جایزه ببری. البته یادت نره دوستای دوتا بازت رو هم
-                  به ثبت نام تو مسابقه‌ی واج دعوت کنی و اطلاعاتتو به رخشون بکشی.
-                </p> -->
                 <p>
                   پیش بینی مسابقات Epicenter 2019
                   قراره از یکم تا هشتم تیر ماه ۱۶ تیم برتر دوتا ۲ تو مسابقات epicenter، یکی از مهم‌ترین مسابقات e-sports
-                  و اخرین Major قبل از <span class="text-english">International 2019</span> در شهر مسکو برای قهرمانی و کسب مجوز ورود به <span class="text-english">International 2019</span>
+                  و اخرین Major قبل از <span class="text-english">International 2019</span> در شهر مسکو برای قهرمانی و
+                  کسب مجوز ورود به <span class="text-english">International 2019</span>
                   برای کسب 1.000.000 میلیون دلار با هم رقابت کنند. اگه تو هم با این بازی آشنایی داری و فکر می‌کنی از خم
                   و چم تاکتیکاش سر در میاری ولی هیچوقت فرصتشو نداشتی از مهارتت استفاده کنی، می‌تونی تو مسابقه بزرگ واج
                   شرکت کنی و با قرار دادن سکه‌هات روی پیش بینی‌های دقیق و حساب شده هم با به چالش کشیدن خودت هیجان
@@ -121,7 +163,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!--================== Features section =====================-->
   <!-- <div id="features">
@@ -280,7 +322,7 @@
                 <video width="100%" controls>
                   <source src="/storage/epic-center-2019/follow-twitch.webm" type="video/mp4">
                 </video>
-                <h3 class="text-center" style="font-size:20px;">روش اول:امیر فانتوم را در توئتچ دنبال کنید.</h3>
+                <h3 class="text-center" style="font-size:20px;">روش اول:امیر فانتوم را در توییچ دنبال کنید.</h3>
               </div>
 
             </div>
