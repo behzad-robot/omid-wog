@@ -43,29 +43,30 @@ export default class SiteTournamentRouter extends SiteRouter
         });
         this.router.get('/fortnite-2019-join', (req, res) =>
         {
-            if (!this.isLoggedIn(req))
-            {
-                res.redirect('/login');
-                return;
-            }
-            let currentUser = req.session.currentUser;
-            if (currentUser.fortnite2019 != undefined &&
-                currentUser.fortnite2019.hasJoined)
-            {
-                res.redirect('/tournaments/fortnite-2019-status/');
-                return;
-            }
-            siteModules.User.apiCall('join-fortnite-2019', { userToken: req.session.currentUser.token }).then((user) =>
-            {
-                req.session.currentUser = user;
-                req.session.save(() =>
-                {
-                    res.redirect('/tournaments/fortnite-2019-status/');
-                });
-            }).catch((err) =>
-            {
-                res.redirect('/tournaments/fortnite-2019-status/?error=' + err.toString());
-            });
+            res.send('مهلت ثبت نام به پایان رسیده است.');
+            // if (!this.isLoggedIn(req))
+            // {
+            //     res.redirect('/login');
+            //     return;
+            // }
+            // let currentUser = req.session.currentUser;
+            // if (currentUser.fortnite2019 != undefined &&
+            //     currentUser.fortnite2019.hasJoined)
+            // {
+            //     res.redirect('/tournaments/fortnite-2019-status/');
+            //     return;
+            // }
+            // siteModules.User.apiCall('join-fortnite-2019', { userToken: req.session.currentUser.token }).then((user) =>
+            // {
+            //     req.session.currentUser = user;
+            //     req.session.save(() =>
+            //     {
+            //         res.redirect('/tournaments/fortnite-2019-status/');
+            //     });
+            // }).catch((err) =>
+            // {
+            //     res.redirect('/tournaments/fortnite-2019-status/?error=' + err.toString());
+            // });
         });
         this.router.get('/fortnite-2019-status', (req, res) =>
         {
