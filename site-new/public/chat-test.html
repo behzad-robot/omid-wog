@@ -2,6 +2,14 @@
 
 <head>
     {{{head}}}
+    <style>
+        .msg-box {
+            background-color: white;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            padding: 5px 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -9,35 +17,142 @@
     <navfiller></navfiller>
     <section style="padding-top:20px">
         <div class="container">
-
+            <div class="btn btn-md btn-warning" onclick="ws_joinGroup('5d185d9c52f2a4b77001b30c')">Join
+                5d185d9c52f2a4b77001b30c</div>
+            <hr>
+            <div id="log" style="color:#a00;"></div>
+            <div>
+                <b>body:</b>
+                <textarea class="form-control m" name="msg-body"></textarea>
+                <div class="btn btn-md btn-success" onclick="ws_sendMessage()">Send</div>
+            </div>
+            <hr>
+            <div id="messages"></div>
         </div>
         <script>
             let ws = undefined;
+            let isConnected = false;
+            let currentGroupId = '';
             $(() =>
             {
+                connect();
+            });
+            function connect()
+            {
+                console.log('trying to connect....');
                 ws = new WebSocket('ws://localhost:7575');
                 ws.onopen = () =>
                 {
                     console.log('connected');
-                    sendPacket('join',{});
+                    isConnected = true;
                 };
-                ws.onclose = (code, reason) =>
+                ws.onclose = (ev) =>
                 {
-                    console.log('disconnected => ' + code + '=>' + reason);
+                    console.log('disconnected => ' + ev.code + '=>' + ev.reason);
+                    isConnected = false;
+                    // reconnect();
                 };
-                ws.onmessage = (ev)=>{
+                ws.onmessage = (ev) =>
+                {
                     const response = JSON.parse(ev.data);
                     console.log(response);
+                    ws_onMessage(response);
                 };
-            });
-            function sendPacket(method,parameters){
-                ws.send(JSON.stringify({
-                    _headers : {
-                        'chat-token' :'yaboo',
+                // reconnect();
+            }
+            function reconnect()
+            {
+                setTimeout(() =>
+                {
+                    if (!isConnected)
+                        connect();
+                }, 1000);
+            }
+            function sendPacket(method, parameters)
+            {
+                let msg ={
+                    _headers: {
+                        'chat-token': 'yaboo',
                     },
-                    method : method,
-                    parameters : parameters,
-                }));
+                    method: method,
+                    parameters: parameters,
+                };
+                console.log(msg);
+                ws.send(JSON.stringify(msg));
+            }
+            function ws_onMessage(response)
+            {
+                if (response.code != 200)
+                {
+                    $("#log").html(response.error);
+                    return;
+                }
+                if (response.request.method == 'join')
+                {
+                    $("#messages").html(``);
+                    let archive = response._data.archive;
+                    currentGroupId = archive.groupId;
+                    for (var i = 0; i < archive.messages.length; i++)
+                    {
+                        let msg = archive.messages[i];
+                        render_message(msg);
+                    }
+                }
+                else if (response.request.method == 'send-msg')
+                {
+                    let msg = response._data.message;
+                    render_message(msg);
+                }
+                else if(response.request.method == 'delete-msg')
+                {
+                    let msg = response._data.message;
+                    $(`[messageId=${msg._id}]`).remove();
+                }
+            }
+            function ws_joinGroup(groupId)
+            {
+                sendPacket('join', {
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    groupId: groupId,
+                });
+            }
+            function ws_sendMessage()
+            {
+                var body = $("textarea[name=msg-body]").val();
+                sendPacket('send-msg', {
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    groupId: currentGroupId,
+                    body: body,
+                });
+            }
+            function ws_delete_message(messageId)
+            {
+                sendPacket('delete-msg', {
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    groupId: currentGroupId,
+                    messageId : messageId,
+                });
+            }
+            function render_message(msg)
+            {
+                let mine = '';
+                if(msg.userId == `{{{currentUser._id}}}`)
+                {
+                    mine = `<hr>
+                        <div class="btn btn-md btn-danger" onclick="ws_delete_message('${msg._id}')">delete</div>
+                    `;
+                }
+                $("#messages").append(`
+                    <div class="msg-box" messageId="${msg._id}">
+                        <div>${msg.userId}:</div>
+                        <div>${msg.body}</div>
+                        <div><b>createdAt:</b>${msg.createdAt}</div>
+                        ${mine}
+                    </div>
+                `);
             }
         </script>
     </section>

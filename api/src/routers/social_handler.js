@@ -85,6 +85,16 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/upload-file', (req, res) =>
+        {
+            this.handleFile(req, res, 'media', 'social-posts/draft/').then((file) =>
+            {
+                res.send({ code: 200, file: file });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err.toString() });
+            });
+        });
     }
 }
 class SocialSocketRouter extends SocketRouter

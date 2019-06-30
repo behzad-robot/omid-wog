@@ -166,6 +166,8 @@ const WSRouters = [
     new PublicMongooseWSRouter('social-posts', SocialPost, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-hashtags', SocialHashTag, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-challenges', SocialChallenge, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('social-chat-groups', SocialChatGroup, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('social-chat-archives', SocialChatArchive, { apiTokenRequired: true }),
     socialHandler.socketRouter,
 ];
 const easySocket = new EasySocket({

@@ -1,11 +1,13 @@
 
 import { log } from './libs/log';
-import { GetMongoDBURL , IS_LOCALHOST } from './constants';
+import { GetMongoDBURL, IS_LOCALHOST } from './constants';
 import { EasySocket } from './libs/easy-socket';
 import MyExpressApp from './libs/express';
 import { ChatSocketRouter } from './routers/chat_router';
 import { APISocket } from "./utils/api-socket";
 import { User } from './utilsApi/user';
+import { SocialChatGroup } from './utilsApi/social_chat_group';
+import { SocialChatArchive } from './utilsApi/social_chat_archive';
 const morgan = require('morgan');
 
 const express = new MyExpressApp({
@@ -30,16 +32,21 @@ express.expressApp.get('*', (req, res) =>
     res.status(200).send('Welcome to Chat Server');
 });
 const apiSocket = new APISocket();
-
 //modules:
 const chatModules = {
-    User : new User(apiSocket),
+    User: new User(apiSocket),
+    ChatGroup: new SocialChatGroup(apiSocket),
+    ChatArchive: new SocialChatArchive(apiSocket),
 };
 //listen:
 const PORT = 7575;
 express.http.listen(PORT, function ()
 {
     log.success('chat server listening on port ' + PORT);
+    apiSocket.connect(() =>
+    {
+        log.success("api socket connected.");
+    });
 });
 const WSRouters = [
     new ChatSocketRouter(chatModules),
