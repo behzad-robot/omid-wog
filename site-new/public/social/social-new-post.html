@@ -2,17 +2,146 @@
 
 <head>
     {{{head}}}
+    <style>
+        .new-post-box {
+            background-color: white;
+            min-height: 300px;
+            /* border: 1px solid #dddddd; */
+            border-radius: 3px;
+            /* box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1); */
+
+        }
+
+        .new-post-title {
+            background-color: #1F262A;
+            color: white;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .new-post-content {
+            padding: 5px 10px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .new-post-profile-image-wrapper {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .new-post-profile-image-wrapper img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid #eeeeee;
+            vertical-align: top;
+        }
+
+        .new-post-editor {
+            display: inline-block;
+            width: calc(100% - 100px);
+        }
+
+        .new-post-editor textarea {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            height: 200px;
+        }
+
+        .new-post-editor textarea:focus {
+            outline: 1px solid #dddddd;
+        }
+
+        .new-post-files {
+            padding: 10px 20px;
+            border: 1px solid #eeeeee;
+        }
+
+        .new-post-media {
+            padding: 10px 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .media-box {
+            text-align: center;
+            width: 200px;
+            max-width: 100%;
+            padding: 5px;
+            background-color: #eeeeee;
+        }
+
+        .media-box:hover {
+            background-color: #cccccc;
+        }
+
+        .media-box-thumbnail {
+            width: 100%;
+            height: 200px;
+            background-position: center;
+            background-size: cover;
+            margin-bottom: 5px;
+        }
+
+        .btn.btn-xs {
+            font-size: 11px;
+            padding: 3px 6px;
+        }
+
+        .new-post-save {
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 
-<body>
+<body style="background-image:url('/images/banana.jpg');background-position: center;">
     {{{navbar}}}
     <navfiller></navfiller>
-    <div class="container">
-        <h1>New Social Post Page:</h1>
-        <h2>Media:</h2>
-        <div id="media-preview"></div>
-        <div>
-            <b>+Add Media:</b><input id="file-uploader" type="file" name="media" class="form-control m" data-url="/social/posts/uploader"/>
+    <div class="container" style="padding-top:10px;">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="new-post-box">
+                    <div class="new-post-title">ارسال مطلب جدید:</div>
+                    <div class="new-post-content">
+                        <div class="new-post-profile-image-wrapper">
+                            <img src="{{currentUser.profileImage}}" alt="{{currentUser.username}}" />
+                        </div>
+                        <div class="new-post-editor">
+                            <form id="new-post-form" action="/social/posts/new-save" method="POST">
+                                <textarea name="body" placeholder="توضیحات پست خود را وارد کنید..."></textarea>
+                                <textarea name="media" style="vertical-align:middle;display:none;">[]</textarea>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="new-post-files">
+                        <b>عکس/ویدئو مربوطه:</b>
+                        <input class="form-control m" type="file" name="media" id="file-uploader"
+                            data-url="/social/posts/uploader">
+                        <span id="file-uploader-status"></span>
+                    </div>
+                    <div class="new-post-media" id="media-preview" style="display: none">
+                        <!-- <div class="media-box">
+                                    <img
+                                        src="http://worldofgamers.ir/storage/users/5c55c2fe4ecb411ebc334cb2/persona-5-1556444085043.jpg">
+                                    <div class="btn btn-xs btn-danger">حذف</div>
+                                </div> -->
+                    </div>
+                    <div class="new-post-save" style="overflow:hidden;">
+                        <div class="btn btn-md btn-success float-left" id="submit-btn">ارسال</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <h1>ارسال مطلب جدید:</h1> -->
+    <!-- <h2>Media:</h2> -->
+    <!-- <div id="media-preview"></div> -->
+    <!-- <div>
+            <b>+Add Media:</b><input id="file-uploader" type="file" name="media" class="form-control m"
+                data-url="/social/posts/uploader" />
             <br>
             <span id="file-uploader-status"></span>
         </div>
@@ -20,21 +149,25 @@
             <textarea name="media">[]</textarea>
             <hr>
             <b>body:</b><br><textarea class="form-control m" name="body"></textarea><br>
-            <input type="submit" class="btn btn-md btn-success" value="Save"/>
-        </form>
-        <script>
-            let media = [];
+            <input type="submit" class="btn btn-md btn-success" value="Save" />
+        </form> -->
+    <script>
+        let media = [];
+        $(() =>
+        {
             $("#file-uploader").fileupload({
                 dataType: 'json',
-                progressall: function (e, data){
-                    $("#file-uploader-status").html('Uploading...');
+                progressall: function (e, data)
+                {
+                    $("#file-uploader-status").html('در حال آپلود...');
                 },
-                done: function (e, data){
-                    $("#file-uploader-status").html('Uploaded');
+                done: function (e, data)
+                {
+                    $("#file-uploader-status").html('آپلود شد.');
                     console.log(e);
                     console.log(data);
                     console.log(data.result);
-                    if(data.result.code == 200)
+                    if (data.result.code == 200)
                     {
                         media.push(data.result.file.path);
                         render_media();
@@ -43,14 +176,26 @@
                         alert(data.result.error);
                 },
             });
-            function render_media(){
-                $("form [name=media]").html(JSON.stringify(media));
-                $("#media-preview").html('');
-                for(var i = 0 ; i < media.length;i++)
-                    $("#media-preview").append(`<img src="${media[i]}" width="300px"/>`);
-            }
-        </script>
-    </div>
+            $("#submit-btn").click(() =>
+            {
+                $("#new-post-form").submit();
+            });
+        });
+        function render_media()
+        {
+            $("form [name=media]").html(JSON.stringify(media));
+            $("#media-preview").show();
+            $("#media-preview").html('');
+            for (var i = 0; i < media.length; i++)
+                $("#media-preview").append(`
+                    <div class="media-box">
+                        <div class="media-box-thumbnail" style="background-image:url('${media[i]}')"></div>
+                        <div class="btn btn-xs btn-danger">حذف</div>
+                    </div>
+                `);
+        }
+    </script>
+
     {{{footer}}}
 </body>
 

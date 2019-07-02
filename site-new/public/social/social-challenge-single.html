@@ -2,11 +2,151 @@
 
 <head>
     {{{head}}}
+    <title>{{challenge.title}}</title>
+    <meta name="description" content="{{{challenge.description}}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="{{_wogSEO.fullUrl}}">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{challenge.title}}">
+    <meta property="og:description" content="{{{challenge.description}}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{{challenge.description}}}">
+    <meta name="twitter:title" content="{{challenge.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
-        .challenge-card {
-            padding: 10px 20px;
+        .challenge-wrapper-card {
             background-color: white;
+            border-radius: 3px;
+            border: 1px solid #eeeeee;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .challenge-cover {
+            width: 100%;
+            height: 450px;
+            background-position: center;
+            background-size: cover;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .challenge-content {
+            padding: 10px 20px;
+        }
+
+        .challenge-title {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .lastUsers-wrapper {
             display: block;
+            width: 100%;
+            color: #414141 !important;
+            text-decoration: none !important;
+            background-color: white;
+            border-radius: 3px;
+            border: 1px solid #eeeeee;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+            transition: 300ms all;
+            /* padding: 5px 10px; */
+            text-align: center;
+        }
+
+        .lastUsers-wrapper:hover {
+            background-color: rgb(250, 250, 250);
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .lastUsers-wrapper img {
+            display: block;
+            /* border-radius: 50%; */
+            width: 100%;
+            height: auto;
+            margin: 0 auto;
+            margin-bottom: 3px;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+        }
+
+        .lastUsers-wrapper .lastUsers-username {
+            font-weight: bold;
+        }
+
+        #users-screen .users-wrapper {
+            background-color: white;
+            border-radius: 3px;
+            border: 1px solid #eeeeee;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+            height: 60vh;
+            overflow-y: scroll;
+        }
+
+        #users-screen .users-wrapper .user-box {
+            display: block;
+            width: 100%;
+            color: #414141 !important;
+            text-decoration: none !important;
+            padding: 10px 0;
+            border-bottom: 1px solid #cccccc;
+            padding: 5px 10px;
+            transition: 300ms all;
+        }
+
+        #users-screen .users-wrapper .user-box:hover {
+            background-color: #eeeeee;
+        }
+
+        #users-screen .users-wrapper .user-box .profile-image {
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
+        #users-screen .users-wrapper .user-box .username {
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        .post-box {
+            display: block;
+            width: 100%;
+            height: 255px;
+            position: relative;
+        }
+
+        .post-box .post-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: 300ms all;
+            color: white;
+        }
+
+        .post-box:hover .post-overlay {
+            opacity: 1;
+        }
+
+        .post-box .post-thumbnail {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        h2 {
+            font-size: 22px;
         }
     </style>
 </head>
@@ -14,32 +154,126 @@
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
+    <section style=" padding-top:20px;">
     <div class="container">
-        <h1>Challenges:</h1>
-        <div class="challenge-card">
-            <img src="{{challenge.cover}}" width="100%" />
-            <b>active:{{active}}</b>
-            <h2>{{challenge.title}}</h2>
-            <div>{{{challenge.description}}}</div>
-            <div>Hashtag:{{{challenge.tag}}}</div>
-            <div><small>createdAt:{{challenge.createdAt}}</small></div>
-            <hr>
-            <h3>Entrance Fee: {{challenge.entranceFee}}</h3>
-            {{#hasEntered}}
-            <div class="btn btn-md btn-primary">You are in.</div>
-            {{/hasEntered}}
-            {{^hasEntered}}
-            <a class="btn btn-md btn-primary" href="{{#SITE_URL}}/social/challenges/{{challenge._id}}/enter{{/SITE_URL}}">Enter</a>
-            {{/hasEntered}}
-            <a href="{{challenge.postsUrl}}" class="btn btn-md btn-warning">View Posts</a>
+        <div class="challenge-wrapper-card">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="challenge-content">
+                        <h1 class="challenge-title">{{challenge.title}}</h1>
+                        <div>{{{challenge.description}}}</div>
+                        <div style="padding:10px 0;">
+                            <i class="fas fa-coins" style="color:orange;position: relative;top:5px;"></i>&nbsp;<b>ورودی
+                                چالش:</b>&nbsp;<span>{{{challenge.entranceFee}}} سکه</span>
+                        </div>
+                        <div style="color:#414141;padding:10px 0;">
+                            <i class="fas fa-users"
+                                style="position: relative;top:3px;"></i>&nbsp;{{{challenge._users.length}}} کاربر در
+                            این چالش شرکت می کنند.
+                        </div>
+                        <div style="color:#414141;padding:10px 0;">
+                            <i class="fas fa-globe" style="position: relative;top:1px;"></i>&nbsp;
+                            تگ:<a class="text-english"
+                                href="{{#SITE_URL}}/social/posts-archive/?tag={{challenge.tag}}{{/SITE_URL}}">{{{challenge.tag}}}</a>
+                        </div>
+                        {{#challenge.active}}
+                        {{#hasEntered}}
+                        <div class="btn btn-md btn-info">شما در این چالش شرکت می کنید.</div>
+                        {{/hasEntered}}
+                        {{^hasEntered}}
+                        <a class="btn btn-md btn-primary"
+                            href="{{#SITE_URL}}/social/challenges/{{challenge._id}}/enter{{/SITE_URL}}">ورود به
+                            چالش</a>
+                        {{/hasEntered}}
+                        {{/challenge.active}}
+                        {{^challenge.active}}
+                        <div class="btn btn-md btn-secondary">مهلت شرکت در این چالش به اتمام رسیده است.</div>
+                        {{/challenge.active}}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="challenge-cover" style="background-image: url('{{challenge.cover}}')"></div>
+                </div>
+            </div>
         </div>
-        <hr>
-        <h3>Users:</h3>
-        {{#challenges._users}}
-        <a class="btn btn-md btn-info" href="{{siteUrl}}" target="_blank">{{username}}</a>
-        {{/challenges._users}}
+        <!--challenge wrapper card-->
     </div>
+    </section>
+    <section style="padding:10px 0;">
+        <div class="container">
+            <div style="overflow: hidden;">
+                <h2 class="float-right">برخی از شرکت کنندگان:</h2>
+                <div onclick="showUsersScreen()" style="color:#007bff;cursor: pointer;" class="float-left">مشاهده همه
+                </div>
+            </div>
+
+            <div class="row">
+                {{#challenge._lastUsers}}
+                <div class="col-md-2">
+                    <a class="lastUsers-wrapper" href="{{siteUrl}}">
+                        <img src="{{profileImage}}" alt="{{username}}" />
+                        <div class="lastUsers-username">{{username}}</div>
+                    </a>
+                </div>
+                {{/challenge._lastUsers}}
+            </div>
+        </div>
+    </section>
+    <section id="users-screen" style="display: none;position:fixed;width: 100vw;height:100vh;top:0;left:0">
+        <div onclick="hideUsersScreen()"
+            style="position: absolute;width: 100%;height: 100%;background-color:rgba(0, 0, 0, 0.4)"></div>
+        <div class="container" style="padding-top:120px;">
+            <div class="row">
+                <div class="col-md-3 col-12" style="pointer-events:none;"></div>
+                <div class="col-md-6 col-12">
+                    <div class="users-wrapper">
+                        <h3 style="font-weight: bold;font-size:18px;padding:10px 15px;border-bottom:1px solid #cccccc;">
+                            شرکت کنندگان:</h3>
+                        {{#challenge._users}}
+
+                        <a class="user-box" href="{{siteUrl}}">
+                            <img src="{{profileImage}}" alt="{{username}}" class="profile-image" />
+                            <span class="username">{{username}}</span>
+                        </a>
+
+                        {{/challenge._users}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+
+        function showUsersScreen()
+        {
+            $("#users-screen").show();
+        }
+        function hideUsersScreen()
+        {
+            $("#users-screen").hide();
+        }
+    </script>
+    <section id="posts-section">
+        <div class="container">
+            <div style="overflow: hidden;">
+                <h2 class="float-right">آخرین مطالب ارسالی:</h2>
+                <a href="{{#SITE_URL}}/social/posts-archive/?tag={{challenge.tag}}{{/SITE_URL}}"
+                    class="float-left">مشاهده همه
+                </a>
+            </div>
+            <div class="row">
+                {{#posts}}
+                <div class="col-md-3 col-6">
+                    <a class="post-box" href="#">
+                        <div class="post-overlay"></div>
+                        <div class="post-thumbnail" style="background-image: url('{{thumbnail_512x512}}')"></div>
+                    </a>
+                </div>
+                {{/posts}}
+            </div>
+        </div>
+    </section>
     {{{footer}}}
-</body>
+    </body>
 
 </html>

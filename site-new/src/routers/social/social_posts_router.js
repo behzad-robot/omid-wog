@@ -18,6 +18,7 @@ export class SocialPostsRouter extends SiteRouter
         });
         this.router.get('/new', (req, res) =>
         {
+            // console.log("THIS IS FUCKEDUP!");
             this.renderTemplate(req, res, 'social/social-new-post.html', {
 
             });
@@ -53,7 +54,7 @@ export class SocialPostsRouter extends SiteRouter
         });
         this.router.post('/uploader', (req, res) =>
         {
-            this.handleFile(req, res, 'media', 'social-posts/draft/').then((file) =>
+            this.handleFile(req, res, 'media', 'social/posts/draft/').then((file) =>
             {
                 res.send({ code: 200, file: file });
             }).catch((err) =>

@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        <h1>Challenges:</h1>
+        <div class="challenge-card">
+            <img src="{{challenge.cover}}" width="100%" />
+            <b>active:{{active}}</b>
+            <h2>{{challenge.title}}</h2>
+            <div>{{{challenge.description}}}</div>
+            <div>Hashtag:{{{challenge.tag}}}</div>
+            <div><small>createdAt:{{challenge.createdAt}}</small></div>
+            <hr>
+            <h3>Entrance Fee: {{challenge.entranceFee}}</h3>
+            {{#hasEntered}}
+            <div class="btn btn-md btn-primary">You are in.</div>
+            {{/hasEntered}}
+            {{^hasEntered}}
+            <a class="btn btn-md btn-primary" href="{{#SITE_URL}}/social/challenges/{{challenge._id}}/enter{{/SITE_URL}}">Enter</a>
+            {{/hasEntered}}
+            <a href="{{challenge.postsUrl}}" class="btn btn-md btn-warning">View Posts</a>
+        </div>
+        <hr>
+        <h3>Users:</h3>
+        {{#challenges._users}}
+        <a class="btn btn-md btn-info" href="{{siteUrl}}" target="_blank">{{username}}</a>
+        {{/challenges._users}}
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

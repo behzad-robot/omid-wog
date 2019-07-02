@@ -329,8 +329,8 @@ express.expressApp.use('/dota2-book', new Dota2BookRouter(SiteModules).router);
 express.expressApp.use('/dota2-epic-center', new Dota2EpicCenterRouter(SiteModules).router);
 express.expressApp.use('/dota2-quiz', new Dota2QuizRouter(SiteModules).router);
 //social routers:
-express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/posts', new SocialPostsRouter(SiteModules).router);
+express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModules).router);
 
 

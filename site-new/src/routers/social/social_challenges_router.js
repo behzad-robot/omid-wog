@@ -47,6 +47,9 @@ export class SocialChallengesRouter extends SiteRouter
                 siteModules.User.find({ _ids: challenge.users }).then((users) =>
                 {
                     challenge._users = users;
+                    challenge._lastUsers = [];
+                    for (var i = 0; i < users.length && i < 6; i++)
+                        challenge._lastUsers.push(users[i]);
                     let hasEntered = false;
                     for (var i = 0; i < users.length; i++)
                     {
@@ -56,10 +59,16 @@ export class SocialChallengesRouter extends SiteRouter
                             break;
                         }
                     }
-                    this.renderTemplate(req, res, 'social/social-challenge-single.html', {
-                        challenge: challenge,
-                        hasEntered: hasEntered,
-                    });
+                    loadSocialPosts(siteModules, req.session.currentUser, { limit : 4 ,tags: challenge.tag }).then((posts) =>
+                    {
+                        this.renderTemplate(req, res, 'social/social-challenge-single.html', {
+                            challenge: challenge,
+                            posts : posts,
+                            hasEntered: hasEntered,
+                            enoughLastUsers: challenge._lastUsers.length > 6,
+                        });
+                    }).catch(fail);
+
                 }).catch(fail);
             }).catch(fail);
         });
@@ -85,4 +94,45 @@ export class SocialChallengesRouter extends SiteRouter
             });
         });
     }
+}
+const loadSocialPosts = function (siteModules, currentUser, params)
+{
+    return new Promise((resolve, reject) =>
+    {
+        siteModules.SocialPost.find(params).then((posts) =>
+        {
+            for (var i = 0; i < posts.length; i++)
+                posts[i] = fixPost(posts[i], currentUser);
+            let requiredUsersIds = [];
+            for (var i = 0; i < posts.length; i++)
+            {
+                let has = false;
+                for (var j = 0; j < requiredUsersIds.length; j++)
+                {
+                    if (requiredUsersIds[j] == posts[i].userId)
+                    {
+                        has = true;
+                        break;
+                    }
+                }
+                if (!has)
+                    requiredUsersIds.push(posts[i].userId);
+            }
+            siteModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+            {
+                for (var i = 0; i < posts.length; i++)
+                {
+                    for (var j = 0; j < users.length; j++)
+                    {
+                        if (posts[i].userId == users[j]._id)
+                        {
+                            posts[i]._user = users[j];
+                            break;
+                        }
+                    }
+                }
+                resolve(posts);
+            });
+        }).catch(reject);
+    });
 }
