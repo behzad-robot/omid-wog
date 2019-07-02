@@ -21,6 +21,10 @@
     <meta name="twitter:title" content="{{champion.name}}">
     <meta name="twitter:image" content="{{champion.icon}}">
     <style>
+        footer {
+            margin: 0;
+        }
+
         .intro {
             background-image: url('/wiki-dota2/images/trax.jpg');
             background-position: center;
@@ -257,7 +261,6 @@
             background-size: cover;
             background-repeat: no-repeat;
             padding-bottom: 10px;
-            margin-bottom: -20px
         }
 
         .gallery-text {
@@ -473,7 +476,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 ">
+                <div class="col-md-6">
                     <div class="dota-box" style="margin-top: 20px">
                         <div class="dota-box-title">
                             <h2 style="font-size:16px;float:right;">{{champion.name}} Status</h2>
@@ -726,7 +729,7 @@
             </div>
         </div>
     </section>
-    <section class="gallery-section" style="background-image:url('{{champion.iconBlur}}')">
+    <section class="gallery-section" style="background-image:url('{{champion.iconBlur}}');padding-bottom:10px;">
         <div class="container">
             <h1 class="gallery-text">گالری تصاویر {{champion.name}}:</h1>
             <div class="row" style="margin-bottom: 10px">
@@ -740,6 +743,45 @@
             </div>
             <a href="{{#SITE_URL}}/gallery/?champId={{champion._id}}{{/SITE_URL}}"
                 class="more-button btn btn-success text-center">بیشتر</a>
+        </div>
+    </section>
+    <section class="build-archive">
+        <div class="container">
+            <h1 class="gallery-text">آیتم های متداول:</h1>
+            <div style="background-color:#38486d;padding:5px 10px;">
+                <div class="row">
+                    <div class="col-md-4">Item</div>
+                    <div class="col-md-4">Matches Played</div>
+                    <div class="col-md-4">Win Rate</div>
+                </div>
+            </div>
+            {{#champion.featuredItems}}
+            <div class="featuredItem-row" style="background-color:#202d4f;padding:5px 10px;border-bottom:1px solid #38486d">
+                <div class="row">
+                    <div class="col-md-4"><img src="{{_item.icon}}" alt="{{_item.name}}"
+                            style="width:32px;">&nbsp;&nbsp;<span>{{_item.name}}</span></div>
+                    <div class="col-md-4">{{matchesPlayed}}</div>
+                    <div class="col-md-4">{{winRate}}</div>
+                </div>
+            </div>
+            {{/champion.featuredItems}}
+            <div class="more-button featuredItems-more-btn btn btn-success text-center" style="margin-top:10px;">بیشتر
+            </div>
+            <script>
+                $(() =>
+                {
+                    $(".featuredItem-row").hide();
+                    let featuredItemsRows = $(".featuredItem-row");
+                    for (var i = 0; i < featuredItemsRows.length && i < 10; i++)
+                        $(featuredItemsRows[i]).show();
+                    if (featuredItemsRows.length < 10)
+                        $(".featuredItems-more-btn").hide();
+                    $(".featuredItems-more-btn").click(() => { 
+                        $(".featuredItem-row").show();
+                        $(".featuredItems-more-btn").hide();
+                    });
+                });
+            </script>
         </div>
     </section>
 

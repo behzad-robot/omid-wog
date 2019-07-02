@@ -422,11 +422,23 @@ export class Dota2WikiRouter extends SiteRouter
                                         {
                                             champion._stats[champion.stats[i].name] = champion.stats[i].value;
                                         }
+                                        //featuredItems:
+                                        for (var i = 0; i < champion.featuredItems.length; i++)
+                                        {
+                                            for (var j = 0; j < game.items.length; j++)
+                                            {
+                                                if (champion.featuredItems[i].itemId == game.items[j]._id)
+                                                {
+                                                    champion.featuredItems[i]._item = game.items[j];
+                                                    break;
+                                                }
+                                            }
+                                        }
                                         this.renderTemplate(req, res, 'wiki-dota2/dota2-champion-single.html', {
                                             game: game,
                                             champion: champion,
                                             builds: builds,
-                                            topBuilds, topBuilds,
+                                            topBuilds : topBuilds,
                                             media: media,
                                         });
                                     }).catch((err) =>
@@ -491,11 +503,11 @@ export class Dota2WikiRouter extends SiteRouter
                 this.renderTemplate(req, res, 'wiki-dota2/dota2-item-single.html', {
                     item: item,
                     game: game,
-                    noChild : item._children.length == 0,
-                    oneChild : item._children.length == 1,
-                    twoChild : item._children.length == 2,
-                    threeChild : item._children.length == 3,
-                    fourChild : item._children.length == 4,
+                    noChild: item._children.length == 0,
+                    oneChild: item._children.length == 1,
+                    twoChild: item._children.length == 2,
+                    threeChild: item._children.length == 3,
+                    fourChild: item._children.length == 4,
                 });
             });
         });

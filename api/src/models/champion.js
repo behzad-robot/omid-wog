@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { SITE_URL ,API_BASE_URL } from '../constants';
+import { SITE_URL, API_BASE_URL } from '../constants';
 /*
     Champion is playable character.
     Used for games:
@@ -9,24 +9,24 @@ import { SITE_URL ,API_BASE_URL } from '../constants';
     - mortal kombat
  */
 export const ChampionSchema = new mongoose.Schema({
-    gameId: {type:String,default:''},
+    gameId: { type: String, default: '' },
     name: String,
-    nickname : {type:String,default:''},
-    slug: {type:String,default:''},
-    icon: {type:String,default:'?'},
-    icon_tall: {type:String,default:'?'},
-    icon_gif: {type:String,default:'?'},
-    cover: {type:String,default:'?'},
-    cover2: {type:String,default:'?'},
-    iconTransparent : {type:String,default:'?'},
-    iconBlur : {type:String,default:'?'},
-    videoSpotlight: {type:String,default:'?'},
-    description: {type:String,default:''},
-    descriptionPersian: {type:String,default:''},
+    nickname: { type: String, default: '' },
+    slug: { type: String, default: '' },
+    icon: { type: String, default: '?' },
+    icon_tall: { type: String, default: '?' },
+    icon_gif: { type: String, default: '?' },
+    cover: { type: String, default: '?' },
+    cover2: { type: String, default: '?' },
+    iconTransparent: { type: String, default: '?' },
+    iconBlur: { type: String, default: '?' },
+    videoSpotlight: { type: String, default: '?' },
+    description: { type: String, default: '' },
+    descriptionPersian: { type: String, default: '' },
 
-    lore: {type:String,default:'?'},
-    lorePersian: {type:String,default:'?'},
-    loreUrl: {type:String,default:'?'},
+    lore: { type: String, default: '?' },
+    lorePersian: { type: String, default: '?' },
+    loreUrl: { type: String, default: '?' },
 
     //lol,dota:
     roles: Array, //{name , playRate}
@@ -46,18 +46,22 @@ export const ChampionSchema = new mongoose.Schema({
     abilities: Array,
     stats: Array, //{ name : string , value : string}
     talents: Array, //{level : int , a : string , b : string}
-    featuredBuilds : Array,
+    featuredBuilds: Array,
     //dota:
-    attackType: {type:String,default:''},
-    primaryAttr: {type:String,default:''},
+    attackType: { type: String, default: '' },
+    primaryAttr: { type: String, default: '' },
+    featuredItems: {
+        type: Array,
+        default: [], //{ itemId : string , matchesPlayed : string , winRate : string}
+    },
     //mortal combat:
-    variations : Array , // { name : string , icon : string , moves :[] }
-    moves : Array, //{ _id : string , isSpecial : boolean , name : string, description : string, video : string, buttons : string [] }
-    
-    
+    variations: Array, // { name : string , icon : string , moves :[] }
+    moves: Array, //{ _id : string , isSpecial : boolean , name : string, description : string, video : string, buttons : string [] }
+
+
     createdAt: String,
     updatedAt: String,
-    _draft : {type : Boolean , default : false},
+    _draft: { type: Boolean, default: false },
 }, {
         toObject: {
             virtuals: true
@@ -104,7 +108,7 @@ ChampionSchema.virtual('_stats').get(function ()
 {
     let stats = this.stats;
     let result = {};
-    for(var i = 0 ; i < stats.length;i++)
+    for (var i = 0; i < stats.length; i++)
     {
         var s = stats[i];
         result[s.name] = s.value;
@@ -115,24 +119,24 @@ ChampionSchema.virtual('_stats').get(function ()
 
 export const Champion = mongoose.model('Champion', ChampionSchema);
 Champion.Helpers = {
-    hasDraft : () => true ,
+    hasDraft: () => true,
     public: (doc) =>
     {
-        if(doc.icon)
+        if (doc.icon)
             doc.icon = SITE_URL(doc.icon);
-        if(doc.icon_tall)
+        if (doc.icon_tall)
             doc.icon_tall = SITE_URL(doc.icon_tall);
-        if(doc.icon_gif)
+        if (doc.icon_gif)
             doc.icon_gif = SITE_URL(doc.icon_gif);
-        if(doc.cover)
+        if (doc.cover)
             doc.cover = SITE_URL(doc.cover);
-        if(doc.cover2)
+        if (doc.cover2)
             doc.cover2 = SITE_URL(doc.cover2);
-        if(doc.abilities)
+        if (doc.abilities)
         {
-            for(var i = 0 ; i < doc.abilities.length;i++)
+            for (var i = 0; i < doc.abilities.length; i++)
             {
-                if(doc.abilities[i].icon)
+                if (doc.abilities[i].icon)
                     doc.abilities[i].icon = SITE_URL(doc.abilities[i].icon);
             }
         }

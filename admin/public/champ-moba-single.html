@@ -45,6 +45,8 @@
                     c.featuredBuilds = [];
                 if (c.lorePersian == undefined)
                     c.lorePersian = '';
+                if (c.featuredItems == undefined)
+                    c.featuredItems = [];
                 champion = c;
                 console.log(champion);
                 getObject('games', champion.gameId, (g) =>
@@ -82,8 +84,9 @@
                     $("#single").append(jsonInput('stats', champion.stats));
                     $("#single").append(jsonInput('talents', champion.talents));
                     $("#single").append(jsonInput('featuredBuilds', champion.featuredBuilds));
+                    $("#single").append(jsonInput('featuredItems', champion.featuredItems));
                     $("#single").append(submitBtn());
-                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)
+                    $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;z-index:99999"/>`)
                     //extras:
                     $("#extra").append(`<div id="roles"></div>`);
                     roles_recreate();
@@ -93,11 +96,20 @@
                     stats_recreate();
                     $("#extra").append(`<div id="talents"></div>`);
                     talents_recreate();
+                    $("#extra").append(`<div id="featuredItems"></div>`);
+                    featuredItems_recreate();
                     // $("#extra").append(`<div id="media"></div>`);
                     // media_recreate();
                 });
 
             });
+            function get_item(itemId)
+            {
+                for (var i = 0; i < game.items.length; i++)
+                    if (game.items[i]._id == itemId)
+                        return game.items[i];
+                return undefined;
+            }
             function scroll_to(el)
             {
                 $('html, body').animate({
@@ -344,6 +356,59 @@
             {
                 champion.talents.splice(i, 1);
                 talents_recreate();
+            }
+            function featuredItems_recreate()
+            {
+                $("[name=featuredItems]").val(JSON.stringify(champion.featuredItems));
+                $("#featuredItems").html('<h3>featuredItems:</h3><div class="btn btn-md btn-secondary" onclick="featuredItems_add()">+Add Item</div><div class="row"></div>');
+                for (var i = 0; i < champion.featuredItems.length; i++)
+                {
+                    var it = champion.featuredItems[i];
+                    let item = get_item(champion.featuredItems[i].itemId);
+                    let itemName = item == undefined ? 'undefined' : item.name;
+                    $("#featuredItems .row").append(`
+                        <div class="col-md-6 col-12">
+                            <div class="box-row featuredItem-box" index="${i}">
+                                <div name="itemName">${itemName}</div>
+                                ${textInput('itemId', it.itemId)}
+                                ${textInput('matchesPlayed', it.matchesPlayed)}
+                                ${textInput('winRate', it.winRate)}
+                                <hr>
+                                <div class="btn btn-sm btn-danger" onclick="featuredItems_remove(${i})">Remove</div>
+                            </div>
+                        </div>
+                    `);
+                }
+                $("#featuredItems input").change(function ()
+                {
+                    let index = $(this).closest(".featuredItem-box").attr('index');
+                    featuredItems_update(index);
+                });
+            }
+            function featuredItems_add()
+            {
+                champion.featuredItems.push({
+                    itemId: '',
+                    matchesPlayed: '',
+                    winRate: '',
+                });
+                featuredItems_recreate();
+            }
+            function featuredItems_remove(index)
+            {
+                champion.featuredItems.splice(index, 1);
+                featuredItems_recreate();
+            }
+            function featuredItems_update(i)
+            {
+                champion.featuredItems[i] = {
+                    itemId: $(`.featuredItem-box[index=${i}] [name=itemId]`).val(),
+                    matchesPlayed: $(`.featuredItem-box[index=${i}] [name=matchesPlayed]`).val(),
+                    winRate: $(`.featuredItem-box[index=${i}] [name=winRate]`).val(),
+                };
+                let item = get_item(champion.featuredItems[i].itemId);
+                $(`.featuredItem-box[index=${i}] [name=itemName]`).html(item != undefined ? item.name : 'ITEM NOT FOUND!'),
+                    $("[name=featuredItems]").val(JSON.stringify(champion.featuredItems));
             }
             function media_recreate()
             {

@@ -32,44 +32,48 @@
             let champs = [];
             $("#new-build").hide();
             $("#loading").show();
-            findObjects('builds', (builds) => {
-                console.log((builds));
-                for (var i = 0; i < builds.length; i++) {
-                    var build = builds[i];
-                    $("#list").append(
-                        `<div class="box-row">`
-                        + `<h4>${build.title}</h4>`
-                        + `<p><${build.description}</p><hr/>`
-                        + `<p><b>userId: </b>${build.userId}</p>`
-                        + `<small><b>createdAt: </b>${build.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${build.updatedAt}</small><hr />`
-                        + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/builds/${build._id}">Edit</a></div>`
-                        + `</div>`
-                    );
-                }
-                // findObjects('games', (games) => {
-                //     for (var i = 0; i < games.length; i++) {
-                //         const game = games[i];
-                //         $("#games").append(
-                //             `<option value="${game._id}">${game.name}</option>`
-                //         );
+            $(() =>
+            {
+                findObjects('builds', (builds) =>
+                {
+                    console.log((builds));
+                    for (var i = 0; i < builds.length; i++)
+                    {
+                        var build = builds[i];
+                        $("#list").append(
+                            `<div class="box-row">`
+                            + `<h4>${build.title}</h4>`
+                            + `<p><${build.description}</p><hr/>`
+                            + `<p><b>userId: </b>${build.userId}</p>`
+                            + `<small><b>createdAt: </b>${build.createdAt}</small>&nbsp;&nbsp;<small><b>updatedAt:</b>${build.updatedAt}</small><hr />`
+                            + `<div class="text-right"><a class="btn btn-md btn-info" href="/admin/builds/${build._id}">Edit</a></div>`
+                            + `</div>`
+                        );
+                    }
+                    // findObjects('games', (games) => {
+                    //     for (var i = 0; i < games.length; i++) {
+                    //         const game = games[i];
+                    //         $("#games").append(
+                    //             `<option value="${game._id}">${game.name}</option>`
+                    //         );
 
-                //     }
-                //     findObjects('champions', (cs) => {
-                //         champs = cs;
-                //         console.log(champs);
-                //         $("#new-build").show();
-                //         $("#loading").hide();
-                //         $("#games").change(function () {
-                //             $("#champs").html("");
-                //             var gameId = $("#games").val();
-                //             alert(gameId);
-                //             for (var i = 0; i < champs.length; i++) {
-                //                 console.log(champs[i].gameId + ',' + champs[i].name);
-                //                 if (champs[i].gameId == gameId)
-                //                     $("#champs").append(`<option value="${champs[i]._id}">${champs[i].name}</option>`)
-                //             }
-                //         });
-                //     });
+                    //     }
+                    //     findObjects('champions', (cs) => {
+                    //         champs = cs;
+                    //         console.log(champs);
+                    //         $("#new-build").show();
+                    //         $("#loading").hide();
+                    //         $("#games").change(function () {
+                    //             $("#champs").html("");
+                    //             var gameId = $("#games").val();
+                    //             alert(gameId);
+                    //             for (var i = 0; i < champs.length; i++) {
+                    //                 console.log(champs[i].gameId + ',' + champs[i].name);
+                    //                 if (champs[i].gameId == gameId)
+                    //                     $("#champs").append(`<option value="${champs[i]._id}">${champs[i].name}</option>`)
+                    //             }
+                    //         });
+                    //     });
 
                 });
             });

@@ -2,6 +2,100 @@
 
 <head>
     {{{head}}}
+    <title>ویرایش مطلب</title>
+    <style>
+        .new-post-box {
+            background-color: white;
+            min-height: 300px;
+            /* border: 1px solid #dddddd; */
+            border-radius: 3px;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .new-post-title {
+            background-color: #1F262A;
+            color: white;
+            border-top-right-radius: 3px;
+            border-top-left-radius: 3px;
+            padding: 10px 20px;
+            font-weight: bold;
+        }
+
+        .new-post-content {
+            padding: 5px 10px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .new-post-profile-image-wrapper {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .new-post-profile-image-wrapper img {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: 1px solid #eeeeee;
+            vertical-align: top;
+        }
+
+        .new-post-editor {
+            display: inline-block;
+            width: calc(100% - 100px);
+        }
+
+        .new-post-editor textarea {
+            width: 100%;
+            border: none;
+            padding: 10px;
+            height: 200px;
+        }
+
+        .new-post-editor textarea:focus {
+            outline: 1px solid #dddddd;
+        }
+
+        .new-post-files {
+            padding: 10px 20px;
+            border: 1px solid #eeeeee;
+        }
+
+        .new-post-media {
+            padding: 10px 20px;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .media-box {
+            display: inline-block;
+            text-align: center;
+            width: 150px;
+            max-width: 100%;
+            padding: 5px;
+            background-color: #eeeeee;
+        }
+
+        .media-box:hover {
+            background-color: #cccccc;
+        }
+
+        .media-box-thumbnail {
+            width: 100%;
+            height: 150px;
+            background-position: center;
+            background-size: cover;
+            margin-bottom: 5px;
+        }
+
+        .btn.btn-xs {
+            font-size: 11px;
+            padding: 3px 6px;
+        }
+
+        .new-post-save {
+            padding: 10px 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -11,21 +105,54 @@
         {{#success}}
         <div class="alert alert-success">تغییرات شما با موفقیت انجام شد.</div>
         {{/success}}
-        <h1>Edit Social Post Page:</h1>
-        <h2>Media:</h2>
-        <div id="media-preview">
-            {{#post.media}}
-            <img src="{{.}}" width="300px"/>
-            {{/post.media}}
+        <div class="container" style="padding-top:10px;">
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
+                    <div class="new-post-box">
+                        <div class="new-post-title">ویرایش مطلب:</div>
+                        <div class="new-post-content">
+                            <div class="new-post-profile-image-wrapper">
+                                <img src="{{currentUser.profileImage}}" alt="{{currentUser.username}}" />
+                            </div>
+                            <div class="new-post-editor">
+                                <form id="edit-post-form" action="/social/posts/edit-save/{{post._id}}" method="POST">
+                                    <textarea name="body"
+                                        placeholder="توضیحات پست خود را وارد کنید...">{{{post.body}}}</textarea>
+                                    <!-- <textarea name="media" style="vertical-align:middle;display:none;">[]</textarea> -->
+                                </form>
+                            </div>
+                        </div>
+                        <!-- <div class="new-post-files">
+                            <b>عکس/ویدئو مربوطه:</b>
+                            <input class="form-control m" type="file" name="media" id="file-uploader"
+                                data-url="/social/posts/uploader">
+                            <span id="file-uploader-status"></span>
+                        </div> -->
+                        <div class="new-post-media" id="media-preview">
+                            {{#post.media}}
+                            <div class="media-box">
+                                <div class="media-box-thumbnail" style="background-image:url('{{{.}}}')"></div>
+                            </div>
+                            {{/post.media}}
+                        </div>
+                        <div class="new-post-save" style="overflow:hidden;">
+                            <div class="btn btn-md btn-success float-left" id="submit-btn">ارسال</div>
+                            <a href="{{#SITE_URL}}/social/posts/delete/{{post._id}}{{/SITE_URL}}"
+                                class="btn btn-sm btn-danger float-right">حذف</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <form action="/social/posts/edit-save/{{post._id}}" method="POST">
-            <b>body:</b><br><textarea class="form-control m" name="body">{{{post.body}}}</textarea><br>
-            <input type="submit" class="btn btn-md btn-success" value="Save"/>
-        </form>
-        <script>
-        </script>
     </div>
     {{{footer}}}
+    <script>
+        $("#submit-btn").click(() =>
+        {
+            $("#edit-post-form").submit();
+        });
+    </script>
 </body>
 
 </html>

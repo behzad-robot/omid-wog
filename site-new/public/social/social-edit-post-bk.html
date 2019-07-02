@@ -1,0 +1,31 @@
+<html>
+
+<head>
+    {{{head}}}
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        {{#success}}
+        <div class="alert alert-success">تغییرات شما با موفقیت انجام شد.</div>
+        {{/success}}
+        <h1>Edit Social Post Page:</h1>
+        <h2>Media:</h2>
+        <div id="media-preview">
+            {{#post.media}}
+            <img src="{{.}}" width="300px"/>
+            {{/post.media}}
+        </div>
+        <form action="/social/posts/edit-save/{{post._id}}" method="POST">
+            <b>body:</b><br><textarea class="form-control m" name="body">{{{post.body}}}</textarea><br>
+            <input type="submit" class="btn btn-md btn-success" value="Save"/>
+        </form>
+        <script>
+        </script>
+    </div>
+    {{{footer}}}
+</body>
+
+</html>

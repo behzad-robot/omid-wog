@@ -68,6 +68,7 @@ export class SocialPostsRouter extends SiteRouter
             {
                 this.renderTemplate(req, res, 'social/social-edit-post.html', {
                     post: post,
+                    success: req.query.success,
                 });
             }).catch((err) =>
             {
@@ -84,7 +85,7 @@ export class SocialPostsRouter extends SiteRouter
 
             }).then((post) =>
             {
-                res.redirect('/social/posts/edit/' + post._id);
+                res.redirect('/social/posts/edit/' + post._id+'/?success=true');
             }).catch((err) =>
             {
                 this.show500(req, res, err.toString());
