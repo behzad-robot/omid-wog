@@ -40,6 +40,8 @@ export class SocialPost extends SocketCollection
     fixOne(u)
     {
         u.siteUrl = SITE_URL('/social/posts/' + u._id);
+        u.editUrl = SITE_URL('/social/posts/edit/' + u._id);
+        u.deleteUrl = SITE_URL('/social/posts/delete/' + u._id);
         return u;
     }
     fixAll(cs)

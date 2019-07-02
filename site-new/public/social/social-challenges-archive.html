@@ -3,10 +3,13 @@
 <head>
     {{{head}}}
     <style>
-        .challenge-card{
-            padding:10px 20px;
-            background-color:white;
+        .challenge-card {
+            background-color: white;
             display: block;
+            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+            border-radius: 4px;
+            border: 1px solid #dddddd;
+            padding: 10px 20px;
         }
     </style>
 </head>
@@ -14,20 +17,38 @@
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <div class="container">
-        <h1>Challenges:</h1>
-        {{#challenges}}
-        <div class="challenge-card">
-            <img src="{{cover}}" width="100%"/>
-            <b>active:{{active}}</b>
-            <h2>{{title}}</h2>
-            <div>{{{description}}}</div>
-            <div>Hashtag:{{{tag}}}</div>
-            <div><small>createdAt:{{createdAt}}</small></div>
-            <a href="{{siteUrl}}" class="btn btn-md btn-info">View</a>
-            <a href="{{postsUrl}}" class="btn btn-md btn-warning">View Posts</a>
+    <div class="container" style="padding-top:20px;">
+        <h1>آرشیو چالش ها:</h1>
+        <div class="row">
+            <div class="col-md-8">
+                {{#challenges}}
+                <div class="challenge-card">
+                    <a href="{{siteUrl}}"><img src="{{cover}}" width="100%" style="margin-bottom:10px;" /></a>
+                    <!-- <b>active:{{active}}</b> -->
+                    <h2 style="font-size:22px;font-weight: bold;">{{title}}</h2>
+                    <div>{{{description}}}</div>
+                    <div class="btn btn-md btn-warning">هشتگ:<a class="text-english"
+                            href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}">{{{tag}}}</a>
+                    </div>
+                    <hr>
+                    <!-- <div><small>createdAt:{{createdAt}}</small></div> -->
+                    {{#active}}
+                    <a href="{{siteUrl}}" class="btn btn-md btn-info">مشاهده و ورود</a>
+                    {{/active}}
+                    {{^active}}
+                    <a href="{{siteUrl}}" class="btn btn-md btn-secondary">مشاهده</a>
+                    {{/active}}
+                    <a href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}"
+                        class="btn btn-md btn-warning">مشاهده پست های مربوطه</a>
+                </div>
+                {{/challenges}}
+            </div>
+            <div class="col-md-4">
+                <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                        width="100%" /></a>
+            </div>
         </div>
-        {{/challenges}}
+
     </div>
     {{{footer}}}
 </body>

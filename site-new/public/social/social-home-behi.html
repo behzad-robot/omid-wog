@@ -1,0 +1,156 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .post-card {
+            display: block;
+            background-color: white;
+        }
+
+        .post-card:hover {}
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <div class="container">
+        <div class="alert alert-warning">
+            <a href="/social/posts/new" class="btn btn-md btn-dark">+New Post</a>
+        </div>
+        <div class="alert alert-info">Imagine Communties Here</div>
+        <div class="row">
+            <div class="col-md-8">
+                <h4>Posts:</h4>
+                {{#posts}}
+                <div class="card post-card" href="{{siteUrl}}" style="padding:10px 20px;margin-bottom:10px;"
+                    postId="{{_id}}">
+                    <div>
+                        <img src="{{_user.profileImage}}" style="border-radius:50%;width:48px;height:48px;" />
+                        <b>{{_user.username}}</b>
+                    </div>
+                    <hr />
+                    <a href="{{siteUrl}}">
+                        <img src="{{media.0}}" width="100%" />
+                    </a>
+                    <div>{{{body}}}</div>
+                    <hr />
+                    <div>
+                        <span name="like-count">Likes:{{likes.length}}</span>
+                        <div class="btn btn-md btn-info btn-like" liked="{{_isLiked}}" loading="false" postId="{{_id}}">
+                            {{#_isLiked}}Un-Like{{/_isLiked}}{{^_isLiked}}Like{{/_isLiked}}</div>
+                    </div>
+                    <hr />
+                    {{#_isMine}}
+                    <div>
+                        <a href="{{#SITE_URL}}/social/posts/edit/{{_id}}{{/SITE_URL}}" target="_blank"
+                            class="btn btn-md btn-info">Edit</a>
+                        <a href="{{#SITE_URL}}/social/posts/delete/{{_id}}{{/SITE_URL}}"
+                            class="btn btn-md btn-danger">Delete</a>
+                    </div>
+                    {{/_isMine}}
+                    <hr>
+                    <div>
+                        <b>Comments:</b><br>
+                        {{#_comments}}
+                        <div style="direction: ltr;text-align:left;"><b>{{_user.username}}:</b> {{{body}}}</div>
+                        {{/_comments}}
+                    </div>
+                </div>
+                {{/posts}}
+            </div>
+            <div class="col-md-4">
+                {{#hasSuggestedHashtags}}
+                <h4>Recommended HashTags:</h4>
+                {{#suggestedHashtags}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div>
+                        <img src="{{icon}}" style="width:48px;height:48px;border-radius:50%">
+                        <span>{{name}}</span>
+                        <a href="{{#SITE_URL}}/social/follow-hashtag/?tagId={{_id}}&redirect=/social{{/SITE_URL}}"
+                            class="btn btn-sm btn-primary">Follow</a>
+                    </div>
+                </div>
+                {{/suggestedHashtags}}
+                {{/hasSuggestedHashtags}}
+                {{#hasSuggestedUsers}}
+                <h4>Recommended Users:</h4>
+                {{#suggestedUsers}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div>
+                        <img src="{{profileImage}}" style="width:48px;height:48px;border-radius:50%">
+                        <span>{{username}}</span>
+                        <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
+                            class="btn btn-sm btn-primary">Follow</a>
+                    </div>
+                </div>
+                {{/suggestedUsers}}
+                {{/hasSuggestedUsers}}
+                {{#hasChallenges}}
+                <h4>Challenges:</h4>
+                {{#challenges}}
+                <div class="card" style="padding:10px 20px;margin-bottom:5px;">
+                    <div class="text-center">
+                        <img src="{{cover}}" width="100%">
+                        <span>{{title}}</span>
+                        <a href="{{siteUrl}}" class="btn btn-sm btn-primary">View</a>
+                    </div>
+                </div>
+                {{/challenges}}
+                {{/hasChallenges}}
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $(() =>
+        {
+            $(".btn-like").click(function ()
+            {
+                let loading = $(this).attr('loading') == 'true';
+                let postId = $(this).attr('postId');
+                let liked = $(this).attr('liked') == 'true';
+                if (loading)
+                    return;
+                $(this).html('Loading...');
+                fetch('/social/set-post-like/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: postId,
+                        like: !liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then(response => response.json()).then((response) =>
+                {
+                    if (response.code != 200)
+                    {
+                        console.log(response.error);
+                        alert(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('loading', false);
+                        $(this).attr('liked', !liked);
+                        $(this).html(liked ? 'Like' : 'Un-Like');
+                        let post = response._data;
+                        console.log(post);
+                        $(`.post-card[postId=${post._id}] [name=like-count]`).html(post.likes.length);
+                    }
+                }).catch((err) =>
+                {
+                    console.log(err);
+                    alert(err);
+                });
+            });
+        });
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

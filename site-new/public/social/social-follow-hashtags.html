@@ -1,0 +1,127 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>به شبکه اجتماعی واج خوش آمدید</title>
+    <style>
+        h1 {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .tag-box {
+            width: 100%;
+            height: 150px;
+            background-position: center;
+            background-size: cover;
+            background-color: orange;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .tag-box .tag-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: inherit;
+            color: white;
+            text-align: center;
+            padding-top: 50px;
+            font-size: 18px;
+            opacity: 0;
+            transition: 300ms opacity;
+            pointer-events: none;
+        }
+
+        .tag-box .tag-checkmark {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: white;
+            z-index: 2;
+            display: none;
+            pointer-events: none;
+        }
+
+        .tag-box:hover .tag-overlay {
+            opacity: 1;
+        }
+
+        .tag-box.selected .tag-checkmark {
+            display: block;
+        }
+
+        .tag-box.selected .tag-overlay {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="tags-section" style="padding:20px 0;min-height:80vh;">
+        <div class="container">
+            <form action="/social/welcome-submit" method="POST">
+                <h1>به شبکه اجتماعی واج خوش آمدید:</h1>
+                <p>برای شروع بازی های که دوست دارید را دنبال کنید.(حداقل 2 بازی)</p>
+                <div class="row">
+                    {{#hashTags}}
+                    <div class="col-md-4 col-6">
+                        <div class="tag-box" style="background-image: url('{{{cover}}}')" tagId="{{_id}}">
+                            <div class="tag-checkmark"><i class="fas fa-check-square"></i></div>
+                            <div class="tag-overlay">{{name}}</div>
+                        </div>
+                    </div>
+                    {{/hashTags}}
+                </div>
+                <div class="text-center" style="padding:10px 0">
+                    <textarea name="tags" style="display: none">[]</textarea>
+                    <input type="submit" class="btn btn-md btn-warning" value="ثبت و ادامه" style="display: none;" />
+                </div>
+            </form>
+        </div>
+    </section>
+    {{{footer}}}
+    <script>
+        let tags = [];
+        $(() =>
+        {
+            $(".tag-box").click(function ()
+            {
+                let tagId = $(this).attr('tagId');
+                let selected = $(this).hasClass('selected');
+                if (selected)
+                {
+                    $(this).removeClass('selected');
+                    for (var i = 0; i < tags.length; i++)
+                    {
+                        if (tags[i] == tagId)
+                        {
+                            tags.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    $(this).addClass('selected');
+                    tags.push(tagId);
+                }
+                $("[name=tags]").val(JSON.stringify(tags));
+                if (tags.length >= 2)
+                    $("input[type=submit]").show();
+                else
+                    $("input[type=submit]").hide();
+            });
+        });
+    </script>
+</body>
+
+</html>

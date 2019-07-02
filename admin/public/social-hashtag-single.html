@@ -30,6 +30,7 @@
                 $("#single").append(textInput('name', hashTag.name));
                 $("#single").append(textInput('gameId', hashTag.gameId));
                 $("#single").append(filePickTool(undefined, 'icon', hashTag.icon));
+                $("#single").append(filePickTool(undefined, 'cover', hashTag.cover));
                 $("#single").append(jsonInput('tags', hashTag.tags));
                 $("#single").append(submitBtn());
                 $("#single").append(`<input type="submit" value="Save" class="btn btn-md btn-success" style="position:fixed;bottom:10px;right:10px;"/>`)

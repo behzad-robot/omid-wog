@@ -80,6 +80,11 @@ export class SocialMainRouter extends SiteRouter
         });
         this.router.get('/', (req, res) =>
         {
+            if (req.session.currentUser.social.followedHashtags.length == 0)
+            {
+                res.redirect('/social/welcome');
+                return;
+            }
             let fail = (err) =>
             {
                 this.show500(req, res, err);
@@ -113,8 +118,8 @@ export class SocialMainRouter extends SiteRouter
                                     hasSuggestedUsers: suggestedUsers.length != 0,
                                     suggestedHashtags: suggestedHashtags,
                                     hasSuggestedHashtags: suggestedHashtags.length != 0,
-                                    challenges : challenges,
-                                    hasChallenges : challenges.length != 0 ,
+                                    challenges: challenges,
+                                    hasChallenges: challenges.length != 0,
                                 });
                             });
 
@@ -147,6 +152,53 @@ export class SocialMainRouter extends SiteRouter
                 }).catch(fail);
 
             }).catch(fail);
+        });
+        this.router.get('/welcome', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                this.show500(req, res, err);
+            };
+            siteModules.SocialHashtag.find({}).then((hashTags) =>
+            {
+                this.renderTemplate(req, res, 'social/social-follow-hashtags.html', {
+                    hashTags
+                });
+            }).catch(fail);
+        });
+        this.router.post('/welcome-submit', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                this.show500(req, res, err);
+            };
+            // console.log(req.body.tags);
+            let tags = JSON.parse(req.body.tags);
+            let followTag = (index, finish) =>
+            {
+                if (index >= tags.length)
+                {
+                    finish();
+                    return;
+                }
+                siteModules.User.apiCall('set-follow-hashtag', {
+                    userId: req.session.currentUser._id,
+                    userToken: req.session.currentUser.token,
+                    tagId: tags[index],
+                    follow: true
+                }).then((user) =>
+                {
+                    req.session.currentUser = user;
+                    req.session.save(() =>
+                    {
+                        followTag(index + 1, finish);
+                    });
+                }).catch(fail);
+            };
+            followTag(0, () =>
+            {
+                res.redirect('/social');
+            }); 
         });
     }
 }

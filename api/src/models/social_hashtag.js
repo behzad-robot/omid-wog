@@ -7,6 +7,7 @@ const persianDate = require('persian-date');
 export const SocialHashTagSchema = new mongoose.Schema({
     name : String,
     icon : String,
+    cover : String,
     tags : Array,
     gameId : String,
     createdAt: String,
