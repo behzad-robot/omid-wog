@@ -66,13 +66,15 @@
         src: url('/webfonts/IRANSansWeb(FaNum)_Medium.eot');
         src: url('/webfonts/IRANSansWeb(FaNum)_Medium.eot?#iefix') format('embedded-opentype'), url('/webfonts/IRANSansWeb(FaNum)_Medium.woff') format('woff'), url('/webfonts/IRANSansWeb(FaNum)_Medium.ttf') format('truetype');
     }
-    @font-face{
+
+    @font-face {
         font-family: mkserif;
         font-style: normal;
         font-weight: 500;
         src: url('/webfonts/mk-serif.woff');
     }
-    @font-face{
+
+    @font-face {
         font-family: fortnite;
         font-style: normal;
         font-weight: 500;
@@ -119,8 +121,21 @@
     }
 </script>
 <script>
-    function toggleDota2Shortcut(){
+    function toggleDota2Shortcut()
+    {
         let l = $(".dota2-shortcuts").css('left');
-        $(".dota2-shortcuts").css('left',(l == '0px' ? -128 : 0)+'px');
+        $(".dota2-shortcuts").css('left', (l == '0px' ? -128 : 0) + 'px');
     }
+</script>
+<script>
+    !function (t, e, n)
+    {
+        t.yektanetAnalyticsObject = n, t[n] = t[n] || function ()
+        {
+            t[n].q.push(arguments)
+        }, t[n].q = t[n].q || [];
+        var a = new Date, r = a.getFullYear().toString() + "0" + a.getMonth() + "0" + a.getDate() + "0" + a.getHours(),
+            c = e.getElementsByTagName("script")[0], s = e.createElement("script");
+        s.async = 1, s.type = "text/javascript", s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v2/yn-14761-adv/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c)
+    }(window, document, "yektanet");
 </script>
