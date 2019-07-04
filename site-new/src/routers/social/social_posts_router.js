@@ -41,7 +41,7 @@ export class SocialPostsRouter extends SiteRouter
                 userId: req.session.currentUser._id,
                 userToken: req.session.currentUser.token,
                 body: req.body.body,
-                media : JSON.parse(req.body.media),
+                media: JSON.parse(req.body.media),
 
             }).then((post) =>
             {
@@ -66,6 +66,11 @@ export class SocialPostsRouter extends SiteRouter
         {
             siteModules.SocialPost.getOne(req.params._id).then((post) =>
             {
+                if (post.userId != req.session.currentUser._id)
+                {
+                    res.status(400).send('access denied');
+                    return;
+                }
                 this.renderTemplate(req, res, 'social/social-edit-post.html', {
                     post: post,
                     success: req.query.success,
@@ -85,7 +90,7 @@ export class SocialPostsRouter extends SiteRouter
 
             }).then((post) =>
             {
-                res.redirect('/social/posts/edit/' + post._id+'/?success=true');
+                res.redirect('/social/posts/edit/' + post._id + '/?success=true');
             }).catch((err) =>
             {
                 this.show500(req, res, err.toString());

@@ -100,6 +100,7 @@ export const UserSchema = new mongoose.Schema({
             followings: [], //_ids of users
             followedHashtags: [], //_ids of social_hashtag
             challenges : [],
+            bookmarks : [],
         }
     }
 }, {

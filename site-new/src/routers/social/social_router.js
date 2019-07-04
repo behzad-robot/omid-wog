@@ -78,6 +78,40 @@ export class SocialMainRouter extends SiteRouter
                 this.show500(req, res, err);
             });
         });
+        this.router.post('/set-bookmark', (req, res) =>
+        {
+            if (isEmptyString(req.body.postId))
+            {
+                res.send({ code: 500, error: 'postId missing' });
+                return;
+            }
+            if (isEmptyString(req.body.userId) || isEmptyString(req.body.userToken))
+            {
+                res.send({ code: 500, error: 'user parameters missing' });
+                return;
+            }
+            if (req.body.bookmark == undefined)
+            {
+                res.send({ code: 500, error: 'bookmark missing' });
+                return;
+            }
+            siteModules.SocialPost.apiCall('set-bookmark', {
+                userId: req.body.userId,
+                userToken: req.body.userToken,
+                postId: req.body.postId,
+                bookmark: req.body.bookmark
+            }).then((user) =>
+            {
+                req.session.currentUser = user;
+                req.session.save(() =>
+                {
+                    res.send({ code: 200, success: true, postId: req.body.postId });
+                });
+            }).catch((err) =>
+            {
+                res.send({ code: 500, error: err.toString() });
+            });
+        });
         this.router.get('/', (req, res) =>
         {
             if (req.session.currentUser.social.followedHashtags.length == 0)
@@ -100,6 +134,7 @@ export class SocialMainRouter extends SiteRouter
                     }
                     loadComments(siteModules, req.session.currentUser, { objectType: 'social-posts', objectId: posts[index]._id, limit: 6 }).then((comments) =>
                     {
+                        posts[index]._hasComments = comments.length != 0;
                         posts[index]._comments = comments;
                         loadPostComments(index + 1, finish);
                     }).catch(fail);
@@ -112,16 +147,20 @@ export class SocialMainRouter extends SiteRouter
                         {
                             siteModules.SocialChallenge.find({ active: true }).then((challenges) =>
                             {
-                                this.renderTemplate(req, res, 'social/social-home.html', {
-                                    posts: posts,
-                                    suggestedUsers: suggestedUsers,
-                                    hasSuggestedUsers: suggestedUsers.length != 0,
-                                    suggestedHashtags: suggestedHashtags,
-                                    hasSuggestedHashtags: suggestedHashtags.length != 0,
-                                    challenges: challenges,
-                                    hasChallenges: challenges.length != 0,
-                                });
-                            });
+                                siteModules.SocialChatGroup.find({}).then((chatGroups) =>
+                                {
+                                    this.renderTemplate(req, res, 'social/social-home.html', {
+                                        chatGroups: chatGroups,
+                                        posts: posts,
+                                        suggestedUsers: suggestedUsers,
+                                        hasSuggestedUsers: suggestedUsers.length != 0,
+                                        suggestedHashtags: suggestedHashtags,
+                                        hasSuggestedHashtags: suggestedHashtags.length != 0,
+                                        challenges: challenges,
+                                        hasChallenges: challenges.length != 0,
+                                    });
+                                }).catch(fail);
+                            }).catch(fail);
 
                         }).catch(fail);
 
@@ -198,7 +237,7 @@ export class SocialMainRouter extends SiteRouter
             followTag(0, () =>
             {
                 res.redirect('/social');
-            }); 
+            });
         });
     }
 }
@@ -211,6 +250,15 @@ const fixPost = function (post, currentUser)
         if (post.likes[i] == currentUser._id)
         {
             post._isLiked = true;
+            break;
+        }
+    }
+    post._isBookmarked = false;
+    for (var i = 0; i < currentUser.social.bookmarks.length; i++)
+    {
+        if (currentUser.social.bookmarks[i] == post._id)
+        {
+            post._isBookmarked = true;
             break;
         }
     }

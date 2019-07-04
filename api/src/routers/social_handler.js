@@ -75,6 +75,16 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/set-bookmark', (req, res) =>
+        {
+            this.handler.setBookmark(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
         this.router.post('/enter-challenge', (req, res) =>
         {
             this.handler.enterChallenge(req.body).then((result) =>
@@ -173,6 +183,16 @@ class SocialSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
+        else if (request.method == 'set-bookmark')
+        {
+            this.handler.setBookmark(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
         else if (request.method == 'enter-challenge')
         {
             this.handler.enterChallenge(request.params).then((result) =>
@@ -204,6 +224,7 @@ export class SocialHandler
         this.setSocialPostLiked = this.setSocialPostLiked.bind(this);
         this.setFollowUser = this.setFollowUser.bind(this);
         this.setFollowHashtag = this.setFollowHashtag.bind(this);
+        this.setBookmark = this.setBookmark.bind(this);
         this.enterChallenge = this.enterChallenge.bind(this);
     }
     newSocialPost(params) //{ userId , userToken , body , media}
@@ -610,6 +631,65 @@ export class SocialHandler
                 }
                 if (params.follow)
                     user.social.followedHashtags.push(params.tagId);
+                this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(user);
+                });
+            });
+        });
+    }
+    setBookmark(params)
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userToken) || isEmptyString(params.userId) || isEmptyString(params.postId)
+                || params.bookmark == undefined)
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                if (user.social.bookmarks == undefined)
+                    user.social.bookmarks = [];
+                for (var i = 0; i < user.social.bookmarks.length; i++)
+                {
+                    if (user.social.bookmarks[i] == params.postId)
+                    {
+                        if (params.bookmark)
+                        {
+                            resolve(user);
+                            return;
+                        }
+                        else
+                        {
+                            user.social.bookmarks.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                if (params.bookmark)
+                    user.social.bookmarks.push(params.postId);
                 this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
                 {
                     if (err)

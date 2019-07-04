@@ -46,6 +46,7 @@ import { SocialPost } from "./utilsApi/social_post";
 import { SocialHashTag } from "./utilsApi/social_hashtag";
 import { SocialChallenge } from "./utilsApi/social_challenge";
 import { SocialChallengesRouter } from "./routers/social/social_challenges_router";
+import { SocialChatGroup } from "./utilsApi/social_chat_group";
 
 const fs = require('fs');
 const path = require('path');
@@ -81,6 +82,7 @@ const SiteModules = {
     SocialPost : new SocialPost(apiSocket),
     SocialHashtag : new SocialHashTag(apiSocket),
     SocialChallenge : new SocialChallenge(apiSocket),
+    SocialChatGroup : new SocialChatGroup(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());

@@ -1,13 +1,13 @@
 import { SocketCollection } from "../utils/socket-collection";
-import { isEmptyString, ICON_404, replaceAll } from "../utils/utils";
+import { isEmptyString, ICON_404 } from "../utils/utils";
 import { SITE_URL } from "../constants";
 
 
-export class SocialPost extends SocketCollection
+export class SocialChatGroup extends SocketCollection
 {
     constructor(apiSocket)
     {
-        super('social-posts', apiSocket);
+        super('social-chat-groups', apiSocket);
         this.fixOne = this.fixOne.bind(this);
         this.fixAll = this.fixAll.bind(this);
         this.public = this.public.bind(this);
@@ -39,16 +39,7 @@ export class SocialPost extends SocketCollection
     }
     fixOne(u)
     {
-        u.siteUrl = SITE_URL('/social/posts/' + u._id);
-        u.editUrl = SITE_URL('/social/posts/edit/' + u._id);
-        u.deleteUrl = SITE_URL('/social/posts/delete/' + u._id);
-        u.body_formatted = u.body;
-        let tags = u.body_formatted.match(/#[a-z]+/gi);
-        for (var i = 0; i < tags.length; i++)
-        {
-            let url = SITE_URL('/social/posts-archive/?tag=' + tags[i]);
-            u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
-        }
+        u.siteUrl = SITE_URL('/social/chat/?group='+u._id);
         return u;
     }
     fixAll(cs)

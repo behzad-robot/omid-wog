@@ -11,12 +11,12 @@
             border-radius: 8px;
             box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
             margin-top: 10px;
-            background-color: white;
+            background-color: white
         }
 
         .hashtags-description {
             color: grey;
-            font-size: 12px;
+            font-size: 12px
         }
 
         .hashtags-logo-background {
@@ -83,7 +83,9 @@
             background-color: white;
             margin-top: 20px;
             overflow: hidden;
-            border-radius: 10px
+            border-radius: 4px;
+            border: 1px solid #eeeeee;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, .15);
         }
 
         .user-row {
@@ -200,23 +202,16 @@
 
         .see-all-comments {
             padding: 10px;
-            color: rgb(82, 82, 82);
+            color: rgb(140, 140,140);
             text-decoration: none;
-            font-size: 18px
+            font-size: 13px;
+            display:inline-block;
+            padding:10px 0;
         }
 
         .see-all-comments:hover {
             color: rgb(119, 119, 119);
             text-decoration: none
-        }
-
-        .comments-heart {
-            font-size: 25px;
-            float: left;
-            position: absolute;
-            top: 10px;
-            left: 0;
-            z-index: 1000000;
         }
 
         .comment-link {
@@ -229,18 +224,25 @@
             color: rgb(66, 66, 66)
         }
 
-        .comments-heart:hover {
-            color: red;
-            cursor: pointer;
-        }
-
         .pop-up {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             display: none;
             position: fixed;
+            top: 0;
+            left: 0;
             z-index: 100;
+
+        }
+
+        .pop-up-overlay {
             background: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .pop-up-content {
@@ -253,7 +255,7 @@
         .more-btn {
             cursor: pointer;
             float: left;
-            font-size: 30px;
+            font-size: 22px;
             margin-left: 5px;
             margin-top: 15px
         }
@@ -264,7 +266,8 @@
             color: black;
             text-decoration: none;
             font-size: 18px;
-            line-height: 35px
+            line-height: 35px;
+            cursor: pointer;
         }
 
         .single-row:hover {
@@ -322,6 +325,25 @@
             padding-top: 20px
         }
 
+        .comments-heart {
+            float: left;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            z-index: 10;
+        }
+
+        .comments-heart-btn {
+            float: left;
+            font-size: 25px;
+            margin-right: 5px
+        }
+
+        .comments-heart-btn:hover {
+            color: red;
+            cursor: pointer;
+        }
+
         @media (max-width: 576px) {
             .pop-up-content {
                 width: 50%
@@ -332,28 +354,44 @@
 
 <body>
     {{{navbar}}}
-    <section class="first-section">
-
-        <div class="pop-up">
-            <div class="container">
-                <i onclick="closePopUp()" class="fas fa-times close-pop-up"></i>
-                <div style="margin-top: 200px">
-                    <div class="pop-up-content text-center">
-                        <a class="single-row" href="">ویرایش</a>
-                        <a class="single-row" href="">کپی کردن لینک</a>
-                        <a class="single-row-red" href="">حذف</a>
-                        <a class="single-row-red" href="#">ریپورت</a>
-                        <div onclick="closePopUp()" class="last-row-red">بستن</div>
-                    </div>
+    <div class="pop-up">
+        <div class="pop-up-overlay" onclick="closePopUp()"></div>
+        <div class="container" style="z-index:2;position: relative;pointer-events: none;">
+            <!-- <i onclick="closePopUp()" class="fas fa-times close-pop-up"></i> -->
+            <div style="margin-top: 200px">
+                <div class="pop-up-content text-center" style="pointer-events: all;">
+                    <a class="single-row-red" id="pop-up-report" href="#">ریپورت</a>
+                    <div class="single-row" id="pop-up-copy-link">کپی کردن لینک</div>
+                    <a class="single-row" id="pop-up-edit" href="">ویرایش</a>
+                    <a class="single-row-red" id="pop-up-delete" href="">حذف</a>
+                    <div onclick="closePopUp()" id="pop-up-close" class="last-row-red">بستن</div>
                 </div>
             </div>
         </div>
+    </div>
+    <section class="first-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <h4 style="margin-top: 10px">چت روم ها</h4>
                     <div class="row">
+                        {{#chatGroups}}
                         <div class="col-md-4 col-12">
+                            <div class="chat-room-wrapper">
+                                <img src="{{{cover}}}" alt="{{name}}" class="chat-room-cover">
+                                <div class="chat-room-textbox">
+                                    <h5>{{name}}</h5>
+                                    <div class="chat-room-description">{{{description}}}</div>
+                                    <div style="padding-bottom:5px;overflow: hidden">
+                                        <!-- <div class="members-count">300 عضو</div> -->
+                                        <a href="{{siteUrl}}"
+                                            class="btn btn-success chat-box-btn text-center">مشاهده</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{/chatGroups}}
+                        <!-- <div class="col-md-4 col-12">
                             <div class="chat-room-wrapper">
                                 <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
                                 <div class="chat-room-textbox">
@@ -384,36 +422,21 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        </div> -->
                     </div>
                     {{#posts}}
-                    <div class="post-wrapper" postId="{{_id}}" href="{{siteUrl}}">
+                    <div class="post-wrapper" postId="{{_id}}" userId="{{userId}}" siteUrl="{{{siteUrl}}}"
+                        href="{{{siteUrl}}}">
                         <div class="user-row">
                             <div class="profile-image">
                                 <a href="{{_user.siteUrl}}">
-                                    <img src="{{_user.profileImage}}" alt="">
+                                    <img src="{{_user.profileImage}}" alt="{{_user.username}}">
                                 </a>
                             </div>
                             <a href="{{_user.siteUrl}}">
                                 <div class="username">{{_user.username}}</div>
                             </a>
-                            <i onclick="displayPopUp()" class="fas fa-ellipsis-h more-btn"></i>
+                            <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
                         </div>
                         <a href="{{siteUrl}}">
                             <div class="post-content">
@@ -429,24 +452,34 @@
                                 <a class="comment-link" href="{{siteUrl}}">
                                     <i class="far fa-comment comment"></i>
                                 </a>
-                                <i class="fas fa-share-alt" style="font-size: 30px;margin-right: 10px"></i>
-                                <i onclick="changeBookmarkColor(this)" id="post-bookmark"
-                                    class="far fa-bookmark bookmark-btn"></i>
+                                <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt" style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                <i name="post-bookmark"
+                                    class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
+                                    postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
+                                    onclick="toggleBookmark(this)"></i>
                             </div>
                         </div>
                         <div class="caption">
                             <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
                             <div style="font-weight: bold;font-size: 18px;">{{_user.username}}:</div>
-                            <div style="color: rgb(126, 126, 126)">{{{body}}} </div>
+                            <div style="color: rgb(126, 126, 126);padding-bottom:10px;">{{{body_formatted}}} </div>
+                            {{#_hasComments}}
                             <div style="font-size: 20px"> نظرات:</div>
-
                             <div class="comments-wrapper">
                                 {{#_comments}}
                                 <div class="single-comment-box">
                                     <div class="commenter">{{_user.username}}: </div>
                                     <div style="color: rgb(119, 119, 119);float: right;"> {{{body}}}</div>
-                                    <i onclick="changeHeartColor(this)" id="comment-like"
-                                        class="far fa-heart comments-heart"></i>
+
+
+
+
+                                    <div class="comments-heart">
+                                        <i onclick="changeHeartColor(this)" id="comment-like"
+                                            class="far fa-heart comments-heart-btn"></i>
+                                        <span class="comments-like-counts" style="position: relative;top:2px;">{{likes.length}}</span>
+                                        <!-- <div style="display: inline">لایک</div> -->
+                                    </div>
                                     <script>
                                         function changeHeartColor(elm)
                                         {
@@ -457,10 +490,13 @@
                                     </script>
                                 </div>
                                 {{/_comments}}
+                                
                                 <a class="see-all-comments" href="{{siteUrl}}">
                                     مشاهده همه
                                 </a>
+                                
                             </div>
+                            {{/_hasComments}}
                         </div>
                     </div>
                     {{/posts}}
@@ -471,12 +507,14 @@
                     <div class="hashtags-box-wrapper">
                         <div style="overflow:hidden;padding: 10px">
                             <h5 style="float: right">هشتگ های پیشنهادی</h5>
-                            <a href="#" style="float: left">مشاهده همه</a>
+                            <a href="{{#SITE_URL}}/social/welcome{{/SITE_URL}}"
+                                style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
                         </div>
                         <!-- start single row-->
                         {{#suggestedHashtags}}
                         <div style="border-top: 1px solid grey">
-                            <a href="#" class="hashtags-links">
+                            <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
+                                class="hashtags-links">
                                 <div class="row" style="padding: 10px">
                                     <div class="col-md-4 col-4">
                                         <div class="hashtags-logo-background text-center">
@@ -499,13 +537,14 @@
                     {{#hasChallenges}}
                     <div class="challenges-wrapper">
                         <div style="overflow:hidden;padding: 10px">
-                            <h5 style="float: right">چالش های اخیر</h5>
-                            <a href="#" style="float: left">مشاهده همه</a>
+                            <h5 style="float: right;">چالش های اخیر</h5>
+                            <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
+                                style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
                         </div>
                         <!-- start single box -->
                         {{#challenges}}
                         <div style="margin-bottom: 5px;position: relative">
-                            <img src="{{cover}}" style="width: 100%" alt="">
+                            <a href="{{siteUrl}}"><img src="{{cover}}" style="width: 100%" alt="{{name}}"></a>
                             <div
                                 style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
                                 <div class="row">
@@ -590,25 +629,111 @@
             });
         });
     </script>
+
     <script>
 
-        function changeBookmarkColor(elm)
+        // function changeBookmarkColor(elm)
+        // {
+        //     $(elm).removeClass('far'),
+        //         $(elm).addClass('fas')
+        // }
+        // function changeBookmarkColor(elm)
+        // {
+        //     $(elm).removeClass('far'),
+        //         $(elm).addClass('fas')
+        // }
+        function toggleBookmark(elm)
         {
-            $(elm).removeClass('far'),
-                $(elm).addClass('fas')
+            let postId = $(elm).attr('postId');
+            let loading = $(elm).attr('loading') == 'true';
+            let isBookmarked = $(elm).attr('bookmarked') == 'true';
+            if (loading)
+                return;
+            loading = true;
+            isBookmarked = !isBookmarked;
+            $(elm).attr('loading', true);
+            if (isBookmarked)
+            {
+                $(elm).attr('bookmarked', true);
+                $(elm).removeClass('far').addClass('fas');
+            }
+            else
+            {
+                $(elm).attr('bookmarked', false);
+                $(elm).removeClass('fas').addClass('far');
+            }
+            fetch('/social/set-bookmark', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    postId: postId,
+                    bookmark: isBookmarked,
+                }),
+            }).then((response => response.json())).then((response) =>
+            {
+                $(elm).attr('loading', false);
+                console.log(response);
+                if (response.code != 200)
+                {
+                    alert(response.error);
+                }
+            }).catch((err) =>
+            {
+                $(elm).attr('loading', false);
+                alert(err);
+            });
         }
-        function changeBookmarkColor(elm)
+        function share_post(siteUrl)
         {
-            $(elm).removeClass('far'),
-                $(elm).addClass('fas')
+            clipboard.writeText(siteUrl);
+            alert('لینک اشتراک این مطلب کپی شد.');
         }
-        function displayPopUp()
+        function displayPopUp(elm)
         {
-            $('.pop-up').css('display', 'block');
+            // $('.pop-up').css('display', 'block');
+            $(".pop-up").show();
+            let postBox = $(elm).closest('.post-wrapper');
+            let postId = $(postBox).attr('postId');
+            let userId = $(postBox).attr('userId');
+            let siteUrl = $(postBox).attr('siteUrl');
+            if (userId == `{{currentUser._id}}`)
+            {
+                $("#pop-up-edit").show();
+                $("#pop-up-delete").show();
+                $("#pop-up-report").hide();
+            }
+            else
+            {
+                $("#pop-up-edit").hide();
+                $("#pop-up-delete").hide();
+                $("#pop-up-report").show();
+            }
+            $("#pop-up-edit").attr('href', '/social/posts/edit/' + postId);
+            $("#pop-up-delete").attr('href', '/social/posts/edit/' + postId);
+            $("#pop-up-copy-link").unbind('click');
+            $("#pop-up-copy-link").click(function ()
+            {
+                clipboard.writeText(siteUrl);
+                closePopUp();
+                alert('لینک اشتراک این مطلب کپی شد.');
+            });
+            $("#pop-up-report").unbind('click');
+            $("#pop-up-report").click(function ()
+            {
+                closePopUp();
+                alert('با تشکر درخواست شما برای بررسی ارسال شد.');
+            });
+
         }
         function closePopUp()
         {
-            $('.pop-up').css('display', 'none');
+            // $('.pop-up').css('display', 'none');
+            $(".pop-up").hide();
         }
     </script>
 </body>
