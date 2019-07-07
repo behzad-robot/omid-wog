@@ -265,6 +265,7 @@ export class UsersAuthHandler
                 sex: params.sex,
                 followingGames: [],
                 createdAt: moment_now(),
+                refferer : params.refferer ? params.refferer : '',
                 updatedAt: "",
                 token: encoder.encode({ _id: '?', username: params.username, expiresIn: Date.now() + 14400000 }), //14400000
             }
@@ -301,41 +302,41 @@ export class UsersAuthHandler
                         doc.profileImage = SITE_URL('/images/mario-gamer.jpg');
                     if (isEmptyString(doc.cover))
                         doc.cover = SITE_URL('/images/user-default-cover.jpg');
-                    if (!isEmptyString(params.refferer) && !isEmptyString(params.refferer.replace(' ', '')))
-                    {
-                        this.User.findOne({ username: params.refferer }).exec((err, otherUser) =>
-                        {
-                            if (err)
-                            {
-                                console.log('refferer FAILED:' + err.toString());
-                                return;
-                            }
-                            if (otherUser == undefined)
-                            {
-                                return;
-                            }
-                            otherUser.dota2EpicCenter2019.invites.push({ userId: doc._id.toString(), createdAt: moment_now() });
-                            if (otherUser.dota2EpicCenter2019.invites.length < 41)
-                            {
-                                otherUser.dota2EpicCenter2019.coins += 50;
-                                if (otherUser.dota2EpicCenter2019.invites.length == 10)
-                                    otherUser.dota2EpicCenter2019.coins += 250;
-                                else if (otherUser.dota2EpicCenter2019.invites.length == 20)
-                                    otherUser.dota2EpicCenter2019.coins += 500;
-                                else if (otherUser.dota2EpicCenter2019.invites.length == 30)
-                                    otherUser.dota2EpicCenter2019.coins += 750;
-                                else if (otherUser.dota2EpicCenter2019.invites.length == 40)
-                                    otherUser.dota2EpicCenter2019.coins += 1000;
-                            }
-                            this.User.findByIdAndUpdate(otherUser._id, { $set: { dota2EpicCenter2019: otherUser.dota2EpicCenter2019 } }, { new: true }).then((result) =>
-                            {
-                                console.log(`refferer ${result.username} got coins`);
-                            }).catch((err) =>
-                            {
-                                console.log('refferer FAILED:' + err.toString());
-                            });
-                        });
-                    }
+                    // if (!isEmptyString(params.refferer) && !isEmptyString(params.refferer.replace(' ', '')))
+                    // {
+                    //     this.User.findOne({ username: params.refferer }).exec((err, otherUser) =>
+                    //     {
+                    //         if (err)
+                    //         {
+                    //             console.log('refferer FAILED:' + err.toString());
+                    //             return;
+                    //         }
+                    //         if (otherUser == undefined)
+                    //         {
+                    //             return;
+                    //         }
+                    //         otherUser.dota2EpicCenter2019.invites.push({ userId: doc._id.toString(), createdAt: moment_now() });
+                    //         if (otherUser.dota2EpicCenter2019.invites.length < 41)
+                    //         {
+                    //             otherUser.dota2EpicCenter2019.coins += 50;
+                    //             if (otherUser.dota2EpicCenter2019.invites.length == 10)
+                    //                 otherUser.dota2EpicCenter2019.coins += 250;
+                    //             else if (otherUser.dota2EpicCenter2019.invites.length == 20)
+                    //                 otherUser.dota2EpicCenter2019.coins += 500;
+                    //             else if (otherUser.dota2EpicCenter2019.invites.length == 30)
+                    //                 otherUser.dota2EpicCenter2019.coins += 750;
+                    //             else if (otherUser.dota2EpicCenter2019.invites.length == 40)
+                    //                 otherUser.dota2EpicCenter2019.coins += 1000;
+                    //         }
+                    //         this.User.findByIdAndUpdate(otherUser._id, { $set: { dota2EpicCenter2019: otherUser.dota2EpicCenter2019 } }, { new: true }).then((result) =>
+                    //         {
+                    //             console.log(`refferer ${result.username} got coins`);
+                    //         }).catch((err) =>
+                    //         {
+                    //             console.log('refferer FAILED:' + err.toString());
+                    //         });
+                    //     });
+                    // }
                     resolve(doc);
                 }).catch((err) =>
                 {
