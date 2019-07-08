@@ -199,7 +199,12 @@ export class CommentsHandler
                     reject(err);
                     return;
                 }
-                if (user.token == params.userToken)
+                if(user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
                 {
                     reject('invalid token');
                     return;

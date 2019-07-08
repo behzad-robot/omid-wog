@@ -11,7 +11,7 @@
             border-radius: 8px;
             box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
             margin-top: 10px;
-            background-color: white
+            background-color: white;
         }
 
         .hashtags-description {
@@ -202,11 +202,11 @@
 
         .see-all-comments {
             padding: 10px;
-            color: rgb(140, 140,140);
+            color: rgb(140, 140, 140);
             text-decoration: none;
             font-size: 13px;
-            display:inline-block;
-            padding:10px 0;
+            display: inline-block;
+            padding: 10px 0;
         }
 
         .see-all-comments:hover {
@@ -343,6 +343,9 @@
             color: red;
             cursor: pointer;
         }
+        .comments-heart-btn.clicked{
+            color: red;
+        }
 
         @media (max-width: 576px) {
             .pop-up-content {
@@ -452,7 +455,8 @@
                                 <a class="comment-link" href="{{siteUrl}}">
                                     <i class="far fa-comment comment"></i>
                                 </a>
-                                <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt" style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt"
+                                    style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
                                 <i name="post-bookmark"
                                     class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
                                     postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
@@ -469,32 +473,22 @@
                                 {{#_comments}}
                                 <div class="single-comment-box">
                                     <div class="commenter">{{_user.username}}: </div>
-                                    <div style="color: rgb(119, 119, 119);float: right;"> {{{body}}}</div>
-
-
-
-
+                                    <div style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;"> {{{body}}}</div>
                                     <div class="comments-heart">
-                                        <i onclick="changeHeartColor(this)" id="comment-like"
-                                            class="far fa-heart comments-heart-btn"></i>
-                                        <span class="comments-like-counts" style="position: relative;top:2px;">{{likes.length}}</span>
+                                        <i name="comment-like" class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn" loading="false"
+                                            liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                        <span class="comments-like-counts" commentId="{{_id}}"
+                                            style="position: relative;top:2px;">{{likes.length}}</span>
                                         <!-- <div style="display: inline">لایک</div> -->
                                     </div>
-                                    <script>
-                                        function changeHeartColor(elm)
-                                        {
-                                            $(elm).removeClass('far'),
-                                                $(elm).addClass('fas'),
-                                                $(elm).addClass('post-like-btn-clicked')
-                                        }
-                                    </script>
+
                                 </div>
                                 {{/_comments}}
-                                
+
                                 <a class="see-all-comments" href="{{siteUrl}}">
                                     مشاهده همه
                                 </a>
-                                
+
                             </div>
                             {{/_hasComments}}
                         </div>
@@ -625,6 +619,56 @@
                 {
                     console.log(err);
                     alert(err);
+                });
+            });
+            $(".comments-heart-btn").click(function ()
+            {
+                let commentId = $(this).attr('commentId');
+                let loading = $(this).attr('loading') == 'true';
+                let liked = $(this).attr('liked') == 'true';
+                console.log('clicked!');
+                if (loading)
+                    return;
+                $(this).attr('loading',true);
+                liked = !liked;
+                fetch('/comments/like', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: commentId,
+                        like: liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then((response => response.json())).then((response) => { 
+                    $(this).attr('loading',false);
+                    console.log(response);
+                    $(`.comments-like-counts[commentId=${commentId}]`).html(response.comment.likes.length);
+                    if(response.code != 200)
+                    {
+                        alert(response.error);
+                        console.log(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('liked',liked);
+                        if(liked)
+                        {
+                            $(this).removeClass('far').addClass('fas').addClass('clicked');
+                        }
+                        else
+                        {
+                            $(this).addClass('far').removeClass('fas').removeClass('clicked');
+                        }
+                    }
+                }).catch((err) =>
+                {
+                    alert(err);
+                    console.log(err);
+                    $(this).attr('loading',false);
                 });
             });
         });
