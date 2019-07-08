@@ -2,9 +2,27 @@
 
 <head>
     {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         .first-section {
-            margin-top: 80px
+            padding-top: 0px;
         }
 
         .hashtags-box-wrapper {
@@ -221,12 +239,24 @@
         }
 
         .pop-up {
-            width: 100%;
-            height: 100%;
+            width: 100vw;
+            height: 100vh;
             display: none;
             position: fixed;
+            top: 0;
+            left: 0;
             z-index: 100;
+
+        }
+
+        .pop-up-overlay {
             background: rgba(0, 0, 0, 0.7);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
 
         .pop-up-content {
@@ -327,6 +357,23 @@
             cursor: pointer;
         }
 
+        .comments-heart-btn.clicked {
+            color: red;
+        }
+
+        .comments-action-btn {
+            color: #414141;
+            display: inline-block;
+            margin: 0 5px;
+            cursor: pointer;
+            position: relative;
+            top: 3px;
+        }
+
+        .comments-action-btn:hover {
+            color: #616161;
+        }
+
         @media (max-width: 576px) {
             .pop-up-content {
                 width: 50%
@@ -337,77 +384,30 @@
 
 <body>
     {{{navbar}}}
-    <section class="first-section">
-
+    <navfiller></navfiller>
+    <section>
         <div class="pop-up">
-            <div class="container">
-                <i onclick="closePopUp()" class="fas fa-times close-pop-up"></i>
+            <div class="pop-up-overlay" onclick="closePopUp()"></div>
+            <div class="container" style="z-index:2;position: relative;pointer-events: none;">
+                <!-- <i onclick="closePopUp()" class="fas fa-times close-pop-up"></i> -->
                 <div style="margin-top: 200px">
-                    <div class="pop-up-content text-center">
-                        <a class="single-row" href="">ویرایش</a>
-                        <a class="single-row" href="">کپی کردن لینک</a>
-                        <a class="single-row-red" href="">حذف</a>
-                        <a class="single-row-red" href="#">ریپورت</a>
-                        <div onclick="closePopUp()" class="last-row-red">بستن</div>
+                    <div class="pop-up-content text-center" style="pointer-events: all;">
+                        <a class="single-row-red" id="pop-up-report" href="#">ریپورت</a>
+                        <div class="single-row" id="pop-up-copy-link">کپی کردن لینک</div>
+                        <a class="single-row" id="pop-up-edit" href="">ویرایش</a>
+                        <a class="single-row-red" id="pop-up-delete" href="">حذف</a>
+                        <div onclick="closePopUp()" id="pop-up-close" class="last-row-red">بستن</div>
                     </div>
                 </div>
             </div>
         </div>
+    </section>
+    <section class="first-section">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h4 style="margin-top: 10px">چت روم ها</h4>
-                    <div class="row">
-                        <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="post-wrapper" href="{{post.siteUrl}}" postId="{{_id}}">
+                    <div class="post-wrapper" href="{{post.siteUrl}}" postId="{{post._id}}" userId="{{post.userId}}"
+                        siteUrl="{{{siteUrl}}}">
                         <div class="user-row">
                             <div class="profile-image">
                                 <a href="{{post._user.siteUrl}}">
@@ -417,7 +417,7 @@
                             <a href="{{post._user.siteUrl}}">
                                 <div class="username">{{post._user.username}}</div>
                             </a>
-                            <i onclick="displayPopUp()" class="fas fa-ellipsis-h more-btn"></i>
+                            <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
                         </div>
                         <div class="post-content">
                             <img src="{{post.media.0}}" alt="">
@@ -428,15 +428,21 @@
                                     class="{{#post._isLiked}}fas post-like-btn-clicked{{/post._isLiked}}{{^post._isLiked}}far{{/post._isLiked}} fa-heart post-like-btn"
                                     liked="{{post._isLiked}}" loading="false" postId="{{post._id}}">
                                 </i>
-                                <i class="fas fa-share-alt" style="font-size: 30px;margin-right: 10px"></i>
-                                <i onclick="changeBookmarkColor(this)" id="post-bookmark"
-                                    class="far fa-bookmark bookmark-btn"></i>
+                                <!-- <a class="comment-link" href="{{post.siteUrl}}">
+                                    <i class="far fa-comment comment"></i>
+                                </a> -->
+                                <i onclick="share_post('{{post.siteUrl}}')" class="fas fa-share-alt"
+                                    style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                <i name="post-bookmark"
+                                    class="{{#post._isBookmarked}}fas{{/post._isBookmarked}}{{^post._isBookmarked}}far{{/post._isBookmarked}} fa-bookmark bookmark-btn"
+                                    postId="{{post._id}}" loading="false" bookmarked="{{post._isBookmarked}}"
+                                    onclick="toggleBookmark(this)"></i>
                             </div>
                         </div>
                         <div class="caption">
                             <div class="like-count"> <span class="like-counts">{{post.likes.length}}</span> لایک</div>
                             <div style="font-weight: bold;font-size: 18px;">{{post._user.username}}:</div>
-                            <div style="color: rgb(126, 126, 126)">{{{post.body}}} </div>
+                            <div style="color: rgb(126, 126, 126)">{{{post.body_formatted}}} </div>
                             <form action="/comments/new" method="POST" id="new-comment-form">
                                 <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
                                     placeholder="دیدگاه خود را وارد کنید"></textarea>
@@ -447,59 +453,20 @@
                             </form>
                             <div style="font-size: 20px"> نظرات:</div>
 
-                            <div class="comments-wrapper">
+                            <div class="comments-wrapper" id="comments-list">
                                 {{#post._comments}}
                                 <div class="single-comment-box" commentId="{{_id}}" id="comment-{{_id}}">
                                     <div class="commenter">{{_user.username}}: </div>
                                     <div style="color: rgb(119, 119, 119);float: right;"> {{{body}}}</div>
                                     <div class="comments-heart">
-                                        <i id="comment-like"
-                                            class="{{#_isLiked}}fas post-like-btn-clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart post-like-btn""></i>
-                                        <span class=" comments-like-counts">{{likes.length}}</span>
-                                            <div style="display: inline">لایک</div>
+                                        <i class="fas fa-trash comments-action-btn" onclick="delete_comment(this)"></i>
+                                        <i name="comment-like"
+                                            class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
+                                            loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                        <span class="comments-like-counts" commentId="{{_id}}">{{likes.length}}</span>
+                                        <div style="display: inline">لایک</div>
+
                                     </div>
-                                    <script>
-                                        $(".comments-heart-btn").click(function ()
-                                        {
-                                            let loading = $(this).attr('loading') == 'true';
-                                            let commentId = $(this).attr('commentId');
-                                            let liked = $(this).attr('liked') == 'true';
-                                            if (loading)
-                                                return;
-                                            fetch('/comments/like/', {
-                                                method: 'POST',
-                                                headers: {
-                                                    'Accept': 'application/json',
-                                                    'Content-Type': 'application/json'
-                                                },
-                                                body: JSON.stringify({
-                                                    _id: commentId,
-                                                    like: !liked,
-                                                    userId: `{{{currentUser._id}}}`,
-                                                    userToken: `{{{currentUser.token}}}`,
-                                                }),
-                                            }).then(response => response.json()).then((response) =>
-                                            {
-                                                if (response.code != 200)
-                                                {
-                                                    console.log(response.error);
-                                                    alert(response.error);
-                                                }
-                                                else
-                                                {
-                                                    $(this).attr('loading', false);
-                                                    $(this).attr('liked', !liked);
-                                                    let comment = response.comment;
-                                                    console.log(comment);
-                                                    $(`[commentId=${commentId}] [name=comments-like-count]`).html(comment.likes.length);
-                                                }
-                                            }).catch((err) =>
-                                            {
-                                                console.log(err);
-                                                alert(err);
-                                            });
-                                        });
-                                    </script>
                                 </div>
                                 {{/post._comments}}
                             </div>
@@ -507,6 +474,8 @@
                     </div>
                 </div>
                 <div class="col-md-4">
+                    <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
+                            width="100%" style="margin-top:20px;display:inline-block;" /></a>
                     <!-- start whole hashtag box -->
                     {{#hasSuggestedHashtags}}
                     <div class="hashtags-box-wrapper">
@@ -573,6 +542,48 @@
     </section>
 
     {{{footer}}}
+    <!-- <script>
+        $(".comments-heart-btn").click(function ()
+        {
+            let loading = $(this).attr('loading') == 'true';
+            let commentId = $(this).attr('commentId');
+            let liked = $(this).attr('liked') == 'true';
+            if (loading)
+                return;
+            fetch('/comments/like/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _id: commentId,
+                    like: !liked,
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                }),
+            }).then(response => response.json()).then((response) =>
+            {
+                if (response.code != 200)
+                {
+                    console.log(response.error);
+                    alert(response.error);
+                }
+                else
+                {
+                    $(this).attr('loading', false);
+                    $(this).attr('liked', !liked);
+                    let comment = response.comment;
+                    console.log(comment);
+                    $(`[commentId=${commentId}] [name=comments-like-count]`).html(comment.likes.length);
+                }
+            }).catch((err) =>
+            {
+                console.log(err);
+                alert(err);
+            });
+        });
+    </script> -->
     <script>
         $(() =>
         {
@@ -636,7 +647,6 @@
         {
 
             $("#new-comment-form").ajaxForm({
-
                 beforeSubmit: (formData, jqForm, options) =>
                 {
 
@@ -659,21 +669,23 @@
                     {
                         alert('نظر شما با موفقیت ثبت شد.');
                         $("#comments-list").append(`
-        <div class="card comment-box" id="comment-${comment._id}" commentId="${comment._id}">
-            <div>
-                <img src="{{{currentUser.profileImage}}}" style="border-radius:50%;width:48px;height:48px;" />
-                <b>{{{currentUser.username}}}</b>
-                <div>${comment.body}</div>
-                <small>${comment.createdAt}</small>
-                <span>Likes:<span name="comment-like-count">${comment.likes.length}</span></span>
-                <div class="btn btn-sm btn-info comment-btn-like" commentId="${comment._id}" liked="false" loading="false">Like</div>
-                <div class="btn btn-sm btn-danger comment-delete-btn">Delete</div>
-            </div>
-        </div>
-        `);
+                            <div class="single-comment-box" commentId="${comment._id}" id="comment-${comment._id}">
+                                <div class="commenter">{{{currentUser.username}}}: </div>
+                                <div style="color: rgb(119, 119, 119);float: right;"> ${comment.body}</div>
+                                <div class="comments-heart">
+                                    <i class="fas fa-trash comments-action-btn" onclick="delete_comment(this)"></i>
+                                    <i name="comment-like"
+                                        class="far fa-heart comments-heart-btn"
+                                        loading="false" liked="false" commentId="${comment._id}"></i>
+                                    <span class="comments-like-counts" commentId="${comment._id}">${comment.likes.length}</span>
+                                    <div style="display: inline">لایک</div>
+                                </div>
+                            </div>
+                        `);
                         scroll_to(`#comment-${comment._id}`);
                         $("#no-comments").hide();
                         $("#new-comment-form").clearForm();
+                        setup();
                     }
                 },
             });
@@ -681,24 +693,240 @@
 
     </script>
     <script>
+        $(() =>
+        {
+            setup();
+        });
+        function setup()
+        {
+            $(".post-like-btn").click(function ()
+            {
+                let loading = $(this).attr('loading') == 'true';
+                let postId = $(this).attr('postId');
+                let liked = $(this).attr('liked') == 'true';
+                if (loading)
+                    return;
+                $(this).html('');
+                fetch('/social/set-post-like/', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: postId,
+                        like: !liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then(response => response.json()).then((response) =>
+                {
+                    if (response.code != 200)
+                    {
+                        console.log(response.error);
+                        alert(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('loading', false);
+                        $(this).attr('liked', !liked);
+                        if (liked)
+                        {
+                            $(this).addClass('far'),
+                                $(this).removeClass('fas'),
+                                $(this).removeClass('post-like-btn-clicked')
+                        }
+                        else
+                        {
+                            $(this).removeClass('far'),
+                                $(this).addClass('fas'),
+                                $(this).addClass('post-like-btn-clicked')
+                        }
+                        let post = response._data;
+                        console.log(post);
+                        $(`.post-wrapper[postId=${post._id}] .like-counts`).html(post.likes.length);
+                    }
+                }).catch((err) =>
+                {
+                    console.log(err);
+                    alert(err);
+                });
+            });
+            $(".comments-heart-btn").click(function ()
+            {
+                let commentId = $(this).attr('commentId');
+                let loading = $(this).attr('loading') == 'true';
+                let liked = $(this).attr('liked') == 'true';
+                console.log('clicked!');
+                if (loading)
+                    return;
+                $(this).attr('loading', true);
+                liked = !liked;
+                fetch('/comments/like', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _id: commentId,
+                        like: liked,
+                        userId: `{{{currentUser._id}}}`,
+                        userToken: `{{{currentUser.token}}}`,
+                    }),
+                }).then((response => response.json())).then((response) =>
+                {
+                    $(this).attr('loading', false);
+                    console.log(response);
+                    $(`.comments-like-counts[commentId=${commentId}]`).html(response.comment.likes.length);
+                    if (response.code != 200)
+                    {
+                        alert(response.error);
+                        console.log(response.error);
+                    }
+                    else
+                    {
+                        $(this).attr('liked', liked);
+                        if (liked)
+                        {
+                            $(this).removeClass('far').addClass('fas').addClass('clicked');
+                        }
+                        else
+                        {
+                            $(this).addClass('far').removeClass('fas').removeClass('clicked');
+                        }
+                    }
+                }).catch((err) =>
+                {
+                    alert(err);
+                    console.log(err);
+                    $(this).attr('loading', false);
+                });
+            });
+        }
+        function delete_comment(elm)
+        {
+            let commentBox = $(elm).closest('.single-comment-box');
+            let commentId = $(commentBox).attr('commentId');
+            fetch('/comments/delete', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _id: commentId,
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                }),
+            }).then((response => response.json())).then((response) =>
+            {
+                console.log(response);
+                if (response.code != 200)
+                {
+                    alert(response.error);
+                    console.log(response.error);
+                    return;
+                }
+                $(commentBox).remove();
+            }).catch((err) =>
+            {
+                alert(err);
+                console.log(err);
+            });
+        }
+        function toggleBookmark(elm)
+        {
+            let postId = $(elm).attr('postId');
+            let loading = $(elm).attr('loading') == 'true';
+            let isBookmarked = $(elm).attr('bookmarked') == 'true';
+            if (loading)
+                return;
+            loading = true;
+            isBookmarked = !isBookmarked;
+            $(elm).attr('loading', true);
+            if (isBookmarked)
+            {
+                $(elm).attr('bookmarked', true);
+                $(elm).removeClass('far').addClass('fas');
+            }
+            else
+            {
+                $(elm).attr('bookmarked', false);
+                $(elm).removeClass('fas').addClass('far');
+            }
+            fetch('/social/set-bookmark', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    postId: postId,
+                    bookmark: isBookmarked,
+                }),
+            }).then((response => response.json())).then((response) =>
+            {
+                $(elm).attr('loading', false);
+                console.log(response);
+                if (response.code != 200)
+                {
+                    alert(response.error);
+                }
+            }).catch((err) =>
+            {
+                $(elm).attr('loading', false);
+                alert(err);
+            });
+        }
+        function share_post(siteUrl)
+        {
+            clipboard.writeText(siteUrl);
+            alert('لینک اشتراک این مطلب کپی شد.');
+        }
+        function displayPopUp(elm)
+        {
+            // $('.pop-up').css('display', 'block');
+            $(".pop-up").show();
+            let postBox = $(elm).closest('.post-wrapper');
+            let postId = $(postBox).attr('postId');
+            let userId = $(postBox).attr('userId');
+            let siteUrl = $(postBox).attr('siteUrl');
+            if (userId == `{{currentUser._id}}`)
+            {
+                $("#pop-up-edit").show();
+                $("#pop-up-delete").show();
+                $("#pop-up-report").hide();
+            }
+            else
+            {
+                $("#pop-up-edit").hide();
+                $("#pop-up-delete").hide();
+                $("#pop-up-report").show();
+            }
+            $("#pop-up-edit").attr('href', '/social/posts/edit/' + postId);
+            $("#pop-up-delete").attr('href', '/social/posts/edit/' + postId);
+            $("#pop-up-copy-link").unbind('click');
+            $("#pop-up-copy-link").click(function ()
+            {
+                clipboard.writeText(siteUrl);
+                closePopUp();
+                alert('لینک اشتراک این مطلب کپی شد.');
+            });
+            $("#pop-up-report").unbind('click');
+            $("#pop-up-report").click(function ()
+            {
+                closePopUp();
+                alert('با تشکر درخواست شما برای بررسی ارسال شد.');
+            });
 
-        function changeBookmarkColor(elm)
-        {
-            $(elm).removeClass('far'),
-                $(elm).addClass('fas')
-        }
-        function changeBookmarkColor(elm)
-        {
-            $(elm).removeClass('far'),
-                $(elm).addClass('fas')
-        }
-        function displayPopUp()
-        {
-            $('.pop-up').css('display', 'block');
         }
         function closePopUp()
         {
-            $('.pop-up').css('display', 'none');
+            // $('.pop-up').css('display', 'none');
+            $(".pop-up").hide();
         }
     </script>
 </body>

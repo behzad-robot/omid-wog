@@ -254,6 +254,8 @@ const fixPost = function (post, currentUser)
         }
     }
     post._isBookmarked = false;
+    if(currentUser.social.bookmarks == undefined)
+        currentUser.social.bookmarks = [];
     for (var i = 0; i < currentUser.social.bookmarks.length; i++)
     {
         if (currentUser.social.bookmarks[i] == post._id)

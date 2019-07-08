@@ -2,6 +2,24 @@
 
 <head>
     {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         .first-section {
             margin-top: 80px
@@ -343,7 +361,8 @@
             color: red;
             cursor: pointer;
         }
-        .comments-heart-btn.clicked{
+
+        .comments-heart-btn.clicked {
             color: red;
         }
 
@@ -473,10 +492,13 @@
                                 {{#_comments}}
                                 <div class="single-comment-box">
                                     <div class="commenter">{{_user.username}}: </div>
-                                    <div style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;"> {{{body}}}</div>
+                                    <div
+                                        style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">
+                                        {{{body}}}</div>
                                     <div class="comments-heart">
-                                        <i name="comment-like" class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn" loading="false"
-                                            liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                        <i name="comment-like"
+                                            class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
+                                            loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
                                         <span class="comments-like-counts" commentId="{{_id}}"
                                             style="position: relative;top:2px;">{{likes.length}}</span>
                                         <!-- <div style="display: inline">لایک</div> -->
@@ -526,8 +548,9 @@
                         <!-- end of single row -->
                     </div>
                     {{/hasSuggestedHashtags}}
-                    <!-- end of whole hashtag box -->
                     <!-- start chalenge box -->
+
+
                     {{#hasChallenges}}
                     <div class="challenges-wrapper">
                         <div style="overflow:hidden;padding: 10px">
@@ -629,7 +652,7 @@
                 console.log('clicked!');
                 if (loading)
                     return;
-                $(this).attr('loading',true);
+                $(this).attr('loading', true);
                 liked = !liked;
                 fetch('/comments/like', {
                     method: 'POST',
@@ -643,19 +666,20 @@
                         userId: `{{{currentUser._id}}}`,
                         userToken: `{{{currentUser.token}}}`,
                     }),
-                }).then((response => response.json())).then((response) => { 
-                    $(this).attr('loading',false);
+                }).then((response => response.json())).then((response) =>
+                {
+                    $(this).attr('loading', false);
                     console.log(response);
                     $(`.comments-like-counts[commentId=${commentId}]`).html(response.comment.likes.length);
-                    if(response.code != 200)
+                    if (response.code != 200)
                     {
                         alert(response.error);
                         console.log(response.error);
                     }
                     else
                     {
-                        $(this).attr('liked',liked);
-                        if(liked)
+                        $(this).attr('liked', liked);
+                        if (liked)
                         {
                             $(this).removeClass('far').addClass('fas').addClass('clicked');
                         }
@@ -668,24 +692,10 @@
                 {
                     alert(err);
                     console.log(err);
-                    $(this).attr('loading',false);
+                    $(this).attr('loading', false);
                 });
             });
         });
-    </script>
-
-    <script>
-
-        // function changeBookmarkColor(elm)
-        // {
-        //     $(elm).removeClass('far'),
-        //         $(elm).addClass('fas')
-        // }
-        // function changeBookmarkColor(elm)
-        // {
-        //     $(elm).removeClass('far'),
-        //         $(elm).addClass('fas')
-        // }
         function toggleBookmark(elm)
         {
             let postId = $(elm).attr('postId');
