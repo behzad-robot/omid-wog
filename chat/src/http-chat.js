@@ -81,5 +81,6 @@ const easySocket = new EasySocket({
     onSocketDisconnected: (connection, reasonCode, description) =>
     {
         console.log("onSocketDisconnected");
+        WSRouters[0].removeUser();
     },
 });

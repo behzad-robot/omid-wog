@@ -10,6 +10,26 @@ export class ChatSocketRouter extends SocketRouter
         this.chatModules = chatModules;
         this.onMessage = this.onMessage.bind(this);
         this.doLogin = this.doLogin.bind(this);
+        this.removeUser = this.removeUser.bind(this);
+        this.lastSocket = undefined;
+        this.onlineUsers = 0;
+    }
+    removeUser()
+    {
+        if (this.lastSocket == undefined)
+            return;
+        this.onlineUsers--;
+        this.lastSocket.sendToRoom('chat', JSON.stringify({
+            code: 200,
+            error: null,
+            request: {
+                method: 'online-users',
+                model: 'chat',
+            },
+            _data: {
+                onlineUsers: this.onlineUsers
+            }
+        }));
     }
     onMessage(socket, request)
     {
@@ -25,7 +45,24 @@ export class ChatSocketRouter extends SocketRouter
             this.handleError(socket, request, "invalid request access denied", 400);
             return;
         }
-        if (request.method == 'join')
+        this.lastSocket = socket;
+        if (request.method == 'join-chat')
+        {
+            this.onlineUsers++;
+            socket.joinRoom('chat');
+            socket.sendToRoom('chat', JSON.stringify({
+                code: 200,
+                error: null,
+                request: {
+                    method: 'online-users',
+                    model: 'chat',
+                },
+                _data: {
+                    onlineUsers: this.onlineUsers
+                }
+            }));
+        }
+        else if (request.method == 'join')
         {
             // console.log('valid requerst');
             if (isEmptyString(request.parameters.groupId) || isEmptyString(request.parameters.userId) ||
@@ -51,12 +88,48 @@ export class ChatSocketRouter extends SocketRouter
                             fail('archive not found');
                             return;
                         }
-                        console.log('ok joined!');
-                        socket.joinRoom(archive.groupId);
-                        this.sendResponse(socket, request, {
-                            group: group,
-                            archive: archive,
-                        });
+                        let requiredUsersIds = [];
+                        for (var i = 0; i < archive.messages.length; i++)
+                        {
+                            let hasUser = false;
+                            for (var j = 0; j < requiredUsersIds.length; j++)
+                            {
+                                if (requiredUsersIds[j] == archive.messages[i].userId)
+                                {
+                                    hasUser = true;
+                                    break;
+                                }
+                            }
+                            if (!hasUser)
+                                requiredUsersIds.push(archive.messages[i].userId);
+                        }
+                        this.chatModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+                        {
+                            for (var i = 0; i < archive.messages.length; i++)
+                            {
+                                for (var j = 0; j < users.length; j++)
+                                {
+                                    if (archive.messages[i].userId == users[j]._id)
+                                    {
+                                        archive.messages[i]._user = users[j];
+                                        break;
+                                    }
+                                }
+                                if (archive.messages[i]._user == undefined)
+                                {
+                                    archive.messages[i]._user = {
+                                        _id: "?",
+                                        username: "??",
+                                        profileImage: "??",
+                                    };
+                                }
+                            }
+                            socket.joinRoom(archive.groupId);
+                            this.sendResponse(socket, request, {
+                                group: group,
+                                archive: archive,
+                            });
+                        }).catch(fail);
                     });
                 });
             }).catch(fail);
@@ -89,6 +162,7 @@ export class ChatSocketRouter extends SocketRouter
                     archive.messages.push(message);
                     this.chatModules.ChatArchive.edit(archive._id, { messages: archive.messages }).then((archive) =>
                     {
+                        message._user = user;
                         socket.sendToRoom(archive.groupId, JSON.stringify({
                             code: 200,
                             error: null,

@@ -2,6 +2,24 @@
 
 <head>
     {{{head}}}
+    <title>چت روم {{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         footer {
             margin: 0;
@@ -23,6 +41,7 @@
             box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
             border-left: 1px solid #eeeeee;
         }
+
 
         .chat-box {
             width: calc(100% - 300px);
@@ -54,7 +73,7 @@
 
         .chat-section .content-box {
             display: block;
-            height: calc(100% - 68px);
+            height: calc(100% - 80px);
             width: 100%;
             overflow-y: hidden;
         }
@@ -63,6 +82,8 @@
             display: block;
             width: 100%;
             padding: 5px 10px;
+            overflow: hidden;
+            position: relative;
         }
 
         .chat-message-wrapper .sender-pic {
@@ -84,6 +105,7 @@
             padding: 5px 10px;
             border: 1px solid #dddddd;
             border-radius: 5px;
+            position: relative;
         }
 
         .chat-message-wrapper .chat-message .sender-name {
@@ -100,6 +122,37 @@
             display: block;
 
         }
+
+        .chat-message-wrapper .chat-message .remove-btn {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            cursor: pointer;
+            opacity: 0;
+        }
+
+        .chat-message-wrapper .chat-message .remove-btn:hover {
+            color: #616161;
+        }
+
+        .chat-message-wrapper.my-message .chat-message {
+            background-color: #66BB6A;
+            float: left;
+        }
+
+        .chat-message-wrapper.my-message .sender-pic {
+            float: left;
+        }
+
+        .chat-message-wrapper.my-message .chat-message .sender-name {
+            color: #313131;
+        }
+
+        .chat-message-wrapper.my-message .chat-message .remove-btn {
+            opacity: 1;
+        }
+
+
 
         .side-box .current-user-wrapper {
             display: block;
@@ -196,6 +249,35 @@
             font-size: 10px;
             color: #e0e0e0;
         }
+
+        .input-box {
+            width: 100%;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            background-color: white;
+            border-top: 1px solid #eeeeee;
+        }
+
+        .input-box-input {
+            position: relative;
+            top: 0;
+            right: 0;
+            width: calc(100% - 64px);
+            height: 64px;
+            border: none;
+            vertical-align: top;
+            padding-right: 15px;
+        }
+
+        .input-box-send {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 64px;
+            height: 64px;
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -225,6 +307,12 @@
             {{/groups}}
         </div>
         <div class="chat-box">
+            <div class="input-box">
+                <input class="input-box-input" name="chat-message-body" type="text" placeholder="یک چیزی بنویس..." />
+                <div class="btn btn btn-warning input-box-send" onclick="sendMessage()">
+                    <i class="far fa-paper-plane" style="font-size:22px;position: relative;top:15px"></i>
+                </div>
+            </div>
             <div class="actionbar">
                 <div style="display: inline-block;vertical-align:top;padding-left:10px;">
                     <img src="/images/amir-phantom-banner.jpg"
@@ -243,7 +331,7 @@
                     <h3>به چت روم واج خوش آمدید</h3>
                     <small>برای شروع بر روی یکی از گروه ها کلیک کنید.</small>
                 </div>
-                <div id="chat-messages-list">
+                <div id="chat-messages-list" style="overflow-y:scroll;height:100%;padding-bottom:64px;">
                     <div class="chat-message-wrapper">
                         <a class="sender-pic" href="#">
                             <img src="/images/amir-phantom-banner.jpg" />
@@ -272,7 +360,7 @@
             //show intro box:
             $("#chat-messages-list").html('');
             $(ACTION_BAR_ICON).attr('src', '/images/Stream.png');
-            $(ACTION_BAR_TITLE).html('');
+            $(ACTION_BAR_TITLE).html('چت روم واج');
             $(ACTION_BAR_SUBTITLE).html('');
 
             let groupBoxes = $(".group-wrapper");
@@ -286,7 +374,7 @@
         function ws_connect()
         {
             console.log('trying to connect....');
-            ws = new WebSocket('ws://localhost:7575');
+            ws = new WebSocket(`{{{CHAT_WS_URL}}}`);
             ws.onopen = () =>
             {
                 console.log('connected');
@@ -325,7 +413,53 @@
                         updateGroupView(groupId);
                         break;
                     }
-                }               
+                }
+            }
+            else if (response.request.method == 'send-msg')
+            {
+                let groupId = response._data.message.groupId;
+                for (var i = 0; i < groups.length; i++)
+                {
+                    if (groups[i]._id == groupId)
+                    {
+                        groups[i].messages.push(response._data.message);
+                        updateGroupView(groupId);
+                        if (currentGroupId == groupId)
+                        {
+                            renderMessage(response._data.message);
+                        }
+                        break;
+                    }
+                }
+            }
+            else if (response.request.method == 'delete-msg')
+            {
+                let groupId = response._data.message.groupId;
+                for (var i = 0; i < groups.length; i++)
+                {
+                    if (groups[i]._id == groupId)
+                    {
+                        for (var j = 0; j < groups[i].messages.length; j++)
+                        {
+                            if (groups[i].messages[j]._id == response._data.message._id)
+                            {
+                                groups[i].messages.splice(j, 1);
+                                break;
+                            }
+                        }
+                        if (currentGroupId == groupId)
+                        {
+                            console.log('DEAD!!');
+                            console.log($(`.chat-message-wrapper[msgId=${response._data.message._id}]`));
+                            $(`.chat-message-wrapper[msgId=${response._data.message._id}]`).remove();
+                        }
+                        break;
+                    }
+                }
+            }
+            else if (response.request.method == 'online-users')
+            {
+                $(ACTION_BAR_SUBTITLE).html(response._data.onlineUsers+' نفر آنلاین');
             }
         }
         function ws_send(method, parameters)
@@ -342,6 +476,10 @@
         }
         function ws_onConnected()
         {
+            ws_send('join-chat', {
+                userId: `{{{currentUser._id}}}`,
+                userToken: `{{{currentUser.token}}}`,
+            });
             for (var i = 0; i < groups.length; i++)
             {
                 ws_send('join', {
@@ -369,6 +507,17 @@
             $(ACTION_BAR_ICON).attr('src', icon);
             $(ACTION_BAR_TITLE).html(name);
             // $(ACTION_BAR_SUBTITLE).html('');
+            //hide intro , show messages:
+            $(".content-box #intro").hide();
+            $(".content-box #chat-messages-list").show();
+            $(".content-box #chat-messages-list").html('');
+            let group = get_group(currentGroupId);
+            for (var i = 0; i < group.messages.length; i++)
+            {
+                console.log(group.messages[i]);
+                let msg = group.messages[i];
+                renderMessage(msg);
+            }
         }
         function updateGroupView(groupId)
         {
@@ -376,6 +525,48 @@
             console.log(group);
             if (group.messages.length != 0)
                 $(`.group-wrapper[groupId=${groupId}] .info .last-message`).html(group.messages[group.messages.length - 1].body);
+        }
+        function renderMessage(msg)
+        {
+            let timestamp = (msg.createdAt.split(' ')[1]);
+            let myMessage = msg.userId == `{{{currentUser._id}}}`;
+
+            $(".content-box #chat-messages-list").append(`
+                <div class="chat-message-wrapper ${myMessage ? 'my-message' : ''}" msgId="${msg._id}">
+                    <a class="sender-pic" href="${msg._user.siteUrl}">
+                        <img src="${msg._user.profileImage}" />
+                    </a>
+                    <div class="chat-message">
+                        <span class="fas fa-trash remove-btn" onclick="deleteMessage('${msg._id}')"></span>
+                        <a href="${msg._user.siteUrl}" class="sender-name">${msg._user.username}:</a>
+                        <div style="font-size:12px">${msg.body}</div>
+                        <span class="timestamp text-english">${timestamp}</span>
+                    </div>
+                </div>
+            `);
+            $("#chat-messages-list").animate({ scrollTop: $('#chat-messages-list').prop("scrollHeight") }, 1000);
+        }
+        function deleteMessage(messageId)
+        {
+            ws_send('delete-msg', {
+                userId: `{{{currentUser._id}}}`,
+                userToken: `{{{currentUser.token}}}`,
+                groupId: currentGroupId,
+                messageId: messageId,
+            });
+        }
+        function sendMessage()
+        {
+            let body = $(".input-box-input").val();
+            if (isEmptyString(currentGroupId))
+                return;
+            ws_send('send-msg', {
+                userId: `{{{currentUser._id}}}`,
+                userToken: `{{{currentUser.token}}}`,
+                groupId: currentGroupId,
+                body: body,
+            });
+            $(".input-box-input").val("");
         }
     </script>
 </body>

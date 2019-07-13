@@ -1,5 +1,5 @@
 import SiteRouter from "../site_router";
-import { SITE_URL } from "../../constants";
+import { SITE_URL, IS_LOCALHOST } from "../../constants";
 import { isEmptyString, replaceAll } from "../../utils/utils";
 
 export class SocialChatRouter extends SiteRouter
@@ -20,8 +20,10 @@ export class SocialChatRouter extends SiteRouter
         {
             siteModules.SocialChatGroup.find({}).then((groups) =>
             {
+                let CHAT_WS_URL = IS_LOCALHOST() ? 'ws://localhost:7575' : 'ws://worldofgamers.ir:7575';
                 this.renderTemplate(req, res, 'social/social-chat.html', {
                     groups,
+                    CHAT_WS_URL,
                 });
             }).catch((err) =>
             {
