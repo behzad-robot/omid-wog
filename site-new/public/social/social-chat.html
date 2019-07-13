@@ -128,7 +128,7 @@
             top: 5px;
             left: 5px;
             cursor: pointer;
-            opacity: 0;
+            display: none;
         }
 
         .chat-message-wrapper .chat-message .remove-btn:hover {
@@ -149,7 +149,11 @@
         }
 
         .chat-message-wrapper.my-message .chat-message .remove-btn {
-            opacity: 1;
+            display: inline;
+        }
+
+        .chat-message-wrapper .chat-message .remove-btn.is-admin {
+            display: inline;
         }
 
 
@@ -459,7 +463,7 @@
             }
             else if (response.request.method == 'online-users')
             {
-                $(ACTION_BAR_SUBTITLE).html(response._data.onlineUsers+' نفر آنلاین');
+                $(ACTION_BAR_SUBTITLE).html(response._data.onlineUsers + ' نفر آنلاین');
             }
         }
         function ws_send(method, parameters)
@@ -530,14 +534,15 @@
         {
             let timestamp = (msg.createdAt.split(' ')[1]);
             let myMessage = msg.userId == `{{{currentUser._id}}}`;
-
+            let canDelete = (myMessage || `{{currentUser.accessLevel.isAdmin}}` == 'true');
+            console.log('canDelete=' + canDelete);
             $(".content-box #chat-messages-list").append(`
                 <div class="chat-message-wrapper ${myMessage ? 'my-message' : ''}" msgId="${msg._id}">
                     <a class="sender-pic" href="${msg._user.siteUrl}">
                         <img src="${msg._user.profileImage}" />
                     </a>
                     <div class="chat-message">
-                        <span class="fas fa-trash remove-btn" onclick="deleteMessage('${msg._id}')"></span>
+                        <span class="fas fa-trash remove-btn ${canDelete ? 'is-admin' : ''}" onclick="deleteMessage('${msg._id}')"></span>
                         <a href="${msg._user.siteUrl}" class="sender-name">${msg._user.username}:</a>
                         <div style="font-size:12px">${msg.body}</div>
                         <span class="timestamp text-english">${timestamp}</span>

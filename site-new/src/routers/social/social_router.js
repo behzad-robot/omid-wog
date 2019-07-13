@@ -147,7 +147,7 @@ export class SocialMainRouter extends SiteRouter
                         {
                             siteModules.SocialChallenge.find({ active: true }).then((challenges) =>
                             {
-                                siteModules.SocialChatGroup.find({}).then((chatGroups) =>
+                                siteModules.SocialChatGroup.find({ sort: '_id' }).then((chatGroups) =>
                                 {
                                     this.renderTemplate(req, res, 'social/social-home.html', {
                                         chatGroups: chatGroups,

@@ -209,7 +209,7 @@ export class ChatSocketRouter extends SocketRouter
                         fail('message not found');
                         return;
                     }
-                    if (message.userId != user._id)
+                    if (message.userId != user._id && (user.accessLevel == undefined || !user.accessLevel.isAdmin))
                     {
                         fail('access denied not your message');
                         return;

@@ -2,71 +2,88 @@
 
 <head>
     {{{head}}}
-    <style>
-        .explore-section {
-            /* margin-top: 80px; */
-        }
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
 
-        .explore-section .container {
-            width: 960px;
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
 
-        }
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
+    .explore-section {
+    /* margin-top: 80px; */
+    }
 
-        .chat-room-wrapper {
-            border-radius: 4px;
-            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-            margin-top: 10px;
-            background-color: white;
-            border: .3px solid #eeeeee;
-        }
+    .explore-section .container {
+    width: 960px;
 
-        .chat-room-cover {
-            width: 100%;
-            border-top-right-radius: 4px;
-            border-top-left-radius: 4px;
-        }
+    }
 
-        .chat-room-textbox {
-            padding: 5px
-        }
+    .chat-room-wrapper {
+    border-radius: 4px;
+    box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+    margin-top: 10px;
+    background-color: white;
+    border: .3px solid #eeeeee;
+    }
 
-        .members-count {
-            color: rgb(109, 109, 109);
-            font-size: 15px;
-            display: inline-block;
-            padding-top: 10px
-        }
+    .chat-room-cover {
+    width: 100%;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    }
 
-        .chat-box-btn {
-            display: inline-block;
-            width: 40%;
-            border-radius: 30px;
-            font-size: 15px;
-            margin: 0px auto
-        }
+    .chat-room-textbox {
+    padding: 5px
+    }
 
-        .chat-room-description {
-            font-size: 14px
-        }
+    .members-count {
+    color: rgb(109, 109, 109);
+    font-size: 15px;
+    display: inline-block;
+    padding-top: 10px
+    }
 
-        .blog .carousel-indicators {
-            left: 0;
-            top: auto;
-            bottom: -40px;
+    .chat-box-btn {
+    display: inline-block;
+    width: 40%;
+    border-radius: 30px;
+    font-size: 15px;
+    margin: 0px auto
+    }
 
-        }
+    .chat-room-description {
+    font-size: 14px
+    }
 
-        /* The colour of the indicators */
-        .blog .carousel-indicators li {
-            background: #a3a3a3;
-            border-radius: 50%;
-            width: 8px;
-            height: 8px;
-        }
+    .blog .carousel-indicators {
+    left: 0;
+    top: auto;
+    bottom: -40px;
 
-        .blog .carousel-indicators .active {
-            background: orange;
-        }
+    }
+
+    /* The colour of the indicators */
+    .blog .carousel-indicators li {
+    background: #a3a3a3;
+    border-radius: 50%;
+    width: 8px;
+    height: 8px;
+    }
+
+    .blog .carousel-indicators .active {
+    background: orange;
+    }
     </style>
     <style>
         .grid-post-box {

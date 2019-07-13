@@ -18,7 +18,7 @@ export class SocialChatRouter extends SiteRouter
         });
         this.router.get('/', (req, res) =>
         {
-            siteModules.SocialChatGroup.find({}).then((groups) =>
+            siteModules.SocialChatGroup.find({ 'sort': '_id' }).then((groups) =>
             {
                 let CHAT_WS_URL = IS_LOCALHOST() ? 'ws://localhost:7575' : 'ws://worldofgamers.ir:7575';
                 this.renderTemplate(req, res, 'social/social-chat.html', {
