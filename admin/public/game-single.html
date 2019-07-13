@@ -87,6 +87,7 @@
                 if (game.token.indexOf('mortal') == -1)
                 {
                     $("#single").append(jsonInput('items', game.items));
+                    $("textarea[name=items]").hide();
                     $("#single").append(jsonInput('summonerSpells', game.summonerSpells));
                     $("#single").append(jsonInput('runes', game.runes));
                     $("#single").append(jsonInput('patchNotes', game.patchNotes));
@@ -153,7 +154,7 @@
                         + `<div  class="box-row item-container" index="${item._id}">`
                         + `<div id="items-preview-${item._id}" index="${item._id}">`
                         + `<img name="icon" src="${item.icon}" width="64px" height="64px"/>&nbsp;&nbsp;`
-                        + `<b name="name">${item.name}</b>`
+                        + `<span class="badge badge-info">${item._id}</span><b name="name">${item.name}</b>`
                         + `<div class="btn btn-sm btn-info pull-right" onclick="items_toggleExpand(${item._id})">Expand</div>`
                         + '<hr>'
                         + `</div>`

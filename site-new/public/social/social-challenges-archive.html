@@ -3,13 +3,69 @@
 <head>
     {{{head}}}
     <style>
-        .challenge-card {
-            background-color: white;
-            display: block;
-            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-            border-radius: 4px;
-            border: 1px solid #dddddd;
-            padding: 10px 20px;
+        p {
+            margin-bottom: 0px
+        }
+
+
+        .challenges-section {
+            margin-bottom: -10px
+        }
+
+        .challenges-wrapper {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .hashtags-link {
+            text-decoration: none;
+            color: orange
+        }
+
+        .hashtags-link:hover {
+            text-decoration: none;
+            color: orange
+        }
+
+        .challenge-archive-title {
+            font-size: 30px
+        }
+
+        .challenge-title {
+            font-size: 22px;
+            font-weight: bold
+        }
+
+        .btn-info {
+            margin-top: 10px
+        }
+
+        @media (max-width: 576px) {
+            .challenge-archive-title {
+                font-size: 20px
+            }
+
+            .challenge-title {
+                font-size: 16px;
+            }
+
+            .challenge-description {
+                font-size: 15px
+            }
+
+            .btn-warning {
+                font-size: 13px;
+                margin-bottom: 5px
+            }
+
+            .col-7 {
+                padding: 0
+            }
+
+            .btn-info {
+                margin-top: 5px
+            }
         }
     </style>
 </head>
@@ -17,39 +73,51 @@
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <div class="container" style="padding-top:20px;">
-        <h1>آرشیو چالش ها:</h1>
-        <div class="row">
-            <div class="col-md-8">
+    <section class="challenges-section">
+        <div class="container">
+            <div class="challenge-archive-title">آرشیو چالش ها:</div>
+            <div class="row">
                 {{#challenges}}
-                <div class="challenge-card">
-                    <a href="{{siteUrl}}"><img src="{{cover}}" width="100%" style="margin-bottom:10px;" /></a>
-                    <!-- <b>active:{{active}}</b> -->
-                    <h2 style="font-size:22px;font-weight: bold;">{{title}}</h2>
-                    <div>{{{description}}}</div>
-                    <div class="btn btn-md btn-warning">هشتگ:<a class="text-english"
-                            href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}">{{{tag}}}</a>
+                <div class="col-md-8 col-12">
+                    <div class="challenges-wrapper">
+                        <div class="row">
+                            <div class="col-md-4 col-5">
+                                <a href="{{siteurl}}">
+                                    <img src="{{cover}}" width="100%">
+                                </a>
+                            </div>
+                            <div class="col-md-8 col-7">
+                                <h2 class="challenge-title">{{title}}</h2>
+                                <div class="challenge-description">{{{description}}}</div>
+                                <div class="btn btn-md">هشتگ: <a class="text-english hashtags-link"
+                                        href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}">{{{tag}}}</a>
+                                </div>
+                                <!-- <div><small>createdAt:{{createdAt}}</small></div> -->
+                                <br>
+                                <a href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}"
+                                    class="btn btn-md btn-warning">مشاهده پست های مربوطه</a>
+                                <br>
+                                {{#active}}
+                                <a href="{{siteUrl}}" class="btn btn-md btn-info">مشاهده و ورود</a>
+                                {{/active}}
+                                {{^active}}
+                                <a href="{{siteUrl}}" class="btn btn-md btn-secondary">مشاهده</a>
+                                {{/active}}
+
+                            </div>
+                        </div>
                     </div>
-                    <hr>
-                    <!-- <div><small>createdAt:{{createdAt}}</small></div> -->
-                    {{#active}}
-                    <a href="{{siteUrl}}" class="btn btn-md btn-info">مشاهده و ورود</a>
-                    {{/active}}
-                    {{^active}}
-                    <a href="{{siteUrl}}" class="btn btn-md btn-secondary">مشاهده</a>
-                    {{/active}}
-                    <a href="{{#SITE_URL}}/social/posts-archive/?tag={{tag}}{{/SITE_URL}}"
-                        class="btn btn-md btn-warning">مشاهده پست های مربوطه</a>
                 </div>
                 {{/challenges}}
-            </div>
-            <div class="col-md-4">
-                <a href="{{_siteConfig.discord}}" target="_blank"><img src="/wiki-dota2/images/join-wog-discord.png"
-                        width="100%" /></a>
+                <div class="col-md-4 col-12">
+                    <div style="margin-bottom: 10px">
+                        <a href="{{_siteConfig.discord}}" target="_blank"><img
+                                src="/wiki-dota2/images/join-wog-discord.png" width="100%" /></a>
+                    </div>
+                </div>
             </div>
         </div>
-
-    </div>
+    </section>
     {{{footer}}}
 </body>
 

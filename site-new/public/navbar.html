@@ -23,9 +23,13 @@
             <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی‌ها
                 <!--<span class="fas fa-sort-down"></span>--></a>
             <!-- <a href="/shop" class="navbar-item">فروشگاه</a> -->
+            {{^currentUser.accessLevel.isAdmin}}
             <a href="/about-us" class="navbar-item no-tablet">درباره ما</a>
-
             <a href="/contact-us" class="navbar-item no-tablet">تماس با ما</a>
+            {{/currentUser.accessLevel.isAdmin}}
+            {{#currentUser.accessLevel.isAdmin}}
+            <!-- ^_^ put 3 social icons shit here i guess!-->
+            {{/currentUser.accessLevel.isAdmin}}
             {{^currentUser}}
             <a href="/login" class="navbar-item mobile-only">ورود</a>
             <a href="/signup" class="navbar-item mobile-only">ثبت نام</a>
