@@ -169,6 +169,91 @@ export class SocialMainRouter extends SiteRouter
                 });
             }).catch(fail);
         });
+        this.router.get('/explore', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                this.show500(req, res, err);
+            };
+            loadSocialPosts(siteModules, req.session.currentUser, { limit: 11 }).then((posts) =>
+            {
+                const loadPostComments = function (index, finish)
+                {
+                    if (index >= posts.length)
+                    {
+                        finish();
+                        return;
+                    }
+                    loadComments(siteModules, req.session.currentUser, { objectType: 'social-posts', objectId: posts[index]._id, limit: 6 }).then((comments) =>
+                    {
+                        posts[index]._hasComments = comments.length != 0;
+                        posts[index]._comments = comments;
+                        loadPostComments(index + 1, finish);
+                    }).catch(fail);
+                };
+                loadPostComments(0, () =>
+                {
+                    let firstPosts = [];
+                    let otherPosts = [];
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        if (i < 5)
+                            firstPosts.push(posts[i]);
+                        else
+                            otherPosts.push(posts[i]);
+                    }
+                    this.renderTemplate(req, res, 'social/social-explore.html', {
+                        firstPosts,
+                        otherPosts,
+
+                    });
+                });
+            }).catch(fail);
+        });
+        this.router.post('/load-posts', (req, res) =>
+        {
+            var limit = req.body.limit ? req.body.limit : 9;
+            var offset = req.body.offset ? req.body.offset : 0;
+            var query = req.body;
+            if (query == 'explore')
+                query = {};
+            else if (query == 'feed')
+            {
+                query = {};
+            }
+            query.limit = limit;
+            query.offset = offset;
+            let fail = (err) =>
+            {
+                res.send({ code: 500, error: err });
+            };
+            loadSocialPosts(siteModules, req.session.currentUser, query).then((posts) =>
+            {
+                if (req.body.noComments)
+                {
+                    res.send({ code: 200, _data: posts });
+                    return;
+                }
+                const loadPostComments = function (index, finish)
+                {
+                    if (index >= posts.length)
+                    {
+                        finish();
+                        return;
+                    }
+                    loadComments(siteModules, req.session.currentUser, { objectType: 'social-posts', objectId: posts[index]._id, limit: 6 }).then((comments) =>
+                    {
+                        posts[index]._hasComments = comments.length != 0;
+                        posts[index]._comments = comments;
+                        loadPostComments(index + 1, finish);
+                    }).catch(fail);
+                };
+                loadPostComments(0, () =>
+                {
+                    res.send({ code: 200, _data: posts });
+                });
+            }).catch(fail);
+        });
         this.router.get('/posts/:_id', (req, res) =>
         {
             let fail = (err) =>
@@ -254,7 +339,7 @@ const fixPost = function (post, currentUser)
         }
     }
     post._isBookmarked = false;
-    if(currentUser.social.bookmarks == undefined)
+    if (currentUser.social.bookmarks == undefined)
         currentUser.social.bookmarks = [];
     for (var i = 0; i < currentUser.social.bookmarks.length; i++)
     {

@@ -4,7 +4,7 @@
     {{{head}}}
     <style>
         .explore-section {
-            /* margin-top: 80px; */
+            margin-top: 80px;
         }
 
         .explore-section .container {
@@ -70,41 +70,13 @@
     </style>
     <style>
         .grid-post-box {
-            display: block;
-            text-decoration: none !important;
-            color: white !important;
             position: relative;
             height: 225px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .grid-post-box .grid-post-box-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, .4);
-            z-index: 2;
-            text-align: center;
-            padding-top: 100px;
-            font-size: 20px;
-            opacity: 0;
-            transition: 300ms all;
-        }
-
-        .grid-post-box:hover .grid-post-box-overlay {
-            opacity: 1;
+            margin-bottom: 20px
         }
 
         .grid-post-box.big {
             height: 470px;
-        }
-
-        .grid-post-box.big .grid-post-box-overlay {
-            padding-top: 200px;
-            font-size: 26px;
         }
 
         .grid-post-box .post-thumbail {
@@ -122,10 +94,9 @@
 
 <body>
     {{{navbar}}}
-    <navfiller></navfiller>
     <section class="explore-section">
         <div class="container">
-            <!-- <h4 style="margin-top: 10px">chat room or sugested user or story or fucking any thing else</h4> -->
+            <h4 style="margin-top: 10px">chat room or sugested user or story or fucking any thing else</h4>
             <div class="row blog">
                 <div class="col-md-12">
                     <div id="blogCarousel" class="carousel slide" data-ride="carousel">
@@ -285,154 +256,134 @@
                     <!--.Carousel-->
                 </div>
             </div>
-            <div class="row" style="margin-top:35px;">
-                <div class="col-md-3 col-3">
-                    <a class="grid-post-box" href="{{firstPosts.0.siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{firstPosts.0._comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.0.likes.length}}</span>
-                        </div>
-                        <div class="post-thumbail" style="background-image:url('{{firstPosts.0.thumbnail_512x512}}')">
-                        </div>
-                    </a>
-                    <a class="grid-post-box" href="{{firstPosts.1.siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{firstPosts.1._comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.1.likes.length}}</span>
-                        </div>
-                        <div class="post-thumbail" style="background-image:url('{{firstPosts.1.thumbnail_512x512}}')">
-                        </div>
-                    </a>
 
+            <h4 style="margin-top: 30px">eplooooooooooreeeee *_*</h4>
+            <div class="row">
+                <div class="col-md-3 col-3">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
                 </div> <!-- col-md-3-->
 
                 <div class="col-md-3 col-3">
-                    <a class="grid-post-box" href="{{firstPosts.2.siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{firstPosts.2._comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.2.likes.length}}</span>
-                        </div>
-                        <div class="post-thumbail" style="background-image:url('{{firstPosts.2.thumbnail_512x512}}')">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
                         </div>
                     </a>
-                    <a class="grid-post-box" href="{{firstPosts.3.siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{firstPosts.3._comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.3.likes.length}}</span>
-                        </div>
-                        <div class="post-thumbail" style="background-image:url('{{firstPosts.3.thumbnail_512x512}}')">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
                         </div>
                     </a>
                 </div> <!-- col-md-3-->
                 <div class="col-md-6 col-6">
-                    <a class="grid-post-box big" href="{{firstPosts.4.siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{firstPosts.4._comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.4.likes.length}}</span>
-                        </div>
-                        <div class="post-thumbail" style="background-image:url('{{firstPosts.4.thumbnail_512x512}}')">
+                    <a href="">
+                        <div class="grid-post-box big">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
                         </div>
                     </a>
                 </div>
-
-            </div>
-            <div class="row" id="posts-row">
-                <!-- start of other posts-->
-                {{#otherPosts}}
                 <div class="col-md-4 col-4">
-                    <a class="grid-post-box" href="{{siteUrl}}">
-                        <div class="grid-post-box-overlay">
-                            <i class="fas fa-comment"></i>&nbsp;<span>{{_comments.length}}</span>
-                            <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
                         </div>
-                        <div class="post-thumbail" style="background-image:url('{{thumbnail_512x512}}')"></div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
                     </a>
                 </div>
-                {{/otherPosts}}
-            </div>
-            <div class="text-center" style="padding:10px 0;">
-                <div id="load-more-loading" class="text-center" style="display:none">
-                    <div class="lds-ellipsis">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
+                <div class="col-md-4 col-4">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div id="load-more-error" style="color:#a00;">
-
+                <div class="col-md-4 col-4">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
                 </div>
-                <div class="btn btn-md btn-warning" id="load-more-btn">بیشتر</div>
+                <div class="col-md-4 col-4">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-4">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-4 col-4">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('/social/images/cute.jpg')">
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
     {{{footer}}}
-    <script>
-        let offset = 11;
-        const LIMIT = 9;
-        function showError(str)
-        {
-            $("#load-more-error").show();
-            $("#load-more-error").html(str);
-        }
-        $(() =>
-        {
-            $("#load-more-btn").click(function ()
-            {
-                $("#load-more-btn").hide();
-                $("#load-more-loading").show();
-                $("#load-more-error").hide();
-                fetch('/social/load-posts', {
-                    method: 'POST',
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        limit: LIMIT,
-                        offset: offset,
-                        query: 'explore',
-                    }),
-                }).then((response => response.json())).then((response) =>
-                {
-                    $("#load-more-btn").show();
-                    $("#load-more-loading").hide();
-                    console.log(response);
-                    if (response.code != 200)
-                    {
-                        showError(response.error);
-                        console.log(response.error);
-                        return;
-                    }
-                    let posts = response._data;
-                    offset += posts.length;
-                    for (var i = 0; i < posts.length; i++)
-                    {
-                        let post = posts[i];
-                        $("#posts-row").append(`
-                        <div class="col-md-4 col-4">
-                            <a class="grid-post-box" href="${post.siteUrl}">
-                                <div class="grid-post-box-overlay">
-                                    <i class="fas fa-comment"></i>&nbsp;<span>${post._comments.length}</span>
-                                    <i class="fas fa-heart"></i>&nbsp;<span>${post.likes.length}</span>
-                                </div>
-                                <div class="post-thumbail" style="background-image:url('${post.thumbnail_512x512}')"></div>
-                            </a>
-                        </div>
-                        `);
-                    }
-                    if (posts.length < LIMIT)
-                    {
-                        $("#load-more-btn").hide();
-                    }
-                }).catch((err) =>
-                {
-                    alert(err);
-                    console.log(err);
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

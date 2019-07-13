@@ -32,6 +32,11 @@
             background-color: white;
         }
 
+        .hashtags-description {
+            color: grey;
+            font-size: 12px
+        }
+
         .hashtags-logo-background {
             background-color: black;
             width: 80px;
@@ -333,6 +338,10 @@
             text-decoration: none
         }
 
+        .hashtags-names {
+            color: black;
+            padding-top: 20px
+        }
 
         .comments-heart {
             float: left;
@@ -361,48 +370,6 @@
             .pop-up-content {
                 width: 50%
             }
-        }
-
-        .recommend-user-box-wrapper {
-            border-radius: 8px;
-            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-            margin-top: 10px;
-            background-color: white;
-        }
-
-        .suggested-names {
-            color: black;
-            float: right;
-            padding: 30px 10px;
-        }
-
-        .suggested-user-profile-image {
-            width: 25%;
-            border-radius: 50%;
-            float: right
-        }
-
-        .follow-user {
-            float: left;
-            margin-top: 30px
-        }
-
-        .suggested-hashtags-image {
-            width: 25%;
-            border-radius: 50%;
-            float: right
-        }
-
-        .hashtags-names {
-            color: black;
-            padding-top: 20px;
-            padding: 30px 10px;
-            float: right
-        }
-
-        .follow-hashtag {
-            float: left;
-            margin-top: 25px
         }
     </style>
 </head>
@@ -561,71 +528,62 @@
                         </div>
                         <!-- start single row-->
                         {{#suggestedHashtags}}
-                        <div style="overflow: hidden;border-top: 1px solid grey;padding: 5px 10px">
-                            <img class="suggested-hashtags-image" src="{{icon}}" alt="">
-                            <h6 class="hashtags-names">{{name}}</h6>
-                            <a href="{{#SITE_URL}}/social/follow-hashtag/?tagId={{_id}}&redirect=/social{{/SITE_URL}}"
-                                class="btn btn-sm btn-primary follow-hashtag">Follow</a>
-                        </div>
-                        </a>
-                    </div>
-                    {{/suggestedHashtags}}
-                    <!-- end of single row -->
-                </div>
-                {{/hasSuggestedHashtags}}
-                <!-- end of whole hashtag box -->
-                {{#hasSuggestedUsers}}
-                <div class="recommend-user-box-wrapper">
-                    <div style="overflow:hidden;padding: 10px">
-                        <h5 style="float: right">کاربر های پیشنهادی</h5>
-                    </div>
-                    <!-- start single row-->
-                    {{#suggestedUsers}}
-                    <div style="overflow: hidden;border-top: 1px solid grey;padding: 5px 10px">
-                        <img class="suggested-user-profile-image" src="{{profileImage}}" alt="">
-                        <h6 class="suggested-names">{{username}}</h6>
-                        <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
-                            class="btn btn-sm btn-primary follow-user">Follow</a>
-                    </div>
-                    {{/suggestedUsers}}
-                    <!-- end of single row -->
-                </div>
-                {{/hasSuggestedUsers}}
-
-                <!-- start chalenge box -->
-                {{#hasChallenges}}
-                <div class="challenges-wrapper">
-                    <div style="overflow:hidden;padding: 10px">
-                        <h5 style="float: right;">چالش های اخیر</h5>
-                        <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
-                            style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
-                    </div>
-                    <!-- start single box -->
-                    {{#challenges}}
-                    <div style="margin-bottom: 5px;position: relative">
-                        <a href="{{siteUrl}}"><img src="{{cover}}" style="width: 100%" alt="{{name}}"></a>
-                        <div
-                            style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
-                            <div class="row">
-                                <div class="col-md-8 col-8">
-                                    <h6 class="text-white">{{title}}</h6>
-                                    <div class="text-white" style="font-size: 10px">ورودی {{entranceFee}} سکه</div>
+                        <div style="border-top: 1px solid grey">
+                            <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
+                                class="hashtags-links">
+                                <div class="row" style="padding: 10px">
+                                    <div class="col-md-4 col-4">
+                                        <div class="hashtags-logo-background text-center">
+                                            <img src="{{icon}}" style="width: 80%;padding-top: 10px" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-8" style="padding: 0">
+                                        <h6 class="hashtags-names">{{name}}</h6>
+                                        <div class="hashtags-description">#{{tags.0}}</div>
+                                    </div>
                                 </div>
-                                <div class="col-md-4 col-4">
-                                    <a href="{{siteUrl}}">
-                                        <button type="button" class="btn btn-primary chalenge-btn">مشاهده</button>
-                                    </a>
+                            </a>
+                        </div>
+                        {{/suggestedHashtags}}
+                        <!-- end of single row -->
+                    </div>
+                    {{/hasSuggestedHashtags}}
+                    <!-- start chalenge box -->
+
+
+                    {{#hasChallenges}}
+                    <div class="challenges-wrapper">
+                        <div style="overflow:hidden;padding: 10px">
+                            <h5 style="float: right;">چالش های اخیر</h5>
+                            <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
+                                style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
+                        </div>
+                        <!-- start single box -->
+                        {{#challenges}}
+                        <div style="margin-bottom: 5px;position: relative">
+                            <a href="{{siteUrl}}"><img src="{{cover}}" style="width: 100%" alt="{{name}}"></a>
+                            <div
+                                style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
+                                <div class="row">
+                                    <div class="col-md-8 col-8">
+                                        <h6 class="text-white">{{title}}</h6>
+                                        <div class="text-white" style="font-size: 10px">ورودی {{entranceFee}} سکه</div>
+                                    </div>
+                                    <div class="col-md-4 col-4">
+                                        <a href="{{siteUrl}}">
+                                            <button type="button" class="btn btn-primary chalenge-btn">مشاهده</button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {{/challenges}}
+                        <!-- end single box -->
                     </div>
-                    {{/challenges}}
-                    <!-- end single box -->
-                </div>
-                {{/hasChallenges}}
+                    {{/hasChallenges}}
 
+                </div>
             </div>
-        </div>
         </div>
     </section>
 
@@ -672,9 +630,9 @@
                         }
                         else
                         {
-                            $(this).removeClass('far');
-                            $(this).addClass('fas');
-                            $(this).addClass('post-like-btn-clicked');
+                            $(this).removeClass('far'),
+                                $(this).addClass('fas'),
+                                $(this).addClass('post-like-btn-clicked')
                         }
                         let post = response._data;
                         console.log(post);
@@ -738,20 +696,6 @@
                 });
             });
         });
-    </script>
-
-    <script>
-
-        // function changeBookmarkColor(elm)
-        // {
-        //     $(elm).removeClass('far'),
-        //         $(elm).addClass('fas')
-        // }
-        // function changeBookmarkColor(elm)
-        // {
-        //     $(elm).removeClass('far'),
-        //         $(elm).addClass('fas')
-        // }
         function toggleBookmark(elm)
         {
             let postId = $(elm).attr('postId');

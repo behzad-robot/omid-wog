@@ -47,6 +47,7 @@ import { SocialHashTag } from "./utilsApi/social_hashtag";
 import { SocialChallenge } from "./utilsApi/social_challenge";
 import { SocialChallengesRouter } from "./routers/social/social_challenges_router";
 import { SocialChatGroup } from "./utilsApi/social_chat_group";
+import { SocialChatRouter } from "./routers/social/social_chat_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -334,6 +335,7 @@ express.expressApp.use('/dota2-quiz', new Dota2QuizRouter(SiteModules).router);
 express.expressApp.use('/social/posts', new SocialPostsRouter(SiteModules).router);
 express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModules).router);
+express.expressApp.use('/social/chat', new SocialChatRouter(SiteModules).router);
 
 
 

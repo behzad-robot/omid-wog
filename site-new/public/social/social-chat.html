@@ -1,0 +1,383 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        footer {
+            margin: 0;
+        }
+
+        .chat-section {
+            height: calc(100vh - 80px);
+            position: relative;
+        }
+
+        .side-box {
+            width: 300px;
+            height: 100%;
+            position: absolute;
+            z-index: 9999;
+            top: 0px;
+            right: 0;
+            background-color: rgb(44, 51, 54);
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.15);
+            border-left: 1px solid #eeeeee;
+        }
+
+        .chat-box {
+            width: calc(100% - 300px);
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+
+        .chat-section .actionbar {
+            width: 100%;
+            padding: 10px 20px;
+            background-color: white;
+            box-shadow: 0px 1px 2px rgba(100, 100, 100, 0.10);
+        }
+
+        .chat-box .actionbar .actionbar-title {
+            font-size: 18px;
+            color: #313131;
+            font-weight: bold;
+            display: block;
+        }
+
+        .chat-box .actionbar .actionbar-subtitle {
+            display: block;
+            font-size: 14px;
+            color: #909090;
+        }
+
+        .chat-section .content-box {
+            display: block;
+            height: calc(100% - 68px);
+            width: 100%;
+            overflow-y: hidden;
+        }
+
+        .chat-message-wrapper {
+            display: block;
+            width: 100%;
+            padding: 5px 10px;
+        }
+
+        .chat-message-wrapper .sender-pic {
+            display: inline-block;
+            vertical-align: top;
+        }
+
+        .chat-message-wrapper .sender-pic img {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            vertical-align: top;
+        }
+
+        .chat-message-wrapper .chat-message {
+            display: inline-block;
+            min-width: 250px;
+            background-color: white;
+            padding: 5px 10px;
+            border: 1px solid #dddddd;
+            border-radius: 5px;
+        }
+
+        .chat-message-wrapper .chat-message .sender-name {
+            color: orange;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .chat-message-wrapper .chat-message .timestamp {
+            color: #909090;
+            font-size: 10px;
+            direction: ltr;
+            text-align: left;
+            display: block;
+
+        }
+
+        .side-box .current-user-wrapper {
+            display: block;
+            padding: 10px 20px;
+            border-bottom: 1px solid #616161;
+        }
+
+        .side-box .current-user-wrapper .profile-image {
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            padding: 2px;
+            border: 2px solid orange;
+            vertical-align: top;
+        }
+
+        .side-box .current-user-wrapper .info {
+            display: inline-block;
+            color: white;
+            padding-right: 5px;
+        }
+
+        .side-box .current-user-wrapper .info .username {
+            display: block;
+            font-size: 20px;
+            padding-top: 5px;
+        }
+
+        .side-box .current-user-wrapper .info .status {
+            display: block;
+            font-size: 10px;
+            color: #909090;
+        }
+
+
+
+        .side-box .group-wrapper {
+            display: block;
+            padding: 5px 10px;
+            position: relative;
+            border-bottom: 1px solid #616161;
+            cursor: pointer;
+        }
+
+        .side-box .group-wrapper:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .side-box .group-wrapper.active {
+            background-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .side-box .group-wrapper * {
+            pointer-events: none;
+        }
+
+        .side-box .group-wrapper .icon {
+            display: inline-block;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            vertical-align: top;
+        }
+
+        .side-box .group-wrapper .info {
+            display: inline-block;
+            position: relative;
+            color: white;
+            padding-right: 5px;
+            padding-top: 15px;
+            position: relative;
+        }
+
+        .side-box .group-wrapper .info .group-name {
+            display: block;
+            width: calc(100% - 64px);
+            font-weight: bold;
+        }
+
+        .side-box .group-wrapper .info .last-message {
+            display: block;
+            width: 150px;
+            max-lines: 1;
+            white-space: nowrap;
+            color: #909090;
+            font-size: 11px;
+        }
+
+        .side-box .group-wrapper .timestamp {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 10px;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="chat-section">
+        <div class="side-box">
+            <div class="current-user-wrapper">
+                <a href="{{currentUser.siteUrl}}"><img class="profile-image" src="{{{currentUser.profileImage}}}" /></a>
+                <div class="info">
+                    <span class="username">{{{currentUser.username}}}</span>
+                    <span class="status">Online</span>
+                </div>
+            </div> <!-- end of current-user-wrapper-->
+            {{#groups}}
+            <div class="group-wrapper" name="{{name}}" icon="{{{icon}}}" groupId="{{_id}}"
+                onclick="groupSelected(this)">
+                <img class="icon" src="{{icon}}" />
+                <div class="info">
+                    <span class="group-name">{{name}}</span>
+                    <span class="last-message">Are man ham didam dadad</span>
+                </div>
+                <span class="timestamp text-english">10:20 AM</span>
+            </div>
+            <!--end of group wrapper-->
+            {{/groups}}
+        </div>
+        <div class="chat-box">
+            <div class="actionbar">
+                <div style="display: inline-block;vertical-align:top;padding-left:10px;">
+                    <img src="/images/amir-phantom-banner.jpg"
+                        style="width:64px;height:64px;border-radius:50%;vertical-align:top;" class="actionbar-icon" />
+                </div>
+                <div style="display: inline-block;vertical-align:middle;padding-top:10px;">
+                    <span class="actionbar-title">General Chat</span>
+                    <span class="actionbar-subtitle">3 نفر آنلاین</span>
+                </div>
+            </div>
+            <div class="content-box">
+                <div id="intro" class="text-center">
+                    <div style="padding:20px 0">
+                        <img src="/images/Stream.png" style="max-width: 100%;width:300px;border-radius:50%;" />
+                    </div>
+                    <h3>به چت روم واج خوش آمدید</h3>
+                    <small>برای شروع بر روی یکی از گروه ها کلیک کنید.</small>
+                </div>
+                <div id="chat-messages-list">
+                    <div class="chat-message-wrapper">
+                        <a class="sender-pic" href="#">
+                            <img src="/images/amir-phantom-banner.jpg" />
+                        </a>
+                        <div class="chat-message">
+                            <a href="#" class="sender-name">Behzad:</a>
+                            <div>salam chetori?</div>
+                            <span class="timestamp text-english">11:26:00 AM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {{{footer}}}
+    <script>
+        const ACTION_BAR_ICON = ".actionbar-icon";
+        const ACTION_BAR_TITLE = ".actionbar-title";
+        const ACTION_BAR_SUBTITLE = ".actionbar-subtitle";
+        let ws = undefined;
+        let isConnected = false;
+        let currentGroupId = '';
+        let groups = [];
+        $(() =>
+        {
+            //show intro box:
+            $("#chat-messages-list").html('');
+            $(ACTION_BAR_ICON).attr('src', '/images/Stream.png');
+            $(ACTION_BAR_TITLE).html('');
+            $(ACTION_BAR_SUBTITLE).html('');
+
+            let groupBoxes = $(".group-wrapper");
+            for (var i = 0; i < groupBoxes.length; i++)
+                groups.push({
+                    _id: $(groupBoxes[i]).attr('groupId'),
+                    messages: [],
+                });
+            ws_connect();
+        });
+        function ws_connect()
+        {
+            console.log('trying to connect....');
+            ws = new WebSocket('ws://localhost:7575');
+            ws.onopen = () =>
+            {
+                console.log('connected');
+                isConnected = true;
+                ws_onConnected();
+            };
+            ws.onclose = (ev) =>
+            {
+                console.log('disconnected => ' + ev.code + '=>' + ev.reason);
+                isConnected = false;
+                // reconnect();
+            };
+            ws.onmessage = (ev) =>
+            {
+                const response = JSON.parse(ev.data);
+                console.log(response);
+                ws_onMessage(response);
+            };
+        }
+        function ws_onMessage(response)
+        {
+            if (response.code != 200)
+            {
+                console.error(response.error);
+                return;
+            }
+            if (response.request.method == 'join')
+            {
+                let groupId = (response._data.group._id);
+                for (var i = 0; i < groups.length; i++)
+                {
+                    if (groups[i]._id == groupId)
+                    {
+                        groups[i] = response._data.group;
+                        groups[i].messages = response._data.archive.messages;
+                        updateGroupView(groupId);
+                        break;
+                    }
+                }               
+            }
+        }
+        function ws_send(method, parameters)
+        {
+            let msg = {
+                _headers: {
+                    'chat-token': 'yaboo',
+                },
+                method: method,
+                parameters: parameters,
+            };
+            console.log(msg);
+            ws.send(JSON.stringify(msg));
+        }
+        function ws_onConnected()
+        {
+            for (var i = 0; i < groups.length; i++)
+            {
+                ws_send('join', {
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                    groupId: groups[i]._id,
+                });
+            }
+        }
+        function get_group(_id)
+        {
+            for (var i = 0; i < groups.length; i++)
+                if (groups[i]._id == _id)
+                    return groups[i];
+            return undefined;
+        }
+        function groupSelected(elm)
+        {
+            $(".group-wrapper").removeClass("active");
+            $(elm).addClass('active');
+            let groupId = $(elm).attr('groupId');
+            currentGroupId = groupId;
+            let icon = $(elm).attr('icon');
+            let name = $(elm).attr('name');
+            $(ACTION_BAR_ICON).attr('src', icon);
+            $(ACTION_BAR_TITLE).html(name);
+            // $(ACTION_BAR_SUBTITLE).html('');
+        }
+        function updateGroupView(groupId)
+        {
+            let group = get_group(groupId);
+            console.log(group);
+            if (group.messages.length != 0)
+                $(`.group-wrapper[groupId=${groupId}] .info .last-message`).html(group.messages[group.messages.length - 1].body);
+        }
+    </script>
+</body>
+
+</html>
