@@ -298,9 +298,9 @@
                 </div>
             </div> <!-- end of current-user-wrapper-->
             {{#groups}}
-            <div class="group-wrapper" name="{{name}}" icon="{{{icon}}}" groupId="{{_id}}"
+            <div class="group-wrapper" name="{{name}}" icon="{{{cover}}}" groupId="{{_id}}"
                 onclick="groupSelected(this)">
-                <img class="icon" src="{{icon}}" />
+                <img class="icon" src="{{cover}}" />
                 <div class="info">
                     <span class="group-name">{{name}}</span>
                     <span class="last-message">Are man ham didam dadad</span>
@@ -350,7 +350,6 @@
             </div>
         </div>
     </section>
-    {{{footer}}}
     <script>
         const ACTION_BAR_ICON = ".actionbar-icon";
         const ACTION_BAR_TITLE = ".actionbar-title";
@@ -374,6 +373,11 @@
                     messages: [],
                 });
             ws_connect();
+            $(".input-box-input").keyup((evt)=>{
+                if(evt.keyCode === 13){
+                    $(".input-box-send").trigger('click');
+                }
+            });
         });
         function ws_connect()
         {
@@ -394,7 +398,7 @@
             ws.onmessage = (ev) =>
             {
                 const response = JSON.parse(ev.data);
-                console.log(response);
+                // console.log(response);
                 ws_onMessage(response);
             };
         }
@@ -453,8 +457,6 @@
                         }
                         if (currentGroupId == groupId)
                         {
-                            console.log('DEAD!!');
-                            console.log($(`.chat-message-wrapper[msgId=${response._data.message._id}]`));
                             $(`.chat-message-wrapper[msgId=${response._data.message._id}]`).remove();
                         }
                         break;
@@ -475,7 +477,7 @@
                 method: method,
                 parameters: parameters,
             };
-            console.log(msg);
+            // console.log(msg);
             ws.send(JSON.stringify(msg));
         }
         function ws_onConnected()
@@ -518,7 +520,7 @@
             let group = get_group(currentGroupId);
             for (var i = 0; i < group.messages.length; i++)
             {
-                console.log(group.messages[i]);
+                // console.log(group.messages[i]);
                 let msg = group.messages[i];
                 renderMessage(msg);
             }
@@ -526,7 +528,7 @@
         function updateGroupView(groupId)
         {
             let group = get_group(groupId);
-            console.log(group);
+            // console.log(group);
             if (group.messages.length != 0)
                 $(`.group-wrapper[groupId=${groupId}] .info .last-message`).html(group.messages[group.messages.length - 1].body);
         }
@@ -535,7 +537,7 @@
             let timestamp = (msg.createdAt.split(' ')[1]);
             let myMessage = msg.userId == `{{{currentUser._id}}}`;
             let canDelete = (myMessage || `{{currentUser.accessLevel.isAdmin}}` == 'true');
-            console.log('canDelete=' + canDelete);
+            // console.log('canDelete=' + canDelete);
             $(".content-box #chat-messages-list").append(`
                 <div class="chat-message-wrapper ${myMessage ? 'my-message' : ''}" msgId="${msg._id}">
                     <a class="sender-pic" href="${msg._user.siteUrl}">

@@ -2,24 +2,6 @@
 
 <head>
     {{{head}}}
-    <title>{{_wogSEO.title}}</title>
-    <meta name="description" content="{{_wogSEO.description}}">
-    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
-    <link rel="canonical" href="http://worldofgamers.ir/">
-
-    <meta property="og:locale" content="fa_IR">
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="{{_wogSEO.title}}">
-    <meta property="og:description" content="{{_wogSEO.description}}">
-    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
-    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
-    <meta property="og:site_name" content="واج">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@wogcompany">
-    <meta name="twitter:description" content="{{_wogSEO.description}}">
-    <meta name="twitter:title" content="{{_wogSEO.title}}">
-    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         .first-section {
             margin-top: 80px
@@ -30,6 +12,11 @@
             box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
             margin-top: 10px;
             background-color: white;
+        }
+
+        .hashtags-description {
+            color: grey;
+            font-size: 12px
         }
 
         .hashtags-logo-background {
@@ -333,6 +320,10 @@
             text-decoration: none
         }
 
+        .hashtags-names {
+            color: black;
+            padding-top: 20px
+        }
 
         .comments-heart {
             float: left;
@@ -374,6 +365,7 @@
             color: black;
             float: right;
             padding: 30px 10px;
+
         }
 
         .suggested-user-profile-image {
@@ -386,23 +378,28 @@
             float: left;
             margin-top: 30px
         }
-
-        .suggested-hashtags-image {
-            width: 25%;
+        .fab-new-post{
+            display: block;
+            position: fixed;
+            z-index:9999;
+            bottom:10px;
+            left:10px;
+            width: 64px;
+            height: 64px;
             border-radius: 50%;
-            float: right
+            background-color:orange;
+            color:white;
+            text-align: center;
+            padding-top:18px;
+            cursor: pointer;
+            box-shadow: 1px 2px 2px rgba(0, 0, 0, .35);
         }
-
-        .hashtags-names {
-            color: black;
-            padding-top: 20px;
-            padding: 30px 10px;
-            float: right
+        .fab-new-post:hover{
+            background-color: rgb(180, 118, 3);
         }
-
-        .follow-hashtag {
-            float: left;
-            margin-top: 25px
+        .fab-new-post .fas{
+            color:white;
+            font-size:26px;
         }
     </style>
 </head>
@@ -424,6 +421,9 @@
             </div>
         </div>
     </div>
+    <a class="fab-new-post mobile-only" href="/social/posts/new">
+        <span class="fas fa-plus"></span>
+    </a>
     <section class="first-section">
         <div class="container">
             <div class="row">
@@ -446,38 +446,6 @@
                             </div>
                         </div>
                         {{/chatGroups}}
-                        <!-- <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-12">
-                            <div class="chat-room-wrapper">
-                                <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                <div class="chat-room-textbox">
-                                    <h5>چت عمومی</h5>
-                                    <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                    <div style="padding-bottom:5px;">
-                                        <div class="members-count">300 عضو</div>
-                                        <a href="">
-                                            <button type="button"
-                                                class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> -->
                     </div>
                     {{#posts}}
                     <div class="post-wrapper" postId="{{_id}}" userId="{{userId}}" siteUrl="{{{siteUrl}}}"
@@ -561,71 +529,95 @@
                         </div>
                         <!-- start single row-->
                         {{#suggestedHashtags}}
-                        <div style="overflow: hidden;border-top: 1px solid grey;padding: 5px 10px">
-                            <img class="suggested-hashtags-image" src="{{icon}}" alt="">
-                            <h6 class="hashtags-names">{{name}}</h6>
-                            <a href="{{#SITE_URL}}/social/follow-hashtag/?tagId={{_id}}&redirect=/social{{/SITE_URL}}"
-                                class="btn btn-sm btn-primary follow-hashtag">Follow</a>
+                        <div style="border-top: 1px solid grey">
+                            <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
+                                class="hashtags-links">
+                                <div class="row" style="padding: 10px">
+                                    <div class="col-md-4 col-4">
+                                        <div class="hashtags-logo-background text-center">
+                                            <img src="{{icon}}" style="width: 80%;padding-top: 10px" alt="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 col-8" style="padding: 0">
+                                        <h6 class="hashtags-names">{{name}}</h6>
+                                        <div class="hashtags-description">#{{tags.0}}</div>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                        </a>
+                        {{/suggestedHashtags}}
+                        <!-- end of single row -->
                     </div>
-                    {{/suggestedHashtags}}
-                    <!-- end of single row -->
-                </div>
-                {{/hasSuggestedHashtags}}
-                <!-- end of whole hashtag box -->
-                {{#hasSuggestedUsers}}
-                <div class="recommend-user-box-wrapper">
-                    <div style="overflow:hidden;padding: 10px">
-                        <h5 style="float: right">کاربر های پیشنهادی</h5>
+                    {{/hasSuggestedHashtags}}
+                    <!-- end of whole hashtag box -->
+                    {{#hasSuggestedUsers}}
+                    <div class="recommend-user-box-wrapper">
+                        <div style="overflow:hidden;padding: 10px">
+                            <h5 style="float: right">کاربر های پیشنهادی</h5>
+                        </div>
+                        <!-- start single row-->
+                        {{#suggestedUsers}}
+                        <div style="overflow: hidden;border-top: 1px solid grey;padding: 5px 10px">
+                            <img class="suggested-user-profile-image" src="{{profileImage}}" alt="">
+                            <h6 class="suggested-names">{{username}}</h6>
+                            <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
+                                class="btn btn-sm btn-primary follow-user">Follow</a>
+                        </div>
+                        {{/suggestedUsers}}
+                        <!-- end of single row -->
                     </div>
-                    <!-- start single row-->
-                    {{#suggestedUsers}}
-                    <div style="overflow: hidden;border-top: 1px solid grey;padding: 5px 10px">
-                        <img class="suggested-user-profile-image" src="{{profileImage}}" alt="">
-                        <h6 class="suggested-names">{{username}}</h6>
-                        <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
-                            class="btn btn-sm btn-primary follow-user">Follow</a>
-                    </div>
-                    {{/suggestedUsers}}
-                    <!-- end of single row -->
-                </div>
-                {{/hasSuggestedUsers}}
+                    {{/hasSuggestedUsers}}
 
-                <!-- start chalenge box -->
-                {{#hasChallenges}}
-                <div class="challenges-wrapper">
-                    <div style="overflow:hidden;padding: 10px">
-                        <h5 style="float: right;">چالش های اخیر</h5>
-                        <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
-                            style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
-                    </div>
-                    <!-- start single box -->
-                    {{#challenges}}
-                    <div style="margin-bottom: 5px;position: relative">
-                        <a href="{{siteUrl}}"><img src="{{cover}}" style="width: 100%" alt="{{name}}"></a>
+                    <!-- start chalenge box -->
+                    <div style="position: sticky;top:90px;">
                         <div
-                            style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
-                            <div class="row">
-                                <div class="col-md-8 col-8">
-                                    <h6 class="text-white">{{title}}</h6>
-                                    <div class="text-white" style="font-size: 10px">ورودی {{entranceFee}} سکه</div>
-                                </div>
-                                <div class="col-md-4 col-4">
-                                    <a href="{{siteUrl}}">
-                                        <button type="button" class="btn btn-primary chalenge-btn">مشاهده</button>
-                                    </a>
-                                </div>
+                            style="background-image:url('/images/bloodmoon-twisted.jpg');background-position: center;background-size: cover;width: 100%;height:150px;position: relative;margin-top:10px;border-radius:5px;box-shadow:1px 2px 2px rgba(0, 0, 0, .15);">
+                            <div
+                                style="position: absolute;width: 100%;height: 100%;top:0;left:0;background-color: rgba(0, 0, 0, .35);z-index:1;border-radius:5px;">
+                            </div>
+                            <div style="position: relative;width:100%;z-index:2;text-align: center;padding-top:30px;">
+                                <h3 style="color:white;font-size:18px;padding-bottom:10px;">مطلب با حال داری؟ به اشتراک
+                                    بگذار!</h3>
+                                <a href="/social/posts/new" class="btn btn-md btn-warning"><span
+                                        class="fas fa-plus"></span>&nbsp;ارسال مطلب جدید</a>
                             </div>
                         </div>
+                        {{#hasChallenges}}
+                        <div class="challenges-wrapper">
+                            <div style="overflow:hidden;padding: 10px">
+                                <h5 style="float: right;">چالش های اخیر</h5>
+                                <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
+                                    style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده
+                                    همه</a>
+                            </div>
+                            <!-- start single box -->
+                            {{#challenges}}
+                            <div style="margin-bottom: 5px;position: relative">
+                                <a href="{{siteUrl}}"><img src="{{cover}}" style="width: 100%" alt="{{name}}"></a>
+                                <div
+                                    style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
+                                    <div class="row">
+                                        <div class="col-md-8 col-8">
+                                            <h6 class="text-white">{{title}}</h6>
+                                            <div class="text-white" style="font-size: 10px">ورودی {{entranceFee}} سکه
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4 col-4">
+                                            <a href="{{siteUrl}}">
+                                                <button type="button"
+                                                    class="btn btn-primary chalenge-btn">مشاهده</button>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{/challenges}}
+                            <!-- end single box -->
+                        </div>
+                        {{/hasChallenges}}
                     </div>
-                    {{/challenges}}
-                    <!-- end single box -->
                 </div>
-                {{/hasChallenges}}
-
             </div>
-        </div>
         </div>
     </section>
 
@@ -672,9 +664,9 @@
                         }
                         else
                         {
-                            $(this).removeClass('far');
-                            $(this).addClass('fas');
-                            $(this).addClass('post-like-btn-clicked');
+                            $(this).removeClass('far'),
+                                $(this).addClass('fas'),
+                                $(this).addClass('post-like-btn-clicked')
                         }
                         let post = response._data;
                         console.log(post);

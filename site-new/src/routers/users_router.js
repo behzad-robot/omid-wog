@@ -1,6 +1,8 @@
 import SiteRouter from "./site_router";
 import { isEmptyString } from "../utils/utils";
 
+const fs = require('fs');
+const path = require('path');
 export default class SiteUsersRouter extends SiteRouter
 {
     constructor(siteModules)
@@ -126,6 +128,8 @@ export default class SiteUsersRouter extends SiteRouter
                 });
             }
             const userPath = 'users/' + req.body._id + '/';
+            if(!fs.existsSync("../storage/users/"+req.body._id+'/'))
+                fs.mkdirSync("../storage/users/"+req.body._id+'/');
             this.handleFile(req, res, 'profileImage', userPath).then((img) =>
             {
                 if (img)

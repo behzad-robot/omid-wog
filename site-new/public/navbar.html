@@ -9,7 +9,7 @@
             <a href="/home">
                 <img src="/images/wog-orange-logo.png" class="navbar-logo" />
             </a>
-            <img src="/images/beta-version.png"  class="navbar-beta no-tablet" />
+            <img src="/images/beta-version.png" class="navbar-beta no-tablet" />
         </div>
 
         <div class="navbar-links-container">
@@ -24,11 +24,27 @@
                 <!--<span class="fas fa-sort-down"></span>--></a>
             <!-- <a href="/shop" class="navbar-item">فروشگاه</a> -->
             {{^currentUser.accessLevel.isAdmin}}
-            <a href="/about-us" class="navbar-item no-tablet">درباره ما</a>
-            <a href="/contact-us" class="navbar-item no-tablet">تماس با ما</a>
+            <a href="/about-us" class="navbar-item">درباره ما</a>
+            <a href="/contact-us" class="navbar-item">تماس با ما</a>
             {{/currentUser.accessLevel.isAdmin}}
             {{#currentUser.accessLevel.isAdmin}}
             <!-- ^_^ put 3 social icons shit here i guess!-->
+            <a href="/social" class="navbar-item text-center no-tablet">
+                <i class="fab fa-hotjar" style="font-size: 25px;top:5px;right:0"></i>
+                <span class="mobile-only-inline" style="margin-right: 7px">خانه شبکه اجتماعی</span>
+            </a>
+            <a href="/social/explore" class="navbar-item text-center no-tablet">
+                <i class="fas fa-compass" style="font-size: 25px;top:5px;right:0"></i>
+                <span class="mobile-only-inline" style="margin-right: 7px">تازه ها</span>
+            </a>
+            <a href="/social/chat" class="navbar-item text-center no-tablet">
+                <i class="fas fa-comments" style="font-size: 25px;top:5px;right:0"></i>
+                <span class="mobile-only-inline" style="margin-right: 7px">چت</span>
+            </a>
+            <a href="#" class="navbar-item text-center no-tablet">
+                <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0"></i>
+                <span class="mobile-only-inline" style="margin-right: 7px">پیام ها</span>
+            </a>
             {{/currentUser.accessLevel.isAdmin}}
             {{^currentUser}}
             <a href="/login" class="navbar-item mobile-only">ورود</a>
