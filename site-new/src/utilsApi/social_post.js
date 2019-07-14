@@ -43,12 +43,16 @@ export class SocialPost extends SocketCollection
         u.editUrl = SITE_URL('/social/posts/edit/' + u._id);
         u.deleteUrl = SITE_URL('/social/posts/delete/' + u._id);
         u.body_formatted = u.body;
-        let tags = u.body_formatted.match(/#[a-z]+/gi);
-        for (var i = 0; i < tags.length; i++)
+        if (u.tags != undefined && u.tags.length != 0)
         {
-            let url = SITE_URL('/social/posts-archive/?tag=' + tags[i]);
-            u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
+            let tags = u.body_formatted.match(/#[a-z]+/gi);
+            for (var i = 0; i < tags.length; i++)
+            {
+                let url = SITE_URL('/social/posts-archive/?tag=' + tags[i]);
+                u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
+            }
         }
+
         return u;
     }
     fixAll(cs)

@@ -95,57 +95,88 @@
         .new-post-save {
             padding: 10px 20px;
         }
+
+        .bk-title {
+            margin-top: 60px;
+            font-size: 15px
+        }
+
+        @media(max-width:576px) {
+            .bk-title {
+                font-size: 12px
+            }
+        }
+
+        .edit-post-section {
+            background-image: url('/social/images/new-post-image2.jpg');
+            background-size: cover;
+            background-position: center;
+            margin-bottom: -20px;
+            padding: 20px
+        }
     </style>
 </head>
 
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <div class="container">
-        {{#success}}
-        <div class="alert alert-success">تغییرات شما با موفقیت انجام شد.</div>
-        {{/success}}
-        <div class="container" style="padding-top:10px;">
-            <div class="row">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="new-post-box">
-                        <div class="new-post-title">ویرایش مطلب:</div>
-                        <div class="new-post-content">
-                            <div class="new-post-profile-image-wrapper">
-                                <img src="{{currentUser.profileImage}}" alt="{{currentUser.username}}" />
+    <section class="edit-post-section">
+        <div class="container">
+            {{#success}}
+            <div class="alert alert-success">تغییرات شما با موفقیت انجام شد.</div>
+            {{/success}}
+            <div class="container" style="padding-top:10px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="new-post-box">
+                            <div class="new-post-title">ویرایش مطلب:</div>
+                            <h6 style="padding-top: 10px;padding-right: 10px">اصلاح کپشن پست:</h6>
+                            <div class="new-post-content">
+                                <div class="new-post-profile-image-wrapper">
+                                    <img src="{{currentUser.profileImage}}" alt="{{currentUser.username}}" />
+                                </div>
+                                <div class="new-post-editor">
+                                    <form id="edit-post-form" action="/social/posts/edit-save/{{post._id}}"
+                                        method="POST">
+                                        <textarea style="border: 1px solid rgb(243, 243, 243)" name="body"
+                                            placeholder="توضیحات پست خود را وارد کنید...">{{{post.body}}}</textarea>
+                                        <!-- <textarea name="media" style="vertical-align:middle;display:none;">[]</textarea> -->
+                                    </form>
+                                </div>
                             </div>
-                            <div class="new-post-editor">
-                                <form id="edit-post-form" action="/social/posts/edit-save/{{post._id}}" method="POST">
-                                    <textarea name="body"
-                                        placeholder="توضیحات پست خود را وارد کنید...">{{{post.body}}}</textarea>
-                                    <!-- <textarea name="media" style="vertical-align:middle;display:none;">[]</textarea> -->
-                                </form>
-                            </div>
-                        </div>
-                        <!-- <div class="new-post-files">
+                            <!-- <div class="new-post-files">
                             <b>عکس/ویدئو مربوطه:</b>
                             <input class="form-control m" type="file" name="media" id="file-uploader"
                                 data-url="/social/posts/uploader">
                             <span id="file-uploader-status"></span>
                         </div> -->
-                        <div class="new-post-media" id="media-preview">
-                            {{#post.media}}
-                            <div class="media-box">
-                                <div class="media-box-thumbnail" style="background-image:url('{{{.}}}')"></div>
+                            <div class="new-post-media" id="media-preview">
+                                {{#post.media}}
+                                <div class="row">
+                                    <div class="col-md-4 col-5" style="padding: 10px">
+                                        <h6 class="bk-title">پست مورد نظر شما:</h6>
+                                    </div>
+                                    <div class="col-md-8 col-7" style="padding: 0">
+                                        <div class="media-box">
+                                            <div class="media-box-thumbnail" style="background-image:url('{{{.}}}')">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/post.media}}
                             </div>
-                            {{/post.media}}
-                        </div>
-                        <div class="new-post-save" style="overflow:hidden;">
-                            <div class="btn btn-md btn-success float-left" id="submit-btn">ارسال</div>
-                            <a href="{{#SITE_URL}}/social/posts/delete/{{post._id}}{{/SITE_URL}}"
-                                class="btn btn-sm btn-danger float-right">حذف</a>
+                            <div class="new-post-save" style="overflow:hidden;">
+                                <div class="btn btn-md btn-success float-left" id="submit-btn">ارسال</div>
+                                <a href="{{#SITE_URL}}/social/posts/delete/{{post._id}}{{/SITE_URL}}"
+                                    class="btn btn-sm btn-danger float-right">حذف</a>
+                            </div>
                         </div>
                     </div>
+                    <div class="col-md-6"></div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     {{{footer}}}
     <script>
         $("#submit-btn").click(() =>

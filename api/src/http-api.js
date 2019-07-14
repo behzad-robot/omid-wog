@@ -41,6 +41,7 @@ import { SocialHandler } from './routers/social_handler';
 import { SocialChallenge } from './models/social_challenge';
 import { SocialChatGroup } from './models/social_chat_group';
 import { SocialChatArchive } from './models/social_chat_archive';
+import { SocialNotification } from './models/social_notification';
 
 const morgan = require('morgan');
 
@@ -114,13 +115,14 @@ express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog,
 //dota 2 quiz questions:
 express.expressApp.use('/api/dota2-questions/', new PublicMongooseAPIRouter(DotaQuestion, { apiTokenRequired: true }).router);
 //social:
-const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag,SocialChallenge);
+const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag,SocialChallenge,SocialNotification);
 express.expressApp.use('/api/social-posts/', new PublicMongooseAPIRouter(SocialPost, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-hashtags/', new PublicMongooseAPIRouter(SocialHashTag, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-challenges/', new PublicMongooseAPIRouter(SocialChallenge, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social/',socialHandler.httpRouter.router);
 express.expressApp.use('/api/social-chat-groups/', new PublicMongooseAPIRouter(SocialChatGroup, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-chat-archives/', new PublicMongooseAPIRouter(SocialChatArchive, { apiTokenRequired: true }).router);
+express.expressApp.use('/api/social-notifications/', new PublicMongooseAPIRouter(SocialNotification, { apiTokenRequired: true }).router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 
@@ -162,12 +164,13 @@ const WSRouters = [
     new PublicMongooseWSRouter('pubg-teams', PubGTeam, { apiTokenRequired: true }),
     //dota 2 quiz questions:
     new PublicMongooseWSRouter('dota2-questions', DotaQuestion, { apiTokenRequired: true }),
-    //social posts:
+    //social stuff:
     new PublicMongooseWSRouter('social-posts', SocialPost, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-hashtags', SocialHashTag, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-challenges', SocialChallenge, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-chat-groups', SocialChatGroup, { apiTokenRequired: true }),
     new PublicMongooseWSRouter('social-chat-archives', SocialChatArchive, { apiTokenRequired: true }),
+    new PublicMongooseWSRouter('social-notifications', SocialNotification, { apiTokenRequired: true }),
     socialHandler.socketRouter,
 ];
 const easySocket = new EasySocket({

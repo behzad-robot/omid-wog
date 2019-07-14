@@ -208,12 +208,13 @@ class SocialSocketRouter extends SocketRouter
 }
 export class SocialHandler
 {
-    constructor(User, SocialPost, SocialHashTag, SocialChallenge)
+    constructor(User, SocialPost, SocialHashTag, SocialChallenge, SocialNotification)
     {
         this.User = User;
         this.SocialPost = SocialPost;
         this.SocialHashTag = SocialHashTag;
         this.SocialChallenge = SocialChallenge;
+        this.SocialNotification = SocialNotification;
         //routers:
         this.httpRouter = new SocialHttpRouter(this);
         this.socketRouter = new SocialSocketRouter(this);
@@ -485,7 +486,35 @@ export class SocialHandler
                         reject(err.toString());
                         return;
                     }
-                    resolve(post);
+                    if (params.like)
+                    {
+                        var notification = new this.SocialNotification({
+                            actionUserId: params.userId,
+                            targetUserId: post.userId,
+                            postId: post._id,
+                            type: 'like-post',
+                            createdAt: moment_now(),
+                        });
+                        notification.save(() =>
+                        {
+                            resolve(post);
+                        });
+                    }
+                    else
+                    {
+                        this.SocialNotification.deleteOne({
+                            postId: post._draft,
+                            type: 'like-post',
+                            actionUserId: params.userId,
+                        }, (err) =>
+                            {
+                                if (err)
+                                {
+                                    console.log('error removing notification =>' + err.toString());
+                                }
+                                resolve(post);
+                            });
+                    }
                 });
             });
         });

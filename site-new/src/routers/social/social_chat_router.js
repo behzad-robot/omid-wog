@@ -24,6 +24,7 @@ export class SocialChatRouter extends SiteRouter
                 this.renderTemplate(req, res, 'social/social-chat.html', {
                     groups,
                     CHAT_WS_URL,
+                    targetGroup : req.query.group ? req.query.group : '',
                 });
             }).catch((err) =>
             {

@@ -2,6 +2,24 @@
 
 <head>
     {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
         .first-section {
             margin-top: 80px
@@ -378,28 +396,31 @@
             float: left;
             margin-top: 30px
         }
-        .fab-new-post{
+
+        .fab-new-post {
             display: block;
             position: fixed;
-            z-index:9999;
-            bottom:10px;
-            left:10px;
+            z-index: 9999;
+            bottom: 10px;
+            left: 10px;
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background-color:orange;
-            color:white;
+            background-color: orange;
+            color: white;
             text-align: center;
-            padding-top:18px;
+            padding-top: 18px;
             cursor: pointer;
             box-shadow: 1px 2px 2px rgba(0, 0, 0, .35);
         }
-        .fab-new-post:hover{
+
+        .fab-new-post:hover {
             background-color: rgb(180, 118, 3);
         }
-        .fab-new-post .fas{
-            color:white;
-            font-size:26px;
+
+        .fab-new-post .fas {
+            color: white;
+            font-size: 26px;
         }
     </style>
 </head>
@@ -447,76 +468,208 @@
                         </div>
                         {{/chatGroups}}
                     </div>
-                    {{#posts}}
-                    <div class="post-wrapper" postId="{{_id}}" userId="{{userId}}" siteUrl="{{{siteUrl}}}"
-                        href="{{{siteUrl}}}">
-                        <div class="user-row">
-                            <div class="profile-image">
+                    <div id="posts-row">
+                        {{#posts}}
+                        <div class="post-wrapper" postId="{{_id}}" userId="{{userId}}" siteUrl="{{{siteUrl}}}"
+                            href="{{{siteUrl}}}">
+                            <div class="user-row">
+                                <div class="profile-image">
+                                    <a href="{{_user.siteUrl}}">
+                                        <img src="{{_user.profileImage}}" alt="{{_user.username}}">
+                                    </a>
+                                </div>
                                 <a href="{{_user.siteUrl}}">
-                                    <img src="{{_user.profileImage}}" alt="{{_user.username}}">
+                                    <div class="username">{{_user.username}}</div>
                                 </a>
+                                <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
                             </div>
-                            <a href="{{_user.siteUrl}}">
-                                <div class="username">{{_user.username}}</div>
+                            <a href="{{siteUrl}}">
+                                <div class="post-content">
+                                    <img src="{{media.0}}" alt="">
+                                </div>
                             </a>
-                            <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
-                        </div>
-                        <a href="{{siteUrl}}">
-                            <div class="post-content">
-                                <img src="{{media.0}}" alt="">
+                            <div class="buttons-row">
+                                <div class="buttons-part">
+                                    <i id="post-like"
+                                        class="{{#_isLiked}}fas post-like-btn-clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart post-like-btn"
+                                        liked="{{_isLiked}}" loading="false" postId="{{_id}}">
+                                    </i>
+                                    <a class="comment-link" href="{{siteUrl}}">
+                                        <i class="far fa-comment comment"></i>
+                                    </a>
+                                    <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt"
+                                        style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                    <i name="post-bookmark"
+                                        class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
+                                        postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
+                                        onclick="toggleBookmark(this)"></i>
+                                </div>
                             </div>
-                        </a>
-                        <div class="buttons-row">
-                            <div class="buttons-part">
-                                <i id="post-like"
-                                    class="{{#_isLiked}}fas post-like-btn-clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart post-like-btn"
-                                    liked="{{_isLiked}}" loading="false" postId="{{_id}}">
-                                </i>
-                                <a class="comment-link" href="{{siteUrl}}">
-                                    <i class="far fa-comment comment"></i>
-                                </a>
-                                <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt"
-                                    style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
-                                <i name="post-bookmark"
-                                    class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
-                                    postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
-                                    onclick="toggleBookmark(this)"></i>
-                            </div>
-                        </div>
-                        <div class="caption">
-                            <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
-                            <div style="font-weight: bold;font-size: 18px;">{{_user.username}}:</div>
-                            <div style="color: rgb(126, 126, 126);padding-bottom:10px;">{{{body_formatted}}} </div>
-                            {{#_hasComments}}
-                            <div style="font-size: 20px"> نظرات:</div>
-                            <div class="comments-wrapper">
-                                {{#_comments}}
-                                <div class="single-comment-box">
-                                    <div class="commenter">{{_user.username}}: </div>
-                                    <div
-                                        style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">
-                                        {{{body}}}</div>
-                                    <div class="comments-heart">
-                                        <i name="comment-like"
-                                            class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
-                                            loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
-                                        <span class="comments-like-counts" commentId="{{_id}}"
-                                            style="position: relative;top:2px;">{{likes.length}}</span>
-                                        <!-- <div style="display: inline">لایک</div> -->
+                            <div class="caption">
+                                <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
+                                <div style="font-weight: bold;font-size: 18px;">{{_user.username}}:</div>
+                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;">{{{body_formatted}}} </div>
+                                {{#_hasComments}}
+                                <div style="font-size: 20px"> نظرات:</div>
+                                <div class="comments-wrapper">
+                                    {{#_comments}}
+                                    <div class="single-comment-box">
+                                        <div class="commenter">{{_user.username}}: </div>
+                                        <div
+                                            style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">
+                                            {{{body}}}</div>
+                                        <div class="comments-heart">
+                                            <i name="comment-like"
+                                                class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
+                                                loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                            <span class="comments-like-counts" commentId="{{_id}}"
+                                                style="position: relative;top:2px;">{{likes.length}}</span>
+                                        </div>
+
                                     </div>
+                                    {{/_comments}}
+
+                                    <a class="see-all-comments" href="{{siteUrl}}">
+                                        مشاهده همه
+                                    </a>
 
                                 </div>
-                                {{/_comments}}
-
-                                <a class="see-all-comments" href="{{siteUrl}}">
-                                    مشاهده همه
-                                </a>
-
+                                {{/_hasComments}}
                             </div>
-                            {{/_hasComments}}
                         </div>
+                        {{/posts}}
                     </div>
-                    {{/posts}}
+                    <div class="text-center" style="padding:10px 0;">
+                        <div id="load-more-loading" class="text-center" style="display:none">
+                            <div class="lds-ellipsis">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div id="load-more-error" style="color:#a00;">
+
+                        </div>
+                        <div class="btn btn-md btn-warning" id="load-more-btn">بیشتر</div>
+                    </div>
+                    <script>
+                        let offset = 11;
+                        const LIMIT = 9;
+                        function showError(str)
+                        {
+                            $("#load-more-error").show();
+                            $("#load-more-error").html(str);
+                        }
+                        $(() =>
+                        {
+                            $("#load-more-btn").click(function ()
+                            {
+                                $("#load-more-btn").hide();
+                                $("#load-more-loading").show();
+                                $("#load-more-error").hide();
+                                fetch('/social/load-posts', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                        limit: LIMIT,
+                                        offset: offset,
+                                        query: 'feed',
+                                    }),
+                                }).then((response => response.json())).then((response) =>
+                                {
+                                    $("#load-more-btn").show();
+                                    $("#load-more-loading").hide();
+                                    console.log(response);
+                                    if (response.code != 200)
+                                    {
+                                        showError(response.error);
+                                        console.log(response.error);
+                                        return;
+                                    }
+                                    let posts = response._data;
+                                    offset += posts.length;
+                                    for (var i = 0; i < posts.length; i++)
+                                    {
+                                        let post = posts[i];
+                                        let commentsStr = '';
+                                        if (post._comments != undefined && post._comments.length != 0)
+                                        {
+                                            commentsStr += `<div style="font-size: 20px"> نظرات:</div>`;
+                                            commentsStr += `<div class="comments-wrapper">`;
+                                            for (var i = 0; i < post._comments.length; i++)
+                                            {
+                                                var comment = post._comments[i];
+                                                commentsStr += `
+                                                <div class="single-comment-box">
+                                                    <div class="commenter">${comment._user.username}: </div>
+                                                    <div style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">${comment.body}</div>
+                                                    <div class="comments-heart">
+                                                        <i name="comment-like" class="${comment._isLiked ? 'fas clicked' : 'far'} fa-heart comments-heart-btn" loading="false" liked="${comment._isLiked}" commentId="${comment._id}"></i>
+                                                        <span class="comments-like-counts" commentId="${comment._id}"
+                                                            style="position: relative;top:2px;">${comment.likes.length}</span>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            commentsStr += `</div>`;
+                                        }
+                                        $("#posts-row").append(`
+                                        <div class="post-wrapper" postId="${post._id}" userId="${post.userId}" siteUrl="${post.siteUrl}" href="${post.siteUrl}">
+                                            <div class="user-row">
+                                                    <div class="profile-image">
+                                                        <a href="${post._user.siteUrl}">
+                                                            <img src="${post._user.profileImage}" alt="${post._user.username}">
+                                                        </a>
+                                                    </div>
+                                                    <a href="${post._user.siteUrl}"><div class="username">${post._user.username}</div></a>
+                                                    <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
+                                            </div>
+                                            <a href="${post.siteUrl}">
+                                                <div class="post-content">
+                                                    <img src="${post.media[0]}" alt="${post._user.username}">
+                                                </div>
+                                            </a>
+                                            <div class="buttons-row">
+                                                <div class="buttons-part">
+                                                    <i id="post-like"
+                                                        class="${post._isLiked ? 'fas post-like-btn-clicked' : 'far'} fa-heart post-like-btn"
+                                                        liked="${post._isLiked}" loading="false" postId="${post._id}">
+                                                    </i>
+                                                    <a class="comment-link" href="${post.siteUrl}">
+                                                        <i class="far fa-comment comment"></i>
+                                                    </a>
+                                                    <i onclick="share_post('${post.siteUrl}')" class="fas fa-share-alt"
+                                                        style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                                    <i name="post-bookmark"
+                                                        class="${post._isBookmarked ? 'fas' : 'far'} fa-bookmark bookmark-btn"
+                                                        postId="${post._id}" loading="false" bookmarked="${post._isBookmarked}"
+                                                        onclick="toggleBookmark(this)"></i>
+                                                </div>
+                                            </div>
+                                            <div class="caption">
+                                                <div class="like-count"> <span class="like-counts">${post.likes.length}</span> لایک</div>
+                                                <div style="font-weight: bold;font-size: 18px;">${post._user.username}:</div>
+                                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;">${post.body_formatted}</div>
+                                            </div>
+                                            ${commentsStr}
+                                        </div>
+                                        `);
+                                    }
+                                    if (posts.length < LIMIT)
+                                    {
+                                        $("#load-more-btn").hide();
+                                    }
+                                }).catch((err) =>
+                                {
+                                    alert(err);
+                                    console.log(err);
+                                });
+                            });
+                        });
+                    </script>
                 </div>
                 <div class="col-md-4">
                     <!-- start whole hashtag box -->
@@ -525,7 +678,7 @@
                         <div style="overflow:hidden;padding: 10px">
                             <h5 style="float: right">هشتگ های پیشنهادی</h5>
                             <a href="{{#SITE_URL}}/social/welcome{{/SITE_URL}}"
-                                style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده همه</a>
+                                style="float: left;font-size:13px;padding-top:5px;">مشاهده همه</a>
                         </div>
                         <!-- start single row-->
                         {{#suggestedHashtags}}
@@ -587,7 +740,7 @@
                             <div style="overflow:hidden;padding: 10px">
                                 <h5 style="float: right;">چالش های اخیر</h5>
                                 <a href="{{#SITE_URL}}/social/challenges{{/SITE_URL}}"
-                                    style="float: left;font-size:13px;display: inline-block;padding-top:5px;">مشاهده
+                                    style="float: left;font-size:13px;padding-top:5px;">مشاهده
                                     همه</a>
                             </div>
                             <!-- start single box -->

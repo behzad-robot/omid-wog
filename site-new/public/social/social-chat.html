@@ -373,11 +373,20 @@
                     messages: [],
                 });
             ws_connect();
-            $(".input-box-input").keyup((evt)=>{
-                if(evt.keyCode === 13){
+            $(".input-box-input").keyup((evt) =>
+            {
+                if (evt.keyCode === 13)
+                {
                     $(".input-box-send").trigger('click');
                 }
             });
+            setTimeout(()=>{
+                let targetGroup = `{{{targetGroup}}}`;
+                if (targetGroup != '')
+                {
+                    $(`.group-wrapper[groupId=${targetGroup}]`).trigger('click');
+                }
+            },1500);
         });
         function ws_connect()
         {

@@ -4,12 +4,83 @@
     {{{head}}}
     <title>Edit Champion</title>
     <style>
+        .items-screen-item {
+            padding: 5px 10px;
+            border-bottom: 1px solid #dddddd;
+            cursor: pointer;
+            pointer-events: all;
 
+        }
+
+        .items-screen-item * {
+            pointer-events: none;
+        }
+
+        .items-screen-item:hover {
+            background-color: #eeeeee;
+        }
     </style>
 </head>
 
 <body>
     {{{actionbar}}}
+    <div id="items-screen"
+        style="position:fixed;z-index:9999;width:100%;height:100%;background-color:rgba(0, 0, 0, 0.8);top:0;left:0;display:none;">
+        <div class="container" style="padding-top:20px;">
+            <div class="btn btn-md btn-danger" style="margin:10px 0;" onclick="hideItemsScreen()">Close</div>
+            <div style="padding:10px 20px;background-color:white;height:80vh;overflow-y: scroll;">
+                <input class="form-control m" type="text" id="item-screen-search"
+                    placeholder="search item name saeed e koskesh!" />
+                <span>Be Lower-case upper-case ham hasas nist badbakht!</span>
+                <!-- <div class="btn btn-md btn-warning">Search</div> -->
+                <h3>Items List:</h3>
+                <div id="items-screen-list">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function showItemsScreen(featuredItemIndex, filter = '')
+        {
+            $("#items-screen").show();
+            $("#items-screen-list").html('');
+            if (filter == '')
+            {
+                $("#items-screen input").val('');
+                $("#items-screen input")[0].focus();
+            }
+
+            for (var i = 0; i < game.items.length; i++)
+            {
+                let item = game.items[i];
+                if (filter != '' && item.name.toLowerCase().indexOf(filter.toLowerCase()) == -1)
+                    continue;
+                $("#items-screen-list").append(`
+                <div class="items-screen-item" onclick="itemsScreenItemSelected('${featuredItemIndex}','${item._id}')">
+                    <img src="${item.icon}" style="width:64px;height:64px;display:inline-block;"/>
+                    <span class="badge badge-md badge-info">${item._id}</span>
+                    <span>${item.name}</span>
+                </div>
+                `);
+            }
+            $("#items-screen input").unbind("keyup");
+            $("#items-screen input").on('keyup', function ()
+            {
+                showItemsScreen(featuredItemIndex, $(this).val());
+            });
+        }
+        function itemsScreenItemSelected(featuredItemIndex, itemId)
+        {
+            $(`.form-row[featuredItemIndex=${featuredItemIndex}] input[name=itemId]`).val(itemId);
+            $(`.form-row[featuredItemIndex=${featuredItemIndex}] input[name=itemId]`).trigger('change');
+            hideItemsScreen();
+        }
+        function hideItemsScreen()
+        {
+            $("#items-screen").hide();
+        }
+    </script>
     <div class="container">
         <h2>Champion {{{_id}}}:<a href="/admin/champions/{{{_id}}}/delete/" class="btn btn-md btn-danger"
                 style="float:right;margin-top:5px;">Delete</a></h2>
@@ -357,6 +428,19 @@
                 champion.talents.splice(i, 1);
                 talents_recreate();
             }
+            function all_items_dropDown(name, val)
+            {
+                let str = `<div class="form-row"><b>${name}</b><select name="${name}" class="form-control m">`
+                str += `<option></option>`;
+                let selected = '';
+                for (var i = 0; i < game.items.length; i++)
+                {
+                    selected = val == game.items[i]._id ? 'selected' : '';
+                    str += `<option value="${game.items[i]._id}" ${selected}>${game.items[i].name}</option>`;
+                }
+                str += `</select></div>`;
+                return str;
+            }
             function featuredItems_recreate()
             {
                 $("[name=featuredItems]").val(JSON.stringify(champion.featuredItems));
@@ -370,7 +454,11 @@
                         <div class="col-md-6 col-12">
                             <div class="box-row featuredItem-box" index="${i}">
                                 <div name="itemName">${itemName}</div>
-                                ${textInput('itemId', it.itemId)}
+                                <div class="form-row" featuredItemIndex="${i}">
+                                    <b>itemId:</b>
+                                    <input class="form-control m" name="itemId" value="${it.itemId}"/>
+                                    <div class="btn btn-sm btn-info" onclick="showItemsScreen('${i}')">Select</div>
+                                </div>
                                 ${textInput('matchesPlayed', it.matchesPlayed)}
                                 ${textInput('winRate', it.winRate)}
                                 <hr>
@@ -379,7 +467,7 @@
                         </div>
                     `);
                 }
-                $("#featuredItems input").change(function ()
+                $("#featuredItems input,#featuredItems select").change(function ()
                 {
                     let index = $(this).closest(".featuredItem-box").attr('index');
                     featuredItems_update(index);
