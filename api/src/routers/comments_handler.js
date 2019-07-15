@@ -94,10 +94,11 @@ class CommentsSocketRouter extends SocketRouter
 }
 export class CommentsHandler
 {
-    constructor(Comment, User)
+    constructor(Comment, User, SocialNotification)
     {
         this.Comment = Comment;
         this.User = User;
+        this.SocialNotification = SocialNotification;
         //routers:
         this.httpRouter = new CommentsHttpRouter(this);
         this.socketRouter = new CommentsSocketRouter(this);
@@ -124,7 +125,23 @@ export class CommentsHandler
             var doc = new this.Comment(params);
             doc.save().then(() =>
             {
-                resolve(doc);
+                if (params.objectType == 'social-posts')
+                {
+                    var notification = new this.SocialNotification({
+                        actionUserId: params.userId,
+                        targetUserId: comment.userId,
+                        commentId: doc._id.toString(),
+                        postId: params.objectType == 'social-posts' ? params.objectId : undefined,
+                        type: 'post-comment',
+                        createdAt: moment_now(),
+                    });
+                    notification.save(() =>
+                    {
+                        resolve(doc);
+                    });
+                }
+                else
+                    resolve(doc);
             }).catch((err) =>
             {
                 reject(err);
@@ -159,7 +176,7 @@ export class CommentsHandler
                         reject(err);
                         return;
                     }
-                    if(comment == undefined)
+                    if (comment == undefined)
                     {
                         reject('comment not found');
                         return;
@@ -176,7 +193,22 @@ export class CommentsHandler
                             reject(err.toString());
                             return;
                         }
-                        resolve({ success: true, _id: params._id });
+                        if (comment.objectType == 'social-posts')
+                        {
+                            this.SocialNotification.deleteOne({
+                                actionUserId: params.userId,
+                                commentId: comment._id.toString(),
+                                type: 'post-comment',
+                                read: false,
+                            }, (err) =>
+                            {
+                                if (err)
+                                    console.log('error removing notification => ' + err);
+                                resolve({ success: true, _id: params._id });
+                            });
+                        }
+                        else
+                            resolve({ success: true, _id: params._id });
                     });
                 });
             });
@@ -199,7 +231,7 @@ export class CommentsHandler
                     reject(err);
                     return;
                 }
-                if(user == undefined)
+                if (user == undefined)
                 {
                     reject('user not found');
                     return;
@@ -241,7 +273,39 @@ export class CommentsHandler
                             reject(err);
                             return;
                         }
-                        resolve(comment);
+                        if (params.like)
+                        {
+                            var notification = new this.SocialNotification({
+                                actionUserId: params.userId,
+                                targetUserId: comment.userId,
+                                commentId: comment._id.toString(),
+                                postId: comment.objectType == 'social-posts' ? comment.objectId : undefined,
+                                type: 'like-comment',
+                                createdAt: moment_now(),
+                            });
+                            notification.save(() =>
+                            {
+                                resolve(comment);
+                            });
+                        }
+                        else
+                        {
+                            //delete if not read:
+                            this.SocialNotification.deleteOne({
+                                actionUserId: params.userId,
+                                targetUserId: comment.userId,
+                                commentId: comment._id.toString(),
+                                type: 'like-comment',
+                                read: false,
+                            }, (err) =>
+                                {
+                                    if (err)
+                                    {
+                                        console.log('error removing notification => ' + err.toString());
+                                    }
+                                    resolve(comment);
+                                });
+                        }
                     });
                 });
             });

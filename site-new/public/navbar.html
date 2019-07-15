@@ -41,8 +41,12 @@
                 <i class="fas fa-comments" style="font-size: 25px;top:5px;right:0"></i>
                 <span class="mobile-only-inline" style="margin-right: 7px">چت</span>
             </a>
-            <a href="#" class="navbar-item text-center no-tablet">
-                <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0"></i>
+            <a href="#" onclick="toggleNotifications()" class="navbar-item text-center no-tablet">
+                <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0">
+                    <span id="notifications-count"
+                        style="color:white;background-color:red;width:16px;height:16px;display:inline-block;border-radius:50%;position: absolute;font-size:10px;padding-top:3px;top:-5px;right:7px;">??</span>
+                </i>
+
                 <span class="mobile-only-inline" style="margin-right: 7px">پیام ها</span>
             </a>
             {{/currentUser.accessLevel.isAdmin}}
@@ -363,3 +367,151 @@
     }
 </script>
 {{/currentUser}} -->
+{{#currentUser}}
+<div class="notifications-wrapper" style="display: none;">
+    <div class="container">
+        <div class="notifications-box">
+            <div class="text-center">
+                <div id="notifications-loading" class="text-center">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div id="notifications-error" style="color:#a00;"></div>
+            </div>
+            <div id="notifications-list" style="height:100%;overflow-y:scroll;"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(() =>
+    {
+        // readNotifications();
+        $("#notifications-count").hide();
+        fetch('/social/get-unread-notifications-count', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: `{{{currentUser._id}}}`,
+                userToken: `{{{currentUser.token}}}`,
+            }),
+        }).then(response => response.json()).then((response) =>
+        {
+            console.log(response);
+            if (response.code != 200)
+            {
+                alert(response.error);
+                console.log(response.error);
+            }
+            let count = response._data.notificationsCount;
+            if (count != 0)
+            {
+                $("#notifications-count").show();
+                $("#notifications-count").html();
+            }
+        });
+    });
+
+    function toggleNotifications()
+    {
+        let display = $(".notifications-wrapper").css('display');
+        if (display == 'none')
+        {
+            $(".notifications-wrapper").show();
+
+        }
+        else
+        {
+            $(".notifications-wrapper").hide();
+            return;
+        }
+        $("#notifications-loading").show();
+        $("#notifications-error").html('');
+        $("#notifications-list").html('');
+        fetch('/social/read-notifications', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                userId: `{{{currentUser._id}}}`,
+                userToken: `{{{currentUser.token}}}`,
+            }),
+        }).then(response => response.json()).then((response) =>
+        {
+            $("#notifications-loading").hide();
+            console.log(response);
+            if (response.code != 200)
+            {
+                $("#notifications-error").html(response.error);
+                return;
+            }
+            let notifications = response._data;
+            let body = '';
+            for (var i = 0; i < notifications.length; i++)
+            {
+                let notif = notifications[i];
+                if (notif.type == 'like-post')
+                {
+                    if (notif._post == undefined || notif._actionUser == undefined)
+                        continue;
+                    body = `<a href="${notif._actionUser.siteUrl}"><b>${notif._actionUser.username}</b></a> پست شما را پسندید.`;
+                    $("#notifications-list").append(`
+                        <div class="notif-item">
+                            <a href="${notif._post.siteUrl}"><img class="notif-icon" src="${notif._post.thumbnail_150x150}"/></a>
+                            <span class="notif-body">${body}</span>
+                        </div>
+                    `);
+                }
+                else if (notif.type == 'like-comment')
+                {
+                    if (notif._actionUser == undefined)
+                        continue;
+                    body = `<a href="${notif._actionUser.siteUrl}"><b>${notif._actionUser.username}</b></a> نظر شما را پسندید.`;
+                    $("#notifications-list").append(`
+                        <div class="notif-item">
+                            <a href="/comments/${notif.commentId}"><span class="notif-glyph fas fa-comment"></span></a>
+                            <span class="notif-body">${body}</span>
+                        </div>
+                    `);
+                }
+                else if (notif.type == 'follow-user')
+                {
+                    if (notif._actionUser == undefined)
+                        continue;
+                    body = `<a href="${notif._actionUser.siteUrl}"><b>${notif._actionUser.username}</b></a> شما را دنبال می کند.`;
+                    $("#notifications-list").append(`
+                        <div class="notif-item">
+                            <a href="${notif._actionUser.siteUrl}"><img class="notif-icon" src="${notif._actionUser.siteUrl}"/></a>
+                            <span class="notif-body">${body}</span>
+                        </div>
+                    `);
+                }
+                else if (notif.type == 'post-comment')
+                {
+                    if (notif._actionUser == undefined || notif._post == undefined)
+                        continue;
+                    body = `<a href="${notif._actionUser.siteUrl}"><b>${notif._actionUser.username}</b></a> برای پست شما نظری ارسال کرد.`;
+                    $("#notifications-list").append(`
+                        <div class="notif-item">
+                            <a href="${notif._post.siteUrl}"><img class="notif-icon" src="${notif._post.thumbnail_150x150}"/></a>
+                            <span class="notif-body">${body}</span>
+                        </div>
+                    `);
+                }
+            }
+        }).catch((err) =>
+        {
+            $("#notifications-loading").hide();
+            $("#notifications-error").html(err.toString());
+        });
+    }
+</script>
+{{/currentUser}}

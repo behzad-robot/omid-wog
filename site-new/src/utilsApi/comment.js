@@ -1,5 +1,6 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404 } from "../utils/utils";
+import { SITE_URL } from "../constants";
 
 
 export class Comment extends SocketCollection
@@ -37,7 +38,7 @@ export class Comment extends SocketCollection
     }
     fixOne(g)
     {
-        
+        g.siteUrl = SITE_URL('/comments/' + g._id);
         return g;
     }
     fixAll(cs)

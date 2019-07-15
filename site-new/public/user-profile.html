@@ -97,7 +97,8 @@
             padding: 25px 0;
             box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
         }
-        .dota-book-box{
+
+        .dota-book-box {
             display: block;
             width: 100%;
             height: 180px;
@@ -153,6 +154,96 @@
             .post-box.post-box-small p {
                 display: none;
             }
+
+            .btn-md {
+                font-size: 10px;
+                margin-top: 10px
+            }
+
+            .author-card .user-badges {
+                padding: 10px 10px;
+            }
+            .grid-post-box{
+                height: 90px !important;
+            }
+        }
+    </style>
+    <style>
+        .chat-room-wrapper {
+            border-radius: 4px;
+            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+            margin-top: 10px;
+            background-color: white;
+            border: .3px solid #eeeeee;
+        }
+
+        .chat-room-cover {
+            width: 100%;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+
+        .chat-room-textbox {
+            padding: 5px
+        }
+
+        .members-count {
+            color: rgb(109, 109, 109);
+            font-size: 15px;
+            display: inline-block;
+            padding-top: 10px
+        }
+
+        .chat-box-btn {
+            float: left;
+            display: inline-block;
+            width: 40%;
+            border-radius: 30px;
+            font-size: 15px
+        }
+
+        .chat-room-description {
+            font-size: 14px
+        }
+
+        .chalenge-btn {
+            width: 100%;
+            font-size: 15px;
+            margin-top: 2px;
+            border-radius: 20px
+        }
+    </style>
+    <style>
+        .grid-post-box {
+            position: relative;
+            height: 225px;
+            margin-bottom: 20px
+        }
+
+        .grid-post-box .post-thumbail {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .challenges-wrapper {
+            border-radius: 8px;
+            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+            margin-top: 10px;
+            background-color: white
+        }
+
+        .challenges {
+            margin-right: 10px
+        }
+
+        .orange-title {
+            font-size: 1.2rem
         }
     </style>
 </head>
@@ -162,6 +253,8 @@
     <navfiller></navfiller>
     <section>
         <div class="container" style="padding-top:20px;min-height:80vh;">
+            <!-- <div class="row"> -->
+            <!-- <div class="col-md-8"> -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="wog-card author-card">
@@ -177,7 +270,8 @@
                         <div class="user-bio text-center">{{{user.aboutMe}}}</div>
                         {{#isCurrentUser}}
                         <div class="text-center">
-                            <a href="/users/{{user.username}}/edit" class="btn btn-md btn-secondary">ویرایش اطلاعات
+                            <a href="/users/{{user.username}}/edit" class="btn btn-md btn-secondary">ویرایش
+                                اطلاعات
                                 کاربری</a>
                         </div>
                         {{/isCurrentUser}}
@@ -186,41 +280,65 @@
                             <div class="btn btn-md btn-dark"><span class="fas fa-hat-wizard"></span>&nbsp;نویسنده واج
                             </div>
                             {{/user.accessLevel.isAdmin}}
+
+                        </div>
+                        <h6 style="margin-right:20px;">چالش های شرکت کرده:</h6>
+                        <div class="challenges">
                             {{#user.fortnite2019.hasJoined}}
                             <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}"
                                 class="btn btn-md btn-warning">
                                 <img src="/images/fortnite-2019/fortnite-logo.png" width="72px" />
                                 شرکت کننده مسابقه فورنتایت واج</a>
                             {{/user.fortnite2019.hasJoined}}
+                            <a href="" class="btn btn-md btn-warning">
+                                <img src="/dota2-epic-center/images/logo4.png" width="72px" alt="">
+                                شرکت کننده مسابقه پیش بینی Dota2 epic center
+                            </a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <!-- </div> -->
+            <!-- <div class="col-md-4 col-12"> -->
+            <!-- <h2 class="orange-title">چالش های شرکت کرده:</h2> -->
+            <!-- start single box -->
+            <!-- <div style="margin-bottom: 5px;position: relative">
+                        <img src="/images/user-default-cover.jpg" style="width: 100%" alt="">
+                        <div
+                            style="width: 100%;bottom: 0;height: 50px;position: absolute;background-color: rgba(0, 0, 0, 0.438);padding: 5px">
+                            <div class="row">
+                                <div class="col-md-8 col-8">
+                                    <h6 class="text-white">مسابقات pubg</h6>
+                                    <div class="text-white" style="font-size: 10px">ورودی 100 سکه</div>
+                                </div>
+                                <div class="col-md-4 col-4">
+                                    <a href="{{siteUrl}}">
+                                        <button type="button" class="btn btn-primary chalenge-btn">مشاهده</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div> -->
+            <!-- end single box -->
+            <!-- </div>
+                </div>
+            </div> -->
 
-            </div>
-            <!-- end of author-card -->
-            {{#isCurrentUser}}
-            <!-- <div class="fortnite-box text-center">
-                <h2
-                    style="text-shadow:2px 3px 3px rgba(0,0,0,0.3);font-size:36px;font-weight: bold;padding-bottom:15px;">مسابقات فورتنایت واج</h2>
-                {{^user.fortnite2019.hasJoined}}
-                <a href="{{#SITE_URL}}/tournaments/fortnite-2019-join/{{/SITE_URL}}" class="btn btn-md btn-warning">شرکت در مسابقات</a>
-                {{/user.fortnite2019.hasJoined}}
-                {{#user.fortnite2019.hasJoined}}
-                <a href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}" class="btn btn-md btn-danger" style="margin-bottom:5px;">شما شرکت می کنید! مشاهده صفحه مسابقه</a><br>
-                <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}" class="btn btn-sm btn-primary">مشاهده لیست شرکت کنندگان</a>
-                {{/user.fortnite2019.hasJoined}}
 
+            <h2 class="orange-title" style="margin-top:15px;">پست های شبکه اجتماعی واج:</h2>
+            <div class="row">
+                {{#socialPosts}}
+                <div class="col-md-4 col-4">
+                    <a href="{{siteUrl}}">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('{{{thumbnail_512x512}}}')"></div>
+                        </div>
+                    </a>
+                </div>
+                {{/socialPosts}}
             </div>
-            {{/isCurrentUser}}-->
-            {{#isCurrentUser}}
-            <div class="dota-book-box text-center">
-                <h2
-                    style="text-shadow:2px 3px 3px rgba(0,0,0,0.3);font-size:36px;font-weight: bold;padding-bottom:15px;">پیش بینی بازی های گروهی <span class="text-english">Epicenter 2019</span></h2>
-                <a href="{{#SITE_URL}}/dota2-epic-center/{{/SITE_URL}}" class="btn btn-md btn-warning">مشاهده</a>
-            </div>
-            {{/isCurrentUser}}
+
             {{#user.accessLevel.isAdmin}}
-            <h2 class="orange-title" style="font-size:1.2rem;margin-top:15px;">مطالب نوشته شده:</h2>
+            <h2 class="orange-title" style="margin-top:15px;">مطالب نوشته شده:</h2>
             <div class="row">
                 <div class="col-md-8 col-12">
                     {{#posts}}
@@ -264,8 +382,9 @@
             </div>
             {{/user.accessLevel.isAdmin}}
         </div>
+
     </section>
+    {{{footer}}}
 </body>
-{{{footer}}}
 
 </html>

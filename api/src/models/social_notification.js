@@ -4,12 +4,13 @@ import { SITE_URL } from '../constants';
 const moment = require('moment');
 const jalaali = require('jalaali-js');
 const persianDate = require('persian-date');
-export const SocialNotificationSchema = new mongoose.Schema({    
-    actionUserId : {type:String,default:''},
-    targetUserId : {type:String,default:''},
-    postId : {type:String,default:''},
-    commentId : {type:String,default:''},
-    type : {type:String,default:''}, //like-post,like-comment,follow-user
+export const SocialNotificationSchema = new mongoose.Schema({
+    actionUserId: { type: String, default: '' },
+    targetUserId: { type: String, default: '' },
+    postId: { type: String, default: '' },
+    commentId: { type: String, default: '' },
+    type: { type: String, default: '' }, //like-post,like-comment,follow-user
+    read: { type: Boolean, default: false },
     createdAt: String,
 }, {
         toObject: {
@@ -23,9 +24,9 @@ SocialNotificationSchema.virtual('createdAt_persian').get(function ()
 {
     //2019-02-09 05:16:59
     var val = this.createdAt;
-    if(isEmptyString(val))
+    if (isEmptyString(val))
         return val;
-    
+
     if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1)
     {
         var parts = val.split(' ');
@@ -37,8 +38,8 @@ SocialNotificationSchema.virtual('createdAt_persian').get(function ()
         var timeParts = parts[1].split(':');
         var jj = jalaali.toJalaali(year, month, day) // { jy: 1395, jm: 1, jd: 23 }
         // return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
-        var pd = new persianDate([jj.jy,jj.jm,jj.jd]);
-        return pd.format('dddd')+' '+jj.jd+' '+pd.format('MMMM')+' '+jj.jy;
+        var pd = new persianDate([jj.jy, jj.jm, jj.jd]);
+        return pd.format('dddd') + ' ' + jj.jd + ' ' + pd.format('MMMM') + ' ' + jj.jy;
     }
     else
         return this.createdAt;

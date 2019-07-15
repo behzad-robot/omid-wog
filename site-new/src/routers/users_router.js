@@ -10,7 +10,6 @@ export default class SiteUsersRouter extends SiteRouter
         super(siteModules);
         this.router.get('/:username', (req, res) =>
         {
-            console.log(req.params.username);
             siteModules.User.find({ username: req.params.username }).then((users) =>
             {
                 if (users.length == 0)
@@ -24,11 +23,15 @@ export default class SiteUsersRouter extends SiteRouter
                 {
                     for (var i = 0; i < posts.length; i++)
                         posts[i]._user = user;
-                    this.renderTemplate(req, res, 'user-profile.html', {
-                        user: user,
-                        isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
-                        posts: posts,
-                        postsCount: posts.length,
+                    siteModules.SocialPost.find({ userId: user._id, limit : 200 }).then((socialPosts) =>
+                    {
+                        this.renderTemplate(req, res, 'user-profile.html', {
+                            user: user,
+                            isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
+                            posts: posts,
+                            postsCount: posts.length,
+                            socialPosts : socialPosts,
+                        });
                     });
                 }).catch((err) =>
                 {
@@ -128,8 +131,8 @@ export default class SiteUsersRouter extends SiteRouter
                 });
             }
             const userPath = 'users/' + req.body._id + '/';
-            if(!fs.existsSync("../storage/users/"+req.body._id+'/'))
-                fs.mkdirSync("../storage/users/"+req.body._id+'/');
+            if (!fs.existsSync("../storage/users/" + req.body._id + '/'))
+                fs.mkdirSync("../storage/users/" + req.body._id + '/');
             this.handleFile(req, res, 'profileImage', userPath).then((img) =>
             {
                 if (img)
@@ -143,7 +146,7 @@ export default class SiteUsersRouter extends SiteRouter
                         let fileName = req.files.resume.name.toString().toLowerCase();
                         if (fileName.indexOf('.pdf') == -1 && fileName.indexOf('.txt') == -1 && fileName.indexOf('.doc') == -1
                             && fileName.indexOf('.docx') == -1 && fileName.indexOf('.jpeg') == -1 && fileName.indexOf('.jpg') == -1
-                             && fileName.indexOf('.png') == -1)
+                            && fileName.indexOf('.png') == -1)
                         {
                             res.send({ success: false, error: 'resume file format must be pdf/txt/doc/docx/jpg/jpeg/png ' });
                             return;

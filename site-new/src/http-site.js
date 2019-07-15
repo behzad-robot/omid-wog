@@ -48,6 +48,7 @@ import { SocialChallenge } from "./utilsApi/social_challenge";
 import { SocialChallengesRouter } from "./routers/social/social_challenges_router";
 import { SocialChatGroup } from "./utilsApi/social_chat_group";
 import { SocialChatRouter } from "./routers/social/social_chat_router";
+import { SocialNotification } from "./utilsApi/social_notification";
 
 const fs = require('fs');
 const path = require('path');
@@ -84,6 +85,7 @@ const SiteModules = {
     SocialHashtag : new SocialHashTag(apiSocket),
     SocialChallenge : new SocialChallenge(apiSocket),
     SocialChatGroup : new SocialChatGroup(apiSocket),
+    SocialNotification : new SocialNotification(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -336,6 +338,7 @@ express.expressApp.use('/social/posts', new SocialPostsRouter(SiteModules).route
 express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModules).router);
 express.expressApp.use('/social/chat', new SocialChatRouter(SiteModules).router);
+
 
 
 

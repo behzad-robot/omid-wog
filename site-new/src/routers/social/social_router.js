@@ -21,6 +21,92 @@ export class SocialMainRouter extends SiteRouter
             }
             next();
         });
+        this.router.post('/get-unread-notifications-count', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                res.send({ code: 500, error: err });
+            };
+            siteModules.SocialNotification.apiCall('get-unread-notifications', { userId: req.body.userId, userToken: req.body.userToken }).then((notifications) =>
+            {
+                res.send({ code: 200, _data: { notificationsCount: notifications.length } });
+            }).catch(fail);
+        });
+        this.router.post('/read-notifications', (req, res) =>
+        {
+            let fail = (err) =>
+            {
+                res.send({ code: 500, error: err });
+            };
+            if (isEmptyString(req.body.userId))
+            {
+                fail('parameters missing');
+                return;
+            }
+            siteModules.SocialNotification.apiCall('read-notifications', { userId: req.body.userId, userToken: req.body.userToken }).then((notifications) =>
+            {
+                //attach action users:
+                let requiredUsersIds = [];
+                for (var i = 0; i < notifications.length; i++)
+                {
+                    let hasActionUser = false;
+                    for (var j = 0; j < requiredUsersIds.length; j++)
+                    {
+                        if (requiredUsersIds[j] == notifications[i].actionUserId)
+                        {
+                            hasActionUser = true;
+                            break;
+                        }
+                    }
+                    if (!hasActionUser)
+                        requiredUsersIds.push(notifications[i].actionUserId);
+                }
+                siteModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+                {
+                    for (var i = 0; i < notifications.length; i++)
+                    {
+                        for (var j = 0; j < users.length; j++)
+                        {
+                            if (notifications[i].actionUserId == users[j]._id)
+                            {
+                                notifications[i]._actionUser = users[j];
+                                break;
+                            }
+                        }
+                    }
+                    //attach post:
+                    let requiredPostsIds = [];
+                    for (var i = 0; i < notifications.length; i++)
+                    {
+                        let hasPost = false;
+                        for (var j = 0; j < requiredPostsIds.length; i++)
+                        {
+                            if (requiredPostsIds[j] == notifications[i].postId)
+                            {
+                                hasPost = true;
+                                break;
+                            }
+                        }
+                        if (!hasPost && notifications[i].postId != undefined)
+                            requiredPostsIds.push(notifications[i].postId);
+                    }
+                    siteModules.SocialPost.find({ _ids: requiredPostsIds }).then((posts) =>
+                    {
+                        for (var i = 0; i < notifications.length; i++)
+                        {
+                            for (var j = 0; j < posts.length; j++)
+                            {
+                                if (notifications[i].postId == posts[j]._id)
+                                {
+                                    notifications[i]._post = posts[j];
+                                }
+                            }
+                        }
+                        res.send({ code: 200, _data: notifications });
+                    }).catch(fail);
+                }).catch(fail);
+            }).catch(fail);
+        });
         this.router.post('/set-post-like', (req, res) =>
         {
             siteModules.SocialPost.apiCall('set-like-social-post', req.body).then((post) =>

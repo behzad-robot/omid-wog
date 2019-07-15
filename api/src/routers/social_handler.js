@@ -95,6 +95,26 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/read-notifications', (req, res) =>
+        {
+            this.handler.readNotifications(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
+        this.router.post('/get-unread-notifications', (req, res) =>
+        {
+            this.handler.getUnreadNotifications(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
         this.router.post('/upload-file', (req, res) =>
         {
             this.handleFile(req, res, 'media', 'social-posts/draft/').then((file) =>
@@ -120,7 +140,7 @@ class SocialSocketRouter extends SocketRouter
         if (!this.isValidRequest(request))
             return;
         if (request.model != 'social-posts' && request.model != 'social-hashtags' && request.model != 'social-challenges'
-            && request.model != 'users')
+            && request.model != 'users' && request.model != 'social-notifications')
             return;
         //logic comes here:
         if (request.method == 'new-social-post')
@@ -203,6 +223,26 @@ class SocialSocketRouter extends SocketRouter
                 this.handleError(socket, request, err);
             });
         }
+        else if (request.method == 'read-notifications')
+        {
+            this.handler.readNotifications(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'get-unread-notifications')
+        {
+            this.handler.getUnreadNotifications(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
     }
 
 }
@@ -227,6 +267,8 @@ export class SocialHandler
         this.setFollowHashtag = this.setFollowHashtag.bind(this);
         this.setBookmark = this.setBookmark.bind(this);
         this.enterChallenge = this.enterChallenge.bind(this);
+        this.getUnreadNotifications = this.getUnreadNotifications.bind(this);
+        this.readNotifications = this.readNotifications.bind(this);
     }
     newSocialPost(params) //{ userId , userToken , body , media}
     {
@@ -488,24 +530,31 @@ export class SocialHandler
                     }
                     if (params.like)
                     {
-                        var notification = new this.SocialNotification({
-                            actionUserId: params.userId,
-                            targetUserId: post.userId,
-                            postId: post._id,
-                            type: 'like-post',
-                            createdAt: moment_now(),
-                        });
-                        notification.save(() =>
+                        if (post.userId != params.userId)
                         {
+                            var notification = new this.SocialNotification({
+                                actionUserId: params.userId,
+                                targetUserId: post.userId,
+                                postId: post._id.toString(),
+                                type: 'like-post',
+                                createdAt: moment_now(),
+                            });
+                            notification.save(() =>
+                            {
+                                resolve(post);
+                            });
+                        }
+                        else
                             resolve(post);
-                        });
                     }
                     else
                     {
+                        //delete if not read:
                         this.SocialNotification.deleteOne({
-                            postId: post._draft,
+                            postId: post._id.toString(),
                             type: 'like-post',
                             actionUserId: params.userId,
+                            read: false,
                         }, (err) =>
                             {
                                 if (err)
@@ -545,6 +594,11 @@ export class SocialHandler
                     reject('invalid token');
                     return;
                 }
+                if (currentUser._id.toString() == params.target)
+                {
+                    reject('cant follow yourself');
+                    return;
+                }
                 //check already following:
                 for (var i = 0; i < currentUser.social.followings.length; i++)
                 {
@@ -552,7 +606,7 @@ export class SocialHandler
                     {
                         if (params.follow)
                         {
-                            resolve(currentUser)
+                            resolve(currentUser);
                             return;
                         }
                         else
@@ -609,7 +663,36 @@ export class SocialHandler
                                 reject(err);
                                 return;
                             }
-                            resolve(currentUser);
+                            if (params.follow)
+                            {
+                                var notification = new this.SocialNotification({
+                                    actionUserId: currentUser._id.toString(),
+                                    targetUserId: targetUser._id.toString(),
+                                    type: 'follow-user',
+                                    createdAt: moment_now(),
+                                });
+                                notification.save(() =>
+                                {
+                                    resolve(currentUser);
+                                });
+                            }
+                            else
+                            {
+                                //delete if not read:
+                                this.SocialNotification.deleteOne({
+                                    actionUserId: currentUser._id.toString(),
+                                    targetUser: targetUser._id.toString(),
+                                    type: 'follow-user',
+                                    read: false,
+                                }, (err) =>
+                                    {
+                                        if (err)
+                                        {
+                                            console.log('error removing notification =>' + err.toString());
+                                        }
+                                        resolve(currentUser);
+                                    });
+                            }
                         });
                     });
                 });
@@ -815,6 +898,90 @@ export class SocialHandler
                             }
                             resolve({ user: currentUser, challenge: challenge });
                         });
+                    });
+                });
+            });
+        });
+    }
+    getUnreadNotifications(params) //{ userId , userToken}
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userId) || isEmptyString(params.userToken))
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                this.SocialNotification.find({ read: false, targetUserId: user._id.toString() }).exec((err, notifications) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(notifications);
+                });
+            });
+        });
+    }
+    readNotifications(params) //{ userId , userToken}
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userId) || isEmptyString(params.userToken))
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                this.SocialNotification.find({ targetUserId: user._id.toString() }).exec((err, notifications) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    this.SocialNotification.update({ targetUserId: user._id.toString(), read: false }, { "$set": { read: true } }, { "multi": true }, (err, result) =>
+                    {
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        resolve(notifications);
                     });
                 });
             });
