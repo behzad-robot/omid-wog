@@ -385,26 +385,8 @@ export class SocialHandler
                                         // serve thumbnail
                                         console.log(thumb);
                                         fs.copyFileSync(thumb, path.resolve(thumbnailFile));
-                                        Jimp.read(thumbnailFile, (err, img) =>
-                                        {
-                                            if (err)
-                                                console.log(err);
-                                            img
-                                                .cover(150, 150)
-                                                .quality(60)
-                                                .write(resized150x150);
-                                            console.log(resized150x150);
-                                        });
-                                        Jimp.read('..' + post.media[0], (err, img) =>
-                                        {
-                                            if (err)
-                                                console.log(err);
-                                            img
-                                                .cover(512, 512)
-                                                .quality(60)
-                                                .write(resized512x512);
-                                            console.log(resized512x512);
-                                        });
+                                        fs.copyFileSync(thumb, path.resolve(resized150x150));
+                                        fs.copyFileSync(thumb, path.resolve(resized512x512));
                                     }).catch((err) =>
                                     {
                                         console.log('error making the thumbnail for video =>' + post.media[0] + '=>' + err);
