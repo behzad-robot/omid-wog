@@ -1,19 +1,19 @@
 import mongoose, { ConnectionBase } from 'mongoose';
-import { getResizedFileName, isEmptyString, ICON_404 } from '../utils/utils';
+import { getResizedFileName, isEmptyString, ICON_404, isVideo } from '../utils/utils';
 import { SITE_URL } from '../constants';
 const moment = require('moment');
 const jalaali = require('jalaali-js');
 const persianDate = require('persian-date');
 export const SocialPostSchema = new mongoose.Schema({
     //content , info:
-    userId : String,
-    gameId :{type:String,default:''},
-    tags  :{type:Array,default:[]},
-    media : {type:Array,default:[]}, //media may be one image,multiple images a video or multiple videos!
-    body :{type:String,default:''},
+    userId: String,
+    gameId: { type: String, default: '' },
+    tags: { type: Array, default: [] },
+    media: { type: Array, default: [] }, //media may be one image,multiple images a video or multiple videos!
+    body: { type: String, default: '' },
     //stats:
-    likes : {type:Array,default:[]},
-    commentCount : {type:Number,default:0},
+    likes: { type: Array, default: [] },
+    commentCount: { type: Number, default: 0 },
 
     createdAt: String,
     updatedAt: String,
@@ -30,9 +30,9 @@ SocialPostSchema.virtual('createdAt_persian').get(function ()
 {
     //2019-02-09 05:16:59
     var val = this.createdAt;
-    if(isEmptyString(val))
+    if (isEmptyString(val))
         return val;
-    
+
     if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1)
     {
         var parts = val.split(' ');
@@ -44,19 +44,30 @@ SocialPostSchema.virtual('createdAt_persian').get(function ()
         var timeParts = parts[1].split(':');
         var jj = jalaali.toJalaali(year, month, day) // { jy: 1395, jm: 1, jd: 23 }
         // return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
-        var pd = new persianDate([jj.jy,jj.jm,jj.jd]);
-        return pd.format('dddd')+' '+jj.jd+' '+pd.format('MMMM')+' '+jj.jy;
+        var pd = new persianDate([jj.jy, jj.jm, jj.jd]);
+        return pd.format('dddd') + ' ' + jj.jd + ' ' + pd.format('MMMM') + ' ' + jj.jy;
     }
     else
         return this.createdAt;
 });
+SocialPostSchema.virtual('thumbnail').get(function ()
+{
+    if (!isVideo(this.media[0]))
+        return this.media[0];
+    else
+    {
+        let fileFormat = this.media[0].substring(this.media[0].lastIndexOf('.'), this.media[0].length);
+        let thumbnailFile = this.media[0].replace(fileFormat, '.png');
+        return thumbnailFile;
+    }
+});
 SocialPostSchema.virtual('thumbnail_150x150').get(function ()
 {
-    return getResizedFileName(this.media[0], 150, 150);
+    return getResizedFileName(this.thumbnail, 150, 150);
 });
 SocialPostSchema.virtual('thumbnail_512x512').get(function ()
 {
-    return getResizedFileName(this.media[0], 512, 512);
+    return getResizedFileName(this.thumbnail, 512, 512);
 });
 export const SocialPost = mongoose.model('SocialPost', SocialPostSchema);
 SocialPost.Helpers = {

@@ -42,6 +42,7 @@ import { SocialChallenge } from './models/social_challenge';
 import { SocialChatGroup } from './models/social_chat_group';
 import { SocialChatArchive } from './models/social_chat_archive';
 import { SocialNotification } from './models/social_notification';
+import { VasDummyRouter } from './routers/vas_dummy_router';
 
 const morgan = require('morgan');
 
@@ -126,6 +127,7 @@ express.expressApp.use('/api/social-notifications/', new PublicMongooseAPIRouter
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 
+express.expressApp.use('/api/vas',new VasDummyRouter().router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()

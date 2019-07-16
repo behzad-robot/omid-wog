@@ -1,7 +1,9 @@
 import { SocketCollection } from "../utils/socket-collection";
 import { isEmptyString, ICON_404, replaceAll } from "../utils/utils";
 import { SITE_URL } from "../constants";
-
+import * as linkify from 'linkifyjs';;
+import linkifyHtml from 'linkifyjs/html';
+import hashtag from 'linkifyjs/plugins/hashtag'; // optional
 
 export class SocialPost extends SocketCollection
 {
@@ -52,7 +54,10 @@ export class SocialPost extends SocketCollection
                 u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
             }
         }
-
+        u.body_formatted = linkifyHtml(u.body_formatted);
+        u.body_formatted = replaceAll(u.body_formatted, '\r\n', '<br>');
+        u.body_formatted = replaceAll(u.body_formatted, '\n', '<br>');
+        
         return u;
     }
     fixAll(cs)

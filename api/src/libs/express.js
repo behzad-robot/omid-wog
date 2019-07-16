@@ -30,13 +30,28 @@ export default class MyExpressApp
             }
             this.expressApp.use(session(sess));
         }
+
         //body parse:
+        function rawBody(req, res, next)
+        {
+            req.setEncoding('utf8');
+            req.rawBody = '';
+            req.on('data', function (chunk)
+            {
+                req.rawBody += chunk;
+            });
+            req.on('end', function ()
+            {
+                next();
+            });
+        }
+        this.expressApp.use(rawBody);
         const bodyParser = require('body-parser');
         // to support JSON-encoded bodies
         this.expressApp.use(bodyParser.json({
             limit: '50mb'
         }));
-        
+
         this.expressApp.use(bodyParser.urlencoded({     // to support URL-encoded bodies
             extended: true,
             limit: '50mb'

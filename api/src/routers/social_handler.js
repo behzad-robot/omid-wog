@@ -8,6 +8,7 @@ const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
 const thumbsupply = require('thumbsupply');
+const rimraf = require("rimraf");
 
 const SOCIAL_MEDIA_FOLDER = path.resolve('../storage/social-posts/');
 
@@ -369,7 +370,6 @@ export class SocialHandler
                             }
                             else
                             {
-
                                 let fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
                                 let thumbnailFile = post.media[0].replace(fileFormat, '.png');
                                 fileFormat = '.png';
@@ -501,15 +501,35 @@ export class SocialHandler
                     reject('invalid token');
                     return;
                 }
-                this.SocialPost.deleteOne({ _id: params._id }, (err) =>
+                this.SocialPost.findOne({ _id: params._id }).exec((err, post) =>
                 {
                     if (err)
                     {
-                        reject(err.toString());
+                        reject(err);
                         return;
                     }
-                    resolve({ success: true, _id: params._id });
+                    if (post == undefined)
+                    {
+                        reject('post not found');
+                        return;
+                    }
+                    if (post.userId != user._id.toString())
+                    {
+                        reject('not your post');
+                        return;
+                    }
+                    this.SocialPost.deleteOne({ _id: params._id }, (err) =>
+                    {
+                        if (err)
+                        {
+                            reject(err.toString());
+                            return;
+                        }
+                        rimraf.sync(path.resolve('../storage/social-posts/' + params._id));
+                        resolve({ success: true, _id: params._id });
+                    });
                 });
+
             });
         });
     }
