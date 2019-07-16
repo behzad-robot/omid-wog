@@ -1,12 +1,15 @@
 import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
-import { isEmptyString, moment_now } from "../utils/utils";
+import { isEmptyString, moment_now, isVideo } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY } from "../constants";
 const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
+import ThumbnailGenerator from 'video-thumbnail-generator';
+
+
 const SOCIAL_MEDIA_FOLDER = path.resolve('../storage/social-posts/');
 
 class SocialHttpRouter extends APIRouter
@@ -339,29 +342,43 @@ export class SocialHandler
                                 fs.unlinkSync(m);
                                 post.media[i] = newDir.replace('../', '/');
                             }
-                            const fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
-                            let resized150x150 = post.media[0].replace(fileFormat, '-resize-150x150' + fileFormat);
-                            let resized512x512 = post.media[0].replace(fileFormat, '-resize-512x512' + fileFormat);
-                            Jimp.read('..' + post.media[0], (err, img) =>
+                            if (!isVideo(post.media[0]))
                             {
-                                if (err)
-                                    console.log(err);
-                                img
-                                    .cover(150, 150)
-                                    .quality(60)
-                                    .write('..' + resized150x150);
-                                console.log(resized150x150);
-                            });
-                            Jimp.read('..' + post.media[0], (err, img) =>
+                                const fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
+                                let resized150x150 = post.media[0].replace(fileFormat, '-resize-150x150' + fileFormat);
+                                let resized512x512 = post.media[0].replace(fileFormat, '-resize-512x512' + fileFormat);
+                                Jimp.read('..' + post.media[0], (err, img) =>
+                                {
+                                    if (err)
+                                        console.log(err);
+                                    img
+                                        .cover(150, 150)
+                                        .quality(60)
+                                        .write('..' + resized150x150);
+                                    console.log(resized150x150);
+                                });
+                                Jimp.read('..' + post.media[0], (err, img) =>
+                                {
+                                    if (err)
+                                        console.log(err);
+                                    img
+                                        .cover(512, 512)
+                                        .quality(60)
+                                        .write('..' + resized512x512);
+                                    console.log(resized512x512);
+                                });
+                            }
+                            else
                             {
-                                if (err)
-                                    console.log(err);
-                                img
-                                    .cover(512, 512)
-                                    .quality(60)
-                                    .write('..' + resized512x512);
-                                console.log(resized512x512);
-                            });
+                                const tg = new ThumbnailGenerator({
+                                    sourcePath: path.resolve('../' + post.media[0]),
+                                    thumbnailPath: path.resolve('../storage/social-posts/' + post._id + '/'),
+                                });
+                                tg.generateOneByPercent(90).then((result) =>
+                                {
+                                    console.log('generated thumbnail for video=' + result);
+                                });
+                            }
                         } catch (err)
                         {
                             console.log(err.toString());

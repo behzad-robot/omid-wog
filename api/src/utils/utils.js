@@ -22,3 +22,6 @@ export function moment_now()
 {
     return moment().format('YYYY-MM-DD hh:mm:ss');
 }
+export function isVideo(str){
+    return str.indexOf('.mp4') != -1 || str.indexOf('.avi') != -1 || str.indexOf('.mkv') != -1 || str.indexOf('.webm') != -1;
+}

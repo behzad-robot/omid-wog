@@ -1,6 +1,6 @@
 import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants";
-import { isEmptyString, replaceAll } from "../../utils/utils";
+import { isEmptyString, replaceAll, isVideo } from "../../utils/utils";
 
 const fs = require('fs');
 const path = require('path');
@@ -434,6 +434,15 @@ const fixPost = function (post, currentUser)
             post._isBookmarked = true;
             break;
         }
+    }
+    post._media = [];
+    for (var i = 0; i < post.media.length; i++)
+    {
+        post._media.push({
+            index: i,
+            url: post.media[i],
+            type: isVideo(post.media[i]) ? 'video' : 'image',
+        });
     }
     return post;
 }

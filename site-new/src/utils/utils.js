@@ -1,12 +1,13 @@
 import moment from 'moment';
-export function isEmptyString(str) {
+export function isEmptyString(str)
+{
     return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
 }
 export const ICON_404 = '/images/404-image.png';
 
-export function getResizedFileName(filePath,width,height)
+export function getResizedFileName(filePath, width, height)
 {
-    if(isEmptyString(filePath))
+    if (isEmptyString(filePath))
         return filePath;
     let fileName = filePath.substring(0, filePath.indexOf('.'));
     let fileFormat = filePath.substring(filePath.indexOf('.'), filePath.length);
@@ -20,4 +21,8 @@ export function replaceAll(target, search, replacement)
 export function moment_now()
 {
     return moment().format('YYYY-MM-DD hh:mm:ss');
+}
+export function isVideo(str)
+{
+    return str.indexOf('.mp4') != -1 || str.indexOf('.avi') != -1 || str.indexOf('.mkv') != -1 || str.indexOf('.webm') != -1;
 }
