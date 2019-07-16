@@ -379,6 +379,36 @@
                 width: 50%
             }
         }
+
+        .carousel-indicators .active {
+            background-color: orange;
+        }
+
+        .carousel-indicators li {
+            background-color: white;
+            box-shadow: 5px 5px 10px rgb(0, 0, 0)
+        }
+
+        .carousel-control-prev-icon,
+        .carousel-control-next-icon {
+            height: 100px;
+            width: 100px;
+            background-image: none;
+        }
+
+        .carousel-control-next-icon:after {
+            content: '<';
+            font-size: 40px;
+            color: white;
+            text-shadow: 5px 5px 5px black
+        }
+
+        .carousel-control-prev-icon:after {
+            content: '>';
+            font-size: 40px;
+            color: white;
+            text-shadow: 5px 5px 5px black
+        }
     </style>
 </head>
 
@@ -420,7 +450,32 @@
                             <i onclick="displayPopUp(this)" class="fas fa-ellipsis-h more-btn"></i>
                         </div>
                         <div class="post-content">
-                            <img src="{{post.media.0}}" alt="">
+                            <div class="post-content">
+                                <div id="{{post._id}}" class="carousel slide" data-ride="carousel">
+                                    <ol class="carousel-indicators">
+                                        <li data-target="#{post.{_id}}" data-slide-to="0" class="active"></li>
+                                        <li data-target="#{{post._id}}" data-slide-to="1"></li>
+                                        <li data-target="#{{post._id}}" data-slide-to="2"></li>
+                                    </ol>
+                                    <div class="carousel-inner">
+                                        {{#post.media}}
+                                        <div class="carousel-item post-media-item">
+                                            <img src="{{.}}" class="d-block w-100">
+                                        </div>
+                                        {{/post.media}}
+                                    </div>
+                                    <a class="carousel-control-prev" href="#{{post._id}}" role="button"
+                                        data-slide="prev">
+                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Previous</span>
+                                    </a>
+                                    <a class="carousel-control-next" href="#{{post._id}}" role="button"
+                                        data-slide="next">
+                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span class="sr-only">Next</span>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
                         <div class="buttons-row">
                             <div class="buttons-part">
@@ -540,7 +595,24 @@
             </div>
         </div>
     </section>
-
+    <script>
+        $(() =>
+        {
+            let postBoxes = $(".post-wrapper");
+            for (var i = 0; i < postBoxes.length; i++)
+            {
+                let mediaBoxes = $(postBoxes[i]).find(".post-media-item");
+                if (mediaBoxes.length != 0)
+                    $(mediaBoxes[0]).addClass('active');
+                if (mediaBoxes.length == 1)
+                {
+                    $(postBoxes[i]).find(".carousel-indicators").hide(0);
+                    $(postBoxes[i]).find(".carousel-control-prev").hide(0);
+                    $(postBoxes[i]).find(".carousel-control-next").hide(0);
+                }
+            }
+        });
+    </script>
     {{{footer}}}
     <!-- <script>
         $(".comments-heart-btn").click(function ()
