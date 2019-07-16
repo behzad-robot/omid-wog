@@ -156,12 +156,20 @@
                         </div> -->
                             <div class="new-post-media" id="media-preview">
                                 <h6 class="bk-title">پست مورد نظر شما:</h6>
-                                {{#post.media}}
+                                {{#post._media}}
                                 <div class="media-box">
-                                    <div class="media-box-thumbnail" style="background-image:url('{{{.}}}')">
+                                    {{^isVideo}}
+                                    <div class="media-box-thumbnail" style="background-image:url('{{{url}}}')"></div>
+                                    {{/isVideo}}
+                                    {{#isVideo}}
+                                    <div class="media-box-thumbnail" style="background-color:black">
+                                        <video nocontrols autoplay loop muted width="100%" height="100%">
+                                            <source src="{{{url}}}" />
+                                        </video>
                                     </div>
+                                    {{/isVideo}}
                                 </div>
-                                {{/post.media}}
+                                {{/post._media}}
                             </div>
                             <div class="new-post-save" style="overflow:hidden;">
                                 <div class="btn btn-md btn-success float-left" id="submit-btn">ارسال</div>

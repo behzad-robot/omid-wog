@@ -1,6 +1,6 @@
 import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants";
-import { isEmptyString, replaceAll } from "../../utils/utils";
+import { isEmptyString, replaceAll, isVideo } from "../../utils/utils";
 
 export class SocialPostsRouter extends SiteRouter
 {
@@ -66,6 +66,8 @@ export class SocialPostsRouter extends SiteRouter
         {
             siteModules.SocialPost.getOne(req.params._id).then((post) =>
             {
+                post = fixPost(post, req.session.currentUser);
+                console.log(post);
                 if (post.userId != req.session.currentUser._id)
                 {
                     res.status(400).send('access denied');
@@ -111,4 +113,39 @@ export class SocialPostsRouter extends SiteRouter
             });
         });
     }
+}
+const fixPost = function (post, currentUser)
+{
+    post._isMine = currentUser._id == post.userId;
+    post._isLiked = false;
+    for (var i = 0; i < post.likes.length; i++)
+    {
+        if (post.likes[i] == currentUser._id)
+        {
+            post._isLiked = true;
+            break;
+        }
+    }
+    post._isBookmarked = false;
+    if (currentUser.social.bookmarks == undefined)
+        currentUser.social.bookmarks = [];
+    for (var i = 0; i < currentUser.social.bookmarks.length; i++)
+    {
+        if (currentUser.social.bookmarks[i] == post._id)
+        {
+            post._isBookmarked = true;
+            break;
+        }
+    }
+    post._media = [];
+    for (var i = 0; i < post.media.length; i++)
+    {
+        post._media.push({
+            index: i,
+            url: post.media[i],
+            type: isVideo(post.media[i]) ? 'video' : 'image',
+            isVideo: isVideo(post.media[i]),
+        });
+    }
+    return post;
 }

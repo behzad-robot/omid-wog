@@ -23,11 +23,11 @@
             <a href="/wiki" class="navbar-item" dropDownItem="games-disabledd">بازی‌ها
                 <!--<span class="fas fa-sort-down"></span>--></a>
             <!-- <a href="/shop" class="navbar-item">فروشگاه</a> -->
-            {{^currentUser.accessLevel.isAdmin}}
+            <!-- {{^currentUser.accessLevel.isAdmin}}
             <a href="/about-us" class="navbar-item">درباره ما</a>
             <a href="/contact-us" class="navbar-item">تماس با ما</a>
-            {{/currentUser.accessLevel.isAdmin}}
-            {{#currentUser.accessLevel.isAdmin}}
+            {{/currentUser.accessLevel.isAdmin}} -->
+            {{#currentUser}}
             <!-- ^_^ put 3 social icons shit here i guess!-->
             <a href="/social" class="navbar-item text-center no-tablet">
                 <i class="fab fa-hotjar" style="font-size: 25px;top:5px;right:0"></i>
@@ -49,7 +49,7 @@
 
                 <span class="mobile-only-inline" style="margin-right: 7px">پیام ها</span>
             </a>
-            {{/currentUser.accessLevel.isAdmin}}
+            {{/currentUser}}
             {{^currentUser}}
             <a href="/login" class="navbar-item mobile-only">ورود</a>
             <a href="/signup" class="navbar-item mobile-only">ثبت نام</a>

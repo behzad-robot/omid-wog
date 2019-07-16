@@ -120,6 +120,10 @@
     {
         return str == undefined || str == "undefined" || str == '' || str.replace(' ', '') == '' || str == '?';
     }
+    function isVideo(str)
+    {
+        return str.indexOf('.mp4') != -1 || str.indexOf('.avi') != -1 || str.indexOf('.mkv') != -1 || str.indexOf('.webm') != -1;
+    }
 </script>
 <script>
     function toggleDota2Shortcut()

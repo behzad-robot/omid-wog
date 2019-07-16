@@ -236,13 +236,19 @@
             $("form [name=media]").html(JSON.stringify(media));
             $("#media-preview").show();
             $("#media-preview").html('');
+
             for (var i = 0; i < media.length; i++)
+            {
+                let bg = isVideo(media[i]) ? 'background-color:black' : `background-image:url('${media[i]}')`;
+                let content = isVideo(media[i]) ? `<video autoplay nocontrols mute loop width="100%" height="100%"><source src="${media[i]}"/></video>` : ``;
                 $("#media-preview").append(`
                     <div class="media-box">
-                        <div class="media-box-thumbnail" style="background-image:url('${media[i]}')"></div>
+                        <div class="media-box-thumbnail" style="${bg}">${content}</div>
                         <div class="btn btn-xs btn-danger">حذف</div>
                     </div>
                 `);
+            }
+
         }
     </script>
 
