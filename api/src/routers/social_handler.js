@@ -7,7 +7,6 @@ const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
-const mt = require('media-thumbnail')
 
 
 const SOCIAL_MEDIA_FOLDER = path.resolve('../storage/social-posts/');
@@ -378,10 +377,14 @@ export class SocialHandler
                                 let resized512x512 = thumbnailFile.replace(fileFormat, '-resize-512x512' + fileFormat);
                                 console.log(resized150x150);
                                 console.log(resized512x512);
-                                mt.forVideo(path.resolve('..' + post.media[0]), { width: '640', height: '360', preserveAspectRatio: false }).then(() =>
-                                {
-                                    console.log('Success');
-                                }, err => console.error(err))
+                                const thumbsupply = require('thumbsupply');
+
+                                thumbsupply.generateThumbnail(path.resolve('..' + post.media[0]))
+                                    .then(thumb =>
+                                    {
+                                        // serve thumbnail
+                                        console.log(thumb);
+                                    });
 
                             }
                         } catch (err)
