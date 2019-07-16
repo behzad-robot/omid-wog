@@ -7,7 +7,7 @@ const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
-import ThumbnailGenerator from 'video-thumbnail-generator';
+const mt = require('media-thumbnail')
 
 
 const SOCIAL_MEDIA_FOLDER = path.resolve('../storage/social-posts/');
@@ -370,18 +370,24 @@ export class SocialHandler
                             }
                             else
                             {
-                                const tg = new ThumbnailGenerator({
-                                    sourcePath: path.resolve('../' + post.media[0]),
-                                    thumbnailPath: path.resolve('../storage/social-posts/' + post._id + '/'),
-                                });
-                                tg.generateOneByPercent(90).then((result) =>
+
+                                let fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
+                                let thumbnailFile = post.media[0].replace(fileFormat, '.png');
+                                fileFormat = '.png';
+                                let resized150x150 = thumbnailFile.replace(fileFormat, '-resize-150x150' + fileFormat);
+                                let resized512x512 = thumbnailFile.replace(fileFormat, '-resize-512x512' + fileFormat);
+                                console.log(resized150x150);
+                                console.log(resized512x512);
+                                mt.forVideo(path.resolve('..' + post.media[0]), { width: '640', height: '360', preserveAspectRatio: false }).then(() =>
                                 {
-                                    console.log('generated thumbnail for video=' + result);
-                                });
+                                    console.log('Success');
+                                }, err => console.error(err))
+
                             }
                         } catch (err)
                         {
-                            console.log(err.toString());
+                            console.log(err);
+
                         }
                         this.SocialPost.findByIdAndUpdate(post._id, { $set: { media: post.media } }, { new: true }, (err, post) =>
                         {
