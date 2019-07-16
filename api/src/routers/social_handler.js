@@ -376,9 +376,9 @@ export class SocialHandler
                                 thumbnailFile = path.resolve('..' + thumbnailFile);
                                 let resized150x150 = thumbnailFile.replace(fileFormat, '-resize-150x150' + fileFormat);
                                 let resized512x512 = thumbnailFile.replace(fileFormat, '-resize-512x512' + fileFormat);
+                                console.log(thumbnailFile);
                                 console.log(resized150x150);
                                 console.log(resized512x512);
-
                                 thumbsupply.generateThumbnail(path.resolve('..' + post.media[0]))
                                     .then(thumb =>
                                     {
