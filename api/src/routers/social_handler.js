@@ -7,7 +7,7 @@ const encoder = new JesEncoder(API_ENCODE_KEY);
 const fs = require('fs');
 const path = require('path');
 const Jimp = require('jimp');
-
+const thumbsupply = require('thumbsupply');
 
 const SOCIAL_MEDIA_FOLDER = path.resolve('../storage/social-posts/');
 
@@ -373,19 +373,42 @@ export class SocialHandler
                                 let fileFormat = post.media[0].substring(post.media[0].lastIndexOf('.'), post.media[0].length);
                                 let thumbnailFile = post.media[0].replace(fileFormat, '.png');
                                 fileFormat = '.png';
+                                thumbnailFile = path.resolve('..' + thumbnailFile);
                                 let resized150x150 = thumbnailFile.replace(fileFormat, '-resize-150x150' + fileFormat);
                                 let resized512x512 = thumbnailFile.replace(fileFormat, '-resize-512x512' + fileFormat);
                                 console.log(resized150x150);
                                 console.log(resized512x512);
-                                const thumbsupply = require('thumbsupply');
 
                                 thumbsupply.generateThumbnail(path.resolve('..' + post.media[0]))
                                     .then(thumb =>
                                     {
                                         // serve thumbnail
                                         console.log(thumb);
+                                        fs.copyFileSync(thumb, path.resolve(thumbnailFile));
+                                        Jimp.read(thumbnailFile, (err, img) =>
+                                        {
+                                            if (err)
+                                                console.log(err);
+                                            img
+                                                .cover(150, 150)
+                                                .quality(60)
+                                                .write(resized150x150);
+                                            console.log(resized150x150);
+                                        });
+                                        Jimp.read('..' + post.media[0], (err, img) =>
+                                        {
+                                            if (err)
+                                                console.log(err);
+                                            img
+                                                .cover(512, 512)
+                                                .quality(60)
+                                                .write(resized512x512);
+                                            console.log(resized512x512);
+                                        });
+                                    }).catch((err) =>
+                                    {
+                                        console.log('error making the thumbnail for video =>' + post.media[0] + '=>' + err);
                                     });
-
                             }
                         } catch (err)
                         {
