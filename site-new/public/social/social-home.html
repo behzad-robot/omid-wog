@@ -517,18 +517,28 @@
                                 <div class="post-content">
                                     <div id="{{_id}}" class="carousel slide" data-ride="carousel">
                                         <ol class="carousel-indicators">
-                                            {{#media}}
+                                            {{#_media}}
                                             <li data-target="#{{_id}}" data-slide-to="?" class="media-indicator"></li>
-                                            {{/media}}
+                                            {{/_media}}
                                             <!-- <li data-target="#{{_id}}" data-slide-to="1"></li>
                                             <li data-target="#{{_id}}" data-slide-to="2"></li> -->
                                         </ol>
                                         <div class="carousel-inner">
-                                            {{#media}}
+                                            {{#_media}}
+                                            {{^isVideo}}
                                             <div class="carousel-item post-media-item"
-                                                style="background-image: url('{{.}}');width: 100%;height: 600px;background-size: cover;background-position: center">
+                                                style="background-image: url('{{url}}');width: 100%;height: 600px;background-size: cover;background-position: center">
                                             </div>
-                                            {{/media}}
+                                            {{/isVideo}}
+                                            {{#isVideo}}
+                                            <div class="carousel-item post-media-item"
+                                                style="background-color: black;width: 100%;height: 600px;background-size: cover;background-position: center">
+                                                <video controls width="100%" height="600px">
+                                                    <source src="{{url}}" />
+                                                </video>
+                                            </div>
+                                            {{/isVideo}}
+                                            {{/_media}}
                                         </div>
                                         <a class="carousel-control-prev" href="#{{_id}}" role="button"
                                             data-slide="prev">

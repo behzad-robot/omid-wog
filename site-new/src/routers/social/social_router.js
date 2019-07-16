@@ -442,6 +442,7 @@ const fixPost = function (post, currentUser)
             index: i,
             url: post.media[i],
             type: isVideo(post.media[i]) ? 'video' : 'image',
+            isVideo: isVideo(post.media[i]),
         });
     }
     return post;
