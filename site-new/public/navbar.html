@@ -44,7 +44,7 @@
             <a href="#" onclick="toggleNotifications()" class="navbar-item text-center no-tablet">
                 <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0">
                     <span id="notifications-count"
-                        style="color:white;background-color:red;width:16px;height:16px;display:inline-block;border-radius:50%;position: absolute;font-size:10px;padding-top:3px;top:-5px;right:7px;">??</span>
+                        style="color:white;background-color:red;width:16px;height:16px;display:none;border-radius:50%;position: absolute;font-size:10px;padding-top:3px;top:-5px;right:7px;">??</span>
                 </i>
 
                 <span class="mobile-only-inline" style="margin-right: 7px">پیام ها</span>
@@ -413,6 +413,7 @@
             if (count != 0)
             {
                 $("#notifications-count").show();
+                $("#notifications-count").css('display','inline-block');
                 $("#notifications-count").html();
             }
         });
