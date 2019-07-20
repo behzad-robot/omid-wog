@@ -14,10 +14,11 @@
             height: 150px;
             background-position: center;
             background-size: cover;
-            background-color: orange;
+            background-color: #414141;
             border-radius: 5px;
             position: relative;
             cursor: pointer;
+            margin-bottom: 5px;
         }
 
         .tag-box .tag-overlay {
@@ -74,7 +75,8 @@
                 <div class="row">
                     {{#hashTags}}
                     <div class="col-md-4 col-6">
-                        <div class="tag-box" style="background-image: url('{{{cover}}}')" tagId="{{_id}}">
+                        <div class="tag-box {{#_isFollowed}}selected{{/_isFollowed}}"
+                            style="background-image: url('{{{cover}}}')" tagId="{{_id}}">
                             <div class="tag-checkmark"><i class="fas fa-check-square"></i></div>
                             <div class="tag-overlay">{{name}}</div>
                         </div>
@@ -82,7 +84,7 @@
                     {{/hashTags}}
                 </div>
                 <div class="text-center" style="padding:10px 0">
-                    <textarea name="tags" style="display: none">[]</textarea>
+                    <textarea name="tags" style="display: none">{{{followedHashTags}}}</textarea>
                     <input type="submit" class="btn btn-md btn-warning" value="ثبت و ادامه" style="display: none;" />
                 </div>
             </form>
@@ -90,9 +92,13 @@
     </section>
     {{{footer}}}
     <script>
-        let tags = [];
+        let tags = JSON.parse(`{{{followedHashTags}}}`);
         $(() =>
         {
+            if (tags.length >= 2)
+                $("input[type=submit]").show();
+            else
+                $("input[type=submit]").hide();
             $(".tag-box").click(function ()
             {
                 let tagId = $(this).attr('tagId');

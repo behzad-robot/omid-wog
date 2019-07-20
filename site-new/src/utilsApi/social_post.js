@@ -57,7 +57,7 @@ export class SocialPost extends SocketCollection
         u.body_formatted = linkifyHtml(u.body_formatted);
         u.body_formatted = replaceAll(u.body_formatted, '\r\n', '<br>');
         u.body_formatted = replaceAll(u.body_formatted, '\n', '<br>');
-        u.body_formatted = hashtag(u.body_formatted);
+        // u.body_formatted = hashtag(u.body_formatted);
         return u;
     }
     fixAll(cs)

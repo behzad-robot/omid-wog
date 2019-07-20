@@ -209,7 +209,9 @@
                 dataType: 'json',
                 progressall: function (e, data)
                 {
-                    $("#file-uploader-status").html('در حال آپلود...');
+                    // console.log(data);
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    $("#file-uploader-status").html('در حال آپلود '+progress+' %....');
                 },
                 done: function (e, data)
                 {

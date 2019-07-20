@@ -2,14 +2,14 @@
 
 <head>
     {{{head}}}
-    <title>{{_wogSEO.title}}</title>
+    <title>ویرایش مشخصات کاربری</title>
     <meta name="description" content="{{_wogSEO.description}}">
     <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
     <link rel="canonical" href="http://worldofgamers.ir/">
 
     <meta property="og:locale" content="fa_IR">
     <meta property="og:type" content="article">
-    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:title" content="ویرایش مشخصات کاربری">
     <meta property="og:description" content="{{_wogSEO.description}}">
     <meta property="og:url" content="{{_wogSEO.fullUrl}}">
     <meta property="og:image" content="http://worldofgamers.ir/wog-logo.png">
@@ -18,7 +18,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@wogcompany">
     <meta name="twitter:description" content="{{_wogSEO.description}}">
-    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:title" content="ویرایش مشخصات کاربری">
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo.png">
     <style>
         .form-row {
@@ -197,6 +197,14 @@
                             </div>
                             <div class="text-center" style="padding:10px 0">
                                 <input type="submit" class="btn btn-md btn-warning" value="ثبت تغییرات" />
+                                <div id="loading" class="text-center" style="display:none">
+                                    <div class="lds-ellipsis">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -278,6 +286,8 @@
                                         alert('مقدار صحیحی برای سن وارد نشده ');
                                         return false;
                                     }
+                                    $("input[type=submit]").hide();
+                                    $("#loading").show();
                                     return true;
                                 },
                                 success: (text, code, xhr, form) =>

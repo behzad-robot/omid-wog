@@ -78,6 +78,16 @@ class SocialHttpRouter extends APIRouter
                 this.handleError(req, res, err);
             });
         });
+        this.router.post('/set-all-hashtags', (req, res) =>
+        {
+            this.handler.setAllHashtags(req.body).then((result) =>
+            {
+                this.sendResponse(req, res, result);
+            }).catch((err) =>
+            {
+                this.handleError(req, res, err);
+            });
+        });
         this.router.post('/set-bookmark', (req, res) =>
         {
             this.handler.setBookmark(req.body).then((result) =>
@@ -199,6 +209,16 @@ class SocialSocketRouter extends SocketRouter
         else if (request.method == 'set-follow-hashtag')
         {
             this.handler.setFollowHashtag(request.params).then((result) =>
+            {
+                this.sendResponse(socket, request, result);
+            }).catch((err) =>
+            {
+                this.handleError(socket, request, err);
+            });
+        }
+        else if (request.method == 'set-all-hashtags')
+        {
+            this.handler.setAllHashtags(request.params).then((result) =>
             {
                 this.sendResponse(socket, request, result);
             }).catch((err) =>
@@ -794,6 +814,47 @@ export class SocialHandler
                 }
                 if (params.follow)
                     user.social.followedHashtags.push(params.tagId);
+                this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
+                {
+                    if (err)
+                    {
+                        reject(err);
+                        return;
+                    }
+                    resolve(user);
+                });
+            });
+        });
+    }
+    setAllHashtags(params) //{userToken , userId , tags  }
+    {
+        return new Promise((resolve, reject) =>
+        {
+            if (isEmptyString(params.userToken) || isEmptyString(params.userId)
+                || params.tags == undefined)
+            {
+                reject('parameters missing');
+                return;
+            }
+            this.User.findOne({ _id: params.userId }).exec((err, user) =>
+            {
+                if (err)
+                {
+                    reject(err);
+                    return;
+                }
+                if (user == undefined)
+                {
+                    reject('user not found');
+                    return;
+                }
+                if (user.token != params.userToken)
+                {
+                    reject('invalid token');
+                    return;
+                }
+                console.log(':D this is fineeee!');
+                user.social.followedHashtags = params.tags;
                 this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
                 {
                     if (err)

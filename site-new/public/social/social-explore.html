@@ -21,71 +21,71 @@
     <meta name="twitter:title" content="{{_wogSEO.title}}">
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
-    .explore-section {
-    /* margin-top: 80px; */
-    display: block;
-    }
+        .explore-section {
+            /* margin-top: 80px; */
+            display: block;
+        }
 
-    .explore-section .container {
-    width: 960px;
+        .explore-section .container {
+            width: 960px;
 
-    }
+        }
 
-    .chat-room-wrapper {
-    border-radius: 4px;
-    box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-    margin-top: 10px;
-    background-color: white;
-    border: .3px solid #eeeeee;
-    }
+        .chat-room-wrapper {
+            border-radius: 4px;
+            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+            margin-top: 10px;
+            background-color: white;
+            border: .3px solid #eeeeee;
+        }
 
-    .chat-room-cover {
-    width: 100%;
-    border-top-right-radius: 4px;
-    border-top-left-radius: 4px;
-    }
+        .chat-room-cover {
+            width: 100%;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
 
-    .chat-room-textbox {
-    padding: 5px
-    }
+        .chat-room-textbox {
+            padding: 5px
+        }
 
-    .members-count {
-    color: rgb(109, 109, 109);
-    font-size: 15px;
-    display: inline-block;
-    padding-top: 10px
-    }
+        .members-count {
+            color: rgb(109, 109, 109);
+            font-size: 15px;
+            display: inline-block;
+            padding-top: 10px
+        }
 
-    .chat-box-btn {
-    display: inline-block;
-    width: 40%;
-    border-radius: 30px;
-    font-size: 15px;
-    margin: 0px auto
-    }
+        .chat-box-btn {
+            display: inline-block;
+            width: 40%;
+            border-radius: 30px;
+            font-size: 15px;
+            margin: 0px auto
+        }
 
-    .chat-room-description {
-    font-size: 14px
-    }
+        .chat-room-description {
+            font-size: 14px
+        }
 
-    .blog .carousel-indicators {
-    left: 0;
-    top: auto;
-    bottom: -40px;
+        .blog .carousel-indicators {
+            left: 0;
+            top: auto;
+            bottom: -40px;
 
-    }
+        }
 
-    /* The colour of the indicators */
-    .blog .carousel-indicators li {
-    background: #a3a3a3;
-    border-radius: 50%;
-    width: 8px;
-    height: 8px;
-    }
+        /* The colour of the indicators */
+        .blog .carousel-indicators li {
+            background: #a3a3a3;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
 
-    .blog .carousel-indicators .active {
-    background: orange;
-    }
+        .blog .carousel-indicators .active {
+            background: orange;
+        }
     </style>
     <style>
         .grid-post-box {
@@ -136,6 +136,13 @@
             left: 0;
             z-index: 1;
         }
+
+        .grid-post-box .fa-play {
+            position: relative;
+            top: 90px;
+            font-size: 26px;
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, .4);
+        }
     </style>
 </head>
 
@@ -144,15 +151,9 @@
     <navfiller></navfiller>
     <section class="explore-section">
         <div class="container">
-            <!-- <h4 style="margin-top: 10px">chat room or sugested user or story or fucking any thing else</h4> -->
             <div class="row blog">
                 <div class="col-md-12">
                     <div id="blogCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- ************************************* uncomment this shits below for corousel slider buttons :D ***************************************** -->
-                        <!-- <ol class="carousel-indicators">
-                            <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#blogCarousel" data-slide-to="1"></li>
-                        </ol> -->
                         <!-- Carousel items -->
                         <div class="carousel-inner">
                             <div class="carousel-item active">
@@ -221,73 +222,6 @@
                                 <!--.row-->
                             </div>
                             <!--.item-->
-                            <!-- ************************************ uncomments this shits below for next page corousel********************************************************** -->
-                            <!-- 
-                            <div class="carousel-item">
-                                <div class="row">
-                                    <div class="col-md-3 col-3">
-                                        <div class="chat-room-wrapper">
-                                            <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                            <div class="chat-room-textbox">
-                                                <h5>چت عمومی</h5>
-                                                <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                                <div style="padding-bottom:5px;">
-                                                    <a href="">
-                                                        <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <div class="chat-room-wrapper">
-                                            <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                            <div class="chat-room-textbox">
-                                                <h5>چت عمومی</h5>
-                                                <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                                <div style="padding-bottom:5px;">
-                                                    <a href="">
-                                                        <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <div class="chat-room-wrapper">
-                                            <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                            <div class="chat-room-textbox">
-                                                <h5>چت عمومی</h5>
-                                                <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                                <div style="padding-bottom:5px;">
-                                                    <a href="">
-                                                        <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-3">
-                                        <div class="chat-room-wrapper">
-                                            <img src="/social/images/consoles.jpg" alt="" class="chat-room-cover">
-                                            <div class="chat-room-textbox">
-                                                <h5>چت عمومی</h5>
-                                                <p class="chat-room-description">مکانی برای مکان بودن بیا تو دایرکشن</p>
-                                                <div style="padding-bottom:5px;">
-                                                    <a href="">
-                                                        <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
-
                         </div>
                         <!--.carousel-inner-->
                     </div>
@@ -302,6 +236,11 @@
                             <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.0.likes.length}}</span>
                         </div>
                         <div class="post-thumbail" style="background-image:url('{{firstPosts.0.thumbnail_512x512}}')">
+                            {{#firstPosts.0._media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/firstPosts.0._media.0.isVideo}}
                         </div>
                     </a>
                     <a class="grid-post-box" href="{{firstPosts.1.siteUrl}}">
@@ -310,6 +249,11 @@
                             <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.1.likes.length}}</span>
                         </div>
                         <div class="post-thumbail" style="background-image:url('{{firstPosts.1.thumbnail_512x512}}')">
+                            {{#firstPosts.1._media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/firstPosts.1._media.0.isVideo}}
                         </div>
                     </a>
 
@@ -322,6 +266,11 @@
                             <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.2.likes.length}}</span>
                         </div>
                         <div class="post-thumbail" style="background-image:url('{{firstPosts.2.thumbnail_512x512}}')">
+                            {{#firstPosts.2._media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/firstPosts.2._media.0.isVideo}}
                         </div>
                     </a>
                     <a class="grid-post-box" href="{{firstPosts.3.siteUrl}}">
@@ -330,6 +279,11 @@
                             <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.3.likes.length}}</span>
                         </div>
                         <div class="post-thumbail" style="background-image:url('{{firstPosts.3.thumbnail_512x512}}')">
+                            {{#firstPosts.3._media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/firstPosts.3._media.0.isVideo}}
                         </div>
                     </a>
                 </div> <!-- col-md-3-->
@@ -340,6 +294,11 @@
                             <i class="fas fa-heart"></i>&nbsp;<span>{{firstPosts.4.likes.length}}</span>
                         </div>
                         <div class="post-thumbail" style="background-image:url('{{firstPosts.4.thumbnail_512x512}}')">
+                            {{#firstPosts.4._media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/firstPosts.4._media.0.isVideo}}
                         </div>
                     </a>
                 </div>
@@ -354,7 +313,13 @@
                             <i class="fas fa-comment"></i>&nbsp;<span>{{_comments.length}}</span>
                             <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
                         </div>
-                        <div class="post-thumbail" style="background-image:url('{{thumbnail_512x512}}')"></div>
+                        <div class="post-thumbail" style="background-image:url('{{thumbnail_512x512}}')">
+                            {{#_media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/_media.0.isVideo}}
+                        </div>
                     </a>
                 </div>
                 {{/otherPosts}}

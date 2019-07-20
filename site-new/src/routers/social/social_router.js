@@ -211,6 +211,7 @@ export class SocialMainRouter extends SiteRouter
             }
             loadSocialPosts(siteModules, req.session.currentUser, { limit: 20 }).then((posts) =>
             {
+                console.log('alive still!');
                 const loadPostComments = function (index, finish)
                 {
                     if (index >= posts.length)
@@ -300,7 +301,7 @@ export class SocialMainRouter extends SiteRouter
         {
             var limit = req.body.limit ? req.body.limit : 9;
             var offset = req.body.offset ? req.body.offset : 0;
-            var query = req.body;
+            var query = req.body.query;
             if (query == 'explore')
                 query = {};
             else if (query == 'feed')
@@ -313,6 +314,7 @@ export class SocialMainRouter extends SiteRouter
             {
                 res.send({ code: 500, error: err });
             };
+            console.log(query);
             loadSocialPosts(siteModules, req.session.currentUser, query).then((posts) =>
             {
                 if (req.body.noComments)
@@ -371,8 +373,22 @@ export class SocialMainRouter extends SiteRouter
             };
             siteModules.SocialHashtag.find({}).then((hashTags) =>
             {
+                let followedHashTags = req.session.currentUser.social.followedHashtags;
+                for (var i = 0; i < hashTags.length; i++)
+                {
+                    hashTags[i]._isFollowed = false;
+                    for (var j = 0; j < followedHashTags.length; j++)
+                    {
+                        if (followedHashTags[j] == hashTags[i]._id)
+                        {
+                            hashTags[i]._isFollowed = true;
+                            break;
+                        }
+                    }
+                }
                 this.renderTemplate(req, res, 'social/social-follow-hashtags.html', {
-                    hashTags
+                    hashTags,
+                    followedHashTags: JSON.stringify(followedHashTags),
                 });
             }).catch(fail);
         });
@@ -384,31 +400,19 @@ export class SocialMainRouter extends SiteRouter
             };
             // console.log(req.body.tags);
             let tags = JSON.parse(req.body.tags);
-            let followTag = (index, finish) =>
+            siteModules.User.apiCall('set-all-hashtags', {
+                userId: req.session.currentUser._id,
+                userToken: req.session.currentUser.token,
+                tags: tags,
+            }).then((user) =>
             {
-                if (index >= tags.length)
+                console.log('got result!');
+                req.session.currentUser = user;
+                req.session.save(() =>
                 {
-                    finish();
-                    return;
-                }
-                siteModules.User.apiCall('set-follow-hashtag', {
-                    userId: req.session.currentUser._id,
-                    userToken: req.session.currentUser.token,
-                    tagId: tags[index],
-                    follow: true
-                }).then((user) =>
-                {
-                    req.session.currentUser = user;
-                    req.session.save(() =>
-                    {
-                        followTag(index + 1, finish);
-                    });
-                }).catch(fail);
-            };
-            followTag(0, () =>
-            {
-                res.redirect('/social');
-            });
+                    res.redirect('/social');
+                });
+            }).catch(fail);
         });
     }
 }

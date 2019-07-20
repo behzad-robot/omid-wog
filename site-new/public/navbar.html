@@ -29,19 +29,24 @@
             {{/currentUser.accessLevel.isAdmin}} -->
             {{#currentUser}}
             <!-- ^_^ put 3 social icons shit here i guess!-->
-            <a href="/social" class="navbar-item text-center no-tablet">
+            <a href="/social"  class="navbar-item text-center no-tablet"
+                data-toggle="tooltip" data-placement="bottom" title="خانه شبکه اجتماعی">
                 <i class="fab fa-hotjar" style="font-size: 25px;top:5px;right:0"></i>
                 <span class="mobile-only-inline" style="margin-right: 7px">خانه شبکه اجتماعی</span>
             </a>
-            <a href="/social/explore" class="navbar-item text-center no-tablet">
+           
+            <a href="/social/explore" class="navbar-item text-center no-tablet"
+            data-toggle="tooltip" data-placement="bottom" title="تازه ها">
                 <i class="fas fa-compass" style="font-size: 25px;top:5px;right:0"></i>
                 <span class="mobile-only-inline" style="margin-right: 7px">تازه ها</span>
             </a>
-            <a href="/social/chat" class="navbar-item text-center no-tablet">
+            <a href="/social/chat" class="navbar-item text-center no-tablet"
+            data-toggle="tooltip" data-placement="bottom" title="چت">
                 <i class="fas fa-comments" style="font-size: 25px;top:5px;right:0"></i>
                 <span class="mobile-only-inline" style="margin-right: 7px">چت</span>
             </a>
-            <a href="#" onclick="toggleNotifications()" class="navbar-item text-center no-tablet">
+            <a href="#" onclick="toggleNotifications()" class="navbar-item text-center no-tablet"
+            data-toggle="tooltip" data-placement="bottom" title="پیام ها">
                 <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0">
                     <span id="notifications-count"
                         style="color:white;background-color:red;width:16px;height:16px;display:none;border-radius:50%;position: absolute;font-size:10px;padding-top:3px;top:-5px;right:7px;">??</span>
@@ -389,6 +394,13 @@
 <script>
     $(() =>
     {
+        $(function ()
+        {
+            $('[data-toggle="tooltip"]').tooltip()
+          
+        })
+
+
         // readNotifications();
         $("#notifications-count").hide();
         fetch('/social/get-unread-notifications-count', {
@@ -413,7 +425,7 @@
             if (count != 0)
             {
                 $("#notifications-count").show();
-                $("#notifications-count").css('display','inline-block');
+                $("#notifications-count").css('display', 'inline-block');
                 $("#notifications-count").html();
             }
         });
