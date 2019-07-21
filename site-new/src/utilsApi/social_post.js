@@ -45,18 +45,20 @@ export class SocialPost extends SocketCollection
         u.editUrl = SITE_URL('/social/posts/edit/' + u._id);
         u.deleteUrl = SITE_URL('/social/posts/delete/' + u._id);
         u.body_formatted = u.body;
-        if (u.tags != undefined && u.tags.length != 0)
-        {
-            let tags = u.body_formatted.match(/#[a-z]+/gi);
-            for (var i = 0; i < tags.length; i++)
-            {
-                let url = SITE_URL('/social/posts-archive/?tag=' + tags[i]);
-                u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
-            }
-        }
-        u.body_formatted = linkifyHtml(u.body_formatted);
-        u.body_formatted = replaceAll(u.body_formatted, '\r\n', '<br>');
+        // if (u.tags != undefined && u.tags.length != 0)
+        // {
+        //     let tags = u.body_formatted.match(/#[a-z]+/gi);
+        //     for (var i = 0; i < tags.length; i++)
+        //     {
+        //         let url = SITE_URL('/social/posts-archive/?tag=' + tags[i]);
+        //         u.body_formatted = replaceAll(u.body_formatted, tags[i], `<a href="${url}">${tags[i]}</a>`);
+        //     }
+        // }
+        // u.body_formatted = linkifyHtml(u.body_formatted);
+        u.body_formatted = replaceAll(u.body_formatted, '\r\n', '\n');
+        u.body_formatted = resolveBody(u.body_formatted);
         u.body_formatted = replaceAll(u.body_formatted, '\n', '<br>');
+        
         // u.body_formatted = hashtag(u.body_formatted);
         return u;
     }
@@ -70,4 +72,36 @@ export class SocialPost extends SocketCollection
     {
         return u;
     }
+}
+
+function resolveBody(str)
+{
+    // order matters
+    var re = [
+        "\\b((?:https?|ftp)://[^\\s\"'<>]+)\\b",
+        "\\b(www\\.[^\\s\"'<>]+)\\b",
+        "\\b(\\w[\\w.+-]*@[\\w.-]+\\.[a-z]{2,6})\\b",
+        //"#([a-z0-9]+)"
+        "#([^#]+)[\s,;\n]*"
+    ];
+    re = new RegExp(re.join('|'), "gi");
+
+    return str.replace(re, function (match, url, www, mail, twitler)
+    {
+        if (url)
+            return "<a href=\"" + url + "\">" + url + "</a>";
+        if (www)
+            return "<a href=\"http://" + www + "\">" + www + "</a>";
+        if (mail)
+            return "<a href=\"mailto:" + mail + "\">" + mail + "</a>";
+        if (twitler) //return "<a href=\"foo?bar=" + twitler + "\">#" + twitler + "</a>";
+        {
+            let hasEnter = twitler.indexOf('\n') != -1 ? '\n' : '';
+            twitler = twitler.replace('\n','');
+            return `<a href="${SITE_URL('/social/posts-archive/?tag=' + twitler)}">#${twitler}</a>${hasEnter}`;
+        }
+
+        // shouldnt get here, but just in case
+        return match;
+    });
 }
