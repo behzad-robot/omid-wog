@@ -43,6 +43,8 @@ import { SocialChatGroup } from './models/social_chat_group';
 import { SocialChatArchive } from './models/social_chat_archive';
 import { SocialNotification } from './models/social_notification';
 import { VasDummyRouter } from './routers/vas_dummy_router';
+const soap = require('soap');
+const path = require('path');
 
 const morgan = require('morgan');
 
@@ -76,7 +78,7 @@ express.expressApp.use('/api/analytics/', new PublicMongooseAPIRouter(AnalyticsE
 const usersAuthHandler = new UsersAuthHandler(User);
 const fortniteHandler = new FortniteTournomentHandler(User);
 const dota2BookHandler = new DotaBookHandler(User);
-const dota2QuizHandler = new Dota2QuizHandler(User,DotaQuestion);
+const dota2QuizHandler = new Dota2QuizHandler(User, DotaQuestion);
 const dota2EpicCenterHandler = new DotaEpicCenterHandler(User);
 express.expressApp.use('/api/users/', usersAuthHandler.httpRouter.router);
 express.expressApp.use('/api/users/', fortniteHandler.httpRouter.router);
@@ -101,7 +103,7 @@ express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
 //comments:
-var commentsHandler = new CommentsHandler(Comment,User,SocialNotification,SocialPost);
+var commentsHandler = new CommentsHandler(Comment, User, SocialNotification, SocialPost);
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/comments/', commentsHandler.httpRouter.router);
 
@@ -116,23 +118,42 @@ express.expressApp.use('/api/admin-logs/', new PublicMongooseAPIRouter(AdminLog,
 //dota 2 quiz questions:
 express.expressApp.use('/api/dota2-questions/', new PublicMongooseAPIRouter(DotaQuestion, { apiTokenRequired: true }).router);
 //social:
-const socialHandler = new SocialHandler(User,SocialPost,SocialHashTag,SocialChallenge,SocialNotification);
+const socialHandler = new SocialHandler(User, SocialPost, SocialHashTag, SocialChallenge, SocialNotification);
 express.expressApp.use('/api/social-posts/', new PublicMongooseAPIRouter(SocialPost, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-hashtags/', new PublicMongooseAPIRouter(SocialHashTag, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-challenges/', new PublicMongooseAPIRouter(SocialChallenge, { apiTokenRequired: true }).router);
-express.expressApp.use('/api/social/',socialHandler.httpRouter.router);
+express.expressApp.use('/api/social/', socialHandler.httpRouter.router);
 express.expressApp.use('/api/social-chat-groups/', new PublicMongooseAPIRouter(SocialChatGroup, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-chat-archives/', new PublicMongooseAPIRouter(SocialChatArchive, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/social-notifications/', new PublicMongooseAPIRouter(SocialNotification, { apiTokenRequired: true }).router);
 //backup
 express.expressApp.use('/api/backup/', new BackupRouter({ User: User, Game: Game, Champion: Champion, Build: ChampionBuild, Post: Post, PostCategory: PostCategory, Media: Media, Comment: Comment, ContactUsForm: ContactUsForm }, { apiTokenRequired: true }).router);
 
-express.expressApp.use('/api/vas',new VasDummyRouter().router);
+express.expressApp.use('/api/vas', new VasDummyRouter().router);
 //listen:
 const PORT = 8585;
 express.http.listen(PORT, function ()
 {
     log.success('http server listening on port ' + PORT);
+    var xml = require('fs').readFileSync(path.resolve('myservice.wsdl'), 'utf8');
+    const myService = {
+        MyService: {
+            MyPort: {
+                FuckVas: function (args, cb, headers, req)
+                {
+                    console.log('fucking soap is called');
+                    return {
+                        status : 200,
+                        description : "fuck you",
+                    };
+                }
+            }
+        }
+    };
+    soap.listen(express.expressApp, '/wsdl', myService, xml, function ()
+    {
+        console.log('soap server initialized');
+    });
 });
 const WSRouters = [
     //users:
