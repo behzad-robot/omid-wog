@@ -1136,10 +1136,11 @@ export class SocialHandler
                         reject(err);
                         return;
                     }
-                    this.SocialNotification.updateMany({ targetUserId: user._id.toString(), read: false }, { "$set": { read: true } }, { "multi": true }, (err, result) =>
+                    this.SocialNotification.updateMany({ targetUserId: user._id.toString(), read: false }, { "$set": { read: true } }, (err, result) =>
                     {
                         if (err)
                         {
+                            console.log(err);
                             reject(err);
                             return;
                         }

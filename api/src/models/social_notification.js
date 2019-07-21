@@ -9,7 +9,7 @@ export const SocialNotificationSchema = new mongoose.Schema({
     targetUserId: { type: String, default: '' },
     postId: { type: String, default: '' },
     commentId: { type: String, default: '' },
-    type: { type: String, default: '' }, //like-post,like-comment,follow-user
+    type: { type: String, default: '' }, //like-post,like-comment,follow-user,post-comment
     read: { type: Boolean, default: false },
     createdAt: String,
 }, {

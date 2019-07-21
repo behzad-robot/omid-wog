@@ -101,7 +101,7 @@ express.expressApp.use('/api/posts/', postsHandler.httpRouter.router);
 express.expressApp.use('/api/posts/', new PublicMongooseAPIRouter(Post, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/posts-cats/', new PublicMongooseAPIRouter(PostCategory, { apiTokenRequired: true }).router);
 //comments:
-var commentsHandler = new CommentsHandler(Comment,User,SocialNotification);
+var commentsHandler = new CommentsHandler(Comment,User,SocialNotification,SocialPost);
 express.expressApp.use('/api/comments/', new PublicMongooseAPIRouter(Comment, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/comments/', commentsHandler.httpRouter.router);
 

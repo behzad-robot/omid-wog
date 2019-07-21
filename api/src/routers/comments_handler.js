@@ -94,11 +94,12 @@ class CommentsSocketRouter extends SocketRouter
 }
 export class CommentsHandler
 {
-    constructor(Comment, User, SocialNotification)
+    constructor(Comment, User, SocialNotification, SocialPost)
     {
         this.Comment = Comment;
         this.User = User;
         this.SocialNotification = SocialNotification;
+        this.SocialPost = SocialPost;
         //routers:
         this.httpRouter = new CommentsHttpRouter(this);
         this.socketRouter = new CommentsSocketRouter(this);
@@ -127,18 +128,27 @@ export class CommentsHandler
             {
                 if (params.objectType == 'social-posts')
                 {
-                    var notification = new this.SocialNotification({
-                        actionUserId: params.userId,
-                        targetUserId: comment.userId,
-                        commentId: doc._id.toString(),
-                        postId: params.objectType == 'social-posts' ? params.objectId : undefined,
-                        type: 'post-comment',
-                        createdAt: moment_now(),
-                    });
-                    notification.save(() =>
+                    this.SocialPost.findOne({ _id: params.objectId }).exec((err, socialPost) =>
                     {
-                        resolve(doc);
+                        if (err || socialPost == undefined)
+                        {
+                            resolve(doc);
+                            return;
+                        }
+                        var notification = new this.SocialNotification({
+                            actionUserId: params.userId,
+                            targetUserId: socialPost.userId,
+                            commentId: doc._id.toString(),
+                            postId: params.objectType == 'social-posts' ? params.objectId : undefined,
+                            type: 'post-comment',
+                            createdAt: moment_now(),
+                        });
+                        notification.save(() =>
+                        {
+                            resolve(doc);
+                        });
                     });
+
                 }
                 else
                     resolve(doc);
@@ -201,11 +211,11 @@ export class CommentsHandler
                                 type: 'post-comment',
                                 read: false,
                             }, (err) =>
-                            {
-                                if (err)
-                                    console.log('error removing notification => ' + err);
-                                resolve({ success: true, _id: params._id });
-                            });
+                                {
+                                    if (err)
+                                        console.log('error removing notification => ' + err);
+                                    resolve({ success: true, _id: params._id });
+                                });
                         }
                         else
                             resolve({ success: true, _id: params._id });

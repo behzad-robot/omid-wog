@@ -25,7 +25,7 @@ export default class SiteCommentsRouter extends SiteRouter
                 body: req.body.body,
                 _draft: false, // the post-single page can react differently based on this.
             }
-            siteModules.Comment.insert(data).then((comment) =>
+            siteModules.Comment.apiCall('new-comment',data).then((comment) =>
             {
                 res.send({ comment: comment });
             }).catch((err) =>

@@ -45,6 +45,7 @@ export class SocialMainRouter extends SiteRouter
             }
             siteModules.SocialNotification.apiCall('read-notifications', { userId: req.body.userId, userToken: req.body.userToken }).then((notifications) =>
             {
+                console.log(notifications);
                 //attach action users:
                 let requiredUsersIds = [];
                 for (var i = 0; i < notifications.length; i++)
@@ -61,7 +62,7 @@ export class SocialMainRouter extends SiteRouter
                     if (!hasActionUser)
                         requiredUsersIds.push(notifications[i].actionUserId);
                 }
-                siteModules.User.find({ _ids: requiredUsersIds }).then((users) =>
+                siteModules.User.find({ _ids: requiredUsersIds }).then(async (users) =>
                 {
                     for (var i = 0; i < notifications.length; i++)
                     {
@@ -75,35 +76,46 @@ export class SocialMainRouter extends SiteRouter
                         }
                     }
                     //attach post:
-                    let requiredPostsIds = [];
-                    for (var i = 0; i < notifications.length; i++)
+                    try
                     {
-                        let hasPost = false;
-                        for (var j = 0; j < requiredPostsIds.length; i++)
-                        {
-                            if (requiredPostsIds[j] == notifications[i].postId)
-                            {
-                                hasPost = true;
-                                break;
-                            }
-                        }
-                        if (!hasPost && notifications[i].postId != undefined)
-                            requiredPostsIds.push(notifications[i].postId);
-                    }
-                    siteModules.SocialPost.find({ _ids: requiredPostsIds }).then((posts) =>
-                    {
+                        let posts = [];
+                        let requiredPostsIds = [];
                         for (var i = 0; i < notifications.length; i++)
                         {
-                            for (var j = 0; j < posts.length; j++)
+                            if (isEmptyString(notifications[i].postId))
+                                continue;
+                            let hasPost = false;
+                            for (var j = 0; j < requiredPostsIds.length; i++)
                             {
-                                if (notifications[i].postId == posts[j]._id)
+                                if (requiredPostsIds[j] == notifications[i].postId)
                                 {
-                                    notifications[i]._post = posts[j];
+                                    hasPost = true;
+                                    break;
+                                }
+                            }
+                            console.log(i);
+                            if (!hasPost && !isEmptyString(notifications[i].postId))
+                                requiredPostsIds.push(notifications[i].postId);
+                        }
+                        if (requiredPostsIds.length != 0)
+                        {
+                            posts = await siteModules.SocialPost.find({ _ids: requiredPostsIds });
+                            for (var i = 0; i < notifications.length; i++)
+                            {
+                                for (var j = 0; j < posts.length; j++)
+                                {
+                                    if (notifications[i].postId == posts[j]._id)
+                                    {
+                                        notifications[i]._post = posts[j];
+                                    }
                                 }
                             }
                         }
                         res.send({ code: 200, _data: notifications });
-                    }).catch(fail);
+                    } catch (err)
+                    {
+                        fail(err);
+                    }
                 }).catch(fail);
             }).catch(fail);
         });
@@ -224,7 +236,7 @@ export class SocialMainRouter extends SiteRouter
 
                         for (var i = 0; i < comments.length; i++)
                         {
-                            comments[i].body =  comments[i].body.length > 300 ? comments[i].body.substring(0,300)+'...' : comments[i].body;
+                            comments[i].body = comments[i].body.length > 300 ? comments[i].body.substring(0, 300) + '...' : comments[i].body;
                         }
                         // console.log(comments);
                         posts[index]._hasComments = comments.length != 0;

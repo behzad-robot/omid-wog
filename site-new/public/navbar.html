@@ -46,13 +46,13 @@
                 <span class="mobile-only-inline" style="margin-right: 7px">چت</span>
             </a>
             <a href="#" onclick="toggleNotifications()" class="navbar-item text-center no-tablet"
-            data-toggle="tooltip" data-placement="bottom" title="پیام ها">
+            data-toggle="tooltip" data-placement="bottom" title="اعلان ها">
                 <i class="fas fa-bell" style="font-size: 25px;top:5px;right:0">
                     <span id="notifications-count"
                         style="color:white;background-color:red;width:16px;height:16px;display:none;border-radius:50%;position: absolute;font-size:10px;padding-top:3px;top:-5px;right:7px;">??</span>
                 </i>
 
-                <span class="mobile-only-inline" style="margin-right: 7px">پیام ها</span>
+                <span class="mobile-only-inline" style="margin-right: 7px">اعلان ها</span>
             </a>
             {{/currentUser}}
             {{^currentUser}}
@@ -468,6 +468,13 @@
             }
             let notifications = response._data;
             let body = '';
+            if(notifications.length == 0)
+            {
+                $("#notifications-error").html('<br><div class="text-center" style="margin-bottom:5px"><img src="/social/images/morty.png" width="64px"/></div>'+`شما هیچ اعلانی ندارید.`);
+                $("#notifications-list").css('overflow-y','hidden');
+                return;
+            }
+            $("#notifications-list").css('overflow-y','scroll');
             for (var i = 0; i < notifications.length; i++)
             {
                 let notif = notifications[i];
