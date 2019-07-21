@@ -43,13 +43,15 @@ export class User extends SocketCollection
             u.profileImage = SITE_URL('/images/user-profile-default.png');
         else
             u.profileImage = SITE_URL(u.profileImage);
-        if(isEmptyString(u.cover))
+        if (isEmptyString(u.cover))
             u.cover = SITE_URL('/images/user-default-cover.jpg');
         else
             u.cover = SITE_URL(u.cover);
-        if(u.instagramID == undefined)
+        if (u.instagramID == undefined)
             u.instagramID = '';
         u.siteUrl = SITE_URL('users/' + u.username);
+        if (u.social.bookmarks == undefined)
+            u.social.bookmarks = [];
         return u;
     }
     fixAll(cs)

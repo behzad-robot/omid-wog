@@ -1,6 +1,6 @@
 import APIRouter from "./api_router";
 import { SocketRouter } from "./socket_router";
-import { isEmptyString, moment_now, isVideo } from "../utils/utils";
+import { isEmptyString, moment_now, isVideo, replaceAll } from "../utils/utils";
 import { JesEncoder } from "../utils/jes-encoder";
 import { API_ENCODE_KEY } from "../constants";
 const encoder = new JesEncoder(API_ENCODE_KEY);
@@ -302,6 +302,7 @@ export class SocialHandler
                 reject('parameters missing');
                 return;
             }
+            params.body = replaceAll(params.body, '\r\n', '\n');
             this.User.findOne({ _id: params.userId }).exec((err, user) =>
             {
                 if (err)
@@ -319,12 +320,35 @@ export class SocialHandler
                     reject('invalid token');
                     return;
                 }
-                let bodyTags = [];
                 let gameId = undefined;
-                let bodyLower = params.body.toLowerCase();
-                bodyTags = bodyLower.match(/#[a-z]+/gi);
-                if (bodyTags == undefined)
-                    bodyTags = [];
+                let bodyLower = params.body;
+                let bodyTags = [], currentTag = "";
+                for (var i = 0; i < bodyLower.length; i++)
+                {
+                    if (bodyLower[i] == '#') //new hashtag started
+                    {
+                        if (currentTag == "") //no previous tag
+                            currentTag += bodyLower[i];
+                        else //finish previous tag
+                        {
+                            bodyTags.push(currentTag);
+                            currentTag = "";
+                        }
+                    }
+                    else if (bodyLower[i] == "\n" || bodyLower[i] == " ")
+                    {
+                        if (currentTag != "")
+                        {
+                            bodyTags.push(currentTag);
+                            currentTag = "";
+                        }
+                    }
+                    else if (currentTag != "")
+                        currentTag += bodyLower[i];
+                }
+                if (currentTag != "")
+                    bodyTags.push(currentTag);
+                console.log(bodyTags);
                 this.SocialHashTag.find({}).limit(10000).exec((err, hashTags) =>
                 {
                     if (err)
@@ -441,6 +465,7 @@ export class SocialHandler
                 reject('parameters missing');
                 return;
             }
+            params.body = replaceAll(params.body, '\r\n', '\n');
             this.User.findOne({ _id: params.userId }).exec((err, user) =>
             {
                 if (err)
@@ -458,10 +483,35 @@ export class SocialHandler
                     reject('invalid token');
                     return;
                 }
-                let bodyLower = params.body.toLowerCase();
-                let bodyTags = bodyLower.match(/#[a-z]+/gi);
-                if (bodyTags == undefined)
-                    bodyTags = [];
+                // let bodyLower = params.body.toLowerCase();
+                let bodyLower = params.body;
+                let bodyTags = [], currentTag = "";
+                for (var i = 0; i < bodyLower.length; i++)
+                {
+                    if (bodyLower[i] == '#') //new hashtag started
+                    {
+                        if (currentTag == "") //no previous tag
+                            currentTag += bodyLower[i];
+                        else //finish previous tag
+                        {
+                            bodyTags.push(currentTag);
+                            currentTag = "";
+                        }
+                    }
+                    else if (bodyLower[i] == "\n" || bodyLower[i] == " ")
+                    {
+                        if (currentTag != "")
+                        {
+                            bodyTags.push(currentTag);
+                            currentTag = "";
+                        }
+                    }
+                    else if (currentTag != "")
+                        currentTag += bodyLower[i];
+                }
+                if (currentTag != "")
+                    bodyTags.push(currentTag);
+                console.log(bodyTags);
                 this.SocialHashTag.find({}).limit(10000).exec((err, hashTags) =>
                 {
                     if (err)

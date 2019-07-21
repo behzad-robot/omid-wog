@@ -387,9 +387,12 @@
         }
 
         .suggested-user-profile-image {
-            width: 25%;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
-            float: right
+            float: right;
+            display: inline-block;
+            margin-top: 5px;
         }
 
         .follow-user {
@@ -566,7 +569,7 @@
                                         style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
                                     <i name="post-bookmark"
                                         class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
-                                        postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
+                                        postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}" postIcon="{{{thumbnail_150x150}}}"
                                         onclick="toggleBookmark(this)"></i>
                                 </div>
                             </div>
@@ -578,12 +581,16 @@
                                 <div style="font-size: 20px"> نظرات:</div>
                                 <div class="comments-wrapper">
                                     {{#_comments}}
-                                    <div class="single-comment-box">
+                                    <div class="single-comment-box" commentId="{{_id}}">
                                         <div class="commenter">{{_user.username}}: </div>
                                         <div
-                                            style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">
+                                            style="color: rgb(119, 119, 119);float: right;max-lines:4;text-overflow:ellipsis;">
                                             {{{body}}}</div>
                                         <div class="comments-heart">
+                                            {{#_isMine}}
+                                            <i class="fas fa-trash comments-action-btn"
+                                                onclick="delete_comment(this)"></i>
+                                            {{/_isMine}}
                                             <i name="comment-like"
                                                 class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
                                                 loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
@@ -593,13 +600,25 @@
 
                                     </div>
                                     {{/_comments}}
-
                                     <a class="see-all-comments" href="{{siteUrl}}">
                                         مشاهده همه
                                     </a>
-
                                 </div>
                                 {{/_hasComments}}
+                                {{^_hasComments}}
+                                <div class="comments-wrapper-title" style="font-size: 20px;display:none;"> نظرات:</div>
+                                <div class="comments-wrapper" style="display:none;"></div>
+                                <form action="/comments/new" method="POST" class="new-comment-form">
+                                    <hr>
+                                    <textarea class="form-control dark" name="body" style="width:100%;height:100px;"
+                                        placeholder="دیدگاه خود را وارد کنید"></textarea>
+                                    <input type="hidden" name="objectType" value="social-posts" />
+                                    <input type="hidden" name="objectId" value="{{_id}}" />
+                                    <input type="submit" class="btn btn-md btn-warning" style="margin:10px 0;"
+                                        value="ارسال دیدگاه" />
+                                </form>
+                                {{/_hasComments}}
+
                             </div>
                         </div>
                         {{/posts}}
@@ -737,6 +756,7 @@
                                                     <i name="post-bookmark"
                                                         class="${post._isBookmarked ? 'fas' : 'far'} fa-bookmark bookmark-btn"
                                                         postId="${post._id}" loading="false" bookmarked="${post._isBookmarked}"
+                                                        postIcon="${post.thumbnail_150x150}"
                                                         onclick="toggleBookmark(this)"></i>
                                                 </div>
                                             </div>
@@ -773,21 +793,28 @@
                         </div>
                         <!-- start single row-->
                         {{#suggestedHashtags}}
-                        <div style="border-top: 1px solid grey">
-                            <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
-                                class="hashtags-links">
-                                <div class="row" style="padding: 10px">
-                                    <div class="col-md-4 col-4">
-                                        <div class="hashtags-logo-background text-center">
-                                            <img src="{{icon}}" style="width: 80%;padding-top: 10px" alt="">
+                        <div style="border-top: 1px solid grey;padding:10px 10px;">
+                            <div class="row">
+                                <div class="col-md-4 col-4">
+                                    <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
+                                        class="hashtags-links">
+                                        <div>
+                                            <img src="{{icon}}" style="width:72px;" alt="">
                                         </div>
-                                    </div>
-                                    <div class="col-md-8 col-8" style="padding: 0">
+                                    </a>
+                                </div>
+                                <div class="col-md-4 col-4" style="padding: 0">
+                                    <a href="{{#SITE_URL}}/social/posts-archive/?hashtag={{_id}}{{/SITE_URL}}"
+                                        class="hashtags-links">
                                         <h6 class="hashtags-names">{{name}}</h6>
                                         <div class="hashtags-description">#{{tags.0}}</div>
-                                    </div>
+                                    </a>
                                 </div>
-                            </a>
+                                <div class="col-md-4 col-4">
+                                    <a href="{{#SITE_URL}}/social/follow-hashtag/?tagId={{_id}}&redirect=/social{{/SITE_URL}}"
+                                        class="btn btn-sm btn-primary" style="margin-top: 20px">دنبال کردن</a>
+                                </div>
+                            </div>
                         </div>
                         {{/suggestedHashtags}}
                         <!-- end of single row -->
@@ -805,7 +832,7 @@
                             <img class="suggested-user-profile-image" src="{{profileImage}}" alt="">
                             <h6 class="suggested-names">{{username}}</h6>
                             <a href="{{#SITE_URL}}/social/follow-user/?userId={{_id}}&redirect=/social{{/SITE_URL}}"
-                                class="btn btn-sm btn-primary follow-user">Follow</a>
+                                class="btn btn-sm btn-primary follow-user">دنبال کردن</a>
                         </div>
                         {{/suggestedUsers}}
                         <!-- end of single row -->
@@ -992,6 +1019,7 @@
         {
             let postId = $(elm).attr('postId');
             let loading = $(elm).attr('loading') == 'true';
+            let icon = $(elm).attr('postIcon');
             let isBookmarked = $(elm).attr('bookmarked') == 'true';
             if (loading)
                 return;
@@ -1002,6 +1030,7 @@
             {
                 $(elm).attr('bookmarked', true);
                 $(elm).removeClass('far').addClass('fas');
+                showToast(icon,'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
             }
             else
             {
@@ -1042,7 +1071,7 @@
         function displayPopUp(elm)
         {
             // $('.pop-up').css('display', 'block');
-            $(".pop-up").show();
+            $(".pop-up").fadeIn();
             let postBox = $(elm).closest('.post-wrapper');
             let postId = $(postBox).attr('postId');
             let userId = $(postBox).attr('userId');
@@ -1079,7 +1108,93 @@
         function closePopUp()
         {
             // $('.pop-up').css('display', 'none');
-            $(".pop-up").hide();
+            $(".pop-up").fadeOut();
+        }
+    </script>
+    <script>
+        $(() =>
+        {
+            $(".new-comment-form").ajaxForm({
+                beforeSubmit: (formData, jqForm, options) =>
+                {
+
+                },
+                success: (text, code, xhr, form) =>
+                {
+                    let postId = $(form).closest(".post-wrapper").attr("postId");
+                    if (typeof text == 'string')
+                        text = JSON.parse(text);
+                    if (text.error)
+                    {
+                        alert(text.error);
+                        return;
+                    }
+                    var comment = text.comment;
+                    if (comment._draft == true)
+                    {
+                        alert('با تشکر نظر شما با موفقیت ثبت شد و پس از بررسی مدیر سایت نمایش داده میشود.');
+                    }
+                    else
+                    {
+                        // alert('نظر شما با موفقیت ثبت شد.');
+                        showToast('/social/images/comment-icon.png','نظر شما با موفقیت ثبت شد.');
+                        $(`.post-wrapper[postId=${postId}] .comments-wrapper`).show();
+                        $(`.post-wrapper[postId=${postId}] .comments-wrapper-title`).show();
+                        $(`.post-wrapper[postId=${postId}] .new-comment-form`).hide();
+                        $(`.post-wrapper[postId=${postId}] .comments-wrapper`).append(`
+                            <div class="single-comment-box" commentId="${comment._id}" id="comment-${comment._id}">
+                                <div class="commenter">{{{currentUser.username}}}: </div>
+                                <div style="color: rgb(119, 119, 119);float: right;"> ${comment.body}</div>
+                                <div class="comments-heart">
+                                    <i class="fas fa-trash comments-action-btn" onclick="delete_comment(this)"></i>
+                                    <i name="comment-like"
+                                        class="far fa-heart comments-heart-btn"
+                                        loading="false" liked="false" commentId="${comment._id}"></i>
+                                    <span class="comments-like-counts" commentId="${comment._id}">${comment.likes.length}</span>
+                                    <div style="display: inline">لایک</div>
+                                </div>
+                            </div>
+                        `);
+                    }
+                },
+            });
+        });
+        function delete_comment(elm)
+        {
+            let commentBox = $(elm).closest('.single-comment-box');
+            let postWrapper = $(elm).closest(".post-wrapper");
+            let commentId = $(commentBox).attr('commentId');
+            fetch('/comments/delete', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    _id: commentId,
+                    userId: `{{{currentUser._id}}}`,
+                    userToken: `{{{currentUser.token}}}`,
+                }),
+            }).then((response => response.json())).then((response) =>
+            {
+                console.log(response);
+                if (response.code != 200)
+                {
+                    alert(response.error);
+                    console.log(response.error);
+                    return;
+                }
+                showToast('/social/images/comment-icon.png','نظر شما با موفقیت حذف شد.');
+                $(commentBox).remove();
+                let commentsForPostCount = $(postWrapper).find(".comments-wrapper").find(".single-comment-box").length;
+                if(commentsForPostCount === 0){
+                    $(postWrapper).find(".comments-wrapper").html(`نظری برای این پست ثبت نشده است.`);
+                }
+            }).catch((err) =>
+            {
+                alert(err);
+                console.log(err);
+            });
         }
     </script>
 </body>

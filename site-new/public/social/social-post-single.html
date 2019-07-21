@@ -498,6 +498,7 @@
                                 <i name="post-bookmark"
                                     class="{{#post._isBookmarked}}fas{{/post._isBookmarked}}{{^post._isBookmarked}}far{{/post._isBookmarked}} fa-bookmark bookmark-btn"
                                     postId="{{post._id}}" loading="false" bookmarked="{{post._isBookmarked}}"
+                                    postIcon="{{{post.thumbnail_150x150}}}"
                                     onclick="toggleBookmark(this)"></i>
                             </div>
                         </div>
@@ -602,6 +603,7 @@
             </div>
         </div>
     </section>
+    
     <script>
         $(() =>
         {
@@ -746,7 +748,7 @@
                     }
                     else
                     {
-                        alert('نظر شما با موفقیت ثبت شد.');
+                        showToast('/social/images/comment-icon.png','نظر شما با موفقیت ثبت شد.');
                         $("#comments-list").append(`
                             <div class="single-comment-box" commentId="${comment._id}" id="comment-${comment._id}">
                                 <div class="commenter">{{{currentUser.username}}}: </div>
@@ -908,6 +910,7 @@
                     return;
                 }
                 $(commentBox).remove();
+                showToast('/social/images/comment-icon.png','نظر شما با موفقیت حذف شد.');
             }).catch((err) =>
             {
                 alert(err);
@@ -918,6 +921,7 @@
         {
             let postId = $(elm).attr('postId');
             let loading = $(elm).attr('loading') == 'true';
+            let icon = $(elm).attr('postIcon');
             let isBookmarked = $(elm).attr('bookmarked') == 'true';
             if (loading)
                 return;
@@ -928,6 +932,7 @@
             {
                 $(elm).attr('bookmarked', true);
                 $(elm).removeClass('far').addClass('fas');
+                showToast(icon,'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
             }
             else
             {
@@ -968,7 +973,7 @@
         function displayPopUp(elm)
         {
             // $('.pop-up').css('display', 'block');
-            $(".pop-up").show();
+            $(".pop-up").fadeIn();
             let postBox = $(elm).closest('.post-wrapper');
             let postId = $(postBox).attr('postId');
             let userId = $(postBox).attr('userId');
@@ -1005,7 +1010,7 @@
         function closePopUp()
         {
             // $('.pop-up').css('display', 'none');
-            $(".pop-up").hide();
+            $(".pop-up").fadeOut();
         }
     </script>
 </body>

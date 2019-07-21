@@ -209,6 +209,34 @@
             z-index: 1;
         }
 
+        .social-post-box .social-post-overlay {
+            position: absolute;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: 300ms all;
+            text-align: center;
+            color: white;
+            text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.8);
+            font-size: 22px;
+            padding-top: 90px;
+        }
+
+        .social-post-box .social-post-overlay .fa-heart {
+            color: white;
+            position: relative;
+            top: 2px;
+        }
+
+        .social-post-box:hover .social-post-overlay {
+            opacity: 1;
+        }
+
         .challenges-wrapper {
             border-radius: 8px;
             box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
@@ -271,7 +299,8 @@
                                 شرکت کننده مسابقه فورنتایت واج</a>
                             {{/user.fortnite2019.hasJoined}}
                             {{#user.dota2EpicCenter2019.enterEvent}}
-                            <a href="http://worldofgamers.ir/posts/epicenter-review-escapers" class="btn btn-md btn-warning">
+                            <a href="http://worldofgamers.ir/posts/epicenter-review-escapers"
+                                class="btn btn-md btn-warning">
                                 <img src="/dota2-epic-center/images/logo4.png" width="72px" alt="">
                                 شرکت کننده مسابقه پیش بینی Dota2 epic center
                             </a>
@@ -295,6 +324,9 @@
                 <div class="col-md-4 col-4">
                     <a href="{{siteUrl}}">
                         <div class="social-post-box">
+                            <div class="social-post-overlay">
+                                <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
+                            </div>
                             <div class="post-thumbail" style="background-image:url('{{{thumbnail_512x512}}}')"></div>
                         </div>
                     </a>
@@ -315,6 +347,9 @@
                 <div class="col-md-4 col-4">
                     <a href="{{siteUrl}}">
                         <div class="social-post-box">
+                            <div class="social-post-overlay">
+                                <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
+                            </div>
                             <div class="post-thumbail" style="background-image:url('{{{thumbnail_512x512}}}')"></div>
                         </div>
                     </a>

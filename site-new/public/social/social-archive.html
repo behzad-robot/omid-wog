@@ -1,0 +1,295 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>{{_wogSEO.title}}</title>
+    <meta name="description" content="{{_wogSEO.description}}">
+    <meta name="keywords" itemprop="keywords" content="{{_wogSEO.keywords}}">
+    <link rel="canonical" href="http://worldofgamers.ir/">
+
+    <meta property="og:locale" content="fa_IR">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{_wogSEO.title}}">
+    <meta property="og:description" content="{{_wogSEO.description}}">
+    <meta property="og:url" content="{{_wogSEO.fullUrl}}">
+    <meta property="og:image" content="http://worldofgamers.ir/wog-logo-meta.png">
+    <meta property="og:site_name" content="واج">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@wogcompany">
+    <meta name="twitter:description" content="{{_wogSEO.description}}">
+    <meta name="twitter:title" content="{{_wogSEO.title}}">
+    <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
+    <style>
+        .posts-section {
+            /* margin-top: 80px; */
+            display: block;
+            padding-top:20px;
+        }
+
+        .posts-section .container {
+            width: 960px;
+
+        }
+
+        .chat-room-wrapper {
+            border-radius: 4px;
+            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
+            margin-top: 10px;
+            background-color: white;
+            border: .3px solid #eeeeee;
+        }
+
+        .chat-room-cover {
+            width: 100%;
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+        }
+
+        .chat-room-textbox {
+            padding: 5px
+        }
+
+        .members-count {
+            color: rgb(109, 109, 109);
+            font-size: 15px;
+            display: inline-block;
+            padding-top: 10px
+        }
+
+        .chat-box-btn {
+            display: inline-block;
+            width: 40%;
+            border-radius: 30px;
+            font-size: 15px;
+            margin: 0px auto
+        }
+
+        .chat-room-description {
+            font-size: 14px
+        }
+
+        .blog .carousel-indicators {
+            left: 0;
+            top: auto;
+            bottom: -40px;
+
+        }
+
+        /* The colour of the indicators */
+        .blog .carousel-indicators li {
+            background: #a3a3a3;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .blog .carousel-indicators .active {
+            background: orange;
+        }
+    </style>
+    <style>
+        .grid-post-box {
+            display: block;
+            text-decoration: none !important;
+            color: white !important;
+            position: relative;
+            height: 225px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .grid-post-box .grid-post-box-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .4);
+            z-index: 2;
+            text-align: center;
+            padding-top: 100px;
+            font-size: 20px;
+            opacity: 0;
+            transition: 300ms all;
+        }
+
+        .grid-post-box:hover .grid-post-box-overlay {
+            opacity: 1;
+        }
+
+        .grid-post-box.big {
+            height: 470px;
+        }
+
+        .grid-post-box.big .grid-post-box-overlay {
+            padding-top: 200px;
+            font-size: 26px;
+        }
+
+        .grid-post-box .post-thumbail {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .grid-post-box .fa-play {
+            position: relative;
+            top: 90px;
+            font-size: 26px;
+            box-shadow: 3px 3px 4px rgba(0, 0, 0, .4);
+        }
+
+        .info-section {
+            width: 100%;
+            display: block;
+            min-height: 100px;
+            background-color: white;
+            border-bottom: 1px solid #dddddd;
+            padding: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    {{#relatedHashtag}}
+    <section class="info-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom:20px;">
+                <img src="{{icon}}"
+                    style="width:96px;height:96px;border-radius:50%;border:3px solid orange;background-color:#f0f0f0;display:inline-block;" />
+
+            </div>
+            <div class="text-center" style="margin-bottom:10px;">
+                <h1>{{name}}</h1>
+            </div>
+            <div class="text-center" style="color:#4FC3F7;direction:ltr">
+                {{#tags}}
+                <span>#{{.}}</span>&nbsp;
+                {{/tags}}
+            </div>
+        </div>
+    </section>
+    {{/relatedHashtag}}
+    <section class="posts-section">
+        <div class="container">
+            {{^relatedHashtag}}
+            <h1>آرشیو پست ها:</h1>
+            {{/relatedHashtag}}
+            <div class="row" id="posts-row">
+                <!-- start of other posts-->
+                {{#posts}}
+                <div class="col-md-4 col-4">
+                    <a class="grid-post-box" href="{{siteUrl}}">
+                        <div class="grid-post-box-overlay">
+                            <i class="fas fa-comment"></i>&nbsp;<span>{{_comments.length}}</span>
+                            <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
+                        </div>
+                        <div class="post-thumbail" style="background-image:url('{{thumbnail_512x512}}')">
+                            {{#_media.0.isVideo}}
+                            <div class="text-center">
+                                <i class="fas fa-play"></i>
+                            </div>
+                            {{/_media.0.isVideo}}
+                        </div>
+                    </a>
+                </div>
+                {{/posts}}
+            </div>
+            {{#hasLoadMore}}
+            <div class="text-center" style="padding:10px 0;">
+                <div id="load-more-loading" class="text-center" style="display:none">
+                    <div class="lds-ellipsis">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div id="load-more-error" style="color:#a00;">
+
+                </div>
+                <div class="btn btn-md btn-warning" id="load-more-btn">بیشتر</div>
+            </div>
+            {{/hasLoadMore}}
+        </div>
+    </section>
+    {{{footer}}}
+    {{#hasLoadMore}}
+    <script>
+        let offset = 11;
+        const LIMIT = 9;
+        function showError(str)
+        {
+            $("#load-more-error").show();
+            $("#load-more-error").html(str);
+        }
+        $(() =>
+        {
+            $("#load-more-btn").click(function ()
+            {
+                $("#load-more-btn").hide();
+                $("#load-more-loading").show();
+                $("#load-more-error").hide();
+                fetch('/social/load-posts', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        limit: LIMIT,
+                        offset: offset,
+                        query: JSON.parse(`{{{query}}}`),
+                    }),
+                }).then((response => response.json())).then((response) =>
+                {
+                    $("#load-more-btn").show();
+                    $("#load-more-loading").hide();
+                    console.log(response);
+                    if (response.code != 200)
+                    {
+                        showError(response.error);
+                        console.log(response.error);
+                        return;
+                    }
+                    let posts = response._data;
+                    offset += posts.length;
+                    for (var i = 0; i < posts.length; i++)
+                    {
+                        let post = posts[i];
+                        $("#posts-row").append(`
+                        <div class="col-md-4 col-4">
+                            <a class="grid-post-box" href="${post.siteUrl}">
+                                <div class="grid-post-box-overlay">
+                                    <i class="fas fa-comment"></i>&nbsp;<span>${post._comments.length}</span>
+                                    <i class="fas fa-heart"></i>&nbsp;<span>${post.likes.length}</span>
+                                </div>
+                                <div class="post-thumbail" style="background-image:url('${post.thumbnail_512x512}')"></div>
+                            </a>
+                        </div>
+                        `);
+                    }
+                    if (posts.length < LIMIT)
+                    {
+                        $("#load-more-btn").hide();
+                    }
+                }).catch((err) =>
+                {
+                    alert(err);
+                    console.log(err);
+                });
+            });
+        });
+    </script>
+    {{/hasLoadMore}}
+</body>
+
+</html>

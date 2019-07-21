@@ -23,10 +23,18 @@ export default class SiteUsersRouter extends SiteRouter
                 {
                     for (var i = 0; i < posts.length; i++)
                         posts[i]._user = user;
-                    siteModules.SocialPost.find({ userId: user._id, limit: 200 }).then((socialPosts) =>
+                    siteModules.SocialPost.find({ userId: user._id, limit: 200 }).then(async (socialPosts) =>
                     {
-                        siteModules.SocialPost.find({ _ids: user.social.bookmarks }).then((bookmarkPosts) =>
+                        try
                         {
+                            let bookmarkPosts = [];
+                            console.log(user.social.bookmarks);
+                            if (user.social.bookmarks != undefined && user.social.bookmarks.length != 0)
+                            {
+                                console.log('wtf is this if!');
+                                bookmarkPosts = await siteModules.SocialPost.find({ _ids: user.social.bookmarks });
+                            }
+                            console.log(bookmarkPosts);
                             this.renderTemplate(req, res, 'user-profile.html', {
                                 user: user,
                                 isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
@@ -35,7 +43,11 @@ export default class SiteUsersRouter extends SiteRouter
                                 socialPosts: socialPosts,
                                 bookmarkPosts: bookmarkPosts,
                             });
-                        });
+                        }
+                        catch (err)
+                        {
+                            this.show500(req, res, err);
+                        }
                     });
                 }).catch((err) =>
                 {

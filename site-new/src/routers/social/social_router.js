@@ -221,8 +221,15 @@ export class SocialMainRouter extends SiteRouter
                     }
                     loadComments(siteModules, req.session.currentUser, { objectType: 'social-posts', objectId: posts[index]._id, limit: 6 }).then((comments) =>
                     {
+
+                        for (var i = 0; i < comments.length; i++)
+                        {
+                            comments[i].body =  comments[i].body.length > 300 ? comments[i].body.substring(0,300)+'...' : comments[i].body;
+                        }
+                        // console.log(comments);
                         posts[index]._hasComments = comments.length != 0;
                         posts[index]._comments = comments;
+
                         loadPostComments(index + 1, finish);
                     }).catch(fail);
                 };
@@ -296,6 +303,48 @@ export class SocialMainRouter extends SiteRouter
                     });
                 });
             }).catch(fail);
+        });
+        this.router.get('/posts-archive', async (req, res) =>
+        {
+
+            let fail = (err) => { this.show500(req, res, err); };
+            try
+            {
+                let posts = [], relatedHashtag = undefined;
+                console.log(req.query);
+                if (req.query.tag)
+                {
+                    posts = await loadSocialPosts(siteModules, req.session.currentUser, { tags: "#" + req.query.tag });
+                    console.log(req.query.tag.replace("#", ""));
+                    let relatedHashtags = await siteModules.SocialHashtag.find({ tags: req.query.tag.replace("#", "") });
+                    if (relatedHashtags.length != 0)
+                        relatedHashtag = relatedHashtags[0];
+                }
+                else if (req.query.hashTag)
+                {
+                    let relatedHashtags = await siteModules.SocialHashtag.find({ _id: req.query.hashTag });
+                    if (relatedHashtags.length != 0)
+                        relatedHashtag = relatedHashtags[0];
+                    let query = { '$or': [] };
+                    for (var i = 0; i < relatedHashtag.length; i++)
+                        query['$or'].push('#' + relatedHashtag.tags[i]);
+                    posts = await loadSocialPosts(siteModules, req.session.currentUser, query);
+                }
+                console.log(posts);
+                console.log(relatedHashtag);
+                this.renderTemplate(req, res, 'social/social-archive.html', {
+                    posts,
+                    relatedHashtag,
+                    hasLoadMore: posts.length >= 6,
+                    query: req.query,
+                });
+            }
+            catch (err)
+            {
+                fail(err);
+            }
+
+
         });
         this.router.post('/load-posts', (req, res) =>
         {

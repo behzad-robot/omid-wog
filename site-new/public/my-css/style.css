@@ -470,7 +470,9 @@ footer .footer-social{
     width: calc(100% - 60px);
     font-size:14px;
 }
-
+.tooltip-main,.tooltip-inner {
+    font-family: iransans;
+}
 
 /* Loading */
 .lds-ellipsis {
