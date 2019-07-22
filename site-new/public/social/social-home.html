@@ -77,11 +77,10 @@
         }
 
         .chat-box-btn {
-            float: left;
             display: inline-block;
             width: 40%;
             border-radius: 30px;
-            font-size: 15px
+            font-size: 15px;
         }
 
         .chat-room-description {
@@ -491,7 +490,7 @@
                                 <div class="chat-room-textbox">
                                     <h5>{{name}}</h5>
                                     <div class="chat-room-description">{{{description}}}</div>
-                                    <div style="padding-bottom:5px;overflow: hidden">
+                                    <div class="text-center" style="padding-bottom:5px">
                                         <!-- <div class="members-count">300 عضو</div> -->
                                         <a href="{{siteUrl}}"
                                             class="btn btn-success chat-box-btn text-center">مشاهده</a>
@@ -569,20 +568,20 @@
                                         style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
                                     <i name="post-bookmark"
                                         class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
-                                        postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}" postIcon="{{{thumbnail_150x150}}}"
-                                        onclick="toggleBookmark(this)"></i>
+                                        postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
+                                        postIcon="{{{thumbnail_150x150}}}" onclick="toggleBookmark(this)"></i>
                                 </div>
                             </div>
                             <div class="caption">
                                 <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
-                                <div style="font-weight: bold;font-size: 18px;">{{_user.username}}:</div>
+                                <div style="font-weight: bold;font-size: 18px;">{{_user.username}} : </div>
                                 <div style="color: rgb(126, 126, 126);padding-bottom:10px;">{{{body_formatted}}} </div>
                                 {{#_hasComments}}
                                 <div style="font-size: 20px"> نظرات:</div>
                                 <div class="comments-wrapper">
                                     {{#_comments}}
                                     <div class="single-comment-box" commentId="{{_id}}">
-                                        <div class="commenter">{{_user.username}}: </div>
+                                        <div class="commenter">{{_user.username}} : </div>
                                         <div
                                             style="color: rgb(119, 119, 119);float: right;max-lines:4;text-overflow:ellipsis;">
                                             {{{body}}}</div>
@@ -1030,7 +1029,7 @@
             {
                 $(elm).attr('bookmarked', true);
                 $(elm).removeClass('far').addClass('fas');
-                showToast(icon,'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
+                showToast(icon, 'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
             }
             else
             {
@@ -1137,7 +1136,7 @@
                     else
                     {
                         // alert('نظر شما با موفقیت ثبت شد.');
-                        showToast('/social/images/comment-icon.png','نظر شما با موفقیت ثبت شد.');
+                        showToast('/social/images/comment-icon.png', 'نظر شما با موفقیت ثبت شد.');
                         $(`.post-wrapper[postId=${postId}] .comments-wrapper`).show();
                         $(`.post-wrapper[postId=${postId}] .comments-wrapper-title`).show();
                         $(`.post-wrapper[postId=${postId}] .new-comment-form`).hide();
@@ -1184,10 +1183,11 @@
                     console.log(response.error);
                     return;
                 }
-                showToast('/social/images/comment-icon.png','نظر شما با موفقیت حذف شد.');
+                showToast('/social/images/comment-icon.png', 'نظر شما با موفقیت حذف شد.');
                 $(commentBox).remove();
                 let commentsForPostCount = $(postWrapper).find(".comments-wrapper").find(".single-comment-box").length;
-                if(commentsForPostCount === 0){
+                if (commentsForPostCount === 0)
+                {
                     $(postWrapper).find(".comments-wrapper").html(`نظری برای این پست ثبت نشده است.`);
                 }
             }).catch((err) =>

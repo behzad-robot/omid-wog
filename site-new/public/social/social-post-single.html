@@ -504,7 +504,7 @@
                         </div>
                         <div class="caption">
                             <div class="like-count"> <span class="like-counts">{{post.likes.length}}</span> لایک</div>
-                            <div style="font-weight: bold;font-size: 18px;">{{post._user.username}}:</div>
+                            <div style="font-weight: bold;font-size: 18px;">{{post._user.username}} : </div>
                             <div style="color: rgb(126, 126, 126)">{{{post.body_formatted}}} </div>
                             <form action="/comments/new" method="POST" id="new-comment-form">
                                 <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
@@ -519,7 +519,7 @@
                             <div class="comments-wrapper" id="comments-list">
                                 {{#post._comments}}
                                 <div class="single-comment-box" commentId="{{_id}}" id="comment-{{_id}}">
-                                    <div class="commenter">{{_user.username}}: </div>
+                                    <div class="commenter">{{_user.username}} : </div>
                                     <div style="color: rgb(119, 119, 119);float: right;"> {{{body}}}</div>
                                     <div class="comments-heart">
                                         <i class="fas fa-trash comments-action-btn" onclick="delete_comment(this)"></i>
