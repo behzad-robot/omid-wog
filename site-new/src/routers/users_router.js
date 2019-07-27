@@ -35,9 +35,22 @@ export default class SiteUsersRouter extends SiteRouter
                                 bookmarkPosts = await siteModules.SocialPost.find({ _ids: user.social.bookmarks });
                             }
                             console.log(bookmarkPosts);
+                            let isFollowing = false;
+                            if (this.isLoggedIn(req))
+                            {
+                                for (var i = 0; i < req.session.currentUser.social.followings.length; i++)
+                                {
+                                    if (req.session.currentUser.social.followings[i] == user._id)
+                                    {
+                                        isFollowing = true;
+                                        break;
+                                    }
+                                }
+                            }
                             this.renderTemplate(req, res, 'user-profile.html', {
                                 user: user,
                                 isCurrentUser: ((req.session != undefined && req.session.currentUser != undefined && user._id == req.session.currentUser._id) ? true : undefined),
+                                isFollowing: isFollowing,
                                 posts: posts,
                                 postsCount: posts.length,
                                 socialPosts: socialPosts,

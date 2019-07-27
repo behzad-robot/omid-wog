@@ -21,100 +21,144 @@
     <meta name="twitter:title" content="{{user.username}}">
     <meta name="twitter:image" content="{{{user.profileImage}}}">
     <style>
-        .author-card {
-            display: block;
-            padding-bottom: 15px;
+        footer {
+            margin: 0;
         }
 
-        .author-card .user-cover {
+        .user-section {
             display: block;
             width: 100%;
-            height: 420px;
-            background-size: cover;
-            background-position: center;
-            border-top-right-radius: 5px;
-            border-top-left-radius: 5px;
-            position: relative;
+            padding-top: 20px;
+            padding-bottom: 20px;
+            background-color: white;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.15);
         }
 
-        .author-card .user-cover .cover-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.3);
+        .user-section .profile-image-wrapper {
+            display: inline-block;
+            width: 128px;
+            vertical-align: top;
         }
 
-        .author-card .user-profile-image-wrapper {
-            display: block;
-            position: absolute;
-            bottom: -64px;
-            width: 100%;
-            text-align: center;
-            z-index: 15;
-        }
-
-        .author-card .user-profile-image-wrapper .user-profile-image {
+        .user-section .profile-image-wrapper img {
             width: 128px;
             height: 128px;
             border-radius: 50%;
         }
 
-        .author-card .user-profile-image-filler {
+        .user-section .profile-texts-wrapper {
+            display: inline-block;
+            width: calc(100% - 200px);
+            vertical-align: top;
+            padding-right: 15px;
+        }
+
+        .user-section .profile-texts-wrapper .profile-username {
+            font-size: 26px;
+            font-weight: bold;
+            color: #414141;
+        }
+
+        .user-section .profile-texts-wrapper .profile-aboutme {
+            display: block;
+            height: 120px;
+            font-size: 14px;
+            color: #616161;
+        }
+
+        .user-section .profile-texts-wrapper .profile-stats {
+            font-size: 16px;
+        }
+
+        .user-section .profile-texts-wrapper .profile-stats .stat-item {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        .user-section .profile-action-btn {
+            position: absolute;
+            top: 0px;
+            left: 0;
+        }
+
+        .challenges .btn {
+            display: block;
+            width: fit-content;
+            margin-bottom: 5px;
+        }
+
+        .posts-section {
             display: block;
             width: 100%;
-            height: 70px;
+            padding-top: 20px;
+            padding-bottom: 10px;
+            min-height: 40vh;
         }
 
-        .author-card .user-username {
-            font-size: 32px;
-            font-weight: bolder;
-            padding: 10px 0;
+        .posts-section-header {
+            display: block;
+            width: 100%;
+            overflow: hidden;
         }
 
-        .author-card .user-bio {
+        .posts-section-filters-wrapper {
+            float: left;
+            overflow: hidden;
+        }
+
+        .posts-section-filters-wrapper .filter-btn {
+            color: #616161;
             font-size: 18px;
-            color: #4e4e4e;
-            padding: 0 15px;
-            margin-bottom: 15px;
         }
 
-        .author-card .user-badges {
-            padding: 10px 20px;
+        .posts-section-filters-wrapper .filter-btn.active,
+        .posts-section-filters-wrapper .filter-btn:hover {
+            color: orange;
         }
 
-        .fortnite-box {
+        .social-post {
             display: block;
             width: 100%;
-            height: 180px;
-            background-image: url('/images/fortnite-2019/fortnite-button-bg.png');
-            background-size: cover;
-            background-position: center;
-            margin: 10px 0;
-            border-radius: 10px;
+            color: white !important;
+            text-decoration: none !important;
+            height: 200px;
             position: relative;
-            color: white;
-            padding: 25px 0;
-            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 5px;
         }
 
-        .dota-book-box {
-            display: block;
-            width: 100%;
-            height: 180px;
-            background-image: url('/dota2book/images/dota2-cover.jpg');
+        .social-post .post-thumbnail {
+            background-color: #414141;
             background-size: cover;
             background-position: center;
-            margin: 10px 0;
-            border-radius: 10px;
             position: relative;
-            color: white;
-            padding: 25px 0;
-            box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
-    </style>
-    <style>
+
+        .social-post .post-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 2;
+            background-color: rgba(0, 0, 0, 0.4);
+            color: white;
+            text-align: center;
+            padding-top: 80px;
+            opacity: 0;
+            pointer-events: none;
+            transition: 300ms all;
+            font-size: 22px;
+        }
+
+        .social-post:hover .post-overlay {
+            opacity: 1;
+        }
+
         .post-box {
             display: block;
             padding: 5px 10px;
@@ -146,240 +190,154 @@
             text-overflow: ellipsis;
         }
     </style>
-    <style>
-        .chat-room-wrapper {
-            border-radius: 4px;
-            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-            margin-top: 10px;
-            background-color: white;
-            border: .3px solid #eeeeee;
-        }
-
-        .chat-room-cover {
-            width: 100%;
-            border-top-right-radius: 4px;
-            border-top-left-radius: 4px;
-        }
-
-        .chat-room-textbox {
-            padding: 5px
-        }
-
-        .members-count {
-            color: rgb(109, 109, 109);
-            font-size: 15px;
-            display: inline-block;
-            padding-top: 10px
-        }
-
-        .chat-box-btn {
-            float: left;
-            display: inline-block;
-            width: 40%;
-            border-radius: 30px;
-            font-size: 15px
-        }
-
-        .chat-room-description {
-            font-size: 14px
-        }
-
-        .chalenge-btn {
-            width: 100%;
-            font-size: 15px;
-            margin-top: 2px;
-            border-radius: 20px
-        }
-    </style>
-    <style>
-        .social-post-box {
-            position: relative;
-            height: 225px;
-            margin-bottom: 20px
-        }
-
-        .social-post-box .post-thumbail {
-            position: absolute;
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-        }
-
-        .social-post-box .social-post-overlay {
-            position: absolute;
-            z-index: 2;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(0, 0, 0, 0.3);
-            opacity: 0;
-            pointer-events: none;
-            transition: 300ms all;
-            text-align: center;
-            color: white;
-            text-shadow: 2px 3px 3px rgba(0, 0, 0, 0.8);
-            font-size: 22px;
-            padding-top: 90px;
-        }
-
-        .social-post-box .social-post-overlay .fa-heart {
-            color: white;
-            position: relative;
-            top: 2px;
-        }
-
-        .social-post-box:hover .social-post-overlay {
-            opacity: 1;
-        }
-
-        .challenges-wrapper {
-            border-radius: 8px;
-            box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
-            margin-top: 10px;
-            background-color: white
-        }
-
-        .challenges {
-            margin-right: 10px
-        }
-
-        .orange-title {
-            font-size: 1.2rem
-        }
-    </style>
 </head>
 
 <body>
     {{{navbar}}}
     <navfiller></navfiller>
-    <section>
-        <div class="container" style="padding-top:20px;min-height:80vh;">
-            <!-- <div class="row"> -->
-            <!-- <div class="col-md-8"> -->
+    <section class="user-section">
+        <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="wog-card author-card">
-                        <div class="user-cover" style="background-image:url('{{user.cover}}')">
-                            <div class="cover-overlay"></div>
-                            <div class="user-profile-image-wrapper">
-                                <img class="user-profile-image" src="{{user.profileImage}}"
-                                    alt="{{user.username}} profile image" />
+                <div class="col-md-7">
+                    <div class="profile-image-wrapper">
+                        <img src="{{user.profileImage}}" alt="{{user.username}}" />
+                    </div>
+                    <div class="profile-texts-wrapper">
+                        <div style="display: block;width: 100%;overflow: hidden;position: relative;">
+                            <h1 class="profile-username">{{user.username}}</h1>
+                            {{#isCurrentUser}}
+                            <a href="{{#SITE_URL}}/users/{{user.username}}/edit{{/SITE_URL}}"
+                                class="btn btn-sm btn-secondary profile-action-btn">ویرایش مشخصات کاربری</a>
+                            {{/isCurrentUser}}
+                            {{#currentUser}}
+                            {{^isCurrentUser}}
+                            {{^isFollowing}}
+                            <a href="{{#SITE_URL}}/social/follow-user/?userId={{user._id}}&redirect=/users/{{user.username}}{{/SITE_URL}}"
+                                class="btn btn-sm btn-primary profile-action-btn">دنبال کردن</a>
+                            {{/isFollowing}}
+                            {{#isFollowing}}
+                            <a href="{{#SITE_URL}}/social/follow-user/?userId={{user._id}}&follow=false&redirect=/users/{{user.username}}{{/SITE_URL}}"
+                                class="btn btn-sm btn-danger profile-action-btn">دنبال می کنید</a>
+                            {{/isFollowing}}
+                            {{/isCurrentUser}}
+                            {{/currentUser}}
+                        </div>
+                        <div class="profile-aboutme">{{{user.aboutMe}}}</div>
+                        <div class="profile-stats">
+                            <div class="stat-item"><b>{{posts.length}}</b>&nbsp;<span>پست</span></div>
+                            <div class="stat-item"><b>{{user.social.followers.length}}</b>&nbsp;<span>دنبال کننده</span>
                             </div>
+                            <div class="stat-item"><b>{{user.social.followings.length}}</b>&nbsp;<span>دنبال
+                                    شونده</span></div>
                         </div>
-                        <div class="user-profile-image-filler"></div>
-                        <h1 class="user-username text-center">{{user.username}}</h1>
-                        <div class="user-bio text-center">{{{user.aboutMe}}}</div>
-                        {{#isCurrentUser}}
-                        <div class="text-center">
-                            <a href="/users/{{user.username}}/edit" class="btn btn-md btn-secondary">ویرایش
-                                اطلاعات
-                                کاربری</a>
+                    </div>
+                </div>
+                <!--end of col-md-7 -->
+                <div class="col-md-5">
+                    <h3 style="font-size:18px;font-weight: bold;">چالش های شرکت کرده:</h3>
+                    <div class="challenges">
+                        {{#user.accessLevel.isAdmin}}
+                        <div class="btn btn-md btn-dark"><span class="fas fa-hat-wizard"></span>&nbsp;نویسنده واج
                         </div>
-                        {{/isCurrentUser}}
-                        <div class="user-badges">
-                            {{#user.accessLevel.isAdmin}}
-                            <div class="btn btn-md btn-dark"><span class="fas fa-hat-wizard"></span>&nbsp;نویسنده واج
-                            </div>
-                            {{/user.accessLevel.isAdmin}}
-
-                        </div>
-                        <h6
-                            style="margin-right:10px;font-weight: bold;font-size:18px;margin-top:10px;margin-bottom:10px;">
-                            چالش های شرکت کرده:</h6>
-                        <div class="challenges">
-                            {{#user.fortnite2019.hasJoined}}
-                            <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}"
-                                class="btn btn-md btn-warning">
-                                <img src="/images/fortnite-2019/fortnite-logo.png" width="72px" />
-                                شرکت کننده مسابقه فورنتایت واج</a>
-                            {{/user.fortnite2019.hasJoined}}
-                            {{#user.dota2EpicCenter2019.enterEvent}}
-                            <a href="http://worldofgamers.ir/posts/epicenter-review-escapers"
-                                class="btn btn-md btn-warning">
-                                <img src="/dota2-epic-center/images/logo4.png" width="72px" alt="">
-                                شرکت کننده مسابقه پیش بینی Dota2 epic center
-                            </a>
-                            {{/user.dota2EpicCenter2019.enterEvent}}
-                            {{^user.fortnite2019.hasJoined}}
-                            {{^user.dota2EpicCenter2019.enterEvent}}
-                            <div>این کاربر در هیچ چالشی شرکت نکرده است.</div>
-                            {{/user.dota2EpicCenter2019.enterEvent}}
-                            {{/user.fortnite2019.hasJoined}}
-
-                        </div>
-
+                        {{/user.accessLevel.isAdmin}}
+                        {{#user.fortnite2019.hasJoined}}
+                        <a href="{{#SITE_URL}}/tournaments/fortnite-2019-list{{/SITE_URL}}"
+                            class="btn btn-md btn-warning">
+                            <img src="/images/fortnite-2019/fortnite-logo.png" width="72px" />
+                            شرکت کننده مسابقه فورنتایت واج</a>
+                        {{/user.fortnite2019.hasJoined}}
+                        {{#user.dota2EpicCenter2019.enterEvent}}
+                        <a href="http://worldofgamers.ir/posts/epicenter-review-escapers" class="btn btn-md btn-info">
+                            <img src="/dota2-epic-center/images/logo4.png" width="72px" alt="">
+                            شرکت کننده مسابقه پیش بینی Dota2 epic center
+                        </a>
+                        {{/user.dota2EpicCenter2019.enterEvent}}
+                        {{^user.fortnite2019.hasJoined}}
+                        {{^user.dota2EpicCenter2019.enterEvent}}
+                        <div>این کاربر در هیچ چالشی شرکت نکرده است.</div>
+                        {{/user.dota2EpicCenter2019.enterEvent}}
+                        {{/user.fortnite2019.hasJoined}}
                     </div>
                 </div>
             </div>
-
-
-            <h2 class="orange-title" style="margin-top:15px;">پست های شبکه اجتماعی:</h2>
-            <div class="row">
+        </div>
+    </section>
+    <section class="posts-section">
+        <div class="container">
+            <div class="posts-section-header">
+                <h2 id="posts-section-title" style="font-size:24px;font-weight: bold;display:inline-block;">پست های شبکه
+                    اجتماعی:</h2>
+                <div class="posts-section-filters-wrapper">
+                    <div onclick="showPostsSection('social-posts',this)"
+                        class="btn btn-md btn-default filter-btn active" data-toggle="tooltip" data-placement="top"
+                        title="پست های شبکه اجتماعی"><i class="fas fa-th"></i></div>
+                    {{#isCurrentUser}}
+                    <div onclick="showPostsSection('bookmark-posts',this)" class="btn btn-md btn-default filter-btn"
+                        data-toggle="tooltip" data-placement="top" title="پست های ذخیره شده"><i
+                            class="fas fa-bookmark"></i></div>
+                    {{/isCurrentUser}}
+                    {{#user.accessLevel.isAdmin}}
+                    <div onclick="showPostsSection('posts',this)" class="btn btn-md btn-default filter-btn"
+                        data-toggle="tooltip" data-placement="top" title="اخبار و مقالات نوشته شده"><i
+                            class="fas fa-newspaper"></i></div>
+                    {{/user.accessLevel.isAdmin}}
+                </div>
+            </div>
+            <div class="row" id="social-posts-row">
                 {{#socialPosts}}
-                <div class="col-md-4 col-4">
-                    <a href="{{siteUrl}}">
-                        <div class="social-post-box">
-                            <div class="social-post-overlay">
-                                <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
-                            </div>
-                            <div class="post-thumbail" style="background-image:url('{{{thumbnail_512x512}}}')"></div>
+                <div class="col-md-4 col-6">
+                    <a href="{{siteUrl}}" class="social-post">
+                        <div class="post-thumbnail" style="background-image:url('{{thumbnail_512x512}}')"></div>
+                        <div class="post-overlay text-english">
+                            <div><span class="fas fa-heart"></span>&nbsp;{{likes.length}}</div>
                         </div>
                     </a>
                 </div>
                 {{/socialPosts}}
+                {{^socialPosts}}
+                <div class="col-12 text-center" style="padding:10px 0;">
+                    <div style="margin-bottom:5px;"><img src="/social/images/morty.png"
+                            style="width:100px;max-width:100%;" /></div>
+                    این کاربر هیچ مطلبی ارسال نکرده است.
+                </div>
+                {{/socialPosts}}
             </div>
-            {{^socialPosts}}
-            <div class="text-center" style="padding:10px 0;">
-                <div style="margin-bottom:5px;"><img src="/social/images/morty.png"
-                        style="width:100px;max-width:100%;" /></div>
-                این کاربر هیچ مطلبی ارسال نکرده است.
-            </div>
-            {{/socialPosts}}
             {{#isCurrentUser}}
-            <h2 class="orange-title" style="margin-top:15px;">پست های ذخیره شده:</h2>
-            <div class="row">
+            <div class="row" id="bookmark-posts-row" style="display: none">
                 {{#bookmarkPosts}}
-                <div class="col-md-4 col-4">
-                    <a href="{{siteUrl}}">
-                        <div class="social-post-box">
-                            <div class="social-post-overlay">
-                                <i class="fas fa-heart"></i>&nbsp;<span>{{likes.length}}</span>
-                            </div>
-                            <div class="post-thumbail" style="background-image:url('{{{thumbnail_512x512}}}')"></div>
+                <div class="col-md-4 col-6">
+                    <a href="{{siteUrl}}" class="social-post">
+                        <div class="post-thumbnail" style="background-image:url('{{thumbnail_512x512}}')"></div>
+                        <div class="post-overlay text-english">
+                            <div><span class="fas fa-heart"></span>&nbsp;{{likes.length}}</div>
                         </div>
                     </a>
                 </div>
                 {{/bookmarkPosts}}
-            </div>
-            {{^bookmarkPosts}}
-            <div class="text-center" style="padding:10px 0;">
-                <div style="margin-bottom:5px;"><img src="/social/images/morty.png"
-                        style="width:100px;max-width:100%;" /></div>
-                هیچ مطلبی را ذخیره نکرده‌اید.
-            </div>
-            {{/bookmarkPosts}}
-            {{/isCurrentUser}}
-
-
-            {{#user.accessLevel.isAdmin}}
-            <h2 class="orange-title" style="margin-top:15px;">مطالب نوشته شده:</h2>
-            <div class="row">
-                {{#posts}}
-                <div class="col-md-4">
-                    <a class="post-box" href="{{siteUrl}}">
-                        <img src="{{thumbnail_640x480}}" alt="{{title}}" style="width:100%;padding:5px;">
-                        <h2 class="post-title">{{title}}</h2>
-                    </a>
+                {{^bookmarkPosts}}
+                <div class="col-12 text-center" style="padding:10px 0;">
+                    <div style="margin-bottom:5px;"><img src="/social/images/morty.png"
+                            style="width:100px;max-width:100%;" /></div>
+                    هیچ مطلبی را ذخیره نکرده‌اید.
                 </div>
-                {{/posts}}
+                {{/bookmarkPosts}}
             </div>
-            <div class="text-center" style="padding:10px 0" id="load-more-posts-wrapper">
-                <div class="btn btn-md btn-warning" id="load-more-posts-btn">بیشتر</div>
+            {{/isCurrentUser}}
+            {{#user.accessLevel.isAdmin}}
+            <div id="posts-row" style="display: none">
+                <div class="row">
+                    {{#posts}}
+                    <div class="col-md-4">
+                        <a class="post-box" href="{{siteUrl}}">
+                            <img src="{{thumbnail_640x480}}" alt="{{title}}" style="width:100%;padding:5px;">
+                            <h2 class="post-title">{{title}}</h2>
+                        </a>
+                    </div>
+                    {{/posts}}
+                </div>
+                <div class="text-center" style="padding:10px 0" id="load-more-posts-wrapper">
+                    <div class="btn btn-md btn-warning" id="load-more-posts-btn">بیشتر</div>
+                </div>
             </div>
             <script>
                 $(() =>
@@ -401,9 +359,33 @@
             </script>
             {{/user.accessLevel.isAdmin}}
         </div>
-
     </section>
     {{{footer}}}
+    <script>
+        function showPostsSection(section, elm)
+        {
+            $(".filter-btn").removeClass('active');
+            $(elm).addClass('active');
+            $("#posts-row").hide(0);
+            $("#social-posts-row").hide(0);
+            $("#bookmark-posts-row").hide(0);
+            if (section == 'posts')
+            {
+                $("#posts-section-title").html('اخبار و مقالات:');
+                $("#posts-row").show();
+            }
+            else if (section == 'social-posts')
+            {
+                $("#posts-section-title").html('پست های شبکه اجتماعی:');
+                $("#social-posts-row").show();
+            }
+            else if (section == 'bookmark-posts')
+            {
+                $("#posts-section-title").html('پست های ذخیره شده:');
+                $("#bookmark-posts-row").show();
+            }
+        }
+    </script>
 </body>
 
 </html>
