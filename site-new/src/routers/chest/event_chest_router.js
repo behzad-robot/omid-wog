@@ -66,6 +66,7 @@ export class EventChestRouter extends SiteRouter
                                 addToSubmitedNumbers(req.body.number).then(() =>
                                 {
                                     res.send({ code: 200, winner: announceWinner });
+                                    announceWinner = false;
                                 });
                             }
                         });
