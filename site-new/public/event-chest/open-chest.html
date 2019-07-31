@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .chest-section {
+            padding-top: 10px;
+            min-height: 80vh;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="chest-section">
+        <div class="container">
+            <h1>Open Chest Event:</h1>
+            <form method="POST" action="/event-chest/open-chest/submit">
+                <input type="number" name="number" value="" placeholder="????" class="form-control" />
+                <input type="submit" value="ثبت" class="btn btn-md btn-success" />
+            </form>
+            <script>
+                $("form").ajaxForm({
+                    beforeSubmit: (formData, jqForm, options) =>
+                    {
+                        var val = $("input[name=number]").val();
+                        console.log(val);
+                        if (isEmptyString(val))
+                        {
+                            alert('مقدار رمز را وارد کنید.');
+                            return false;
+                        }
+                        val = parseInt(val);
+                        if (val < 1000 && val <= 9999)
+                        {
+                            alert('مقدار رمز را وارد کنید.');
+                            return false;
+                        }
+                        return true;
+                    },
+                    success: (text, code, xhr, form) =>
+                    {
+                        console.log(text);
+                        if (text.code != 200)
+                        {
+                            alert(text.error);
+                        }
+                        else
+                        {
+                            if (text.winner)
+                                alert("winner winner chicken for dinner");
+                            else
+                                alert("NOPE!");
+                        }
+                    },
+                    error: (xhr, text, err) =>
+                    {
+                        alert('خطا از سمت سرور');
+                    },
+                });
+            </script>
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

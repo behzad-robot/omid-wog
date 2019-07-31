@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .chest-section {
+            padding-top: 10px;
+            min-height: 80vh;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="chest-section">
+        <div class="container">
+            <h1>Open Chest Event:</h1>
+            {{#announceWinner}}
+            <p>Next Number will be winner if not duplicate.</p>
+            <a href="/event-chest/admin/?winner=false" class="btn btn-md btn-danger">No Make them a looser</a>
+            {{/announceWinner}}
+            {{^announceWinner}}
+            <p>Next number wont be accepted regardless of wether it's new or not.</p>
+            <a href="/event-chest/admin/submit/?winner=true" class="btn btn-md btn-success">Make next new number the winner</a>
+            {{/announceWinner}}
+        </div>
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

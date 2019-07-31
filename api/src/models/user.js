@@ -99,10 +99,11 @@ export const UserSchema = new mongoose.Schema({
             followers: [], //_ids of users
             followings: [], //_ids of users
             followedHashtags: [], //_ids of social_hashtag
-            challenges : [],
-            bookmarks : [],
+            challenges: [],
+            bookmarks: [],
         }
-    }
+    },
+    canDoChestEvent: { type: Boolean, default: true },
 }, {
         toObject: {
             virtuals: true

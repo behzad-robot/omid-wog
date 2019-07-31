@@ -49,6 +49,7 @@ import { SocialChallengesRouter } from "./routers/social/social_challenges_route
 import { SocialChatGroup } from "./utilsApi/social_chat_group";
 import { SocialChatRouter } from "./routers/social/social_chat_router";
 import { SocialNotification } from "./utilsApi/social_notification";
+import { EventChestRouter } from "./routers/chest/event_chest_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -338,7 +339,8 @@ express.expressApp.use('/social/posts', new SocialPostsRouter(SiteModules).route
 express.expressApp.use('/social', new SocialMainRouter(SiteModules).router);
 express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModules).router);
 express.expressApp.use('/social/chat', new SocialChatRouter(SiteModules).router);
-
+//event chest router:
+express.expressApp.use('/event-chest', new EventChestRouter(SiteModules).router);
 
 
 
