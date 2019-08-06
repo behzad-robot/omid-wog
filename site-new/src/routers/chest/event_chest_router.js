@@ -2,7 +2,8 @@ import SiteRouter from "../site_router";
 import { SITE_URL } from "../../constants"
 const fs = require('fs');
 const path = require('path');
-const SUBMITED_FILE = 'event-numbers.json';
+const SUBMITED_FILE = path.resolve('../storage/event-numbers.json');
+const EVENT_USERNAME_NUMBER_FILE = path.resolve('../storage/event-username-number.txt');
 export class EventChestRouter extends SiteRouter
 {
     constructor(siteModules)
@@ -22,7 +23,11 @@ export class EventChestRouter extends SiteRouter
         });
         this.router.get('/signup', (req, res) =>
         {
+            let username = getGeneratedUsername();
+            let email = username+"@gmail.com";
             this.renderTemplate(req, res, 'event-chest/signup.html', {
+                username : username,
+                email : email,
             });
         });
         this.router.get('/open-chest', (req, res) =>
@@ -86,12 +91,12 @@ function loadSubmitedNumbers()
 {
     return new Promise((resolve, reject) =>
     {
-        let hasFile = fs.existsSync(path.resolve(SUBMITED_FILE));
+        let hasFile = fs.existsSync((SUBMITED_FILE));
         if (!hasFile)
             resolve([]);
         else
         {
-            resolve(JSON.parse(fs.readFileSync(path.resolve(SUBMITED_FILE)).toString()));
+            resolve(JSON.parse(fs.readFileSync((SUBMITED_FILE)).toString()));
         }
     });
 }
@@ -102,7 +107,7 @@ function addToSubmitedNumbers(number)
         loadSubmitedNumbers().then((numbers) =>
         {
             numbers.push(number);
-            fs.writeFile(path.resolve(SUBMITED_FILE), JSON.stringify(numbers), (err) =>
+            fs.writeFile((SUBMITED_FILE), JSON.stringify(numbers), (err) =>
             {
                 if (err)
                     reject(err);
@@ -111,4 +116,12 @@ function addToSubmitedNumbers(number)
             });
         });
     });
+}
+function getGeneratedUsername(){
+    console.log(fs.readFileSync(EVENT_USERNAME_NUMBER_FILE).toString());
+    var number = parseInt(fs.readFileSync(EVENT_USERNAME_NUMBER_FILE).toString());
+    number++;
+    var username = "user_"+number.toString();
+    fs.writeFileSync(EVENT_USERNAME_NUMBER_FILE,number.toString());
+    return username;
 }

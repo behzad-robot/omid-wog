@@ -1,0 +1,227 @@
+<html>
+
+<head>
+    {{{head}}}
+    <title>ثبت نام</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <style>
+        .signup-section {
+            background-image: url('/event-chest/lol.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            min-height: 800px;
+            margin-bottom: -20px
+        }
+
+        .form-control.login-input {
+            background-color: #21323a;
+            color: white;
+            box-shadow: none;
+            width: 100%;
+            height: 37px;
+            margin-top: 10px;
+            border-color: #171c1f;
+            margin-top: 15px;
+            border-radius: 20px;
+            display: inline-block
+        }
+
+        .form-control.login-input:focus {
+            border-color: orange;
+            box-shadow: none;
+            background-color: #2c414b;
+
+        }
+
+        .form-control.login-input.login-input-with-icon {
+            display: inline-block;
+            width: 85%;
+        }
+
+        .forget-link {
+            text-decoration: none;
+            color: grey;
+        }
+
+        .forget-link:hover {
+            text-decoration: none;
+            color: darkgrey
+        }
+
+        .signup-link {
+            text-decoration: none;
+            color: rgb(190, 124, 1);
+        }
+
+        .signup-link:hover {
+            text-decoration: none;
+            color: rgb(255, 177, 32);
+        }
+
+        .signup-card {
+            background-color: #171c1f;
+            margin-top: 80px;
+            border-radius: 20px;
+            padding: 10px 20px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="signup-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <div class="signup-card">
+                        <img src="/images/wog-logo-orange.png" style="width: 10%;float: right;overflow: hidden;" alt="">
+                        <h5 style="float: right;overflow: hidden;margin-right: 10px;margin-top: 5px;color: white">ثبت
+                            نام در واج</h5>
+                        <br>
+                        <hr style="border-top:1px solid orange;overflow: hidden;display: block">
+                        <form class="inputs" method="POST" action="/signup/?redirect=/event-chest/open-chest"
+                            id="signupForm">
+                            <input type="hidden" value="{{username}}" name="username" />
+                            <input type="hidden" value="{{email}}" name="email" />
+                            <input type="text" name="firstName" class="form-control login-input "
+                                placeholder="لطفا نام خود را وارد کنید">
+                            <input type="text" name="lastName" class="form-control login-input "
+                                placeholder="لطفا نام خانوادگی خود را وارد کنید">
+                            <input type="text" name="phoneNumber" class="form-control login-input"
+                                placeholder="لطفا شماره همراه خود را وارد کنید">
+                            <input type="password" name="password" class="form-control login-input"
+                                placeholder="رمز عبور">
+                            <input type="password" name="confirmPassword" class="form-control login-input"
+                                placeholder="رمز عبور مجدد">
+                            <div class="text-center" style="margin-top:15px">
+                                <div id="pre-submit" class="btn btn-md btn-warning">ثبت نام</div>
+                                <input id="submit" type="submit" class="btn btn-md btn-warning" value="ثبت نام"
+                                    style="display: none" />
+                            </div>
+
+                        </form>
+                        <a href="/forget-password" class="forget-link" id="forgetpass"">
+                            <p>رمز عبور خود را فراموش کرده اید؟</p>
+                        </a>
+                        <a href="/login" class="signup-link">
+                            <p>حساب کاربری دارید؟وارد شوید!</p>
+                        </a>
+                        <p id="inputs-error" style=" color:red"></p>
+                    </div>
+
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+    </section>
+    {{{footer}}}
+    <script>
+        $(() =>
+        {
+            $("#pre-submit").click(() =>
+            {
+                var phoneNumber = $("#signupForm [name=phoneNumber]").val();
+                $("#pre-submit").css('opacity', 0);
+                fetch(`/signup-check-unique/?phoneNumber=` + phoneNumber, {
+                    method: 'get',
+                }).then(response => response.json()).then((result) =>
+                {
+                    $("#pre-submit").css('opacity', 1);
+                    if (result.available)
+                    {
+                        $("#signupForm input[type=submit]").trigger('click');
+                    }
+                    else
+                    {
+                        $("#inputs-error").html('کاربری قبلا با این شماره ثبت نام کرده است.');
+                        return false;
+                    }
+                }).catch((err) =>
+                {
+                    $("#pre-submit").css('opacity', 1);
+                    $("#inputs-error").html(err.toString());
+                });
+            });
+            $("#signupForm").submit(() =>
+            {
+                var firstName = $("#signupForm [name=firstName]").val();
+                var lastName = $("#signupForm [name=lastName]").val();
+                var phoneNumber = $("#signupForm [name=phoneNumber]").val();
+                var password = $("#signupForm [name=password]").val();
+                var confirmPassword = $("#signupForm [name=confirmPassword]").val();
+                if (firstName == undefined || firstName.replace(' ', '') == '')
+                {
+                    $("#inputs-error").html("لطفا نام را وارد کنید.");
+                    return false;
+                }
+                if (firstName.length < 3)
+                {
+                    $("#inputs-error").html("لطفا نام را درست وارد کنید.");
+                    return false;
+                }
+                if (lastName == undefined || lastName.replace(' ', '') == '')
+                {
+                    $("#inputs-error").html("لطفا نام خانوادگی را وارد کنید.");
+                    return false;
+                }
+                if (lastName.length < 3)
+                {
+                    $("#inputs-error").html("لطفا نام خانوادگی را درست وارد کنید.");
+                    return false;
+                }
+                if (phoneNumber == undefined || phoneNumber.replace(' ', '') == '')
+                {
+                    $("#inputs-error").html("لطفا شماره همراه خود را وارد کنید.");
+                    return false;
+                }
+                if (phoneNumber.length != 11)
+                {
+                    $("#inputs-error").html("شماره وارد شده اشتباه است.");
+                    return false;
+                }
+                if (phoneNumber.indexOf('09') == -1)
+                {
+                    $("#inputs-error").html("شماره وارد شده اشتباه است.");
+                    return;
+                }
+                if (password == undefined || password.replace(' ', '') == '')
+                {
+                    $("#inputs-error").html("لطفا رمز عبور خود را وارد کنید.");
+                    return false;
+                }
+                if (password.length < 6)
+                {
+                    $("#inputs-error").html("لطفا حداقل 6 کاراکتر برای رمز عبور خود وارد کنید.");
+                    return false;
+                }
+                if (confirmPassword == undefined || confirmPassword.replace(' ', '') == '')
+                {
+                    $("#inputs-error").html("لطفا بخش تایید رمز عبور را پر کنید کنید.");
+                    return false;
+                }
+                if (confirmPassword != password)
+                {
+                    $("#inputs-error").html("رمز عبور و تایید رمز عبور یکسان نیست.");
+                    return false;
+                }
+
+                $("#inputs-error").html('');
+                return true;
+            });
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
