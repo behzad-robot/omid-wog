@@ -443,27 +443,24 @@
             <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Strength:</h3>
             {{#strengthChampions}}
             <a class="all-heroes-links" href="{{siteUrl}}">
-                <div class="champ-box text-center">
+                <div class="champ-box text-center" gif="{{{icon_gif}}}">
                     <img src="{{icon_tall}}" style="width: 100%">
-                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
                 </div>
             </a>
             {{/strengthChampions}}
             <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Agility:</h3>
             {{#agilityChampions}}
-            <a class="all-heroes-links" href="{{siteUrl}}">
+            <a class="all-heroes-links" href="{{siteUrl}}" gif="{{{icon_gif}}}">
                 <div class="champ-box text-center">
                     <img src="{{icon_tall}}" style="width: 100%">
-                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
                 </div>
             </a>
             {{/agilityChampions}}
             <h3 style="color: #e0e1e2;padding-bottom: 10px;font-size:20px;margin:15px 0">Intelligence:</h3>
             {{#intelligenceChampions}}
-            <a class="all-heroes-links" href="{{siteUrl}}">
+            <a class="all-heroes-links" href="{{siteUrl}}" gif="{{{icon_gif}}}">
                 <div class="champ-box text-center">
                     <img src="{{icon_tall}}" style="width: 100%">
-                    <video src="{{icon_gif}}" autoplay muted loop class="zoom" width="100%"></video>
                 </div>
             </a>
             {{/intelligenceChampions}}
@@ -476,6 +473,31 @@
                 //         $("#heros-list").append(str);
                 //     }
                 // });
+                $(()=>{
+                    $(".all-heroes-links").mouseover(function(){
+                        let videoBox = $(this).find("video");
+                        if(videoBox == undefined || videoBox.length == 0)
+                        {
+                            let gif = $(this).attr('gif');
+                            // alert(gif);
+                            if(!isEmptyString(gif))
+                            {
+                                let cb = $(this).find(".champ-box");
+                                cb = cb[0];
+                                console.log(cb); 
+                                $(cb).append(`<video src="${gif}" autoplay muted loop class="zoom" width="100%"></video>`);
+                            }
+                            // ($(this).find(".champ-box")[0]).append(`<video src="${$(this).attr('gif')}" autoplay muted loop class="zoom" width="100%"></video>`);
+                        }
+                    });
+                    $(".all-heroes-links").mouseleave(function(){
+                        let videoBox = $(this).find("video");
+                        if(videoBox != undefined && videoBox.length != 0)
+                        {
+                            $(videoBox).remove();
+                        }
+                    });
+                });
             </script>
         </div>
     </section>
