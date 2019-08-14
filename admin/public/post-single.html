@@ -110,6 +110,8 @@
                     $("#single").append(idInput('authorId', post.authorId, { after: '<span id="authorName">???</span>' }));
                     $("#single").append(idInput('createdAt', post.createdAt));
                     $("#single").append(idInput('updatedAt', post.updatedAt));
+                    $("#single").append(boolInput('isVas', post.isVas));
+                    $(`#single`).append(filePickTool(undefined, 'video', post.video));
                     $("#single").append(textInput('title', post.title));
                     $("#single").append(textInput('slug', post.slug));
                     $("#single").append(textInput('gameId', post.gameId));
@@ -289,6 +291,7 @@
         </script>
     </div>
     {{{footer}}}
+    {{{file_screen}}}
 </body>
 
 </html>

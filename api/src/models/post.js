@@ -15,10 +15,12 @@ export const PostSchema = new mongoose.Schema({
     tags: Array,
     categories: Array,
     _seo: Object,
-    extras : {
-        type:Object,
-        default:{bigBox : false,}
+    extras: {
+        type: Object,
+        default: { bigBox: false, }
     },
+    isVas: { type: Boolean, default: false },
+    video: { type: String, default: '' },
     createdAt: String,
     updatedAt: String,
     _draft: Boolean,
@@ -34,9 +36,9 @@ PostSchema.virtual('createdAt_persian').get(function ()
 {
     //2019-02-09 05:16:59
     var val = this.createdAt;
-    if(isEmptyString(val))
+    if (isEmptyString(val))
         return val;
-    
+
     if (val.indexOf('-') != -1 && val.indexOf(':') != -1 && val.indexOf(' ') != -1)
     {
         var parts = val.split(' ');
@@ -48,8 +50,8 @@ PostSchema.virtual('createdAt_persian').get(function ()
         var timeParts = parts[1].split(':');
         var jj = jalaali.toJalaali(year, month, day) // { jy: 1395, jm: 1, jd: 23 }
         // return jj.jy + "-" + jj.jm + "-" + jj.jd + " " + parts[1];
-        var pd = new persianDate([jj.jy,jj.jm,jj.jd]);
-        return pd.format('dddd')+' '+jj.jd+' '+pd.format('MMMM')+' '+jj.jy;
+        var pd = new persianDate([jj.jy, jj.jm, jj.jd]);
+        return pd.format('dddd') + ' ' + jj.jd + ' ' + pd.format('MMMM') + ' ' + jj.jy;
     }
     else
         return this.createdAt;
@@ -83,9 +85,10 @@ Post.Helpers = {
         doc.thumbnail_150x150 = SITE_URL(doc.thumbnail_150x150);
         doc.thumbnail_640x480 = SITE_URL(doc.thumbnail_640x480);
         doc.thumbnail_800x600 = SITE_URL(doc.thumbnail_800x600);
-        if(doc.extras == undefined){
+        if (doc.extras == undefined)
+        {
             doc.extras = {
-                bigBox : false,
+                bigBox: false,
             }
         }
         return doc;
