@@ -74,6 +74,13 @@ export class PublicMongooseAPIRouter extends APIRouter
         delete (req.query.limit);
         delete (req.query.offset);
         delete (req.query.sort);
+        if (req.query.isVas)
+        {
+            req.query.isVas = req.query.isVas == 'true';
+            if (!req.query.isVas)
+                req.query.isVas = { '$ne': true };
+        }
+
         if (req.query._ids != undefined)
         {
             var options = req.query._ids.split(',');
@@ -112,7 +119,7 @@ export class PublicMongooseAPIRouter extends APIRouter
                 });
             return;
         }
-
+        console.log(req.query);
         this.model
             .find(req.query)
             .limit(limit)
