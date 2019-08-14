@@ -117,15 +117,15 @@
         }
 
         .profile-image img {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%
         }
 
         .username {
             float: right;
             font-size: 15px;
-            margin-top: 22px;
+            margin-top:19px;
             margin-right: 7px;
             font-weight: bold;
             color: black
@@ -151,7 +151,7 @@
 
         .buttons-part {
             overflow: hidden;
-            padding: 10px
+            padding:5px
         }
 
         .caption {
@@ -165,18 +165,24 @@
         .single-comment-box {
             overflow: hidden;
             border-bottom: 1px solid lightgrey;
-            padding: 10px;
+            padding: 10px 10px;
             position: relative;
+            background-color: #f2f3f5;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            float: left;
+            width: 85%
         }
 
         .commenter {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             float: right;
         }
 
         .like-count {
-            font-size: 16px
+            font-size: 16px;
+            margin-top: -15px
         }
 
         .like-counts {
@@ -184,7 +190,7 @@
         }
 
         .post-like-btn {
-            font-size: 30px;
+            font-size: 25px;
             margin-right: 5px;
             cursor: pointer;
         }
@@ -198,7 +204,7 @@
         }
 
         .bookmark-btn {
-            font-size: 30px;
+            font-size:25px;
             margin-left: 10px;
             float: left
         }
@@ -208,7 +214,7 @@
         }
 
         .comment {
-            font-size: 30px;
+            font-size:25px;
             margin-right: 10px
         }
 
@@ -346,13 +352,13 @@
             float: left;
             position: absolute;
             top: 10px;
-            left: 0;
+            left: 10px;
             z-index: 10;
         }
 
         .comments-heart-btn {
             float: left;
-            font-size: 25px;
+            font-size: 23px;
             margin-right: 5px
         }
 
@@ -565,7 +571,7 @@
                                         <i class="far fa-comment comment"></i>
                                     </a>
                                     <i onclick="share_post('{{siteUrl}}')" class="fas fa-share-alt"
-                                        style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                        style="font-size: 25px;margin-right: 10px;cursor: pointer;"></i>
                                     <i name="post-bookmark"
                                         class="{{#_isBookmarked}}fas{{/_isBookmarked}}{{^_isBookmarked}}far{{/_isBookmarked}} fa-bookmark bookmark-btn"
                                         postId="{{_id}}" loading="false" bookmarked="{{_isBookmarked}}"
@@ -574,29 +580,33 @@
                             </div>
                             <div class="caption">
                                 <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
-                                <div style="font-weight: bold;font-size: 18px;">{{_user.username}} : </div>
-                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;">{{{body_formatted}}} </div>
+                                <div style="font-weight: bold;font-size: 15px;">{{_user.username}} : </div>
+                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;font-size: 14px">{{{body_formatted}}} </div>
                                 {{#_hasComments}}
-                                <div style="font-size: 20px"> نظرات:</div>
+                                <div style="font-size: 18px"> نظرات:</div>
                                 <div class="comments-wrapper">
                                     {{#_comments}}
-                                    <div class="single-comment-box" commentId="{{_id}}">
-                                        <div class="commenter">{{_user.username}} : </div>
-                                        <div
-                                            style="color: rgb(119, 119, 119);float: right;max-lines:4;text-overflow:ellipsis;">
-                                            {{{body}}}</div>
-                                        <div class="comments-heart">
-                                            {{#_isMine}}
-                                            <i class="fas fa-trash comments-action-btn"
-                                                onclick="delete_comment(this)"></i>
-                                            {{/_isMine}}
-                                            <i name="comment-like"
-                                                class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
-                                                loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
-                                            <span class="comments-like-counts" commentId="{{_id}}"
-                                                style="position: relative;top:2px;">{{likes.length}}</span>
+                                    <div class="row">
+                                        <img src="{{_user.profileImage}}" class="profile-image"
+                                            style="width:50px ;height: 50px;margin-right: 20px;margin-left: 10px;margin-bottom: 10px;margin-top: 0px;border-radius: 50%"
+                                            alt="">
+                                        <div class="single-comment-box" commentId="{{_id}}">
+                                            <div class="commenter">{{_user.username}} : </div>
+                                            <div
+                                                style="color: rgb(119, 119, 119);float: right;max-lines:4;text-overflow:ellipsis;font-size: 14px">
+                                                {{{body}}}</div>
+                                            <div class="comments-heart">
+                                                {{#_isMine}}
+                                                <i class="fas fa-trash comments-action-btn"
+                                                    onclick="delete_comment(this)"></i>
+                                                {{/_isMine}}
+                                                <i name="comment-like"
+                                                    class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
+                                                    loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                                <span class="comments-like-counts" commentId="{{_id}}"
+                                                    style="position: relative;top:2px;">{{likes.length}}</span>
+                                            </div>
                                         </div>
-
                                     </div>
                                     {{/_comments}}
                                     <a class="see-all-comments" href="{{siteUrl}}">

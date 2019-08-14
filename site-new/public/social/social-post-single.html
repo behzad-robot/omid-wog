@@ -116,15 +116,15 @@
         }
 
         .profile-image img {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%
         }
 
         .username {
             float: right;
             font-size: 15px;
-            margin-top: 22px;
+            margin-top: 19px;
             margin-right: 7px;
             font-weight: bold;
             color: black
@@ -150,7 +150,7 @@
 
         .buttons-part {
             overflow: hidden;
-            padding: 10px
+            padding: 5px
         }
 
         .caption {
@@ -164,18 +164,24 @@
         .single-comment-box {
             overflow: hidden;
             border-bottom: 1px solid lightgrey;
-            padding: 10px;
+            padding: 10px 10px;
             position: relative;
+            background-color: #f2f3f5;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            float: left;
+            width: 85%
         }
 
         .commenter {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: bold;
             float: right;
         }
 
         .like-count {
-            font-size: 16px
+            font-size: 16px;
+            margin-top: -15px
         }
 
         .like-counts {
@@ -183,7 +189,7 @@
         }
 
         .post-like-btn {
-            font-size: 30px;
+            font-size: 25px;
             margin-right: 5px;
             cursor: pointer;
         }
@@ -197,7 +203,7 @@
         }
 
         .bookmark-btn {
-            font-size: 30px;
+            font-size: 25px;
             margin-left: 10px;
             float: left
         }
@@ -207,7 +213,7 @@
         }
 
         .comment {
-            font-size: 30px;
+            font-size: 25px;
             margin-right: 10px
         }
 
@@ -342,13 +348,14 @@
             float: left;
             position: absolute;
             top: 10px;
-            left: 0;
+            left: 10px;
             z-index: 10;
+            margin-bottom: 5px
         }
 
         .comments-heart-btn {
             float: left;
-            font-size: 25px;
+            font-size: 23px;
             margin-right: 5px
         }
 
@@ -372,6 +379,11 @@
 
         .comments-action-btn:hover {
             color: #616161;
+        }
+
+        .form-control:focus {
+            border: 1px solid orange !important;
+            box-shadow:2px 2px 1px rgb(250, 246, 234)
         }
 
         @media (max-width: 576px) {
@@ -494,41 +506,47 @@
                                     <i class="far fa-comment comment"></i>
                                 </a> -->
                                 <i onclick="share_post('{{post.siteUrl}}')" class="fas fa-share-alt"
-                                    style="font-size: 30px;margin-right: 10px;cursor: pointer;"></i>
+                                    style="font-size: 25px;margin-right: 10px;cursor: pointer;"></i>
                                 <i name="post-bookmark"
                                     class="{{#post._isBookmarked}}fas{{/post._isBookmarked}}{{^post._isBookmarked}}far{{/post._isBookmarked}} fa-bookmark bookmark-btn"
                                     postId="{{post._id}}" loading="false" bookmarked="{{post._isBookmarked}}"
-                                    postIcon="{{{post.thumbnail_150x150}}}"
-                                    onclick="toggleBookmark(this)"></i>
+                                    postIcon="{{{post.thumbnail_150x150}}}" onclick="toggleBookmark(this)"></i>
                             </div>
                         </div>
                         <div class="caption">
                             <div class="like-count"> <span class="like-counts">{{post.likes.length}}</span> لایک</div>
-                            <div style="font-weight: bold;font-size: 18px;">{{post._user.username}} : </div>
-                            <div style="color: rgb(126, 126, 126)">{{{post.body_formatted}}} </div>
+                            <div style="font-weight: bold;font-size: 15px;">{{post._user.username}} : </div>
+                            <div style="color: rgb(126, 126, 126);padding-bottom:10px;font-size: 14px">
+                                {{{post.body_formatted}}} </div>
                             <form action="/comments/new" method="POST" id="new-comment-form">
-                                <textarea class="form-control dark" name="body" style="width:50%;height:200px;"
+                                <textarea class="form-control" name="body" style="width:100%;height:200px;"
                                     placeholder="دیدگاه خود را وارد کنید"></textarea>
                                 <input type="hidden" name="objectType" value="social-posts" />
                                 <input type="hidden" name="objectId" value="{{post._id}}" />
                                 <input type="submit" class="btn btn-md btn-warning" style="margin:10px 0;"
                                     value="ارسال دیدگاه" />
                             </form>
-                            <div style="font-size: 20px"> نظرات:</div>
-
+                            <div style="font-size: 18px"> نظرات:</div>
                             <div class="comments-wrapper" id="comments-list">
                                 {{#post._comments}}
-                                <div class="single-comment-box" commentId="{{_id}}" id="comment-{{_id}}">
-                                    <div class="commenter">{{_user.username}} : </div>
-                                    <div style="color: rgb(119, 119, 119);float: right;"> {{{body}}}</div>
-                                    <div class="comments-heart">
-                                        <i class="fas fa-trash comments-action-btn" onclick="delete_comment(this)"></i>
-                                        <i name="comment-like"
-                                            class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
-                                            loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
-                                        <span class="comments-like-counts" commentId="{{_id}}">{{likes.length}}</span>
-                                        <div style="display: inline">لایک</div>
+                                <div class="row">
+                                    <img src="{{_user.profileImage}}" class="profile-image"
+                                        style="width:50px ;height: 50px;margin-right: 20px;margin-left: 10px;margin-bottom: 10px;margin-top: 0px;border-radius: 50%"
+                                        alt="">
+                                    <div class="single-comment-box" commentId="{{_id}}" id="comment-{{_id}}">
+                                        <div class="commenter">{{_user.username}} : </div>
+                                        <div style="color: black;float: right;font-size: 14px"> {{{body}}}</div>
+                                        <div class="comments-heart">
+                                            <i class="fas fa-trash comments-action-btn"
+                                                onclick="delete_comment(this)"></i>
+                                            <i name="comment-like"
+                                                class="{{#_isLiked}}fas clicked{{/_isLiked}}{{^_isLiked}}far{{/_isLiked}} fa-heart comments-heart-btn"
+                                                loading="false" liked="{{_isLiked}}" commentId="{{_id}}"></i>
+                                            <span class="comments-like-counts"
+                                                commentId="{{_id}}">{{likes.length}}</span>
+                                            <div style="display: inline">لایک</div>
 
+                                        </div>
                                     </div>
                                 </div>
                                 {{/post._comments}}
@@ -603,7 +621,7 @@
             </div>
         </div>
     </section>
-    
+
     <script>
         $(() =>
         {
@@ -748,7 +766,7 @@
                     }
                     else
                     {
-                        showToast('/social/images/comment-icon.png','نظر شما با موفقیت ثبت شد.');
+                        showToast('/social/images/comment-icon.png', 'نظر شما با موفقیت ثبت شد.');
                         $("#comments-list").append(`
                             <div class="single-comment-box" commentId="${comment._id}" id="comment-${comment._id}">
                                 <div class="commenter">{{{currentUser.username}}}: </div>
@@ -910,7 +928,7 @@
                     return;
                 }
                 $(commentBox).remove();
-                showToast('/social/images/comment-icon.png','نظر شما با موفقیت حذف شد.');
+                showToast('/social/images/comment-icon.png', 'نظر شما با موفقیت حذف شد.');
             }).catch((err) =>
             {
                 alert(err);
@@ -932,7 +950,7 @@
             {
                 $(elm).attr('bookmarked', true);
                 $(elm).removeClass('far').addClass('fas');
-                showToast(icon,'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
+                showToast(icon, 'پست ذخیره شد.برای مشاهده پست های ذخیره شده به پروفایل خود سر بزنید.');
             }
             else
             {
