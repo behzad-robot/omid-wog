@@ -80,7 +80,7 @@ export class PublicMongooseWSRouter extends SocketRouter
                 delete (params.isVas);
         }
         else
-            req.query.isVas = { '$ne': true };
+            params.isVas = { '$ne': true };
         if (params._ids != undefined)
         {
             if (typeof params._ids == 'string')
