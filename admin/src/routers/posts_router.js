@@ -245,6 +245,7 @@ export default class PostsPanelRouter extends AdminRouter
                     return;
                 }
                 req.body._draft = req.body._draft == 'on' ? true : false;
+                req.body.isVas = req.body.isVas == 'on' ? true : false;
                 req.body.tags = JSON.parse(req.body.tags);
                 req.body.categories = JSON.parse(req.body.categories);
                 req.body._seo = JSON.parse(req.body._seo);
