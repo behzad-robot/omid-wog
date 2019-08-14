@@ -80,6 +80,8 @@ export class PublicMongooseAPIRouter extends APIRouter
             if (!req.query.isVas)
                 req.query.isVas = { '$ne': true };
         }
+        else
+            req.query.isVas = { '$ne': true };
 
         if (req.query._ids != undefined)
         {

@@ -106,7 +106,7 @@ export default class SitePostsRouter extends SiteRouter
         });
         this.router.get('/tags/:slug', (req, res) =>
         {
-            this.siteModules.Post.find({ tags: req.params.slug }).then((posts) =>
+            this.siteModules.Post.find({ tags: req.params.slug, isVas: false }).then((posts) =>
             {
                 this.postsArchive(req, res, posts, { title: req.params.slug, hasGrid: false });
             }).catch((err) =>
@@ -116,13 +116,13 @@ export default class SitePostsRouter extends SiteRouter
         });
         this.router.get('/search', (req, res) =>
         {
-            this.siteModules.Post.apiCall('search', { s: req.query.s , limit : 50 , _draft : false }).then((posts) =>
+            this.siteModules.Post.apiCall('search', { s: req.query.s, limit: 50, _draft: false, isVas: false }).then((posts) =>
             {
                 posts = this.siteModules.Post.fixAll(posts);
-                this.postsArchive(req, res, posts, { title: 'جستجوی '+req.query.s, hasGrid: false });
+                this.postsArchive(req, res, posts, { title: 'جستجوی ' + req.query.s, hasGrid: false });
             }).catch((err) =>
             {
-                this.show500(req,res,err.toString());
+                this.show500(req, res, err.toString());
             });
         });
         this.router.get('/_id/:_id', (req, res) =>

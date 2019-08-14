@@ -51,10 +51,10 @@ export class PublicMongooseWSRouter extends SocketRouter
         // delete (params._draft);
         if (this.model.Helpers.hasDraft())
         {
-            if(params._draft != 'all')
+            if (params._draft != 'all')
                 params._draft = false;
             else
-                delete(params._draft);
+                delete (params._draft);
         }
         else
             delete (params._draft);
@@ -74,6 +74,8 @@ export class PublicMongooseWSRouter extends SocketRouter
             if (!params.isVas)
                 params.isVas = { '$ne': true };
         }
+        else
+            req.query.isVas = { '$ne': true };
         if (params._ids != undefined)
         {
             if (typeof params._ids == 'string')
