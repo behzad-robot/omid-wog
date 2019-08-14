@@ -76,9 +76,17 @@ export class PublicMongooseAPIRouter extends APIRouter
         delete (req.query.sort);
         if (req.query.isVas)
         {
-            req.query.isVas = req.query.isVas == 'true';
-            if (!req.query.isVas)
-                req.query.isVas = { '$ne': true };
+            if (req.query.isVas == 'all')
+            {
+                delete (req.query.isVas);
+            }
+            else
+            {
+                req.query.isVas = req.query.isVas == 'true';
+                if (!req.query.isVas)
+                    req.query.isVas = { '$ne': true };
+            }
+
         }
         else
             req.query.isVas = { '$ne': true };

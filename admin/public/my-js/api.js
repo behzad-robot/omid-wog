@@ -52,7 +52,7 @@ function isEmptyString(str)
 }
 const getAdmins = (next) =>
 {
-    fetch('/api/users/get-admins' + '?_draft=all',
+    fetch('/api/users/get-admins' + '?_draft=all&isVas=all',
         {
             method: 'GET',
             mode: "cors",
