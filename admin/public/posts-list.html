@@ -116,7 +116,7 @@
                                         <img src="${post.thumbnail_150x150}" width="64px" height="64px"/>
                                     </div>
                                     <div class="col-md-4">
-                                        <h5>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}</h5>
+                                        <h5>${post.title} ${post._draft ? `<span class="badge badge-md badge-warning">مطلب پیش نویس</span>` : ''}${post.isVas ? `<span class="badge badge-md badge-danger">VAS Post</span>` : ''}</h5>
                                         <small class="badge badge-sm badge-info">${post._author.username}</small>
                                         <small class="badge badge-sm badge-light">${post.slug}</small>
                                     </div>
