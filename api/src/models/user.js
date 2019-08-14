@@ -104,6 +104,13 @@ export const UserSchema = new mongoose.Schema({
         }
     },
     canDoChestEvent: { type: Boolean, default: true },
+    ti9: {
+        type: Object,
+        default: {
+            picks: [],
+            updatedAt: '',
+        }
+    }
 }, {
         toObject: {
             virtuals: true

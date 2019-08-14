@@ -1,0 +1,151 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .form-row {
+            display: block;
+            width: 100%;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section style="padding-top:20px">
+        <div class="container">
+            <h2>TI9 Admin:</h2>
+            <form method="POST" action="/ti9/admin/save">
+                <div class="form-row">
+                    <b>twitch:</b>
+                    <textarea name="twitch" class="form-control" style="height:200px;">{{{twitch}}}</textarea>
+                </div>
+                <div class="form-row">
+                    <b>teams:</b>
+                    <textarea name="teams" class="form-control" style="height:200px;">{{{teams}}}</textarea>
+                </div>
+                <div class="form-row">
+                    <b>matches:</b>
+                    <textarea name="matches" class="form-control m" style="height:200px;">{{{matches}}}</textarea>
+                </div>
+                <input type="submit" class="btn btn-md btn-success" value="Save">
+            </form>
+            <h3>teams:</h3>
+            <div class="btn btn-md btn-secondary" onclick="add_team()">+New Team</div>
+            <div id="teams" class="row"></div>
+            <h3>matches:</h3>
+            <div class="btn btn-md btn-secondary" onclick="add_match()">+New Match</div>
+            <div id="matches" class="row"></div>
+        </div>
+    </section>
+    <script>
+        let teams = [], matches = [];
+        $(() =>
+        {
+            teams = JSON.parse(`{{{teams}}}`);
+            matches = JSON.parse(`{{{matches}}}`);
+            recreate_teams();
+            recreate_matches();
+        });
+        function recreate_teams()
+        {
+            $("#teams").html('');
+            $("textarea[name=teams]").val(JSON.stringify(teams));
+            for (var i = 0; i < teams.length; i++)
+            {
+                $("#teams").append(`
+                    <div class="col-md-4 col-12">
+                        <div id="team-${i}" index="${i}" class="team-box" style="background-color:#e0e0e0;padding:5px 10px;margin-bottom:5px;"></div>
+                    </div>
+                `)
+                $(`#team-${i}`).append(textInput('token', teams[i].token));
+                $(`#team-${i}`).append(textInput('name', teams[i].name));
+                $(`#team-${i}`).append(textInput('icon', teams[i].icon));
+                $(`#team-${i}`).append(`<hr><div class="btn btn-md btn-danger" onclick="remove_team(${i})">Delete</div>`)
+            }
+            $("#teams input,#teams textarea").change(function ()
+            {
+                var teamBox = $(this).closest('.team-box');
+                var index = $(teamBox).attr('index');
+                teams[index] = {
+                    token: $(`#team-${index} input[name=token]`).val(),
+                    name: $(`#team-${index} input[name=name]`).val(),
+                    icon: $(`#team-${index} input[name=icon]`).val(),
+                };
+                $("textarea[name=teams]").val(JSON.stringify(teams));
+            });
+        }
+        function add_team()
+        {
+            teams.push({
+                token: '?',
+                name: '?',
+                icon: '',
+            });
+            recreate_teams();
+        }
+        function remove_team(i)
+        {
+            teams.splice(i, 1);
+            recreate_teams();
+        }
+        function recreate_matches()
+        {
+            $("#matches").html('');
+            $("textarea[name=matches]").val(JSON.stringify(matches));
+            for (var i = 0; i < matches.length; i++)
+            {
+                $("#matches").append(`
+                    <div class="col-md-4 col-12">
+                        <div id="match-${i}" index="${i}" class="match-box" style="background-color:#e0e0e0;padding:5px 10px;margin-bottom:5px;"></div>
+                    </div>
+                `)
+                $(`#match-${i}`).append(numberInput('day', matches[i].day));
+                $(`#match-${i}`).append(textInput('time', matches[i].time));
+                $(`#match-${i}`).append(textInput('type', matches[i].type));
+                $(`#match-${i}`).append(teams_dropdown('teamA', matches[i].teamA));
+                $(`#match-${i}`).append(teams_dropdown('teamB', matches[i].teamB));
+                $(`#match-${i}`).append(`<hr><div class="btn btn-md btn-danger" onclick="remove_match(${i})">Delete</div>`)
+            }
+        }
+        function teams_dropdown(name, value)
+        {
+            var str = `<div class="form-row"><b>${name}</b><select name="${name}" class="form-control"><option></option>`;
+            for (var i = 0; i < teams.length; i++)
+            {
+                str += `<option value="${teams[i].token}">${teams[i].name}</option>`;
+            }
+            str += '</select></div>';
+            return str;
+        }
+        function add_match()
+        {
+            matches.push({
+                day: 0,
+                time: '',
+                teamA: '',
+                teamB: '',
+                type: 'Best of ?',
+            });
+            recreate_matches();
+        }
+        function remove_match(i)
+        {
+            matches.splice(i, 1);
+            recreate_matches();
+        }
+        function textInput(name, value, settings = { readonly: false })
+        {
+            return `<b>${name}:</b><input type="text" class="form-control m" name="${name}" value="${value}" ${settings.readonly ? 'readonly' : ''}/><br>`
+        }
+        function numberInput(name, value)
+        {
+            return `<b>${name}:</b><input type="number" class="form-control m" name="${name}" value="${value}"/><br>`
+        }
+    </script>
+    {{{footer}}}
+</body>
+
+</html>

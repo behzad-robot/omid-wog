@@ -50,6 +50,7 @@ import { SocialChatGroup } from "./utilsApi/social_chat_group";
 import { SocialChatRouter } from "./routers/social/social_chat_router";
 import { SocialNotification } from "./utilsApi/social_notification";
 import { EventChestRouter } from "./routers/chest/event_chest_router";
+import { TI9Router } from "./routers/ti9/ti9_router";
 
 const fs = require('fs');
 const path = require('path');
@@ -82,11 +83,11 @@ const SiteModules = {
     ContactUsForm: new ContactUsForm(apiSocket),
     PubGTeam: new PubGTeam(apiSocket),
     OTPObject: new OTPObject(apiSocket),
-    SocialPost : new SocialPost(apiSocket),
-    SocialHashtag : new SocialHashTag(apiSocket),
-    SocialChallenge : new SocialChallenge(apiSocket),
-    SocialChatGroup : new SocialChatGroup(apiSocket),
-    SocialNotification : new SocialNotification(apiSocket),
+    SocialPost: new SocialPost(apiSocket),
+    SocialHashtag: new SocialHashTag(apiSocket),
+    SocialChallenge: new SocialChallenge(apiSocket),
+    SocialChatGroup: new SocialChatGroup(apiSocket),
+    SocialNotification: new SocialNotification(apiSocket),
     getConfig: () =>
     {
         var config = JSON.parse(fs.readFileSync(path.resolve('config.json')).toString());
@@ -248,7 +249,7 @@ const usersCountCache = new CacheReader('users-count', (cb) =>
     });
 });
 SiteModules.Cache = {
-    usersCount : usersCountCache,
+    usersCount: usersCountCache,
     //game related:
     allGames: allGamesCache,
     getGame: function (query)
@@ -341,7 +342,7 @@ express.expressApp.use('/social/challenges', new SocialChallengesRouter(SiteModu
 express.expressApp.use('/social/chat', new SocialChatRouter(SiteModules).router);
 //event chest router:
 express.expressApp.use('/event-chest', new EventChestRouter(SiteModules).router);
-
+express.expressApp.use('/ti9', new TI9Router(SiteModules).router);
 
 
 
