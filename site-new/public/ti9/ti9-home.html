@@ -62,7 +62,7 @@
 
         .pop-up-content {
             margin: 0 auto;
-            width: 50%;
+            width: 90%;
             background: white;
             border-radius: 5px;
             padding: 10px
@@ -291,11 +291,11 @@
             <div class="pop-up">
                 <div class="pop-up-overlay" onclick="closePopUp(undefined)"></div>
                 <div class="container" style="z-index:2;position: relative;">
-                    <div style="margin-top: 100px">
+                    <div style="margin-top:140px">
                         <div class="pop-up-content text-center">
                             <div class="row">
                                 {{#teams}}
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <div class="text-center team-cards" onclick="closePopUp('{{{token}}}','{{{name}}}')">
                                         <img src="{{{icon}}}" width="100%" alt="{{{name}}}">
                                     </div>
@@ -355,9 +355,9 @@
                         </div>
                     </div>
                     <div class="col-12 text-center">
-                        <form method="POST" action="/ti9/submit-picks">
+                        <form id="pick-form" method="POST" action="/ti9/submit-picks">
                             <textarea name="picks" style="display:none">[]</textarea>
-                            <input type="submit" value="ثبت پیش بینی ها" class="btn btn-md btn-warning" style="margin-bottom: 20px">
+                            <input id="submit-btn" type="submit" value="ثبت پیش بینی ها" class="btn btn-md btn-warning" style="margin-bottom: 20px">
                         </form>
                     </div>
                 </div>
@@ -396,6 +396,41 @@
             </div>
         </div>
     </section>
+    <script>
+        $(() =>
+        {
+            $("#pick-form").submit(() =>
+            {
+            var picks= JSON.parse($("[name=picks]").val());
+                if(picks[0]== undefined || picks[0].replace(' ', '') == '')
+                {
+                alert('همه‌ی تیم ها را پیش بینی کنید.')
+                return false;
+                }
+                if(picks[1]== undefined || picks[1].replace(' ', '') == '')
+                {
+                alert('همه‌ی تیم ها را پیش بینی کنید.')
+                return false;
+                }
+                if(picks[2]== undefined || picks[2].replace(' ', '') == '')
+                {
+                alert('همه‌ی تیم ها را پیش بینی کنید.')
+                return false;
+                }
+                if(picks[3]== undefined || picks[3].replace(' ', '') == '')
+                {
+                alert('همه‌ی تیم ها را پیش بینی کنید.')
+                return false;
+                }
+                if(picks[0]==picks[1]||picks[0]==picks[2]||picks[0]==picks[3]|| picks[1]==picks[2]||picks[1]==picks[3]||picks[2]==picks[3])
+                {
+                alert('تیم تکراری پیش بینی کردید.')
+                return false;
+                }
+                return true
+            });
+        });
+    </script>
     <script>
         let team = 0;
         function pickTeam(index)
