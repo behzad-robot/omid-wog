@@ -48,6 +48,11 @@ export default class SiteAuthRouter extends SiteRouter
                 query.username = req.body.username;
             else
                 query.email = req.body.username;
+            if (req.body.username.indexOf("09") == -1)
+                query.username = req.body.username;
+            else
+                query.phoneNumber = req.body.phoneNumber;
+
             siteModules.User.apiCall('login', query).then((user) =>
             {
                 if (typeof user == 'string')

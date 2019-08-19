@@ -86,7 +86,7 @@ export default class AdminFilesRouter extends AdminRouter
             {
                 writeToStatusFile('posts');
                 res.send('Started Updating Posts Cache... Refresh in a few minutes');
-                adminModules.Post.find({}, 1000).then((posts) =>
+                adminModules.Post.find({ isVas: 'all', _draft: 'all' }, 1000).then((posts) =>
                 {
                     var sizes = SchemaResizes.Post;
                     for (var i = 0; i < posts.length; i++)
