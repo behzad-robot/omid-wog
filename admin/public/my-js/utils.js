@@ -126,7 +126,7 @@ const bodyInput = (name, value, settings = {}) =>
     {
         var config = {
             font_names: `Roboto`,
-            extraPlugins: 'behzad',
+            extraPlugins: 'behzad,video',
         };
         CKEDITOR.on('dialogDefinition', function (ev)
         {

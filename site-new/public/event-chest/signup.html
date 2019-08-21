@@ -119,6 +119,7 @@
     </section>
     {{{footer}}}
     <script>
+        let phoneCheck = false;
         $(() =>
         {
             $("#pre-submit").click(() =>
@@ -132,13 +133,17 @@
                     $("#pre-submit").css('opacity', 1);
                     if (result.available)
                     {
-                        $("#signupForm input[type=submit]").trigger('click');
+                        phoneCheck = true;
+                        $("#signupForm input[type=submit]").trigger('click');s
+                        $("#signupForm").trigger('submit');
+                        $("#signupForm").on('submit');
                     }
                     else
                     {
                         $("#inputs-error").html('کاربری قبلا با این شماره ثبت نام کرده است.');
                         return false;
                     }
+                    phoneCheck = true;
                 }).catch((err) =>
                 {
                     $("#pre-submit").css('opacity', 1);
@@ -147,6 +152,8 @@
             });
             $("#signupForm").submit(() =>
             {
+                if(!phoneCheck)
+                    return false;
                 var firstName = $("#signupForm [name=firstName]").val();
                 var lastName = $("#signupForm [name=lastName]").val();
                 var phoneNumber = $("#signupForm [name=phoneNumber]").val();

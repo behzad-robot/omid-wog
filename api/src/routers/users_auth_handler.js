@@ -171,13 +171,13 @@ export class UsersAuthHandler
         this.checkUserFolder = this.checkUserFolder.bind(this);
         this.getAllAdmins = this.getAllAdmins.bind(this);
     }
-    login(params = { username: '', email: '', password: '' })
+    login(params = { username: '', email: '', password: '', phoneNumber: '' })
     {
         return new Promise((resolve, reject) =>
         {
-            if ((isEmptyString(params.username) && isEmptyString(params.email) && isEmptyString(params._id)) || isEmptyString(params.password))
+            if ((isEmptyString(params.username) && isEmptyString(params.email) && isEmptyString(params.phoneNumber) && isEmptyString(params._id)) || isEmptyString(params.password))
             {
-                reject({ code: 500, error: "Parameters Missing! Please Provide _id/email/username + password!" });
+                reject({ code: 500, error: "Parameters Missing! Please Provide _id/email/username/phoneNumber + password!" });
                 return;
             }
             const query = {
@@ -188,6 +188,8 @@ export class UsersAuthHandler
                 query._id = params._id;
             if (params.email)
                 query.email = params.email;
+            if (params.phoneNumber)
+                query.phoneNumber = params.phoneNumber;
             if (params.username)
                 query.username = { $regex: new RegExp(params.username, 'i') };
             this.User.findOne(query).exec((err, result) =>
@@ -265,7 +267,7 @@ export class UsersAuthHandler
                 sex: params.sex,
                 followingGames: [],
                 createdAt: moment_now(),
-                refferer : params.refferer ? params.refferer : '',
+                refferer: params.refferer ? params.refferer : '',
                 updatedAt: "",
                 token: encoder.encode({ _id: '?', username: params.username, expiresIn: Date.now() + 14400000 }), //14400000
             }

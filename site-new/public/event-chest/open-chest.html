@@ -87,7 +87,6 @@
             box-shadow: 0 2px 0 #000;
             color: #fff;
             display: block;
-            float: left;
             font-family: 'iransans' !important;
             font-size: 13px !important;
             font-weight: 400 !important;
@@ -209,7 +208,7 @@
         .looser-text {
             opacity: 0;
             font-size: 30px;
-            margin-top:20px;
+            margin-top: 20px;
             color: red;
             text-shadow: 0px 0px 40px rgb(255, 20, 20), 0px 0px 40px rgb(255, 20, 20);
             transition: 300ms all;
@@ -324,7 +323,7 @@
                 <div class="col-md-4">
                     <div class="text-center">
                         <h4 class="text-white"
-                            style="margin-top: 80px;font-family: Kamran !important;font-size:80px !important;margin-bottom: 20px">
+                            style="margin-top: 45px;font-family: Kamran !important;font-size:80px !important;margin-bottom: 20px">
                             شانستو امتحان کن:</h4>
                         <form method="POST" action="/event-chest/open-chest/submit">
                             <input type="number" name="number" value="" placeholder="****" maxlength="4"
@@ -335,6 +334,10 @@
                                     style="width: 30%;margin-top: 20px;" />
                             </div>
                         </form>
+                        <a href="/logout/?redirect=/event-chest/signup"">
+                            <button type=" button" class="btn btn-danger"
+                            style="background: rgb(255, 67, 67);font-weight: bold;width: 20%;font-size: 19px !important;margin-top: 10px">خروج</button>
+                        </a>
                         <h3 class="static-text looser-text" id="loosere-bad-bakht">
                             برنده نشدی :(</h3>
                         <video id="chest-video" style="margin-top: 10px" src="/event-chest/hexatech.mp4"

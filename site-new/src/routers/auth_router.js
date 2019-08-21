@@ -44,15 +44,13 @@ export default class SiteAuthRouter extends SiteRouter
             const query = {
                 password: req.body.password,
             }
-            if (req.body.username.indexOf("@") == -1)
-                query.username = req.body.username;
-            else
+            if (req.body.username.indexOf("09") != -1)
+                query.phoneNumber = req.body.username;
+            else if (req.body.username.indexOf("@") != -1)
                 query.email = req.body.username;
-            if (req.body.username.indexOf("09") == -1)
-                query.username = req.body.username;
             else
-                query.phoneNumber = req.body.phoneNumber;
-
+                query.username = req.body.username;
+            console.log(query);
             siteModules.User.apiCall('login', query).then((user) =>
             {
                 if (typeof user == 'string')
@@ -85,7 +83,10 @@ export default class SiteAuthRouter extends SiteRouter
         {
             req.session.destroy(() =>
             {
-                res.redirect('/');
+                if (isEmptyString(req.query.redirect))
+                    res.redirect('/');
+                else
+                    res.redirect(req.query.redirect);
             });
         });
         this.router.get('/forget-password', (req, res) =>
