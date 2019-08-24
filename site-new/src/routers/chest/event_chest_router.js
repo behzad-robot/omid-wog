@@ -118,7 +118,7 @@ function addToSubmitedNumbers(number)
     });
 }
 function getGeneratedUsername(){
-    console.log(fs.readFileSync(EVENT_USERNAME_NUMBER_FILE).toString());
+    // console.log(fs.readFileSync(EVENT_USERNAME_NUMBER_FILE).toString());
     var number = parseInt(fs.readFileSync(EVENT_USERNAME_NUMBER_FILE).toString());
     number++;
     var username = "user_"+number.toString();
