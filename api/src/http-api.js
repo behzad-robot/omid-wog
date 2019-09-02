@@ -88,7 +88,7 @@ express.expressApp.use('/api/dota2-quiz/', dota2QuizHandler.httpRouter.router);
 express.expressApp.use('/api/dota2-quiz/', dota2EpicCenterHandler.httpRouter.router);
 
 //otpObjects:
-const otpHandler = new OTPHandler(OTPObject);
+const otpHandler = new OTPHandler(OTPObject,User);
 express.expressApp.use('/api/otpObjects/', new PublicMongooseAPIRouter(OTPObject, { apiTokenRequired: true }).router);
 express.expressApp.use('/api/otpObjects/', otpHandler.httpRouter.router);
 //games , champions , champBuilds:

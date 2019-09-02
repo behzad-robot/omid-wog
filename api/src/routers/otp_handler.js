@@ -6,7 +6,7 @@ import { API_ENCODE_KEY } from "../constants";
 import moment from 'moment';
 const encoder = new JesEncoder(API_ENCODE_KEY);
 const Kavenegar = require('kavenegar');
-const kavenegarAPI =  Kavenegar.KavenegarApi({apikey: '3936574362386C644C2B357633524F4954436A6734623462506D6B3332484A4E'});
+const kavenegarAPI = Kavenegar.KavenegarApi({ apikey: '3936574362386C644C2B357633524F4954436A6734623462506D6B3332484A4E' });
 
 class OTPHttpRouter extends APIRouter
 {
@@ -76,9 +76,10 @@ class OTPSocketRouter extends SocketRouter
 }
 export class OTPHandler
 {
-    constructor(OTPObject)
+    constructor(OTPObject, User)
     {
         this.OTPObject = OTPObject;
+        this.User = User;
         //routers:
         this.httpRouter = new OTPHttpRouter(this);
         this.socketRouter = new OTPSocketRouter(this);
@@ -97,66 +98,76 @@ export class OTPHandler
                 reject({ code: 500, error: "parameters missing" });
                 return;
             }
-            OTPObject.findOne({ phoneNumber: params.phoneNumber, status: 0 }).exec((err, result) =>
+            this.User.findOne({ phoneNumber: params.phoneNumber }).exec((err, u) =>
             {
-                if (err)
+                if(u != undefined)
                 {
-                    reject({ code: 500, error: err.toString() });
+                    reject({code : 510 , error : "user with this phoneNumber already exists"});
                     return;
                 }
-                if (result != null)
+                OTPObject.findOne({ phoneNumber: params.phoneNumber, status: 0 }).exec((err, result) =>
                 {
-                    //check if we can re-send the sms:
-                    var timePassed = Date.now() - result.lastSent;
-                    if (timePassed > 60 * 1000)
+                    if (err)
                     {
-                        OTPObject.findByIdAndUpdate(result._id, { lastSent: Date.now() }, { new: true }, (err, result) =>
+                        reject({ code: 500, error: err.toString() });
+                        return;
+                    }
+                    if (result != null)
+                    {
+                        //check if we can re-send the sms:
+                        var timePassed = Date.now() - result.lastSent;
+                        if (timePassed > 60 * 1000)
                         {
-                            // kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
-                            kavenegarAPI.VerifyLookup({receptor : params.phoneNumber , token : result.code , template : "signup"},function(response,status){
+                            OTPObject.findByIdAndUpdate(result._id, { lastSent: Date.now() }, { new: true }, (err, result) =>
+                            {
+                                // kavenegarAPI.Send({ message: result.body, sender: "100065995", receptor: params.phoneNumber });
+                                kavenegarAPI.VerifyLookup({ receptor: params.phoneNumber, token: result.code, template: "signup" }, function (response, status)
+                                {
+                                    console.log('==== KAVENGAR OTP ====');
+                                    console.log(response);
+                                    console.log(status);
+                                    console.log('==== END OTP ====');
+                                });
+                                resolve({ ok: true, message: "sms resent" });
+                            });
+                        }
+                        else
+                        {
+                            reject({ code: 500, error: "try again in a few seconds" });
+                        }
+                    }
+                    else
+                    {
+                        //all is ok lets do this:
+                        const code = (Math.floor(Math.random() * 8) + 1).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString();
+                        const data = {
+                            type: params.type,
+                            phoneNumber: params.phoneNumber,
+                            code: code,
+                            body: `کد فعال سازی حساب واج شما: ${code}`,
+                            status: 0,
+                            lastSent: Date.now(),
+                            createdAt: moment_now(),
+                            updatedAt: moment_now(),
+                        };
+                        var doc = new OTPObject(data);
+                        doc.save().then(() =>
+                        {
+                            // kavenegarAPI.Send({ message: data.body, sender: "100065995", receptor: "09375801307" });
+                            kavenegarAPI.VerifyLookup({ receptor: data.phoneNumber, token: data.code, template: "signup" }, function (response, status)
+                            {
                                 console.log('==== KAVENGAR OTP ====');
                                 console.log(response);
                                 console.log(status);
                                 console.log('==== END OTP ====');
                             });
-                            resolve({ ok: true, message: "sms resent" });
+                            resolve({ ok: true, message: "sms sent" });
+                        }).catch((err) =>
+                        {
+                            reject({ code: 500, error: err.toString() });
                         });
                     }
-                    else
-                    {
-                        reject({ code: 500, error: "try again in a few seconds" });
-                    }
-                }
-                else
-                {
-                    //all is ok lets do this:
-                    const code = (Math.floor(Math.random() * 8) + 1).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString() + (Math.floor(Math.random() * 9)).toString();
-                    const data = {
-                        type: params.type,
-                        phoneNumber: params.phoneNumber,
-                        code: code,
-                        body: `کد فعال سازی حساب واج شما: ${code}`,
-                        status: 0,
-                        lastSent: Date.now(),
-                        createdAt: moment_now(),
-                        updatedAt: moment_now(),
-                    };
-                    var doc = new OTPObject(data);
-                    doc.save().then(() =>
-                    {
-                        // kavenegarAPI.Send({ message: data.body, sender: "100065995", receptor: "09375801307" });
-                        kavenegarAPI.VerifyLookup({receptor : data.phoneNumber , token : data.code , template : "signup"},function(response,status){
-                            console.log('==== KAVENGAR OTP ====');
-                            console.log(response);
-                            console.log(status);
-                            console.log('==== END OTP ====');
-                        });
-                        resolve({ ok: true, message: "sms sent" });
-                    }).catch((err) =>
-                    {
-                        reject({ code: 500, error: err.toString() });
-                    });
-                }
+                });
             });
         });
     }

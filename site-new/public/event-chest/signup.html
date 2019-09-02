@@ -94,15 +94,15 @@
                             <input type="text" name="phoneNumber" class="form-control login-input"
                                 placeholder="لطفا شماره همراه خود را وارد کنید">
                             <input type="password" name="password" class="form-control login-input"
-                                placeholder="رمز عبور">
+                                placeholder="رمز عبور" value="123456">
                             <input type="password" name="confirmPassword" class="form-control login-input"
-                                placeholder="رمز عبور مجدد">
+                                placeholder="رمز عبور مجدد" value="123456">
+                            <input type="hidden" name="refferer" class="form-control login-input" value="igc-2019">
                             <div class="text-center" style="margin-top:15px">
                                 <div id="pre-submit" class="btn btn-md btn-warning">ثبت نام</div>
                                 <input id="submit" type="submit" class="btn btn-md btn-warning" value="ثبت نام"
                                     style="display: none" />
                             </div>
-
                         </form>
                         <a href="/forget-password" class="forget-link" id="forgetpass"">
                             <p>رمز عبور خود را فراموش کرده اید؟</p>
@@ -152,7 +152,7 @@
             });
             $("#signupForm").submit(() =>
             {
-                if(!phoneCheck)
+                if (!phoneCheck)
                     return false;
                 var firstName = $("#signupForm [name=firstName]").val();
                 var lastName = $("#signupForm [name=lastName]").val();
