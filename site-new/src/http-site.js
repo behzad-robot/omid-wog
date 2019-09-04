@@ -51,6 +51,7 @@ import { SocialChatRouter } from "./routers/social/social_chat_router";
 import { SocialNotification } from "./utilsApi/social_notification";
 import { EventChestRouter } from "./routers/chest/event_chest_router";
 import { TI9Router } from "./routers/ti9/ti9_router";
+import { WogTournamentsRouter } from "./routers/wogTournaments/tournaments_router"
 
 const fs = require('fs');
 const path = require('path');
@@ -343,7 +344,7 @@ express.expressApp.use('/social/chat', new SocialChatRouter(SiteModules).router)
 //event chest router:
 express.expressApp.use('/event-chest', new EventChestRouter(SiteModules).router);
 express.expressApp.use('/ti9', new TI9Router(SiteModules).router);
-
+express.expressApp.use('/wogTournaments', new WogTournamentsRouter(SiteModules).router)
 
 
 express.expressApp.use('/', new SiteErrorRouter(SiteModules).router);
