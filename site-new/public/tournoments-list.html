@@ -46,7 +46,7 @@
         }
 
         .tournoment-card .tournoment-content h1 {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
             margin-bottom: 15px;
         }
@@ -107,20 +107,24 @@
             font-weight: bold;
         }
 
+        .buttons-header {
+            font-size: 16px;
+            cursor: pointer
+        }
+
         @media (max-width: 576px) {
             .tournoment-card .tournoment-date {
                 width: 100px;
                 padding: 35px 15px;
             }
-           
+
         }
 
         @media (max-width: 460px) {
-            .tournoment-card .tournoment-content h1{
+            .tournoment-card .tournoment-content h1 {
                 font-size: 20px;
             }
         }
-
     </style>
 </head>
 
@@ -131,62 +135,131 @@
         <div class="row">
             <div class="col-md-7 float-right">
                 <h1>مسابقات:</h1>
-                <div class="tournoment-card">
-                    <div class="tournoment-thumbnail"
-                        style="background-image:url('/images/tournoments/fornite-cover.jpg')">
-                    </div>
-                    <div class="row">
-                        <div class="tournoment-content col-md-7 col-7">
-                            <h1>مسابقات Fortnite</h1>
-                            <a href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}"
-                                class="tournoment-signup">مشاهده</a>
+                <div id="accordion">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <div class="buttons-header" data-toggle="collapse" data-target="#collapseOne"
+                                    aria-expanded="true" aria-controls="collapseOne">
+                                    مسابقات برگزار شده‌ی واج
+                                </div>
+                            </h5>
                         </div>
-                        <div class="tournoment-date col-md-5 col-5">دوشنبه<br>27 خرداد</div>
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="tournoment-card">
+                                    <div class="tournoment-thumbnail"
+                                        style="background-image:url('/tournaments-landing/images/fort.jpg')">
+                                    </div>
+                                    <div class="row">
+                                        <div class="tournoment-content col-md-7 col-7">
+                                            <h1>مسابقات Fortnite</h1>
+                                            <a href="{{#SITE_URL}}/tournaments/fortnite-2019{{/SITE_URL}}"
+                                                class="tournoment-signup">مشاهده</a>
+                                        </div>
+                                        <div class="tournoment-date col-md-5 col-5">دوشنبه<br>27 خرداد</div>
+                                    </div>
+                                </div>
+                            </div>
 
-                    </div>
-
-
-                    <!-- <div class="no-mobile">
-                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                        </svg>
-                    </div> -->
-                </div>
-                <div class="tournoment-card">
-                    <div class="tournoment-thumbnail"
-                        style="background-image:url('/images/tournoments/dota-cover.jpg')"></div>
-                    <div class="row">
-                        <div class="tournoment-content col-md-7 col-7">
-                            <h1>مسابقات Dota 2</h1>
-                            <a class="tournoment-signup" href="#">به زودی</a>
+                            <div class="card-body">
+                                <div class="tournoment-card">
+                                    <div class="tournoment-thumbnail"
+                                        style="background-image:url('/tournaments-landing/images/epi.jpg')">
+                                    </div>
+                                    <div class="row">
+                                        <div class="tournoment-content col-md-7 col-7">
+                                            <h1>مسابقات پیش بینی epicenter dota2</h1>
+                                            <a href="http://worldofgamers.ir/wogTournaments/epicenter"
+                                                class="tournoment-signup">مشاهده</a>
+                                        </div>
+                                        <div class="tournoment-date col-md-5 col-5">یک شنبه<br>15 اردیبهشت</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="tournoment-card">
+                                    <div class="tournoment-thumbnail"
+                                        style="background-image:url('/tournaments-landing/images/esl1.jpg')">
+                                    </div>
+                                    <div class="row">
+                                        <div class="tournoment-content col-md-7 col-7">
+                                            <h1>مسابقات پیش بینی Esl One dota2</h1>
+                                            <a href="http://worldofgamers.ir/wogTournaments/esl1"
+                                                class="tournoment-signup">مشاهده</a>
+                                        </div>
+                                        <div class="tournoment-date col-md-5 col-5">سه شنبه<br>7 خرداد </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="tournoment-date col-5 col-md-5">به زودی</div>
+
                     </div>
-
-
-                    <!-- <div class="no-mobile">
-                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                        </svg>
-                    </div> -->
-                </div>
-                <div class="tournoment-card">
-                    <div class="tournoment-thumbnail"
-                        style="background-image:url('/images/tournoments/league-cover.jpg')"></div>
-
-                    <div class="row">
-                        <div class="tournoment-content col-7 col-md-7">
-                            <h1>مسابقات League Of Legends</h1>
-                            <a class="tournoment-signup" href="#">به زودی</a>
+                    <div class="card">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <div class="buttons-header collapsed" data-toggle="collapse" data-target="#collapseTwo"
+                                    aria-expanded="false" aria-controls="collapseTwo">
+                                    مسابقات در حال برگزاری واج
+                                </div>
+                            </h5>
                         </div>
-                        <div class="tournoment-date col-5 col-md-5">به زودی</div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="text-center">
+                                    <img src="/social/images/morty.png" style="width: 40%;padding: 10px 20px" alt="">
+                                    <h4>در حال حاضر هیچ مسابقه‌ای در حال برگزاری نیست</h4>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <!--                     
-                    <div class="no-mobile">
-                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
-                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
-                        </svg>
-                    </div> -->
+                    <div class="card">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <div class="buttons-header collapsed" data-toggle="collapse"
+                                    data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    مسابقات آینده‌ی واج
+                                </div>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
+                            data-parent="#accordion">
+                            <div class="card-body">
+                                <div class="tournoment-card">
+                                    <div class="tournoment-thumbnail"
+                                        style="background-image:url('/images/tournoments/dota-wiki2-black-and-white.png')">
+                                    </div>
+                                    <div class="row">
+                                        <div class="tournoment-content col-md-7 col-7">
+                                            <h1>مسابقات Dota 2</h1>
+                                            <a class="tournoment-signup" href="#">به زودی</a>
+                                        </div>
+                                        <div class="tournoment-date col-5 col-md-5">به زودی</div>
+                                    </div>
+
+
+                                    <!-- <div class="no-mobile">
+                                        <svg height="113" width="150" style="position: absolute;bottom:0;left:150px;">
+                                            <polygon points="0,0 0,130 60,0" style="fill:#283593" />
+                                        </svg>
+                                    </div> -->
+                                </div>
+                                <div class="tournoment-card">
+                                    <div class="tournoment-thumbnail"
+                                        style="background-image:url('/images/tournoments/league-cover.jpg')"></div>
+
+                                    <div class="row">
+                                        <div class="tournoment-content col-7 col-md-7">
+                                            <h1>مسابقات League Of Legends</h1>
+                                            <a class="tournoment-signup" href="#">به زودی</a>
+                                        </div>
+                                        <div class="tournoment-date col-5 col-md-5">به زودی</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-3 float-right">
