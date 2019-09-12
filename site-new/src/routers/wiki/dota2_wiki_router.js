@@ -64,6 +64,10 @@ export class Dota2WikiRouter extends SiteRouter
                                     {
                                         fixBuilds(siteModules, latestBuilds, champions, game).then((latestBuilds) =>
                                         {
+                                            strengthChampions = sortChampions(strengthChampions);
+                                            intelligenceChampions = sortChampions(intelligenceChampions);
+                                            agilityChampions = sortChampions(agilityChampions);
+                                            game.items = sortItems(game.items)
                                             this.renderTemplate(req, res, 'wiki-dota2/dota2-home.html', {
                                                 game: game,
                                                 champions, champions,
@@ -374,10 +378,10 @@ export class Dota2WikiRouter extends SiteRouter
                         else if (c.primaryAttr == 'Intelligence')
                             intelligenceChampions.push(c);
                     }
-                    console.log(`champions count=${champions.length}`);
-                    console.log(`strengthChampions count=${champions.length}`);
-                    console.log(`agilityChampions count=${champions.length}`);
-                    console.log(`intelligenceChampions count=${champions.length}`);
+                    strengthChampions = sortChampions(strengthChampions);
+                    intelligenceChampions = sortChampions(intelligenceChampions);
+                    agilityChampions = sortChampions(agilityChampions);
+
                     this.renderTemplate(req, res, 'wiki-dota2/dota2-champions-list.html', {
                         game: game,
                         strengthChampions: strengthChampions,
@@ -438,7 +442,7 @@ export class Dota2WikiRouter extends SiteRouter
                                             game: game,
                                             champion: champion,
                                             builds: builds,
-                                            topBuilds : topBuilds,
+                                            topBuilds: topBuilds,
                                             media: media,
                                         });
                                     }).catch((err) =>
@@ -617,4 +621,37 @@ function fixComments(siteModules, comments)
             resolve(comments);
         }).catch(reject);
     });
+}
+function sortChampions(champs)
+{
+    for (var i = 0; i < champs.length; i++)
+    {
+        for (var j = i + 1; j < champs.length; j++)
+        {
+            if (champs[i].name > champs[j].name)
+            {
+                var temp = champs[i];
+                champs[i] = champs[j];
+                champs[j] = temp;
+            }
+        }
+    }
+    return champs;
+}
+
+function sortItems(items)
+{
+    for (var i = 0; i < items.length; i++)
+    {
+        for (var j = i + 1; j < items.length; j++)
+        {
+            if (items[i].name > items[j].name)
+            {
+                var temp = items[i];
+                items[i] = items[j];
+                items[j] = temp;
+            }
+        }
+    }
+    return items;
 }

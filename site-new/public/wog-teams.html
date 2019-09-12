@@ -1,0 +1,331 @@
+<html>
+
+<head>
+    {{{head}}}
+    <style>
+        .welcome {
+            background-image: url('/trashpage/Pic 3.jpg');
+            background-size: cover;
+            min-height: 550px;
+        }
+
+        .body-section {
+            background: rgb(9, 8, 48);
+            background: linear-gradient(180deg, rgba(9, 8, 48, 1) 0%, rgba(6, 8, 24, 1) 51%, rgba(32, 32, 32, 1) 100%);
+            margin-bottom: -20px;
+            padding-bottom: 20px
+        }
+
+        .players-card {
+            background: linear-gradient(199.69deg, #23293b 5.4%, #3e101e 123.45%);
+            position: relative;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px
+        }
+
+        .players-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 2;
+            opacity: 0;
+            background-color: rgba(0, 0, 0, 0.548);
+            transition: 1s all;
+            cursor: pointer;
+            padding-top: 30px
+        }
+
+        .players-overlay:hover {
+            opacity: 1;
+        }
+
+        .players-description {
+            color: white;
+            font-size: 18px
+        }
+
+        .achievements-wrapper {
+            background-color: white;
+            border-radius: 5px
+        }
+
+        .achievements-body {
+            padding: 5px 10px
+        }
+
+        .dota-card {
+            background-image: url('/wog-teams/images/497979.jpg');
+            background-size: cover;
+            min-height: 250px
+        }
+
+        .lol-card {
+            background-image: url('/images/tournoments/league-cover.jpg');
+            background-size: cover;
+            min-height: 250px
+        }
+
+        .grid-post-box {
+            position: relative;
+            height: 225px;
+        }
+
+        .grid-post-box.big {
+            height: 450px;
+        }
+
+        @media (max-width: 576px) {
+            .grid-post-box.big {
+                height: 225px;
+            }
+        }
+
+        .grid-post-box .post-thumbail {
+            position: absolute;
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .grid-post-box .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+            transition: 0.3s all;
+        }
+
+        .grid-post-box:hover .overlay {
+            background: rgba(255, 255, 255, 0);
+
+        }
+
+        .grid-post-box .details {
+            position: absolute;
+            width: 100%;
+            right: 0;
+            bottom: 0;
+            color: #fff;
+            padding: 15px 10px;
+            text-shadow: 1px 1px 3px #000;
+            z-index: 3;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 29%, rgba(0, 0, 0, 1) 100%);
+
+        }
+
+        .grid-post-box .details h1 {
+            font-size: 1.2rem;
+        }
+
+        .grid-post-box .details small {
+            font-size: 0.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    {{{navbar}}}
+    <navfiller></navfiller>
+    <section class="welcome">
+        <h1 class="text-white text-center" style="padding-top: 250px;font-size: 60px;text-shadow: 10px 10px 10px black">
+            پیش به سوی موفقیت!</h1>
+    </section>
+    <section class="body-section">
+        <div class="container">
+            <h3 class="text-white text-center" style="padding-top: 10px">تیم فلان واج</h3>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary">کسب اطلاعات بیشتر</button>
+            </div>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-2">
+                    <div class="players-card">
+                        <img src="/trashpage/dab.png" style="width: 100%" alt="">
+                        <div class="players-overlay text-center">
+                            <div class="players-description">! kore khar</div>
+                            <div class="players-description">! kore khar zade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="players-card">
+                        <img src="/trashpage/dab.png" style="width: 100%" alt="">
+                        <div class="players-overlay text-center">
+                            <div class="players-description">! kore khar</div>
+                            <div class="players-description">! kore khar zade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="players-card">
+                        <img src="/trashpage/dab.png" style="width: 100%" alt="">
+                        <div class="players-overlay text-center">
+                            <div class="players-description">! kore khar</div>
+                            <div class="players-description">! kore khar zade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="players-card">
+                        <img src="/trashpage/dab.png" style="width: 100%" alt="">
+                        <div class="players-overlay text-center">
+                            <div class="players-description">! kore khar</div>
+                            <div class="players-description">! kore khar zade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="players-card">
+                        <img src="/trashpage/dab.png" style="width: 100%" alt="">
+                        <div class="players-overlay text-center">
+                            <div class="players-description">! kore khar</div>
+                            <div class="players-description">! kore khar zade</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+
+
+            <h3 class="text-center text-white" style="margin-top: 10px">News</h3>
+            <div class="row">
+                <div class="col-md-3 col-12" style="padding:0">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail"
+                                style="background-image:url('{{{gridPosts2.thumbnail_640x480}}}')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </a>
+                </div> <!-- col-md-3-->
+                <div class="col-md-6 col-12" style="padding:0">
+                    <a href="">
+                        <div class="grid-post-box big">
+                            <div class="post-thumbail" style="background-image:url('')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 col-12" style="padding:0">
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="">
+                        <div class="grid-post-box">
+                            <div class="post-thumbail" style="background-image:url('')">
+                            </div>
+                            <div class="overlay"></div>
+                            <div class="details">
+                                <h1></h1>
+                            </div>
+                        </div>
+                    </a>
+                </div> <!-- col-md-3-->
+            </div>
+
+
+
+
+
+
+            <h3 class="text-center text-white" style="margin-top: 10px">Activities</h3>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="dota-card"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="lol-card"></div>
+                </div>
+            </div>
+
+
+
+
+
+
+
+
+
+
+            <h3 class="text-center text-white" style="margin-top: 10px">Achivments</h3>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="achievements-wrapper">
+                        <img src="/tournaments-landing/images/pattern-final.jpg"
+                            style="width: 100%;background-size: cover" alt="">
+                        <div class="achievements-body">
+                            <div>daremuno mizarim</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievements-wrapper">
+                        <img src="/tournaments-landing/images/pattern-final.jpg"
+                            style="width: 100%;background-size: cover" alt="">
+                        <div class="achievements-body">
+                            <div>daremuno mizarim</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievements-wrapper">
+                        <img src="/tournaments-landing/images/pattern-final.jpg"
+                            style="width: 100%;background-size: cover" alt="">
+                        <div class="achievements-body">
+                            <div>daremuno mizarim</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="achievements-wrapper">
+                        <img src="/tournaments-landing/images/pattern-final.jpg"
+                            style="width: 100%;background-size: cover" alt="">
+                        <div class="achievements-body">
+                            <div>daremuno mizarim</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+    {{{footer}}}
+</body>
+
+</html>

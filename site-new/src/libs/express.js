@@ -48,7 +48,7 @@ export default class MyExpressApp
                     {
                         if(typeof settings.serveFiles[i] == 'string')
                             this.expressApp.use(express.static(settings.serveFiles[i]));
-                        else if(IS_LOCALHOST())
+                        else
                             this.expressApp.use(settings.serveFiles[i].prefix,express.static(settings.serveFiles[i].path));
                     }
             }
