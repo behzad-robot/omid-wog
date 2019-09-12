@@ -358,7 +358,8 @@ express.expressApp.use('/', new SiteErrorRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
-const PORT = IS_LOCALHOST() ? 80 : 8080;
+// const PORT = IS_LOCALHOST() ? 80 : 8080;
+const PORT = 80;
 express.http.listen(PORT, function ()
 {
     log.success('http server listening on port ' + PORT);
