@@ -677,13 +677,13 @@ export class SocialHandler
                             actionUserId: params.userId,
                             read: false,
                         }, (err) =>
+                        {
+                            if (err)
                             {
-                                if (err)
-                                {
-                                    console.log('error removing notification =>' + err.toString());
-                                }
-                                resolve(post);
-                            });
+                                console.log('error removing notification =>' + err.toString());
+                            }
+                            resolve(post);
+                        });
                     }
                 });
             });
@@ -806,13 +806,13 @@ export class SocialHandler
                                     type: 'follow-user',
                                     read: false,
                                 }, (err) =>
+                                {
+                                    if (err)
                                     {
-                                        if (err)
-                                        {
-                                            console.log('error removing notification =>' + err.toString());
-                                        }
-                                        resolve(currentUser);
-                                    });
+                                        console.log('error removing notification =>' + err.toString());
+                                    }
+                                    resolve(currentUser);
+                                });
                             }
                         });
                     });
@@ -846,34 +846,57 @@ export class SocialHandler
                     reject('invalid token');
                     return;
                 }
-                for (var i = 0; i < user.social.followedHashtags.length; i++)
+                console.log(params.follow);
+                if (params.follow === "true")
                 {
-                    if (user.social.followedHashtags[i] == params.userId)
+                    var adding = true;
+                    for (var i = 0; i < user.social.followedHashtags.length; i++)
                     {
-                        if (params.follow)
-                        {
-                            resolve(user);
-                            return;
+                        console.log("Hoshhaaa");
+                        if (user.social.followedHashtags[i] == params.tagId)
+                        {  console.log("Hoshhaaa2");
+                            adding = false;
+                            break;
                         }
-                        else
+
+
+
+                    }
+                    if (adding == true){
+                        console.log("Hoshhaaa3");
+                        user.social.followedHashtags.push(params.tagId);
+                    }
+                        
+
+                }
+                else
+                {
+                    console.log("hoshha 4");
+                    
+                    for (var i = 0; i < user.social.followedHashtags.length; i++)
+                    {
+                        console.log("hoshha 5");
+                        console.log(params.userId);
+                        console.log(user.social.followedHashtags[i]);
+
+                        if (user.social.followedHashtags[i] == params.tagId)
                         {
-                            user.social.followedHashtags.push(params.tagId);
+                            console.log("hoshha 6");
+                            user.social.followedHashtags.splice(i,1);
                             break;
                         }
                     }
                 }
-                if (params.follow)
-                    user.social.followedHashtags.push(params.tagId);
-                this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
-                {
-                    if (err)
+                    this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
                     {
-                        reject(err);
-                        return;
-                    }
-                    resolve(user);
+                        if (err)
+                        {
+                            reject(err);
+                            return;
+                        }
+                        resolve(user);
+                    });
                 });
-            });
         });
     }
     setAllHashtags(params) //{userToken , userId , tags  }
