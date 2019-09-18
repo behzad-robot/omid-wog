@@ -65,10 +65,10 @@ const express = new MyExpressApp({
     hasSessionEngine: true,
     mongoUrl: GetMongoDBURL(),
     serveFiles: ['public',
-        {
+        /*{
             prefix: '/storage',
             path: '../storage',
-        }
+        }*/
     ],
 });
 //modules:
@@ -358,8 +358,8 @@ express.expressApp.use('/', new SiteErrorRouter(SiteModules).router);
 
 // express.expressApp.use('/', new AdminAnalyticsRouter(AnalyticsEvent).router)
 //listen:
-// const PORT = IS_LOCALHOST() ? 80 : 8080;
-const PORT = 80;
+const PORT = IS_LOCALHOST() ? 80 : 8080;
+// const PORT = 80;
 express.http.listen(PORT, function ()
 {
     log.success('http server listening on port ' + PORT);
