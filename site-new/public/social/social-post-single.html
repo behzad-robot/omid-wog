@@ -291,7 +291,8 @@
 
         .single-row:hover {
             text-decoration: none;
-            color: orange
+            color: orange;
+            cursor: pointer;
         }
 
         .close-pop-up {
@@ -383,7 +384,7 @@
 
         .form-control:focus {
             border: 1px solid orange !important;
-            box-shadow:2px 2px 1px rgb(250, 246, 234)
+            box-shadow: 2px 2px 1px rgb(250, 246, 234)
         }
 
         @media (max-width: 576px) {
@@ -937,6 +938,11 @@
         }
         function toggleBookmark(elm)
         {
+            if (!isLoggedIn())
+            {
+                alert('only for logged in users');
+                return;
+            }
             let postId = $(elm).attr('postId');
             let loading = $(elm).attr('loading') == 'true';
             let icon = $(elm).attr('postIcon');

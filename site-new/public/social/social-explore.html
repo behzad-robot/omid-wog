@@ -21,22 +21,13 @@
     <meta name="twitter:title" content="{{_wogSEO.title}}">
     <meta name="twitter:image" content="http://worldofgamers.ir/images/wog-logo-meta.png">
     <style>
-        .explore-section {
-            /* margin-top: 80px; */
-            display: block;
-        }
-
-        .explore-section .container {
-            width: 960px;
-
-        }
-
         .chat-room-wrapper {
             border-radius: 4px;
             box-shadow: 1px 1px 0.85px rgba(0, 0, 0, .15);
             margin-top: 10px;
             background-color: white;
             border: .3px solid #eeeeee;
+            height: 400px;
         }
 
         .chat-room-cover {
@@ -64,6 +55,15 @@
             margin: 0px auto
         }
 
+        .chat-box-btn-short-text {
+            display: inline-block;
+            width: 40%;
+            border-radius: 30px;
+            font-size: 15px;
+            margin: 0px auto;
+            margin-top: 20px
+        }
+
         .chat-room-description {
             margin-bottom: 0.4rem;
             font-size: 14px
@@ -86,6 +86,16 @@
 
         .blog .carousel-indicators .active {
             background: orange;
+        }
+
+        @media(max-width:576px) {
+            .chat-box-btn-short-text {
+                margin-top: 5px
+            }
+
+            .chat-room-wrapper {
+                height: 460px;
+            }
         }
     </style>
     <style>
@@ -159,7 +169,7 @@
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <div class="row">
-                                    <div class="col-md-3 col-3">
+                                    <div class="col-md-3">
                                         <div class="chat-room-wrapper">
                                             <img src="/social/images/chatVector.jpg" alt="" class="chat-room-cover">
                                             <div class="chat-room-textbox">
@@ -168,13 +178,13 @@
                                                 <div class="text-center" style="padding-bottom:5px">
                                                     <a href="http://localhost/social/chat">
                                                         <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
+                                                            class="btn btn-success chat-box-btn-short-text text-center">مشاهده</button>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-3">
+                                    <div class="col-md-3">
                                         <div class="chat-room-wrapper">
                                             <img src="/social/images/news.jpg" alt="" class="chat-room-cover">
                                             <div class="chat-room-textbox">
@@ -183,13 +193,13 @@
                                                 <div class="text-center" style="padding-bottom: 5px">
                                                     <a href="http://worldofgamers.ir/posts/categories/news">
                                                         <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
+                                                            class="btn btn-success chat-box-btn-short-text text-center">مشاهده</button>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-3">
+                                    <div class="col-md-3">
                                         <div class="chat-room-wrapper">
                                             <img src="/social/images/challenge.jpg" alt="" class="chat-room-cover">
                                             <div class="chat-room-textbox">
@@ -198,18 +208,19 @@
                                                 <div class="text-center" style="padding-bottom: 5px">
                                                     <a href="http://localhost/social/challenges">
                                                         <button type="button"
-                                                            class="btn btn-success chat-box-btn text-center">مشاهده</button>
+                                                            class="btn btn-success chat-box-btn-short-text text-center">مشاهده</button>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 col-3">
+                                    <div class="col-md-3">
                                         <div class="chat-room-wrapper">
-                                            <img src="/social/images/mahsa.jpg" alt="" class="chat-room-cover">
+                                            <img src="/social/images/Untitled-1.png" alt="" class="chat-room-cover">
                                             <div class="chat-room-textbox">
-                                                <h5>مهسا سپاهی</h5>
-                                                <p class="chat-room-description">نویسنده واج</p>
+                                                <h5>آموزش واج</h5>
+                                                <p class="chat-room-description">داستان بازی، مشخصات کامل شخصیت ها،آموزش
+                                                    و تکنیک ها</p>
                                                 <div class="text-center" style="padding-bottom: 5px">
                                                     <a href="http://worldofgamers.ir/users/likethemonat">
                                                         <button type="button"
