@@ -9,7 +9,8 @@ export class SocialPostsRouter extends SiteRouter
         super(siteModules);
         this.router.use((req, res, next) =>
         {
-            if (!this.isLoggedIn(req))
+            if (!this.isLoggedIn(req) && (req.url.indexOf('new-save') != -1
+                || req.url.indexOf('uploader') != -1 || req.url.indexOf('edit') != -1 || req.url.indexOf('delete') != -1))
             {
                 res.redirect('/login/?redirect=/social');
                 return;

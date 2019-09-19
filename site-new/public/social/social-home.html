@@ -1026,6 +1026,11 @@
         // }
         function toggleBookmark(elm)
         {
+            if(!isLoggedIn())
+            {
+                alert('only for logged in users');
+                return;
+            }
             let postId = $(elm).attr('postId');
             let loading = $(elm).attr('loading') == 'true';
             let icon = $(elm).attr('postIcon');

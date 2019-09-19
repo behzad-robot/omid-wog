@@ -607,7 +607,12 @@ export class SocialHandler
     {
         return new Promise((resolve, reject) =>
         {
-            if (isEmptyString(params.userId) || isEmptyString(params.userToken) || isEmptyString(params._id) || params.like == undefined)
+            if (isEmptyString(params.userId))
+            {
+                reject('you are not logged in !');
+                return;
+            }
+            if (isEmptyString(params.userToken) || isEmptyString(params._id) || params.like == undefined)
             {
                 reject('parameters missing');
                 return;
@@ -693,7 +698,12 @@ export class SocialHandler
     {
         return new Promise((resolve, reject) =>
         {
-            if (isEmptyString(params.userToken) || isEmptyString(params.userId) || isEmptyString(params.target) || params.follow == undefined)
+            if (isEmptyString(params.userId))
+            {
+                reject('you are not logged in!');
+                return;
+            }
+            if (isEmptyString(params.userToken) || isEmptyString(params.target) || params.follow == undefined)
             {
                 reject('parameters missing');
                 return;
@@ -824,7 +834,12 @@ export class SocialHandler
     {
         return new Promise((resolve, reject) =>
         {
-            if (isEmptyString(params.userId) || isEmptyString(params.userToken) || isEmptyString(params.tagId) || params.follow == undefined)
+            if (isEmptyString(params.userId))
+            {
+                reject('you are not logged in');
+                return;
+            }
+            if (isEmptyString(params.userToken) || isEmptyString(params.tagId) || params.follow == undefined)
             {
                 reject('parameters missing');
                 return;
@@ -852,51 +867,39 @@ export class SocialHandler
                     var adding = true;
                     for (var i = 0; i < user.social.followedHashtags.length; i++)
                     {
-                        console.log("Hoshhaaa");
                         if (user.social.followedHashtags[i] == params.tagId)
-                        {  console.log("Hoshhaaa2");
+                        {
                             adding = false;
                             break;
                         }
-
-
-
                     }
-                    if (adding == true){
+                    if (adding == true)
+                    {
                         console.log("Hoshhaaa3");
                         user.social.followedHashtags.push(params.tagId);
                     }
-                        
-
                 }
                 else
                 {
-                    console.log("hoshha 4");
-                    
                     for (var i = 0; i < user.social.followedHashtags.length; i++)
                     {
-                        console.log("hoshha 5");
-                        console.log(params.userId);
-                        console.log(user.social.followedHashtags[i]);
-
                         if (user.social.followedHashtags[i] == params.tagId)
                         {
-                            console.log("hoshha 6");
-                            user.social.followedHashtags.splice(i,1);
+                            user.social.followedHashtags.splice(i, 1);
                             break;
                         }
                     }
                 }
-                    this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
+                this.User.findByIdAndUpdate(user._id, { $set: { social: user.social } }, { new: true }, (err, user) =>
+                {
+                    if (err)
                     {
-                        if (err)
-                        {
-                            reject(err);
-                            return;
-                        }
-                        resolve(user);
-                    });
+                        reject(err);
+                        return;
+                    }
+                    resolve(user);
                 });
+            });
         });
     }
     setAllHashtags(params) //{userToken , userId , tags  }
@@ -944,10 +947,10 @@ export class SocialHandler
     {
         return new Promise((resolve, reject) =>
         {
-            if (isEmptyString(params.userToken) || isEmptyString(params.userId) || isEmptyString(params.postId)
+            if (isEmptyString(params.userToken) || isEmptyString(params.postId) || isEmptyString(params.userId)
                 || params.bookmark == undefined)
             {
-                reject('parameters missing');
+                reject('You are not logged in!');
                 return;
             }
             this.User.findOne({ _id: params.userId }).exec((err, user) =>

@@ -14,11 +14,6 @@ export class SocialMainRouter extends SiteRouter
         super(siteModules);
         this.router.use((req, res, next) =>
         {
-            if (!this.isLoggedIn(req))
-            {
-                res.redirect('/login/?redirect=/social');
-                return;
-            }
             next();
         });
         this.router.post('/get-unread-notifications-count', (req, res) =>
@@ -137,21 +132,24 @@ export class SocialMainRouter extends SiteRouter
                 return;
             }
             let follow = req.query.follow ? req.query.follow == 'true' : true;
-            siteModules.User.apiCall('set-follow-user', { userId: req.session.currentUser._id, userToken: req.session.currentUser.token, target: req.query.userId, follow: follow }).then((user) =>
+            if (req.session.currentUser != undefined)
             {
-                req.session.currentUser = user;
-                req.session.save(() =>
+                siteModules.User.apiCall('set-follow-user', { userId: req.session.currentUser._id, userToken: req.session.currentUser.token, target: req.query.userId, follow: follow }).then((user) =>
                 {
-                    if (!isEmptyString(req.query.redirect))
-                        res.redirect(req.query.redirect);
-                    else
-                        res.send(user);
-                });
+                    req.session.currentUser = user;
+                    req.session.save(() =>
+                    {
+                        if (!isEmptyString(req.query.redirect))
+                            res.redirect(req.query.redirect);
+                        else
+                            res.send(user);
+                    });
 
-            }).catch((err) =>
-            {
-                this.show500(req, res, err);
-            });
+                }).catch((err) =>
+                {
+                    this.show500(req, res, err);
+                });
+            }
         });
         this.router.get('/follow-hashtag', (req, res) =>
         {
@@ -161,20 +159,23 @@ export class SocialMainRouter extends SiteRouter
                 return;
             }
             let follow = req.query.follow ? req.query.follow == 'true' : true;
-            siteModules.User.apiCall('set-follow-hashtag', { userId: req.session.currentUser._id, userToken: req.session.currentUser.token, tagId: req.query.tagId, follow: follow }).then((user) =>
+            if (req.session.currentUser != undefined)
             {
-                req.session.currentUser = user;
-                req.session.save(() =>
+                siteModules.User.apiCall('set-follow-hashtag', { userId: req.session.currentUser._id, userToken: req.session.currentUser.token, tagId: req.query.tagId, follow: follow }).then((user) =>
                 {
-                    if (!isEmptyString(req.query.redirect))
-                        res.redirect(req.query.redirect);
-                    else
-                        res.send(user);
+                    req.session.currentUser = user;
+                    req.session.save(() =>
+                    {
+                        if (!isEmptyString(req.query.redirect))
+                            res.redirect(req.query.redirect);
+                        else
+                            res.send(user);
+                    });
+                }).catch((err) =>
+                {
+                    this.show500(req, res, err);
                 });
-            }).catch((err) =>
-            {
-                this.show500(req, res, err);
-            });
+            }
         });
         this.router.post('/set-bookmark', (req, res) =>
         {
@@ -185,7 +186,7 @@ export class SocialMainRouter extends SiteRouter
             }
             if (isEmptyString(req.body.userId) || isEmptyString(req.body.userToken))
             {
-                res.send({ code: 500, error: 'user parameters missing' });
+                res.send({ code: 500, error: 'you are not logged in!' });
                 return;
             }
             if (req.body.bookmark == undefined)
@@ -212,7 +213,7 @@ export class SocialMainRouter extends SiteRouter
         });
         this.router.get('/', (req, res) =>
         {
-            if (req.session.currentUser.social.followedHashtags.length == 0)
+            if (req.session.currentUser != undefined && req.session.currentUser.social.followedHashtags.length == 0)
             {
                 res.redirect('/social/welcome');
                 return;
@@ -434,16 +435,19 @@ export class SocialMainRouter extends SiteRouter
             };
             siteModules.SocialHashtag.find({}).then((hashTags) =>
             {
-                let followedHashTags = req.session.currentUser.social.followedHashtags;
-                for (var i = 0; i < hashTags.length; i++)
+                if (currentUser != undefined)
                 {
-                    hashTags[i]._isFollowed = false;
-                    for (var j = 0; j < followedHashTags.length; j++)
+                    let followedHashTags = req.session.currentUser.social.followedHashtags;
+                    for (var i = 0; i < hashTags.length; i++)
                     {
-                        if (followedHashTags[j] == hashTags[i]._id)
+                        hashTags[i]._isFollowed = false;
+                        for (var j = 0; j < followedHashTags.length; j++)
                         {
-                            hashTags[i]._isFollowed = true;
-                            break;
+                            if (followedHashTags[j] == hashTags[i]._id)
+                            {
+                                hashTags[i]._isFollowed = true;
+                                break;
+                            }
                         }
                     }
                 }
@@ -461,43 +465,48 @@ export class SocialMainRouter extends SiteRouter
             };
             // console.log(req.body.tags);
             let tags = JSON.parse(req.body.tags);
-            siteModules.User.apiCall('set-all-hashtags', {
-                userId: req.session.currentUser._id,
-                userToken: req.session.currentUser.token,
-                tags: tags,
-            }).then((user) =>
+            if (req.session.currentUser != undefined)
             {
-                console.log('got result!');
-                req.session.currentUser = user;
-                req.session.save(() =>
+                siteModules.User.apiCall('set-all-hashtags', {
+                    userId: req.session.currentUser._id,
+                    userToken: req.session.currentUser.token,
+                    tags: tags,
+                }).then((user) =>
                 {
-                    res.redirect('/social');
-                });
-            }).catch(fail);
+                    console.log('got result!');
+                    req.session.currentUser = user;
+                    req.session.save(() =>
+                    {
+                        res.redirect('/social');
+                    });
+                }).catch(fail);
+            }
         });
     }
 }
 const fixPost = function (post, currentUser)
 {
-    post._isMine = currentUser._id == post.userId;
+    post._isMine = currentUser != undefined ? currentUser._id == post.userId : null;
     post._isLiked = false;
     for (var i = 0; i < post.likes.length; i++)
     {
-        if (post.likes[i] == currentUser._id)
+        if (currentUser != undefined && post.likes[i] == currentUser._id)
         {
             post._isLiked = true;
             break;
         }
     }
     post._isBookmarked = false;
-    if (currentUser.social.bookmarks == undefined)
-        currentUser.social.bookmarks = [];
-    for (var i = 0; i < currentUser.social.bookmarks.length; i++)
+    if (currentUser != undefined && currentUser.social.bookmarks == undefined)
     {
-        if (currentUser.social.bookmarks[i] == post._id)
+        currentUser.social.bookmarks = [];
+        for (var i = 0; i < currentUser.social.bookmarks.length; i++)
         {
-            post._isBookmarked = true;
-            break;
+            if (currentUser.social.bookmarks[i] == post._id)
+            {
+                post._isBookmarked = true;
+                break;
+            }
         }
     }
     post._media = [];
@@ -590,10 +599,11 @@ const loadComments = function (siteModules, currentUser, params)
                 for (var i = 0; i < comments.length; i++)
                 {
                     comments[i]._isLiked = false;
-                    comments[i]._isMine = comments[i].userId == currentUser._id;
+                    if (currentUser != undefined)
+                        comments[i]._isMine = comments[i].userId == currentUser._id;
                     for (var j = 0; j < comments[i].likes.length; j++)
                     {
-                        if (comments[i].likes[j] == currentUser._id)
+                        if (currentUser != undefined && comments[i].likes[j] == currentUser._id)
                         {
                             comments[i]._isLiked = true;
                             break;
@@ -616,18 +626,21 @@ const getSuggestedUsers = function (siteModules, currentUser)
             for (var i = 0; i < users.length; i++)
             {
                 let has = false;
-                if (currentUser._id == users[i]._id)
+                if (currentUser != undefined && currentUser._id == users[i]._id)
                     continue;
-                for (var j = 0; j < currentUser.social.followings.length; j++)
+                if (currentUser != undefined)
                 {
-                    if (currentUser.social.followings[j] == users[i]._id)
+                    for (var j = 0; j < currentUser.social.followings.length; j++)
                     {
-                        has = true;
-                        break;
+                        if (currentUser != undefined && currentUser.social.followings[j] == users[i]._id)
+                        {
+                            has = true;
+                            break;
+                        }
                     }
+                    if (!has)
+                        results.push(users[i]);
                 }
-                if (!has)
-                    results.push(users[i]);
             }
             resolve(results);
         }).catch(reject);
@@ -644,16 +657,19 @@ const getSuggestedHashTags = function (siteModules, currentUser)
             for (var i = 0; i < hashTags.length; i++)
             {
                 let has = false;
-                for (var j = 0; j < currentUser.social.followedHashtags.length; j++)
+                if (currentUser != undefined)
                 {
-                    if (hashTags[i]._id == currentUser.social.followedHashtags[j])
+                    for (var j = 0; j < currentUser.social.followedHashtags.length; j++)
                     {
-                        has = true;
-                        break;
+                        if (currentUser.social.followedHashtags != undefined && hashTags[i]._id == currentUser.social.followedHashtags[j])
+                        {
+                            has = true;
+                            break;
+                        }
                     }
+                    if (!has)
+                        results.push(hashTags[i]);
                 }
-                if (!has)
-                    results.push(hashTags[i]);
             }
             resolve(results);
         }).catch(reject);
