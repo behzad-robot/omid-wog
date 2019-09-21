@@ -125,7 +125,7 @@
         .username {
             float: right;
             font-size: 15px;
-            margin-top:19px;
+            margin-top: 19px;
             margin-right: 7px;
             font-weight: bold;
             color: black
@@ -151,7 +151,7 @@
 
         .buttons-part {
             overflow: hidden;
-            padding:5px
+            padding: 5px
         }
 
         .caption {
@@ -204,7 +204,7 @@
         }
 
         .bookmark-btn {
-            font-size:25px;
+            font-size: 25px;
             margin-left: 10px;
             float: left
         }
@@ -214,7 +214,7 @@
         }
 
         .comment {
-            font-size:25px;
+            font-size: 25px;
             margin-right: 10px
         }
 
@@ -581,7 +581,8 @@
                             <div class="caption">
                                 <div class="like-count"> <span class="like-counts">{{likes.length}}</span> لایک</div>
                                 <div style="font-weight: bold;font-size: 15px;">{{_user.username}} : </div>
-                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;font-size: 14px">{{{body_formatted}}} </div>
+                                <div style="color: rgb(126, 126, 126);padding-bottom:10px;font-size: 14px">
+                                    {{{body_formatted}}} </div>
                                 {{#_hasComments}}
                                 <div style="font-size: 18px"> نظرات:</div>
                                 <div class="comments-wrapper">
@@ -715,19 +716,20 @@
                                     {
                                         let post = posts[i];
                                         let commentsStr = '';
+                                        // bug is in this place
                                         if (post._comments != undefined && post._comments.length != 0)
                                         {
                                             commentsStr += `<div style="font-size: 20px"> نظرات:</div>`;
                                             commentsStr += `<div class="comments-wrapper">`;
-                                            for (var i = 0; i < post._comments.length; i++)
+                                            for (var j = 0; j < post._comments.length; j++)
                                             {
-                                                var comment = post._comments[i];
+                                                var comment = post._comments[j];
                                                 commentsStr += `
                                                 <div class="single-comment-box">
                                                     <div class="commenter">${comment._user.username}: </div>
                                                     <div style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">${comment.body}</div>
                                                     <div class="comments-heart">
-                                                        <i name="comment-like" class="${comment._isLiked ? 'fas clicked' : 'far'} fa-heart comments-heart-btn" loading="false" liked="${comment._isLiked}" commentId="${comment._id}"></i>
+                                                        <i name="comment-like" class="${isLoggedIn() && comment._isLiked ? 'fas clicked' : 'far'} fa-heart comments-heart-btn" loading="false" liked="${comment._isLiked}" commentId="${comment._id}"></i>
                                                         <span class="comments-like-counts" commentId="${comment._id}"
                                                             style="position: relative;top:2px;">${comment.likes.length}</span>
                                                     </div>
@@ -735,6 +737,7 @@
                                             }
                                             commentsStr += `</div>`;
                                         }
+                                        //end of bug
                                         $("#posts-row").append(`
                                         <div class="post-wrapper" postId="${post._id}" userId="${post.userId}" siteUrl="${post.siteUrl}" href="${post.siteUrl}">
                                             <div class="user-row">
@@ -1026,7 +1029,7 @@
         // }
         function toggleBookmark(elm)
         {
-            if(!isLoggedIn())
+            if (!isLoggedIn())
             {
                 alert('only for logged in users');
                 return;

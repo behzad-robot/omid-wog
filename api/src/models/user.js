@@ -110,15 +110,19 @@ export const UserSchema = new mongoose.Schema({
             picks: [],
             updatedAt: '',
         }
+    },
+    tournoments: {
+        type: Array,
+        default: [], // { tournomentId : string , paymentToken : string , paymentStatus : string } ,
     }
 }, {
-        toObject: {
-            virtuals: true
-        },
-        toJSON: {
-            virtuals: true,
-        }
-    });
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true,
+    }
+});
 UserSchema.virtual('profileImage_url').get(function ()
 {
     var profileImage = this.profileImage;
