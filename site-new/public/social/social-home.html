@@ -725,7 +725,11 @@
                                             {
                                                 var comment = post._comments[j];
                                                 commentsStr += `
-                                                <div class="single-comment-box">
+                                                <div class="row">
+                                                    <img src="{{_user.profileImage}}" class="profile-image"
+                                            style="width:50px ;height: 50px;margin-right: 20px;margin-left: 10px;margin-bottom: 10px;margin-top: 0px;border-radius: 50%"
+                                            alt="">
+                                                   <div class="single-comment-box">
                                                     <div class="commenter">${comment._user.username}: </div>
                                                     <div style="color: rgb(119, 119, 119);float: right;max-lines:4;max-height:50px;text-overflow:ellipsis;">${comment.body}</div>
                                                     <div class="comments-heart">
@@ -733,6 +737,7 @@
                                                         <span class="comments-like-counts" commentId="${comment._id}"
                                                             style="position: relative;top:2px;">${comment.likes.length}</span>
                                                     </div>
+                                                </div>
                                                 </div>`;
                                             }
                                             commentsStr += `</div>`;

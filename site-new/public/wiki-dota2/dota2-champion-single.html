@@ -421,12 +421,12 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            top:0;
-            left:0;
-            background-color:rgba(0, 0, 0, 0.5);
-            z-index:1;
+            top: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
         }
-        
+
 
         @media (max-width: 576px) {
             .hero-image {
@@ -467,7 +467,8 @@
         <div class="video-screen-overlay" onclick="closeVideoScreen()"></div>
         <div class="container" style="position: relative;z-index:2;padding-top:20vh;">
             <video width="100%" id="video-screen-video-player" controls>
-                    <source id="video-screen-src" src="http://worldofgamers.ir/storage/fortnite-2019/teaser.mp4" type="video/mp4">
+                <source id="video-screen-src" src="http://worldofgamers.ir/storage/fortnite-2019/teaser.mp4"
+                    type="video/mp4">
             </video>
             <div class="text-center" style="padding-top:20px;">
                 <div class="btn btn-md btn-danger" onclick="closeVideoScreen()">بازگشت</div>
@@ -475,12 +476,14 @@
         </div>
     </section>
     <script>
-        function closeVideoScreen(){
+        function closeVideoScreen()
+        {
             $(".video-screen-section").hide();
         }
-        function showVideoScreen(src){
+        function showVideoScreen(src)
+        {
             $(".video-screen-section").show();
-            $("#video-screen-src").attr('src',src);
+            $("#video-screen-src").attr('src', src);
             $("#video-screen-video-player")[0].load();
         }
     </script>
@@ -521,7 +524,7 @@
                     <h4 style="color: white;margin-top: 10px;font-size:26px; ">داستان {{champion.name}}</h4>
                     <div
                         style="color: white;text-shadow: 3px 4px 3px rgba(0, 0, 0, 0.3);direction:ltr;text-align:left;">
-                        {{{champion.lore}}}</div>
+                        {{{champion.lorePersian}}}</div>
                 </div>
             </div>
             <div class="row">
@@ -670,7 +673,8 @@
                             </div> -->
                     <div class="dota-ability-card my-tooltip" data-tooltip-content="#ability-{{token}}">
                         {{#video}}
-                        <div class="orange-link show-video-btn" onclick="showVideoScreen('{{{video}}}')">مشاهده ویدئو</div>
+                        <div class="orange-link show-video-btn" onclick="showVideoScreen('{{{video}}}')">مشاهده ویدئو
+                        </div>
                         {{/video}}
                         <div class="icon-wrapper">
                             <img src="{{icon}}" width="100%" alt="{{title}}" />
