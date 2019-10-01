@@ -17,11 +17,13 @@ const apiCall = (url, next) =>
                 "admin-token": "hamunhamishegi",
             }
         })
-        .then((response) => (response.json()))
+        // .then((response) => (response.json()))
+        .then((response)=>response.json())
         .then((json) =>
         {
-            next(json);
             console.log(url + '=>' + Date.now());
+            console.log(json);
+            next(json);
         });
 }
 const findObjects = (name, next) =>
