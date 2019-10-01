@@ -3,8 +3,8 @@ const path = require('path');
 
 export const API_TOKEN = "ftsb";
 export const API_ENCODE_KEY = "omidwog";
-export const API_URL = "http://localhost:8888/api/";
-export const API_BASE_URL = "http://localhost:8888/";
+export const API_URL = "http://localhost:8585/api/";
+export const API_BASE_URL = "http://localhost:8585/";
 export const ADMIN_FILE_UPLOAD = IS_LOCALHOST() ? "http://localhost:6565/admin/file-upload" : "http://worldofgamers.ir:6565/admin/file-upload";
 export const ADMIN_FILE_UPLOAD_NEW = IS_LOCALHOST() ? "http://localhost:6565/admin/files/upload" : "http://worldofgamers.ir:6565/admin/files/upload";
 export const ADMIN_TOKEN = "hamunhamishegi";

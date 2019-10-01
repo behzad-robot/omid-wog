@@ -56,7 +56,7 @@ export class APICollection
                 if (obj.error != undefined && obj.code != undefined)
                     reject(obj.error);
                 else
-                    resolve(obj._data);
+                    resolve(obj);
             });
         });
     }
@@ -72,16 +72,9 @@ export class APICollection
             }
         }
         // console.log(q);
-        return new Promise((resolve, reject) =>
-        {
-            fetch(API_URL + this.slug + '/' + q, {
-                headers: this.headers,
-            }).then(res => res.json()).then(res =>
-            {
-                resolve(res._data);
-            });
-        });
-
+        return fetch(API_URL + this.slug + '/' + q, {
+            headers: this.headers,
+        }).then(res => res.json());
     }
     insert(doc)
     {
@@ -91,7 +84,7 @@ export class APICollection
             method: "POST",
             headers: postHeaders,
             body: JSON.stringify(doc),
-        }).then(res => res.json()).then(res => res._data);
+        }).then(res => res.json());
     }
     edit(_id, doc)
     {
@@ -101,13 +94,13 @@ export class APICollection
             method: "POST",
             headers: postHeaders,
             body: JSON.stringify(doc),
-        }).then(res => res.json()).then(res => res._data);
+        }).then(res => res.json());
     }
     delete(_id)
     {
         return fetch(API_URL + this.slug + '/' + _id + '/delete/', {
             headers: this.headers,
-        }).then(res => res.json()).then(res => res._data);
+        }).then(res => res.json());
     }
 }
 export class APIProxy
@@ -132,6 +125,6 @@ export class APIProxy
         };
         if (method == 'POST')
             settings.body = JSON.stringify(body);
-        return fetch(url, settings).then(res => res.text());
+        return fetch(url , settings).then(res => res.text());
     }
 }

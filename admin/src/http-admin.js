@@ -87,18 +87,11 @@ express.expressApp.all('/api/*', (req, res) =>
     }
     // res.send('SHINE');    
     var fullUrl = req.protocol + '://' + 'localhost:6565' + req.originalUrl;
-    fullUrl = fullUrl.replace(":6565", ":8888");
+    fullUrl = fullUrl.replace(":6565", ":8585");
     console.log(req.method + ' => ' + fullUrl);
     proxyAPI.apiCall(req.method, fullUrl, req.method == 'POST' ? req.body : {}).then((result) =>
     {
-        if(typeof(result) == 'string')
-        {
-            result = JSON.parse(result);
-            result = result._data;
-        }
-        else
-            result = result._data;
-        res.send((result));
+        res.send(result);
     });
 });
 //routers:

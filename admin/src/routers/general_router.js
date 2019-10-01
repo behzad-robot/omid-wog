@@ -36,7 +36,6 @@ export default class AdminGeneralRouter extends AdminRouter
             User.apiCall('login/', 'POST', data).then((user) =>
             {
                 user = JSON.parse(user);
-                user = user._data;
                 if (user.accessLevel == undefined || !user.accessLevel.isAdmin)
                 {
                     res.send({ error: "Access To Admin Panel Denied", code: 400, user: user });
